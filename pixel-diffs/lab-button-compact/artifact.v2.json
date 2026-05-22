@@ -1,0 +1,180 @@
+{
+  "schemaVersion": "1.0",
+  "meta": {
+    "storyId": "lab-button--compact",
+    "componentName": "Button",
+    "extractedAt": "2026-05-21T22:04:01.349Z",
+    "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-button--compact&viewMode=story",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "width": 1200,
+      "height": 900
+    },
+    "devicePixelRatio": 1,
+    "canvasBackground": "rgb(245, 247, 251)"
+  },
+  "root": {
+    "id": "lay-1",
+    "name": "Button",
+    "source": {
+      "kind": "dom",
+      "tag": "button",
+      "classList": [
+        "lab-button",
+        "primary",
+        "sm"
+      ],
+      "dataset": {
+        "figmaComponent": "Button"
+      }
+    },
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 129.58,
+      "height": 52
+    },
+    "computedBox": {
+      "x": 16,
+      "y": 16,
+      "width": 129.58,
+      "height": 52
+    },
+    "layout": {
+      "display": "inline-flex",
+      "position": "static",
+      "overflow": {
+        "x": "visible",
+        "y": "visible"
+      },
+      "padding": {
+        "top": 0,
+        "right": 22,
+        "bottom": 0,
+        "left": 22
+      },
+      "margin": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "flex": {
+        "direction": "row",
+        "wrap": "nowrap",
+        "justify": "center",
+        "align": "center",
+        "rowGap": 12,
+        "columnGap": 12
+      }
+    },
+    "paint": {
+      "fills": [
+        {
+          "kind": "color",
+          "color": "rgb(0, 109, 206)"
+        }
+      ],
+      "cornerRadii": {
+        "topLeft": {
+          "x": 26,
+          "y": 26
+        },
+        "topRight": {
+          "x": 26,
+          "y": 26
+        },
+        "bottomRight": {
+          "x": 26,
+          "y": 26
+        },
+        "bottomLeft": {
+          "x": 26,
+          "y": 26
+        }
+      },
+      "shadows": [
+        {
+          "offsetX": 0,
+          "offsetY": 8,
+          "blur": 18,
+          "spread": 0,
+          "color": "rgba(0, 109, 206, 0.24)",
+          "inset": false
+        }
+      ]
+    },
+    "children": [
+      {
+        "id": "lay-2",
+        "name": "label",
+        "source": {
+          "kind": "dom",
+          "tag": "span",
+          "dataset": {
+            "figmaName": "label"
+          }
+        },
+        "box": {
+          "x": 22,
+          "y": 14.5,
+          "width": 85.58,
+          "height": 23
+        },
+        "computedBox": {
+          "x": 38,
+          "y": 30.5,
+          "width": 85.58,
+          "height": 23
+        },
+        "layout": {
+          "display": "block",
+          "position": "static",
+          "overflow": {
+            "x": "visible",
+            "y": "visible"
+          },
+          "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "margin": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          }
+        },
+        "text": {
+          "value": "Compact",
+          "font": {
+            "family": "Inter",
+            "stack": "Inter, Arial, sans-serif",
+            "size": 20,
+            "weight": 700,
+            "style": "normal",
+            "variant": "normal",
+            "featureSettings": "normal"
+          },
+          "color": "rgb(255, 255, 255)",
+          "lineHeight": 22,
+          "wordSpacing": 0,
+          "align": "center",
+          "verticalAlign": "baseline",
+          "transform": "none",
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "wordBreak": "normal",
+          "direction": "ltr"
+        }
+      }
+    ]
+  },
+  "diagnostics": {
+    "warnings": [],
+    "unmappedProperties": []
+  }
+}

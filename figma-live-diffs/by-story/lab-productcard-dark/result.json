@@ -1,0 +1,59 @@
+{
+  "storyId": "lab-productcard--dark",
+  "width": 806,
+  "height": 520,
+  "pixelsDiffered": 2865,
+  "pixelsTotal": 419120,
+  "percent": 0.6835751097537698,
+  "maxRegionPercent": 3.424621530698065,
+  "status": "fail",
+  "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-dark/storybook.png",
+  "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-dark/figma.png",
+  "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-dark/diff.png",
+  "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-dark/artifact.v2.json",
+  "diffRegions": [
+    {
+      "index": 1,
+      "rect": {
+        "x": 364,
+        "y": 124,
+        "width": 328,
+        "height": 232,
+        "pixels": 2606,
+        "percent": 3.424621530698065
+      },
+      "storybook": "regions/region-01-storybook.png",
+      "rendered": "regions/region-01-rendered.png",
+      "compare": "regions/region-01-compare.png"
+    },
+    {
+      "index": 2,
+      "rect": {
+        "x": 172,
+        "y": 28,
+        "width": 184,
+        "height": 136,
+        "pixels": 190,
+        "percent": 0.7592710997442454
+      },
+      "storybook": "regions/region-02-storybook.png",
+      "rendered": "regions/region-02-rendered.png",
+      "compare": "regions/region-02-compare.png"
+    },
+    {
+      "index": 3,
+      "rect": {
+        "x": 412,
+        "y": 28,
+        "width": 88,
+        "height": 88,
+        "pixels": 48,
+        "percent": 0.6198347107438017
+      },
+      "storybook": "regions/region-03-storybook.png",
+      "rendered": "regions/region-03-rendered.png",
+      "compare": "regions/region-03-compare.png"
+    }
+  ],
+  "testedAt": "2026-05-22T13:17:56.511Z"
+}

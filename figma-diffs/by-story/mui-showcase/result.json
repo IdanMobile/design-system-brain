@@ -1,0 +1,116 @@
+{
+  "storyId": "mui--showcase",
+  "width": 1200,
+  "height": 1670,
+  "pixelsDiffered": 1057,
+  "pixelsTotal": 2004000,
+  "percent": 0.05274451097804392,
+  "maxRegionPercent": 1.0150255754475703,
+  "status": "pass",
+  "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-diffs/mui-showcase/storybook.png",
+  "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-diffs/mui-showcase/rendered.png",
+  "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-diffs/mui-showcase/diff.png",
+  "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-diffs/mui-showcase/artifact.v2.json",
+  "sceneJsonPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-diffs/mui-showcase/scene.json",
+  "diffRegions": [
+    {
+      "index": 1,
+      "rect": {
+        "x": 0,
+        "y": 1516,
+        "width": 260,
+        "height": 136,
+        "pixels": 338,
+        "percent": 0.9558823529411765
+      },
+      "storybook": "regions/region-01-storybook.png",
+      "rendered": "regions/region-01-rendered.png",
+      "compare": "regions/region-01-compare.png"
+    },
+    {
+      "index": 2,
+      "rect": {
+        "x": 892,
+        "y": 844,
+        "width": 136,
+        "height": 232,
+        "pixels": 284,
+        "percent": 0.9001014198782962
+      },
+      "storybook": "regions/region-02-storybook.png",
+      "rendered": "regions/region-02-rendered.png",
+      "compare": "regions/region-02-compare.png"
+    },
+    {
+      "index": 3,
+      "rect": {
+        "x": 1036,
+        "y": 844,
+        "width": 136,
+        "height": 184,
+        "pixels": 254,
+        "percent": 1.0150255754475703
+      },
+      "storybook": "regions/region-03-storybook.png",
+      "rendered": "regions/region-03-rendered.png",
+      "compare": "regions/region-03-compare.png"
+    },
+    {
+      "index": 4,
+      "rect": {
+        "x": 28,
+        "y": 28,
+        "width": 136,
+        "height": 88,
+        "pixels": 56,
+        "percent": 0.4679144385026738
+      },
+      "storybook": "regions/region-04-storybook.png",
+      "rendered": "regions/region-04-rendered.png",
+      "compare": "regions/region-04-compare.png"
+    },
+    {
+      "index": 5,
+      "rect": {
+        "x": 748,
+        "y": 988,
+        "width": 136,
+        "height": 88,
+        "pixels": 34,
+        "percent": 0.2840909090909091
+      },
+      "storybook": "regions/region-05-storybook.png",
+      "rendered": "regions/region-05-rendered.png",
+      "compare": "regions/region-05-compare.png"
+    },
+    {
+      "index": 6,
+      "rect": {
+        "x": 652,
+        "y": 988,
+        "width": 88,
+        "height": 88,
+        "pixels": 22,
+        "percent": 0.2840909090909091
+      },
+      "storybook": "regions/region-06-storybook.png",
+      "rendered": "regions/region-06-rendered.png",
+      "compare": "regions/region-06-compare.png"
+    },
+    {
+      "index": 7,
+      "rect": {
+        "x": 268,
+        "y": 28,
+        "width": 88,
+        "height": 88,
+        "pixels": 36,
+        "percent": 0.46487603305785125
+      },
+      "storybook": "regions/region-07-storybook.png",
+      "rendered": "regions/region-07-rendered.png",
+      "compare": "regions/region-07-compare.png"
+    }
+  ],
+  "testedAt": "2026-05-22T13:17:15.307Z"
+}

@@ -1,0 +1,35 @@
+{
+  "name": "@lab/pixel-test",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "node --experimental-strip-types src/pixel-test.ts",
+    "test:golden": "node --experimental-strip-types src/pixel-test.ts --golden",
+    "test:all": "node --experimental-strip-types src/pixel-test.ts --all",
+    "test:figma": "node --experimental-strip-types src/figma-test.ts",
+    "test:figma:golden": "node --experimental-strip-types src/figma-test.ts --golden",
+    "test:figma:all": "node --experimental-strip-types src/figma-test.ts --all",
+    "test:figma:live": "node --experimental-strip-types src/figma-live-test.ts",
+    "test:figma:live:golden": "node --experimental-strip-types src/figma-live-test.ts --golden",
+    "test:delivery": "node --experimental-strip-types src/dev-delivery-test.ts",
+    "test:delivery:golden": "node --experimental-strip-types src/dev-delivery-test.ts --golden",
+    "test:delivery:all": "node --experimental-strip-types src/dev-delivery-test.ts --all",
+    "test:logic:audit": "node --experimental-strip-types src/logic-audit.ts",
+    "test:logic:audit:all": "node --experimental-strip-types src/logic-audit.ts --all",
+    "test:logic:audit:record": "node --experimental-strip-types src/logic-audit.ts --all --record"
+  },
+  "dependencies": {
+    "@lab/contract": "workspace:*",
+    "@lab/extractor-playwright": "workspace:*",
+    "playwright": "^1.49.0",
+    "pixelmatch": "^6.0.0",
+    "pngjs": "^7.0.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "@types/node": "^22.10.5",
+    "@figma/plugin-typings": "^1.103.0"
+  }
+}

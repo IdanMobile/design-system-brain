@@ -1,0 +1,212 @@
+{
+  "auditedAt": "2026-05-22T13:07:37.000Z",
+  "status": "complete",
+  "phase": "ROADMAP §1.2 (live Figma golden)",
+  "portfolioSnapshot": {
+    "pixel": { "pass": 48, "fail": 0, "warn": 0, "total": 48 },
+    "figmaMock": { "pass": 48, "fail": 0, "warn": 0, "total": 48 },
+    "figmaLive": { "pass": 23, "fail": 24, "warn": 1, "total": 48 },
+    "delivery": { "pass": 2, "fail": 0, "warn": 0, "total": 48 }
+  },
+  "scope": [
+    "packages/figma-importer-plugin/src/code-v2.ts",
+    "packages/pixel-test/src/scene-to-html.ts",
+    "packages/pixel-test/src/render-html.ts",
+    "packages/extractor-playwright/src/extract.ts",
+    "packages/contract/",
+    "scripts/test-console-fix-all-iterate.mjs",
+    "scripts/test-console-portfolio-orchestrator.mjs",
+    "scripts/test-console-worker-supervisor.mjs",
+    "scripts/regression-tiers.mjs",
+    "scripts/sandbox-promote.mjs",
+    "scripts/figma-live-relay.mjs",
+    "scripts/architecture-console.mjs",
+    "scripts/test-console-agent-bridge.mjs",
+    "upload_to_cloud/DECISIONS.md",
+    "docs/ROADMAP.md"
+  ],
+  "critical": [
+    {
+      "id": "C1",
+      "title": "Pixel step misdocumented as scene-to-html",
+      "summary": "Step 1 (pixel-test) uses render-html.ts; ROADMAP, orchestrator skills, architecture-console, recommendAction, and fix-all prompts route pixel failures to scene-to-html.ts.",
+      "evidence": [
+        "packages/pixel-test/src/pixel-test.ts:32 — import renderToBodyMarkup from render-html.ts",
+        "packages/pixel-test/src/scene-to-html.ts:6-8 — header states pixel uses render-html.ts",
+        "packages/contract/src/test-portfolio.ts:142 — recommendAction pixel fail → scene-to-html",
+        "scripts/architecture-console.mjs:29 — PIPELINE pixel files list scene-to-html only",
+        "scripts/test-console-agent-bridge.mjs:327,365,387,792 — pixel prompts fix scene-to-html"
+      ],
+      "files": [
+        "docs/ROADMAP.md",
+        "scripts/architecture-console.mjs",
+        "packages/pixel-test/src/pixel-test.ts",
+        "packages/pixel-test/src/render-html.ts",
+        "packages/contract/src/test-portfolio.ts",
+        "scripts/test-console-agent-bridge.mjs",
+        ".cursor/skills/project-orchestrator/SKILL.md"
+      ],
+      "impact": "Agents edit wrong adapter; Tier C may skip render-html changes"
+    },
+    {
+      "id": "C2",
+      "title": "Figma live relay has no authentication",
+      "summary": "ws://localhost:3456 accepts any plugin registration and forwards arbitrary JSON to Figma Desktop without token or payload limits.",
+      "evidence": [
+        "scripts/figma-live-relay.mjs:36-40 — first register role plugin wins",
+        "scripts/figma-live-relay.mjs:52-88 — render-export forwards json string to plugin",
+        "packages/figma-importer-plugin/manifest.json:8-14 — plugin limited to localhost relay"
+      ],
+      "files": [
+        "scripts/figma-live-relay.mjs",
+        "packages/figma-importer-plugin/manifest.json"
+      ],
+      "impact": "Unsafe on shared Mac workers; acceptable for localhost dev only"
+    }
+  ],
+  "high": [
+    {
+      "id": "H1",
+      "title": "Triple parallel render implementations (~8800 LOC)",
+      "summary": "extract.ts, render-html.ts, scene-to-html.ts, and code-v2.ts each carry MUI/component heuristics with cross-file coupling comments but no shared kernel.",
+      "evidence": [
+        "packages/figma-importer-plugin/src/code-v2.ts:490,756,2023 — scene-to-html cross-ref comments",
+        "packages/pixel-test/src/figma-test.ts:8,35 — code-v2 → scene-to-html mock replay path"
+      ],
+      "lineCounts": {
+        "extract.ts": 1407,
+        "render-html.ts": 1944,
+        "scene-to-html.ts": 2625,
+        "code-v2.ts": 2799
+      },
+      "impact": "Fix drift; 2-3x edit cost per visual bug class"
+    },
+    {
+      "id": "H2",
+      "title": "SHARED_ADAPTER_PREFIXES missing render-html.ts",
+      "summary": "Tier C trigger list includes scene-to-html and extractor dir but not render-html.ts despite it being the pixel-step adapter.",
+      "evidence": [
+        "scripts/test-console-worker-supervisor.mjs:12-17 — SHARED_ADAPTER_PREFIXES",
+        "scripts/regression-tiers.mjs:14-18 — re-exports same list",
+        "docs/ROADMAP.md:127 — Tier C lists extract.ts and scene-to-html.ts, not render-html.ts"
+      ],
+      "files": [
+        "scripts/test-console-worker-supervisor.mjs",
+        "scripts/regression-tiers.mjs",
+        "docs/ROADMAP.md"
+      ],
+      "impact": "Pixel adapter edits may bypass automatic Tier C"
+    },
+    {
+      "id": "H3",
+      "title": "Investigator gate soft locally vs DECISION 4A",
+      "summary": "Investigate-before-fix is prompt/supervisor mode only; no hard assign block or investigator.complete event locally.",
+      "evidence": [
+        "upload_to_cloud/DECISIONS.md:11 — 4A investigator always before fix",
+        "scripts/test-console-agent-bridge.mjs:454 — investigate_first worker mode",
+        "scripts/test-console-fix-all-iterate.mjs:344-411 — batch writes report then dispatches agent"
+      ],
+      "files": [
+        "upload_to_cloud/DECISIONS.md",
+        "scripts/test-console-agent-bridge.mjs",
+        "scripts/test-console-fix-all-iterate.mjs"
+      ],
+      "impact": "Local/cloud orchestration divergence before agent-platform exists"
+    },
+    {
+      "id": "H4",
+      "title": "Step gate duplicated; logic step missing in scripts mirror",
+      "summary": "packages/contract includes logic in TEST_STEP_ORDER; scripts/step-gate.mjs omits it. Portfolio orchestrator uses scripts copy.",
+      "evidence": [
+        "packages/contract/src/test-portfolio.ts:40-45 — TEST_STEP_ORDER includes logic",
+        "scripts/step-gate.mjs:7 — TEST_STEP_ORDER omits logic",
+        "scripts/test-console-portfolio-orchestrator.mjs:26 — imports step-gate.mjs"
+      ],
+      "files": [
+        "packages/contract/src/test-portfolio.ts",
+        "scripts/step-gate.mjs",
+        "scripts/test-console-portfolio-orchestrator.mjs"
+      ],
+      "impact": "Gate drift for logic-audit and orchestrator paths"
+    },
+    {
+      "id": "H5",
+      "title": "Batch fix-all blast radius on code-v2",
+      "summary": "Default batch mode applies one agent edit set across many stories; mitigated by sandbox-promote but conflicts with no-parallel-shared-edits policy.",
+      "evidence": [
+        "scripts/test-console-fix-all-iterate.mjs:344-365 — BATCH mode default",
+        "scripts/test-console-fix-all-iterate.mjs:534-537 — serial fallback after 2 regressions",
+        "upload_to_cloud/DECISIONS.md:20-21 — no parallel shared adapter edits"
+      ],
+      "files": [
+        "scripts/test-console-fix-all-iterate.mjs",
+        "scripts/sandbox-promote.mjs",
+        "upload_to_cloud/DECISIONS.md"
+      ],
+      "impact": "Portfolio-wide regressions possible before discard"
+    }
+  ],
+  "medium": [
+    {
+      "id": "M1",
+      "title": "Cloud orchestrator spec-only",
+      "summary": "upload_to_cloud/AGENT-PLATFORM.md describes fleet orchestration; packages/contract/src/agent-platform.ts not implemented.",
+      "impact": "Two orchestration models may diverge"
+    },
+    {
+      "id": "M2",
+      "title": "architecture-console pipeline map incomplete",
+      "summary": "Developer console mislabels pixel files and omits render-html, figma-mock, extract from diagram.",
+      "evidence": [
+        "scripts/architecture-console.mjs:26-30 — pixel step lists scene-to-html only",
+        "scripts/architecture-console.mjs:118-120 — KEY_BRAIN_FILES Pixel HTML renderer → scene-to-html"
+      ],
+      "files": ["scripts/architecture-console.mjs"]
+    },
+    {
+      "id": "M3",
+      "title": "Test harness innerHTML injection",
+      "summary": "Playwright tests inject rendered markup via innerHTML; trusted-fixture-only pattern.",
+      "evidence": ["packages/pixel-test/src/pixel-test.ts:206 — document.body.innerHTML"],
+      "files": [
+        "packages/pixel-test/src/pixel-test.ts",
+        "packages/pixel-test/src/figma-test.ts"
+      ]
+    },
+    {
+      "id": "M4",
+      "title": "@lab/ui fourth visual source",
+      "summary": "Only 2/48 delivery passes; hand-written ui parallels Storybook until ds.* API Phase 2.",
+      "impact": "Delivery gate not yet portfolio-wide ship gate"
+    },
+    {
+      "id": "M5",
+      "title": "Agent inbox deduplication gap",
+      "summary": "Repeated identical pixel fix prompts for mui--showcase in agent-inbox.json."
+    },
+    {
+      "id": "M6",
+      "title": "Positive: sandbox promote and mock seam",
+      "summary": "sandbox-promote, figma-mock recorder, thin code.ts entry, sequential canRunStep, no repo secrets."
+    },
+    {
+      "id": "M7",
+      "title": "Oversized monolithic render files",
+      "summary": "No module split for color/gradient/MUI helpers across render-html, scene-to-html, code-v2."
+    }
+  ],
+  "recommendations": [
+    "Update ROADMAP, skills, recommendAction:142, architecture-console.mjs, and fix-all prompts: pixel → render-html.ts; figma mock replay → scene-to-html.ts",
+    "Add packages/pixel-test/src/render-html.ts to SHARED_ADAPTER_PREFIXES and ROADMAP Tier C list",
+    "Extract shared render primitives package (color, gradient, MUI detectors) from triple render path",
+    "Harden figma-live-relay with pairing token, payload size cap, and single-plugin lock before cloud workers",
+    "Unify step-gate: single source from contract including logic step",
+    "Optional local hard investigator gate in fix-all before agent dispatch",
+    "Default FIX_ALL_SERIAL=1 when multi-story figma/figmaLive failures touch shared adapters",
+    "Scaffold packages/contract/src/agent-platform.ts aligned with upload_to_cloud job schema",
+    "Incrementally split render monoliths with pure unit tests",
+    "Re-run code-architect audit after Phase 1 live strict gate"
+  ],
+  "verdict": "ON_TRACK",
+  "reportPath": "docs/superpowers/specs/2026-05-22-code-architect-audit.md"
+}

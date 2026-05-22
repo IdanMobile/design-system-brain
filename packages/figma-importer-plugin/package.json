@@ -1,0 +1,16 @@
+{
+  "name": "@lab/figma-importer-plugin",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "bundle": "esbuild src/code.ts --bundle --format=iife --target=es2017 --platform=browser --outfile=dist/code.js --log-level=warning",
+    "build": "pnpm typecheck && pnpm bundle"
+  },
+  "dependencies": { "@lab/contract": "workspace:*" },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "@figma/plugin-typings": "^1.103.0",
+    "esbuild": "^0.24.0"
+  }
+}

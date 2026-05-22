@@ -1,0 +1,192 @@
+{
+  "schemaVersion": "1.0",
+  "meta": {
+    "storyId": "lab-button--secondary",
+    "componentName": "Button",
+    "extractedAt": "2026-05-22T09:01:10.348Z",
+    "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-button--secondary&viewMode=story",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "width": 1200,
+      "height": 900
+    },
+    "devicePixelRatio": 1,
+    "canvasBackground": "rgb(245, 247, 251)"
+  },
+  "root": {
+    "id": "lay-1",
+    "name": "Button",
+    "source": {
+      "kind": "dom",
+      "tag": "button",
+      "classList": [
+        "lab-button",
+        "secondary",
+        "md"
+      ],
+      "dataset": {
+        "figmaComponent": "Button"
+      }
+    },
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 211.17,
+      "height": 80
+    },
+    "computedBox": {
+      "x": 16,
+      "y": 16,
+      "width": 211.17,
+      "height": 80
+    },
+    "layout": {
+      "display": "inline-flex",
+      "position": "static",
+      "overflow": {
+        "x": "visible",
+        "y": "visible"
+      },
+      "padding": {
+        "top": 0,
+        "right": 32,
+        "bottom": 0,
+        "left": 32
+      },
+      "margin": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "flex": {
+        "direction": "row",
+        "wrap": "nowrap",
+        "justify": "center",
+        "align": "center",
+        "rowGap": 20,
+        "columnGap": 20
+      }
+    },
+    "paint": {
+      "fills": [
+        {
+          "kind": "color",
+          "color": "rgb(234, 244, 255)"
+        }
+      ],
+      "borders": {
+        "top": {
+          "width": 2,
+          "color": "rgb(0, 109, 206)",
+          "style": "solid"
+        },
+        "right": {
+          "width": 2,
+          "color": "rgb(0, 109, 206)",
+          "style": "solid"
+        },
+        "bottom": {
+          "width": 2,
+          "color": "rgb(0, 109, 206)",
+          "style": "solid"
+        },
+        "left": {
+          "width": 2,
+          "color": "rgb(0, 109, 206)",
+          "style": "solid"
+        }
+      },
+      "cornerRadii": {
+        "topLeft": {
+          "x": 40,
+          "y": 40
+        },
+        "topRight": {
+          "x": 40,
+          "y": 40
+        },
+        "bottomRight": {
+          "x": 40,
+          "y": 40
+        },
+        "bottomLeft": {
+          "x": 40,
+          "y": 40
+        }
+      }
+    },
+    "children": [
+      {
+        "id": "lay-2",
+        "name": "label",
+        "source": {
+          "kind": "dom",
+          "tag": "span",
+          "dataset": {
+            "figmaName": "label"
+          }
+        },
+        "box": {
+          "x": 34,
+          "y": 24,
+          "width": 143.17,
+          "height": 32
+        },
+        "computedBox": {
+          "x": 50,
+          "y": 40,
+          "width": 143.17,
+          "height": 32
+        },
+        "layout": {
+          "display": "block",
+          "position": "static",
+          "overflow": {
+            "x": "visible",
+            "y": "visible"
+          },
+          "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "margin": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          }
+        },
+        "text": {
+          "value": "Secondary",
+          "font": {
+            "family": "Inter",
+            "stack": "Inter, Arial, sans-serif",
+            "size": 28,
+            "weight": 700,
+            "style": "normal",
+            "variant": "normal",
+            "featureSettings": "normal"
+          },
+          "color": "rgb(0, 109, 206)",
+          "lineHeight": 31,
+          "wordSpacing": 0,
+          "align": "center",
+          "verticalAlign": "baseline",
+          "transform": "none",
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "wordBreak": "normal",
+          "direction": "ltr"
+        }
+      }
+    ]
+  },
+  "diagnostics": {
+    "warnings": [],
+    "unmappedProperties": []
+  }
+}

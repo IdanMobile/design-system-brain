@@ -1,0 +1,671 @@
+{
+  "fetchedAt": "2026-05-22T12:57:16.342Z",
+  "options": [
+    {
+      "id": "composer-2.5-fast",
+      "label": "Composer 2.5 Fast (default)",
+      "isCurrent": false,
+      "isDefault": true
+    },
+    {
+      "id": "auto",
+      "label": "Auto",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "composer-2.5",
+      "label": "Composer 2.5",
+      "isCurrent": true,
+      "isDefault": false
+    },
+    {
+      "id": "composer-2-fast",
+      "label": "Composer 2 Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "composer-2",
+      "label": "Composer 2",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.1-codex-max-medium",
+      "label": "Codex 5.1 Max",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.1-codex-max-xhigh",
+      "label": "Codex 5.1 Max Extra High",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.1-codex-max-xhigh-fast",
+      "label": "Codex 5.1 Max Extra High Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.1-codex-max-high",
+      "label": "Codex 5.1 Max High",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.1-codex-max-high-fast",
+      "label": "Codex 5.1 Max High Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.1-codex-max-low",
+      "label": "Codex 5.1 Max Low",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.1-codex-max-low-fast",
+      "label": "Codex 5.1 Max Low Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.1-codex-max-medium-fast",
+      "label": "Codex 5.1 Max Medium Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.1-codex-mini",
+      "label": "Codex 5.1 Mini",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.1-codex-mini-high",
+      "label": "Codex 5.1 Mini High",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.1-codex-mini-low",
+      "label": "Codex 5.1 Mini Low",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.2-codex",
+      "label": "Codex 5.2",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.2-codex-xhigh",
+      "label": "Codex 5.2 Extra High",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.2-codex-xhigh-fast",
+      "label": "Codex 5.2 Extra High Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.2-codex-fast",
+      "label": "Codex 5.2 Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.2-codex-high",
+      "label": "Codex 5.2 High",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.2-codex-high-fast",
+      "label": "Codex 5.2 High Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.2-codex-low",
+      "label": "Codex 5.2 Low",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.2-codex-low-fast",
+      "label": "Codex 5.2 Low Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.3-codex",
+      "label": "Codex 5.3",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.3-codex-xhigh",
+      "label": "Codex 5.3 Extra High",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.3-codex-xhigh-fast",
+      "label": "Codex 5.3 Extra High Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.3-codex-fast",
+      "label": "Codex 5.3 Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.3-codex-high",
+      "label": "Codex 5.3 High",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.3-codex-high-fast",
+      "label": "Codex 5.3 High Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.3-codex-low",
+      "label": "Codex 5.3 Low",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.3-codex-low-fast",
+      "label": "Codex 5.3 Low Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gemini-3-flash",
+      "label": "Gemini 3 Flash",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gemini-3.1-pro",
+      "label": "Gemini 3.1 Pro",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gemini-3.5-flash",
+      "label": "Gemini 3.5 Flash",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5-mini",
+      "label": "GPT-5 Mini",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.1",
+      "label": "GPT-5.1",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.1-high",
+      "label": "GPT-5.1 High",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.1-low",
+      "label": "GPT-5.1 Low",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.2",
+      "label": "GPT-5.2",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.2-xhigh",
+      "label": "GPT-5.2 Extra High",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.2-xhigh-fast",
+      "label": "GPT-5.2 Extra High Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.2-fast",
+      "label": "GPT-5.2 Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.2-high",
+      "label": "GPT-5.2 High",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.2-high-fast",
+      "label": "GPT-5.2 High Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.2-low",
+      "label": "GPT-5.2 Low",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.2-low-fast",
+      "label": "GPT-5.2 Low Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.4-medium",
+      "label": "GPT-5.4 1M",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.4-xhigh",
+      "label": "GPT-5.4 1M Extra High",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.4-high",
+      "label": "GPT-5.4 1M High",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.4-low",
+      "label": "GPT-5.4 1M Low",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.4-xhigh-fast",
+      "label": "GPT-5.4 Extra High Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.4-medium-fast",
+      "label": "GPT-5.4 Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.4-high-fast",
+      "label": "GPT-5.4 High Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.4-mini-medium",
+      "label": "GPT-5.4 Mini",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.4-mini-xhigh",
+      "label": "GPT-5.4 Mini Extra High",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.4-mini-high",
+      "label": "GPT-5.4 Mini High",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.4-mini-low",
+      "label": "GPT-5.4 Mini Low",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.4-mini-none",
+      "label": "GPT-5.4 Mini None",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.4-nano-medium",
+      "label": "GPT-5.4 Nano",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.4-nano-xhigh",
+      "label": "GPT-5.4 Nano Extra High",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.4-nano-high",
+      "label": "GPT-5.4 Nano High",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.4-nano-low",
+      "label": "GPT-5.4 Nano Low",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.4-nano-none",
+      "label": "GPT-5.4 Nano None",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.5-medium",
+      "label": "GPT-5.5 1M",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.5-extra-high",
+      "label": "GPT-5.5 1M Extra High",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.5-high",
+      "label": "GPT-5.5 1M High",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.5-low",
+      "label": "GPT-5.5 1M Low",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.5-none",
+      "label": "GPT-5.5 1M None",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.5-extra-high-fast",
+      "label": "GPT-5.5 Extra High Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.5-medium-fast",
+      "label": "GPT-5.5 Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.5-high-fast",
+      "label": "GPT-5.5 High Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.5-low-fast",
+      "label": "GPT-5.5 Low Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "gpt-5.5-none-fast",
+      "label": "GPT-5.5 None Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "grok-4.3",
+      "label": "Grok 4.3 1M",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "grok-build-0.1",
+      "label": "Grok Build 0.1 1M",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "kimi-k2.5",
+      "label": "Kimi K2.5",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-4.5-opus-high",
+      "label": "Opus 4.5",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-4.5-opus-high-thinking",
+      "label": "Opus 4.5 Thinking",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-4.6-opus-high",
+      "label": "Opus 4.6 1M",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-4.6-opus-max",
+      "label": "Opus 4.6 1M Max",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-4.6-opus-max-thinking",
+      "label": "Opus 4.6 1M Max Thinking",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-4.6-opus-max-thinking-fast",
+      "label": "Opus 4.6 1M Max Thinking Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-4.6-opus-high-thinking",
+      "label": "Opus 4.6 1M Thinking",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-4.6-opus-high-thinking-fast",
+      "label": "Opus 4.6 1M Thinking Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-7-xhigh",
+      "label": "Opus 4.7 1M",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-7-xhigh-fast",
+      "label": "Opus 4.7 1M Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-7-high",
+      "label": "Opus 4.7 1M High",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-7-high-fast",
+      "label": "Opus 4.7 1M High Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-7-thinking-high",
+      "label": "Opus 4.7 1M High Thinking",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-7-thinking-high-fast",
+      "label": "Opus 4.7 1M High Thinking Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-7-low",
+      "label": "Opus 4.7 1M Low",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-7-low-fast",
+      "label": "Opus 4.7 1M Low Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-7-thinking-low",
+      "label": "Opus 4.7 1M Low Thinking",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-7-thinking-low-fast",
+      "label": "Opus 4.7 1M Low Thinking Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-7-max",
+      "label": "Opus 4.7 1M Max",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-7-max-fast",
+      "label": "Opus 4.7 1M Max Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-7-thinking-max",
+      "label": "Opus 4.7 1M Max Thinking",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-7-thinking-max-fast",
+      "label": "Opus 4.7 1M Max Thinking Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-7-medium",
+      "label": "Opus 4.7 1M Medium",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-7-medium-fast",
+      "label": "Opus 4.7 1M Medium Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-7-thinking-medium",
+      "label": "Opus 4.7 1M Medium Thinking",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-7-thinking-medium-fast",
+      "label": "Opus 4.7 1M Medium Thinking Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-7-thinking-xhigh",
+      "label": "Opus 4.7 1M Thinking",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-7-thinking-xhigh-fast",
+      "label": "Opus 4.7 1M Thinking Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-4-sonnet",
+      "label": "Sonnet 4",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-4-sonnet-thinking",
+      "label": "Sonnet 4 Thinking",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-4.5-sonnet",
+      "label": "Sonnet 4.5",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-4.5-sonnet-thinking",
+      "label": "Sonnet 4.5 Thinking",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-4.6-sonnet-medium",
+      "label": "Sonnet 4.6 1M",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-4.6-sonnet-medium-thinking",
+      "label": "Sonnet 4.6 1M Thinking",
+      "isCurrent": false,
+      "isDefault": false
+    }
+  ]
+}

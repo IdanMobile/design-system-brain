@@ -1,0 +1,15 @@
+{
+  "storyId": "lab-button--ghost",
+  "width": 267,
+  "height": 80,
+  "pixelsDiffered": 0,
+  "pixelsTotal": 21360,
+  "percent": 0,
+  "status": "pass",
+  "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-button-ghost/storybook.png",
+  "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-button-ghost/rendered.png",
+  "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-button-ghost/diff.png",
+  "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-button-ghost/artifact.v2.json",
+  "diffRegions": [],
+  "testedAt": "2026-05-22T13:18:41.306Z"
+}

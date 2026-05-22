@@ -1,0 +1,15 @@
+{
+  "storyId": "lab-contentlistboard--default",
+  "width": 854,
+  "height": 483,
+  "pixelsDiffered": 0,
+  "pixelsTotal": 412482,
+  "percent": 0,
+  "status": "pass",
+  "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-contentlistboard-default/storybook.png",
+  "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-contentlistboard-default/rendered.png",
+  "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-contentlistboard-default/diff.png",
+  "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-contentlistboard-default/artifact.v2.json",
+  "diffRegions": [],
+  "testedAt": "2026-05-22T12:37:10.812Z"
+}

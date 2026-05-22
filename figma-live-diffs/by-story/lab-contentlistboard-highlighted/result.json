@@ -1,0 +1,87 @@
+{
+  "storyId": "lab-contentlistboard--highlighted",
+  "width": 854,
+  "height": 483,
+  "pixelsDiffered": 5853,
+  "pixelsTotal": 412482,
+  "percent": 1.418971009644057,
+  "maxRegionPercent": 2.5252386449000532,
+  "status": "fail",
+  "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-contentlistboard-highlighted/storybook.png",
+  "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-contentlistboard-highlighted/figma.png",
+  "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-contentlistboard-highlighted/diff.png",
+  "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-contentlistboard-highlighted/artifact.v2.json",
+  "diffRegions": [
+    {
+      "index": 1,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 452,
+        "height": 483,
+        "pixels": 5513,
+        "percent": 2.5252386449000532
+      },
+      "storybook": "regions/region-01-storybook.png",
+      "rendered": "regions/region-01-rendered.png",
+      "compare": "regions/region-01-compare.png"
+    },
+    {
+      "index": 2,
+      "rect": {
+        "x": 748,
+        "y": 28,
+        "width": 106,
+        "height": 88,
+        "pixels": 159,
+        "percent": 1.7045454545454544
+      },
+      "storybook": "regions/region-02-storybook.png",
+      "rendered": "regions/region-02-rendered.png",
+      "compare": "regions/region-02-compare.png"
+    },
+    {
+      "index": 3,
+      "rect": {
+        "x": 700,
+        "y": 268,
+        "width": 136,
+        "height": 136,
+        "pixels": 119,
+        "percent": 0.6433823529411764
+      },
+      "storybook": "regions/region-03-storybook.png",
+      "rendered": "regions/region-03-rendered.png",
+      "compare": "regions/region-03-compare.png"
+    },
+    {
+      "index": 4,
+      "rect": {
+        "x": 700,
+        "y": 172,
+        "width": 136,
+        "height": 88,
+        "pixels": 34,
+        "percent": 0.2840909090909091
+      },
+      "storybook": "regions/region-04-storybook.png",
+      "rendered": "regions/region-04-rendered.png",
+      "compare": "regions/region-04-compare.png"
+    },
+    {
+      "index": 5,
+      "rect": {
+        "x": 700,
+        "y": 408,
+        "width": 136,
+        "height": 75,
+        "pixels": 28,
+        "percent": 0.27450980392156865
+      },
+      "storybook": "regions/region-05-storybook.png",
+      "rendered": "regions/region-05-rendered.png",
+      "compare": "regions/region-05-compare.png"
+    }
+  ],
+  "testedAt": "2026-05-22T13:17:56.512Z"
+}

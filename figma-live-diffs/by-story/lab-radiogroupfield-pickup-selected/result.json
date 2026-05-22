@@ -1,0 +1,31 @@
+{
+  "storyId": "lab-radiogroupfield--pickup-selected",
+  "width": 458,
+  "height": 89,
+  "pixelsDiffered": 398,
+  "pixelsTotal": 40762,
+  "percent": 0.9763995878514302,
+  "maxRegionPercent": 1.256154525943694,
+  "status": "pass",
+  "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-radiogroupfield-pickup-selected/storybook.png",
+  "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-radiogroupfield-pickup-selected/figma.png",
+  "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-radiogroupfield-pickup-selected/diff.png",
+  "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-radiogroupfield-pickup-selected/artifact.v2.json",
+  "diffRegions": [
+    {
+      "index": 1,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 356,
+        "height": 89,
+        "pixels": 398,
+        "percent": 1.256154525943694
+      },
+      "storybook": "regions/region-01-storybook.png",
+      "rendered": "regions/region-01-rendered.png",
+      "compare": "regions/region-01-compare.png"
+    }
+  ],
+  "testedAt": "2026-05-22T10:51:50.744Z"
+}

@@ -1,0 +1,428 @@
+{
+  "schemaVersion": "1.0",
+  "meta": {
+    "storyId": "lab-overlaystates--bottom-sheet",
+    "componentName": "OverlayStates",
+    "extractedAt": "2026-05-22T12:37:54.389Z",
+    "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-overlaystates--bottom-sheet&viewMode=story",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "width": 1200,
+      "height": 900
+    },
+    "devicePixelRatio": 1,
+    "canvasBackground": "rgb(245, 247, 251)"
+  },
+  "root": {
+    "id": "lay-1",
+    "name": "OverlayStates",
+    "source": {
+      "kind": "dom",
+      "tag": "div",
+      "classList": [
+        "lab-overlay-canvas"
+      ],
+      "dataset": {
+        "figmaComponent": "OverlayStates"
+      }
+    },
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 760,
+      "height": 480
+    },
+    "computedBox": {
+      "x": 16,
+      "y": 16,
+      "width": 760,
+      "height": 480
+    },
+    "layout": {
+      "display": "block",
+      "position": "relative",
+      "overflow": {
+        "x": "hidden",
+        "y": "hidden"
+      },
+      "padding": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "margin": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "inset": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      }
+    },
+    "paint": {
+      "fills": [
+        {
+          "kind": "color",
+          "color": "rgb(238, 243, 249)"
+        }
+      ],
+      "cornerRadii": {
+        "topLeft": {
+          "x": 16,
+          "y": 16
+        },
+        "topRight": {
+          "x": 16,
+          "y": 16
+        },
+        "bottomRight": {
+          "x": 16,
+          "y": 16
+        },
+        "bottomLeft": {
+          "x": 16,
+          "y": 16
+        }
+      }
+    },
+    "children": [
+      {
+        "id": "lay-2",
+        "name": "div",
+        "source": {
+          "kind": "dom",
+          "tag": "div",
+          "classList": [
+            "backdrop"
+          ]
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 760,
+          "height": 480
+        },
+        "computedBox": {
+          "x": 16,
+          "y": 16,
+          "width": 760,
+          "height": 480
+        },
+        "layout": {
+          "display": "block",
+          "position": "absolute",
+          "overflow": {
+            "x": "visible",
+            "y": "visible"
+          },
+          "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "margin": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "inset": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          }
+        },
+        "paint": {
+          "fills": [
+            {
+              "kind": "color",
+              "color": "rgba(15, 23, 42, 0.44)"
+            }
+          ]
+        }
+      },
+      {
+        "id": "lay-3",
+        "name": "div",
+        "source": {
+          "kind": "dom",
+          "tag": "div",
+          "classList": [
+            "sheet"
+          ]
+        },
+        "box": {
+          "x": 20,
+          "y": 334,
+          "width": 720,
+          "height": 126
+        },
+        "computedBox": {
+          "x": 36,
+          "y": 350,
+          "width": 720,
+          "height": 126
+        },
+        "layout": {
+          "display": "block",
+          "position": "absolute",
+          "overflow": {
+            "x": "visible",
+            "y": "visible"
+          },
+          "padding": {
+            "top": 18,
+            "right": 18,
+            "bottom": 18,
+            "left": 18
+          },
+          "margin": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "inset": {
+            "top": 334,
+            "right": 20,
+            "bottom": 20,
+            "left": 20
+          }
+        },
+        "paint": {
+          "fills": [
+            {
+              "kind": "color",
+              "color": "rgb(255, 255, 255)"
+            }
+          ],
+          "cornerRadii": {
+            "topLeft": {
+              "x": 16,
+              "y": 16
+            },
+            "topRight": {
+              "x": 16,
+              "y": 16
+            },
+            "bottomRight": {
+              "x": 16,
+              "y": 16
+            },
+            "bottomLeft": {
+              "x": 16,
+              "y": 16
+            }
+          }
+        },
+        "children": [
+          {
+            "id": "lay-4",
+            "name": "div",
+            "source": {
+              "kind": "dom",
+              "tag": "div",
+              "classList": [
+                "handle"
+              ]
+            },
+            "box": {
+              "x": 336,
+              "y": 20,
+              "width": 48,
+              "height": 5
+            },
+            "computedBox": {
+              "x": 372,
+              "y": 370,
+              "width": 48,
+              "height": 5
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "margin": {
+                "top": 2,
+                "right": 318,
+                "bottom": 16,
+                "left": 318
+              }
+            },
+            "paint": {
+              "fills": [
+                {
+                  "kind": "color",
+                  "color": "rgb(185, 197, 214)"
+                }
+              ],
+              "cornerRadii": {
+                "topLeft": {
+                  "x": 999,
+                  "y": 999
+                },
+                "topRight": {
+                  "x": 999,
+                  "y": 999
+                },
+                "bottomRight": {
+                  "x": 999,
+                  "y": 999
+                },
+                "bottomLeft": {
+                  "x": 999,
+                  "y": 999
+                }
+              }
+            }
+          },
+          {
+            "id": "lay-5",
+            "name": "h4",
+            "source": {
+              "kind": "dom",
+              "tag": "h4"
+            },
+            "box": {
+              "x": 18,
+              "y": 41,
+              "width": 684,
+              "height": 36
+            },
+            "computedBox": {
+              "x": 54,
+              "y": 391,
+              "width": 684,
+              "height": 36
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 10,
+                "left": 0
+              }
+            },
+            "text": {
+              "value": "Share",
+              "font": {
+                "family": "Inter",
+                "stack": "Inter, Arial, sans-serif",
+                "size": 30,
+                "weight": 700,
+                "style": "normal",
+                "variant": "normal",
+                "featureSettings": "normal"
+              },
+              "color": "rgb(0, 0, 0)",
+              "lineHeight": 36,
+              "wordSpacing": 0,
+              "align": "start",
+              "verticalAlign": "baseline",
+              "transform": "none",
+              "whiteSpace": "normal",
+              "overflow": "visible",
+              "wordBreak": "normal",
+              "direction": "ltr"
+            }
+          },
+          {
+            "id": "lay-6",
+            "name": "p",
+            "source": {
+              "kind": "dom",
+              "tag": "p"
+            },
+            "box": {
+              "x": 18,
+              "y": 87,
+              "width": 684,
+              "height": 21
+            },
+            "computedBox": {
+              "x": 54,
+              "y": 437,
+              "width": 684,
+              "height": 21
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            },
+            "text": {
+              "value": "Invite teammates to this canvas.",
+              "font": {
+                "family": "Inter",
+                "stack": "Inter, Arial, sans-serif",
+                "size": 18,
+                "weight": 400,
+                "style": "normal",
+                "variant": "normal",
+                "featureSettings": "normal"
+              },
+              "color": "rgb(86, 98, 115)",
+              "lineHeight": 21,
+              "wordSpacing": 0,
+              "align": "start",
+              "verticalAlign": "baseline",
+              "transform": "none",
+              "whiteSpace": "normal",
+              "overflow": "visible",
+              "wordBreak": "normal",
+              "direction": "ltr"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "diagnostics": {
+    "warnings": [],
+    "unmappedProperties": []
+  }
+}

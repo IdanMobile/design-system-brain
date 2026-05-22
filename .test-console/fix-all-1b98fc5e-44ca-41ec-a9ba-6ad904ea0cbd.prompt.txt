@@ -1,0 +1,85 @@
+run until pass
+
+Fix all — Figma emulator (14 stories with fail/warn)
+
+Orchestrator runs up to 5 fix→test cycles per story (Terminal). Work worst-first.
+
+Follow .cursor/skills/figma-renderer-until-pass/SKILL.md
+Act immediately — do NOT ask the user for approval to start fixing.
+Emulator first until green, then live. Fix now without asking permission.
+
+Stories:
+
+1. lab-calendarscheduler--monthly (0.35% fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-calendarscheduler-monthly/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-calendarscheduler-monthly/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-calendarscheduler-monthly/rendered.png
+
+2. lab-calendarscheduler--weekdays-only (0.25% fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-calendarscheduler-weekdays-only/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-calendarscheduler-weekdays-only/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-calendarscheduler-weekdays-only/rendered.png
+
+3. lab-selectfield--expanded (0.19% fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-selectfield-expanded/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-selectfield-expanded/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-selectfield-expanded/rendered.png
+
+4. mui--showcase (0.14% fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/mui-showcase/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/mui-showcase/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/mui-showcase/rendered.png
+
+5. lab-featurecard--success (0.12% fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-featurecard-success/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-featurecard-success/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-featurecard-success/rendered.png
+
+6. lab-analyticscharts--dense (0.10% fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-analyticscharts-dense/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-analyticscharts-dense/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-analyticscharts-dense/rendered.png
+
+7. lab-featurecard--warning (0.08% fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-featurecard-warning/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-featurecard-warning/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-featurecard-warning/rendered.png
+
+8. lab-analyticscharts--revenue (0.08% fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-analyticscharts-revenue/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-analyticscharts-revenue/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-analyticscharts-revenue/rendered.png
+
+9. lab-analyticscharts--usage (0.07% fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-analyticscharts-usage/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-analyticscharts-usage/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-analyticscharts-usage/rendered.png
+
+10. lab-featurecard--default (0.07% fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-featurecard-default/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-featurecard-default/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-featurecard-default/rendered.png
+
+11. lab-overlaystates--dialog (0.03% fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-overlaystates-dialog/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-overlaystates-dialog/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-overlaystates-dialog/rendered.png
+
+12. lab-overlaystates--bottom-sheet (0.01% fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-overlaystates-bottom-sheet/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-overlaystates-bottom-sheet/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-overlaystates-bottom-sheet/rendered.png
+
+13. lab-button--danger (0.16% warn)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-button-danger/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-button-danger/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-button-danger/rendered.png
+
+14. lab-overlaystates--drawer (0.01% warn)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-overlaystates-drawer/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-overlaystates-drawer/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-overlaystates-drawer/rendered.png
+
+After all fixes: pnpm figma:iterate
+
+Fix immediately (no approval). Rebuild plugin if you changed code-v2.ts.

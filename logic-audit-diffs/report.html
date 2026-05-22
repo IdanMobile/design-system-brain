@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><title>Logic audit</title>
+<style>
+body{font-family:system-ui,sans-serif;margin:24px;background:#0f1419;color:#e8edf4}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{border:1px solid #2d3a4f;padding:8px 10px;text-align:left;vertical-align:top}
+th{background:#1a2332}
+code{font-size:12px}
+h1{margin-top:0}
+p{color:#8b9cb3}
+ul{margin:4px 0;padding-left:18px}
+video{border-radius:6px;background:#000;max-width:280px}
+a{color:#58a6ff}
+</style></head><body>
+<h1>Logic audit — Delivery showcase</h1>
+<p>Each row can include an <strong>interaction video</strong> (when recorded) showing every control exercised and its visible state.
+<strong>DS built-in</strong> = design-system behavior works. <strong>Gaps</strong> = inert control needing a developer props API.</p>
+<table>
+<thead><tr>
+<th>Story</th><th>Component</th><th>Status</th><th>Interaction video</th><th>Controls</th><th>DS built-in</th><th>Gaps</th><th>Working</th><th>Missing API</th>
+</tr></thead>
+<tbody><tr>
+        <td><code>lab-analyticscharts--dense</code></td>
+        <td>AnalyticsCharts</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-analyticscharts-dense/interaction.webm"></video><br><a href="by-story/lab-analyticscharts-dense/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-analyticscharts--revenue</code></td>
+        <td>AnalyticsCharts</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-analyticscharts-revenue/interaction.webm"></video><br><a href="by-story/lab-analyticscharts-revenue/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-analyticscharts--usage</code></td>
+        <td>AnalyticsCharts</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-analyticscharts-usage/interaction.webm"></video><br><a href="by-story/lab-analyticscharts-usage/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-button--compact</code></td>
+        <td>Button</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-button-compact/interaction.webm"></video><br><a href="by-story/lab-button-compact/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-button--danger</code></td>
+        <td>Button</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-button-danger/interaction.webm"></video><br><a href="by-story/lab-button-danger/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-button--ghost</code></td>
+        <td>Button</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-button-ghost/interaction.webm"></video><br><a href="by-story/lab-button-ghost/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-button--large-with-both-icons</code></td>
+        <td>Button</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-button-large-with-both-icons/interaction.webm"></video><br><a href="by-story/lab-button-large-with-both-icons/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-button--primary</code></td>
+        <td>Button</td>
+        <td style="color:#d97706;font-weight:600">GAP</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-button-primary/interaction.webm"></video><br><a href="by-story/lab-button-primary/interaction.webm">Open video</a></td>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><ul><li>Primary: No visible state change — wire props/handlers in delivery package (packages/ui)</li></ul></td>
+      </tr>
+<tr>
+        <td><code>lab-button--primary-with-icon</code></td>
+        <td>Button</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-button-primary-with-icon/interaction.webm"></video><br><a href="by-story/lab-button-primary-with-icon/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-button--secondary</code></td>
+        <td>Button</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-button-secondary/interaction.webm"></video><br><a href="by-story/lab-button-secondary/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-calendarscheduler--compact</code></td>
+        <td>CalendarScheduler</td>
+        <td style="color:#d97706;font-weight:600">GAP</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-calendarscheduler-compact/interaction.webm"></video><br><a href="by-story/lab-calendarscheduler-compact/interaction.webm">Open video</a></td>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><ul><li>Create Event: No visible state change — needs developer props / callbacks in logic creator spec</li></ul></td>
+      </tr>
+<tr>
+        <td><code>lab-calendarscheduler--monthly</code></td>
+        <td>CalendarScheduler</td>
+        <td style="color:#d97706;font-weight:600">GAP</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-calendarscheduler-monthly/interaction.webm"></video><br><a href="by-story/lab-calendarscheduler-monthly/interaction.webm">Open video</a></td>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><ul><li>Create Event: No visible state change — needs developer props / callbacks in logic creator spec</li></ul></td>
+      </tr>
+<tr>
+        <td><code>lab-calendarscheduler--weekdays-only</code></td>
+        <td>CalendarScheduler</td>
+        <td style="color:#d97706;font-weight:600">GAP</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-calendarscheduler-weekdays-only/interaction.webm"></video><br><a href="by-story/lab-calendarscheduler-weekdays-only/interaction.webm">Open video</a></td>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><ul><li>Create Event: No visible state change — needs developer props / callbacks in logic creator spec</li></ul></td>
+      </tr>
+<tr>
+        <td><code>lab-complexdashboardcard--default</code></td>
+        <td>ComplexDashboardCard</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-complexdashboardcard-default/interaction.webm"></video><br><a href="by-story/lab-complexdashboardcard-default/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-contentlistboard--compact</code></td>
+        <td>ContentListBoard</td>
+        <td style="color:#d97706;font-weight:600">GAP</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-contentlistboard-compact/interaction.webm"></video><br><a href="by-story/lab-contentlistboard-compact/interaction.webm">Open video</a></td>
+        <td>2</td>
+        <td>0</td>
+        <td>1</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><ul><li>New Task: No visible state change — needs developer props / callbacks in logic creator spec</li></ul></td>
+      </tr>
+<tr>
+        <td><code>lab-contentlistboard--default</code></td>
+        <td>ContentListBoard</td>
+        <td style="color:#d97706;font-weight:600">GAP</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-contentlistboard-default/interaction.webm"></video><br><a href="by-story/lab-contentlistboard-default/interaction.webm">Open video</a></td>
+        <td>2</td>
+        <td>0</td>
+        <td>1</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><ul><li>New Task: No visible state change — needs developer props / callbacks in logic creator spec</li></ul></td>
+      </tr>
+<tr>
+        <td><code>lab-contentlistboard--highlighted</code></td>
+        <td>ContentListBoard</td>
+        <td style="color:#d97706;font-weight:600">GAP</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-contentlistboard-highlighted/interaction.webm"></video><br><a href="by-story/lab-contentlistboard-highlighted/interaction.webm">Open video</a></td>
+        <td>2</td>
+        <td>0</td>
+        <td>1</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><ul><li>New Task: No visible state change — needs developer props / callbacks in logic creator spec</li></ul></td>
+      </tr>
+<tr>
+        <td><code>lab-featurecard--default</code></td>
+        <td>FeatureCard</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-featurecard-default/interaction.webm"></video><br><a href="by-story/lab-featurecard-default/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-featurecard--success</code></td>
+        <td>FeatureCard</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-featurecard-success/interaction.webm"></video><br><a href="by-story/lab-featurecard-success/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-featurecard--warning</code></td>
+        <td>FeatureCard</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-featurecard-warning/interaction.webm"></video><br><a href="by-story/lab-featurecard-warning/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-filtersidepanel--collapsed</code></td>
+        <td>FilterSidePanel</td>
+        <td style="color:#d97706;font-weight:600">GAP</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-filtersidepanel-collapsed/interaction.webm"></video><br><a href="by-story/lab-filtersidepanel-collapsed/interaction.webm">Open video</a></td>
+        <td>6</td>
+        <td>0</td>
+        <td>3</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><ul><li>+ Add: No visible state change — needs developer props / callbacks in logic creator spec</li><li>Reset: No visible state change — needs developer props / callbacks in logic creator spec</li><li>Apply: No visible state change — needs developer props / callbacks in logic creator spec</li></ul></td>
+      </tr>
+<tr>
+        <td><code>lab-filtersidepanel--left-panel</code></td>
+        <td>FilterSidePanel</td>
+        <td style="color:#d97706;font-weight:600">GAP</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-filtersidepanel-left-panel/interaction.webm"></video><br><a href="by-story/lab-filtersidepanel-left-panel/interaction.webm">Open video</a></td>
+        <td>6</td>
+        <td>0</td>
+        <td>3</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><ul><li>+ Add: No visible state change — needs developer props / callbacks in logic creator spec</li><li>Reset: No visible state change — needs developer props / callbacks in logic creator spec</li><li>Apply: No visible state change — needs developer props / callbacks in logic creator spec</li></ul></td>
+      </tr>
+<tr>
+        <td><code>lab-filtersidepanel--right-panel</code></td>
+        <td>FilterSidePanel</td>
+        <td style="color:#d97706;font-weight:600">GAP</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-filtersidepanel-right-panel/interaction.webm"></video><br><a href="by-story/lab-filtersidepanel-right-panel/interaction.webm">Open video</a></td>
+        <td>6</td>
+        <td>0</td>
+        <td>3</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><ul><li>+ Add: No visible state change — needs developer props / callbacks in logic creator spec</li><li>Reset: No visible state change — needs developer props / callbacks in logic creator spec</li><li>Apply: No visible state change — needs developer props / callbacks in logic creator spec</li></ul></td>
+      </tr>
+<tr>
+        <td><code>lab-loadingstates--card-skeleton</code></td>
+        <td>LoadingStates</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-loadingstates-card-skeleton/interaction.webm"></video><br><a href="by-story/lab-loadingstates-card-skeleton/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-loadingstates--list-skeleton</code></td>
+        <td>LoadingStates</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-loadingstates-list-skeleton/interaction.webm"></video><br><a href="by-story/lab-loadingstates-list-skeleton/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-navigationbars--bottom-navigation</code></td>
+        <td>NavigationBars</td>
+        <td style="color:#d97706;font-weight:600">GAP</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-navigationbars-bottom-navigation/interaction.webm"></video><br><a href="by-story/lab-navigationbars-bottom-navigation/interaction.webm">Open video</a></td>
+        <td>4</td>
+        <td>0</td>
+        <td>4</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><ul><li>Home: No visible state change — needs developer props / callbacks in logic creator spec</li><li>Search: No visible state change — needs developer props / callbacks in logic creator spec</li><li>Create: No visible state change — needs developer props / callbacks in logic creator spec</li><li>Profile: No visible state change — needs developer props / callbacks in logic creator spec</li></ul></td>
+      </tr>
+<tr>
+        <td><code>lab-navigationbars--top-navigation</code></td>
+        <td>NavigationBars</td>
+        <td style="color:#d97706;font-weight:600">GAP</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-navigationbars-top-navigation/interaction.webm"></video><br><a href="by-story/lab-navigationbars-top-navigation/interaction.webm">Open video</a></td>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><ul><li>Get Started: No visible state change — needs developer props / callbacks in logic creator spec</li></ul></td>
+      </tr>
+<tr>
+        <td><code>lab-overlaystates--bottom-sheet</code></td>
+        <td>OverlayStates</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-overlaystates-bottom-sheet/interaction.webm"></video><br><a href="by-story/lab-overlaystates-bottom-sheet/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-overlaystates--dialog</code></td>
+        <td>OverlayStates</td>
+        <td style="color:#d97706;font-weight:600">GAP</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-overlaystates-dialog/interaction.webm"></video><br><a href="by-story/lab-overlaystates-dialog/interaction.webm">Open video</a></td>
+        <td>2</td>
+        <td>0</td>
+        <td>2</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><ul><li>Cancel: No visible state change — needs developer props / callbacks in logic creator spec</li><li>Discard: No visible state change — needs developer props / callbacks in logic creator spec</li></ul></td>
+      </tr>
+<tr>
+        <td><code>lab-overlaystates--drawer</code></td>
+        <td>OverlayStates</td>
+        <td style="color:#d97706;font-weight:600">GAP</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-overlaystates-drawer/interaction.webm"></video><br><a href="by-story/lab-overlaystates-drawer/interaction.webm">Open video</a></td>
+        <td>2</td>
+        <td>0</td>
+        <td>2</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><ul><li>Reset: No visible state change — needs developer props / callbacks in logic creator spec</li><li>Apply: No visible state change — needs developer props / callbacks in logic creator spec</li></ul></td>
+      </tr>
+<tr>
+        <td><code>lab-pricingpanel--pro</code></td>
+        <td>PricingPanel</td>
+        <td style="color:#d97706;font-weight:600">GAP</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-pricingpanel-pro/interaction.webm"></video><br><a href="by-story/lab-pricingpanel-pro/interaction.webm">Open video</a></td>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><ul><li>Upgrade now: No visible state change — needs developer props / callbacks in logic creator spec</li></ul></td>
+      </tr>
+<tr>
+        <td><code>lab-pricingpanel--starter</code></td>
+        <td>PricingPanel</td>
+        <td style="color:#d97706;font-weight:600">GAP</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-pricingpanel-starter/interaction.webm"></video><br><a href="by-story/lab-pricingpanel-starter/interaction.webm">Open video</a></td>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><ul><li>Start free trial: No visible state change — needs developer props / callbacks in logic creator spec</li></ul></td>
+      </tr>
+<tr>
+        <td><code>lab-productcard--alternate-image</code></td>
+        <td>ProductCard</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-productcard-alternate-image/interaction.webm"></video><br><a href="by-story/lab-productcard-alternate-image/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-productcard--compact</code></td>
+        <td>ProductCard</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-productcard-compact/interaction.webm"></video><br><a href="by-story/lab-productcard-compact/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-productcard--dark</code></td>
+        <td>ProductCard</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-productcard-dark/interaction.webm"></video><br><a href="by-story/lab-productcard-dark/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-productcard--default</code></td>
+        <td>ProductCard</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-productcard-default/interaction.webm"></video><br><a href="by-story/lab-productcard-default/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-radiogroupfield--default</code></td>
+        <td>RadioGroupField</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-radiogroupfield-default/interaction.webm"></video><br><a href="by-story/lab-radiogroupfield-default/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-radiogroupfield--disabled</code></td>
+        <td>RadioGroupField</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-radiogroupfield-disabled/interaction.webm"></video><br><a href="by-story/lab-radiogroupfield-disabled/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-radiogroupfield--pickup-selected</code></td>
+        <td>RadioGroupField</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-radiogroupfield-pickup-selected/interaction.webm"></video><br><a href="by-story/lab-radiogroupfield-pickup-selected/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-selectfield--closed</code></td>
+        <td>SelectField</td>
+        <td style="color:#d97706;font-weight:600">GAP</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-selectfield-closed/interaction.webm"></video><br><a href="by-story/lab-selectfield-closed/interaction.webm">Open video</a></td>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><ul><li>Spacesuits▾: No visible state change — wire props/handlers in delivery package (packages/ui)</li></ul></td>
+      </tr>
+<tr>
+        <td><code>lab-selectfield--expanded</code></td>
+        <td>SelectField</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-selectfield-expanded/interaction.webm"></video><br><a href="by-story/lab-selectfield-expanded/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-snackbarstack--default</code></td>
+        <td>SnackbarStack</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-snackbarstack-default/interaction.webm"></video><br><a href="by-story/lab-snackbarstack-default/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-snackbarstack--dense</code></td>
+        <td>SnackbarStack</td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-snackbarstack-dense/interaction.webm"></video><br><a href="by-story/lab-snackbarstack-dense/interaction.webm">Open video</a></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><span style='color:#64748b'>—</span></td>
+      </tr>
+<tr>
+        <td><code>lab-tabspanel--activity-active</code></td>
+        <td>TabsPanel</td>
+        <td style="color:#d97706;font-weight:600">GAP</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-tabspanel-activity-active/interaction.webm"></video><br><a href="by-story/lab-tabspanel-activity-active/interaction.webm">Open video</a></td>
+        <td>3</td>
+        <td>0</td>
+        <td>3</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><ul><li>Overview: No visible state change — needs developer props / callbacks in logic creator spec</li><li>Activity: No visible state change — needs developer props / callbacks in logic creator spec</li><li>Settings: No visible state change — needs developer props / callbacks in logic creator spec</li></ul></td>
+      </tr>
+<tr>
+        <td><code>lab-tabspanel--settings-active</code></td>
+        <td>TabsPanel</td>
+        <td style="color:#d97706;font-weight:600">GAP</td>
+        <td><video controls preload="metadata" width="280" src="by-story/lab-tabspanel-settings-active/interaction.webm"></video><br><a href="by-story/lab-tabspanel-settings-active/interaction.webm">Open video</a></td>
+        <td>3</td>
+        <td>0</td>
+        <td>3</td>
+        <td><span style='color:#64748b'>—</span></td>
+        <td><ul><li>Overview: No visible state change — needs developer props / callbacks in logic creator spec</li><li>Activity: No visible state change — needs developer props / callbacks in logic creator spec</li><li>Settings: No visible state change — needs developer props / callbacks in logic creator spec</li></ul></td>
+      </tr>
+<tr>
+        <td><code>mui--showcase</code></td>
+        <td>MUIShowcase</td>
+        <td style="color:#d97706;font-weight:600">GAP</td>
+        <td><video controls preload="metadata" width="280" src="by-story/mui-showcase/interaction.webm"></video><br><a href="by-story/mui-showcase/interaction.webm">Open video</a></td>
+        <td>35</td>
+        <td>5</td>
+        <td>16</td>
+        <td><ul><li>Design</li><li>Usage</li><li>input[checkbox]</li><li>input[switch]</li><li>Go to page 5</li></ul></td>
+        <td><ul><li>Contained: No visible state change — wire props/handlers in delivery package (packages/ui)</li><li>Outlined: No visible state change — wire props/handlers in delivery package (packages/ui)</li><li>Text: No visible state change — wire props/handlers in delivery package (packages/ui)</li><li>Home: No visible state change — wire props/handlers in delivery package (packages/ui)</li><li>Components: No visible state change — wire props/handlers in delivery package (packages/ui)</li><li>Overview: No visible state change — wire props/handlers in delivery package (packages/ui)</li><li>input[text]: No visible state change — wire props/handlers in delivery package (packages/ui)</li><li>Designer: No visible state change — wire props/handlers in delivery package (packages/ui)</li></ul></td>
+      </tr></tbody>
+</table>
+</body></html>

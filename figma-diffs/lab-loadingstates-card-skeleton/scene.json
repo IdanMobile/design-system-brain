@@ -1,0 +1,240 @@
+{
+  "id": 6,
+  "kind": "FRAME",
+  "type": "FRAME",
+  "name": "LoadingStates Canvas",
+  "x": 0,
+  "y": 0,
+  "width": 522,
+  "height": 346,
+  "opacity": 1,
+  "fills": [
+    {
+      "type": "SOLID",
+      "color": {
+        "r": 0.9607843137254902,
+        "g": 0.9686274509803922,
+        "b": 0.984313725490196
+      },
+      "opacity": 1
+    }
+  ],
+  "strokes": [],
+  "strokeWeight": 1,
+  "strokeTopWeight": 0,
+  "strokeRightWeight": 0,
+  "strokeBottomWeight": 0,
+  "strokeLeftWeight": 0,
+  "dashPattern": [],
+  "cornerRadii": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "effects": [],
+  "clipsContent": false,
+  "children": [
+    {
+      "id": 1,
+      "kind": "FRAME",
+      "type": "FRAME",
+      "name": "LoadingStates",
+      "x": 24,
+      "y": 24,
+      "width": 474,
+      "height": 298,
+      "opacity": 1,
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": {
+            "r": 1,
+            "g": 1,
+            "b": 1
+          },
+          "opacity": 1
+        }
+      ],
+      "strokes": [
+        {
+          "type": "SOLID",
+          "color": {
+            "r": 0.8588235294117647,
+            "g": 0.8901960784313725,
+            "b": 0.9254901960784314
+          },
+          "opacity": 1
+        }
+      ],
+      "strokeWeight": 1,
+      "strokeTopWeight": 1,
+      "strokeRightWeight": 1,
+      "strokeBottomWeight": 1,
+      "strokeLeftWeight": 1,
+      "dashPattern": [],
+      "cornerRadii": [
+        16,
+        16,
+        16,
+        16
+      ],
+      "effects": [],
+      "clipsContent": false,
+      "children": [
+        {
+          "id": 2,
+          "kind": "FRAME",
+          "type": "FRAME",
+          "name": "div",
+          "x": 17,
+          "y": 17,
+          "width": 440,
+          "height": 180,
+          "opacity": 1,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 0.9058823529411765,
+                "g": 0.9294117647058824,
+                "b": 0.9607843137254902
+              },
+              "opacity": 1
+            }
+          ],
+          "strokes": [],
+          "strokeWeight": 1,
+          "strokeTopWeight": 0,
+          "strokeRightWeight": 0,
+          "strokeBottomWeight": 0,
+          "strokeLeftWeight": 0,
+          "dashPattern": [],
+          "cornerRadii": [
+            12,
+            12,
+            12,
+            12
+          ],
+          "effects": [],
+          "clipsContent": false,
+          "children": []
+        },
+        {
+          "id": 3,
+          "kind": "FRAME",
+          "type": "FRAME",
+          "name": "div",
+          "x": 17,
+          "y": 209,
+          "width": 378.39,
+          "height": 16,
+          "opacity": 1,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 0.9058823529411765,
+                "g": 0.9294117647058824,
+                "b": 0.9607843137254902
+              },
+              "opacity": 1
+            }
+          ],
+          "strokes": [],
+          "strokeWeight": 1,
+          "strokeTopWeight": 0,
+          "strokeRightWeight": 0,
+          "strokeBottomWeight": 0,
+          "strokeLeftWeight": 0,
+          "dashPattern": [],
+          "cornerRadii": [
+            999,
+            999,
+            999,
+            999
+          ],
+          "effects": [],
+          "clipsContent": true,
+          "children": []
+        },
+        {
+          "id": 4,
+          "kind": "FRAME",
+          "type": "FRAME",
+          "name": "div",
+          "x": 17,
+          "y": 237,
+          "width": 316.8,
+          "height": 16,
+          "opacity": 1,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 0.9058823529411765,
+                "g": 0.9294117647058824,
+                "b": 0.9607843137254902
+              },
+              "opacity": 1
+            }
+          ],
+          "strokes": [],
+          "strokeWeight": 1,
+          "strokeTopWeight": 0,
+          "strokeRightWeight": 0,
+          "strokeBottomWeight": 0,
+          "strokeLeftWeight": 0,
+          "dashPattern": [],
+          "cornerRadii": [
+            999,
+            999,
+            999,
+            999
+          ],
+          "effects": [],
+          "clipsContent": true,
+          "children": []
+        },
+        {
+          "id": 5,
+          "kind": "FRAME",
+          "type": "FRAME",
+          "name": "div",
+          "x": 17,
+          "y": 265,
+          "width": 246.39,
+          "height": 16,
+          "opacity": 1,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 0.9058823529411765,
+                "g": 0.9294117647058824,
+                "b": 0.9607843137254902
+              },
+              "opacity": 1
+            }
+          ],
+          "strokes": [],
+          "strokeWeight": 1,
+          "strokeTopWeight": 0,
+          "strokeRightWeight": 0,
+          "strokeBottomWeight": 0,
+          "strokeLeftWeight": 0,
+          "dashPattern": [],
+          "cornerRadii": [
+            999,
+            999,
+            999,
+            999
+          ],
+          "effects": [],
+          "clipsContent": true,
+          "children": []
+        }
+      ]
+    }
+  ]
+}

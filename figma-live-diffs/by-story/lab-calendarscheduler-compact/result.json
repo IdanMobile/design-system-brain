@@ -1,0 +1,129 @@
+{
+  "storyId": "lab-calendarscheduler--compact",
+  "width": 734,
+  "height": 746,
+  "pixelsDiffered": 7978,
+  "pixelsTotal": 547564,
+  "percent": 1.4569986339496388,
+  "maxRegionPercent": 4.13684279021343,
+  "status": "fail",
+  "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/storybook.png",
+  "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/figma.png",
+  "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/diff.png",
+  "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/artifact.v2.json",
+  "diffRegions": [
+    {
+      "index": 1,
+      "rect": {
+        "x": 0,
+        "y": 604,
+        "width": 452,
+        "height": 136,
+        "pixels": 2543,
+        "percent": 4.13684279021343
+      },
+      "storybook": "regions/region-01-storybook.png",
+      "rendered": "regions/region-01-rendered.png",
+      "compare": "regions/region-01-compare.png"
+    },
+    {
+      "index": 2,
+      "rect": {
+        "x": 460,
+        "y": 604,
+        "width": 274,
+        "height": 136,
+        "pixels": 1490,
+        "percent": 3.998497209102619
+      },
+      "storybook": "regions/region-02-storybook.png",
+      "rendered": "regions/region-02-rendered.png",
+      "compare": "regions/region-02-compare.png"
+    },
+    {
+      "index": 3,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 404,
+        "height": 164,
+        "pixels": 880,
+        "percent": 1.3281815986476697
+      },
+      "storybook": "regions/region-03-storybook.png",
+      "rendered": "regions/region-03-rendered.png",
+      "compare": "regions/region-03-compare.png"
+    },
+    {
+      "index": 4,
+      "rect": {
+        "x": 172,
+        "y": 268,
+        "width": 232,
+        "height": 184,
+        "pixels": 460,
+        "percent": 1.0775862068965518
+      },
+      "storybook": "regions/region-04-storybook.png",
+      "rendered": "regions/region-04-rendered.png",
+      "compare": "regions/region-04-compare.png"
+    },
+    {
+      "index": 5,
+      "rect": {
+        "x": 604,
+        "y": 0,
+        "width": 130,
+        "height": 164,
+        "pixels": 398,
+        "percent": 1.8667917448405253
+      },
+      "storybook": "regions/region-05-storybook.png",
+      "rendered": "regions/region-05-rendered.png",
+      "compare": "regions/region-05-compare.png"
+    },
+    {
+      "index": 6,
+      "rect": {
+        "x": 508,
+        "y": 172,
+        "width": 88,
+        "height": 184,
+        "pixels": 360,
+        "percent": 2.2233201581027666
+      },
+      "storybook": "regions/region-06-storybook.png",
+      "rendered": "regions/region-06-rendered.png",
+      "compare": "regions/region-06-compare.png"
+    },
+    {
+      "index": 7,
+      "rect": {
+        "x": 412,
+        "y": 364,
+        "width": 88,
+        "height": 184,
+        "pixels": 351,
+        "percent": 2.1677371541501977
+      },
+      "storybook": "regions/region-07-storybook.png",
+      "rendered": "regions/region-07-rendered.png",
+      "compare": "regions/region-07-compare.png"
+    },
+    {
+      "index": 8,
+      "rect": {
+        "x": 172,
+        "y": 460,
+        "width": 232,
+        "height": 88,
+        "pixels": 167,
+        "percent": 0.8179858934169278
+      },
+      "storybook": "regions/region-08-storybook.png",
+      "rendered": "regions/region-08-rendered.png",
+      "compare": "regions/region-08-compare.png"
+    }
+  ],
+  "testedAt": "2026-05-22T12:39:35.384Z"
+}

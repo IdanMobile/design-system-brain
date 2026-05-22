@@ -1,0 +1,105 @@
+.showcase-page {
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+.showcase-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding: 20px 32px;
+  background: rgba(245, 247, 251, 0.92);
+  border-bottom: 1px solid #dbe3ef;
+  backdrop-filter: blur(8px);
+}
+
+.showcase-header h1 {
+  margin: 0 0 4px;
+  font-size: 1.5rem;
+  color: #0f172a;
+}
+
+.showcase-header p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.showcase-meta {
+  font-size: 0.85rem;
+}
+
+.showcase-meta code {
+  font-size: 0.8rem;
+  background: #e8eef7;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.showcase-section {
+  padding: 24px 32px 8px;
+}
+
+.showcase-section > h2 {
+  margin: 0 0 16px;
+  font-size: 1.1rem;
+  color: #1e293b;
+  letter-spacing: 0.02em;
+}
+
+.showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 760px), 1fr));
+  gap: 20px;
+}
+
+.showcase-card {
+  background: #fff;
+  border: 1px solid #dbe3ef;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.showcase-card > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid #eef2f7;
+  background: #fafbfd;
+}
+
+.showcase-card > header code {
+  font-size: 0.78rem;
+  color: #334155;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.showcase-card > header a {
+  flex-shrink: 0;
+  font-size: 0.78rem;
+  color: #006dce;
+  text-decoration: none;
+}
+
+.showcase-card > header a:hover {
+  text-decoration: underline;
+}
+
+.showcase-stage {
+  padding: 24px;
+  overflow: auto;
+}
+
+.showcase-stage.lab-stage {
+  padding: 24px;
+}

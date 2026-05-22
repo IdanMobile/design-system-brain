@@ -1,0 +1,214 @@
+/**
+ * Automatic role-based workflow lines for Cursor agent prompts.
+ * Used by test-console-agent-bridge and documented in .cursor/rules/automatic-workflows.mdc
+ */
+
+export const SKILLS = {
+  orchestrator: ".cursor/skills/project-orchestrator/SKILL.md",
+  roadmap: ".cursor/skills/roadmap-iteration/SKILL.md",
+  untilPass: ".cursor/skills/figma-renderer-until-pass/SKILL.md",
+  investigate: ".cursor/skills/investigate-figma-mismatch/SKILL.md",
+  architect: ".cursor/skills/code-architect-investigator/SKILL.md",
+  developerAgent: ".cursor/skills/developer-agent/SKILL.md",
+  console: ".cursor/skills/listen-to-test-console/SKILL.md",
+  roadmapDoc: "docs/ROADMAP.md"
+};
+
+/** Superpowers plugin skills (by name — load when available in Cursor). */
+export const SUPERPOWERS = {
+  usingSuperpowers: "using-superpowers",
+  systematicDebugging: "systematic-debugging",
+  verificationBeforeCompletion: "verification-before-completion",
+  writingPlans: "writing-plans",
+  brainstorming: "brainstorming"
+};
+
+/** @typedef {'fix_live' | 'fix_mock' | 'fix_pixel' | 'fix_delivery' | 'fix_all' | 'fix_all_batch' | 'test_run' | 'code_shared' | 'code_story' | 'orchestrate' | 'portfolio_golden' | 'developer_audit' | 'developer_implement'} WorkflowActivity */
+
+/**
+ * @param {WorkflowActivity} activity
+ * @param {{ mode?: string, suiteId?: string, storyId?: string, sharedFilesTouched?: boolean }} ctx
+ */
+export function workflowPreamble(activity, ctx = {}) {
+  const { mode, suiteId, storyId, sharedFilesTouched } = ctx;
+  const lines = [
+    "── Automatic workflow (do not skip roles) ──",
+    `1. Read ${SKILLS.orchestrator} — pre-flight: confirm phase + infra + verdict.`,
+    `2. Read ${SKILLS.roadmap} — active section: docs/ROADMAP.md (default §1.2 until live strict green).`
+  ];
+
+  switch (activity) {
+    case "fix_live":
+      lines.push(
+        `3. Worker: ${SKILLS.untilPass} + ${SKILLS.investigate} — systematic-debugging BEFORE edits.`,
+        "4. Fix: code-v2.ts → plugin build → YOU run live test (pnpm infra:ensure first). Ask human ready ONLY if bridge/export fails.",
+        "5. Regression Tier A: re-run pixel + mock + live for this story (pnpm test:regression -- --tier a --story … --suite figmaLive).",
+        sharedFilesTouched
+          ? "6. Regression Tier C: pnpm test:regression (or test:pixel:golden + figma:iterate:strict + figma:live-iterate --strict)."
+          : "6. Tier C: pnpm test:regression only if you touched shared adapter files.",
+        "7. Post-flight: verification-before-completion — paste command exit codes."
+      );
+      break;
+    case "fix_mock":
+    case "fix_pixel":
+    case "fix_delivery":
+      lines.push(
+        `3. Worker: ${SKILLS.untilPass} + ${SKILLS.investigate}.`,
+        mode === "pixel"
+          ? "4. Fix: scene-to-html.ts / extract.ts — not code-v2 unless import path."
+          : mode === "delivery"
+            ? "4. Fix: @lab/ui + delivery path; steps 1–3 must already pass for story."
+            : "4. Fix: code-v2.ts (mock) → plugin build if importer changed.",
+        storyId ? `5. Tier A: pnpm test:regression -- --tier a --story ${storyId} --suite <pixel|figma|figmaLive|delivery>.` : "5. Tier A: re-run prior steps 1..N for target story after fix.",
+        sharedFilesTouched
+          ? "6. Tier C: pnpm test:regression (full strict goldens on shared adapter change)."
+          : "6. Tier C: pnpm test:regression if code-v2.ts, scene-to-html.ts, extract.ts, or contract changed.",
+        "7. Post-flight: verification-before-completion."
+      );
+      break;
+    case "fix_all":
+      lines.push(
+        `3. Worker: ${SKILLS.untilPass} + ${SKILLS.investigate} — ONE story per agent run (serial mode).`,
+        "4. Harness rebuilds/tests after you; do not run full suite yourself.",
+        "5. Post-flight per story: Tier A; after shared edit → Tier C before next story."
+      );
+      break;
+    case "fix_all_batch":
+      lines.push(
+        `3. Worker: ${SKILLS.investigate} FIRST on ALL listed stories — read batch investigation report + compare PNGs.`,
+        `4. Worker: ${SKILLS.untilPass} — implement **shared fixes for every story in one session** (not one-by-one).`,
+        "5. Prefer code-v2.ts / scene-to-html.ts / extract.ts changes that green multiple stories at once.",
+        "6. Do NOT run golden tests yourself — harness re-tests all listed stories after plugin build.",
+        "7. Harness sandbox gate: metrics regress → auto git restore; 2 batch regressions → FIX_ALL_SERIAL=1.",
+        "8. Tier C if shared adapter touched — pnpm test:regression."
+      );
+      break;
+    case "test_run":
+      lines.push(
+        "3. Run requested test only; do not fix unless it fails.",
+        "4. On fail: auto-switch to fix_* workflow for that suite.",
+        "5. Post-flight: pnpm test:portfolio:refresh; orchestrator verdict."
+      );
+      break;
+    case "code_shared":
+      lines.push(
+        "3. Before edit: systematic-debugging + investigate if visual.",
+        "4. After edit: Tier C mandatory — pnpm test:regression.",
+        "5. Post-flight: project-orchestrator REGRESSION or ON_TRACK verdict."
+      );
+      break;
+    case "code_story":
+      lines.push(
+        "3. Tier A for affected story after change.",
+        "4. Post-flight: verification-before-completion for that story's step."
+      );
+      break;
+    case "orchestrate":
+      lines.push(
+        "3. Do NOT implement — output Orchestrator report template only.",
+        "4. Dispatch one worker or subagent with ROADMAP § + validation commands."
+      );
+      break;
+    case "portfolio_golden":
+      lines.push(
+        `3. Supervisor: ${SKILLS.orchestrator} — drive full portfolio to PHASE_COMPLETE.`,
+        `4. Worker chain per story/step: ${SKILLS.investigate} BEFORE edits → ${SKILLS.untilPass} implement.`,
+        "5. Sequential gates: pixel → figma mock → figma live → delivery (strict 0.1% global + hotspot).",
+        "6. Do NOT stop for approval. Do NOT ask the human to say continue.",
+        "7. Human-only: reload/open Figma plugin after code-v2 rebuild (one line; wait for ready if live fails).",
+        "8. Tier A after each story fix; Tier C (pnpm test:regression) if code-v2.ts, scene-to-html.ts, extract.ts, or contract changed.",
+        "9. Stop only when all portfolio stories pass all steps — verdict PHASE_COMPLETE."
+      );
+      break;
+    case "developer_audit":
+      lines.push(
+        `3. Superpowers: ${SUPERPOWERS.usingSuperpowers} — check skills before any action.`,
+        `4. Read ${SKILLS.developerAgent} — Developer Agent scope (NOT story fix worker).`,
+        `5. Read ${SKILLS.architect} — audit template + JSON/report outputs.`,
+        `6. Context: ${SKILLS.orchestrator} + ${SKILLS.roadmap} + docs/ROADMAP.md + upload_to_cloud/DECISIONS.md.`,
+        `7. Superpowers: ${SUPERPOWERS.systematicDebugging} — trace root causes; question architecture if same symptom class repeats.`,
+        `8. Superpowers: ${SUPERPOWERS.verificationBeforeCompletion} — cite file:line evidence for every finding.`,
+        "9. READ-ONLY — do NOT fix stories, run golden tests, or edit code-v2.ts for parity.",
+        "10. Write docs/superpowers/specs/<date>-code-architect-audit.md + .test-console/architecture-findings.json (status: complete)."
+      );
+      break;
+    case "developer_implement":
+      lines.push(
+        `3. Superpowers: ${SUPERPOWERS.usingSuperpowers} — check skills before any action.`,
+        `4. Read ${SKILLS.developerAgent} — implement architecture recommendations ONLY (not story parity).`,
+        `5. Superpowers: ${SUPERPOWERS.writingPlans} — small scoped plan before edits.`,
+        `6. Context: .test-console/architecture-findings.json recommendations + docs/ROADMAP.md.`,
+        `7. Superpowers: ${SUPERPOWERS.verificationBeforeCompletion} — cite file:line in proposal report.`,
+        "8. Edit ONLY what recommendations require — prefer scripts/docs/wiring over visual adapters.",
+        "9. Do NOT run golden tests — harness verifies after you finish (temp apply → test → restore).",
+        "10. Do NOT commit. Write docs/superpowers/specs/<date>-developer-proposal.md (summary, files, risk, expected impact).",
+        "11. Human approves via Developer Agent page → Approve & apply."
+      );
+      break;
+    default:
+      break;
+  }
+
+  if (suiteId && storyId) {
+    lines.push(`Target: ${storyId} (${suiteId}).`);
+  }
+
+  lines.push("── End automatic workflow ──");
+  return lines;
+}
+
+/** @param {'live' | 'emulator' | 'pixel'} mode */
+export function activityFromMode(mode, opts = {}) {
+  if (opts.fixAllBatch) return "fix_all_batch";
+  if (opts.fixAll) return "fix_all";
+  if (mode === "live") return "fix_live";
+  if (mode === "pixel") return "fix_pixel";
+  return "fix_mock";
+}
+
+export function skillFollowLines(mode, ctx = {}) {
+  const activity = activityFromMode(mode, ctx);
+  return [
+    ...workflowPreamble(activity, {
+      mode,
+      suiteId: ctx.suiteId,
+      storyId: ctx.storyId,
+      sharedFilesTouched: ctx.sharedFilesTouched
+    }),
+    `Read ${SKILLS.untilPass} and ${SKILLS.investigate} — investigate BEFORE editing.`,
+    "Act immediately — do NOT ask approval to start fixing."
+  ];
+}
+
+/** Full prompt for Developer Agent architecture audit (Terminal CLI). */
+export function developerAgentAuditPrompt() {
+  return [
+    "--- Developer Agent · architecture audit ---",
+    ...workflowPreamble("developer_audit"),
+    "",
+    `Read ${SKILLS.developerAgent} and ${SKILLS.architect} in full before auditing.`,
+    "Optional deep map: pathfinder skill → PATHFINDER-<date>/ artifacts.",
+    "Act immediately — read-only audit; no story fixes."
+  ].join("\n");
+}
+
+/**
+ * @param {{ recommendations?: string[] }} [opts]
+ */
+export function developerAgentImplementPrompt(opts = {}) {
+  const recs = opts.recommendations?.length
+    ? opts.recommendations.map((r, i) => `${i + 1}. ${r}`).join("\n")
+    : "(Read .test-console/architecture-findings.json recommendations — implement top 1–3 safe items.)";
+  return [
+    "--- Developer Agent · sandbox implement ---",
+    ...workflowPreamble("developer_implement"),
+    "",
+    `Read ${SKILLS.developerAgent} in full.`,
+    "",
+    "Target recommendations:",
+    recs,
+    "",
+    "You are in an isolated git worktree. Edits stay here until the human approves.",
+    "Act immediately — implement scoped recommendations; write the proposal report when done."
+  ].join("\n");
+}

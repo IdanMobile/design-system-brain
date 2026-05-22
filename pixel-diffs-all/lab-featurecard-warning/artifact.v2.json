@@ -1,0 +1,667 @@
+{
+  "schemaVersion": "1.0",
+  "meta": {
+    "storyId": "lab-featurecard--warning",
+    "componentName": "FeatureCard",
+    "extractedAt": "2026-05-19T15:12:22.466Z",
+    "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-featurecard--warning&viewMode=story",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "width": 1200,
+      "height": 900
+    },
+    "devicePixelRatio": 1,
+    "canvasBackground": "rgb(245, 247, 251)"
+  },
+  "root": {
+    "id": "lay-1",
+    "name": "FeatureCard",
+    "source": {
+      "kind": "dom",
+      "tag": "div",
+      "classList": [
+        "lab-feature-card",
+        "warning"
+      ],
+      "dataset": {
+        "figmaComponent": "FeatureCard"
+      }
+    },
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 618,
+      "height": 338
+    },
+    "computedBox": {
+      "x": 16,
+      "y": 16,
+      "width": 618,
+      "height": 338
+    },
+    "layout": {
+      "display": "flex",
+      "position": "static",
+      "overflow": {
+        "x": "visible",
+        "y": "visible"
+      },
+      "padding": {
+        "top": 28,
+        "right": 28,
+        "bottom": 28,
+        "left": 28
+      },
+      "margin": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "flex": {
+        "direction": "column",
+        "wrap": "nowrap",
+        "justify": "space-between",
+        "align": "normal",
+        "rowGap": 22,
+        "columnGap": 22
+      }
+    },
+    "paint": {
+      "fills": [
+        {
+          "kind": "color",
+          "color": "rgb(255, 255, 255)"
+        }
+      ],
+      "borders": {
+        "top": {
+          "width": 1,
+          "color": "rgb(220, 228, 238)",
+          "style": "solid"
+        },
+        "right": {
+          "width": 1,
+          "color": "rgb(220, 228, 238)",
+          "style": "solid"
+        },
+        "bottom": {
+          "width": 1,
+          "color": "rgb(220, 228, 238)",
+          "style": "solid"
+        },
+        "left": {
+          "width": 1,
+          "color": "rgb(220, 228, 238)",
+          "style": "solid"
+        }
+      },
+      "cornerRadii": {
+        "topLeft": {
+          "x": 20,
+          "y": 20
+        },
+        "topRight": {
+          "x": 20,
+          "y": 20
+        },
+        "bottomRight": {
+          "x": 20,
+          "y": 20
+        },
+        "bottomLeft": {
+          "x": 20,
+          "y": 20
+        }
+      }
+    },
+    "children": [
+      {
+        "id": "lay-2",
+        "name": "div",
+        "source": {
+          "kind": "dom",
+          "tag": "div",
+          "classList": [
+            "lab-feature-header"
+          ]
+        },
+        "box": {
+          "x": 29,
+          "y": 29,
+          "width": 560,
+          "height": 70.09
+        },
+        "computedBox": {
+          "x": 45,
+          "y": 45,
+          "width": 560,
+          "height": 70.09
+        },
+        "layout": {
+          "display": "flex",
+          "position": "static",
+          "overflow": {
+            "x": "visible",
+            "y": "visible"
+          },
+          "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "margin": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "flex": {
+            "direction": "row",
+            "wrap": "nowrap",
+            "justify": "normal",
+            "align": "flex-start",
+            "rowGap": 14,
+            "columnGap": 14
+          }
+        },
+        "children": [
+          {
+            "id": "lay-3",
+            "name": "featureIcon",
+            "source": {
+              "kind": "dom",
+              "tag": "span",
+              "classList": [
+                "lab-feature-icon"
+              ],
+              "dataset": {
+                "figmaName": "featureIcon"
+              }
+            },
+            "box": {
+              "x": 0,
+              "y": 0,
+              "width": 38,
+              "height": 38
+            },
+            "computedBox": {
+              "x": 45,
+              "y": 45,
+              "width": 38,
+              "height": 38
+            },
+            "layout": {
+              "display": "flex",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "flex": {
+                "direction": "row",
+                "wrap": "nowrap",
+                "justify": "center",
+                "align": "center",
+                "rowGap": 0,
+                "columnGap": 0
+              }
+            },
+            "paint": {
+              "fills": [
+                {
+                  "kind": "color",
+                  "color": "rgb(255, 243, 205)"
+                }
+              ],
+              "cornerRadii": {
+                "topLeft": {
+                  "x": 10,
+                  "y": 10
+                },
+                "topRight": {
+                  "x": 10,
+                  "y": 10
+                },
+                "bottomRight": {
+                  "x": 10,
+                  "y": 10
+                },
+                "bottomLeft": {
+                  "x": 10,
+                  "y": 10
+                }
+              }
+            },
+            "children": [
+              {
+                "id": "lay-4",
+                "name": "svg",
+                "source": {
+                  "kind": "svg",
+                  "tag": "svg"
+                },
+                "box": {
+                  "x": 9,
+                  "y": 9,
+                  "width": 20,
+                  "height": 20
+                },
+                "computedBox": {
+                  "x": 54,
+                  "y": 54,
+                  "width": 20,
+                  "height": 20
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "static",
+                  "overflow": {
+                    "x": "hidden",
+                    "y": "hidden"
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  },
+                  "margin": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "vector": {
+                  "shapes": [
+                    {
+                      "primitive": "path",
+                      "attrs": {
+                        "d": "M4 10h12M10 4v12",
+                        "stroke": "currentColor",
+                        "stroke-width": 2.4,
+                        "stroke-linecap": "round"
+                      },
+                      "paint": {
+                        "fill": "rgb(0, 0, 0)",
+                        "stroke": "rgb(180, 83, 9)",
+                        "strokeWidth": 2.4,
+                        "lineCap": "round"
+                      }
+                    }
+                  ],
+                  "viewBox": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 20,
+                    "height": 20
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "lay-5",
+            "name": "div",
+            "source": {
+              "kind": "dom",
+              "tag": "div"
+            },
+            "box": {
+              "x": 52,
+              "y": 0,
+              "width": 448.81,
+              "height": 70.09
+            },
+            "computedBox": {
+              "x": 97,
+              "y": 45,
+              "width": 448.81,
+              "height": 70.09
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            },
+            "children": [
+              {
+                "id": "lay-6",
+                "name": "h3",
+                "source": {
+                  "kind": "dom",
+                  "tag": "h3"
+                },
+                "box": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 448.81,
+                  "height": 34.09
+                },
+                "computedBox": {
+                  "x": 97,
+                  "y": 45,
+                  "width": 448.81,
+                  "height": 34.09
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "static",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  },
+                  "margin": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 8,
+                    "left": 0
+                  }
+                },
+                "text": {
+                  "value": "Review Needed",
+                  "font": {
+                    "family": "Inter",
+                    "stack": "Inter, Arial, sans-serif",
+                    "size": 31,
+                    "weight": 700,
+                    "style": "normal",
+                    "variant": "normal",
+                    "featureSettings": "normal"
+                  },
+                  "color": "rgb(0, 0, 0)",
+                  "lineHeight": 34.1,
+                  "wordSpacing": 0,
+                  "align": "start",
+                  "verticalAlign": "baseline",
+                  "transform": "none",
+                  "whiteSpace": "normal",
+                  "overflow": "visible",
+                  "wordBreak": "normal",
+                  "direction": "ltr"
+                }
+              },
+              {
+                "id": "lay-7",
+                "name": "p",
+                "source": {
+                  "kind": "dom",
+                  "tag": "p"
+                },
+                "box": {
+                  "x": 0,
+                  "y": 42.09,
+                  "width": 448.81,
+                  "height": 28
+                },
+                "computedBox": {
+                  "x": 97,
+                  "y": 87.09,
+                  "width": 448.81,
+                  "height": 28
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "static",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  },
+                  "margin": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "text": {
+                  "value": "Two components exceeded the pixel diff threshold.",
+                  "font": {
+                    "family": "Inter",
+                    "stack": "Inter, Arial, sans-serif",
+                    "size": 20,
+                    "weight": 400,
+                    "style": "normal",
+                    "variant": "normal",
+                    "featureSettings": "normal"
+                  },
+                  "color": "rgb(91, 103, 114)",
+                  "lineHeight": 28,
+                  "wordSpacing": 0,
+                  "align": "start",
+                  "verticalAlign": "baseline",
+                  "transform": "none",
+                  "whiteSpace": "normal",
+                  "overflow": "visible",
+                  "wordBreak": "normal",
+                  "direction": "ltr"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "lay-8",
+        "name": "div",
+        "source": {
+          "kind": "dom",
+          "tag": "div",
+          "classList": [
+            "lab-feature-footer"
+          ]
+        },
+        "box": {
+          "x": 29,
+          "y": 261,
+          "width": 560,
+          "height": 48
+        },
+        "computedBox": {
+          "x": 45,
+          "y": 277,
+          "width": 560,
+          "height": 48
+        },
+        "layout": {
+          "display": "flex",
+          "position": "static",
+          "overflow": {
+            "x": "visible",
+            "y": "visible"
+          },
+          "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "margin": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "flex": {
+            "direction": "row",
+            "wrap": "nowrap",
+            "justify": "space-between",
+            "align": "baseline",
+            "rowGap": 0,
+            "columnGap": 0
+          }
+        },
+        "children": [
+          {
+            "id": "lay-9",
+            "name": "span",
+            "source": {
+              "kind": "dom",
+              "tag": "span"
+            },
+            "box": {
+              "x": 0,
+              "y": 22,
+              "width": 52.03,
+              "height": 21
+            },
+            "computedBox": {
+              "x": 45,
+              "y": 299,
+              "width": 52.03,
+              "height": 21
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            },
+            "text": {
+              "value": "Issues",
+              "font": {
+                "family": "Inter",
+                "stack": "Inter, Arial, sans-serif",
+                "size": 18,
+                "weight": 400,
+                "style": "normal",
+                "variant": "normal",
+                "featureSettings": "normal"
+              },
+              "color": "rgb(107, 114, 128)",
+              "wordSpacing": 0,
+              "align": "start",
+              "verticalAlign": "baseline",
+              "transform": "none",
+              "whiteSpace": "normal",
+              "overflow": "visible",
+              "wordBreak": "normal",
+              "direction": "ltr"
+            }
+          },
+          {
+            "id": "lay-10",
+            "name": "strong",
+            "source": {
+              "kind": "dom",
+              "tag": "strong"
+            },
+            "box": {
+              "x": 536.64,
+              "y": 0,
+              "width": 23.36,
+              "height": 48
+            },
+            "computedBox": {
+              "x": 581.64,
+              "y": 277,
+              "width": 23.36,
+              "height": 48
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            },
+            "text": {
+              "value": "2",
+              "font": {
+                "family": "Inter",
+                "stack": "Inter, Arial, sans-serif",
+                "size": 42,
+                "weight": 700,
+                "style": "normal",
+                "variant": "normal",
+                "featureSettings": "normal"
+              },
+              "color": "rgb(0, 0, 0)",
+              "wordSpacing": 0,
+              "align": "start",
+              "verticalAlign": "baseline",
+              "transform": "none",
+              "whiteSpace": "normal",
+              "overflow": "visible",
+              "wordBreak": "normal",
+              "direction": "ltr"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "diagnostics": {
+    "warnings": [],
+    "unmappedProperties": []
+  }
+}

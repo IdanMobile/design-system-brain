@@ -1,0 +1,742 @@
+{
+  "schemaVersion": "1.0",
+  "meta": {
+    "storyId": "lab-pricingpanel--pro",
+    "componentName": "PricingPanel",
+    "extractedAt": "2026-05-22T13:18:29.420Z",
+    "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-pricingpanel--pro&viewMode=story",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "width": 1200,
+      "height": 900
+    },
+    "devicePixelRatio": 1,
+    "canvasBackground": "rgb(245, 247, 251)"
+  },
+  "root": {
+    "id": "lay-1",
+    "name": "PricingPanel",
+    "source": {
+      "kind": "dom",
+      "tag": "div",
+      "classList": [
+        "lab-pricing",
+        "pro"
+      ],
+      "dataset": {
+        "figmaComponent": "PricingPanel"
+      }
+    },
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 476,
+      "height": 396
+    },
+    "computedBox": {
+      "x": 16,
+      "y": 16,
+      "width": 476,
+      "height": 396
+    },
+    "layout": {
+      "display": "flex",
+      "position": "static",
+      "overflow": {
+        "x": "visible",
+        "y": "visible"
+      },
+      "padding": {
+        "top": 28,
+        "right": 28,
+        "bottom": 28,
+        "left": 28
+      },
+      "margin": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "flex": {
+        "direction": "column",
+        "wrap": "nowrap",
+        "justify": "normal",
+        "align": "normal",
+        "rowGap": 16,
+        "columnGap": 16
+      }
+    },
+    "paint": {
+      "fills": [
+        {
+          "kind": "linear-gradient",
+          "angleDeg": 165,
+          "stops": [
+            {
+              "color": "rgb(8, 32, 63)",
+              "offset": 0
+            },
+            {
+              "color": "rgb(15, 61, 120)",
+              "offset": 1
+            }
+          ]
+        }
+      ],
+      "cornerRadii": {
+        "topLeft": {
+          "x": 20,
+          "y": 20
+        },
+        "topRight": {
+          "x": 20,
+          "y": 20
+        },
+        "bottomRight": {
+          "x": 20,
+          "y": 20
+        },
+        "bottomLeft": {
+          "x": 20,
+          "y": 20
+        }
+      }
+    },
+    "children": [
+      {
+        "id": "lay-2",
+        "name": "div",
+        "source": {
+          "kind": "dom",
+          "tag": "div",
+          "classList": [
+            "lab-pricing-tag"
+          ]
+        },
+        "box": {
+          "x": 28,
+          "y": 28,
+          "width": 140.72,
+          "height": 29
+        },
+        "computedBox": {
+          "x": 44,
+          "y": 44,
+          "width": 140.72,
+          "height": 29
+        },
+        "layout": {
+          "display": "block",
+          "position": "static",
+          "overflow": {
+            "x": "visible",
+            "y": "visible"
+          },
+          "padding": {
+            "top": 6,
+            "right": 10,
+            "bottom": 6,
+            "left": 10
+          },
+          "margin": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "alignSelf": "flex-start"
+        },
+        "paint": {
+          "fills": [
+            {
+              "kind": "color",
+              "color": "rgb(30, 94, 178)"
+            }
+          ],
+          "cornerRadii": {
+            "topLeft": {
+              "x": 999,
+              "y": 999
+            },
+            "topRight": {
+              "x": 999,
+              "y": 999
+            },
+            "bottomRight": {
+              "x": 999,
+              "y": 999
+            },
+            "bottomLeft": {
+              "x": 999,
+              "y": 999
+            }
+          }
+        },
+        "text": {
+          "value": "MOST POPULAR",
+          "font": {
+            "family": "Inter",
+            "stack": "Inter, Arial, sans-serif",
+            "size": 14,
+            "weight": 700,
+            "style": "normal",
+            "variant": "normal",
+            "featureSettings": "normal"
+          },
+          "color": "rgb(219, 234, 254)",
+          "lineHeight": 17,
+          "letterSpacing": 0.7,
+          "wordSpacing": 0,
+          "align": "start",
+          "verticalAlign": "baseline",
+          "transform": "uppercase",
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "wordBreak": "normal",
+          "direction": "ltr"
+        }
+      },
+      {
+        "id": "lay-3",
+        "name": "h3",
+        "source": {
+          "kind": "dom",
+          "tag": "h3"
+        },
+        "box": {
+          "x": 28,
+          "y": 73,
+          "width": 420,
+          "height": 39
+        },
+        "computedBox": {
+          "x": 44,
+          "y": 89,
+          "width": 420,
+          "height": 39
+        },
+        "layout": {
+          "display": "block",
+          "position": "static",
+          "overflow": {
+            "x": "visible",
+            "y": "visible"
+          },
+          "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "margin": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          }
+        },
+        "text": {
+          "value": "Pro Plan",
+          "font": {
+            "family": "Inter",
+            "stack": "Inter, Arial, sans-serif",
+            "size": 32,
+            "weight": 700,
+            "style": "normal",
+            "variant": "normal",
+            "featureSettings": "normal"
+          },
+          "color": "rgb(255, 255, 255)",
+          "lineHeight": 39,
+          "wordSpacing": 0,
+          "align": "start",
+          "verticalAlign": "baseline",
+          "transform": "none",
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "wordBreak": "normal",
+          "direction": "ltr"
+        }
+      },
+      {
+        "id": "lay-4",
+        "name": "p",
+        "source": {
+          "kind": "dom",
+          "tag": "p",
+          "classList": [
+            "lab-pricing-price"
+          ]
+        },
+        "box": {
+          "x": 28,
+          "y": 128,
+          "width": 420,
+          "height": 58
+        },
+        "computedBox": {
+          "x": 44,
+          "y": 144,
+          "width": 420,
+          "height": 58
+        },
+        "layout": {
+          "display": "block",
+          "position": "static",
+          "overflow": {
+            "x": "visible",
+            "y": "visible"
+          },
+          "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "margin": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          }
+        },
+        "children": [
+          {
+            "id": "lay-5",
+            "name": "span",
+            "source": {
+              "kind": "dom",
+              "tag": "span"
+            },
+            "box": {
+              "x": 122.89,
+              "y": 33,
+              "width": 60.22,
+              "height": 21
+            },
+            "computedBox": {
+              "x": 166.89,
+              "y": 177,
+              "width": 60.22,
+              "height": 21
+            },
+            "layout": {
+              "display": "inline",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 8
+              }
+            },
+            "text": {
+              "value": "/month",
+              "font": {
+                "family": "Inter",
+                "stack": "Inter, Arial, sans-serif",
+                "size": 18,
+                "weight": 500,
+                "style": "normal",
+                "variant": "normal",
+                "featureSettings": "normal"
+              },
+              "color": "rgb(255, 255, 255)",
+              "lineHeight": 18,
+              "wordSpacing": 0,
+              "align": "start",
+              "verticalAlign": "baseline",
+              "transform": "none",
+              "whiteSpace": "normal",
+              "overflow": "visible",
+              "wordBreak": "normal",
+              "direction": "ltr"
+            }
+          },
+          {
+            "id": "lay-6",
+            "name": "p-text",
+            "source": {
+              "kind": "synthetic",
+              "tag": "p"
+            },
+            "box": {
+              "x": 0,
+              "y": -6,
+              "width": 114.89,
+              "height": 70
+            },
+            "text": {
+              "value": "$49",
+              "font": {
+                "family": "Inter",
+                "stack": "Inter, Arial, sans-serif",
+                "size": 58,
+                "weight": 800,
+                "style": "normal",
+                "variant": "normal",
+                "featureSettings": "normal"
+              },
+              "color": "rgb(255, 255, 255)",
+              "lineHeight": 58,
+              "wordSpacing": 0,
+              "align": "start",
+              "verticalAlign": "baseline",
+              "transform": "none",
+              "whiteSpace": "normal",
+              "overflow": "visible",
+              "wordBreak": "normal",
+              "direction": "ltr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "lay-7",
+        "name": "div",
+        "source": {
+          "kind": "dom",
+          "tag": "div",
+          "classList": [
+            "lab-pricing-list"
+          ]
+        },
+        "box": {
+          "x": 28,
+          "y": 202,
+          "width": 420,
+          "height": 88
+        },
+        "computedBox": {
+          "x": 44,
+          "y": 218,
+          "width": 420,
+          "height": 88
+        },
+        "layout": {
+          "display": "flex",
+          "position": "static",
+          "overflow": {
+            "x": "visible",
+            "y": "visible"
+          },
+          "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "margin": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "flex": {
+            "direction": "column",
+            "wrap": "nowrap",
+            "justify": "normal",
+            "align": "normal",
+            "rowGap": 8,
+            "columnGap": 8
+          }
+        },
+        "children": [
+          {
+            "id": "lay-8",
+            "name": "p",
+            "source": {
+              "kind": "dom",
+              "tag": "p"
+            },
+            "box": {
+              "x": 0,
+              "y": 0,
+              "width": 420,
+              "height": 24
+            },
+            "computedBox": {
+              "x": 44,
+              "y": 218,
+              "width": 420,
+              "height": 24
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            },
+            "text": {
+              "value": "Unlimited exports",
+              "font": {
+                "family": "Inter",
+                "stack": "Inter, Arial, sans-serif",
+                "size": 20,
+                "weight": 400,
+                "style": "normal",
+                "variant": "normal",
+                "featureSettings": "normal"
+              },
+              "color": "rgb(255, 255, 255)",
+              "lineHeight": 24,
+              "wordSpacing": 0,
+              "align": "start",
+              "verticalAlign": "baseline",
+              "transform": "none",
+              "whiteSpace": "normal",
+              "overflow": "visible",
+              "wordBreak": "normal",
+              "direction": "ltr"
+            }
+          },
+          {
+            "id": "lay-9",
+            "name": "p",
+            "source": {
+              "kind": "dom",
+              "tag": "p"
+            },
+            "box": {
+              "x": 0,
+              "y": 32,
+              "width": 420,
+              "height": 24
+            },
+            "computedBox": {
+              "x": 44,
+              "y": 250,
+              "width": 420,
+              "height": 24
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            },
+            "text": {
+              "value": "Priority review queue",
+              "font": {
+                "family": "Inter",
+                "stack": "Inter, Arial, sans-serif",
+                "size": 20,
+                "weight": 400,
+                "style": "normal",
+                "variant": "normal",
+                "featureSettings": "normal"
+              },
+              "color": "rgb(255, 255, 255)",
+              "lineHeight": 24,
+              "wordSpacing": 0,
+              "align": "start",
+              "verticalAlign": "baseline",
+              "transform": "none",
+              "whiteSpace": "normal",
+              "overflow": "visible",
+              "wordBreak": "normal",
+              "direction": "ltr"
+            }
+          },
+          {
+            "id": "lay-10",
+            "name": "p",
+            "source": {
+              "kind": "dom",
+              "tag": "p"
+            },
+            "box": {
+              "x": 0,
+              "y": 64,
+              "width": 420,
+              "height": 24
+            },
+            "computedBox": {
+              "x": 44,
+              "y": 282,
+              "width": 420,
+              "height": 24
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            },
+            "text": {
+              "value": "Component diff dashboard",
+              "font": {
+                "family": "Inter",
+                "stack": "Inter, Arial, sans-serif",
+                "size": 20,
+                "weight": 400,
+                "style": "normal",
+                "variant": "normal",
+                "featureSettings": "normal"
+              },
+              "color": "rgb(255, 255, 255)",
+              "lineHeight": 24,
+              "wordSpacing": 0,
+              "align": "start",
+              "verticalAlign": "baseline",
+              "transform": "none",
+              "whiteSpace": "normal",
+              "overflow": "visible",
+              "wordBreak": "normal",
+              "direction": "ltr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "lay-11",
+        "name": "button",
+        "source": {
+          "kind": "dom",
+          "tag": "button",
+          "classList": [
+            "lab-pricing-cta"
+          ]
+        },
+        "box": {
+          "x": 28,
+          "y": 316,
+          "width": 420,
+          "height": 52
+        },
+        "computedBox": {
+          "x": 44,
+          "y": 332,
+          "width": 420,
+          "height": 52
+        },
+        "layout": {
+          "display": "block",
+          "position": "static",
+          "overflow": {
+            "x": "visible",
+            "y": "visible"
+          },
+          "padding": {
+            "top": 1,
+            "right": 6,
+            "bottom": 1,
+            "left": 6
+          },
+          "margin": {
+            "top": 10,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          }
+        },
+        "paint": {
+          "fills": [
+            {
+              "kind": "color",
+              "color": "rgb(248, 250, 252)"
+            }
+          ],
+          "cornerRadii": {
+            "topLeft": {
+              "x": 12,
+              "y": 12
+            },
+            "topRight": {
+              "x": 12,
+              "y": 12
+            },
+            "bottomRight": {
+              "x": 12,
+              "y": 12
+            },
+            "bottomLeft": {
+              "x": 12,
+              "y": 12
+            }
+          }
+        },
+        "text": {
+          "value": "Upgrade now",
+          "font": {
+            "family": "Inter",
+            "stack": "Inter, Arial, sans-serif",
+            "size": 20,
+            "weight": 700,
+            "style": "normal",
+            "variant": "normal",
+            "featureSettings": "normal"
+          },
+          "color": "rgb(15, 61, 120)",
+          "lineHeight": 22,
+          "wordSpacing": 0,
+          "align": "center",
+          "verticalAlign": "baseline",
+          "transform": "none",
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "wordBreak": "normal",
+          "direction": "ltr"
+        }
+      }
+    ]
+  },
+  "diagnostics": {
+    "warnings": [],
+    "unmappedProperties": []
+  }
+}

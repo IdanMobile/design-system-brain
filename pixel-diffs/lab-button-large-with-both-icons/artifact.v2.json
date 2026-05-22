@@ -1,0 +1,330 @@
+{
+  "schemaVersion": "1.0",
+  "meta": {
+    "storyId": "lab-button--large-with-both-icons",
+    "componentName": "Button",
+    "extractedAt": "2026-05-22T11:47:42.144Z",
+    "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-button--large-with-both-icons&viewMode=story",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "width": 1200,
+      "height": 900
+    },
+    "devicePixelRatio": 1,
+    "canvasBackground": "rgb(245, 247, 251)"
+  },
+  "root": {
+    "id": "lay-1",
+    "name": "Button",
+    "source": {
+      "kind": "dom",
+      "tag": "button",
+      "classList": [
+        "lab-button",
+        "secondary",
+        "lg"
+      ],
+      "dataset": {
+        "figmaComponent": "Button"
+      }
+    },
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 317.98,
+      "height": 92
+    },
+    "computedBox": {
+      "x": 16,
+      "y": 16,
+      "width": 317.98,
+      "height": 92
+    },
+    "layout": {
+      "display": "inline-flex",
+      "position": "static",
+      "overflow": {
+        "x": "visible",
+        "y": "visible"
+      },
+      "padding": {
+        "top": 0,
+        "right": 40,
+        "bottom": 0,
+        "left": 40
+      },
+      "margin": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "flex": {
+        "direction": "row",
+        "wrap": "nowrap",
+        "justify": "center",
+        "align": "center",
+        "rowGap": 22,
+        "columnGap": 22
+      }
+    },
+    "paint": {
+      "fills": [
+        {
+          "kind": "color",
+          "color": "rgb(234, 244, 255)"
+        }
+      ],
+      "borders": {
+        "top": {
+          "width": 2,
+          "color": "rgb(0, 109, 206)",
+          "style": "solid"
+        },
+        "right": {
+          "width": 2,
+          "color": "rgb(0, 109, 206)",
+          "style": "solid"
+        },
+        "bottom": {
+          "width": 2,
+          "color": "rgb(0, 109, 206)",
+          "style": "solid"
+        },
+        "left": {
+          "width": 2,
+          "color": "rgb(0, 109, 206)",
+          "style": "solid"
+        }
+      },
+      "cornerRadii": {
+        "topLeft": {
+          "x": 46,
+          "y": 46
+        },
+        "topRight": {
+          "x": 46,
+          "y": 46
+        },
+        "bottomRight": {
+          "x": 46,
+          "y": 46
+        },
+        "bottomLeft": {
+          "x": 46,
+          "y": 46
+        }
+      }
+    },
+    "children": [
+      {
+        "id": "lay-2",
+        "name": "plusIcon",
+        "source": {
+          "kind": "svg",
+          "tag": "svg",
+          "dataset": {
+            "figmaName": "plusIcon"
+          }
+        },
+        "box": {
+          "x": 42,
+          "y": 30,
+          "width": 32,
+          "height": 32
+        },
+        "computedBox": {
+          "x": 58,
+          "y": 46,
+          "width": 32,
+          "height": 32
+        },
+        "layout": {
+          "display": "block",
+          "position": "static",
+          "overflow": {
+            "x": "hidden",
+            "y": "hidden"
+          },
+          "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "margin": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          }
+        },
+        "vector": {
+          "shapes": [
+            {
+              "primitive": "path",
+              "attrs": {
+                "d": "M16 6v20M6 16h20",
+                "stroke": "currentColor",
+                "stroke-width": 4,
+                "stroke-linecap": "round"
+              },
+              "paint": {
+                "fill": "rgb(0, 0, 0)",
+                "stroke": "rgb(0, 109, 206)",
+                "strokeWidth": 4,
+                "lineCap": "round"
+              }
+            }
+          ],
+          "viewBox": {
+            "x": 0,
+            "y": 0,
+            "width": 32,
+            "height": 32
+          }
+        }
+      },
+      {
+        "id": "lay-3",
+        "name": "label",
+        "source": {
+          "kind": "dom",
+          "tag": "span",
+          "dataset": {
+            "figmaName": "label"
+          }
+        },
+        "box": {
+          "x": 96,
+          "y": 29,
+          "width": 129.98,
+          "height": 34
+        },
+        "computedBox": {
+          "x": 112,
+          "y": 45,
+          "width": 129.98,
+          "height": 34
+        },
+        "layout": {
+          "display": "block",
+          "position": "static",
+          "overflow": {
+            "x": "visible",
+            "y": "visible"
+          },
+          "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "margin": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          }
+        },
+        "text": {
+          "value": "Continue",
+          "font": {
+            "family": "Inter",
+            "stack": "Inter, Arial, sans-serif",
+            "size": 30,
+            "weight": 700,
+            "style": "normal",
+            "variant": "normal",
+            "featureSettings": "normal"
+          },
+          "color": "rgb(0, 109, 206)",
+          "lineHeight": 33,
+          "wordSpacing": 0,
+          "align": "center",
+          "verticalAlign": "baseline",
+          "transform": "none",
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "wordBreak": "normal",
+          "direction": "ltr"
+        }
+      },
+      {
+        "id": "lay-4",
+        "name": "arrowIcon",
+        "source": {
+          "kind": "svg",
+          "tag": "svg",
+          "dataset": {
+            "figmaName": "arrowIcon"
+          }
+        },
+        "box": {
+          "x": 247.98,
+          "y": 32,
+          "width": 28,
+          "height": 28
+        },
+        "computedBox": {
+          "x": 263.98,
+          "y": 48,
+          "width": 28,
+          "height": 28
+        },
+        "layout": {
+          "display": "block",
+          "position": "static",
+          "overflow": {
+            "x": "hidden",
+            "y": "hidden"
+          },
+          "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "margin": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          }
+        },
+        "vector": {
+          "shapes": [
+            {
+              "primitive": "path",
+              "attrs": {
+                "d": "M8 14h12M16 9l5 5-5 5",
+                "stroke": "currentColor",
+                "stroke-width": 3,
+                "stroke-linecap": "round",
+                "stroke-linejoin": "round"
+              },
+              "paint": {
+                "fill": "rgb(0, 0, 0)",
+                "stroke": "rgb(0, 109, 206)",
+                "strokeWidth": 3,
+                "lineCap": "round",
+                "lineJoin": "round"
+              }
+            }
+          ],
+          "viewBox": {
+            "x": 0,
+            "y": 0,
+            "width": 28,
+            "height": 28
+          }
+        }
+      }
+    ]
+  },
+  "diagnostics": {
+    "warnings": [],
+    "unmappedProperties": []
+  }
+}

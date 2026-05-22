@@ -1,0 +1,15 @@
+{
+  "storyId": "lab-button--danger",
+  "width": 214,
+  "height": 80,
+  "pixelsDiffered": 0,
+  "pixelsTotal": 17120,
+  "percent": 0,
+  "status": "pass",
+  "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-button-danger/storybook.png",
+  "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-button-danger/rendered.png",
+  "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-button-danger/diff.png",
+  "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-button-danger/artifact.v2.json",
+  "diffRegions": [],
+  "testedAt": "2026-05-22T13:18:36.304Z"
+}

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Developer delivery — pixel-diff report</title>
+<style>
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 24px; color: #111; max-width: 1400px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; margin-bottom: 32px; }
+th, td { border-bottom: 1px solid #e5e7eb; padding: 8px 12px; text-align: left; }
+th { background: #f9fafb; }
+.summary { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+.summary div { padding: 8px 16px; background: #f3f4f6; border-radius: 8px; }
+.metric-primary { display: block; font-weight: 600; }
+.metric-sub { display: block; font-size: 11px; color: #6b7280; margin-top: 2px; }
+code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; }
+.story-section { margin: 40px 0; padding-top: 24px; border-top: 2px solid #e5e7eb; }
+.story-hint { font-size: 13px; color: #6b7280; }
+.triple { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.triple img { max-width: 100%; border: 1px solid #d1d5db; border-radius: 6px; background: #fff; }
+.triple figcaption { font-size: 12px; font-weight: 600; color: #374151; margin-bottom: 6px; }
+</style></head><body>
+<h1>Developer delivery — pixel-diff report</h1>
+<p>Three-way check per story: <strong>Storybook</strong> (extraction source) · <strong>@lab/ui</strong> in the Vite playground · <strong>Figma</strong> via <code>code-v2.ts</code>. PASS when each leg is within 0.1% diff.</p>
+<div class="summary">
+  <div>Total: <strong>5</strong></div>
+  <div style="color:#16a34a">Pass: <strong>5</strong></div>
+  <div style="color:#d97706">Warn: <strong>0</strong></div>
+  <div style="color:#dc2626">Fail: <strong>0</strong></div>
+  <div style="color:#7c3aed">Error: <strong>0</strong></div>
+</div>
+<table>
+  <thead><tr>
+    <th>Story</th><th>Overall</th><th>SB vs @lab/ui</th><th>SB vs Figma</th><th>Dev vs Figma</th><th>PNGs</th><th>Note</th>
+  </tr></thead>
+  <tbody><tr>
+        <td><code>lab-analyticscharts--dense</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary" style="color:#16a34a">100.00%</span><span class="metric-sub">PASS</span></td>
+        <td><span class="metric-primary" style="color:#16a34a">100.00%</span><span class="metric-sub">PASS</span></td>
+        <td><span class="metric-primary" style="color:#16a34a">100.00%</span><span class="metric-sub">PASS</span></td>
+        <td>
+          <a target="_blank" href="lab-analyticscharts-dense/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-analyticscharts-dense/developer.png">developer</a> · 
+          <a target="_blank" href="lab-analyticscharts-dense/figma.png">figma</a>
+        </td>
+        <td></td>
+      </tr><tr>
+        <td><code>lab-analyticscharts--revenue</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary" style="color:#16a34a">100.00%</span><span class="metric-sub">PASS</span></td>
+        <td><span class="metric-primary" style="color:#16a34a">100.00%</span><span class="metric-sub">PASS</span></td>
+        <td><span class="metric-primary" style="color:#16a34a">100.00%</span><span class="metric-sub">PASS</span></td>
+        <td>
+          <a target="_blank" href="lab-analyticscharts-revenue/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-analyticscharts-revenue/developer.png">developer</a> · 
+          <a target="_blank" href="lab-analyticscharts-revenue/figma.png">figma</a>
+        </td>
+        <td></td>
+      </tr><tr>
+        <td><code>lab-analyticscharts--usage</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary" style="color:#16a34a">100.00%</span><span class="metric-sub">PASS</span></td>
+        <td><span class="metric-primary" style="color:#16a34a">100.00%</span><span class="metric-sub">PASS</span></td>
+        <td><span class="metric-primary" style="color:#16a34a">100.00%</span><span class="metric-sub">PASS</span></td>
+        <td>
+          <a target="_blank" href="lab-analyticscharts-usage/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-analyticscharts-usage/developer.png">developer</a> · 
+          <a target="_blank" href="lab-analyticscharts-usage/figma.png">figma</a>
+        </td>
+        <td></td>
+      </tr><tr>
+        <td><code>lab-button--compact</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary" style="color:#16a34a">100.00%</span><span class="metric-sub">PASS</span></td>
+        <td><span class="metric-primary" style="color:#16a34a">99.97%</span><span class="metric-sub">PASS</span></td>
+        <td><span class="metric-primary" style="color:#16a34a">99.97%</span><span class="metric-sub">PASS</span></td>
+        <td>
+          <a target="_blank" href="lab-button-compact/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-button-compact/developer.png">developer</a> · 
+          <a target="_blank" href="lab-button-compact/figma.png">figma</a>
+        </td>
+        <td></td>
+      </tr><tr>
+        <td><code>lab-loginpage--default</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary" style="color:#16a34a">98.47%</span><span class="metric-sub">PASS</span></td>
+        <td><span class="metric-primary" style="color:#16a34a">100.00%</span><span class="metric-sub">PASS</span></td>
+        <td><span class="metric-primary" style="color:#16a34a">98.47%</span><span class="metric-sub">PASS</span></td>
+        <td>
+          <a target="_blank" href="lab-loginpage-default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-loginpage-default/developer.png">developer</a> · 
+          <a target="_blank" href="lab-loginpage-default/figma.png">figma</a>
+        </td>
+        <td></td>
+      </tr></tbody>
+</table>
+<h2>Visual comparison</h2>
+  <section class="story-section">
+    <h2><code>lab-analyticscharts--dense</code></h2>
+    <div class="triple">
+      <figure><figcaption>Storybook</figcaption><img src="lab-analyticscharts-dense/storybook.png" alt="storybook" /></figure>
+      <figure><figcaption>@lab/ui (Vite)</figcaption><img src="lab-analyticscharts-dense/developer.png" alt="developer" /></figure>
+      <figure><figcaption>Figma render</figcaption><img src="lab-analyticscharts-dense/figma.png" alt="figma" /></figure>
+    </div>
+    <p class="story-hint">
+      <a href="lab-analyticscharts-dense/diff-storybook-dev.png">SB vs Dev diff</a> ·
+      <a href="lab-analyticscharts-dense/diff-storybook-figma.png">SB vs Figma diff</a> ·
+      <a href="lab-analyticscharts-dense/diff-dev-figma.png">Dev vs Figma diff</a>
+    </p>
+  </section>
+  <section class="story-section">
+    <h2><code>lab-analyticscharts--revenue</code></h2>
+    <div class="triple">
+      <figure><figcaption>Storybook</figcaption><img src="lab-analyticscharts-revenue/storybook.png" alt="storybook" /></figure>
+      <figure><figcaption>@lab/ui (Vite)</figcaption><img src="lab-analyticscharts-revenue/developer.png" alt="developer" /></figure>
+      <figure><figcaption>Figma render</figcaption><img src="lab-analyticscharts-revenue/figma.png" alt="figma" /></figure>
+    </div>
+    <p class="story-hint">
+      <a href="lab-analyticscharts-revenue/diff-storybook-dev.png">SB vs Dev diff</a> ·
+      <a href="lab-analyticscharts-revenue/diff-storybook-figma.png">SB vs Figma diff</a> ·
+      <a href="lab-analyticscharts-revenue/diff-dev-figma.png">Dev vs Figma diff</a>
+    </p>
+  </section>
+  <section class="story-section">
+    <h2><code>lab-analyticscharts--usage</code></h2>
+    <div class="triple">
+      <figure><figcaption>Storybook</figcaption><img src="lab-analyticscharts-usage/storybook.png" alt="storybook" /></figure>
+      <figure><figcaption>@lab/ui (Vite)</figcaption><img src="lab-analyticscharts-usage/developer.png" alt="developer" /></figure>
+      <figure><figcaption>Figma render</figcaption><img src="lab-analyticscharts-usage/figma.png" alt="figma" /></figure>
+    </div>
+    <p class="story-hint">
+      <a href="lab-analyticscharts-usage/diff-storybook-dev.png">SB vs Dev diff</a> ·
+      <a href="lab-analyticscharts-usage/diff-storybook-figma.png">SB vs Figma diff</a> ·
+      <a href="lab-analyticscharts-usage/diff-dev-figma.png">Dev vs Figma diff</a>
+    </p>
+  </section>
+  <section class="story-section">
+    <h2><code>lab-button--compact</code></h2>
+    <div class="triple">
+      <figure><figcaption>Storybook</figcaption><img src="lab-button-compact/storybook.png" alt="storybook" /></figure>
+      <figure><figcaption>@lab/ui (Vite)</figcaption><img src="lab-button-compact/developer.png" alt="developer" /></figure>
+      <figure><figcaption>Figma render</figcaption><img src="lab-button-compact/figma.png" alt="figma" /></figure>
+    </div>
+    <p class="story-hint">
+      <a href="lab-button-compact/diff-storybook-dev.png">SB vs Dev diff</a> ·
+      <a href="lab-button-compact/diff-storybook-figma.png">SB vs Figma diff</a> ·
+      <a href="lab-button-compact/diff-dev-figma.png">Dev vs Figma diff</a>
+    </p>
+  </section>
+  <section class="story-section">
+    <h2><code>lab-loginpage--default</code></h2>
+    <div class="triple">
+      <figure><figcaption>Storybook</figcaption><img src="lab-loginpage-default/storybook.png" alt="storybook" /></figure>
+      <figure><figcaption>@lab/ui (Vite)</figcaption><img src="lab-loginpage-default/developer.png" alt="developer" /></figure>
+      <figure><figcaption>Figma render</figcaption><img src="lab-loginpage-default/figma.png" alt="figma" /></figure>
+    </div>
+    <p class="story-hint">
+      <a href="lab-loginpage-default/diff-storybook-dev.png">SB vs Dev diff</a> ·
+      <a href="lab-loginpage-default/diff-storybook-figma.png">SB vs Figma diff</a> ·
+      <a href="lab-loginpage-default/diff-dev-figma.png">Dev vs Figma diff</a>
+    </p>
+  </section>
+</body></html>

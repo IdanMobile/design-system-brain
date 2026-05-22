@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["@figma/plugin-typings"],
+    "lib": ["ES2022", "DOM"],
+    "target": "ES2019",
+    "rootDir": "src",
+    "outDir": "dist",
+    "noEmit": true
+  },
+  "include": ["src"]
+}

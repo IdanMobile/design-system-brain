@@ -1,0 +1,2973 @@
+{
+  "generatedAt": "2026-05-22T13:20:08.983Z",
+  "storyCount": 48,
+  "steps": [
+    {
+      "id": "pixel",
+      "label": "Pixel (schema)",
+      "dir": "pixel-diffs",
+      "actionId": "pixel:golden"
+    },
+    {
+      "id": "figma",
+      "label": "Figma emulator",
+      "dir": "figma-diffs",
+      "actionId": "figma:golden"
+    },
+    {
+      "id": "figmaLive",
+      "label": "Figma live",
+      "dir": "figma-live-diffs",
+      "actionId": "figma:live:golden"
+    },
+    {
+      "id": "delivery",
+      "label": "Delivery (3-way)",
+      "dir": "delivery-diffs",
+      "actionId": "delivery:golden"
+    },
+    {
+      "id": "logic",
+      "label": "Logic audit",
+      "dir": "logic-audit-diffs",
+      "actionId": "logic:golden"
+    }
+  ],
+  "stories": [
+    "lab-analyticscharts--dense",
+    "lab-analyticscharts--revenue",
+    "lab-analyticscharts--usage",
+    "lab-button--compact",
+    "lab-button--danger",
+    "lab-button--ghost",
+    "lab-button--large-with-both-icons",
+    "lab-button--primary",
+    "lab-button--primary-with-icon",
+    "lab-button--secondary",
+    "lab-calendarscheduler--compact",
+    "lab-calendarscheduler--monthly",
+    "lab-calendarscheduler--weekdays-only",
+    "lab-complexdashboardcard--default",
+    "lab-contentlistboard--compact",
+    "lab-contentlistboard--default",
+    "lab-contentlistboard--highlighted",
+    "lab-featurecard--default",
+    "lab-featurecard--success",
+    "lab-featurecard--warning",
+    "lab-filtersidepanel--collapsed",
+    "lab-filtersidepanel--left-panel",
+    "lab-filtersidepanel--right-panel",
+    "lab-loadingstates--card-skeleton",
+    "lab-loadingstates--list-skeleton",
+    "lab-loginpage--default",
+    "lab-loginpage--filled-credentials",
+    "lab-navigationbars--bottom-navigation",
+    "lab-navigationbars--top-navigation",
+    "lab-overlaystates--bottom-sheet",
+    "lab-overlaystates--dialog",
+    "lab-overlaystates--drawer",
+    "lab-pricingpanel--pro",
+    "lab-pricingpanel--starter",
+    "lab-productcard--alternate-image",
+    "lab-productcard--compact",
+    "lab-productcard--dark",
+    "lab-productcard--default",
+    "lab-radiogroupfield--default",
+    "lab-radiogroupfield--disabled",
+    "lab-radiogroupfield--pickup-selected",
+    "lab-selectfield--closed",
+    "lab-selectfield--expanded",
+    "lab-snackbarstack--default",
+    "lab-snackbarstack--dense",
+    "lab-tabspanel--activity-active",
+    "lab-tabspanel--settings-active",
+    "mui--showcase"
+  ],
+  "rows": [
+    {
+      "storyId": "lab-analyticscharts--dense",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0.02948562492959893,
+          "testedAt": "2026-05-21T22:04:47.287Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "pixel-diffs/lab-analyticscharts-dense/regions/region-01-compare.png"
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-20T21:46:40.740Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "pass",
+          "percent": 0.16631217656919844,
+          "maxRegionPercent": 1.2533422459893049,
+          "testedAt": "2026-05-21T18:32:44.900Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "figma-live-diffs/lab-analyticscharts-dense/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-21T18:27:36.908Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "pass",
+          "percent": 0,
+          "maxRegionPercent": 0,
+          "testedAt": "2026-05-21T20:47:45.621Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "logic-audit-diffs/by-story/lab-analyticscharts-dense/interaction.webm"
+        }
+      }
+    },
+    {
+      "storyId": "lab-analyticscharts--revenue",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0.025361761303081598,
+          "testedAt": "2026-05-22T13:20:08.966Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "pixel-diffs/lab-analyticscharts-revenue/regions/region-01-compare.png"
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:17:15.308Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "fail",
+          "percent": 0.4556568126250278,
+          "maxRegionPercent": 2.50473086627418,
+          "testedAt": "2026-05-22T13:17:56.512Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-analyticscharts-revenue/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-analyticscharts--usage",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0.020232416320435882,
+          "testedAt": "2026-05-22T13:17:03.786Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "pixel-diffs/lab-analyticscharts-usage/regions/region-01-compare.png"
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:17:15.308Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "fail",
+          "percent": 0.41262730749283316,
+          "maxRegionPercent": 2.5584975369458127,
+          "testedAt": "2026-05-22T13:17:56.512Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-analyticscharts-usage/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-button--compact",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-21T22:04:47.288Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-21T18:03:50.907Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "pass",
+          "percent": 0.8727810650887574,
+          "maxRegionPercent": 0.9781167108753316,
+          "testedAt": "2026-05-21T18:32:44.901Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "figma-live-diffs/lab-button-compact/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "pass",
+          "percent": 0.02958579881656805,
+          "testedAt": "2026-05-21T18:27:36.913Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "pass",
+          "percent": 0,
+          "maxRegionPercent": 0,
+          "testedAt": "2026-05-21T20:48:06.978Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "logic-audit-diffs/by-story/lab-button-compact/interaction.webm"
+        }
+      }
+    },
+    {
+      "storyId": "lab-button--danger",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:18:36.304Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:13:06.147Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "fail",
+          "percent": 4.37793427230047,
+          "maxRegionPercent": 5.067934782608695,
+          "testedAt": "2026-05-22T12:39:35.380Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-button-danger/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-button--ghost",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:18:41.306Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T11:45:58.883Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "fail",
+          "percent": 3.8202247191011236,
+          "maxRegionPercent": 3.8202247191011236,
+          "testedAt": "2026-05-22T12:39:35.379Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-button-ghost/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-button--large-with-both-icons",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T11:47:44.327Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:30.791Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "pass",
+          "percent": 0.9194695105277549,
+          "maxRegionPercent": 1.0442546583850931,
+          "testedAt": "2026-05-22T11:50:05.243Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "figma-live-diffs/lab-button-large-with-both-icons/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Delivery (3-way)",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "delivery",
+          "blockedReason": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "action": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-button--primary",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T12:36:14.209Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T12:24:29.801Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "pass",
+          "percent": 1.4583333333333333,
+          "maxRegionPercent": 1.4939024390243902,
+          "testedAt": "2026-05-22T12:33:15.411Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "figma-live-diffs/lab-button-primary/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Delivery (3-way)",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "delivery",
+          "blockedReason": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "action": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-button--primary-with-icon",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T11:47:25.382Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:29.030Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "pass",
+          "percent": 1.3806818181818181,
+          "maxRegionPercent": 1.4327830188679245,
+          "testedAt": "2026-05-22T11:50:05.242Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "figma-live-diffs/lab-button-primary-with-icon/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Delivery (3-way)",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "delivery",
+          "blockedReason": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "action": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-button--secondary",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:18:52.445Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:28.061Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "fail",
+          "percent": 3.3116113744075832,
+          "maxRegionPercent": 3.8183060109289615,
+          "testedAt": "2026-05-22T12:39:35.380Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-button-secondary/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-calendarscheduler--compact",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:19:46.200Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:30.021Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "fail",
+          "percent": 1.4569986339496388,
+          "maxRegionPercent": 4.13684279021343,
+          "testedAt": "2026-05-22T12:39:35.384Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-calendarscheduler-compact/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-calendarscheduler--monthly",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:20:01.957Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T11:42:23.772Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "fail",
+          "percent": 1.200837166894608,
+          "maxRegionPercent": 3.0039811798769454,
+          "testedAt": "2026-05-22T12:39:35.385Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-calendarscheduler-monthly/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-calendarscheduler--weekdays-only",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:16:20.809Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:30.792Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "fail",
+          "percent": 1.0469026601066884,
+          "maxRegionPercent": 3.0039811798769454,
+          "testedAt": "2026-05-22T12:39:35.385Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-calendarscheduler-weekdays-only/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-complexdashboardcard--default",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0.049099836333878884,
+          "testedAt": "2026-05-22T13:16:40.450Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "pixel-diffs/lab-complexdashboardcard-default/regions/region-01-compare.png"
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:31.041Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "fail",
+          "percent": 0.7082519402354681,
+          "maxRegionPercent": 4.260380622837371,
+          "testedAt": "2026-05-22T12:39:35.386Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-complexdashboardcard-default/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-contentlistboard--compact",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:19:56.467Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:29.031Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "fail",
+          "percent": 1.3796040866293207,
+          "maxRegionPercent": 2.56526768010575,
+          "testedAt": "2026-05-22T12:39:35.384Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-contentlistboard-compact/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-contentlistboard--default",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T12:37:10.812Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T11:24:34.593Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "pass",
+          "percent": 1.1857487114589242,
+          "maxRegionPercent": 2.1562184024266937,
+          "testedAt": "2026-05-22T12:39:35.384Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "figma-live-diffs/lab-contentlistboard-default/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Delivery (3-way)",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "delivery",
+          "blockedReason": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "action": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-contentlistboard--highlighted",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:19:03.046Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:17:15.309Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "fail",
+          "percent": 1.418971009644057,
+          "maxRegionPercent": 2.5252386449000532,
+          "testedAt": "2026-05-22T13:17:56.512Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-contentlistboard-highlighted/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-featurecard--default",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:19:29.650Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:17:15.309Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "pass",
+          "percent": 0.9387985676260507,
+          "maxRegionPercent": 1.947701688555347,
+          "testedAt": "2026-05-22T13:17:56.512Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "figma-live-diffs/lab-featurecard-default/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Delivery (3-way)",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "delivery",
+          "blockedReason": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "action": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-featurecard--success",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:19:51.089Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:30.021Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "fail",
+          "percent": 1.4481721912640508,
+          "maxRegionPercent": 4.57873950962646,
+          "testedAt": "2026-05-22T12:39:35.384Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-featurecard-success/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-featurecard--warning",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-21T22:04:47.291Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:32.657Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "pass",
+          "percent": 0.3174010455563854,
+          "maxRegionPercent": 1.3854895104895106,
+          "testedAt": "2026-05-22T10:51:50.740Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "figma-live-diffs/lab-featurecard-warning/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Delivery (3-way)",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "delivery",
+          "blockedReason": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "action": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-filtersidepanel--collapsed",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:19:14.050Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:30.792Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "fail",
+          "percent": 1.9405594405594406,
+          "maxRegionPercent": 2.2929533969679956,
+          "testedAt": "2026-05-22T12:39:35.382Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-filtersidepanel-collapsed/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-filtersidepanel--left-panel",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:19:19.301Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:31.042Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "fail",
+          "percent": 1.8031189083820662,
+          "maxRegionPercent": 2.7101769911504423,
+          "testedAt": "2026-05-22T12:39:35.383Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-filtersidepanel-left-panel/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-filtersidepanel--right-panel",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:19:24.584Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T11:35:03.188Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "fail",
+          "percent": 1.8031189083820662,
+          "maxRegionPercent": 2.7101769911504423,
+          "testedAt": "2026-05-22T12:39:35.383Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-filtersidepanel-right-panel/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-loadingstates--card-skeleton",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:17:03.787Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:17:15.309Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:17:56.512Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Delivery (3-way)",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "delivery",
+          "blockedReason": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "action": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-loadingstates--list-skeleton",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-21T22:04:47.291Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:28.062Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T10:51:50.741Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Delivery (3-way)",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "delivery",
+          "blockedReason": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "action": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-loginpage--default",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T12:38:01.790Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:27:33.847Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "pass",
+          "percent": 0.19639536668998106,
+          "maxRegionPercent": 2.0418400713436387,
+          "testedAt": "2026-05-22T12:39:35.386Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "figma-live-diffs/lab-loginpage-default/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Delivery (3-way)",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "delivery",
+          "blockedReason": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "action": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-loginpage--filled-credentials",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0.07964567802248418,
+          "testedAt": "2026-05-22T11:31:36.662Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "pixel-diffs/lab-loginpage-filled-credentials/regions/region-01-compare.png"
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:27:24.907Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "pass",
+          "percent": 0.24224227639502552,
+          "maxRegionPercent": 1.3646536066424493,
+          "testedAt": "2026-05-22T11:28:14.931Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "figma-live-diffs/lab-loginpage-filled-credentials/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Delivery (3-way)",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "delivery",
+          "blockedReason": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "action": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-navigationbars--bottom-navigation",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T12:37:20.456Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:32.657Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "pass",
+          "percent": 1.3067870826491517,
+          "maxRegionPercent": 1.801470588235294,
+          "testedAt": "2026-05-22T12:39:35.384Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "figma-live-diffs/lab-navigationbars-bottom-navigation/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Delivery (3-way)",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "delivery",
+          "blockedReason": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "action": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-navigationbars--top-navigation",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:19:34.600Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:30.792Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "fail",
+          "percent": 1.737304945781539,
+          "maxRegionPercent": 2.509098544232923,
+          "testedAt": "2026-05-22T12:39:35.384Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-navigationbars-top-navigation/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-overlaystates--bottom-sheet",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T12:37:56.718Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:31.042Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "pass",
+          "percent": 0.22752192982456143,
+          "maxRegionPercent": 2.1814550042052145,
+          "testedAt": "2026-05-22T12:39:35.386Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "figma-live-diffs/lab-overlaystates-bottom-sheet/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Delivery (3-way)",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "delivery",
+          "blockedReason": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "action": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-overlaystates--dialog",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0.06606359649122807,
+          "testedAt": "2026-05-21T22:04:47.292Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "pixel-diffs/lab-overlaystates-dialog/regions/region-01-compare.png"
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:29.031Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "pass",
+          "percent": 0.1507675438596491,
+          "maxRegionPercent": 1.0675465838509317,
+          "testedAt": "2026-05-22T10:51:50.742Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "figma-live-diffs/lab-overlaystates-dialog/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Delivery (3-way)",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "delivery",
+          "blockedReason": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "action": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-overlaystates--drawer",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0.050438596491228074,
+          "testedAt": "2026-05-22T13:17:05.217Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "pixel-diffs/lab-overlaystates-drawer/regions/region-01-compare.png"
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:28.062Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "warn",
+          "percent": 0.28591008771929827,
+          "maxRegionPercent": 2.2037694388100064,
+          "testedAt": "2026-05-22T12:39:35.386Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Tighten live export (0.29%)",
+          "compareUrl": "figma-live-diffs/lab-overlaystates-drawer/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is warn (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is warn (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is warn (required before Logic audit)",
+          "action": "Blocked — Figma live is warn (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-pricingpanel--pro",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:18:31.641Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:17:15.307Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "fail",
+          "percent": 2.605360325948561,
+          "maxRegionPercent": 4.978706358576488,
+          "testedAt": "2026-05-22T13:17:56.511Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-pricingpanel-pro/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-pricingpanel--starter",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:18:46.923Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:17:15.307Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "fail",
+          "percent": 1.8744349361872124,
+          "maxRegionPercent": 3.9435564435564436,
+          "testedAt": "2026-05-22T13:17:56.511Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-pricingpanel-starter/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-productcard--alternate-image",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-21T22:04:47.293Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:30.022Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "pass",
+          "percent": 0.06084176369536171,
+          "maxRegionPercent": 0.4433391003460208,
+          "testedAt": "2026-05-22T10:51:50.743Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "figma-live-diffs/lab-productcard-alternate-image/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Delivery (3-way)",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "delivery",
+          "blockedReason": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "action": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-productcard--compact",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-21T22:04:47.293Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:32.657Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "pass",
+          "percent": 0.1770548335613315,
+          "maxRegionPercent": 0.9646739130434783,
+          "testedAt": "2026-05-22T10:51:50.743Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "figma-live-diffs/lab-productcard-compact/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Delivery (3-way)",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "delivery",
+          "blockedReason": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "action": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-productcard--dark",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:17:03.786Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:17:15.308Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "fail",
+          "percent": 0.6835751097537698,
+          "maxRegionPercent": 3.424621530698065,
+          "testedAt": "2026-05-22T13:17:56.511Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-productcard-dark/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-productcard--default",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:17:03.786Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:17:15.308Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "fail",
+          "percent": 0.6711681618629509,
+          "maxRegionPercent": 3.415422624053827,
+          "testedAt": "2026-05-22T13:17:56.511Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-productcard-default/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-radiogroupfield--default",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-21T22:04:47.294Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:30.792Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "pass",
+          "percent": 0.971493057259212,
+          "maxRegionPercent": 1.2498421916424693,
+          "testedAt": "2026-05-22T10:51:50.743Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "figma-live-diffs/lab-radiogroupfield-default/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Delivery (3-way)",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "delivery",
+          "blockedReason": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "action": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-radiogroupfield--disabled",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-21T22:04:47.294Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:31.042Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "pass",
+          "percent": 0.4636671409646239,
+          "maxRegionPercent": 0.6995972016111935,
+          "testedAt": "2026-05-22T10:51:50.744Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "figma-live-diffs/lab-radiogroupfield-disabled/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Delivery (3-way)",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "delivery",
+          "blockedReason": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "action": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-radiogroupfield--pickup-selected",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-21T22:04:47.294Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:29.032Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "pass",
+          "percent": 0.9763995878514302,
+          "maxRegionPercent": 1.256154525943694,
+          "testedAt": "2026-05-22T10:51:50.744Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "figma-live-diffs/lab-radiogroupfield-pickup-selected/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Delivery (3-way)",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "delivery",
+          "blockedReason": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "action": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-selectfield--closed",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-21T22:04:47.294Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:28.062Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "pass",
+          "percent": 0.30961414560813233,
+          "maxRegionPercent": 0.8147603027754415,
+          "testedAt": "2026-05-22T10:51:50.744Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "figma-live-diffs/lab-selectfield-closed/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Delivery (3-way)",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "delivery",
+          "blockedReason": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "action": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-selectfield--expanded",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-21T22:04:47.294Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:30.022Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "pass",
+          "percent": 0.437397093564321,
+          "maxRegionPercent": 1.1855257896841265,
+          "testedAt": "2026-05-22T10:51:50.744Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "figma-live-diffs/lab-selectfield-expanded/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Delivery (3-way)",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "delivery",
+          "blockedReason": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "action": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-snackbarstack--default",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:19:40.766Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:17:15.309Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "fail",
+          "percent": 1.504120879120879,
+          "maxRegionPercent": 3.008241758241758,
+          "testedAt": "2026-05-22T13:17:56.512Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-snackbarstack-default/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-snackbarstack--dense",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-21T22:04:47.295Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T09:01:32.657Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "pass",
+          "percent": 0.4254807692307692,
+          "maxRegionPercent": 0.8509615384615384,
+          "testedAt": "2026-05-22T10:51:50.745Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "figma-live-diffs/lab-snackbarstack-dense/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Delivery (3-way)",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "delivery",
+          "blockedReason": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "action": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-tabspanel--activity-active",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:18:57.804Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:11:09.282Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "fail",
+          "percent": 2.6457091493991864,
+          "maxRegionPercent": 4.991883116883117,
+          "testedAt": "2026-05-22T12:39:35.381Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-tabspanel-activity-active/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-tabspanel--settings-active",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:19:08.436Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-22T13:17:15.309Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "fail",
+          "percent": 2.2838016841706876,
+          "maxRegionPercent": 4.0188977688977685,
+          "testedAt": "2026-05-22T13:17:56.512Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-tabspanel-settings-active/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "mui--showcase",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0.09755489021956089,
+          "testedAt": "2026-05-22T13:17:03.785Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "pixel-diffs/mui-showcase/regions/region-01-compare.png"
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0.05274451097804392,
+          "maxRegionPercent": 1.0150255754475703,
+          "testedAt": "2026-05-22T13:17:15.307Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "figma-diffs/mui-showcase/regions/region-01-compare.png"
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "fail",
+          "percent": 0.7387225548902195,
+          "maxRegionPercent": 2.836288223812622,
+          "testedAt": "2026-05-22T13:17:56.511Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/mui-showcase/regions/region-01-compare.png"
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    }
+  ]
+}

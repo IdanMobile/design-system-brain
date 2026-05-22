@@ -1,0 +1,21 @@
+{
+  "name": "@lab/extractor-playwright",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "extract:button": "node --experimental-strip-types src/extract.ts --story lab-button--primary --out ../../artifacts/button.primary.json",
+    "extract:loginpage": "node --experimental-strip-types src/extract.ts --story lab-loginpage--default --out ../../artifacts/Lab/LoginPage/Default.json",
+    "extract:loginpage:filled": "node --experimental-strip-types src/extract.ts --story lab-loginpage--filled-credentials --out ../../artifacts/Lab/LoginPage/Filled-Credentials.json",
+    "extract:mui": "node --experimental-strip-types src/extract.ts --story mui--showcase --out ../../artifacts/MUI/Showcase.json",
+    "extract:all": "node --experimental-strip-types src/extract-all.ts --outDir ../../artifacts"
+  },
+  "dependencies": {
+    "@lab/contract": "workspace:*",
+    "playwright": "^1.49.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}

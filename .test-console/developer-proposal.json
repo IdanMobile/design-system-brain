@@ -1,0 +1,11 @@
+{
+  "jobId": "impl-1779455748439",
+  "status": "failed",
+  "createdAt": "2026-05-22T13:15:48.439Z",
+  "changedFiles": [],
+  "verification": null,
+  "report": null,
+  "updatedAt": "2026-05-22T13:15:48.485Z",
+  "error": "fatal: not a git repository (or any of the parent directories): .git",
+  "completedAt": "2026-05-22T13:15:48.484Z"
+}

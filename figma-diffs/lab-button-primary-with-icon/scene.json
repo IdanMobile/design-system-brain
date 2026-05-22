@@ -1,0 +1,192 @@
+{
+  "id": 5,
+  "kind": "FRAME",
+  "type": "FRAME",
+  "name": "Button Canvas",
+  "x": 0,
+  "y": 0,
+  "width": 268.3,
+  "height": 128,
+  "opacity": 1,
+  "fills": [
+    {
+      "type": "SOLID",
+      "color": {
+        "r": 0.9607843137254902,
+        "g": 0.9686274509803922,
+        "b": 0.984313725490196
+      },
+      "opacity": 1
+    }
+  ],
+  "strokes": [],
+  "strokeWeight": 1,
+  "strokeTopWeight": 0,
+  "strokeRightWeight": 0,
+  "strokeBottomWeight": 0,
+  "strokeLeftWeight": 0,
+  "dashPattern": [],
+  "cornerRadii": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "effects": [],
+  "clipsContent": false,
+  "children": [
+    {
+      "id": 1,
+      "kind": "FRAME",
+      "type": "FRAME",
+      "name": "Button",
+      "x": 24,
+      "y": 24,
+      "width": 220,
+      "height": 80,
+      "opacity": 1,
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": {
+            "r": 0,
+            "g": 0.42745098039215684,
+            "b": 0.807843137254902
+          },
+          "opacity": 1
+        }
+      ],
+      "strokes": [],
+      "strokeWeight": 1,
+      "strokeTopWeight": 0,
+      "strokeRightWeight": 0,
+      "strokeBottomWeight": 0,
+      "strokeLeftWeight": 0,
+      "dashPattern": [],
+      "cornerRadii": [
+        40,
+        40,
+        40,
+        40
+      ],
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0.42745098039215684,
+            "b": 0.807843137254902,
+            "a": 0.24
+          },
+          "offset": {
+            "x": 0,
+            "y": 8
+          },
+          "radius": 18,
+          "blendMode": "NORMAL",
+          "visible": true
+        }
+      ],
+      "clipsContent": false,
+      "children": [
+        {
+          "id": 2,
+          "kind": "SVG",
+          "type": "FRAME",
+          "name": "plusIcon",
+          "x": 32,
+          "y": 24,
+          "width": 32,
+          "height": 32,
+          "opacity": 1,
+          "fills": [],
+          "strokes": [],
+          "strokeWeight": 1,
+          "strokeTopWeight": 0,
+          "strokeRightWeight": 0,
+          "strokeBottomWeight": 0,
+          "strokeLeftWeight": 0,
+          "dashPattern": [],
+          "cornerRadii": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "effects": [],
+          "clipsContent": false,
+          "svgSource": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"32\" height=\"32\" viewBox=\"0 0 32 32\"><path d=\"M16 6v20M6 16h20\" stroke=\"rgb(255, 255, 255)\" stroke-width=\"4\" stroke-linecap=\"round\" fill=\"rgb(0, 0, 0)\" /></svg>",
+          "children": []
+        },
+        {
+          "id": 3,
+          "kind": "FRAME",
+          "type": "FRAME",
+          "name": "label",
+          "x": 84,
+          "y": 24,
+          "width": 104.3,
+          "height": 32,
+          "opacity": 1,
+          "fills": [],
+          "strokes": [],
+          "strokeWeight": 1,
+          "strokeTopWeight": 0,
+          "strokeRightWeight": 0,
+          "strokeBottomWeight": 0,
+          "strokeLeftWeight": 0,
+          "dashPattern": [],
+          "cornerRadii": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "effects": [],
+          "clipsContent": false,
+          "children": [
+            {
+              "id": 4,
+              "kind": "TEXT",
+              "type": "TEXT",
+              "name": "Text",
+              "x": 0,
+              "y": 0,
+              "width": 94.08,
+              "height": 33.6,
+              "opacity": 1,
+              "characters": "Primary",
+              "fontName": {
+                "family": "Inter",
+                "style": "Bold"
+              },
+              "fontSize": 28,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 1,
+                    "g": 1,
+                    "b": 1
+                  },
+                  "opacity": 1
+                }
+              ],
+              "textAlignHorizontal": "CENTER",
+              "textAutoResize": "WIDTH_AND_HEIGHT",
+              "lineHeight": {
+                "unit": "AUTO"
+              },
+              "letterSpacing": {
+                "unit": "PIXELS",
+                "value": -1.25
+              },
+              "textCase": "ORIGINAL",
+              "textDecoration": "NONE"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

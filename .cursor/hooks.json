@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": ".cursor/hooks/session-start.sh"
+      }
+    ],
+    "stop": [
+      {
+        "command": ".cursor/hooks/test-console-inbox.sh",
+        "loop_limit": 8
+      }
+    ]
+  }
+}

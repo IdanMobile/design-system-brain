@@ -1,0 +1,13 @@
+{
+  "storyId": "lab-productcard--dark",
+  "component": "ProductCard",
+  "status": "pass",
+  "interactiveCount": 0,
+  "dsBuiltinCount": 0,
+  "staticShellCount": 0,
+  "readonlyCount": 0,
+  "findings": [],
+  "gaps": [],
+  "dsBuiltIn": [],
+  "testedAt": "2026-05-21T19:37:28.208Z"
+}

@@ -1,0 +1,247 @@
+{
+  "schemaVersion": "1.0",
+  "meta": {
+    "storyId": "lab-button--primary-with-icon",
+    "componentName": "Button",
+    "extractedAt": "2026-05-19T15:11:57.503Z",
+    "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-button--primary-with-icon&viewMode=story",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "width": 1200,
+      "height": 900
+    },
+    "devicePixelRatio": 1,
+    "canvasBackground": "rgb(245, 247, 251)"
+  },
+  "root": {
+    "id": "lay-1",
+    "name": "Button",
+    "source": {
+      "kind": "dom",
+      "tag": "button",
+      "classList": [
+        "lab-button",
+        "primary",
+        "md"
+      ],
+      "dataset": {
+        "figmaComponent": "Button"
+      }
+    },
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 220.3,
+      "height": 80
+    },
+    "computedBox": {
+      "x": 16,
+      "y": 16,
+      "width": 220.3,
+      "height": 80
+    },
+    "layout": {
+      "display": "inline-flex",
+      "position": "static",
+      "overflow": {
+        "x": "visible",
+        "y": "visible"
+      },
+      "padding": {
+        "top": 0,
+        "right": 32,
+        "bottom": 0,
+        "left": 32
+      },
+      "margin": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "flex": {
+        "direction": "row",
+        "wrap": "nowrap",
+        "justify": "center",
+        "align": "center",
+        "rowGap": 20,
+        "columnGap": 20
+      }
+    },
+    "paint": {
+      "fills": [
+        {
+          "kind": "color",
+          "color": "rgb(0, 109, 206)"
+        }
+      ],
+      "cornerRadii": {
+        "topLeft": {
+          "x": 40,
+          "y": 40
+        },
+        "topRight": {
+          "x": 40,
+          "y": 40
+        },
+        "bottomRight": {
+          "x": 40,
+          "y": 40
+        },
+        "bottomLeft": {
+          "x": 40,
+          "y": 40
+        }
+      },
+      "shadows": [
+        {
+          "offsetX": 0,
+          "offsetY": 8,
+          "blur": 18,
+          "spread": 0,
+          "color": "rgba(0, 109, 206, 0.24)",
+          "inset": false
+        }
+      ]
+    },
+    "children": [
+      {
+        "id": "lay-2",
+        "name": "plusIcon",
+        "source": {
+          "kind": "svg",
+          "tag": "svg",
+          "dataset": {
+            "figmaName": "plusIcon"
+          }
+        },
+        "box": {
+          "x": 32,
+          "y": 24,
+          "width": 32,
+          "height": 32
+        },
+        "computedBox": {
+          "x": 48,
+          "y": 40,
+          "width": 32,
+          "height": 32
+        },
+        "layout": {
+          "display": "block",
+          "position": "static",
+          "overflow": {
+            "x": "hidden",
+            "y": "hidden"
+          },
+          "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "margin": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          }
+        },
+        "vector": {
+          "shapes": [
+            {
+              "primitive": "path",
+              "attrs": {
+                "d": "M16 6v20M6 16h20",
+                "stroke": "currentColor",
+                "stroke-width": 4,
+                "stroke-linecap": "round"
+              },
+              "paint": {
+                "fill": "rgb(0, 0, 0)",
+                "stroke": "rgb(255, 255, 255)",
+                "strokeWidth": 4,
+                "lineCap": "round"
+              }
+            }
+          ],
+          "viewBox": {
+            "x": 0,
+            "y": 0,
+            "width": 32,
+            "height": 32
+          }
+        }
+      },
+      {
+        "id": "lay-3",
+        "name": "label",
+        "source": {
+          "kind": "dom",
+          "tag": "span",
+          "dataset": {
+            "figmaName": "label"
+          }
+        },
+        "box": {
+          "x": 84,
+          "y": 24,
+          "width": 104.3,
+          "height": 32
+        },
+        "computedBox": {
+          "x": 100,
+          "y": 40,
+          "width": 104.3,
+          "height": 32
+        },
+        "layout": {
+          "display": "block",
+          "position": "static",
+          "overflow": {
+            "x": "visible",
+            "y": "visible"
+          },
+          "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "margin": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          }
+        },
+        "text": {
+          "value": "Primary",
+          "font": {
+            "family": "Arial",
+            "stack": "Arial",
+            "size": 28,
+            "weight": 700,
+            "style": "normal",
+            "variant": "normal",
+            "featureSettings": "normal"
+          },
+          "color": "rgb(255, 255, 255)",
+          "wordSpacing": 0,
+          "align": "center",
+          "verticalAlign": "baseline",
+          "transform": "none",
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "wordBreak": "normal",
+          "direction": "ltr"
+        }
+      }
+    ]
+  },
+  "diagnostics": {
+    "warnings": [],
+    "unmappedProperties": []
+  }
+}

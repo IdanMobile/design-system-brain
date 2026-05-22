@@ -1,0 +1,42 @@
+{
+  "storyId": "lab-loginpage--filled-credentials",
+  "width": 1168,
+  "height": 803,
+  "pixelsDiffered": 747,
+  "pixelsTotal": 937904,
+  "percent": 0.07964567802248418,
+  "status": "pass",
+  "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-loginpage-filled-credentials/storybook.png",
+  "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-loginpage-filled-credentials/rendered.png",
+  "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-loginpage-filled-credentials/diff.png",
+  "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-loginpage-filled-credentials/artifact.v2.json",
+  "diffRegions": [
+    {
+      "index": 1,
+      "rect": {
+        "x": 364,
+        "y": 412,
+        "width": 184,
+        "height": 88,
+        "pixels": 582
+      },
+      "storybook": "regions/region-01-storybook.png",
+      "rendered": "regions/region-01-rendered.png",
+      "compare": "regions/region-01-compare.png"
+    },
+    {
+      "index": 2,
+      "rect": {
+        "x": 364,
+        "y": 508,
+        "width": 184,
+        "height": 88,
+        "pixels": 159
+      },
+      "storybook": "regions/region-02-storybook.png",
+      "rendered": "regions/region-02-rendered.png",
+      "compare": "regions/region-02-compare.png"
+    }
+  ],
+  "testedAt": "2026-05-22T11:31:36.662Z"
+}

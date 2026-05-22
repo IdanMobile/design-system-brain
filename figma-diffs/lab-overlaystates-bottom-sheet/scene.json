@@ -1,0 +1,331 @@
+{
+  "id": 9,
+  "kind": "FRAME",
+  "type": "FRAME",
+  "name": "OverlayStates Canvas",
+  "x": 0,
+  "y": 0,
+  "width": 808,
+  "height": 528,
+  "opacity": 1,
+  "fills": [
+    {
+      "type": "SOLID",
+      "color": {
+        "r": 0.9607843137254902,
+        "g": 0.9686274509803922,
+        "b": 0.984313725490196
+      },
+      "opacity": 1
+    }
+  ],
+  "strokes": [],
+  "strokeWeight": 1,
+  "strokeTopWeight": 0,
+  "strokeRightWeight": 0,
+  "strokeBottomWeight": 0,
+  "strokeLeftWeight": 0,
+  "dashPattern": [],
+  "cornerRadii": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "effects": [],
+  "clipsContent": false,
+  "children": [
+    {
+      "id": 1,
+      "kind": "FRAME",
+      "type": "FRAME",
+      "name": "OverlayStates",
+      "x": 24,
+      "y": 24,
+      "width": 760,
+      "height": 480,
+      "opacity": 1,
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": {
+            "r": 0.9333333333333333,
+            "g": 0.9529411764705882,
+            "b": 0.9764705882352941
+          },
+          "opacity": 1
+        }
+      ],
+      "strokes": [],
+      "strokeWeight": 1,
+      "strokeTopWeight": 0,
+      "strokeRightWeight": 0,
+      "strokeBottomWeight": 0,
+      "strokeLeftWeight": 0,
+      "dashPattern": [],
+      "cornerRadii": [
+        16,
+        16,
+        16,
+        16
+      ],
+      "effects": [],
+      "clipsContent": true,
+      "children": [
+        {
+          "id": 2,
+          "kind": "FRAME",
+          "type": "FRAME",
+          "name": "div",
+          "x": 0,
+          "y": 0,
+          "width": 760,
+          "height": 480,
+          "opacity": 1,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 0.058823529411764705,
+                "g": 0.09019607843137255,
+                "b": 0.16470588235294117
+              },
+              "opacity": 0.44
+            }
+          ],
+          "strokes": [],
+          "strokeWeight": 1,
+          "strokeTopWeight": 0,
+          "strokeRightWeight": 0,
+          "strokeBottomWeight": 0,
+          "strokeLeftWeight": 0,
+          "dashPattern": [],
+          "cornerRadii": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "effects": [],
+          "clipsContent": false,
+          "children": []
+        },
+        {
+          "id": 3,
+          "kind": "FRAME",
+          "type": "FRAME",
+          "name": "div",
+          "x": 20,
+          "y": 334,
+          "width": 720,
+          "height": 126,
+          "opacity": 1,
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "r": 1,
+                "g": 1,
+                "b": 1
+              },
+              "opacity": 1
+            }
+          ],
+          "strokes": [],
+          "strokeWeight": 1,
+          "strokeTopWeight": 0,
+          "strokeRightWeight": 0,
+          "strokeBottomWeight": 0,
+          "strokeLeftWeight": 0,
+          "dashPattern": [],
+          "cornerRadii": [
+            16,
+            16,
+            16,
+            16
+          ],
+          "effects": [],
+          "clipsContent": false,
+          "children": [
+            {
+              "id": 4,
+              "kind": "FRAME",
+              "type": "FRAME",
+              "name": "div",
+              "x": 336,
+              "y": 20,
+              "width": 48,
+              "height": 5,
+              "opacity": 1,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.7254901960784313,
+                    "g": 0.7725490196078432,
+                    "b": 0.8392156862745098
+                  },
+                  "opacity": 1
+                }
+              ],
+              "strokes": [],
+              "strokeWeight": 1,
+              "strokeTopWeight": 0,
+              "strokeRightWeight": 0,
+              "strokeBottomWeight": 0,
+              "strokeLeftWeight": 0,
+              "dashPattern": [],
+              "cornerRadii": [
+                999,
+                999,
+                999,
+                999
+              ],
+              "effects": [],
+              "clipsContent": true,
+              "children": []
+            },
+            {
+              "id": 5,
+              "kind": "FRAME",
+              "type": "FRAME",
+              "name": "h4",
+              "x": 18,
+              "y": 41,
+              "width": 684,
+              "height": 36,
+              "opacity": 1,
+              "fills": [],
+              "strokes": [],
+              "strokeWeight": 1,
+              "strokeTopWeight": 0,
+              "strokeRightWeight": 0,
+              "strokeBottomWeight": 0,
+              "strokeLeftWeight": 0,
+              "dashPattern": [],
+              "cornerRadii": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "effects": [],
+              "clipsContent": false,
+              "children": [
+                {
+                  "id": 6,
+                  "kind": "TEXT",
+                  "type": "TEXT",
+                  "name": "Text",
+                  "x": 0,
+                  "y": 0,
+                  "width": 72,
+                  "height": 36,
+                  "opacity": 1,
+                  "characters": "Share",
+                  "fontName": {
+                    "family": "Inter",
+                    "style": "Bold"
+                  },
+                  "fontSize": 30,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "color": {
+                        "r": 0,
+                        "g": 0,
+                        "b": 0
+                      },
+                      "opacity": 1
+                    }
+                  ],
+                  "textAlignHorizontal": "LEFT",
+                  "textAutoResize": "WIDTH_AND_HEIGHT",
+                  "lineHeight": {
+                    "unit": "PIXELS",
+                    "value": 36
+                  },
+                  "letterSpacing": {
+                    "unit": "PIXELS",
+                    "value": 0
+                  },
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              ]
+            },
+            {
+              "id": 7,
+              "kind": "FRAME",
+              "type": "FRAME",
+              "name": "p",
+              "x": 18,
+              "y": 87,
+              "width": 684,
+              "height": 21,
+              "opacity": 1,
+              "fills": [],
+              "strokes": [],
+              "strokeWeight": 1,
+              "strokeTopWeight": 0,
+              "strokeRightWeight": 0,
+              "strokeBottomWeight": 0,
+              "strokeLeftWeight": 0,
+              "dashPattern": [],
+              "cornerRadii": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "effects": [],
+              "clipsContent": false,
+              "children": [
+                {
+                  "id": 8,
+                  "kind": "TEXT",
+                  "type": "TEXT",
+                  "name": "Text",
+                  "x": 0,
+                  "y": 0,
+                  "width": 276.48,
+                  "height": 21,
+                  "opacity": 1,
+                  "characters": "Invite teammates to this canvas.",
+                  "fontName": {
+                    "family": "Inter",
+                    "style": "Regular"
+                  },
+                  "fontSize": 18,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "color": {
+                        "r": 0.33725490196078434,
+                        "g": 0.3843137254901961,
+                        "b": 0.45098039215686275
+                      },
+                      "opacity": 1
+                    }
+                  ],
+                  "textAlignHorizontal": "LEFT",
+                  "textAutoResize": "WIDTH_AND_HEIGHT",
+                  "lineHeight": {
+                    "unit": "PIXELS",
+                    "value": 21
+                  },
+                  "letterSpacing": {
+                    "unit": "PIXELS",
+                    "value": 0
+                  },
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

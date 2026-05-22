@@ -1,0 +1,31 @@
+{
+  "storyId": "lab-snackbarstack--dense",
+  "width": 520,
+  "height": 160,
+  "pixelsDiffered": 354,
+  "pixelsTotal": 83200,
+  "percent": 0.4254807692307692,
+  "maxRegionPercent": 0.8509615384615384,
+  "status": "pass",
+  "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-snackbarstack-dense/storybook.png",
+  "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-snackbarstack-dense/figma.png",
+  "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-snackbarstack-dense/diff.png",
+  "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-snackbarstack-dense/artifact.v2.json",
+  "diffRegions": [
+    {
+      "index": 1,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 260,
+        "height": 160,
+        "pixels": 354,
+        "percent": 0.8509615384615384
+      },
+      "storybook": "regions/region-01-storybook.png",
+      "rendered": "regions/region-01-rendered.png",
+      "compare": "regions/region-01-compare.png"
+    }
+  ],
+  "testedAt": "2026-05-22T10:51:50.745Z"
+}

@@ -1,0 +1,42 @@
+{
+  "storyId": "lab-analyticscharts--revenue",
+  "width": 858,
+  "height": 409,
+  "pixelsDiffered": 89,
+  "pixelsTotal": 350922,
+  "percent": 0.025361761303081598,
+  "status": "pass",
+  "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-analyticscharts-revenue/storybook.png",
+  "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-analyticscharts-revenue/rendered.png",
+  "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-analyticscharts-revenue/diff.png",
+  "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-analyticscharts-revenue/artifact.v2.json",
+  "diffRegions": [
+    {
+      "index": 1,
+      "rect": {
+        "x": 700,
+        "y": 0,
+        "width": 136,
+        "height": 80,
+        "pixels": 33
+      },
+      "storybook": "regions/region-01-storybook.png",
+      "rendered": "regions/region-01-rendered.png",
+      "compare": "regions/region-01-compare.png"
+    },
+    {
+      "index": 2,
+      "rect": {
+        "x": 268,
+        "y": 316,
+        "width": 88,
+        "height": 88,
+        "pixels": 23
+      },
+      "storybook": "regions/region-02-storybook.png",
+      "rendered": "regions/region-02-rendered.png",
+      "compare": "regions/region-02-compare.png"
+    }
+  ],
+  "testedAt": "2026-05-22T13:17:03.786Z"
+}

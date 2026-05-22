@@ -1,0 +1,16 @@
+{
+  "name": "Universal JSON Importer Lab",
+  "id": "universal-json-importer-lab",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "ui": "src/ui.html",
+  "editorType": ["figma"],
+  "networkAccess": {
+    "allowedDomains": ["none"],
+    "devAllowedDomains": [
+      "http://localhost:3456",
+      "ws://localhost:3456"
+    ],
+    "reasoning": "Local WebSocket relay for automated live Figma PNG export during pixel tests."
+  }
+}

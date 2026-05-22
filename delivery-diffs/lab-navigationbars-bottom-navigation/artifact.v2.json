@@ -1,0 +1,376 @@
+{
+  "schemaVersion": "1.0",
+  "meta": {
+    "storyId": "lab-navigationbars--bottom-navigation",
+    "componentName": "NavigationBars",
+    "extractedAt": "2026-05-21T18:27:14.144Z",
+    "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-navigationbars--bottom-navigation&viewMode=story",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "width": 1200,
+      "height": 900
+    },
+    "devicePixelRatio": 1,
+    "canvasBackground": "rgb(245, 247, 251)"
+  },
+  "root": {
+    "id": "lay-1",
+    "name": "NavigationBars",
+    "source": {
+      "kind": "dom",
+      "tag": "div",
+      "classList": [
+        "lab-bottom-nav"
+      ],
+      "dataset": {
+        "figmaComponent": "NavigationBars"
+      }
+    },
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 522,
+      "height": 84
+    },
+    "computedBox": {
+      "x": 16,
+      "y": 16,
+      "width": 522,
+      "height": 84
+    },
+    "layout": {
+      "display": "flex",
+      "position": "static",
+      "overflow": {
+        "x": "visible",
+        "y": "visible"
+      },
+      "padding": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "margin": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "flex": {
+        "direction": "row",
+        "wrap": "nowrap",
+        "justify": "space-around",
+        "align": "center",
+        "rowGap": 0,
+        "columnGap": 0
+      }
+    },
+    "paint": {
+      "fills": [
+        {
+          "kind": "color",
+          "color": "rgb(255, 255, 255)"
+        }
+      ],
+      "borders": {
+        "top": {
+          "width": 1,
+          "color": "rgb(219, 227, 236)",
+          "style": "solid"
+        },
+        "right": {
+          "width": 1,
+          "color": "rgb(219, 227, 236)",
+          "style": "solid"
+        },
+        "bottom": {
+          "width": 1,
+          "color": "rgb(219, 227, 236)",
+          "style": "solid"
+        },
+        "left": {
+          "width": 1,
+          "color": "rgb(219, 227, 236)",
+          "style": "solid"
+        }
+      },
+      "cornerRadii": {
+        "topLeft": {
+          "x": 18,
+          "y": 18
+        },
+        "topRight": {
+          "x": 18,
+          "y": 18
+        },
+        "bottomRight": {
+          "x": 18,
+          "y": 18
+        },
+        "bottomLeft": {
+          "x": 18,
+          "y": 18
+        }
+      }
+    },
+    "children": [
+      {
+        "id": "lay-2",
+        "name": "button",
+        "source": {
+          "kind": "dom",
+          "tag": "button",
+          "classList": [
+            "active"
+          ]
+        },
+        "box": {
+          "x": 33.77,
+          "y": 31,
+          "width": 59.23,
+          "height": 22
+        },
+        "computedBox": {
+          "x": 49.77,
+          "y": 47,
+          "width": 59.23,
+          "height": 22
+        },
+        "layout": {
+          "display": "block",
+          "position": "static",
+          "overflow": {
+            "x": "visible",
+            "y": "visible"
+          },
+          "padding": {
+            "top": 1,
+            "right": 6,
+            "bottom": 1,
+            "left": 6
+          },
+          "margin": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          }
+        },
+        "text": {
+          "value": "Home",
+          "font": {
+            "family": "Inter",
+            "stack": "Inter, Arial, sans-serif",
+            "size": 17,
+            "weight": 700,
+            "style": "normal",
+            "variant": "normal",
+            "featureSettings": "normal"
+          },
+          "color": "rgb(15, 109, 255)",
+          "lineHeight": 19,
+          "wordSpacing": 0,
+          "align": "center",
+          "verticalAlign": "baseline",
+          "transform": "none",
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "wordBreak": "normal",
+          "direction": "ltr"
+        }
+      },
+      {
+        "id": "lay-3",
+        "name": "button",
+        "source": {
+          "kind": "dom",
+          "tag": "button"
+        },
+        "box": {
+          "x": 158.56,
+          "y": 31,
+          "width": 68.7,
+          "height": 22
+        },
+        "computedBox": {
+          "x": 174.56,
+          "y": 47,
+          "width": 68.7,
+          "height": 22
+        },
+        "layout": {
+          "display": "block",
+          "position": "static",
+          "overflow": {
+            "x": "visible",
+            "y": "visible"
+          },
+          "padding": {
+            "top": 1,
+            "right": 6,
+            "bottom": 1,
+            "left": 6
+          },
+          "margin": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          }
+        },
+        "text": {
+          "value": "Search",
+          "font": {
+            "family": "Inter",
+            "stack": "Inter, Arial, sans-serif",
+            "size": 17,
+            "weight": 700,
+            "style": "normal",
+            "variant": "normal",
+            "featureSettings": "normal"
+          },
+          "color": "rgb(95, 106, 120)",
+          "lineHeight": 19,
+          "wordSpacing": 0,
+          "align": "center",
+          "verticalAlign": "baseline",
+          "transform": "none",
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "wordBreak": "normal",
+          "direction": "ltr"
+        }
+      },
+      {
+        "id": "lay-4",
+        "name": "button",
+        "source": {
+          "kind": "dom",
+          "tag": "button"
+        },
+        "box": {
+          "x": 292.83,
+          "y": 31,
+          "width": 64.92,
+          "height": 22
+        },
+        "computedBox": {
+          "x": 308.83,
+          "y": 47,
+          "width": 64.92,
+          "height": 22
+        },
+        "layout": {
+          "display": "block",
+          "position": "static",
+          "overflow": {
+            "x": "visible",
+            "y": "visible"
+          },
+          "padding": {
+            "top": 1,
+            "right": 6,
+            "bottom": 1,
+            "left": 6
+          },
+          "margin": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          }
+        },
+        "text": {
+          "value": "Create",
+          "font": {
+            "family": "Inter",
+            "stack": "Inter, Arial, sans-serif",
+            "size": 17,
+            "weight": 700,
+            "style": "normal",
+            "variant": "normal",
+            "featureSettings": "normal"
+          },
+          "color": "rgb(95, 106, 120)",
+          "lineHeight": 19,
+          "wordSpacing": 0,
+          "align": "center",
+          "verticalAlign": "baseline",
+          "transform": "none",
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "wordBreak": "normal",
+          "direction": "ltr"
+        }
+      },
+      {
+        "id": "lay-5",
+        "name": "button",
+        "source": {
+          "kind": "dom",
+          "tag": "button"
+        },
+        "box": {
+          "x": 423.3,
+          "y": 31,
+          "width": 64.91,
+          "height": 22
+        },
+        "computedBox": {
+          "x": 439.3,
+          "y": 47,
+          "width": 64.91,
+          "height": 22
+        },
+        "layout": {
+          "display": "block",
+          "position": "static",
+          "overflow": {
+            "x": "visible",
+            "y": "visible"
+          },
+          "padding": {
+            "top": 1,
+            "right": 6,
+            "bottom": 1,
+            "left": 6
+          },
+          "margin": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          }
+        },
+        "text": {
+          "value": "Profile",
+          "font": {
+            "family": "Inter",
+            "stack": "Inter, Arial, sans-serif",
+            "size": 17,
+            "weight": 700,
+            "style": "normal",
+            "variant": "normal",
+            "featureSettings": "normal"
+          },
+          "color": "rgb(95, 106, 120)",
+          "lineHeight": 19,
+          "wordSpacing": 0,
+          "align": "center",
+          "verticalAlign": "baseline",
+          "transform": "none",
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "wordBreak": "normal",
+          "direction": "ltr"
+        }
+      }
+    ]
+  },
+  "diagnostics": {
+    "warnings": [],
+    "unmappedProperties": []
+  }
+}

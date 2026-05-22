@@ -1,0 +1,237 @@
+<html>
+  <body style="font-family: Inter, sans-serif; padding: 16px;">
+    <h3>Universal JSON Importer</h3>
+    <p>Paste a single JSON, or load artifacts and choose which files to import.</p>
+    <textarea id="json" style="width:100%;height:360px"></textarea>
+    <button type="button" id="import" style="margin-top:12px;width:100%;height:40px">Import</button>
+    <button type="button" id="load-artifacts" style="margin-top:8px;width:100%;height:40px">Load Artifacts Folder</button>
+    <div id="artifact-controls" style="display:none;margin-top:8px;">
+      <button type="button" id="select-all" style="width:49%;height:32px">Select All</button>
+      <button type="button" id="select-none" style="width:49%;height:32px;float:right">Select None</button>
+      <div style="clear:both"></div>
+      <button type="button" id="import-selected" style="margin-top:8px;width:100%;height:40px">Import Selected</button>
+    </div>
+    <div id="artifact-list" style="margin-top:8px;max-height:220px;overflow:auto;border:1px solid #ddd;border-radius:6px;padding:8px;display:none"></div>
+    <input id="folder" type="file" webkitdirectory multiple style="display:none" />
+    <pre id="log" style="white-space:pre-wrap;font-size:12px;max-height:120px;overflow:auto;margin-top:8px;color:#666"></pre>
+    <p id="live-status" style="font-size:11px;color:#374151;margin-top:12px;padding:8px;background:#f3f4f6;border-radius:6px">
+      Live test bridge: connecting…
+    </p>
+    <script>
+      const $ = (id) => document.getElementById(id);
+      const log = (text) => { $("log").textContent = text; };
+      let artifacts = [];
+
+      $("import").onclick = (event) => {
+        event.preventDefault();
+        parent.postMessage({ pluginMessage: { type: 'import-json', json: $("json").value } }, '*');
+      };
+
+      $("load-artifacts").onclick = (event) => {
+        event.preventDefault();
+        $("folder").value = "";
+        $("folder").click();
+      };
+
+      async function readFile(file) {
+        return await file.text();
+      }
+
+      function renderArtifactList() {
+        const list = $("artifact-list");
+        if (!artifacts.length) {
+          list.style.display = "none";
+          $("artifact-controls").style.display = "none";
+          return;
+        }
+
+        list.style.display = "block";
+        $("artifact-controls").style.display = "block";
+        list.innerHTML = artifacts.map((item, index) => `
+          <label style="display:flex;align-items:flex-start;gap:8px;padding:4px 0;">
+            <input type="checkbox" data-artifact-index="${index}" ${item.selected ? "checked" : ""} />
+            <span style="font-size:12px;line-height:1.4;word-break:break-all;">${item.name}</span>
+          </label>
+        `).join("");
+
+        list.querySelectorAll("input[type=checkbox]").forEach((input) => {
+          input.addEventListener("change", (event) => {
+            const idx = Number(event.target.getAttribute("data-artifact-index"));
+            artifacts[idx].selected = event.target.checked;
+          });
+        });
+      }
+
+      async function loadArtifacts(fileList) {
+        const files = Array.from(fileList || []).filter((f) => f.name.toLowerCase().endsWith('.json'));
+        if (!files.length) {
+          log("No JSON files selected.");
+          return;
+        }
+        log(`Loading ${files.length} JSON files...`);
+        const loaded = await Promise.all(files.map(async (file) => ({
+          name: file.webkitRelativePath || file.name,
+          json: await readFile(file),
+          selected: true
+        })));
+        const byName = new Map(loaded.map((item) => [item.name.replace(/\\/g, "/"), item]));
+        const manifestItem = loaded.find((item) => {
+          const n = item.name.replace(/\\/g, "/");
+          return n === "stories.index.json" || n.endsWith("/stories.index.json");
+        });
+
+        if (manifestItem) {
+          try {
+            const manifest = JSON.parse(manifestItem.json);
+            const indexed = (manifest?.stories ?? [])
+              .map((story) => String(story?.output ?? "").replace(/\\/g, "/"))
+              .filter(Boolean)
+              .map((output) => {
+                const exact = byName.get(output);
+                if (exact) return exact;
+                return loaded.find((item) => item.name.replace(/\\/g, "/").endsWith(`/${output}`) || item.name.replace(/\\/g, "/").endsWith(output));
+              })
+              .filter(Boolean);
+            if (indexed.length) {
+              artifacts = indexed.map((item) => ({ ...item, selected: true }));
+              renderArtifactList();
+              log(`Loaded ${artifacts.length} indexed artifacts from stories.index.json`);
+              return;
+            }
+          } catch {
+            // fallback to all JSON files
+          }
+        }
+
+        artifacts = loaded;
+        renderArtifactList();
+        log(`Loaded ${files.length} files. Uncheck any you want to skip, then click "Import Selected".`);
+      }
+
+      $("folder").addEventListener("change", async (e) => {
+        const files = e.target.files;
+        await loadArtifacts(files);
+      });
+
+      $("select-all").onclick = (event) => {
+        event.preventDefault();
+        artifacts.forEach((item) => { item.selected = true; });
+        renderArtifactList();
+      };
+
+      $("select-none").onclick = (event) => {
+        event.preventDefault();
+        artifacts.forEach((item) => { item.selected = false; });
+        renderArtifactList();
+      };
+
+      $("import-selected").onclick = (event) => {
+        event.preventDefault();
+        const items = artifacts.filter((item) => item.selected);
+        if (!items.length) {
+          log("No artifacts selected.");
+          return;
+        }
+        parent.postMessage({ pluginMessage: { type: 'import-json-batch', items } }, '*');
+        log(`Sent ${items.length} selected files to importer.`);
+      };
+
+      function bytesToBase64(bytes) {
+        let binary = "";
+        const chunk = 0x8000;
+        for (let i = 0; i < bytes.length; i += chunk) {
+          binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+        }
+        return btoa(binary);
+      }
+
+      const LIVE_PORT = 3456;
+      const liveStatus = $("live-status");
+      const livePending = new Map();
+      let liveWs = null;
+
+      function setLiveStatus(text, ok) {
+        liveStatus.textContent = text;
+        liveStatus.style.color = ok ? "#166534" : ok === false ? "#991b1b" : "#374151";
+      }
+
+      function connectLiveBridge() {
+        try {
+          liveWs = new WebSocket(`ws://localhost:${LIVE_PORT}`);
+        } catch (err) {
+          setLiveStatus(`Live bridge: WebSocket unavailable (${err})`, false);
+          return;
+        }
+        liveWs.onopen = () => {
+          liveWs.send(JSON.stringify({ type: "register", role: "plugin" }));
+          setLiveStatus(`Live test bridge: connected (ws://localhost:${LIVE_PORT})`, true);
+        };
+        liveWs.onclose = () => {
+          setLiveStatus("Live test bridge: disconnected — run pnpm figma:relay", false);
+          setTimeout(connectLiveBridge, 2000);
+        };
+        liveWs.onerror = () => {
+          setLiveStatus("Live test bridge: relay not running (pnpm figma:relay)", false);
+        };
+        liveWs.onmessage = (event) => {
+          let msg;
+          try {
+            msg = JSON.parse(event.data);
+          } catch {
+            return;
+          }
+          if (msg.type !== "render-export") return;
+          livePending.set(msg.requestId, liveWs);
+          parent.postMessage(
+            {
+              pluginMessage: {
+                type: "import-and-export-png",
+                requestId: msg.requestId,
+                json: msg.json
+              }
+            },
+            "*"
+          );
+        };
+      }
+
+      connectLiveBridge();
+
+      window.onmessage = (event) => {
+        const msg = event.data.pluginMessage;
+        if (msg?.type === "batch-import-errors") {
+          log(`Some files failed:\n${msg.errors.join('\n')}`);
+          return;
+        }
+        if (msg?.type !== "export-png") return;
+        const ws = livePending.get(msg.requestId);
+        livePending.delete(msg.requestId);
+        if (!ws || ws.readyState !== 1) return;
+        if (!msg.ok) {
+          ws.send(
+            JSON.stringify({
+              type: "export-error",
+              requestId: msg.requestId,
+              error: msg.error || "Export failed"
+            })
+          );
+          return;
+        }
+        const pngBase64 =
+          typeof msg.pngBase64 === "string"
+            ? msg.pngBase64
+            : bytesToBase64(new Uint8Array(msg.data));
+        ws.send(
+          JSON.stringify({
+            type: "export-result",
+            requestId: msg.requestId,
+            pngBase64,
+            width: msg.width,
+            height: msg.height,
+            name: msg.name
+          })
+        );
+      };
+    </script>
+  </body>
+</html>

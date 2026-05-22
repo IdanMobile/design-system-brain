@@ -1,0 +1,4 @@
+.test-console/agent-inbox.json
+.test-console/pending-for-cursor.json
+.cursor/agent-context.auto.md
+node_modules

@@ -1,0 +1,27 @@
+run until pass
+
+Fix all — Pixel (schema) (1 story with fail/warn)
+
+Orchestrator runs up to 5 fix→test cycles per story (Terminal). Work worst-first.
+
+── Automatic workflow (do not skip roles) ──
+1. Read .cursor/skills/project-orchestrator/SKILL.md — pre-flight: confirm phase + infra + verdict.
+2. Read .cursor/skills/roadmap-iteration/SKILL.md — active section: docs/ROADMAP.md (default §1.2 until live strict green).
+3. Worker: .cursor/skills/figma-renderer-until-pass/SKILL.md + .cursor/skills/investigate-figma-mismatch/SKILL.md — ONE story per agent run.
+4. Harness rebuilds/tests after you; do not run full suite yourself.
+5. Post-flight per story: Tier A; after shared edit → Tier C before next story.
+── End automatic workflow ──
+Read .cursor/skills/figma-renderer-until-pass/SKILL.md and .cursor/skills/investigate-figma-mismatch/SKILL.md — investigate BEFORE editing.
+Act immediately — do NOT ask approval to start fixing.
+Pixel (schema) — fix packages/pixel-test/src/scene-to-html.ts (and extract.ts only if extraction is wrong).
+
+Stories:
+
+1. mui--showcase (0.10% warn)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/mui-showcase/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/mui-showcase/storybook.png
+   Rendered: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/mui-showcase/rendered.png
+
+After all fixes: pnpm test:pixel:golden
+
+Fix scene-to-html immediately (no approval). Re-run pixel golden after all fixes.

@@ -1,0 +1,43 @@
+{
+  "storyId": "lab-overlaystates--drawer",
+  "component": "OverlayStates",
+  "status": "gap",
+  "interactiveCount": 2,
+  "dsBuiltinCount": 0,
+  "staticShellCount": 2,
+  "readonlyCount": 0,
+  "findings": [
+    {
+      "index": 0,
+      "tag": "button",
+      "role": "",
+      "text": "Reset",
+      "ariaLabel": "",
+      "type": "",
+      "readOnly": false,
+      "disabled": false,
+      "outcome": "no_visible_change",
+      "category": "static_shell",
+      "note": "No visible state change — needs developer props / callbacks in logic creator spec"
+    },
+    {
+      "index": 1,
+      "tag": "button",
+      "role": "",
+      "text": "Apply",
+      "ariaLabel": "",
+      "type": "",
+      "readOnly": false,
+      "disabled": false,
+      "outcome": "no_visible_change",
+      "category": "static_shell",
+      "note": "No visible state change — needs developer props / callbacks in logic creator spec"
+    }
+  ],
+  "gaps": [
+    "Reset: No visible state change — needs developer props / callbacks in logic creator spec",
+    "Apply: No visible state change — needs developer props / callbacks in logic creator spec"
+  ],
+  "dsBuiltIn": [],
+  "testedAt": "2026-05-21T19:37:19.540Z"
+}

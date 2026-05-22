@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Pixel diff report</title>
+<style>
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 24px; color: #111; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { border-bottom: 1px solid #e5e7eb; padding: 8px 12px; text-align: left; }
+th { background: #f9fafb; }
+.summary { display: flex; gap: 24px; margin-bottom: 24px; font-size: 16px; }
+.summary div { padding: 8px 16px; background: #f3f4f6; border-radius: 8px; }
+code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; }
+</style></head><body>
+<h1>UniversalLayer v1.0 — schema fidelity report</h1>
+<div class="summary">
+  <div>Total: <strong>46</strong></div>
+  <div style="color:#16a34a">Pass: <strong>20</strong></div>
+  <div style="color:#d97706">Warn: <strong>25</strong></div>
+  <div style="color:#dc2626">Fail: <strong>1</strong></div>
+  <div style="color:#7c3aed">Error: <strong>0</strong></div>
+</div>
+<table>
+  <thead>
+    <tr><th>Story ID</th><th>Status</th><th>Diff %</th><th>Pixels</th><th>Artifacts</th><th>Note</th></tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>lab-analyticscharts--dense</code></td>
+        <td style="color:#dc2626;font-weight:600">FAIL</td>
+        <td style="text-align:right">4.100%</td>
+        <td style="text-align:right">12,223 / 298,152</td>
+        <td>
+          <a target="_blank" href="lab-analyticscharts--dense/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-analyticscharts--dense/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-analyticscharts--dense/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-analyticscharts--revenue</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">3.552%</td>
+        <td style="text-align:right">12,311 / 346,632</td>
+        <td>
+          <a target="_blank" href="lab-analyticscharts--revenue/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-analyticscharts--revenue/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-analyticscharts--revenue/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-analyticscharts--usage</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">3.542%</td>
+        <td style="text-align:right">12,279 / 346,632</td>
+        <td>
+          <a target="_blank" href="lab-analyticscharts--usage/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-analyticscharts--usage/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-analyticscharts--usage/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-button--compact</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 6,760</td>
+        <td>
+          <a target="_blank" href="lab-button--compact/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-button--compact/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-button--compact/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-button--danger</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 17,040</td>
+        <td>
+          <a target="_blank" href="lab-button--danger/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-button--danger/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-button--danger/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-button--ghost</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">3.343%</td>
+        <td style="text-align:right">714 / 21,360</td>
+        <td>
+          <a target="_blank" href="lab-button--ghost/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-button--ghost/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-button--ghost/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-button--large-with-both-icons</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">2.553%</td>
+        <td style="text-align:right">747 / 29,256</td>
+        <td>
+          <a target="_blank" href="lab-button--large-with-both-icons/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-button--large-with-both-icons/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-button--large-with-both-icons/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-button--primary</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 13,440</td>
+        <td>
+          <a target="_blank" href="lab-button--primary/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-button--primary/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-button--primary/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-button--primary-with-icon</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 17,600</td>
+        <td>
+          <a target="_blank" href="lab-button--primary-with-icon/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-button--primary-with-icon/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-button--primary-with-icon/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-button--secondary</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">3.679%</td>
+        <td style="text-align:right">621 / 16,880</td>
+        <td>
+          <a target="_blank" href="lab-button--secondary/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-button--secondary/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-button--secondary/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-calendarscheduler--compact</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">2.429%</td>
+        <td style="text-align:right">13,212 / 543,894</td>
+        <td>
+          <a target="_blank" href="lab-calendarscheduler--compact/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-calendarscheduler--compact/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-calendarscheduler--compact/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-calendarscheduler--monthly</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">1.989%</td>
+        <td style="text-align:right">13,349 / 671,202</td>
+        <td>
+          <a target="_blank" href="lab-calendarscheduler--monthly/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-calendarscheduler--monthly/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-calendarscheduler--monthly/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-calendarscheduler--weekdays-only</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">1.856%</td>
+        <td style="text-align:right">12,455 / 671,202</td>
+        <td>
+          <a target="_blank" href="lab-calendarscheduler--weekdays-only/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-calendarscheduler--weekdays-only/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-calendarscheduler--weekdays-only/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-complexdashboardcard--default</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">1.377%</td>
+        <td style="text-align:right">5,159 / 374,790</td>
+        <td>
+          <a target="_blank" href="lab-complexdashboardcard--default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-complexdashboardcard--default/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-complexdashboardcard--default/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-contentlistboard--compact</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">3.378%</td>
+        <td style="text-align:right">11,779 / 348,650</td>
+        <td>
+          <a target="_blank" href="lab-contentlistboard--compact/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-contentlistboard--compact/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-contentlistboard--compact/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-contentlistboard--default</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">2.904%</td>
+        <td style="text-align:right">11,779 / 405,650</td>
+        <td>
+          <a target="_blank" href="lab-contentlistboard--default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-contentlistboard--default/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-contentlistboard--default/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-contentlistboard--highlighted</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">2.904%</td>
+        <td style="text-align:right">11,779 / 405,650</td>
+        <td>
+          <a target="_blank" href="lab-contentlistboard--highlighted/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-contentlistboard--highlighted/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-contentlistboard--highlighted/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-featurecard--default</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.976%</td>
+        <td style="text-align:right">2,039 / 208,884</td>
+        <td>
+          <a target="_blank" href="lab-featurecard--default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-featurecard--default/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-featurecard--default/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-featurecard--success</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.799%</td>
+        <td style="text-align:right">1,670 / 208,884</td>
+        <td>
+          <a target="_blank" href="lab-featurecard--success/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-featurecard--success/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-featurecard--success/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-featurecard--warning</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.831%</td>
+        <td style="text-align:right">1,736 / 208,884</td>
+        <td>
+          <a target="_blank" href="lab-featurecard--warning/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-featurecard--warning/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-featurecard--warning/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-filtersidepanel--collapsed</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">3.111%</td>
+        <td style="text-align:right">5,248 / 168,670</td>
+        <td>
+          <a target="_blank" href="lab-filtersidepanel--collapsed/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-filtersidepanel--collapsed/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-filtersidepanel--collapsed/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-filtersidepanel--left-panel</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">2.639%</td>
+        <td style="text-align:right">5,250 / 198,970</td>
+        <td>
+          <a target="_blank" href="lab-filtersidepanel--left-panel/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-filtersidepanel--left-panel/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-filtersidepanel--left-panel/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-filtersidepanel--right-panel</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">2.639%</td>
+        <td style="text-align:right">5,250 / 198,970</td>
+        <td>
+          <a target="_blank" href="lab-filtersidepanel--right-panel/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-filtersidepanel--right-panel/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-filtersidepanel--right-panel/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-loadingstates--card-skeleton</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 141,252</td>
+        <td>
+          <a target="_blank" href="lab-loadingstates--card-skeleton/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-loadingstates--card-skeleton/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-loadingstates--card-skeleton/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-loadingstates--list-skeleton</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 76,788</td>
+        <td>
+          <a target="_blank" href="lab-loadingstates--list-skeleton/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-loadingstates--list-skeleton/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-loadingstates--list-skeleton/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-navigationbars--bottom-navigation</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.924%</td>
+        <td style="text-align:right">405 / 43,848</td>
+        <td>
+          <a target="_blank" href="lab-navigationbars--bottom-navigation/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-navigationbars--bottom-navigation/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-navigationbars--bottom-navigation/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-navigationbars--top-navigation</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">1.091%</td>
+        <td style="text-align:right">660 / 60,496</td>
+        <td>
+          <a target="_blank" href="lab-navigationbars--top-navigation/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-navigationbars--top-navigation/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-navigationbars--top-navigation/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-overlaystates--bottom-sheet</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 364,800</td>
+        <td>
+          <a target="_blank" href="lab-overlaystates--bottom-sheet/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-overlaystates--bottom-sheet/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-overlaystates--bottom-sheet/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-overlaystates--dialog</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.216%</td>
+        <td style="text-align:right">788 / 364,800</td>
+        <td>
+          <a target="_blank" href="lab-overlaystates--dialog/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-overlaystates--dialog/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-overlaystates--dialog/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-overlaystates--drawer</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.188%</td>
+        <td style="text-align:right">685 / 364,800</td>
+        <td>
+          <a target="_blank" href="lab-overlaystates--drawer/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-overlaystates--drawer/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-overlaystates--drawer/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-pricingpanel--pro</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">1.094%</td>
+        <td style="text-align:right">2,030 / 185,640</td>
+        <td>
+          <a target="_blank" href="lab-pricingpanel--pro/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-pricingpanel--pro/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-pricingpanel--pro/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-pricingpanel--starter</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">2.641%</td>
+        <td style="text-align:right">4,948 / 187,376</td>
+        <td>
+          <a target="_blank" href="lab-pricingpanel--starter/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-pricingpanel--starter/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-pricingpanel--starter/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-productcard--alternate-image</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.236%</td>
+        <td style="text-align:right">988 / 419,120</td>
+        <td>
+          <a target="_blank" href="lab-productcard--alternate-image/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-productcard--alternate-image/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-productcard--alternate-image/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-productcard--compact</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.040%</td>
+        <td style="text-align:right">113 / 280,704</td>
+        <td>
+          <a target="_blank" href="lab-productcard--compact/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-productcard--compact/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-productcard--compact/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-productcard--dark</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.225%</td>
+        <td style="text-align:right">941 / 419,120</td>
+        <td>
+          <a target="_blank" href="lab-productcard--dark/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-productcard--dark/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-productcard--dark/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-productcard--default</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.226%</td>
+        <td style="text-align:right">949 / 419,120</td>
+        <td>
+          <a target="_blank" href="lab-productcard--default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-productcard--default/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-productcard--default/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-radiogroupfield--default</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">2.326%</td>
+        <td style="text-align:right">927 / 39,846</td>
+        <td>
+          <a target="_blank" href="lab-radiogroupfield--default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-radiogroupfield--default/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-radiogroupfield--default/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-radiogroupfield--disabled</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">1.569%</td>
+        <td style="text-align:right">625 / 39,846</td>
+        <td>
+          <a target="_blank" href="lab-radiogroupfield--disabled/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-radiogroupfield--disabled/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-radiogroupfield--disabled/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-radiogroupfield--pickup-selected</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">2.326%</td>
+        <td style="text-align:right">927 / 39,846</td>
+        <td>
+          <a target="_blank" href="lab-radiogroupfield--pickup-selected/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-radiogroupfield--pickup-selected/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-radiogroupfield--pickup-selected/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-selectfield--closed</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">1.461%</td>
+        <td style="text-align:right">803 / 54,960</td>
+        <td>
+          <a target="_blank" href="lab-selectfield--closed/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-selectfield--closed/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-selectfield--closed/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-selectfield--expanded</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">1.759%</td>
+        <td style="text-align:right">2,441 / 138,774</td>
+        <td>
+          <a target="_blank" href="lab-selectfield--expanded/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-selectfield--expanded/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-selectfield--expanded/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-snackbarstack--default</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 87,360</td>
+        <td>
+          <a target="_blank" href="lab-snackbarstack--default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-snackbarstack--default/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-snackbarstack--default/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-snackbarstack--dense</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 83,200</td>
+        <td>
+          <a target="_blank" href="lab-snackbarstack--dense/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-snackbarstack--dense/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-snackbarstack--dense/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-tabspanel--activity-active</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">1.648%</td>
+        <td style="text-align:right">1,393 / 84,552</td>
+        <td>
+          <a target="_blank" href="lab-tabspanel--activity-active/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-tabspanel--activity-active/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-tabspanel--activity-active/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-tabspanel--settings-active</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td style="text-align:right">1.627%</td>
+        <td style="text-align:right">1,376 / 84,552</td>
+        <td>
+          <a target="_blank" href="lab-tabspanel--settings-active/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-tabspanel--settings-active/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-tabspanel--settings-active/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>mui--showcase</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.365%</td>
+        <td style="text-align:right">7,304 / 2,000,400</td>
+        <td>
+          <a target="_blank" href="mui--showcase/storybook.png">storybook</a> ·
+          <a target="_blank" href="mui--showcase/rendered.png">rendered</a> ·
+          <a target="_blank" href="mui--showcase/diff.png">diff</a>
+        </td>
+        <td></td>
+      </tr></tbody>
+</table>
+</body></html>

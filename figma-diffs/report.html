@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Figma renderer pixel-diff report</title>
+<style>
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 24px; color: #111; max-width: 1200px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; margin-bottom: 32px; }
+th, td { border-bottom: 1px solid #e5e7eb; padding: 8px 12px; text-align: left; }
+th { background: #f9fafb; }
+thead .col-desc th { font-weight: 400; font-size: 11px; color: #6b7280; line-height: 1.45; vertical-align: top; border-bottom: 2px solid #e5e7eb; padding-top: 0; }
+.legend { font-size: 13px; color: #374151; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px 16px; margin-bottom: 20px; line-height: 1.5; }
+.legend dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 16px; }
+.legend dt { font-weight: 600; margin: 0; white-space: nowrap; }
+.legend dd { margin: 0; color: #6b7280; }
+.summary { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; font-size: 16px; }
+.summary div { padding: 8px 16px; background: #f3f4f6; border-radius: 8px; }
+.summary-hint { font-size: 12px; color: #6b7280; margin: 0 0 20px; }
+.metric-primary { display: block; font-weight: 600; }
+.metric-sub { display: block; font-size: 11px; color: #6b7280; font-weight: 400; margin-top: 2px; line-height: 1.35; }
+code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; }
+.story-section { margin: 40px 0; padding-top: 24px; border-top: 2px solid #e5e7eb; }
+.story-section h2 { font-size: 18px; margin: 0 0 8px; }
+.story-hint { color: #6b7280; font-size: 13px; margin: 0 0 16px; }
+.regions { display: flex; flex-direction: column; gap: 20px; }
+.region-card { border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; background: #fafafa; }
+.region-meta { font-size: 12px; color: #6b7280; margin-bottom: 8px; }
+.region-labels { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; font-size: 11px; font-weight: 600; color: #374151; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+.region-labels span:last-child { text-align: right; padding-right: 2px; }
+.region-card img { display: block; max-width: 100%; height: auto; border: 1px solid #d1d5db; border-radius: 4px; background: #fff; }
+.region-links { font-size: 12px; margin-top: 8px; }
+.region-links a { color: #2563eb; }
+</style></head><body>
+<h1>Figma renderer — pixel-diff report</h1>
+<p>Each story is rendered through the actual <code>code-v2.ts</code> plugin against a mock Figma API.
+The recorded scene tree is then serialized to HTML/SVG and screenshotted. Mismatches here mean a bug in the renderer.</p>
+<div class="summary">
+  <div>Total: <strong>48</strong></div>
+  <div style="color:#16a34a">Pass: <strong>48</strong></div>
+  <div style="color:#d97706">Warn: <strong>0</strong></div>
+  <div style="color:#dc2626">Fail: <strong>0</strong></div>
+  <div style="color:#7c3aed">Error: <strong>0</strong></div>
+</div>
+<p class="summary-hint">Counts of stories by outcome. <strong>Pass</strong> = within tolerance; <strong>Warn</strong> = slightly over; <strong>Fail</strong> = too much diff; <strong>Error</strong> = test could not run.</p>
+<div class="legend">
+  <dl>
+    <dt>Image match</dt>
+    <dd>How similar Storybook and the Figma render look overall. <strong>99.85% match</strong> means 0.15% of pixels differ. The second line is the worst cropped area.</dd>
+    <dt>Changed pixels</dt>
+    <dd>Count of pixels that differ, with what fraction of the screenshot that is. Example: <em>3,018 pixels differ · 0.15% of 2.0 million · 1200×1667px</em>.</dd>
+    <dt>Status thresholds</dt>
+    <dd><strong>PASS</strong> — ≥ 99.9% match overall and worst area ≥ 99.9%. <strong>WARN</strong> — slightly below pass. <strong>FAIL</strong> — too far off.</dd>
+  </dl>
+</div>
+<table>
+  <thead>
+    <tr>
+      <th>Story ID</th>
+      <th>Status</th>
+      <th>Image match</th>
+      <th>Changed pixels</th>
+      <th>Artifacts</th>
+      <th>Note</th>
+    </tr>
+    <tr class="col-desc">
+      <th>Storybook story name</th>
+      <th>PASS · WARN · FAIL · ERROR</th>
+      <th>Overall similarity; second line = worst cropped area</th>
+      <th>How many pixels differ and what % of the screenshot that is</th>
+      <th>PNG exports, diff heatmap, scene JSON, hotspot links</th>
+      <th>Error message when status is ERROR</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>lab-analyticscharts--dense</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 298K · 738×404px</span></td>
+        <td>
+          <a target="_blank" href="lab-analyticscharts-dense/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-analyticscharts-dense/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-analyticscharts-dense/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-analyticscharts-dense/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-analyticscharts--revenue</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 351K · 858×409px</span></td>
+        <td>
+          <a target="_blank" href="lab-analyticscharts-revenue/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-analyticscharts-revenue/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-analyticscharts-revenue/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-analyticscharts-revenue/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-analyticscharts--usage</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 351K · 858×409px</span></td>
+        <td>
+          <a target="_blank" href="lab-analyticscharts-usage/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-analyticscharts-usage/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-analyticscharts-usage/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-analyticscharts-usage/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-button--compact</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 6,760 · 130×52px</span></td>
+        <td>
+          <a target="_blank" href="lab-button-compact/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-button-compact/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-button-compact/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-button-compact/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-button--danger</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 17K · 213×80px</span></td>
+        <td>
+          <a target="_blank" href="lab-button-danger/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-button-danger/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-button-danger/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-button-danger/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-button--ghost</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 21K · 267×80px</span></td>
+        <td>
+          <a target="_blank" href="lab-button-ghost/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-button-ghost/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-button-ghost/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-button-ghost/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-button--large-with-both-icons</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 29K · 318×92px</span></td>
+        <td>
+          <a target="_blank" href="lab-button-large-with-both-icons/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-button-large-with-both-icons/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-button-large-with-both-icons/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-button-large-with-both-icons/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-button--primary</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 13K · 168×80px</span></td>
+        <td>
+          <a target="_blank" href="lab-button-primary/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-button-primary/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-button-primary/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-button-primary/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-button--primary-with-icon</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 18K · 220×80px</span></td>
+        <td>
+          <a target="_blank" href="lab-button-primary-with-icon/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-button-primary-with-icon/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-button-primary-with-icon/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-button-primary-with-icon/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-button--secondary</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 17K · 211×80px</span></td>
+        <td>
+          <a target="_blank" href="lab-button-secondary/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-button-secondary/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-button-secondary/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-button-secondary/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-calendarscheduler--compact</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 548K · 734×746px</span></td>
+        <td>
+          <a target="_blank" href="lab-calendarscheduler-compact/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-calendarscheduler-compact/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-calendarscheduler-compact/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-calendarscheduler-compact/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-calendarscheduler--monthly</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 676K · 882×766px</span></td>
+        <td>
+          <a target="_blank" href="lab-calendarscheduler-monthly/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-calendarscheduler-monthly/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-calendarscheduler-monthly/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-calendarscheduler-monthly/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-calendarscheduler--weekdays-only</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 676K · 882×766px</span></td>
+        <td>
+          <a target="_blank" href="lab-calendarscheduler-weekdays-only/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-calendarscheduler-weekdays-only/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-calendarscheduler-weekdays-only/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-calendarscheduler-weekdays-only/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-complexdashboardcard--default</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 379K · 806×470px</span></td>
+        <td>
+          <a target="_blank" href="lab-complexdashboardcard-default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-complexdashboardcard-default/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-complexdashboardcard-default/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-complexdashboardcard-default/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-contentlistboard--compact</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 355K · 734×483px</span></td>
+        <td>
+          <a target="_blank" href="lab-contentlistboard-compact/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-contentlistboard-compact/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-contentlistboard-compact/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-contentlistboard-compact/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-contentlistboard--default</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 412K · 854×483px</span></td>
+        <td>
+          <a target="_blank" href="lab-contentlistboard-default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-contentlistboard-default/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-contentlistboard-default/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-contentlistboard-default/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-contentlistboard--highlighted</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 412K · 854×483px</span></td>
+        <td>
+          <a target="_blank" href="lab-contentlistboard-highlighted/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-contentlistboard-highlighted/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-contentlistboard-highlighted/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-contentlistboard-highlighted/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-featurecard--default</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 209K · 618×338px</span></td>
+        <td>
+          <a target="_blank" href="lab-featurecard-default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-featurecard-default/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-featurecard-default/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-featurecard-default/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-featurecard--success</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 209K · 618×338px</span></td>
+        <td>
+          <a target="_blank" href="lab-featurecard-success/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-featurecard-success/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-featurecard-success/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-featurecard-success/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-featurecard--warning</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 209K · 618×338px</span></td>
+        <td>
+          <a target="_blank" href="lab-featurecard-warning/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-featurecard-warning/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-featurecard-warning/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-featurecard-warning/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-filtersidepanel--collapsed</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 172K · 300×572px</span></td>
+        <td>
+          <a target="_blank" href="lab-filtersidepanel-collapsed/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-filtersidepanel-collapsed/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-filtersidepanel-collapsed/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-filtersidepanel-collapsed/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-filtersidepanel--left-panel</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 185K · 360×513px</span></td>
+        <td>
+          <a target="_blank" href="lab-filtersidepanel-left-panel/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-filtersidepanel-left-panel/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-filtersidepanel-left-panel/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-filtersidepanel-left-panel/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-filtersidepanel--right-panel</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 185K · 360×513px</span></td>
+        <td>
+          <a target="_blank" href="lab-filtersidepanel-right-panel/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-filtersidepanel-right-panel/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-filtersidepanel-right-panel/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-filtersidepanel-right-panel/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-loadingstates--card-skeleton</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 141K · 474×298px</span></td>
+        <td>
+          <a target="_blank" href="lab-loadingstates-card-skeleton/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-loadingstates-card-skeleton/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-loadingstates-card-skeleton/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-loadingstates-card-skeleton/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-loadingstates--list-skeleton</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 77K · 474×162px</span></td>
+        <td>
+          <a target="_blank" href="lab-loadingstates-list-skeleton/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-loadingstates-list-skeleton/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-loadingstates-list-skeleton/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-loadingstates-list-skeleton/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-loginpage--default</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 938K · 1168×803px</span></td>
+        <td>
+          <a target="_blank" href="lab-loginpage-default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-loginpage-default/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-loginpage-default/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-loginpage-default/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-loginpage--filled-credentials</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 938K · 1168×803px</span></td>
+        <td>
+          <a target="_blank" href="lab-loginpage-filled-credentials/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-loginpage-filled-credentials/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-loginpage-filled-credentials/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-loginpage-filled-credentials/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-navigationbars--bottom-navigation</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 44K · 522×84px</span></td>
+        <td>
+          <a target="_blank" href="lab-navigationbars-bottom-navigation/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-navigationbars-bottom-navigation/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-navigationbars-bottom-navigation/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-navigationbars-bottom-navigation/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-navigationbars--top-navigation</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 60K · 796×76px</span></td>
+        <td>
+          <a target="_blank" href="lab-navigationbars-top-navigation/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-navigationbars-top-navigation/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-navigationbars-top-navigation/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-navigationbars-top-navigation/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-overlaystates--bottom-sheet</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 365K · 760×480px</span></td>
+        <td>
+          <a target="_blank" href="lab-overlaystates-bottom-sheet/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-overlaystates-bottom-sheet/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-overlaystates-bottom-sheet/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-overlaystates-bottom-sheet/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-overlaystates--dialog</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 365K · 760×480px</span></td>
+        <td>
+          <a target="_blank" href="lab-overlaystates-dialog/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-overlaystates-dialog/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-overlaystates-dialog/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-overlaystates-dialog/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-overlaystates--drawer</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 365K · 760×480px</span></td>
+        <td>
+          <a target="_blank" href="lab-overlaystates-drawer/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-overlaystates-drawer/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-overlaystates-drawer/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-overlaystates-drawer/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-pricingpanel--pro</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 188K · 476×396px</span></td>
+        <td>
+          <a target="_blank" href="lab-pricingpanel-pro/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-pricingpanel-pro/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-pricingpanel-pro/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-pricingpanel-pro/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-pricingpanel--starter</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 190K · 478×398px</span></td>
+        <td>
+          <a target="_blank" href="lab-pricingpanel-starter/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-pricingpanel-starter/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-pricingpanel-starter/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-pricingpanel-starter/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-productcard--alternate-image</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 419K · 806×520px</span></td>
+        <td>
+          <a target="_blank" href="lab-productcard-alternate-image/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-productcard-alternate-image/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-productcard-alternate-image/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-productcard-alternate-image/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-productcard--compact</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 281K · 688×408px</span></td>
+        <td>
+          <a target="_blank" href="lab-productcard-compact/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-productcard-compact/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-productcard-compact/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-productcard-compact/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-productcard--dark</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 419K · 806×520px</span></td>
+        <td>
+          <a target="_blank" href="lab-productcard-dark/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-productcard-dark/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-productcard-dark/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-productcard-dark/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-productcard--default</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 419K · 806×520px</span></td>
+        <td>
+          <a target="_blank" href="lab-productcard-default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-productcard-default/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-productcard-default/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-productcard-default/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-radiogroupfield--default</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 41K · 458×89px</span></td>
+        <td>
+          <a target="_blank" href="lab-radiogroupfield-default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-radiogroupfield-default/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-radiogroupfield-default/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-radiogroupfield-default/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-radiogroupfield--disabled</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 41K · 458×89px</span></td>
+        <td>
+          <a target="_blank" href="lab-radiogroupfield-disabled/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-radiogroupfield-disabled/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-radiogroupfield-disabled/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-radiogroupfield-disabled/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-radiogroupfield--pickup-selected</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 41K · 458×89px</span></td>
+        <td>
+          <a target="_blank" href="lab-radiogroupfield-pickup-selected/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-radiogroupfield-pickup-selected/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-radiogroupfield-pickup-selected/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-radiogroupfield-pickup-selected/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-selectfield--closed</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 56K · 458×122px</span></td>
+        <td>
+          <a target="_blank" href="lab-selectfield-closed/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-selectfield-closed/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-selectfield-closed/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-selectfield-closed/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-selectfield--expanded</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 140K · 458×305px</span></td>
+        <td>
+          <a target="_blank" href="lab-selectfield-expanded/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-selectfield-expanded/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-selectfield-expanded/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-selectfield-expanded/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-snackbarstack--default</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 87K · 520×168px</span></td>
+        <td>
+          <a target="_blank" href="lab-snackbarstack-default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-snackbarstack-default/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-snackbarstack-default/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-snackbarstack-default/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-snackbarstack--dense</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 83K · 520×160px</span></td>
+        <td>
+          <a target="_blank" href="lab-snackbarstack-dense/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-snackbarstack-dense/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-snackbarstack-dense/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-snackbarstack-dense/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-tabspanel--activity-active</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 85K · 542×156px</span></td>
+        <td>
+          <a target="_blank" href="lab-tabspanel-activity-active/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-tabspanel-activity-active/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-tabspanel-activity-active/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-tabspanel-activity-active/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-tabspanel--settings-active</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 85K · 542×156px</span></td>
+        <td>
+          <a target="_blank" href="lab-tabspanel-settings-active/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-tabspanel-settings-active/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-tabspanel-settings-active/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-tabspanel-settings-active/scene.json">scene</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>mui--showcase</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">99.95% match</span><span class="metric-sub">worst area: 99.0% match</span></td>
+        <td><span class="metric-primary">1,057 pixels differ</span><span class="metric-sub">0.05% of 2.0 million · 1200×1670px</span></td>
+        <td>
+          <a target="_blank" href="mui-showcase/storybook.png">storybook</a> ·
+          <a target="_blank" href="mui-showcase/rendered.png">rendered</a> ·
+          <a target="_blank" href="mui-showcase/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="mui-showcase/scene.json">scene</a>
+           · <a href="#story-mui-showcase">7 hotspots</a>
+        </td>
+        <td></td>
+      </tr></tbody>
+</table>
+<h2 id="hotspots">Diff hotspots (Storybook vs Rendered)</h2>
+  <section class="story-section" id="story-mui-showcase">
+    <h2><code>mui--showcase</code> <span style="color:#16a34a">PASS</span> · 99.95% match · worst area 99.0%</h2>
+    <p class="story-hint">Each card is a cropped <strong>Storybook | Rendered</strong> view at a place pixelmatch found differences (not the red heatmap). The <strong>Region</strong> line shows crop size, top-left position on the canvas, and diff % inside that crop only.</p>
+    <div class="regions">
+    <div class="region-card">
+      <div class="region-meta">
+        Region 1 · crop 260×136px at (0, 1516)
+        · 99.04% match in this area
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="mui-showcase/regions/region-01-compare.png" target="_blank" title="Open full size">
+        <img src="mui-showcase/regions/region-01-compare.png" alt="Region 1 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="mui-showcase/regions/region-01-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="mui-showcase/regions/region-01-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div>
+    <div class="region-card">
+      <div class="region-meta">
+        Region 2 · crop 136×232px at (892, 844)
+        · 99.10% match in this area
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="mui-showcase/regions/region-02-compare.png" target="_blank" title="Open full size">
+        <img src="mui-showcase/regions/region-02-compare.png" alt="Region 2 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="mui-showcase/regions/region-02-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="mui-showcase/regions/region-02-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div>
+    <div class="region-card">
+      <div class="region-meta">
+        Region 3 · crop 136×184px at (1036, 844)
+        · 99.0% match in this area
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="mui-showcase/regions/region-03-compare.png" target="_blank" title="Open full size">
+        <img src="mui-showcase/regions/region-03-compare.png" alt="Region 3 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="mui-showcase/regions/region-03-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="mui-showcase/regions/region-03-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div>
+    <div class="region-card">
+      <div class="region-meta">
+        Region 4 · crop 136×88px at (28, 28)
+        · 99.53% match in this area
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="mui-showcase/regions/region-04-compare.png" target="_blank" title="Open full size">
+        <img src="mui-showcase/regions/region-04-compare.png" alt="Region 4 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="mui-showcase/regions/region-04-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="mui-showcase/regions/region-04-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div>
+    <div class="region-card">
+      <div class="region-meta">
+        Region 5 · crop 136×88px at (748, 988)
+        · 99.72% match in this area
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="mui-showcase/regions/region-05-compare.png" target="_blank" title="Open full size">
+        <img src="mui-showcase/regions/region-05-compare.png" alt="Region 5 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="mui-showcase/regions/region-05-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="mui-showcase/regions/region-05-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div>
+    <div class="region-card">
+      <div class="region-meta">
+        Region 6 · crop 88×88px at (652, 988)
+        · 99.72% match in this area
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="mui-showcase/regions/region-06-compare.png" target="_blank" title="Open full size">
+        <img src="mui-showcase/regions/region-06-compare.png" alt="Region 6 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="mui-showcase/regions/region-06-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="mui-showcase/regions/region-06-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div>
+    <div class="region-card">
+      <div class="region-meta">
+        Region 7 · crop 88×88px at (268, 28)
+        · 99.54% match in this area
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="mui-showcase/regions/region-07-compare.png" target="_blank" title="Open full size">
+        <img src="mui-showcase/regions/region-07-compare.png" alt="Region 7 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="mui-showcase/regions/region-07-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="mui-showcase/regions/region-07-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div></div>
+  </section>
+</body></html>

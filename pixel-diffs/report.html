@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Pixel diff report</title>
+<style>
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 24px; color: #111; max-width: 1200px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; margin-bottom: 32px; }
+th, td { border-bottom: 1px solid #e5e7eb; padding: 8px 12px; text-align: left; }
+th { background: #f9fafb; }
+.summary { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; font-size: 16px; }
+.summary div { padding: 8px 16px; background: #f3f4f6; border-radius: 8px; }
+code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; }
+.story-section { margin: 40px 0; padding-top: 24px; border-top: 2px solid #e5e7eb; }
+.story-section h2 { font-size: 18px; margin: 0 0 8px; }
+.story-hint { color: #6b7280; font-size: 13px; margin: 0 0 16px; }
+.regions { display: flex; flex-direction: column; gap: 20px; }
+.region-card { border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; background: #fafafa; }
+.region-meta { font-size: 12px; color: #6b7280; margin-bottom: 8px; }
+.region-labels { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; font-size: 11px; font-weight: 600; color: #374151; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+.region-labels span:last-child { text-align: right; padding-right: 2px; }
+.region-card img { display: block; max-width: 100%; height: auto; border: 1px solid #d1d5db; border-radius: 4px; background: #fff; }
+.region-links { font-size: 12px; margin-top: 8px; }
+.region-links a { color: #2563eb; }
+</style></head><body>
+<h1>UniversalLayer v1.0 — schema fidelity report</h1>
+<p style="font-size:12px;color:#6b7280;margin-top:-8px">PASS ≤ 0.1% diff · WARN ≤ 0.4%</p>
+<div class="summary">
+  <div>Total: <strong>48</strong></div>
+  <div style="color:#16a34a">Pass: <strong>48</strong></div>
+  <div style="color:#d97706">Warn: <strong>0</strong></div>
+  <div style="color:#dc2626">Fail: <strong>0</strong></div>
+  <div style="color:#7c3aed">Error: <strong>0</strong></div>
+</div>
+<table>
+  <thead>
+    <tr><th>Story ID</th><th>Status</th><th>Diff %</th><th>Pixels</th><th>Artifacts</th><th>Note</th></tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>lab-analyticscharts--dense</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.029%</td>
+        <td style="text-align:right">89 / 301,842</td>
+        <td>
+          <a target="_blank" href="lab-analyticscharts-dense/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-analyticscharts-dense/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-analyticscharts-dense/diff.png">diff heatmap</a>
+           · <a href="#story-lab-analyticscharts-dense">2 hotspots</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-analyticscharts--revenue</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.025%</td>
+        <td style="text-align:right">89 / 350,922</td>
+        <td>
+          <a target="_blank" href="lab-analyticscharts-revenue/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-analyticscharts-revenue/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-analyticscharts-revenue/diff.png">diff heatmap</a>
+           · <a href="#story-lab-analyticscharts-revenue">2 hotspots</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-analyticscharts--usage</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.020%</td>
+        <td style="text-align:right">71 / 350,922</td>
+        <td>
+          <a target="_blank" href="lab-analyticscharts-usage/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-analyticscharts-usage/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-analyticscharts-usage/diff.png">diff heatmap</a>
+           · <a href="#story-lab-analyticscharts-usage">2 hotspots</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-button--compact</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 6,760</td>
+        <td>
+          <a target="_blank" href="lab-button-compact/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-button-compact/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-button-compact/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-button--danger</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 17,120</td>
+        <td>
+          <a target="_blank" href="lab-button-danger/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-button-danger/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-button-danger/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-button--ghost</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 21,360</td>
+        <td>
+          <a target="_blank" href="lab-button-ghost/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-button-ghost/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-button-ghost/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-button--large-with-both-icons</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 29,256</td>
+        <td>
+          <a target="_blank" href="lab-button-large-with-both-icons/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-button-large-with-both-icons/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-button-large-with-both-icons/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-button--primary</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 13,520</td>
+        <td>
+          <a target="_blank" href="lab-button-primary/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-button-primary/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-button-primary/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-button--primary-with-icon</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 17,680</td>
+        <td>
+          <a target="_blank" href="lab-button-primary-with-icon/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-button-primary-with-icon/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-button-primary-with-icon/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-button--secondary</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 16,960</td>
+        <td>
+          <a target="_blank" href="lab-button-secondary/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-button-secondary/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-button-secondary/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-calendarscheduler--compact</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 547,564</td>
+        <td>
+          <a target="_blank" href="lab-calendarscheduler-compact/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-calendarscheduler-compact/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-calendarscheduler-compact/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-calendarscheduler--monthly</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 675,612</td>
+        <td>
+          <a target="_blank" href="lab-calendarscheduler-monthly/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-calendarscheduler-monthly/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-calendarscheduler-monthly/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-calendarscheduler--weekdays-only</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 675,612</td>
+        <td>
+          <a target="_blank" href="lab-calendarscheduler-weekdays-only/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-calendarscheduler-weekdays-only/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-calendarscheduler-weekdays-only/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-complexdashboardcard--default</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.049%</td>
+        <td style="text-align:right">186 / 378,820</td>
+        <td>
+          <a target="_blank" href="lab-complexdashboardcard-default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-complexdashboardcard-default/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-complexdashboardcard-default/diff.png">diff heatmap</a>
+           · <a href="#story-lab-complexdashboardcard-default">1 hotspot</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-contentlistboard--compact</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 354,522</td>
+        <td>
+          <a target="_blank" href="lab-contentlistboard-compact/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-contentlistboard-compact/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-contentlistboard-compact/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-contentlistboard--default</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 412,482</td>
+        <td>
+          <a target="_blank" href="lab-contentlistboard-default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-contentlistboard-default/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-contentlistboard-default/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-contentlistboard--highlighted</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 412,482</td>
+        <td>
+          <a target="_blank" href="lab-contentlistboard-highlighted/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-contentlistboard-highlighted/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-contentlistboard-highlighted/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-featurecard--default</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 208,884</td>
+        <td>
+          <a target="_blank" href="lab-featurecard-default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-featurecard-default/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-featurecard-default/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-featurecard--success</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 208,884</td>
+        <td>
+          <a target="_blank" href="lab-featurecard-success/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-featurecard-success/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-featurecard-success/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-featurecard--warning</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 208,884</td>
+        <td>
+          <a target="_blank" href="lab-featurecard-warning/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-featurecard-warning/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-featurecard-warning/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-filtersidepanel--collapsed</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 171,600</td>
+        <td>
+          <a target="_blank" href="lab-filtersidepanel-collapsed/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-filtersidepanel-collapsed/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-filtersidepanel-collapsed/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-filtersidepanel--left-panel</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 184,680</td>
+        <td>
+          <a target="_blank" href="lab-filtersidepanel-left-panel/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-filtersidepanel-left-panel/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-filtersidepanel-left-panel/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-filtersidepanel--right-panel</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 184,680</td>
+        <td>
+          <a target="_blank" href="lab-filtersidepanel-right-panel/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-filtersidepanel-right-panel/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-filtersidepanel-right-panel/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-loadingstates--card-skeleton</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 141,252</td>
+        <td>
+          <a target="_blank" href="lab-loadingstates-card-skeleton/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-loadingstates-card-skeleton/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-loadingstates-card-skeleton/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-loadingstates--list-skeleton</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 76,788</td>
+        <td>
+          <a target="_blank" href="lab-loadingstates-list-skeleton/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-loadingstates-list-skeleton/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-loadingstates-list-skeleton/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-loginpage--default</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 937,904</td>
+        <td>
+          <a target="_blank" href="lab-loginpage-default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-loginpage-default/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-loginpage-default/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-loginpage--filled-credentials</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.080%</td>
+        <td style="text-align:right">747 / 937,904</td>
+        <td>
+          <a target="_blank" href="lab-loginpage-filled-credentials/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-loginpage-filled-credentials/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-loginpage-filled-credentials/diff.png">diff heatmap</a>
+           · <a href="#story-lab-loginpage-filled-credentials">2 hotspots</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-navigationbars--bottom-navigation</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 43,848</td>
+        <td>
+          <a target="_blank" href="lab-navigationbars-bottom-navigation/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-navigationbars-bottom-navigation/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-navigationbars-bottom-navigation/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-navigationbars--top-navigation</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 60,496</td>
+        <td>
+          <a target="_blank" href="lab-navigationbars-top-navigation/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-navigationbars-top-navigation/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-navigationbars-top-navigation/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-overlaystates--bottom-sheet</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 364,800</td>
+        <td>
+          <a target="_blank" href="lab-overlaystates-bottom-sheet/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-overlaystates-bottom-sheet/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-overlaystates-bottom-sheet/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-overlaystates--dialog</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.066%</td>
+        <td style="text-align:right">241 / 364,800</td>
+        <td>
+          <a target="_blank" href="lab-overlaystates-dialog/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-overlaystates-dialog/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-overlaystates-dialog/diff.png">diff heatmap</a>
+           · <a href="#story-lab-overlaystates-dialog">1 hotspot</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-overlaystates--drawer</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.050%</td>
+        <td style="text-align:right">184 / 364,800</td>
+        <td>
+          <a target="_blank" href="lab-overlaystates-drawer/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-overlaystates-drawer/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-overlaystates-drawer/diff.png">diff heatmap</a>
+           · <a href="#story-lab-overlaystates-drawer">2 hotspots</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-pricingpanel--pro</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 188,496</td>
+        <td>
+          <a target="_blank" href="lab-pricingpanel-pro/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-pricingpanel-pro/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-pricingpanel-pro/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-pricingpanel--starter</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 190,244</td>
+        <td>
+          <a target="_blank" href="lab-pricingpanel-starter/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-pricingpanel-starter/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-pricingpanel-starter/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-productcard--alternate-image</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 419,120</td>
+        <td>
+          <a target="_blank" href="lab-productcard-alternate-image/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-productcard-alternate-image/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-productcard-alternate-image/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-productcard--compact</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 280,704</td>
+        <td>
+          <a target="_blank" href="lab-productcard-compact/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-productcard-compact/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-productcard-compact/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-productcard--dark</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 419,120</td>
+        <td>
+          <a target="_blank" href="lab-productcard-dark/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-productcard-dark/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-productcard-dark/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-productcard--default</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 419,120</td>
+        <td>
+          <a target="_blank" href="lab-productcard-default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-productcard-default/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-productcard-default/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-radiogroupfield--default</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 40,762</td>
+        <td>
+          <a target="_blank" href="lab-radiogroupfield-default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-radiogroupfield-default/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-radiogroupfield-default/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-radiogroupfield--disabled</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 40,762</td>
+        <td>
+          <a target="_blank" href="lab-radiogroupfield-disabled/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-radiogroupfield-disabled/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-radiogroupfield-disabled/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-radiogroupfield--pickup-selected</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 40,762</td>
+        <td>
+          <a target="_blank" href="lab-radiogroupfield-pickup-selected/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-radiogroupfield-pickup-selected/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-radiogroupfield-pickup-selected/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-selectfield--closed</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 55,876</td>
+        <td>
+          <a target="_blank" href="lab-selectfield-closed/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-selectfield-closed/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-selectfield-closed/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-selectfield--expanded</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 139,690</td>
+        <td>
+          <a target="_blank" href="lab-selectfield-expanded/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-selectfield-expanded/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-selectfield-expanded/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-snackbarstack--default</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 87,360</td>
+        <td>
+          <a target="_blank" href="lab-snackbarstack-default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-snackbarstack-default/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-snackbarstack-default/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-snackbarstack--dense</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 83,200</td>
+        <td>
+          <a target="_blank" href="lab-snackbarstack-dense/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-snackbarstack-dense/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-snackbarstack-dense/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-tabspanel--activity-active</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 84,552</td>
+        <td>
+          <a target="_blank" href="lab-tabspanel-activity-active/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-tabspanel-activity-active/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-tabspanel-activity-active/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-tabspanel--settings-active</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.000%</td>
+        <td style="text-align:right">0 / 84,552</td>
+        <td>
+          <a target="_blank" href="lab-tabspanel-settings-active/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-tabspanel-settings-active/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-tabspanel-settings-active/diff.png">diff heatmap</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>mui--showcase</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td style="text-align:right">0.098%</td>
+        <td style="text-align:right">1,955 / 2,004,000</td>
+        <td>
+          <a target="_blank" href="mui-showcase/storybook.png">storybook</a> ·
+          <a target="_blank" href="mui-showcase/rendered.png">rendered</a> ·
+          <a target="_blank" href="mui-showcase/diff.png">diff heatmap</a>
+           · <a href="#story-mui-showcase">5 hotspots</a>
+        </td>
+        <td></td>
+      </tr></tbody>
+</table>
+<h2 id="hotspots">Diff hotspots (Storybook vs Rendered)</h2>
+  <section class="story-section" id="story-lab-analyticscharts-dense">
+    <h2><code>lab-analyticscharts--dense</code> <span style="color:#16a34a">PASS</span> · 0.029%</h2>
+    <p class="story-hint">Each card is a cropped <strong>Storybook | Rendered</strong> view at a place pixelmatch found differences (not the red heatmap).</p>
+    <div class="regions">
+    <div class="region-card">
+      <div class="region-meta">
+        Region 1 · crop 134×116px at (604, 0)
+        · ~56 diff px
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="lab-analyticscharts-dense/regions/region-01-compare.png" target="_blank" title="Open full size">
+        <img src="lab-analyticscharts-dense/regions/region-01-compare.png" alt="Region 1 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="lab-analyticscharts-dense/regions/region-01-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="lab-analyticscharts-dense/regions/region-01-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div>
+    <div class="region-card">
+      <div class="region-meta">
+        Region 2 · crop 88×88px at (268, 316)
+        · ~23 diff px
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="lab-analyticscharts-dense/regions/region-02-compare.png" target="_blank" title="Open full size">
+        <img src="lab-analyticscharts-dense/regions/region-02-compare.png" alt="Region 2 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="lab-analyticscharts-dense/regions/region-02-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="lab-analyticscharts-dense/regions/region-02-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div></div>
+  </section>
+  <section class="story-section" id="story-lab-analyticscharts-revenue">
+    <h2><code>lab-analyticscharts--revenue</code> <span style="color:#16a34a">PASS</span> · 0.025%</h2>
+    <p class="story-hint">Each card is a cropped <strong>Storybook | Rendered</strong> view at a place pixelmatch found differences (not the red heatmap).</p>
+    <div class="regions">
+    <div class="region-card">
+      <div class="region-meta">
+        Region 1 · crop 136×80px at (700, 0)
+        · ~33 diff px
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="lab-analyticscharts-revenue/regions/region-01-compare.png" target="_blank" title="Open full size">
+        <img src="lab-analyticscharts-revenue/regions/region-01-compare.png" alt="Region 1 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="lab-analyticscharts-revenue/regions/region-01-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="lab-analyticscharts-revenue/regions/region-01-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div>
+    <div class="region-card">
+      <div class="region-meta">
+        Region 2 · crop 88×88px at (268, 316)
+        · ~23 diff px
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="lab-analyticscharts-revenue/regions/region-02-compare.png" target="_blank" title="Open full size">
+        <img src="lab-analyticscharts-revenue/regions/region-02-compare.png" alt="Region 2 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="lab-analyticscharts-revenue/regions/region-02-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="lab-analyticscharts-revenue/regions/region-02-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div></div>
+  </section>
+  <section class="story-section" id="story-lab-analyticscharts-usage">
+    <h2><code>lab-analyticscharts--usage</code> <span style="color:#16a34a">PASS</span> · 0.020%</h2>
+    <p class="story-hint">Each card is a cropped <strong>Storybook | Rendered</strong> view at a place pixelmatch found differences (not the red heatmap).</p>
+    <div class="regions">
+    <div class="region-card">
+      <div class="region-meta">
+        Region 1 · crop 110×80px at (748, 0)
+        · ~32 diff px
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="lab-analyticscharts-usage/regions/region-01-compare.png" target="_blank" title="Open full size">
+        <img src="lab-analyticscharts-usage/regions/region-01-compare.png" alt="Region 1 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="lab-analyticscharts-usage/regions/region-01-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="lab-analyticscharts-usage/regions/region-01-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div>
+    <div class="region-card">
+      <div class="region-meta">
+        Region 2 · crop 88×88px at (268, 268)
+        · ~24 diff px
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="lab-analyticscharts-usage/regions/region-02-compare.png" target="_blank" title="Open full size">
+        <img src="lab-analyticscharts-usage/regions/region-02-compare.png" alt="Region 2 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="lab-analyticscharts-usage/regions/region-02-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="lab-analyticscharts-usage/regions/region-02-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div></div>
+  </section>
+  <section class="story-section" id="story-lab-complexdashboardcard-default">
+    <h2><code>lab-complexdashboardcard--default</code> <span style="color:#16a34a">PASS</span> · 0.049%</h2>
+    <p class="story-hint">Each card is a cropped <strong>Storybook | Rendered</strong> view at a place pixelmatch found differences (not the red heatmap).</p>
+    <div class="regions">
+    <div class="region-card">
+      <div class="region-meta">
+        Region 1 · crop 184×80px at (604, 0)
+        · ~175 diff px
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="lab-complexdashboardcard-default/regions/region-01-compare.png" target="_blank" title="Open full size">
+        <img src="lab-complexdashboardcard-default/regions/region-01-compare.png" alt="Region 1 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="lab-complexdashboardcard-default/regions/region-01-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="lab-complexdashboardcard-default/regions/region-01-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div></div>
+  </section>
+  <section class="story-section" id="story-lab-loginpage-filled-credentials">
+    <h2><code>lab-loginpage--filled-credentials</code> <span style="color:#16a34a">PASS</span> · 0.080%</h2>
+    <p class="story-hint">Each card is a cropped <strong>Storybook | Rendered</strong> view at a place pixelmatch found differences (not the red heatmap).</p>
+    <div class="regions">
+    <div class="region-card">
+      <div class="region-meta">
+        Region 1 · crop 184×88px at (364, 412)
+        · ~582 diff px
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="lab-loginpage-filled-credentials/regions/region-01-compare.png" target="_blank" title="Open full size">
+        <img src="lab-loginpage-filled-credentials/regions/region-01-compare.png" alt="Region 1 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="lab-loginpage-filled-credentials/regions/region-01-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="lab-loginpage-filled-credentials/regions/region-01-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div>
+    <div class="region-card">
+      <div class="region-meta">
+        Region 2 · crop 184×88px at (364, 508)
+        · ~159 diff px
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="lab-loginpage-filled-credentials/regions/region-02-compare.png" target="_blank" title="Open full size">
+        <img src="lab-loginpage-filled-credentials/regions/region-02-compare.png" alt="Region 2 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="lab-loginpage-filled-credentials/regions/region-02-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="lab-loginpage-filled-credentials/regions/region-02-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div></div>
+  </section>
+  <section class="story-section" id="story-lab-overlaystates-dialog">
+    <h2><code>lab-overlaystates--dialog</code> <span style="color:#16a34a">PASS</span> · 0.066%</h2>
+    <p class="story-hint">Each card is a cropped <strong>Storybook | Rendered</strong> view at a place pixelmatch found differences (not the red heatmap).</p>
+    <div class="regions">
+    <div class="region-card">
+      <div class="region-meta">
+        Region 1 · crop 184×88px at (172, 220)
+        · ~220 diff px
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="lab-overlaystates-dialog/regions/region-01-compare.png" target="_blank" title="Open full size">
+        <img src="lab-overlaystates-dialog/regions/region-01-compare.png" alt="Region 1 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="lab-overlaystates-dialog/regions/region-01-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="lab-overlaystates-dialog/regions/region-01-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div></div>
+  </section>
+  <section class="story-section" id="story-lab-overlaystates-drawer">
+    <h2><code>lab-overlaystates--drawer</code> <span style="color:#16a34a">PASS</span> · 0.050%</h2>
+    <p class="story-hint">Each card is a cropped <strong>Storybook | Rendered</strong> view at a place pixelmatch found differences (not the red heatmap).</p>
+    <div class="regions">
+    <div class="region-card">
+      <div class="region-meta">
+        Region 1 · crop 88×88px at (460, 76)
+        · ~132 diff px
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="lab-overlaystates-drawer/regions/region-01-compare.png" target="_blank" title="Open full size">
+        <img src="lab-overlaystates-drawer/regions/region-01-compare.png" alt="Region 1 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="lab-overlaystates-drawer/regions/region-01-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="lab-overlaystates-drawer/regions/region-01-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div>
+    <div class="region-card">
+      <div class="region-meta">
+        Region 2 · crop 88×88px at (556, 76)
+        · ~41 diff px
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="lab-overlaystates-drawer/regions/region-02-compare.png" target="_blank" title="Open full size">
+        <img src="lab-overlaystates-drawer/regions/region-02-compare.png" alt="Region 2 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="lab-overlaystates-drawer/regions/region-02-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="lab-overlaystates-drawer/regions/region-02-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div></div>
+  </section>
+  <section class="story-section" id="story-mui-showcase">
+    <h2><code>mui--showcase</code> <span style="color:#16a34a">PASS</span> · 0.098%</h2>
+    <p class="story-hint">Each card is a cropped <strong>Storybook | Rendered</strong> view at a place pixelmatch found differences (not the red heatmap).</p>
+    <div class="regions">
+    <div class="region-card">
+      <div class="region-meta">
+        Region 1 · crop 424×184px at (28, 508)
+        · ~1,225 diff px
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="mui-showcase/regions/region-01-compare.png" target="_blank" title="Open full size">
+        <img src="mui-showcase/regions/region-01-compare.png" alt="Region 1 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="mui-showcase/regions/region-01-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="mui-showcase/regions/region-01-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div>
+    <div class="region-card">
+      <div class="region-meta">
+        Region 2 · crop 328×136px at (28, 316)
+        · ~442 diff px
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="mui-showcase/regions/region-02-compare.png" target="_blank" title="Open full size">
+        <img src="mui-showcase/regions/region-02-compare.png" alt="Region 2 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="mui-showcase/regions/region-02-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="mui-showcase/regions/region-02-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div>
+    <div class="region-card">
+      <div class="region-meta">
+        Region 3 · crop 116×88px at (0, 1516)
+        · ~138 diff px
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="mui-showcase/regions/region-03-compare.png" target="_blank" title="Open full size">
+        <img src="mui-showcase/regions/region-03-compare.png" alt="Region 3 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="mui-showcase/regions/region-03-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="mui-showcase/regions/region-03-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div>
+    <div class="region-card">
+      <div class="region-meta">
+        Region 4 · crop 136×88px at (124, 1564)
+        · ~85 diff px
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="mui-showcase/regions/region-04-compare.png" target="_blank" title="Open full size">
+        <img src="mui-showcase/regions/region-04-compare.png" alt="Region 4 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="mui-showcase/regions/region-04-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="mui-showcase/regions/region-04-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div>
+    <div class="region-card">
+      <div class="region-meta">
+        Region 5 · crop 88×88px at (1084, 940)
+        · ~14 diff px
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="mui-showcase/regions/region-05-compare.png" target="_blank" title="Open full size">
+        <img src="mui-showcase/regions/region-05-compare.png" alt="Region 5 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="mui-showcase/regions/region-05-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="mui-showcase/regions/region-05-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div></div>
+  </section>
+</body></html>

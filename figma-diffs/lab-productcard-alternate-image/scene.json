@@ -1,0 +1,454 @@
+{
+  "id": 13,
+  "kind": "FRAME",
+  "type": "FRAME",
+  "name": "ProductCard Canvas",
+  "x": 0,
+  "y": 0,
+  "width": 854,
+  "height": 568,
+  "opacity": 1,
+  "fills": [
+    {
+      "type": "SOLID",
+      "color": {
+        "r": 0.9607843137254902,
+        "g": 0.9686274509803922,
+        "b": 0.984313725490196
+      },
+      "opacity": 1
+    }
+  ],
+  "strokes": [],
+  "strokeWeight": 1,
+  "strokeTopWeight": 0,
+  "strokeRightWeight": 0,
+  "strokeBottomWeight": 0,
+  "strokeLeftWeight": 0,
+  "dashPattern": [],
+  "cornerRadii": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "effects": [],
+  "clipsContent": false,
+  "children": [
+    {
+      "id": 1,
+      "kind": "FRAME",
+      "type": "FRAME",
+      "name": "ProductCard",
+      "x": 24,
+      "y": 24,
+      "width": 806,
+      "height": 520,
+      "opacity": 1,
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": {
+            "r": 0.8509803921568627,
+            "g": 0.8705882352941177,
+            "b": 0.8745098039215686
+          },
+          "opacity": 1
+        }
+      ],
+      "strokes": [],
+      "strokeWeight": 1,
+      "strokeTopWeight": 0,
+      "strokeRightWeight": 0,
+      "strokeBottomWeight": 0,
+      "strokeLeftWeight": 0,
+      "dashPattern": [],
+      "cornerRadii": [
+        10,
+        10,
+        10,
+        10
+      ],
+      "effects": [],
+      "clipsContent": false,
+      "children": [
+        {
+          "id": 2,
+          "kind": "RECTANGLE",
+          "type": "RECTANGLE",
+          "name": "img",
+          "x": 50,
+          "y": 50,
+          "width": 291,
+          "height": 302,
+          "opacity": 1,
+          "fills": [
+            {
+              "type": "IMAGE",
+              "imageHash": "mock-7c92387d-40399",
+              "scaleMode": "FILL"
+            }
+          ],
+          "strokes": [],
+          "strokeWeight": 1,
+          "cornerRadii": [
+            7,
+            7,
+            7,
+            7
+          ],
+          "effects": []
+        },
+        {
+          "id": 3,
+          "kind": "FRAME",
+          "type": "FRAME",
+          "name": "div",
+          "x": 385,
+          "y": 50,
+          "width": 336.06,
+          "height": 420,
+          "opacity": 1,
+          "fills": [],
+          "strokes": [],
+          "strokeWeight": 1,
+          "strokeTopWeight": 0,
+          "strokeRightWeight": 0,
+          "strokeBottomWeight": 0,
+          "strokeLeftWeight": 0,
+          "dashPattern": [],
+          "cornerRadii": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "effects": [],
+          "clipsContent": false,
+          "children": [
+            {
+              "id": 4,
+              "kind": "FRAME",
+              "type": "FRAME",
+              "name": "h2",
+              "x": 0,
+              "y": 70,
+              "width": 336.06,
+              "height": 100,
+              "opacity": 1,
+              "fills": [],
+              "strokes": [],
+              "strokeWeight": 1,
+              "strokeTopWeight": 0,
+              "strokeRightWeight": 0,
+              "strokeBottomWeight": 0,
+              "strokeLeftWeight": 0,
+              "dashPattern": [],
+              "cornerRadii": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "effects": [],
+              "clipsContent": false,
+              "children": [
+                {
+                  "id": 5,
+                  "kind": "FRAME",
+                  "type": "FRAME",
+                  "name": "h2-text",
+                  "x": 0,
+                  "y": -2,
+                  "width": 337,
+                  "height": 100,
+                  "opacity": 1,
+                  "fills": [],
+                  "strokes": [],
+                  "strokeWeight": 1,
+                  "strokeTopWeight": 0,
+                  "strokeRightWeight": 0,
+                  "strokeBottomWeight": 0,
+                  "strokeLeftWeight": 0,
+                  "dashPattern": [],
+                  "cornerRadii": [
+                    0,
+                    0,
+                    0,
+                    0
+                  ],
+                  "effects": [],
+                  "clipsContent": false,
+                  "children": [
+                    {
+                      "id": 6,
+                      "kind": "TEXT",
+                      "type": "TEXT",
+                      "name": "Text",
+                      "x": 0,
+                      "y": 0,
+                      "width": 337,
+                      "height": 100,
+                      "opacity": 1,
+                      "characters": "Vintage Camera\nV12",
+                      "fontName": {
+                        "family": "Roboto Mono",
+                        "style": "Regular"
+                      },
+                      "fontSize": 40,
+                      "fills": [
+                        {
+                          "type": "SOLID",
+                          "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0
+                          },
+                          "opacity": 1
+                        }
+                      ],
+                      "textAlignHorizontal": "LEFT",
+                      "textAutoResize": "HEIGHT",
+                      "lineHeight": {
+                        "unit": "PIXELS",
+                        "value": 50
+                      },
+                      "letterSpacing": {
+                        "unit": "PIXELS",
+                        "value": 0
+                      },
+                      "textCase": "ORIGINAL",
+                      "textDecoration": "NONE"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 7,
+              "kind": "FRAME",
+              "type": "FRAME",
+              "name": "p",
+              "x": 0,
+              "y": 190,
+              "width": 336.06,
+              "height": 31,
+              "opacity": 1,
+              "fills": [],
+              "strokes": [],
+              "strokeWeight": 1,
+              "strokeTopWeight": 0,
+              "strokeRightWeight": 0,
+              "strokeBottomWeight": 0,
+              "strokeLeftWeight": 0,
+              "dashPattern": [],
+              "cornerRadii": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "effects": [],
+              "clipsContent": false,
+              "children": [
+                {
+                  "id": 8,
+                  "kind": "TEXT",
+                  "type": "TEXT",
+                  "name": "Text",
+                  "x": 0,
+                  "y": 0,
+                  "width": 162.23999999999998,
+                  "height": 31,
+                  "opacity": 1,
+                  "characters": "Back in stock",
+                  "fontName": {
+                    "family": "Inter",
+                    "style": "Regular"
+                  },
+                  "fontSize": 26,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "color": {
+                        "r": 0.4,
+                        "g": 0.4,
+                        "b": 0.4
+                      },
+                      "opacity": 1
+                    }
+                  ],
+                  "textAlignHorizontal": "LEFT",
+                  "textAutoResize": "WIDTH_AND_HEIGHT",
+                  "lineHeight": {
+                    "unit": "PIXELS",
+                    "value": 31
+                  },
+                  "letterSpacing": {
+                    "unit": "PIXELS",
+                    "value": 0
+                  },
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              ]
+            },
+            {
+              "id": 9,
+              "kind": "FRAME",
+              "type": "FRAME",
+              "name": "div",
+              "x": 0,
+              "y": 251,
+              "width": 336.06,
+              "height": 46,
+              "opacity": 1,
+              "fills": [],
+              "strokes": [],
+              "strokeWeight": 1,
+              "strokeTopWeight": 0,
+              "strokeRightWeight": 0,
+              "strokeBottomWeight": 0,
+              "strokeLeftWeight": 0,
+              "dashPattern": [],
+              "cornerRadii": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "effects": [],
+              "clipsContent": false,
+              "children": [
+                {
+                  "id": 10,
+                  "kind": "FRAME",
+                  "type": "FRAME",
+                  "name": "span",
+                  "x": 0,
+                  "y": 0,
+                  "width": 46,
+                  "height": 46,
+                  "opacity": 1,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "color": {
+                        "r": 1,
+                        "g": 1,
+                        "b": 1
+                      },
+                      "opacity": 1
+                    }
+                  ],
+                  "strokes": [
+                    {
+                      "type": "SOLID",
+                      "color": {
+                        "r": 0.6196078431372549,
+                        "g": 0.6509803921568628,
+                        "b": 0.6588235294117647
+                      },
+                      "opacity": 1
+                    }
+                  ],
+                  "strokeWeight": 2,
+                  "strokeTopWeight": 2,
+                  "strokeRightWeight": 2,
+                  "strokeBottomWeight": 2,
+                  "strokeLeftWeight": 2,
+                  "dashPattern": [],
+                  "cornerRadii": [
+                    999,
+                    999,
+                    999,
+                    999
+                  ],
+                  "effects": [],
+                  "clipsContent": false,
+                  "children": []
+                },
+                {
+                  "id": 11,
+                  "kind": "FRAME",
+                  "type": "FRAME",
+                  "name": "span",
+                  "x": 62,
+                  "y": 7,
+                  "width": 32,
+                  "height": 32,
+                  "opacity": 1,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "color": {
+                        "r": 0.24705882352941178,
+                        "g": 0.25882352941176473,
+                        "b": 0.27450980392156865
+                      },
+                      "opacity": 1
+                    }
+                  ],
+                  "strokes": [],
+                  "strokeWeight": 1,
+                  "strokeTopWeight": 0,
+                  "strokeRightWeight": 0,
+                  "strokeBottomWeight": 0,
+                  "strokeLeftWeight": 0,
+                  "dashPattern": [],
+                  "cornerRadii": [
+                    999,
+                    999,
+                    999,
+                    999
+                  ],
+                  "effects": [],
+                  "clipsContent": false,
+                  "children": []
+                },
+                {
+                  "id": 12,
+                  "kind": "FRAME",
+                  "type": "FRAME",
+                  "name": "span",
+                  "x": 110,
+                  "y": 7,
+                  "width": 32,
+                  "height": 32,
+                  "opacity": 1,
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "color": {
+                        "r": 1,
+                        "g": 0.7686274509803922,
+                        "b": 0.23137254901960785
+                      },
+                      "opacity": 1
+                    }
+                  ],
+                  "strokes": [],
+                  "strokeWeight": 1,
+                  "strokeTopWeight": 0,
+                  "strokeRightWeight": 0,
+                  "strokeBottomWeight": 0,
+                  "strokeLeftWeight": 0,
+                  "dashPattern": [],
+                  "cornerRadii": [
+                    999,
+                    999,
+                    999,
+                    999
+                  ],
+                  "effects": [],
+                  "clipsContent": false,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

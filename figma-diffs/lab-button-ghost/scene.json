@@ -1,0 +1,195 @@
+{
+  "id": 6,
+  "kind": "FRAME",
+  "type": "FRAME",
+  "name": "Button Canvas",
+  "x": 0,
+  "y": 0,
+  "width": 314.94,
+  "height": 128,
+  "opacity": 1,
+  "fills": [
+    {
+      "type": "SOLID",
+      "color": {
+        "r": 0.9607843137254902,
+        "g": 0.9686274509803922,
+        "b": 0.984313725490196
+      },
+      "opacity": 1
+    }
+  ],
+  "strokes": [],
+  "strokeWeight": 1,
+  "strokeTopWeight": 0,
+  "strokeRightWeight": 0,
+  "strokeBottomWeight": 0,
+  "strokeLeftWeight": 0,
+  "dashPattern": [],
+  "cornerRadii": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "effects": [],
+  "clipsContent": false,
+  "children": [
+    {
+      "id": 1,
+      "kind": "FRAME",
+      "type": "FRAME",
+      "name": "Button",
+      "x": 24,
+      "y": 24,
+      "width": 267,
+      "height": 80,
+      "opacity": 1,
+      "fills": [],
+      "strokes": [],
+      "strokeWeight": 1,
+      "strokeTopWeight": 0,
+      "strokeRightWeight": 0,
+      "strokeBottomWeight": 0,
+      "strokeLeftWeight": 0,
+      "dashPattern": [],
+      "cornerRadii": [
+        40,
+        40,
+        40,
+        40
+      ],
+      "effects": [],
+      "clipsContent": false,
+      "children": [
+        {
+          "id": 3,
+          "kind": "FRAME",
+          "type": "FRAME",
+          "name": "label",
+          "x": 34,
+          "y": 24,
+          "width": 150.94,
+          "height": 32,
+          "opacity": 1,
+          "fills": [],
+          "strokes": [],
+          "strokeWeight": 1,
+          "strokeTopWeight": 0,
+          "strokeRightWeight": 0,
+          "strokeBottomWeight": 0,
+          "strokeLeftWeight": 0,
+          "dashPattern": [],
+          "cornerRadii": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "effects": [],
+          "clipsContent": false,
+          "children": [
+            {
+              "id": 4,
+              "kind": "TEXT",
+              "type": "TEXT",
+              "name": "Text",
+              "x": 8.27,
+              "y": 2,
+              "width": 134.4,
+              "height": 28,
+              "opacity": 1,
+              "characters": "Learn More",
+              "fontName": {
+                "family": "Inter",
+                "style": "Bold"
+              },
+              "fontSize": 28,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0,
+                    "g": 0.42745098039215684,
+                    "b": 0.807843137254902
+                  },
+                  "opacity": 1
+                }
+              ],
+              "textAlignHorizontal": "CENTER",
+              "textAutoResize": "WIDTH_AND_HEIGHT",
+              "lineHeight": {
+                "unit": "PIXELS",
+                "value": 28
+              },
+              "letterSpacing": {
+                "unit": "PIXELS",
+                "value": 0
+              },
+              "textCase": "ORIGINAL",
+              "textDecoration": "NONE"
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "kind": "SVG",
+          "type": "FRAME",
+          "name": "arrowIcon",
+          "x": 204.94,
+          "y": 26,
+          "width": 28,
+          "height": 28,
+          "opacity": 1,
+          "fills": [],
+          "strokes": [],
+          "strokeWeight": 1,
+          "strokeTopWeight": 0,
+          "strokeRightWeight": 0,
+          "strokeBottomWeight": 0,
+          "strokeLeftWeight": 0,
+          "dashPattern": [],
+          "cornerRadii": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "effects": [],
+          "clipsContent": false,
+          "svgSource": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"28\" height=\"28\" viewBox=\"0 0 28 28\"><path d=\"M8 14h12M16 9l5 5-5 5\" stroke=\"rgb(0, 109, 206)\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"rgb(0, 0, 0)\" /></svg>",
+          "children": []
+        },
+        {
+          "id": 2,
+          "kind": "SVG",
+          "type": "FRAME",
+          "name": "__border",
+          "x": 0,
+          "y": 0,
+          "width": 266.94,
+          "height": 80,
+          "opacity": 1,
+          "fills": [],
+          "strokes": [],
+          "strokeWeight": 1,
+          "strokeTopWeight": 0,
+          "strokeRightWeight": 0,
+          "strokeBottomWeight": 0,
+          "strokeLeftWeight": 0,
+          "dashPattern": [],
+          "cornerRadii": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "effects": [],
+          "clipsContent": false,
+          "svgSource": "<svg width=\"266.94\" height=\"80\" viewBox=\"0 0 266.94 80\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M 1 40 A 39 39 0 0 1 40 1 L 226.94 1 A 39 39 0 0 1 265.94 40 L 265.94 40 A 39 39 0 0 1 226.94 79 L 40 79 A 39 39 0 0 1 1 40 Z\" fill=\"none\" stroke=\"rgb(121, 174, 232)\" stroke-width=\"2\" stroke-dasharray=\"6 6\"/></svg>",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

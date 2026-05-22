@@ -1,0 +1,15 @@
+{
+  "storyId": "lab-button--secondary",
+  "width": 212,
+  "height": 80,
+  "pixelsDiffered": 0,
+  "pixelsTotal": 16960,
+  "percent": 0,
+  "status": "pass",
+  "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-button-secondary/storybook.png",
+  "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-button-secondary/rendered.png",
+  "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-button-secondary/diff.png",
+  "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-button-secondary/artifact.v2.json",
+  "diffRegions": [],
+  "testedAt": "2026-05-22T13:18:52.445Z"
+}

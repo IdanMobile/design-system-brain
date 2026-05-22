@@ -1,0 +1,14 @@
+{
+  "storyId": "lab-analyticscharts--dense",
+  "status": "pass",
+  "percent": 0,
+  "maxRegionPercent": 0,
+  "testedAt": "2026-05-21T20:47:45.621Z",
+  "component": "AnalyticsCharts",
+  "gaps": [],
+  "dsBuiltIn": [],
+  "interactiveCount": 0,
+  "readonlyCount": 0,
+  "findings": [],
+  "demoVideo": "by-story/lab-analyticscharts-dense/interaction.webm"
+}

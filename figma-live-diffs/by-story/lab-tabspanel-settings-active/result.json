@@ -1,0 +1,31 @@
+{
+  "storyId": "lab-tabspanel--settings-active",
+  "width": 542,
+  "height": 156,
+  "pixelsDiffered": 1931,
+  "pixelsTotal": 84552,
+  "percent": 2.2838016841706876,
+  "maxRegionPercent": 4.0188977688977685,
+  "status": "fail",
+  "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-settings-active/storybook.png",
+  "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-settings-active/figma.png",
+  "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-settings-active/diff.png",
+  "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-settings-active/artifact.v2.json",
+  "diffRegions": [
+    {
+      "index": 1,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 308,
+        "height": 156,
+        "pixels": 1931,
+        "percent": 4.0188977688977685
+      },
+      "storybook": "regions/region-01-storybook.png",
+      "rendered": "regions/region-01-rendered.png",
+      "compare": "regions/region-01-compare.png"
+    }
+  ],
+  "testedAt": "2026-05-22T13:17:56.512Z"
+}
