@@ -15,7 +15,14 @@ export type DevComponentName =
   | "FilterSidePanel"
   | "LoadingStates"
   | "LoginPage"
+  | "MeetingHomePage"
+  | "NeonArcadeScreen"
+  | "CryptoChaosDashboard"
+  | "FoodFrenzyScreen"
+  | "SpaceMissionControl"
+  | "RetroTerminalScreen"
   | "MUIShowcase"
+  | "MUIWorkspaceScreen"
   | "NavigationBars"
   | "OverlayStates"
   | "PricingPanel"
@@ -154,6 +161,13 @@ export const DEV_STORIES: DevStoryEntry[] = [
       subtitle: "Sign in and continue where you left off."
     }
   },
+  { id: "lab-meetinghomepage--default", component: "MeetingHomePage" },
+  { id: "lab-neonarcadescreen--default", component: "NeonArcadeScreen" },
+  { id: "lab-cryptochaosdashboard--default", component: "CryptoChaosDashboard" },
+  { id: "lab-foodfrenzyscreen--default", component: "FoodFrenzyScreen" },
+  { id: "lab-spacemissioncontrol--default", component: "SpaceMissionControl" },
+  { id: "lab-retroterminalscreen--default", component: "RetroTerminalScreen" },
+  { id: "lab-muiworkspacescreen--default", component: "MUIWorkspaceScreen" },
   { id: "lab-navigationbars--top-navigation", component: "NavigationBars" },
   { id: "lab-navigationbars--bottom-navigation", component: "NavigationBars", args: { mobile: true } },
   { id: "lab-overlaystates--dialog", component: "OverlayStates" },

@@ -1,0 +1,65 @@
+{
+  "storyId": "lab-featurecard--success",
+  "attempt": 1,
+  "jobId": "70187351-5449-4bab-85e6-c8befbbbd042",
+  "recordedAt": "2026-05-23T08:21:31.625Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 0.9263514678003102,
+    "maxRegionPercent": 3.406683359013867,
+    "error": null
+  },
+  "afterTest": {
+    "status": "error",
+    "percent": 100,
+    "maxRegionPercent": null,
+    "error": "Export timed out after 600000ms"
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-featurecard--success_try1-1779522984362.prompt.txt",
+    ".test-console/agent-models-cache.json",
+    ".test-console/child-status/70187351-5449-4bab-85e6-c8befbbbd042-agent-lab-calendarscheduler--compact_try3-1779518797464.json",
+    "figma-diffs/by-story/lab-calendarscheduler-compact/result.json",
+    "figma-diffs/lab-calendarscheduler-compact/artifact.v2.json",
+    "figma-diffs/report.json",
+    "figma-live-diffs/by-story/lab-button-compact/result.json",
+    "figma-live-diffs/by-story/lab-calendarscheduler-compact/result.json",
+    "figma-live-diffs/by-story/lab-featurecard-success/result.json",
+    "figma-live-diffs/lab-calendarscheduler-compact/artifact.v2.json",
+    "figma-live-diffs/lab-calendarscheduler-compact/figma.png",
+    "figma-live-diffs/lab-featurecard-success/artifact.v2.json",
+    "figma-live-diffs/lab-featurecard-success/diff.png",
+    "figma-live-diffs/lab-featurecard-success/figma.png",
+    "figma-live-diffs/lab-featurecard-success/regions/region-01-compare.png",
+    "figma-live-diffs/lab-featurecard-success/regions/region-01-rendered.png",
+    "figma-live-diffs/lab-featurecard-success/regions/region-02-compare.png",
+    "figma-live-diffs/lab-featurecard-success/regions/region-02-rendered.png",
+    "figma-live-diffs/lab-featurecard-success/regions/region-03-compare.png",
+    "figma-live-diffs/lab-featurecard-success/regions/region-03-rendered.png",
+    "figma-live-diffs/report.html",
+    "figma-live-diffs/report.json",
+    "packages/figma-importer-plugin/dist/code.js",
+    "packages/figma-importer-plugin/src/code-v2.ts",
+    "packages/figma-importer-plugin/src/code.ts",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "WORSE_METRICS",
+    "verdicts": [
+      "WORSE_METRICS",
+      "SHARED_ADAPTER"
+    ],
+    "nextWorkerMode": "narrow_scope",
+    "interventionLines": [
+      "Supervisor: global diff worsened by 99.07% — revert harmful edits; do not repeat the same approach.",
+      "Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": true
+  }
+}

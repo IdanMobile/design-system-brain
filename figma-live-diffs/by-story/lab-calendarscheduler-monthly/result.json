@@ -2,10 +2,13 @@
   "storyId": "lab-calendarscheduler--monthly",
   "width": 882,
   "height": 766,
-  "pixelsDiffered": 8113,
+  "pixelsDiffered": 5846,
   "pixelsTotal": 675612,
-  "percent": 1.200837166894608,
-  "maxRegionPercent": 3.0039811798769454,
+  "percent": 0.8652895448867101,
+  "maxRegionPercent": 3.11859090360719,
+  "globalTolerance": 2.5,
+  "regionTolerance": 2.2,
+  "failReason": "hotspot",
   "status": "fail",
   "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-monthly/storybook.png",
   "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-monthly/figma.png",
@@ -19,8 +22,8 @@
         "y": 604,
         "width": 614,
         "height": 162,
-        "pixels": 2988,
-        "percent": 3.0039811798769454
+        "pixels": 3102,
+        "percent": 3.11859090360719
       },
       "storybook": "regions/region-01-storybook.png",
       "rendered": "regions/region-01-rendered.png",
@@ -33,8 +36,8 @@
         "y": 604,
         "width": 260,
         "height": 162,
-        "pixels": 1180,
-        "percent": 2.801519468186135
+        "pixels": 1172,
+        "percent": 2.7825261158594494
       },
       "storybook": "regions/region-02-storybook.png",
       "rendered": "regions/region-02-rendered.png",
@@ -43,12 +46,12 @@
     {
       "index": 3,
       "rect": {
-        "x": 364,
-        "y": 268,
-        "width": 232,
-        "height": 280,
-        "pixels": 835,
-        "percent": 1.2854064039408868
+        "x": 748,
+        "y": 0,
+        "width": 134,
+        "height": 164,
+        "pixels": 382,
+        "percent": 1.7382599199126318
       },
       "storybook": "regions/region-03-storybook.png",
       "rendered": "regions/region-03-rendered.png",
@@ -58,11 +61,11 @@
       "index": 4,
       "rect": {
         "x": 604,
-        "y": 0,
-        "width": 278,
-        "height": 164,
-        "pixels": 587,
-        "percent": 1.2875065801017722
+        "y": 220,
+        "width": 136,
+        "height": 136,
+        "pixels": 294,
+        "percent": 1.5895328719723185
       },
       "storybook": "regions/region-04-storybook.png",
       "rendered": "regions/region-04-rendered.png",
@@ -71,12 +74,12 @@
     {
       "index": 5,
       "rect": {
-        "x": 124,
-        "y": 28,
-        "width": 472,
+        "x": 364,
+        "y": 268,
+        "width": 184,
         "height": 136,
-        "pixels": 576,
-        "percent": 0.897308075772682
+        "pixels": 284,
+        "percent": 1.1349104859335037
       },
       "storybook": "regions/region-05-storybook.png",
       "rendered": "regions/region-05-rendered.png",
@@ -85,12 +88,12 @@
     {
       "index": 6,
       "rect": {
-        "x": 604,
-        "y": 172,
-        "width": 232,
-        "height": 184,
-        "pixels": 447,
-        "percent": 1.047132683658171
+        "x": 460,
+        "y": 412,
+        "width": 136,
+        "height": 88,
+        "pixels": 186,
+        "percent": 1.554144385026738
       },
       "storybook": "regions/region-06-storybook.png",
       "rendered": "regions/region-06-rendered.png",
@@ -99,12 +102,12 @@
     {
       "index": 7,
       "rect": {
-        "x": 0,
+        "x": 28,
         "y": 0,
-        "width": 116,
+        "width": 88,
         "height": 80,
-        "pixels": 217,
-        "percent": 2.3383620689655173
+        "pixels": 60,
+        "percent": 0.8522727272727272
       },
       "storybook": "regions/region-07-storybook.png",
       "rendered": "regions/region-07-rendered.png",
@@ -114,16 +117,16 @@
       "index": 8,
       "rect": {
         "x": 0,
-        "y": 76,
-        "width": 116,
+        "y": 364,
+        "width": 80,
         "height": 88,
-        "pixels": 158,
-        "percent": 1.5478056426332287
+        "pixels": 28,
+        "percent": 0.3977272727272727
       },
       "storybook": "regions/region-08-storybook.png",
       "rendered": "regions/region-08-rendered.png",
       "compare": "regions/region-08-compare.png"
     }
   ],
-  "testedAt": "2026-05-22T12:39:35.385Z"
+  "testedAt": "2026-05-23T11:50:02.457Z"
 }

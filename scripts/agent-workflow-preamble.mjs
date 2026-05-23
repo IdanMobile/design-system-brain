@@ -125,7 +125,7 @@ export function workflowPreamble(activity, ctx = {}) {
         `3. Superpowers: ${SUPERPOWERS.usingSuperpowers} — check skills before any action.`,
         `4. Read ${SKILLS.developerAgent} — Developer Agent scope (NOT story fix worker).`,
         `5. Read ${SKILLS.architect} — audit template + JSON/report outputs.`,
-        `6. Context: ${SKILLS.orchestrator} + ${SKILLS.roadmap} + docs/ROADMAP.md + upload_to_cloud/DECISIONS.md.`,
+        `6. Context: ${SKILLS.orchestrator} + ${SKILLS.roadmap} + docs/ROADMAP.md + .cursor/rules/automatic-workflows.mdc (lab policy only — not upload_to_cloud).`,
         `7. Superpowers: ${SUPERPOWERS.systematicDebugging} — trace root causes; question architecture if same symptom class repeats.`,
         `8. Superpowers: ${SUPERPOWERS.verificationBeforeCompletion} — cite file:line evidence for every finding.`,
         "9. READ-ONLY — do NOT fix stories, run golden tests, or edit code-v2.ts for parity.",

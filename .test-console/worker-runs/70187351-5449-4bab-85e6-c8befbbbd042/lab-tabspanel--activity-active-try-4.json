@@ -1,0 +1,54 @@
+{
+  "storyId": "lab-tabspanel--activity-active",
+  "attempt": 4,
+  "jobId": "70187351-5449-4bab-85e6-c8befbbbd042",
+  "recordedAt": "2026-05-23T03:43:29.178Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 1.4854763932254706,
+    "maxRegionPercent": 3.3725649350649354,
+    "error": null
+  },
+  "afterTest": {
+    "status": "error",
+    "percent": 100,
+    "maxRegionPercent": null,
+    "error": "Export timed out after 600000ms"
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-tabspanel--activity-active_try4-1779506301251.prompt.txt",
+    "figma-live-diffs/by-story/lab-tabspanel-activity-active/result.json",
+    "figma-live-diffs/lab-tabspanel-activity-active/artifact.v2.json",
+    "figma-live-diffs/lab-tabspanel-activity-active/diff.png",
+    "figma-live-diffs/lab-tabspanel-activity-active/figma.png",
+    "figma-live-diffs/lab-tabspanel-activity-active/regions/region-01-compare.png",
+    "figma-live-diffs/lab-tabspanel-activity-active/regions/region-01-rendered.png",
+    "figma-live-diffs/lab-tabspanel-activity-active/regions/region-01-storybook.png",
+    "figma-live-diffs/lab-tabspanel-activity-active/regions/region-02-compare.png",
+    "figma-live-diffs/lab-tabspanel-activity-active/regions/region-02-rendered.png",
+    "figma-live-diffs/report.html",
+    "figma-live-diffs/report.json",
+    "packages/figma-importer-plugin/dist/code.js",
+    "packages/figma-importer-plugin/src/code-v2.ts",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "WORSE_METRICS",
+    "verdicts": [
+      "WORSE_METRICS",
+      "SHARED_ADAPTER"
+    ],
+    "nextWorkerMode": "narrow_scope",
+    "interventionLines": [
+      "Supervisor: global diff worsened by 98.51% — revert harmful edits; do not repeat the same approach.",
+      "Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": true
+  }
+}

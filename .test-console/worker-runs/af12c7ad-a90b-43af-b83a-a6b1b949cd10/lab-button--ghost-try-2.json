@@ -1,0 +1,52 @@
+{
+  "storyId": "lab-button--ghost",
+  "attempt": 2,
+  "jobId": "af12c7ad-a90b-43af-b83a-a6b1b949cd10",
+  "recordedAt": "2026-05-22T20:34:53.322Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 3.5767790262172285,
+    "maxRegionPercent": 3.5767790262172285,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 3.5767790262172285,
+    "maxRegionPercent": 3.5767790262172285,
+    "error": null
+  },
+  "agentExitCode": 0,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-button--ghost_try2-1779481715585.prompt.txt",
+    ".test-console/child-status/af12c7ad-a90b-43af-b83a-a6b1b949cd10-agent-lab-button--ghost_try2-1779481715585.json",
+    "figma-diffs/by-story/lab-button-ghost/result.json",
+    "figma-diffs/lab-button-ghost/artifact.v2.json",
+    "figma-diffs/report.json",
+    "figma-live-diffs/by-story/lab-button-ghost/result.json",
+    "figma-live-diffs/lab-button-ghost/artifact.v2.json",
+    "figma-live-diffs/report.json",
+    "packages/figma-importer-plugin/dist/code.js",
+    "packages/figma-importer-plugin/src/code-v2.ts",
+    "pixel-diffs/by-story/lab-button-ghost/result.json",
+    "pixel-diffs/lab-button-ghost/artifact.v2.json",
+    "pixel-diffs/report.json",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "STUCK_LOOP",
+    "verdicts": [
+      "STUCK_LOOP",
+      "SHARED_ADAPTER"
+    ],
+    "nextWorkerMode": "investigate_first",
+    "interventionLines": [
+      "Supervisor: metrics unchanged across attempts — stop guessing; use investigate-figma-mismatch on compare PNG + artifact before editing.",
+      "Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done."
+    ],
+    "tierCRequired": true
+  }
+}

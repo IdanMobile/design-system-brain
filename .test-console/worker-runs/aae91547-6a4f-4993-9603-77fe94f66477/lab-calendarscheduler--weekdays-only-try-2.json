@@ -1,0 +1,38 @@
+{
+  "storyId": "lab-calendarscheduler--weekdays-only",
+  "attempt": 2,
+  "jobId": "aae91547-6a4f-4993-9603-77fe94f66477",
+  "recordedAt": "2026-05-22T23:59:39.520Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 0.7869901659532395,
+    "maxRegionPercent": 3.0572646479269716,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 0.7869901659532395,
+    "maxRegionPercent": 3.0572646479269716,
+    "error": null
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-calendarscheduler--weekdays-only_try2-1779494360877.prompt.txt",
+    ".test-console/child-status/aae91547-6a4f-4993-9603-77fe94f66477-agent-lab-calendarscheduler--weekdays-only_try2-1779494360877.json"
+  ],
+  "evaluation": {
+    "verdict": "STUCK_LOOP",
+    "verdicts": [
+      "STUCK_LOOP"
+    ],
+    "nextWorkerMode": "investigate_first",
+    "interventionLines": [
+      "Supervisor: metrics unchanged across attempts — stop guessing; use investigate-figma-mismatch on compare PNG + artifact before editing.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

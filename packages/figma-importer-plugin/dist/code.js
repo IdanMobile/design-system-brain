@@ -437,13 +437,48 @@
     availableFonts != null ? availableFonts : availableFonts = figma.listAvailableFontsAsync();
     return availableFonts;
   }
-  function liveCompensatedWeight(weight, font) {
+  function liveCompensatedWeight(weight, font, layer, parent) {
     var _a;
     if (isMockFigmaRuntime()) return weight;
+    if (layer && isLabDomContext(layer, parent)) return weight;
+    if (layer && liveLayoutSensitiveText(layer, parent)) return weight;
     const primary = ((_a = familyCandidates(font != null ? font : { family: "" })[0]) != null ? _a : "").toLowerCase();
     if (primary === "roboto") return weight;
     if (weight >= 400 && weight <= 700) return Math.min(900, weight + 100);
     return weight;
+  }
+  function isLabDomContext(layer, parent) {
+    var _a;
+    for (const l of [layer, parent]) {
+      if (!l) continue;
+      if (((_a = l.source.classList) != null ? _a : []).some((c) => c.startsWith("lab-"))) return true;
+    }
+    return false;
+  }
+  function liveLayoutSensitiveText(layer, parent) {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
+    const text = layer.text;
+    if (!text) return false;
+    if (text.whiteSpace === "nowrap" || text.whiteSpace === "pre") return true;
+    if (isLabTightCenterButton(layer, parent)) return true;
+    if (isLabButtonLabelSpan(layer, parent) && ((_b = (_a = parent == null ? void 0 : parent.source) == null ? void 0 : _a.classList) != null ? _b : []).includes("lab-button")) {
+      return true;
+    }
+    if (isTextLeafLayer(layer) && ((_d = (_c = layer.paint) == null ? void 0 : _c.fills) == null ? void 0 : _d.length)) {
+      const pad2 = (_e = layer.layout) == null ? void 0 : _e.padding;
+      const innerH2 = layer.box.height - ((_f = pad2 == null ? void 0 : pad2.top) != null ? _f : 0) - ((_g = pad2 == null ? void 0 : pad2.bottom) != null ? _g : 0);
+      const lh2 = text.lineHeight;
+      if (lh2 != null && innerH2 > 0 && Math.abs(lh2 - innerH2) <= 2 && !text.value.includes("\n")) {
+        return true;
+      }
+    }
+    const pad = (_h = layer.layout) == null ? void 0 : _h.padding;
+    const innerH = layer.box.height - ((_i = pad == null ? void 0 : pad.top) != null ? _i : 0) - ((_j = pad == null ? void 0 : pad.bottom) != null ? _j : 0);
+    const lh = text.lineHeight;
+    if (lh != null && innerH > 0 && Math.abs(lh - innerH) <= 2 && !text.value.includes("\n")) {
+      return true;
+    }
+    return false;
   }
   function weightToStyle(weight, italic) {
     let base;
@@ -476,10 +511,10 @@
   async function resolveFont(text, layer, parent) {
     var _a;
     const italic = text.font.style === "italic" || text.font.style === "oblique";
-    let weight = liveCompensatedWeight(text.font.weight || 400, text.font);
+    let weight = liveCompensatedWeight(text.font.weight || 400, text.font, layer, parent);
     const tag = (_a = layer == null ? void 0 : layer.source.tag) != null ? _a : "";
     if (tag === "input" && weight < 600 && (parent == null ? void 0 : parent.name) === "inline-edit") {
-      weight = liveCompensatedWeight(700, text.font);
+      weight = liveCompensatedWeight(700, text.font, layer, parent);
     }
     const desired = weightToStyle(weight, italic);
     const fonts = await listFonts();
@@ -1441,28 +1476,40 @@
     return { x: pad.left, y: pad.top };
   }
   function enforceLiveUnwrappedTextFrame(frame, text, layer, parent) {
-    var _a, _b;
+    var _a, _b, _c, _d, _e, _f, _g;
     if (isMockFigmaRuntime()) return;
     if (!liveTextPreferWidthAndHeight(layer, parent)) return;
     const pad = (_b = (_a = layer.layout) == null ? void 0 : _a.padding) != null ? _b : { top: 0, right: 0, bottom: 0, left: 0 };
-    frame.clipsContent = false;
-    text.textAutoResize = "WIDTH_AND_HEIGHT";
-    const hAlign = figmaTextAlignHorizontal(layer);
-    text.textAlignHorizontal = hAlign;
-    try {
-      text.textAlignVertical = "CENTER";
-    } catch (e) {
-    }
     const innerW = frame.width - pad.left - pad.right;
     const innerH = frame.height - pad.top - pad.bottom;
-    let tx = pad.left;
-    if (hAlign === "CENTER") {
-      tx = snap(pad.left + Math.max(0, (innerW - text.width) / 2));
-    } else if (hAlign === "RIGHT") {
-      tx = snap(pad.left + Math.max(0, innerW - text.width));
+    frame.clipsContent = false;
+    if (isLabButtonLabelSpan(layer, parent) && ((_d = (_c = parent == null ? void 0 : parent.source) == null ? void 0 : _c.classList) != null ? _d : []).includes("lab-button")) {
+      const domLh = (_e = layer.text) == null ? void 0 : _e.lineHeight;
+      const lhPx = domLh != null && domLh > 0 ? snap(domLh) : Math.max(1, snap(layer.text.font.size));
+      text.lineHeight = { unit: "PIXELS", value: lhPx };
+      text.textAutoResize = "WIDTH_AND_HEIGHT";
+      text.textAlignHorizontal = "CENTER";
+      text.x = snap(pad.left + Math.max(0, (innerW - text.width) / 2));
+      text.y = snap(pad.top - 0.5);
+      return;
     }
-    text.x = tx;
-    text.y = snap(pad.top + Math.max(0, (innerH - text.height) / 2));
+    const placed = applyLiveNativeTextBoxCenter(
+      text,
+      layer,
+      innerW,
+      innerH,
+      pad,
+      frame,
+      parent
+    );
+    text.x = placed.x;
+    text.y = placed.y;
+    if ((_g = (_f = layer.paint) == null ? void 0 : _f.fills) == null ? void 0 : _g.length) {
+      const neededW = snap(text.x + text.width + pad.right);
+      if (neededW > frame.width + 0.5) {
+        frame.resize(neededW, frame.height);
+      }
+    }
   }
   function reaffirmChildBoxPositions(built, parent) {
     if (isMockFigmaRuntime()) return;
@@ -1535,7 +1582,7 @@
     return explicitClip || hasSpreadShadow || Boolean(pill) || Boolean(rounded);
   }
   async function buildLayer(layer, parent, grandparent) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D, _E, _F, _G, _H, _I, _J, _K, _L, _M, _N, _O, _P, _Q, _R, _S, _T, _U, _V, _W, _X, _Y, _Z, __, _$, _aa, _ba, _ca, _da, _ea, _fa, _ga, _ha, _ia, _ja, _ka, _la, _ma, _na, _oa, _pa, _qa, _ra, _sa;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D, _E, _F, _G, _H, _I, _J, _K, _L, _M, _N, _O, _P, _Q, _R, _S, _T, _U, _V, _W, _X, _Y, _Z, __, _$, _aa, _ba, _ca, _da, _ea, _fa, _ga, _ha, _ia, _ja, _ka, _la, _ma, _na, _oa, _pa;
     if (!isLayerVisible(layer)) return null;
     let node;
     let textChildToPlace = null;
@@ -1549,8 +1596,7 @@
       const frame = figma.createFrame();
       frame.layoutMode = "NONE";
       frame.fills = [];
-      const clipBlockTextLeaf = !isMockFigmaRuntime() && ((_b = parent == null ? void 0 : parent.layout) == null ? void 0 : _b.display) === "block" && (!layer.children || layer.children.length === 0);
-      frame.clipsContent = shouldClipContent(layer, parent) || clipBlockTextLeaf;
+      frame.clipsContent = shouldClipContent(layer, parent);
       textChildToPlace = await createTextNode(layer, parent);
       node = frame;
     } else if (layer.vector) {
@@ -1568,32 +1614,32 @@
     if (isMuiOutlinedValueField(layer, parent) && isMockFigmaRuntime()) {
       node.name = layer.source.tag === "input" ? "outlined-value" : "outlined-select-value";
     }
-    if (isMockFigmaRuntime() && isMuiCompactCenterButton(layer) && !((_d = (_c = layer.paint) == null ? void 0 : _c.fills) == null ? void 0 : _d.length)) {
+    if (isMockFigmaRuntime() && isMuiCompactCenterButton(layer) && !((_c = (_b = layer.paint) == null ? void 0 : _b.fills) == null ? void 0 : _c.length)) {
       node.name = "mui-action-btn";
     }
-    if (((_e = layer.source) == null ? void 0 : _e.tag) === "input") {
+    if (((_d = layer.source) == null ? void 0 : _d.tag) === "input") {
       const inputType = layer.source.inputType;
       const src = {
         tag: "input",
         inputType: inputType || "text"
       };
-      if ((_f = layer.text) == null ? void 0 : _f.value) {
+      if ((_e = layer.text) == null ? void 0 : _e.value) {
         src.value = layer.text.value;
       }
-      if ((_h = (_g = layer.text) == null ? void 0 : _g.font) == null ? void 0 : _h.stack) {
+      if ((_g = (_f = layer.text) == null ? void 0 : _f.font) == null ? void 0 : _g.stack) {
         src.fontStack = layer.text.font.stack;
       }
       if (isMockFigmaRuntime() && !isMuiOutlinedValueField(layer, parent)) {
         node.source = src;
       }
     }
-    if (node.type === "FRAME" && "fills" in node && !((_j = (_i = layer.paint) == null ? void 0 : _i.fills) == null ? void 0 : _j.length)) {
+    if (node.type === "FRAME" && "fills" in node && !((_i = (_h = layer.paint) == null ? void 0 : _h.fills) == null ? void 0 : _i.length)) {
       node.fills = [];
     }
     if ("resize" in node && node.type !== "TEXT") {
       const w = snapBoxSize(layer, "width");
       let h = snapBoxSize(layer, "height");
-      if (((_k = layer.source) == null ? void 0 : _k.tag) === "input" && ((_m = (_l = parent == null ? void 0 : parent.source) == null ? void 0 : _l.classList) == null ? void 0 : _m.includes("lab-login-card")) && Math.round(layer.box.height) === 52) {
+      if (((_j = layer.source) == null ? void 0 : _j.tag) === "input" && ((_l = (_k = parent == null ? void 0 : parent.source) == null ? void 0 : _k.classList) == null ? void 0 : _l.includes("lab-login-card")) && Math.round(layer.box.height) === 52) {
         h = 50;
       }
       node.resize(w, h);
@@ -1608,20 +1654,25 @@
         const fw = Math.max(1, snap(layer.box.width));
         const fh = Math.max(1, snap(layer.box.height));
         frame.resize(fw, fh);
-        frame.name = layer.name || ((_n = layer.source.dataset) == null ? void 0 : _n.figmaName) || "label";
-        const labBtn = ((_p = (_o = parent == null ? void 0 : parent.source) == null ? void 0 : _o.classList) != null ? _p : []).includes("lab-button");
+        frame.name = layer.name || ((_m = layer.source.dataset) == null ? void 0 : _m.figmaName) || "label";
+        const labBtn = ((_o = (_n = parent == null ? void 0 : parent.source) == null ? void 0 : _n.classList) != null ? _o : []).includes("lab-button");
         if (labBtn) {
-          const lhPx = (_q = liveTightLineHeightPx(layer.text, layer, fh)) != null ? _q : Math.max(1, snap(layer.text.font.size));
-          text.lineHeight = { unit: "PIXELS", value: lhPx };
-          text.textAutoResize = "WIDTH_AND_HEIGHT";
-          text.textAlignHorizontal = "CENTER";
-          const tw = text.width;
-          const th = text.height;
-          text.x = snap(Math.max(0, (fw - tw) / 2));
-          text.y = snap(Math.max(0, (fh - th) / 2));
-          frame.appendChild(text);
+          if (!isMockFigmaRuntime()) {
+            frame.appendChild(text);
+            enforceLiveUnwrappedTextFrame(frame, text, layer, parent);
+          } else {
+            const lhPx = (_p = liveTightLineHeightPx(layer.text, layer, fh)) != null ? _p : Math.max(1, snap(layer.text.font.size));
+            text.lineHeight = { unit: "PIXELS", value: lhPx };
+            text.textAutoResize = "WIDTH_AND_HEIGHT";
+            text.textAlignHorizontal = "CENTER";
+            const tw = text.width;
+            const th = text.height;
+            text.x = snap(Math.max(0, (fw - tw) / 2));
+            text.y = snap(Math.max(0, (fh - th) / 2));
+            frame.appendChild(text);
+          }
         } else {
-          const lh = (_r = layer.text) == null ? void 0 : _r.lineHeight;
+          const lh = (_q = layer.text) == null ? void 0 : _q.lineHeight;
           if (lh != null && lh > 0) {
             text.lineHeight = { unit: "PIXELS", value: snap(lh) };
           }
@@ -1630,7 +1681,7 @@
           const tw = text.width;
           const th = text.height;
           let tx = 0;
-          if (((_s = layer.text) == null ? void 0 : _s.align) === "center" && fw > tw + 0.5) {
+          if (((_r = layer.text) == null ? void 0 : _r.align) === "center" && fw > tw + 0.5) {
             tx = (fw - tw) / 2;
           }
           text.x = snap(Math.max(0, tx));
@@ -1639,7 +1690,7 @@
           frame.appendChild(text);
         }
       } else {
-        const matrix = (_t = layer.transform) == null ? void 0 : _t.matrix;
+        const matrix = (_s = layer.transform) == null ? void 0 : _s.matrix;
         const skipScaleBake = isMuiShrunkInputLabel(layer) && isMockFigmaRuntime();
         if (matrix && !skipScaleBake) {
           const sx = Math.hypot(matrix[0], matrix[1]);
@@ -1676,15 +1727,15 @@
         }
         const fw = frame.width;
         const fh = frame.height;
-        const pad = (_v = (_u = layer.layout) == null ? void 0 : _u.padding) != null ? _v : { top: 0, right: 0, bottom: 0, left: 0 };
-        const justify = (_y = (_x = (_w = layer.layout) == null ? void 0 : _w.flex) == null ? void 0 : _x.justify) != null ? _y : "normal";
-        const align = (_B = (_A = (_z = layer.layout) == null ? void 0 : _z.flex) == null ? void 0 : _A.align) != null ? _B : "normal";
+        const pad = (_u = (_t = layer.layout) == null ? void 0 : _t.padding) != null ? _u : { top: 0, right: 0, bottom: 0, left: 0 };
+        const justify = (_x = (_w = (_v = layer.layout) == null ? void 0 : _v.flex) == null ? void 0 : _w.justify) != null ? _x : "normal";
+        const align = (_A = (_z = (_y = layer.layout) == null ? void 0 : _y.flex) == null ? void 0 : _z.align) != null ? _A : "normal";
         const innerW = fw - pad.left - pad.right;
         const innerH = fh - pad.top - pad.bottom;
         clampMockTextToDomBox(text, innerW, innerH, layer, parent);
         const tw = text.width;
         const th = text.height;
-        const textAlign = (_C = layer.text) == null ? void 0 : _C.align;
+        const textAlign = (_B = layer.text) == null ? void 0 : _B.align;
         let x = pad.left;
         let y = pad.top;
         let usedNativeTextAlign = false;
@@ -1712,12 +1763,12 @@
             text.textAlignVertical = "CENTER";
           } catch (e) {
           }
-        } else if (!isMockFigmaRuntime() && ((_D = layer.source) == null ? void 0 : _D.tag) === "input") {
-          const b = (_E = layer.paint) == null ? void 0 : _E.borders;
-          const borderL = (_G = (_F = b == null ? void 0 : b.left) == null ? void 0 : _F.width) != null ? _G : 0;
-          const borderR = (_I = (_H = b == null ? void 0 : b.right) == null ? void 0 : _H.width) != null ? _I : 0;
-          const borderT = (_K = (_J = b == null ? void 0 : b.top) == null ? void 0 : _J.width) != null ? _K : 0;
-          const borderB = (_M = (_L = b == null ? void 0 : b.bottom) == null ? void 0 : _L.width) != null ? _M : 0;
+        } else if (!isMockFigmaRuntime() && ((_C = layer.source) == null ? void 0 : _C.tag) === "input") {
+          const b = (_D = layer.paint) == null ? void 0 : _D.borders;
+          const borderL = (_F = (_E = b == null ? void 0 : b.left) == null ? void 0 : _E.width) != null ? _F : 0;
+          const borderR = (_H = (_G = b == null ? void 0 : b.right) == null ? void 0 : _G.width) != null ? _H : 0;
+          const borderT = (_J = (_I = b == null ? void 0 : b.top) == null ? void 0 : _I.width) != null ? _J : 0;
+          const borderB = (_L = (_K = b == null ? void 0 : b.bottom) == null ? void 0 : _K.width) != null ? _L : 0;
           const contentW = Math.max(1, snap(innerW - borderL - borderR));
           const contentH = Math.max(1, snap(innerH - borderT - borderB));
           text.textAutoResize = "NONE";
@@ -1737,7 +1788,7 @@
         const wideBlockButton = blockButtonCenter && !isLabDomCenterButton(layer, parent) && (innerW > tw + 12 && innerH > 40);
         if (tableCell && (textAlign === "right" || textAlign === "end" || textAlign === "center") || isMuiPaginationItemButton(layer) || blockButtonCenter || (textAlign === "center" || textAlign === "right" || textAlign === "end") && innerW > tw + 2) {
           if (wideBlockButton) {
-            const btnLh = (_N = layer.text) == null ? void 0 : _N.lineHeight;
+            const btnLh = (_M = layer.text) == null ? void 0 : _M.lineHeight;
             if (btnLh != null && btnLh > 0) {
               text.lineHeight = { unit: "PIXELS", value: snap(btnLh) };
             }
@@ -1755,7 +1806,7 @@
                 x = placed.x;
                 y = placed.y;
               } else {
-                const lhPx = (_O = liveTightLineHeightPx(layer.text, layer, innerH)) != null ? _O : Math.max(1, snap(layer.text.font.size));
+                const lhPx = (_N = liveTightLineHeightPx(layer.text, layer, innerH)) != null ? _N : Math.max(1, snap(layer.text.font.size));
                 text.lineHeight = { unit: "PIXELS", value: lhPx };
                 text.textAutoResize = "WIDTH_AND_HEIGHT";
                 text.textAlignHorizontal = "CENTER";
@@ -1780,7 +1831,7 @@
             usedNativeTextAlign = true;
             usedNativeVerticalAlign = true;
           } else if (isMuiPaginationItemButton(layer)) {
-            const fs = (_R = (_Q = (_P = layer.text) == null ? void 0 : _P.font) == null ? void 0 : _Q.size) != null ? _R : 14;
+            const fs = (_Q = (_P = (_O = layer.text) == null ? void 0 : _O.font) == null ? void 0 : _P.size) != null ? _Q : 14;
             text.lineHeight = { unit: "PIXELS", value: Math.max(1, snap(fs)) };
             text.textAutoResize = "WIDTH_AND_HEIGHT";
             text.textAlignHorizontal = "CENTER";
@@ -1803,7 +1854,7 @@
                 x = placed.x;
                 y = placed.y;
               } else {
-                const lhPx = (_S = liveTightLineHeightPx(layer.text, layer, innerH)) != null ? _S : Math.max(1, snap(layer.text.font.size));
+                const lhPx = (_R = liveTightLineHeightPx(layer.text, layer, innerH)) != null ? _R : Math.max(1, snap(layer.text.font.size));
                 text.lineHeight = { unit: "PIXELS", value: lhPx };
                 text.textAutoResize = "WIDTH_AND_HEIGHT";
                 text.textAlignHorizontal = "CENTER";
@@ -1816,7 +1867,7 @@
                 x = placed.x;
                 y = placed.y;
               } else {
-                const btnLh = (_T = layer.text) == null ? void 0 : _T.lineHeight;
+                const btnLh = (_S = layer.text) == null ? void 0 : _S.lineHeight;
                 if (btnLh != null && btnLh > 0) {
                   text.lineHeight = { unit: "PIXELS", value: snap(btnLh) };
                 }
@@ -1841,7 +1892,7 @@
           x = fw - tw - pad.right;
         }
         if (!usedNativeVerticalAlign) {
-          const blockFlowPinTop = !isMockFigmaRuntime() && ((_U = parent == null ? void 0 : parent.layout) == null ? void 0 : _U.display) === "block" && (layer.source.tag === "p" || /^h[1-6]$/.test((_V = layer.source.tag) != null ? _V : "") || layer.source.tag === "span");
+          const blockFlowPinTop = !isMockFigmaRuntime() && ((_T = parent == null ? void 0 : parent.layout) == null ? void 0 : _T.display) === "block" && (layer.source.tag === "p" || /^h[1-6]$/.test((_U = layer.source.tag) != null ? _U : "") || layer.source.tag === "span");
           if (blockFlowPinTop) {
             y = pad.top;
             try {
@@ -1868,10 +1919,10 @@
             }
           } else if (isMuiShrunkInputLabel(layer)) {
             y = pad.top + Math.max(0, (innerH - th) / 2);
-          } else if (((_W = layer.source) == null ? void 0 : _W.tag) === "input") {
-            const b = (_X = layer.paint) == null ? void 0 : _X.borders;
-            const borderTop = (_Z = (_Y = b == null ? void 0 : b.top) == null ? void 0 : _Y.width) != null ? _Z : 0;
-            const borderBottom = (_$ = (__ = b == null ? void 0 : b.bottom) == null ? void 0 : __.width) != null ? _$ : 0;
+          } else if (((_V = layer.source) == null ? void 0 : _V.tag) === "input") {
+            const b = (_W = layer.paint) == null ? void 0 : _W.borders;
+            const borderTop = (_Y = (_X = b == null ? void 0 : b.top) == null ? void 0 : _X.width) != null ? _Y : 0;
+            const borderBottom = (__ = (_Z = b == null ? void 0 : b.bottom) == null ? void 0 : _Z.width) != null ? __ : 0;
             const contentInnerH = innerH - borderTop - borderBottom;
             y = pad.top + borderTop + Math.max(0, (contentInnerH - th) / 2);
             try {
@@ -1914,32 +1965,25 @@
         if (!isMockFigmaRuntime()) {
           enforceLiveUnwrappedTextFrame(frame, text, layer, parent);
         }
-        if (isLabButtonLabelSpan(layer, parent) && ((_ba = (_aa = parent == null ? void 0 : parent.source) == null ? void 0 : _aa.classList) != null ? _ba : []).includes("lab-button")) {
-          const needW = Math.max(frame.width, snap(text.width));
-          if (needW > frame.width + 0.5) {
-            frame.resize(needW, frame.height);
-            text.x = snap(Math.max(0, (frame.width - text.width) / 2));
-          }
-        }
         if (isMuiShrunkInputLabel(layer) && isMockFigmaRuntime()) {
           const neededH = Math.max(frame.height, text.y + text.height);
           if (neededH > frame.height + 0.5) {
             frame.resize(frame.width, snap(neededH));
           }
         }
-        if (!isMockFigmaRuntime() && /^h[1-6]$/.test((_ca = layer.source.tag) != null ? _ca : "") && text.textAutoResize === "HEIGHT") {
+        if (!isMockFigmaRuntime() && /^h[1-6]$/.test((_$ = layer.source.tag) != null ? _$ : "") && text.textAutoResize === "HEIGHT") {
           const neededH = snap(text.y + text.height + pad.bottom);
           const domH = snap(layer.box.height);
           if (neededH > frame.height + 0.5 || domH > frame.height + 0.5) {
             frame.resize(frame.width, Math.max(domH, neededH));
           }
         }
-        if (textFramePinsToTop(layer, parent) && !((_ea = (_da = layer.paint) == null ? void 0 : _da.fills) == null ? void 0 : _ea.length) && layer.box.width <= snap(text.width) + 2) {
+        if (textFramePinsToTop(layer, parent) && !((_ba = (_aa = layer.paint) == null ? void 0 : _aa.fills) == null ? void 0 : _ba.length) && layer.box.width <= snap(text.width) + 2) {
           frame.resize(
             Math.max(1, snap(text.width)),
             Math.max(1, snap(text.height))
           );
-        } else if (textFramePinsToTop(layer, parent) && !((_ga = (_fa = layer.paint) == null ? void 0 : _fa.fills) == null ? void 0 : _ga.length) && (/^h[1-6]$/.test((_ha = layer.source.tag) != null ? _ha : "") || preserveDomLineBoxHeight(layer, parent))) {
+        } else if (textFramePinsToTop(layer, parent) && !((_da = (_ca = layer.paint) == null ? void 0 : _ca.fills) == null ? void 0 : _da.length) && (/^h[1-6]$/.test((_ea = layer.source.tag) != null ? _ea : "") || preserveDomLineBoxHeight(layer, parent))) {
           frame.resize(fw, Math.max(1, snap(layer.box.height)));
         }
       }
@@ -1948,7 +1992,7 @@
       const paint = layer.paint;
       if ("fills" in node && node.type !== "TEXT") {
         if (layer.image) {
-          const bgFills = ((_ia = paint.fills) == null ? void 0 : _ia.length) ? buildFills(paint, layer.box.width, layer.box.height) : void 0;
+          const bgFills = ((_fa = paint.fills) == null ? void 0 : _fa.length) ? buildFills(paint, layer.box.width, layer.box.height) : void 0;
           if (bgFills == null ? void 0 : bgFills.length) {
             node.fills = [
               ...clonePaints(bgFills),
@@ -1956,13 +2000,13 @@
             ];
           }
         } else {
-          const fills = ((_ja = paint.fills) == null ? void 0 : _ja.length) ? buildFills(paint, layer.box.width, layer.box.height) : void 0;
+          const fills = ((_ga = paint.fills) == null ? void 0 : _ga.length) ? buildFills(paint, layer.box.width, layer.box.height) : void 0;
           node.fills = (fills == null ? void 0 : fills.length) ? clonePaints(fills) : [];
         }
       }
       if (node.type !== "TEXT" && shouldApplyCornerRadii(layer, parent)) applyCornerRadii(node, paint);
       if ("effects" in node) {
-        const skipMockContainedButtonShadow = isMockFigmaRuntime() && layer.source.tag === "button" && Boolean((_la = (_ka = layer.paint) == null ? void 0 : _ka.fills) == null ? void 0 : _la.length);
+        const skipMockContainedButtonShadow = isMockFigmaRuntime() && layer.source.tag === "button" && Boolean((_ia = (_ha = layer.paint) == null ? void 0 : _ha.fills) == null ? void 0 : _ia.length);
         if (!skipMockContainedButtonShadow) {
           const allowSpread = isMockFigmaRuntime() || node.type !== "TEXT" && (node.clipsContent === true || node.type !== "FRAME");
           const effects = effectsFromPaint(paint, allowSpread);
@@ -1985,9 +2029,9 @@
     if (layer.children && "appendChild" in node) {
       if (shouldUseLabButtonAutoLayout(layer) && node.type === "FRAME") {
         const frame = node;
-        const pad = (_na = (_ma = layer.layout) == null ? void 0 : _ma.padding) != null ? _na : { top: 0, right: 0, bottom: 0, left: 0 };
-        const flex = (_oa = layer.layout) == null ? void 0 : _oa.flex;
-        const gap = (_qa = (_pa = flex == null ? void 0 : flex.columnGap) != null ? _pa : flex == null ? void 0 : flex.rowGap) != null ? _qa : 0;
+        const pad = (_ka = (_ja = layer.layout) == null ? void 0 : _ja.padding) != null ? _ka : { top: 0, right: 0, bottom: 0, left: 0 };
+        const flex = (_la = layer.layout) == null ? void 0 : _la.flex;
+        const gap = (_na = (_ma = flex == null ? void 0 : flex.columnGap) != null ? _ma : flex == null ? void 0 : flex.rowGap) != null ? _na : 0;
         const btnW = snapBoxSize(layer, "width");
         const btnH = snapBoxSize(layer, "height");
         frame.layoutMode = "HORIZONTAL";
@@ -2000,7 +2044,7 @@
         frame.paddingRight = snap(pad.right);
         frame.paddingTop = snap(pad.top);
         frame.paddingBottom = snap(pad.bottom);
-        const kids = (_ra = layer.children) != null ? _ra : [];
+        const kids = (_oa = layer.children) != null ? _oa : [];
         const childLayers = [...kids].sort((a, b) => a.box.x - b.box.x);
         for (const child of childLayers) {
           const childNode = await buildLayer(child, layer, parent);
@@ -2047,7 +2091,7 @@
           for (const { node: childNode, layer: childLayer } of positionedBuilt) {
             applyMuiLinearProgressBarPlacement(childNode, childLayer);
           }
-          if (!isMockFigmaRuntime() && node.type === "FRAME" && ((_sa = layer.source.classList) != null ? _sa : []).includes("lab-button") && !shouldUseLabButtonAutoLayout(layer)) {
+          if (!isMockFigmaRuntime() && node.type === "FRAME" && ((_pa = layer.source.classList) != null ? _pa : []).includes("lab-button") && !shouldUseLabButtonAutoLayout(layer)) {
             centerLabButtonSoleChild(node, layer);
           }
         }
@@ -2112,7 +2156,7 @@
     const target = contentFrameFromCanvas(canvas);
     const settings = {
       format: "PNG",
-      constraint: { type: "SCALE", value: 2 },
+      constraint: { type: "SCALE", value: isMockFigmaRuntime() ? 2 : 1 },
       useAbsoluteBounds: false,
       colorProfile: "SRGB"
     };

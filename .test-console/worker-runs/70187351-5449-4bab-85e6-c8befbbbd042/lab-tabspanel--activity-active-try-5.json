@@ -1,0 +1,62 @@
+{
+  "storyId": "lab-tabspanel--activity-active",
+  "attempt": 5,
+  "jobId": "70187351-5449-4bab-85e6-c8befbbbd042",
+  "recordedAt": "2026-05-23T03:59:20.443Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 2.6457091493991864,
+    "maxRegionPercent": 4.991883116883117,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 1.5824581322736304,
+    "maxRegionPercent": 3.3725649350649354,
+    "error": null
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-tabspanel--activity-active_try5-1779507812220.prompt.txt",
+    "figma-diffs/by-story/lab-tabspanel-activity-active/result.json",
+    "figma-diffs/lab-tabspanel-activity-active/artifact.v2.json",
+    "figma-diffs/lab-tabspanel-activity-active/scene.json",
+    "figma-diffs/report.json",
+    "figma-live-diffs/by-story/lab-tabspanel-activity-active/result.json",
+    "figma-live-diffs/lab-tabspanel-activity-active/artifact.v2.json",
+    "figma-live-diffs/lab-tabspanel-activity-active/diff.png",
+    "figma-live-diffs/lab-tabspanel-activity-active/figma.png",
+    "figma-live-diffs/lab-tabspanel-activity-active/regions/region-01-compare.png",
+    "figma-live-diffs/lab-tabspanel-activity-active/regions/region-01-rendered.png",
+    "figma-live-diffs/lab-tabspanel-activity-active/regions/region-01-storybook.png",
+    "figma-live-diffs/lab-tabspanel-activity-active/regions/region-02-compare.png",
+    "figma-live-diffs/lab-tabspanel-activity-active/regions/region-02-rendered.png",
+    "figma-live-diffs/lab-tabspanel-activity-active/regions/region-02-storybook.png",
+    "figma-live-diffs/lab-tabspanel-activity-active/regions/region-03-compare.png",
+    "figma-live-diffs/lab-tabspanel-activity-active/regions/region-03-rendered.png",
+    "figma-live-diffs/report.html",
+    "figma-live-diffs/report.json",
+    "packages/figma-importer-plugin/dist/code.js",
+    "packages/figma-importer-plugin/src/code-v2.ts",
+    "pixel-diffs/by-story/lab-tabspanel-activity-active/result.json",
+    "pixel-diffs/lab-tabspanel-activity-active/artifact.v2.json",
+    "pixel-diffs/report.json",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "SHARED_ADAPTER",
+    "verdicts": [
+      "SHARED_ADAPTER"
+    ],
+    "nextWorkerMode": "tier_c_required",
+    "interventionLines": [
+      "Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": true
+  }
+}

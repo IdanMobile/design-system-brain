@@ -1,0 +1,91 @@
+make fixes after live test
+
+Fix all BATCH — attempt 2/3 — Figma live
+Fix **all 14 stories** in this ONE agent session (not one-by-one).
+
+── Automatic workflow (do not skip roles) ──
+1. Read .cursor/skills/project-orchestrator/SKILL.md — pre-flight: confirm phase + infra + verdict.
+2. Read .cursor/skills/roadmap-iteration/SKILL.md — active section: docs/ROADMAP.md (default §1.2 until live strict green).
+3. Worker: .cursor/skills/investigate-figma-mismatch/SKILL.md FIRST on ALL listed stories — read batch investigation report + compare PNGs.
+4. Worker: .cursor/skills/figma-renderer-until-pass/SKILL.md — implement **shared fixes for every story in one session** (not one-by-one).
+5. Prefer code-v2.ts / scene-to-html.ts / extract.ts changes that green multiple stories at once.
+6. Do NOT run golden tests yourself — harness re-tests all listed stories after plugin build.
+7. Harness sandbox gate: metrics regress → auto git restore; 2 batch regressions → FIX_ALL_SERIAL=1.
+8. Tier C if shared adapter touched — pnpm test:regression.
+── End automatic workflow ──
+Read .cursor/skills/figma-renderer-until-pass/SKILL.md and .cursor/skills/investigate-figma-mismatch/SKILL.md — investigate BEFORE editing.
+Act immediately — do NOT ask approval to start fixing.
+
+── Investigation report (read first) ──
+Markdown: /Users/user/Downloads/storybook-to-figma-lab/.test-console/fix-all-batch-aae91547-6a4f-4993-9603-77fe94f66477-try-2.md
+JSON: /Users/user/Downloads/storybook-to-figma-lab/.test-console/fix-all-batch-aae91547-6a4f-4993-9603-77fe94f66477-try-2.json
+
+Open the markdown report, then each story's compare PNG + artifact JSON.
+Find shared root cause across stories; implement one coordinated fix set.
+
+── Stories in this batch ──
+1. lab-productcard--default — fail · 18.78% global · hotspot 49.35%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-default/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-default/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-default/artifact.v2.json
+2. lab-button--danger — fail · 4.78% global · hotspot 4.80%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-danger/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-danger/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-danger/artifact.v2.json
+3. lab-button--ghost — fail · 3.81% global · hotspot 3.81%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-ghost/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-ghost/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-ghost/artifact.v2.json
+4. lab-button--secondary — fail · 3.80% global · hotspot 3.80%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-secondary/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-secondary/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-secondary/artifact.v2.json
+5. lab-button--compact — fail · 2.54% global · hotspot 3.24%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-compact/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-compact/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-compact/artifact.v2.json
+6. lab-tabspanel--activity-active — fail · 1.80% global · hotspot 3.42%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-activity-active/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-activity-active/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-activity-active/artifact.v2.json
+7. lab-tabspanel--settings-active — fail · 1.77% global · hotspot 3.42%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-settings-active/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-settings-active/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-settings-active/artifact.v2.json
+8. lab-pricingpanel--pro — fail · 1.35% global · hotspot 3.39%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-pricingpanel-pro/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-pricingpanel-pro/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-pricingpanel-pro/artifact.v2.json
+9. lab-calendarscheduler--compact — fail · 1.00% global · hotspot 3.95%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/artifact.v2.json
+10. lab-featurecard--success — fail · 0.94% global · hotspot 3.39%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-success/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-success/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-success/artifact.v2.json
+11. lab-navigationbars--top-navigation — fail · 0.88% global · hotspot 2.24%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-navigationbars-top-navigation/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-navigationbars-top-navigation/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-navigationbars-top-navigation/artifact.v2.json
+12. lab-calendarscheduler--monthly — fail · 0.85% global · hotspot 3.06%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-monthly/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-monthly/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-monthly/artifact.v2.json
+13. lab-calendarscheduler--weekdays-only — fail · 0.79% global · hotspot 3.06%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-weekdays-only/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-weekdays-only/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-weekdays-only/artifact.v2.json
+14. mui--showcase — fail · 0.76% global · hotspot 2.89%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/mui-showcase/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/mui-showcase/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/mui-showcase/artifact.v2.json
+
+── Previous batch attempt did NOT green all stories ──
+Passed after re-test: 0/14
+Still failing: lab-productcard--default, lab-button--danger, lab-button--ghost, lab-button--secondary, lab-button--compact, lab-tabspanel--activity-active, lab-tabspanel--settings-active, lab-pricingpanel--pro, lab-calendarscheduler--compact, lab-featurecard--success, lab-navigationbars--top-navigation, lab-calendarscheduler--monthly, lab-calendarscheduler--weekdays-only, mui--showcase
+Files changed last attempt: .test-console/agent-batch_try1-1779483626202.prompt.txt, .test-console/child-status/aae91547-6a4f-4993-9603-77fe94f66477-agent-batch_try1-1779483626202.json
+Adjust strategy — do not repeat the same ineffective edits.
+
+Do NOT run golden tests yourself. Harness rebuilds plugin (if needed) and re-tests every story.
+After rebuild: one line to reload Figma plugin before live re-test.

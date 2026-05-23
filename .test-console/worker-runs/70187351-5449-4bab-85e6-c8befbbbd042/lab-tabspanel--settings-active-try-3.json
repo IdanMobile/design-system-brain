@@ -1,0 +1,59 @@
+{
+  "storyId": "lab-tabspanel--settings-active",
+  "attempt": 3,
+  "jobId": "70187351-5449-4bab-85e6-c8befbbbd042",
+  "recordedAt": "2026-05-23T04:37:20.349Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 2.2838016841706876,
+    "maxRegionPercent": 4.0188977688977685,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 1.5729964991957612,
+    "maxRegionPercent": 3.3725649350649354,
+    "error": null
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-tabspanel--settings-active_try3-1779510084392.prompt.txt",
+    ".test-console/child-status/70187351-5449-4bab-85e6-c8befbbbd042-agent-lab-tabspanel--settings-active_try2-1779509121098.json",
+    "figma-diffs/by-story/lab-tabspanel-settings-active/result.json",
+    "figma-diffs/lab-tabspanel-settings-active/artifact.v2.json",
+    "figma-diffs/lab-tabspanel-settings-active/scene.json",
+    "figma-diffs/report.json",
+    "figma-live-diffs/by-story/lab-tabspanel-settings-active/result.json",
+    "figma-live-diffs/lab-tabspanel-settings-active/artifact.v2.json",
+    "figma-live-diffs/lab-tabspanel-settings-active/diff.png",
+    "figma-live-diffs/lab-tabspanel-settings-active/figma.png",
+    "figma-live-diffs/lab-tabspanel-settings-active/regions/region-01-compare.png",
+    "figma-live-diffs/lab-tabspanel-settings-active/regions/region-01-rendered.png",
+    "figma-live-diffs/lab-tabspanel-settings-active/regions/region-01-storybook.png",
+    "figma-live-diffs/lab-tabspanel-settings-active/regions/region-02-compare.png",
+    "figma-live-diffs/lab-tabspanel-settings-active/regions/region-02-rendered.png",
+    "figma-live-diffs/lab-tabspanel-settings-active/regions/region-03-compare.png",
+    "figma-live-diffs/lab-tabspanel-settings-active/regions/region-03-rendered.png",
+    "figma-live-diffs/report.html",
+    "figma-live-diffs/report.json",
+    "packages/figma-importer-plugin/dist/code.js",
+    "packages/figma-importer-plugin/src/code-v2.ts",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "SHARED_ADAPTER",
+    "verdicts": [
+      "SHARED_ADAPTER"
+    ],
+    "nextWorkerMode": "tier_c_required",
+    "interventionLines": [
+      "Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": true
+  }
+}

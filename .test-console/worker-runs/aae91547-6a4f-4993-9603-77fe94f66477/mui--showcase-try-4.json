@@ -1,0 +1,35 @@
+{
+  "storyId": "mui--showcase",
+  "attempt": 4,
+  "jobId": "aae91547-6a4f-4993-9603-77fe94f66477",
+  "recordedAt": "2026-05-23T00:02:02.872Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 0.7637225548902196,
+    "maxRegionPercent": 2.894233897202342,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 0.762125748502994,
+    "maxRegionPercent": 2.894233897202342,
+    "error": null
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-mui--showcase_try4-1779494502139.prompt.txt",
+    ".test-console/child-status/aae91547-6a4f-4993-9603-77fe94f66477-agent-mui--showcase_try4-1779494502139.json"
+  ],
+  "evaluation": {
+    "verdict": "ON_TRACK",
+    "verdicts": [],
+    "nextWorkerMode": "continue",
+    "interventionLines": [
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

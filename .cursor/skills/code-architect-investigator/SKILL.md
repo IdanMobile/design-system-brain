@@ -70,7 +70,7 @@ JSON shape:
 1. Read `docs/ROADMAP.md` and `.cursor/agent-context.auto.md` for phase context
 2. Map hot paths: extract → contract → scene-to-html / code-v2 → test harness
 3. Grep for duplication, TODO/FIXME clusters, oversized files
-4. Cross-check `upload_to_cloud/DECISIONS.md` — investigator before fix, verifier separate from fixer, no parallel shared edits
+4. Cross-check `.cursor/rules/automatic-workflows.mdc` and fix-worker skills — investigator before fix, verifier separate from fixer, no parallel shared edits
 5. Emit report only — no drive-by refactors
 
 ## Dispatch

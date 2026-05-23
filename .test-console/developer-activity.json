@@ -1,0 +1,19 @@
+{
+  "kind": "audit",
+  "jobId": "audit-1779485220620",
+  "status": "failed",
+  "phase": "report",
+  "phaseIndex": 2,
+  "startedAt": "2026-05-22T21:27:00.621Z",
+  "detail": "Audit agent exited with code 1",
+  "agentLabel": "Using model Composer 2.5 Fast",
+  "logTail": [
+    "[architect] Code architect investigator — read-only audit",
+    "Using model Composer 2.5 Fast",
+    "[stderr] S: Increase limits for faster responses You're out of usage. Switch to Auto, or ask your admin to increase your limit to continue."
+  ],
+  "terminalTitle": "Architect audit",
+  "model": "composer-2.5-fast",
+  "updatedAt": "2026-05-22T21:27:05.854Z",
+  "completedAt": "2026-05-22T21:27:05.854Z"
+}

@@ -1,0 +1,33 @@
+{
+  "storyId": "lab-button--secondary",
+  "attempt": 1,
+  "jobId": "ce5f0e2d-e833-4ff8-89b8-3d8844fdee3f",
+  "recordedAt": "2026-05-23T12:41:11.560Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 3.382701421800948,
+    "maxRegionPercent": 3.382701421800948,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 3.382701421800948,
+    "maxRegionPercent": 3.382701421800948,
+    "error": null
+  },
+  "agentExitCode": 0,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-button--secondary_try1-1779539860225.prompt.txt",
+    ".test-console/child-status/ce5f0e2d-e833-4ff8-89b8-3d8844fdee3f-agent-lab-button--secondary_try1-1779539860225.json"
+  ],
+  "evaluation": {
+    "verdict": "ON_TRACK",
+    "verdicts": [],
+    "nextWorkerMode": "continue",
+    "interventionLines": [],
+    "tierCRequired": false
+  }
+}

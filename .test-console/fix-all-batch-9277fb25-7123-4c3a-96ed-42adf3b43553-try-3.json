@@ -1,0 +1,269 @@
+{
+  "generatedAt": "2026-05-23T10:25:33.493Z",
+  "suiteId": "figmaLive",
+  "suiteLabel": "Figma live",
+  "tolerance": 0.1,
+  "regionTolerance": 0.1,
+  "storyCount": 13,
+  "families": {
+    "lab-productcard--": [
+      "lab-productcard--dark"
+    ],
+    "lab-button--": [
+      "lab-button--secondary"
+    ],
+    "lab-tabspanel--": [
+      "lab-tabspanel--activity-active",
+      "lab-tabspanel--settings-active"
+    ],
+    "lab-pricingpanel--": [
+      "lab-pricingpanel--pro"
+    ],
+    "lab-navigationbars--": [
+      "lab-navigationbars--top-navigation"
+    ],
+    "lab-calendarscheduler--": [
+      "lab-calendarscheduler--compact",
+      "lab-calendarscheduler--monthly",
+      "lab-calendarscheduler--weekdays-only"
+    ],
+    "lab-featurecard--": [
+      "lab-featurecard--success",
+      "lab-featurecard--default"
+    ],
+    "mui--": [
+      "mui--showcase"
+    ],
+    "lab-contentlistboard--": [
+      "lab-contentlistboard--highlighted"
+    ]
+  },
+  "hints": [
+    "2 stories in family `lab-tabspanel--*` — prefer ONE shared fix (renderer/extract), not 2 separate edits.",
+    "3 stories in family `lab-calendarscheduler--*` — prefer ONE shared fix (renderer/extract), not 3 separate edits.",
+    "2 stories in family `lab-featurecard--*` — prefer ONE shared fix (renderer/extract), not 2 separate edits."
+  ],
+  "stories": [
+    {
+      "index": 1,
+      "storyId": "lab-productcard--dark",
+      "status": "fail",
+      "globalPercent": 10.607463256346632,
+      "maxRegionPercent": 25.030427335016224,
+      "globalOk": false,
+      "regionOk": false,
+      "failReason": "global_and_hotspot",
+      "comparePng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-dark/regions/region-01-compare.png",
+      "worstRegionCompare": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-dark/regions/region-01-compare.png",
+      "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-dark/storybook.png",
+      "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-dark/figma.png",
+      "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-dark/artifact.v2.json",
+      "sceneJsonPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-dark/scene.json",
+      "error": null
+    },
+    {
+      "index": 2,
+      "storyId": "lab-button--secondary",
+      "status": "fail",
+      "globalPercent": 3.382701421800948,
+      "maxRegionPercent": 3.382701421800948,
+      "globalOk": false,
+      "regionOk": false,
+      "failReason": "global_and_hotspot",
+      "comparePng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-secondary/regions/region-01-compare.png",
+      "worstRegionCompare": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-secondary/regions/region-01-compare.png",
+      "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-secondary/storybook.png",
+      "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-secondary/figma.png",
+      "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-secondary/artifact.v2.json",
+      "sceneJsonPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-secondary/scene.json",
+      "error": null
+    },
+    {
+      "index": 3,
+      "storyId": "lab-tabspanel--activity-active",
+      "status": "fail",
+      "globalPercent": 1.8284605922982307,
+      "maxRegionPercent": 3.3967391304347823,
+      "globalOk": false,
+      "regionOk": false,
+      "failReason": "global_and_hotspot",
+      "comparePng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-activity-active/regions/region-01-compare.png",
+      "worstRegionCompare": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-activity-active/regions/region-01-compare.png",
+      "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-activity-active/storybook.png",
+      "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-activity-active/figma.png",
+      "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-activity-active/artifact.v2.json",
+      "sceneJsonPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-activity-active/scene.json",
+      "error": null
+    },
+    {
+      "index": 4,
+      "storyId": "lab-tabspanel--settings-active",
+      "status": "fail",
+      "globalPercent": 1.7917967641214874,
+      "maxRegionPercent": 3.3725649350649354,
+      "globalOk": false,
+      "regionOk": false,
+      "failReason": "global_and_hotspot",
+      "comparePng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-settings-active/regions/region-01-compare.png",
+      "worstRegionCompare": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-settings-active/regions/region-01-compare.png",
+      "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-settings-active/storybook.png",
+      "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-settings-active/figma.png",
+      "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-settings-active/artifact.v2.json",
+      "sceneJsonPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-settings-active/scene.json",
+      "error": null
+    },
+    {
+      "index": 5,
+      "storyId": "lab-pricingpanel--pro",
+      "status": "fail",
+      "globalPercent": 1.2875604787369492,
+      "maxRegionPercent": 3.206168831168831,
+      "globalOk": false,
+      "regionOk": false,
+      "failReason": "global_and_hotspot",
+      "comparePng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-pricingpanel-pro/regions/region-01-compare.png",
+      "worstRegionCompare": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-pricingpanel-pro/regions/region-01-compare.png",
+      "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-pricingpanel-pro/storybook.png",
+      "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-pricingpanel-pro/figma.png",
+      "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-pricingpanel-pro/artifact.v2.json",
+      "sceneJsonPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-pricingpanel-pro/scene.json",
+      "error": null
+    },
+    {
+      "index": 6,
+      "storyId": "lab-navigationbars--top-navigation",
+      "status": "fail",
+      "globalPercent": 1.1587542978048135,
+      "maxRegionPercent": 3.609283625730994,
+      "globalOk": false,
+      "regionOk": false,
+      "failReason": "global_and_hotspot",
+      "comparePng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-navigationbars-top-navigation/regions/region-01-compare.png",
+      "worstRegionCompare": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-navigationbars-top-navigation/regions/region-01-compare.png",
+      "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-navigationbars-top-navigation/storybook.png",
+      "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-navigationbars-top-navigation/figma.png",
+      "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-navigationbars-top-navigation/artifact.v2.json",
+      "sceneJsonPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-navigationbars-top-navigation/scene.json",
+      "error": null
+    },
+    {
+      "index": 7,
+      "storyId": "lab-calendarscheduler--compact",
+      "status": "fail",
+      "globalPercent": 1.018693705210715,
+      "maxRegionPercent": 4.01306299086392,
+      "globalOk": false,
+      "regionOk": false,
+      "failReason": "global_and_hotspot",
+      "comparePng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/regions/region-01-compare.png",
+      "worstRegionCompare": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/regions/region-01-compare.png",
+      "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/storybook.png",
+      "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/figma.png",
+      "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/artifact.v2.json",
+      "sceneJsonPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/scene.json",
+      "error": null
+    },
+    {
+      "index": 8,
+      "storyId": "lab-featurecard--success",
+      "status": "fail",
+      "globalPercent": 0.9263514678003102,
+      "maxRegionPercent": 3.406683359013867,
+      "globalOk": false,
+      "regionOk": false,
+      "failReason": "global_and_hotspot",
+      "comparePng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-success/regions/region-01-compare.png",
+      "worstRegionCompare": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-success/regions/region-01-compare.png",
+      "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-success/storybook.png",
+      "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-success/figma.png",
+      "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-success/artifact.v2.json",
+      "sceneJsonPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-success/scene.json",
+      "error": null
+    },
+    {
+      "index": 9,
+      "storyId": "lab-calendarscheduler--monthly",
+      "status": "fail",
+      "globalPercent": 0.8652895448867101,
+      "maxRegionPercent": 3.11859090360719,
+      "globalOk": false,
+      "regionOk": false,
+      "failReason": "global_and_hotspot",
+      "comparePng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-monthly/regions/region-01-compare.png",
+      "worstRegionCompare": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-monthly/regions/region-01-compare.png",
+      "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-monthly/storybook.png",
+      "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-monthly/figma.png",
+      "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-monthly/artifact.v2.json",
+      "sceneJsonPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-monthly/scene.json",
+      "error": null
+    },
+    {
+      "index": 10,
+      "storyId": "lab-calendarscheduler--weekdays-only",
+      "status": "fail",
+      "globalPercent": 0.8037157421715423,
+      "maxRegionPercent": 3.11859090360719,
+      "globalOk": false,
+      "regionOk": false,
+      "failReason": "global_and_hotspot",
+      "comparePng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-weekdays-only/regions/region-01-compare.png",
+      "worstRegionCompare": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-weekdays-only/regions/region-01-compare.png",
+      "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-weekdays-only/storybook.png",
+      "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-weekdays-only/figma.png",
+      "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-weekdays-only/artifact.v2.json",
+      "sceneJsonPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-weekdays-only/scene.json",
+      "error": null
+    },
+    {
+      "index": 11,
+      "storyId": "lab-featurecard--default",
+      "status": "fail",
+      "globalPercent": 0.7903908389345283,
+      "maxRegionPercent": 3.7119425385934823,
+      "globalOk": false,
+      "regionOk": false,
+      "failReason": "global_and_hotspot",
+      "comparePng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-default/regions/region-01-compare.png",
+      "worstRegionCompare": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-default/regions/region-01-compare.png",
+      "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-default/storybook.png",
+      "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-default/figma.png",
+      "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-default/artifact.v2.json",
+      "sceneJsonPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-default/scene.json",
+      "error": null
+    },
+    {
+      "index": 12,
+      "storyId": "mui--showcase",
+      "status": "fail",
+      "globalPercent": 0.7639720558882236,
+      "maxRegionPercent": 2.88582842724979,
+      "globalOk": false,
+      "regionOk": false,
+      "failReason": "global_and_hotspot",
+      "comparePng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/mui-showcase/regions/region-01-compare.png",
+      "worstRegionCompare": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/mui-showcase/regions/region-01-compare.png",
+      "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/mui-showcase/storybook.png",
+      "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/mui-showcase/figma.png",
+      "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/mui-showcase/artifact.v2.json",
+      "sceneJsonPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/mui-showcase/scene.json",
+      "error": null
+    },
+    {
+      "index": 13,
+      "storyId": "lab-contentlistboard--highlighted",
+      "status": "fail",
+      "globalPercent": 0.6034202704602867,
+      "maxRegionPercent": 2.7229845626072042,
+      "globalOk": false,
+      "regionOk": false,
+      "failReason": "global_and_hotspot",
+      "comparePng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-contentlistboard-highlighted/regions/region-01-compare.png",
+      "worstRegionCompare": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-contentlistboard-highlighted/regions/region-01-compare.png",
+      "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-contentlistboard-highlighted/storybook.png",
+      "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-contentlistboard-highlighted/figma.png",
+      "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-contentlistboard-highlighted/artifact.v2.json",
+      "sceneJsonPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-contentlistboard-highlighted/scene.json",
+      "error": null
+    }
+  ]
+}

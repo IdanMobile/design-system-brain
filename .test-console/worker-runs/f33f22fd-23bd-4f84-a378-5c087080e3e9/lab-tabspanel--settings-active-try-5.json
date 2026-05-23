@@ -1,0 +1,38 @@
+{
+  "storyId": "lab-tabspanel--settings-active",
+  "attempt": 5,
+  "jobId": "f33f22fd-23bd-4f84-a378-5c087080e3e9",
+  "recordedAt": "2026-05-23T11:08:10.298Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 1.7917967641214874,
+    "maxRegionPercent": 3.3725649350649354,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 1.7917967641214874,
+    "maxRegionPercent": 3.3725649350649354,
+    "error": null
+  },
+  "agentExitCode": 41,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-tabspanel--settings-active_try5-1779534477655.prompt.txt",
+    ".test-console/child-status/f33f22fd-23bd-4f84-a378-5c087080e3e9-agent-lab-tabspanel--settings-active_try5-1779534477655.json"
+  ],
+  "evaluation": {
+    "verdict": "STUCK_LOOP",
+    "verdicts": [
+      "STUCK_LOOP"
+    ],
+    "nextWorkerMode": "investigate_first",
+    "interventionLines": [
+      "Supervisor: metrics unchanged across attempts — stop guessing; use investigate-figma-mismatch on compare PNG + artifact before editing.",
+      "Supervisor: agent CLI exited 41 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

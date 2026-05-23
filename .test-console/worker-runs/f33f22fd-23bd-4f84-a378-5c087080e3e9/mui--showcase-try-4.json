@@ -1,0 +1,38 @@
+{
+  "storyId": "mui--showcase",
+  "attempt": 4,
+  "jobId": "f33f22fd-23bd-4f84-a378-5c087080e3e9",
+  "recordedAt": "2026-05-23T11:01:29.548Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 0.7641716566866267,
+    "maxRegionPercent": 2.88582842724979,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 0.7645209580838324,
+    "maxRegionPercent": 2.88582842724979,
+    "error": null
+  },
+  "agentExitCode": 41,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-mui--showcase_try4-1779534069349.prompt.txt",
+    ".test-console/child-status/f33f22fd-23bd-4f84-a378-5c087080e3e9-agent-mui--showcase_try4-1779534069349.json"
+  ],
+  "evaluation": {
+    "verdict": "STUCK_LOOP",
+    "verdicts": [
+      "STUCK_LOOP"
+    ],
+    "nextWorkerMode": "investigate_first",
+    "interventionLines": [
+      "Supervisor: metrics unchanged across attempts — stop guessing; use investigate-figma-mismatch on compare PNG + artifact before editing.",
+      "Supervisor: agent CLI exited 41 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

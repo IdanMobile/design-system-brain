@@ -84,7 +84,9 @@ export async function runCursorAgent(prompt) {
     );
     process.exit(1);
   }
-  console.log(`[cursor] Starting agent -p in ${ROOT} (stream-json, model: ${resolveAgentModel(loadRunSettings())})\n`);
+  const cli = resolveAgentCli();
+  const cliName = cli?.type === "gemini" ? "gemini" : "cursor";
+  console.log(`[${cliName}] Starting agent -p in ${ROOT} (stream-json, model: ${resolveAgentModel(loadRunSettings())})\n`);
   const { bin, args } = cursorAgentInvocation(prompt, {
     streamProgress: true,
     model: resolveAgentModel(loadRunSettings())
@@ -320,7 +322,11 @@ export function openTerminalWatchJob(jobId) {
 
 /** Run fix-all orchestrator in a persistent Terminal tab (opens child tabs for agent/tests). */
 export function openTerminalRunFixAll(jobId) {
-  openTerminal(`node scripts/test-console-cursor.mjs run-fix-all ${jobId}`, ROOT, {
+  const serial =
+    process.env.FIX_ALL_SERIAL !== "0" &&
+    process.env.FIX_ALL_SERIAL !== "false";
+  const prefix = serial ? "FIX_ALL_SERIAL=1 " : "";
+  openTerminal(`${prefix}node scripts/test-console-cursor.mjs run-fix-all ${jobId}`, ROOT, {
     keepOpen: true,
     tabTitle: `Fix all · ${jobId.slice(0, 8)}`
   });

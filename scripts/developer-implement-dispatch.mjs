@@ -4,13 +4,13 @@
  * Verifies on main (temp promote → test → restore), then waits for human Approve on UI.
  */
 
-import { writeFileSync, mkdirSync, readFileSync, existsSync } from "node:fs";
+import { writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawn } from "node:child_process";
 import { buildDeveloperImplementPrompt } from "./architecture-console.mjs";
 import { hasCursorAgent, cursorAgentInvocation, parseStreamJsonAgentLine } from "./test-console-cursor-cli.mjs";
-import { resolveAgentModel, loadRunSettings } from "./test-console-run-settings.mjs";
+import { resolveDevAgentModel, loadRunSettings } from "./test-console-run-settings.mjs";
 import { createSandboxWorktree, teardownSandbox } from "./sandbox-worktree.mjs";
 import {
   diffWorkspaceSnapshots,
@@ -22,6 +22,13 @@ import {
   verifyWorktreeChanges,
   findProposalReport
 } from "./developer-proposal.mjs";
+import {
+  startDeveloperActivity,
+  setDeveloperActivityPhase,
+  setDeveloperActivityAgentLabel,
+  appendDeveloperActivityLog,
+  finishDeveloperActivity
+} from "./developer-activity.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -30,9 +37,12 @@ async function runAgentInSandbox(worktreePath, prompt, jobId) {
   const promptFile = join(worktreePath, ".test-console", `${jobId}.implement.prompt.txt`);
   writeFileSync(promptFile, prompt, "utf8");
 
-  const model = resolveAgentModel(loadRunSettings());
-  const { bin, args } = cursorAgentInvocation(prompt, { streamProgress: true, model });
+  const settings = loadRunSettings();
+  const model = resolveDevAgentModel(settings);
+  const { bin, args } = cursorAgentInvocation(prompt, { streamProgress: true, model, cliName: settings.devAgentCli });
 
+  appendDeveloperActivityLog(ROOT, `[developer] Model: ${model}`);
+  appendDeveloperActivityLog(ROOT, `[developer] Sandbox: ${worktreePath}`);
   console.log(`[developer] Model: ${model}`);
   console.log(`[developer] Sandbox: ${worktreePath}\n`);
 
@@ -54,10 +64,14 @@ async function runAgentInSandbox(worktreePath, prompt, jobId) {
       if (!trimmed) continue;
       if (isErr) {
         console.error(`[developer] stderr: ${trimmed}`);
+        appendDeveloperActivityLog(ROOT, `[stderr] ${trimmed}`);
         continue;
       }
       const parsed = parseStreamJsonAgentLine(trimmed);
-      if (parsed.label) console.log(`[developer] ${parsed.label}`);
+      if (parsed.label) {
+        console.log(`[developer] ${parsed.label}`);
+        setDeveloperActivityAgentLabel(ROOT, parsed.label);
+      }
       if (parsed.terminal) exitCode = parsed.exitCode ?? 0;
     }
   };
@@ -68,6 +82,7 @@ async function runAgentInSandbox(worktreePath, prompt, jobId) {
     child.on("close", (code) => resolveRun(code ?? exitCode ?? 1));
     child.on("error", (err) => {
       console.error(`[developer] spawn error: ${err.message}`);
+      appendDeveloperActivityLog(ROOT, `spawn error: ${err.message}`);
       resolveRun(1);
     });
   });
@@ -76,8 +91,9 @@ async function runAgentInSandbox(worktreePath, prompt, jobId) {
 }
 
 async function main() {
-  if (!hasCursorAgent()) {
-    console.error("Cursor CLI not found. Install: https://cursor.com/docs/cli/overview");
+  const settings = loadRunSettings();
+  if (!hasCursorAgent(settings.devAgentCli)) {
+    console.error(`Agent CLI (${settings.devAgentCli}) not found.`);
     process.exit(1);
   }
 
@@ -92,6 +108,16 @@ async function main() {
   }
 
   const jobId = `impl-${Date.now()}`;
+  const model = resolveDevAgentModel(settings);
+
+  startDeveloperActivity(ROOT, {
+    kind: "implement",
+    jobId,
+    terminalTitle: "Developer implement",
+    model,
+    detail: "Starting sandbox implement job"
+  });
+
   saveDeveloperProposal(ROOT, {
     jobId,
     status: "running",
@@ -101,7 +127,10 @@ async function main() {
     report: null
   });
 
+  setDeveloperActivityPhase(ROOT, "sandbox", "Creating isolated git worktree");
+  appendDeveloperActivityLog(ROOT, "[developer] Creating isolated sandbox worktree…");
   console.log("[developer] Creating isolated sandbox worktree…\n");
+
   const created = createSandboxWorktree(ROOT, jobId);
   if (!created.ok) {
     saveDeveloperProposal(ROOT, {
@@ -109,17 +138,21 @@ async function main() {
       error: created.error ?? "worktree create failed",
       completedAt: new Date().toISOString()
     });
+    finishDeveloperActivity(ROOT, "failed", created.error ?? "worktree create failed");
     console.error(`[developer] ${created.error}`);
     process.exit(1);
   }
 
   /** @type {{ path: string, branch: string, jobId: string }} */
   const sandbox = { path: created.path, branch: created.branch, jobId: created.jobId };
+  appendDeveloperActivityLog(ROOT, `Worktree: ${created.path} (branch ${created.branch})`);
 
   try {
     const prompt = buildDeveloperImplementPrompt(ROOT);
     const gitBefore = snapshotWorkspace(created.path);
 
+    setDeveloperActivityPhase(ROOT, "agent", "Agent implementing audit recommendations in sandbox");
+    appendDeveloperActivityLog(ROOT, "[developer] Running agent in sandbox…");
     console.log("[developer] Running agent in sandbox (architecture recommendations)…\n");
     const agentExitCode = await runAgentInSandbox(created.path, prompt, jobId);
 
@@ -131,6 +164,10 @@ async function main() {
     console.log(
       `[developer] Changed files: ${filesChanged.length ? filesChanged.join(", ") : "(none)"}\n`
     );
+    appendDeveloperActivityLog(
+      ROOT,
+      `Agent exit ${agentExitCode} · ${filesChanged.length} file(s) changed`
+    );
 
     if (!filesChanged.length) {
       saveDeveloperProposal(ROOT, {
@@ -141,11 +178,14 @@ async function main() {
         error: "Agent made no tracked file changes",
         completedAt: new Date().toISOString()
       });
+      finishDeveloperActivity(ROOT, "failed", "No tracked file changes");
       teardownSandbox(sandbox, ROOT);
       console.log("[developer] No changes — sandbox torn down. Refresh Developer Agent page.");
       process.exit(agentExitCode || 1);
     }
 
+    setDeveloperActivityPhase(ROOT, "verify", "Running supervisor + regression verification");
+    appendDeveloperActivityLog(ROOT, "[developer] Verifying on main (temp apply → test → restore)…");
     console.log("[developer] Verifying (temp apply → test:supervisor [+ regression if adapters] → restore main)…\n");
     const verification = verifyWorktreeChanges(ROOT, created.path, filesChanged);
     const report = findProposalReport(ROOT, created.path);
@@ -164,6 +204,11 @@ async function main() {
           : "")
     );
     console.log(`[developer] Verification: ${verification.ok ? "PASS" : "FAIL — review before approving"}\n`);
+
+    appendDeveloperActivityLog(
+      ROOT,
+      `Verification: ${verification.ok ? "PASS" : "REVIEW"} · portfolio ${successRateBeforePct}% → ${successRatePct}%`
+    );
 
     saveDeveloperProposal(ROOT, {
       status: "pending_approval",
@@ -190,17 +235,28 @@ async function main() {
       completedAt: new Date().toISOString()
     });
 
+    setDeveloperActivityPhase(ROOT, "review", "Proposal ready — approve or discard on Developer Agent page");
+    finishDeveloperActivity(
+      ROOT,
+      verification.ok ? "complete" : "failed",
+      verification.ok
+        ? "Awaiting your approval"
+        : "Verification failed — review before approving"
+    );
+
     console.log("[developer] Proposal pending human approval.");
     console.log("[developer] Open Developer Agent → Approve & apply (or Discard).");
     console.log("[developer] Sandbox kept at:", created.path);
     process.exit(verification.ok ? 0 : 2);
   } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
     saveDeveloperProposal(ROOT, {
       status: "failed",
       sandbox,
-      error: err instanceof Error ? err.message : String(err),
+      error: msg,
       completedAt: new Date().toISOString()
     });
+    finishDeveloperActivity(ROOT, "failed", msg);
     teardownSandbox(sandbox, ROOT);
     throw err;
   }

@@ -1,0 +1,53 @@
+{
+  "storyId": "lab-pricingpanel--pro",
+  "attempt": 5,
+  "jobId": "70187351-5449-4bab-85e6-c8befbbbd042",
+  "recordedAt": "2026-05-23T06:04:21.257Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 2.605360325948561,
+    "maxRegionPercent": 4.978706358576488,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 1.4578558696205755,
+    "maxRegionPercent": 3.655396327810121,
+    "error": null
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-pricingpanel--pro_try5-1779515124609.prompt.txt",
+    ".test-console/child-status/70187351-5449-4bab-85e6-c8befbbbd042-agent-lab-pricingpanel--pro_try4-1779513981877.json",
+    "figma-diffs/by-story/lab-pricingpanel-pro/result.json",
+    "figma-diffs/lab-pricingpanel-pro/artifact.v2.json",
+    "figma-diffs/report.json",
+    "figma-live-diffs/by-story/lab-pricingpanel-pro/result.json",
+    "figma-live-diffs/lab-pricingpanel-pro/artifact.v2.json",
+    "figma-live-diffs/lab-pricingpanel-pro/diff.png",
+    "figma-live-diffs/lab-pricingpanel-pro/figma.png",
+    "figma-live-diffs/lab-pricingpanel-pro/regions/region-01-compare.png",
+    "figma-live-diffs/lab-pricingpanel-pro/regions/region-01-rendered.png",
+    "figma-live-diffs/report.html",
+    "figma-live-diffs/report.json",
+    "packages/figma-importer-plugin/dist/code.js",
+    "packages/figma-importer-plugin/src/code-v2.ts",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "SHARED_ADAPTER",
+    "verdicts": [
+      "SHARED_ADAPTER"
+    ],
+    "nextWorkerMode": "tier_c_required",
+    "interventionLines": [
+      "Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": true
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "storyId": "lab-calendarscheduler--weekdays-only",
+  "attempt": 1,
+  "jobId": "f33f22fd-23bd-4f84-a378-5c087080e3e9",
+  "recordedAt": "2026-05-23T10:58:07.009Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 0.8037157421715423,
+    "maxRegionPercent": 3.11859090360719,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 0.8037157421715423,
+    "maxRegionPercent": 3.11859090360719,
+    "error": null
+  },
+  "agentExitCode": 41,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-calendarscheduler--weekdays-only_try1-1779533866908.prompt.txt",
+    ".test-console/child-status/f33f22fd-23bd-4f84-a378-5c087080e3e9-agent-lab-calendarscheduler--weekdays-only_try1-1779533866908.json",
+    "packages/test-console/src/App.css"
+  ],
+  "evaluation": {
+    "verdict": "ON_TRACK",
+    "verdicts": [],
+    "nextWorkerMode": "continue",
+    "interventionLines": [
+      "Supervisor: agent CLI exited 41 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

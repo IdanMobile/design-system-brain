@@ -4,7 +4,7 @@
  */
 
 import { spawnSync } from "node:child_process";
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, existsSync, writeFileSync, unlinkSync, mkdirSync } from "node:fs";
 import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { initAgentBridge } from "./test-console-agent-bridge.mjs";
@@ -12,6 +12,7 @@ import { api } from "./test-console-api.mjs";
 import { hasCursorAgent } from "./test-console-cursor-cli.mjs";
 import {
   runManagedAgent,
+  normalizeAgentResult,
   runManagedCommand,
   goldenCommandForSuite,
   loadRunSettings
@@ -56,6 +57,12 @@ import {
 } from "./sandbox-worktree.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const CURSOR_USAGE_FLAG = join(ROOT, ".test-console", "cursor-usage-blocked.flag");
+
+function markCursorUsageBlocked() {
+  mkdirSync(join(ROOT, ".test-console"), { recursive: true });
+  writeFileSync(CURSOR_USAGE_FLAG, `${new Date().toISOString()}\n`, "utf8");
+}
 
 export const MAX_TRIES_PER_STORY = Math.min(
   20,
@@ -453,14 +460,32 @@ async function runFixAllBatch(jobId, { killFlagPath, suiteId, storyIds, cfg, app
     }
 
     const gitBefore = snapshotWorkspace(activeRoot);
-    const agentCode = await runManagedAgent({
-      parentJobId: jobId,
-      tag: `batch:try${batchAttempt}`,
-      prompt,
-      appendLog,
-      killFlagPath,
-      workspaceRoot: activeRoot !== ROOT ? activeRoot : undefined
-    });
+    const batchAgent = normalizeAgentResult(
+      await runManagedAgent({
+        parentJobId: jobId,
+        tag: `batch:try${batchAttempt}`,
+        prompt,
+        appendLog,
+        killFlagPath,
+        workspaceRoot: activeRoot !== ROOT ? activeRoot : undefined
+      })
+    );
+    if (batchAgent.usageBlocked) {
+      if (sandbox) teardownSandbox(sandbox, ROOT);
+      markCursorUsageBlocked();
+      await appendLog(
+        "[fix-all] BLOCKED — Cursor CLI out of usage. No renderer edits were applied. " +
+          "In the test console, switch the fix agent model to Auto (or restore org limits), then retry. Turn off portfolio AUTO until fixed.\n"
+      );
+      return {
+        exitCode: 2,
+        passed: false,
+        summary: "blocked: cursor_usage",
+        blocked: true,
+        blockedReason: "cursor_usage_limit"
+      };
+    }
+    const agentCode = batchAgent.exitCode;
     if (existsSync(killFlagPath)) {
       if (sandbox) teardownSandbox(sandbox, ROOT);
       break;
@@ -622,17 +647,17 @@ async function runFixAllBatch(jobId, { killFlagPath, suiteId, storyIds, cfg, app
   const allPass = storiesPassed === storyIds.length && storyIds.length > 0;
   const exitCode = killed ? 130 : allPass ? 0 : 1;
 
-  if (!killed) {
-    writeOrchestratorState(ROOT, {
-      phase: "fix-all-batch",
-      suiteId,
-      jobId,
-      verdict: allPass ? "ON_TRACK" : "EXHAUSTED",
-      nextWorkerMode: "continue",
-      finished: true,
-      summary: `${storiesPassed}/${storyIds.length} pass`
-    });
-  }
+  writeOrchestratorState(ROOT, {
+    phase: "fix-all-batch",
+    suiteId,
+    jobId,
+    verdict: killed ? "CANCELLED" : allPass ? "ON_TRACK" : "EXHAUSTED",
+    nextWorkerMode: killed ? "stopped" : "continue",
+    finished: true,
+    summary: killed
+      ? "cancelled"
+      : `${storiesPassed}/${storyIds.length} pass`
+  });
 
   await appendLog(
     `\n[fix-all] Batch done: ${storiesPassed}/${storyIds.length} pass` +
@@ -812,13 +837,30 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
         lastAttemptOutcome,
         supervisorForPrompt
       );
-      const agentCode = await runManagedAgent({
-        parentJobId: jobId,
-        tag: `${storyId}:try${attempt}`,
-        prompt,
-        appendLog,
-        killFlagPath
-      });
+      const storyAgent = normalizeAgentResult(
+        await runManagedAgent({
+          parentJobId: jobId,
+          tag: `${storyId}:try${attempt}`,
+          prompt,
+          appendLog,
+          killFlagPath
+        })
+      );
+      if (storyAgent.usageBlocked) {
+        markCursorUsageBlocked();
+        await appendLog(
+          "[fix-all] BLOCKED — Cursor CLI out of usage. Stopping serial fix-all. " +
+            "Switch fix agent model to Auto or restore org limits; turn off portfolio AUTO.\n"
+        );
+        return {
+          exitCode: 2,
+          passed: false,
+          summary: "blocked: cursor_usage",
+          blocked: true,
+          blockedReason: "cursor_usage_limit"
+        };
+      }
+      const agentCode = storyAgent.exitCode;
       if (existsSync(killFlagPath)) break;
 
       const gitAfter = snapshotWorkspace(ROOT);
@@ -1047,17 +1089,15 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
   const allPass = storiesPassed === storyIds.length && storyIds.length > 0;
   const exitCode = killed ? 130 : allPass ? 0 : 1;
 
-  if (!killed) {
-    writeOrchestratorState(ROOT, {
-      phase: "fix-all",
-      suiteId,
-      jobId,
-      verdict: allPass ? "ON_TRACK" : "EXHAUSTED",
-      nextWorkerMode: "continue",
-      finished: true,
-      summary: `${storiesPassed}/${storyIds.length} pass`
-    });
-  }
+  writeOrchestratorState(ROOT, {
+    phase: "fix-all",
+    suiteId,
+    jobId,
+    verdict: killed ? "CANCELLED" : allPass ? "ON_TRACK" : "EXHAUSTED",
+    nextWorkerMode: killed ? "stopped" : "continue",
+    finished: true,
+    summary: killed ? "cancelled" : `${storiesPassed}/${storyIds.length} pass`
+  });
 
   await appendLog(
     `\n[fix-all] Done: ${storiesPassed}/${storyIds.length} pass` +

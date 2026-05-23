@@ -3,7 +3,7 @@
  */
 
 import { spawnSync } from "node:child_process";
-import { existsSync, readFileSync, writeFileSync, mkdirSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync, mkdirSync, readdirSync, unlinkSync } from "node:fs";
 import { join } from "node:path";
 import { loadPortfolioStoryIds } from "./test-portfolio-config.mjs";
 import { readStoryResultFromDisk } from "./test-console-run-settings.mjs";
@@ -33,6 +33,28 @@ export function loadDeveloperProposal(repoRoot) {
   } catch {
     return null;
   }
+}
+
+/**
+ * @param {string} repoRoot
+ */
+export function hasGitRepository(repoRoot) {
+  const r = spawnSync("git", ["rev-parse", "--is-inside-work-tree"], {
+    cwd: repoRoot,
+    encoding: "utf8",
+    stdio: "pipe"
+  });
+  return r.status === 0 && r.stdout.trim() === "true";
+}
+
+/**
+ * Remove stale proposal state (e.g. failed run before git init).
+ * @param {string} repoRoot
+ */
+export function clearDeveloperProposal(repoRoot) {
+  const path = proposalFilePath(repoRoot);
+  if (existsSync(path)) unlinkSync(path);
+  return { ok: true };
 }
 
 /**

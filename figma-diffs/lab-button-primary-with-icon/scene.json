@@ -69,24 +69,7 @@
         40,
         40
       ],
-      "effects": [
-        {
-          "type": "DROP_SHADOW",
-          "color": {
-            "r": 0,
-            "g": 0.42745098039215684,
-            "b": 0.807843137254902,
-            "a": 0.24
-          },
-          "offset": {
-            "x": 0,
-            "y": 8
-          },
-          "radius": 18,
-          "blendMode": "NORMAL",
-          "visible": true
-        }
-      ],
+      "effects": [],
       "clipsContent": false,
       "children": [
         {
@@ -150,10 +133,10 @@
               "kind": "TEXT",
               "type": "TEXT",
               "name": "Text",
-              "x": 0,
-              "y": 0,
+              "x": 5.11,
+              "y": 0.5,
               "width": 94.08,
-              "height": 33.6,
+              "height": 31,
               "opacity": 1,
               "characters": "Primary",
               "fontName": {
@@ -175,11 +158,12 @@
               "textAlignHorizontal": "CENTER",
               "textAutoResize": "WIDTH_AND_HEIGHT",
               "lineHeight": {
-                "unit": "AUTO"
+                "unit": "PIXELS",
+                "value": 31
               },
               "letterSpacing": {
                 "unit": "PIXELS",
-                "value": -1.25
+                "value": 0
               },
               "textCase": "ORIGINAL",
               "textDecoration": "NONE"

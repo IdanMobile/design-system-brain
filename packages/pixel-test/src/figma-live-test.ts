@@ -49,6 +49,12 @@ import { assertStoryStepGate, gateDisabled, gateSkippedResult } from "./step-gat
 const DEFAULT_RELAY_PORT = 3456;
 const DEFAULT_RELAY_URL = `ws://localhost:${DEFAULT_RELAY_PORT}`;
 
+/** Live harness export scale — 1× is faster; set FIGMA_LIVE_EXPORT_SCALE=2 for legacy 2×+downscale. */
+const LIVE_EXPORT_SCALE = (() => {
+  const raw = Number(process.env.FIGMA_LIVE_EXPORT_SCALE ?? "1");
+  return Number.isFinite(raw) && raw > 0 ? raw : 1;
+})();
+
 /**
  * Live Figma export strips all layer effects before PNG export (see
  * stripEffectsForExport in code-v2). Storybook element screenshots must omit
@@ -391,7 +397,12 @@ function flattenPngOnBackground(pngBuf: Buffer, cssColor: string): Buffer {
   return PNG.sync.write(raw);
 }
 
-function exportViaRelay(relayUrl: string, json: string, timeoutMs: number): Promise<ExportResult> {
+function exportViaRelay(
+  relayUrl: string,
+  json: string,
+  timeoutMs: number,
+  exportScale = LIVE_EXPORT_SCALE
+): Promise<ExportResult> {
   return new Promise((resolveExport, rejectExport) => {
     const ws = new WebSocket(relayUrl);
     const requestId = randomUUID();
@@ -401,7 +412,7 @@ function exportViaRelay(relayUrl: string, json: string, timeoutMs: number): Prom
     }, timeoutMs);
 
     ws.onopen = () => {
-      ws.send(JSON.stringify({ type: "render-export", requestId, json }));
+      ws.send(JSON.stringify({ type: "render-export", requestId, json, exportScale }));
     };
 
     ws.onmessage = (event) => {
@@ -465,6 +476,9 @@ interface DiffResult {
   pixelsTotal: number;
   percent: number;
   maxRegionPercent?: number;
+  globalTolerance?: number;
+  regionTolerance?: number;
+  failReason?: string;
   status: "pass" | "warn" | "fail" | "error" | "skipped";
   error?: string;
   storybookPng: string;
@@ -472,6 +486,19 @@ interface DiffResult {
   diffPng: string;
   artifactPath: string;
   diffRegions?: DiffRegionFile[];
+}
+
+function liveFailReason(
+  globalOk: boolean,
+  regionOk: boolean,
+  status: DiffResult["status"]
+): string | undefined {
+  if (status === "pass" || status === "skipped") return undefined;
+  if (status === "error") return "error";
+  if (!globalOk && !regionOk) return "global+hotspot";
+  if (!globalOk) return "global";
+  if (!regionOk) return "hotspot";
+  return "warn";
 }
 
 async function diffStory(
@@ -497,12 +524,15 @@ async function diffStory(
     const sbPage = await ctx.newPage();
     await sbPage.addInitScript("var __name = (target) => target;");
     await sbPage.goto(`${opts.baseUrl}/iframe.html?id=${storyId}&viewMode=story`, {
-      waitUntil: "networkidle"
+      waitUntil: "domcontentloaded"
     });
+    await sbPage.waitForSelector("[data-figma-component]", { state: "attached" });
+    await sbPage.evaluate(
+      () => (document as Document & { fonts: { ready: Promise<unknown> } }).fonts.ready
+    );
     await sbPage.addStyleTag({
       content: `*,*::before,*::after{animation-play-state:paused !important;transition:none !important;caret-color:transparent !important;}${LIVE_STRIP_EFFECTS_CSS}`
     });
-    await sbPage.waitForLoadState("networkidle");
     await pageScreenshotElement(sbPage, "[data-figma-component]", storybookPng);
     await sbPage.close();
     await ctx.close();
@@ -582,6 +612,7 @@ async function diffStory(
     const regionWarn = maxRegionPercent <= regionTolerance * 4;
     const status: DiffResult["status"] =
       globalOk && regionOk ? "pass" : globalWarn && regionWarn ? "warn" : "fail";
+    const failReason = liveFailReason(globalOk, regionOk, status);
     return {
       storyId,
       width,
@@ -590,6 +621,9 @@ async function diffStory(
       pixelsTotal: total,
       percent,
       maxRegionPercent: maxRegionPercent > 0 ? maxRegionPercent : undefined,
+      globalTolerance,
+      regionTolerance,
+      failReason,
       status,
       storybookPng,
       figmaPng,
@@ -655,11 +689,19 @@ function writeHtmlReport(report: DiffResult[], meta: { tolerance: number; region
       const dir = safeSegment(r.storyId);
       const anchor = `story-${dir}`;
       const regionCount = r.diffRegions?.length ?? 0;
+      const limits =
+        r.globalTolerance != null && r.regionTolerance != null
+          ? `<span class="metric-sub">≤${r.globalTolerance}% global · ≤${r.regionTolerance}% hotspot</span>`
+          : "";
+      const reason =
+        r.failReason && r.status !== "pass"
+          ? `<span class="metric-sub" style="color:${color}">${r.failReason}</span>`
+          : "";
       return `
-      <tr>
+      <tr id="${anchor}">
         <td><code>${r.storyId}</code></td>
         <td style="color:${color};font-weight:600">${r.status.toUpperCase()}</td>
-        <td>${formatMatchCell(r)}</td>
+        <td>${formatMatchCell(r)}${limits}${reason}</td>
         <td>
           <a target="_blank" href="${dir}/storybook.png">storybook</a> ·
           <a target="_blank" href="${dir}/figma.png">figma live</a> ·
@@ -702,7 +744,7 @@ code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; }
   <thead><tr><th>Story</th><th>Status</th><th>Match</th><th>Artifacts</th><th>Note</th></tr></thead>
   <tbody>${rows}</tbody>
 </table>
-<p style="font-size:12px;color:#6b7280">PASS ≤ ${meta.tolerance}% diff overall · region ≤ ${meta.regionTolerance}%</p>
+<p style="font-size:12px;color:#6b7280">Default strict base: ${meta.tolerance}% global · ${meta.regionTolerance}% hotspot. Live raster bump (when mock strict): ≤${LIVE_RASTER_GLOBAL_TOLERANCE_PERCENT}% global · ≤${LIVE_RASTER_REGION_TOLERANCE_PERCENT}% hotspot. Export scale: ${LIVE_EXPORT_SCALE}× (FIGMA_LIVE_EXPORT_SCALE).</p>
 </body></html>`;
 }
 

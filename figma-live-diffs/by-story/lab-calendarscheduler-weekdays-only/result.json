@@ -2,10 +2,13 @@
   "storyId": "lab-calendarscheduler--weekdays-only",
   "width": 882,
   "height": 766,
-  "pixelsDiffered": 7073,
+  "pixelsDiffered": 5430,
   "pixelsTotal": 675612,
-  "percent": 1.0469026601066884,
-  "maxRegionPercent": 3.0039811798769454,
+  "percent": 0.8037157421715423,
+  "maxRegionPercent": 3.11859090360719,
+  "globalTolerance": 2.5,
+  "regionTolerance": 2.2,
+  "failReason": "hotspot",
   "status": "fail",
   "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-weekdays-only/storybook.png",
   "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-weekdays-only/figma.png",
@@ -19,8 +22,8 @@
         "y": 604,
         "width": 614,
         "height": 162,
-        "pixels": 2988,
-        "percent": 3.0039811798769454
+        "pixels": 3102,
+        "percent": 3.11859090360719
       },
       "storybook": "regions/region-01-storybook.png",
       "rendered": "regions/region-01-rendered.png",
@@ -33,8 +36,8 @@
         "y": 604,
         "width": 260,
         "height": 162,
-        "pixels": 1180,
-        "percent": 2.801519468186135
+        "pixels": 1172,
+        "percent": 2.7825261158594494
       },
       "storybook": "regions/region-02-storybook.png",
       "rendered": "regions/region-02-rendered.png",
@@ -43,12 +46,12 @@
     {
       "index": 3,
       "rect": {
-        "x": 652,
-        "y": 364,
-        "width": 136,
-        "height": 184,
-        "pixels": 363,
-        "percent": 1.4506074168797953
+        "x": 748,
+        "y": 0,
+        "width": 134,
+        "height": 164,
+        "pixels": 373,
+        "percent": 1.6973061521659993
       },
       "storybook": "regions/region-03-storybook.png",
       "rendered": "regions/region-03-rendered.png",
@@ -57,12 +60,12 @@
     {
       "index": 4,
       "rect": {
-        "x": 748,
-        "y": 0,
-        "width": 134,
-        "height": 164,
-        "pixels": 316,
-        "percent": 1.437932289770659
+        "x": 508,
+        "y": 268,
+        "width": 136,
+        "height": 136,
+        "pixels": 242,
+        "percent": 1.3083910034602075
       },
       "storybook": "regions/region-04-storybook.png",
       "rendered": "regions/region-04-rendered.png",
@@ -71,12 +74,12 @@
     {
       "index": 5,
       "rect": {
-        "x": 508,
-        "y": 268,
+        "x": 652,
+        "y": 412,
         "width": 136,
-        "height": 184,
-        "pixels": 315,
-        "percent": 1.2587915601023019
+        "height": 88,
+        "pixels": 188,
+        "percent": 1.570855614973262
       },
       "storybook": "regions/region-05-storybook.png",
       "rendered": "regions/region-05-rendered.png",
@@ -85,12 +88,12 @@
     {
       "index": 6,
       "rect": {
-        "x": 0,
+        "x": 28,
         "y": 0,
-        "width": 116,
+        "width": 88,
         "height": 80,
-        "pixels": 217,
-        "percent": 2.3383620689655173
+        "pixels": 60,
+        "percent": 0.8522727272727272
       },
       "storybook": "regions/region-06-storybook.png",
       "rendered": "regions/region-06-rendered.png",
@@ -99,12 +102,12 @@
     {
       "index": 7,
       "rect": {
-        "x": 316,
-        "y": 28,
-        "width": 184,
-        "height": 136,
-        "pixels": 221,
-        "percent": 0.8831521739130435
+        "x": 0,
+        "y": 364,
+        "width": 80,
+        "height": 88,
+        "pixels": 28,
+        "percent": 0.3977272727272727
       },
       "storybook": "regions/region-07-storybook.png",
       "rendered": "regions/region-07-rendered.png",
@@ -113,17 +116,17 @@
     {
       "index": 8,
       "rect": {
-        "x": 0,
-        "y": 76,
-        "width": 164,
+        "x": 652,
+        "y": 268,
+        "width": 88,
         "height": 88,
-        "pixels": 158,
-        "percent": 1.0947893569844789
+        "pixels": 35,
+        "percent": 0.4519628099173553
       },
       "storybook": "regions/region-08-storybook.png",
       "rendered": "regions/region-08-rendered.png",
       "compare": "regions/region-08-compare.png"
     }
   ],
-  "testedAt": "2026-05-22T12:39:35.385Z"
+  "testedAt": "2026-05-23T11:26:24.751Z"
 }

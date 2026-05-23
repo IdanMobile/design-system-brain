@@ -56,6 +56,15 @@ export function gateDisabledEnv() {
   return env === "1" || env === "true";
 }
 
+/** Match packages/pixel-test safeStorySegment — collapse `--` in story ids for by-story paths. */
+export function safeStorySegment(storyId) {
+  return storyId
+    .trim()
+    .replace(/[<>:"/\\|?*\u0000-\u001F]/g, "-")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+}
+
 export function loadStoryStepCellsFromDisk(repoRoot, storyId, readFileSync, existsSync, join) {
   const dirs = {
     pixel: "pixel-diffs",
@@ -65,8 +74,8 @@ export function loadStoryStepCellsFromDisk(repoRoot, storyId, readFileSync, exis
     logic: "logic-audit-diffs"
   };
   const cells = {};
+  const seg = safeStorySegment(storyId);
   for (const stepId of TEST_STEP_ORDER) {
-    const seg = storyId.replace(/[<>:"/\\|?*\u0000-\u001F]/g, "-").replace(/\s+/g, "-");
     const path = join(repoRoot, dirs[stepId], "by-story", seg, "result.json");
     if (!existsSync(path)) {
       cells[stepId] = { status: "not_tested" };

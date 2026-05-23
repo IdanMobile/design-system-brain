@@ -412,7 +412,7 @@
             10
           ],
           "effects": [],
-          "clipsContent": true,
+          "clipsContent": false,
           "children": [
             {
               "id": 12,

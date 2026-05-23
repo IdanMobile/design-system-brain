@@ -1,0 +1,62 @@
+# Automatic workflows (always on)
+
+On **every** agent turn in this repo, apply the right **role chain** for the activity. Do not wait for the user to name skills.
+
+**Snapshot:** Read `.cursor/agent-context.auto.md` if present (refreshed on session start and after golden tests).
+
+**Supervisor:** [.cursor/skills/project-orchestrator/SKILL.md](../skills/project-orchestrator/SKILL.md)  
+**Plan:** [docs/ROADMAP.md](../../docs/ROADMAP.md)
+
+---
+
+## Activity → automatic chain
+
+| User / system activity | You automatically do |
+| --- | --- |
+| **Fix** — `run until pass`, `make fixes after live test`, test-console inbox, `pnpm test:console:cursor agent` | 1. `project-orchestrator` pre-flight (phase, infra, portfolio) 2. `systematic-debugging` + `investigate-figma-mismatch` **before** edits 3. `figma-renderer-until-pass` implement 4. Tier **A** (re-run steps 1..N for story) 5. Tier **C** if `code-v2.ts`, `scene-to-html.ts`, `extract.ts`, or `contract` changed 6. `verification-before-completion` with command output |
+| **Test** — `pnpm test:*`, `figma:iterate`, console Run | Run test → if fail, switch to **Fix** chain for that suite → `pnpm test:portfolio:refresh` → orchestrator verdict |
+| **Update shared adapter code** | `investigate` if visual → edit → **Tier C** mandatory → orchestrator post-flight |
+| **Update one story / variant** | Edit → Tier **A** for that story → verify step |
+| **Status** — orchestrate, what's next, phase done? | `project-orchestrator` only — Orchestrator report, **no code** unless asked |
+| **Open test console** | `listen-to-test-console` only — no listen/pending in chat |
+
+Console-dispatched prompts already include the workflow block from `scripts/agent-workflow-preamble.mjs` — **follow it**.
+
+---
+
+## Sequential four tests (enforce)
+
+Per story: pixel → figma mock → figma live → delivery. Never claim step N done if step N-1 regressed.
+
+---
+
+## Infra (agent runs — see human-only-when-necessary.mdc)
+
+Before live tests: `pnpm infra:ensure` (starts storybook + relay if down). Re-check: `pnpm infra:health`.
+
+**Do not** tell the user to run those commands. Only ask human if JSON shows `humanRequired` includes `figma_plugin_not_connected` or live export fails after plugin rebuild (reload plugin in Figma → reply `ready`).
+
+---
+
+## Subagents (orchestrator dispatches)
+
+| Task | Subagent | Worker skill in prompt |
+| --- | --- | --- |
+| Portfolio audit | `explore` | — |
+| One story fix | `generalPurpose` | until-pass + investigate |
+| Validation only | `shell` | verification commands |
+
+Never parallelize fixes after shared adapter edits.
+
+---
+
+## Post-turn (fix / code sessions)
+
+Before ending your turn:
+
+- [ ] Ran validation commands (not assumed)
+- [ ] `pnpm test:portfolio:refresh` if any test ran
+- [ ] Tier A/C if applicable
+- [ ] Verdict: ON_TRACK | BLOCKED | REGRESSION | PHASE_COMPLETE
+
+Optional: `node scripts/orchestrator-context.mjs` after golden runs.

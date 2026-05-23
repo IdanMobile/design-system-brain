@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T22:01:39.818Z",
+  "generatedAt": "2026-05-22T14:45:41.067Z",
   "tolerance": 0.1,
   "results": [
     {
@@ -54,7 +54,7 @@
       "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-analyticscharts-revenue/figma.png",
       "developerPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-analyticscharts-revenue/developer.png",
       "percent": 0,
-      "testedAt": "2026-05-21T18:27:36.911Z"
+      "testedAt": "2026-05-22T14:45:49.546Z"
     },
     {
       "storyId": "lab-analyticscharts--usage",
@@ -81,319 +81,361 @@
       "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-analyticscharts-usage/figma.png",
       "developerPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-analyticscharts-usage/developer.png",
       "percent": 0,
-      "testedAt": "2026-05-21T18:27:36.912Z"
+      "testedAt": "2026-05-22T14:45:49.546Z"
     },
     {
       "storyId": "lab-button--compact",
-      "hasDevPackage": true,
-      "width": 130,
-      "height": 52,
-      "status": "pass",
-      "storybookVsFigma": {
-        "percent": 0.02958579881656805,
-        "status": "pass",
-        "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-button-compact/diff-storybook-figma.png"
-      },
-      "storybookVsDev": {
-        "percent": 0,
-        "status": "pass",
-        "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-button-compact/diff-storybook-dev.png"
-      },
-      "devVsFigma": {
-        "percent": 0.02958579881656805,
-        "status": "pass",
-        "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-button-compact/diff-dev-figma.png"
-      },
-      "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-button-compact/storybook.png",
-      "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-button-compact/figma.png",
-      "developerPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-button-compact/developer.png",
-      "percent": 0.02958579881656805,
-      "testedAt": "2026-05-21T18:27:36.913Z"
+      "status": "not_tested",
+      "percent": 0,
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-button--danger",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-button--ghost",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-button--large-with-both-icons",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-button--primary",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-button--primary-with-icon",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-button--secondary",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-calendarscheduler--compact",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-calendarscheduler--monthly",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-calendarscheduler--weekdays-only",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-complexdashboardcard--default",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-contentlistboard--compact",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-contentlistboard--default",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-contentlistboard--highlighted",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-featurecard--default",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-featurecard--success",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-featurecard--warning",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-filtersidepanel--collapsed",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-filtersidepanel--left-panel",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-filtersidepanel--right-panel",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-loadingstates--card-skeleton",
-      "status": "not_tested",
+      "hasDevPackage": true,
+      "width": 474,
+      "height": 298,
+      "status": "pass",
+      "storybookVsFigma": {
+        "percent": 0,
+        "status": "pass",
+        "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-loadingstates-card-skeleton/diff-storybook-figma.png"
+      },
+      "storybookVsDev": {
+        "percent": 0,
+        "status": "pass",
+        "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-loadingstates-card-skeleton/diff-storybook-dev.png"
+      },
+      "devVsFigma": {
+        "percent": 0,
+        "status": "pass",
+        "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-loadingstates-card-skeleton/diff-dev-figma.png"
+      },
+      "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-loadingstates-card-skeleton/storybook.png",
+      "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-loadingstates-card-skeleton/figma.png",
+      "developerPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-loadingstates-card-skeleton/developer.png",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:49.546Z"
     },
     {
       "storyId": "lab-loadingstates--list-skeleton",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-loginpage--default",
-      "hasDevPackage": true,
-      "width": 1168,
-      "height": 803,
-      "status": "pass",
-      "storybookVsFigma": {
-        "percent": 0,
-        "status": "pass",
-        "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-loginpage-default/diff-storybook-figma.png"
-      },
-      "storybookVsDev": {
-        "percent": 1.5283493060443627,
-        "status": "pass",
-        "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-loginpage-default/diff-storybook-dev.png"
-      },
-      "devVsFigma": {
-        "percent": 1.5285749093074883,
-        "status": "pass",
-        "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-loginpage-default/diff-dev-figma.png"
-      },
-      "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-loginpage-default/storybook.png",
-      "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-loginpage-default/figma.png",
-      "developerPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-loginpage-default/developer.png",
+      "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:45.159Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-loginpage--filled-credentials",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-navigationbars--bottom-navigation",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-navigationbars--top-navigation",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-overlaystates--bottom-sheet",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-overlaystates--dialog",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-overlaystates--drawer",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-pricingpanel--pro",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-pricingpanel--starter",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-productcard--alternate-image",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-productcard--compact",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-productcard--dark",
-      "status": "not_tested",
+      "hasDevPackage": true,
+      "width": 806,
+      "height": 520,
+      "status": "pass",
+      "storybookVsFigma": {
+        "percent": 0,
+        "status": "pass",
+        "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-productcard-dark/diff-storybook-figma.png"
+      },
+      "storybookVsDev": {
+        "percent": 0,
+        "status": "pass",
+        "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-productcard-dark/diff-storybook-dev.png"
+      },
+      "devVsFigma": {
+        "percent": 0,
+        "status": "pass",
+        "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-productcard-dark/diff-dev-figma.png"
+      },
+      "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-productcard-dark/storybook.png",
+      "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-productcard-dark/figma.png",
+      "developerPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-productcard-dark/developer.png",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:49.546Z"
     },
     {
       "storyId": "lab-productcard--default",
-      "status": "not_tested",
+      "hasDevPackage": true,
+      "width": 806,
+      "height": 520,
+      "status": "pass",
+      "storybookVsFigma": {
+        "percent": 0,
+        "status": "pass",
+        "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-productcard-default/diff-storybook-figma.png"
+      },
+      "storybookVsDev": {
+        "percent": 0,
+        "status": "pass",
+        "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-productcard-default/diff-storybook-dev.png"
+      },
+      "devVsFigma": {
+        "percent": 0,
+        "status": "pass",
+        "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-productcard-default/diff-dev-figma.png"
+      },
+      "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-productcard-default/storybook.png",
+      "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-productcard-default/figma.png",
+      "developerPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-productcard-default/developer.png",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:49.546Z"
     },
     {
       "storyId": "lab-radiogroupfield--default",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-radiogroupfield--disabled",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-radiogroupfield--pickup-selected",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-selectfield--closed",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-selectfield--expanded",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-snackbarstack--default",
-      "status": "not_tested",
+      "hasDevPackage": true,
+      "width": 520,
+      "height": 168,
+      "status": "pass",
+      "storybookVsFigma": {
+        "percent": 0,
+        "status": "pass",
+        "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-snackbarstack-default/diff-storybook-figma.png"
+      },
+      "storybookVsDev": {
+        "percent": 0,
+        "status": "pass",
+        "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-snackbarstack-default/diff-storybook-dev.png"
+      },
+      "devVsFigma": {
+        "percent": 0,
+        "status": "pass",
+        "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-snackbarstack-default/diff-dev-figma.png"
+      },
+      "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-snackbarstack-default/storybook.png",
+      "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-snackbarstack-default/figma.png",
+      "developerPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-snackbarstack-default/developer.png",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:49.546Z"
     },
     {
       "storyId": "lab-snackbarstack--dense",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-tabspanel--activity-active",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "lab-tabspanel--settings-active",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     },
     {
       "storyId": "mui--showcase",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-21T22:01:39.818Z"
+      "testedAt": "2026-05-22T14:45:41.067Z"
     }
   ]
 }

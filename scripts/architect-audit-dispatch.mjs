@@ -8,30 +8,50 @@ import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildArchitectAuditPrompt } from "./architecture-console.mjs";
 import { hasCursorAgent, cursorAgentInvocation, parseStreamJsonAgentLine } from "./test-console-cursor-cli.mjs";
-import { resolveAgentModel, loadRunSettings } from "./test-console-run-settings.mjs";
+import { resolveDevAgentModel, loadRunSettings } from "./test-console-run-settings.mjs";
 import { spawn } from "node:child_process";
+import {
+  startDeveloperActivity,
+  setDeveloperActivityPhase,
+  setDeveloperActivityAgentLabel,
+  appendDeveloperActivityLog,
+  finishDeveloperActivity
+} from "./developer-activity.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
 async function main() {
-  if (!hasCursorAgent()) {
-    console.error("Cursor CLI not found. Install: https://cursor.com/docs/cli/overview");
+  const settings = loadRunSettings();
+  if (!hasCursorAgent(settings.devAgentCli)) {
+    console.error(`Agent CLI (${settings.devAgentCli}) not found.`);
     process.exit(1);
   }
 
+  const jobId = `audit-${Date.now()}`;
+  const model = resolveDevAgentModel(settings);
+
   mkdirSync(join(ROOT, ".test-console"), { recursive: true });
+  startDeveloperActivity(ROOT, {
+    kind: "audit",
+    jobId,
+    terminalTitle: "Architect audit",
+    model,
+    detail: "Preparing code architect audit prompt"
+  });
+
   const prompt = buildArchitectAuditPrompt();
   const promptFile = join(ROOT, ".test-console", "architect-audit.prompt.txt");
   writeFileSync(promptFile, prompt, "utf8");
 
+  appendDeveloperActivityLog(ROOT, "[architect] Code architect investigator — read-only audit");
   console.log("[architect] Code architect investigator — read-only audit\n");
   console.log("[architect] Outputs: docs/superpowers/specs/*-code-architect-audit.md");
   console.log("[architect]          .test-console/architecture-findings.json\n");
 
-  const model = resolveAgentModel(loadRunSettings());
-  const { bin, args } = cursorAgentInvocation(prompt, { streamProgress: true, model });
-
+  setDeveloperActivityPhase(ROOT, "agent", "Agent investigating architecture (read-only)");
   console.log(`[architect] Model: ${model}\n`);
+
+  const { bin, args } = cursorAgentInvocation(prompt, { streamProgress: true, model, cliName: settings.devAgentCli });
 
   const child = spawn(bin, args, {
     cwd: ROOT,
@@ -51,10 +71,14 @@ async function main() {
       if (!trimmed) continue;
       if (isErr) {
         console.error(`[architect] stderr: ${trimmed}`);
+        appendDeveloperActivityLog(ROOT, `[stderr] ${trimmed}`);
         continue;
       }
       const parsed = parseStreamJsonAgentLine(trimmed);
-      if (parsed.label) console.log(`[architect] ${parsed.label}`);
+      if (parsed.label) {
+        console.log(`[architect] ${parsed.label}`);
+        setDeveloperActivityAgentLabel(ROOT, parsed.label);
+      }
       if (parsed.terminal) exitCode = parsed.exitCode ?? 0;
     }
   };
@@ -67,11 +91,19 @@ async function main() {
     });
     child.on("error", (err) => {
       console.error(`[architect] spawn error: ${err.message}`);
+      appendDeveloperActivityLog(ROOT, `spawn error: ${err.message}`);
       resolveRun(1);
     });
   });
 
+  setDeveloperActivityPhase(ROOT, "report", "Writing audit report and findings JSON");
+
   console.log(`\n[architect] Finished exit ${exitCode}`);
+  if (exitCode === 0) {
+    finishDeveloperActivity(ROOT, "complete", "Audit complete — refresh page for findings");
+  } else {
+    finishDeveloperActivity(ROOT, "failed", `Audit agent exited with code ${exitCode}`);
+  }
   console.log("[architect] Refresh Developer Agent in the browser to see findings.");
   process.exit(exitCode);
 }

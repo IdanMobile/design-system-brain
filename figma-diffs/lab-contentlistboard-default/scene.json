@@ -207,10 +207,10 @@
               "strokeLeftWeight": 0,
               "dashPattern": [],
               "cornerRadii": [
-                999,
-                999,
-                999,
-                999
+                2.5,
+                2.5,
+                2.5,
+                2.5
               ],
               "effects": [],
               "clipsContent": false,
@@ -314,10 +314,10 @@
               "strokeLeftWeight": 0,
               "dashPattern": [],
               "cornerRadii": [
-                999,
-                999,
-                999,
-                999
+                2.5,
+                2.5,
+                2.5,
+                2.5
               ],
               "effects": [],
               "clipsContent": false,
@@ -720,7 +720,7 @@
                 10
               ],
               "effects": [],
-              "clipsContent": true,
+              "clipsContent": false,
               "children": [
                 {
                   "id": 21,
@@ -1294,13 +1294,13 @@
                       "strokeLeftWeight": 0,
                       "dashPattern": [],
                       "cornerRadii": [
-                        999,
-                        999,
-                        999,
-                        999
+                        11.5,
+                        11.5,
+                        11.5,
+                        11.5
                       ],
                       "effects": [],
-                      "clipsContent": true,
+                      "clipsContent": false,
                       "children": [
                         {
                           "id": 37,
@@ -1373,13 +1373,13 @@
                       "strokeLeftWeight": 0,
                       "dashPattern": [],
                       "cornerRadii": [
-                        999,
-                        999,
-                        999,
-                        999
+                        11.5,
+                        11.5,
+                        11.5,
+                        11.5
                       ],
                       "effects": [],
-                      "clipsContent": true,
+                      "clipsContent": false,
                       "children": [
                         {
                           "id": 39,
@@ -1697,13 +1697,13 @@
                       "strokeLeftWeight": 0,
                       "dashPattern": [],
                       "cornerRadii": [
-                        999,
-                        999,
-                        999,
-                        999
+                        11.5,
+                        11.5,
+                        11.5,
+                        11.5
                       ],
                       "effects": [],
-                      "clipsContent": true,
+                      "clipsContent": false,
                       "children": [
                         {
                           "id": 48,
@@ -1776,13 +1776,13 @@
                       "strokeLeftWeight": 0,
                       "dashPattern": [],
                       "cornerRadii": [
-                        999,
-                        999,
-                        999,
-                        999
+                        11.5,
+                        11.5,
+                        11.5,
+                        11.5
                       ],
                       "effects": [],
-                      "clipsContent": true,
+                      "clipsContent": false,
                       "children": [
                         {
                           "id": 50,
@@ -2100,13 +2100,13 @@
                       "strokeLeftWeight": 0,
                       "dashPattern": [],
                       "cornerRadii": [
-                        999,
-                        999,
-                        999,
-                        999
+                        11.5,
+                        11.5,
+                        11.5,
+                        11.5
                       ],
                       "effects": [],
-                      "clipsContent": true,
+                      "clipsContent": false,
                       "children": [
                         {
                           "id": 59,
@@ -2179,13 +2179,13 @@
                       "strokeLeftWeight": 0,
                       "dashPattern": [],
                       "cornerRadii": [
-                        999,
-                        999,
-                        999,
-                        999
+                        11.5,
+                        11.5,
+                        11.5,
+                        11.5
                       ],
                       "effects": [],
-                      "clipsContent": true,
+                      "clipsContent": false,
                       "children": [
                         {
                           "id": 61,
@@ -2503,13 +2503,13 @@
                       "strokeLeftWeight": 0,
                       "dashPattern": [],
                       "cornerRadii": [
-                        999,
-                        999,
-                        999,
-                        999
+                        11.5,
+                        11.5,
+                        11.5,
+                        11.5
                       ],
                       "effects": [],
-                      "clipsContent": true,
+                      "clipsContent": false,
                       "children": [
                         {
                           "id": 70,
@@ -2582,13 +2582,13 @@
                       "strokeLeftWeight": 0,
                       "dashPattern": [],
                       "cornerRadii": [
-                        999,
-                        999,
-                        999,
-                        999
+                        11.5,
+                        11.5,
+                        11.5,
+                        11.5
                       ],
                       "effects": [],
-                      "clipsContent": true,
+                      "clipsContent": false,
                       "children": [
                         {
                           "id": 72,

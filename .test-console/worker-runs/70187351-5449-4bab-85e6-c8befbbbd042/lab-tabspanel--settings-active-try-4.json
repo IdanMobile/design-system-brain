@@ -1,0 +1,50 @@
+{
+  "storyId": "lab-tabspanel--settings-active",
+  "attempt": 4,
+  "jobId": "70187351-5449-4bab-85e6-c8befbbbd042",
+  "recordedAt": "2026-05-23T04:53:20.990Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 1.5729964991957612,
+    "maxRegionPercent": 3.3725649350649354,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 1.5729964991957612,
+    "maxRegionPercent": 3.3725649350649354,
+    "error": null
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-tabspanel--settings-active_try4-1779511041076.prompt.txt",
+    ".test-console/child-status/70187351-5449-4bab-85e6-c8befbbbd042-agent-lab-tabspanel--settings-active_try3-1779510084392.json",
+    "figma-diffs/by-story/lab-tabspanel-settings-active/result.json",
+    "figma-diffs/lab-tabspanel-settings-active/artifact.v2.json",
+    "figma-diffs/report.json",
+    "figma-live-diffs/by-story/lab-tabspanel-settings-active/result.json",
+    "figma-live-diffs/lab-tabspanel-settings-active/artifact.v2.json",
+    "figma-live-diffs/report.json",
+    "packages/figma-importer-plugin/dist/code.js",
+    "packages/figma-importer-plugin/src/code-v2.ts",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "STUCK_LOOP",
+    "verdicts": [
+      "STUCK_LOOP",
+      "SHARED_ADAPTER"
+    ],
+    "nextWorkerMode": "investigate_first",
+    "interventionLines": [
+      "Supervisor: metrics unchanged across attempts — stop guessing; use investigate-figma-mismatch on compare PNG + artifact before editing.",
+      "Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": true
+  }
+}

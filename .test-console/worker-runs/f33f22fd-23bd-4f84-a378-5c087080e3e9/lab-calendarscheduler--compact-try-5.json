@@ -1,0 +1,81 @@
+{
+  "storyId": "lab-calendarscheduler--compact",
+  "attempt": 5,
+  "jobId": "f33f22fd-23bd-4f84-a378-5c087080e3e9",
+  "recordedAt": "2026-05-23T11:27:14.719Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "error",
+    "percent": 100,
+    "maxRegionPercent": null,
+    "error": "Export timed out after 600000ms"
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 1.018693705210715,
+    "maxRegionPercent": 4.01306299086392,
+    "error": null
+  },
+  "agentExitCode": 0,
+  "pluginBuildFailed": true,
+  "filesChanged": [
+    ".test-console/agent-batch_try2-1779535586384.prompt.txt",
+    ".test-console/agent-lab-calendarscheduler--compact_try5-1779535293229.prompt.txt",
+    ".test-console/child-status/572cf1f7-f81e-434c-a728-78cde34448e9-agent-batch_try1-1779535285002.json",
+    ".test-console/child-status/572cf1f7-f81e-434c-a728-78cde34448e9-golden_figmaLive-1779535512868.json",
+    ".test-console/child-status/572cf1f7-f81e-434c-a728-78cde34448e9-plugin_build-1779535509648.json",
+    ".test-console/child-status/f33f22fd-23bd-4f84-a378-5c087080e3e9-agent-lab-calendarscheduler--compact_try5-1779535293229.json",
+    ".test-console/fix-all-batch-572cf1f7-f81e-434c-a728-78cde34448e9-try-2.json",
+    ".test-console/fix-all-batch-572cf1f7-f81e-434c-a728-78cde34448e9-try-2.md",
+    ".test-console/orchestrator-state.json",
+    ".test-console/sandbox-baseline/572cf1f7-f81e-434c-a728-78cde34448e9-batch-2.json",
+    "figma-live-diffs/by-story/lab-button-secondary/result.json",
+    "figma-live-diffs/by-story/lab-calendarscheduler-compact/result.json",
+    "figma-live-diffs/by-story/lab-calendarscheduler-monthly/result.json",
+    "figma-live-diffs/by-story/lab-calendarscheduler-weekdays-only/result.json",
+    "figma-live-diffs/by-story/lab-contentlistboard-highlighted/result.json",
+    "figma-live-diffs/by-story/lab-featurecard-default/result.json",
+    "figma-live-diffs/by-story/lab-featurecard-success/result.json",
+    "figma-live-diffs/by-story/lab-navigationbars-top-navigation/result.json",
+    "figma-live-diffs/by-story/lab-pricingpanel-pro/result.json",
+    "figma-live-diffs/by-story/lab-tabspanel-activity-active/result.json",
+    "figma-live-diffs/by-story/lab-tabspanel-settings-active/result.json",
+    "figma-live-diffs/by-story/mui-showcase/result.json",
+    "figma-live-diffs/lab-button-secondary/artifact.v2.json",
+    "figma-live-diffs/lab-calendarscheduler-compact/artifact.v2.json",
+    "figma-live-diffs/lab-calendarscheduler-monthly/artifact.v2.json",
+    "figma-live-diffs/lab-calendarscheduler-weekdays-only/artifact.v2.json",
+    "figma-live-diffs/lab-contentlistboard-highlighted/artifact.v2.json",
+    "figma-live-diffs/lab-featurecard-default/artifact.v2.json",
+    "figma-live-diffs/lab-featurecard-success/artifact.v2.json",
+    "figma-live-diffs/lab-navigationbars-top-navigation/artifact.v2.json",
+    "figma-live-diffs/lab-pricingpanel-pro/artifact.v2.json",
+    "figma-live-diffs/lab-tabspanel-activity-active/artifact.v2.json",
+    "figma-live-diffs/lab-tabspanel-settings-active/artifact.v2.json",
+    "figma-live-diffs/mui-showcase/artifact.v2.json",
+    "figma-live-diffs/mui-showcase/diff.png",
+    "figma-live-diffs/mui-showcase/figma.png",
+    "figma-live-diffs/mui-showcase/regions/region-05-compare.png",
+    "figma-live-diffs/mui-showcase/regions/region-05-rendered.png",
+    "figma-live-diffs/mui-showcase/regions/region-05-storybook.png",
+    "figma-live-diffs/mui-showcase/storybook.png",
+    "figma-live-diffs/report.html",
+    "figma-live-diffs/report.json",
+    "packages/figma-importer-plugin/src/code-v2.ts",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "SHARED_ADAPTER",
+    "verdicts": [
+      "SHARED_ADAPTER"
+    ],
+    "nextWorkerMode": "tier_c_required",
+    "interventionLines": [
+      "Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done.",
+      "Supervisor: plugin build failed — fix compile errors before renderer tweaks."
+    ],
+    "tierCRequired": true
+  }
+}

@@ -178,6 +178,9 @@ export interface RunSettings {
   processPool: boolean;
   applyToOrchestrator: boolean;
   agentModel: string;
+  agentCli?: string;
+  devAgentModel?: string;
+  devAgentCli?: string;
 }
 
 export interface AgentModelOption {
@@ -205,6 +208,33 @@ export interface ArchitectureFindings {
   verdict?: string;
   reportPath?: string;
   portfolioSnapshot?: Record<string, { pass: number; fail: number; warn: number; total: number }>;
+}
+
+export interface DeveloperActivityStep {
+  id: string;
+  label: string;
+  state: "done" | "current" | "pending";
+}
+
+export interface DeveloperActivityView {
+  active: boolean;
+  idle?: boolean;
+  kind?: "audit" | "implement";
+  jobId?: string;
+  status?: "running" | "complete" | "failed" | "awaiting_approval" | string;
+  phase?: string;
+  phaseIndex?: number;
+  steps?: DeveloperActivityStep[];
+  detail?: string;
+  agentLabel?: string | null;
+  logTail?: string[];
+  terminalTitle?: string;
+  model?: string | null;
+  startedAt?: string;
+  updatedAt?: string;
+  completedAt?: string;
+  elapsed?: string;
+  findingsReady?: boolean;
 }
 
 export interface DeveloperProposalVerification {
@@ -245,6 +275,7 @@ export interface DeveloperProposal {
 export interface ArchitectureConsoleState {
   generatedAt: string;
   hasCursorCli: boolean;
+  hasGitRepo: boolean;
   northStar: string;
   activePhase: string;
   pipeline: Array<{
@@ -275,4 +306,7 @@ export interface ArchitectureConsoleState {
   }>;
   agentContextMarkdown: string | null;
   proposal: DeveloperProposal | null;
+  activity: DeveloperActivityView;
+  runSettings?: RunSettings;
+  agentModelOptions?: AgentModelOption[];
 }

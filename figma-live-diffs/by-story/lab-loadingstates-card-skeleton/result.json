@@ -5,11 +5,13 @@
   "pixelsDiffered": 0,
   "pixelsTotal": 141252,
   "percent": 0,
+  "globalTolerance": 2.5,
+  "regionTolerance": 2.2,
   "status": "pass",
   "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-loadingstates-card-skeleton/storybook.png",
   "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-loadingstates-card-skeleton/figma.png",
   "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-loadingstates-card-skeleton/diff.png",
   "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-loadingstates-card-skeleton/artifact.v2.json",
   "diffRegions": [],
-  "testedAt": "2026-05-22T13:17:56.512Z"
+  "testedAt": "2026-05-23T15:42:15.451Z"
 }

@@ -187,7 +187,8 @@
               pluginMessage: {
                 type: "import-and-export-png",
                 requestId: msg.requestId,
-                json: msg.json
+                json: msg.json,
+                exportScale: typeof msg.exportScale === "number" ? msg.exportScale : 2
               }
             },
             "*"

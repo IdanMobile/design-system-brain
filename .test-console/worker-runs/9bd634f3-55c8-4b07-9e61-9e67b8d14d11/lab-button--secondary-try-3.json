@@ -1,0 +1,59 @@
+{
+  "storyId": "lab-button--secondary",
+  "attempt": 3,
+  "jobId": "9bd634f3-55c8-4b07-9e61-9e67b8d14d11",
+  "recordedAt": "2026-05-23T15:57:40.043Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 3.6552132701421804,
+    "maxRegionPercent": 3.6552132701421804,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 3.104265402843602,
+    "maxRegionPercent": 3.104265402843602,
+    "error": null
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-button--secondary_try3-1779550952677.prompt.txt",
+    ".test-console/child-status/9bd634f3-55c8-4b07-9e61-9e67b8d14d11-agent-lab-button--secondary_try2-1779550044237.json",
+    "figma-diffs/by-story/lab-button-primary/result.json",
+    "figma-diffs/by-story/lab-button-secondary/result.json",
+    "figma-diffs/lab-button-primary/artifact.v2.json",
+    "figma-diffs/lab-button-primary/scene.json",
+    "figma-diffs/lab-button-secondary/artifact.v2.json",
+    "figma-diffs/lab-button-secondary/regions/region-01-compare.png",
+    "figma-diffs/lab-button-secondary/regions/region-01-rendered.png",
+    "figma-diffs/lab-button-secondary/regions/region-01-storybook.png",
+    "figma-diffs/report.json",
+    "figma-live-diffs/by-story/lab-button-secondary/result.json",
+    "figma-live-diffs/lab-button-secondary/artifact.v2.json",
+    "figma-live-diffs/lab-button-secondary/diff.png",
+    "figma-live-diffs/lab-button-secondary/figma.png",
+    "figma-live-diffs/lab-button-secondary/regions/region-01-compare.png",
+    "figma-live-diffs/lab-button-secondary/regions/region-01-rendered.png",
+    "figma-live-diffs/report.html",
+    "figma-live-diffs/report.json",
+    "packages/figma-importer-plugin/dist/code.js",
+    "packages/figma-importer-plugin/src/code-v2.ts",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "SHARED_ADAPTER",
+    "verdicts": [
+      "SHARED_ADAPTER"
+    ],
+    "nextWorkerMode": "tier_c_required",
+    "interventionLines": [
+      "Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": true
+  }
+}

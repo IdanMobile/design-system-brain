@@ -6,8 +6,10 @@
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { hasCursorAgent } from "./test-console-cursor-cli.mjs";
+import { loadRunSettings } from "./test-console-run-settings.mjs";
 import { developerAgentAuditPrompt, developerAgentImplementPrompt } from "./agent-workflow-preamble.mjs";
-import { loadDeveloperProposal, proposalForApi } from "./developer-proposal.mjs";
+import { loadDeveloperProposal, proposalForApi, hasGitRepository } from "./developer-proposal.mjs";
+import { buildDeveloperActivityView } from "./developer-activity.mjs";
 
 const PIPELINE = [
   {
@@ -126,8 +128,37 @@ const KEY_BRAIN_FILES = [
   { path: "scripts/sandbox-promote.mjs", role: "Promote/discard gate" },
   { path: "scripts/regression-tiers.mjs", role: "Tier A/B/C regression policy" },
   { path: "scripts/agent-workflow-preamble.mjs", role: "Agent prompt role chain" },
-  { path: "upload_to_cloud/DECISIONS.md", role: "Locked platform decisions" },
+  { path: ".cursor/rules/automatic-workflows.mdc", role: "Lab agent role chain & regression policy" },
   { path: "docs/ROADMAP.md", role: "Phase plan & north star" }
+];
+
+/** Lab policy for Developer Agent — not upload_to_cloud (cloud fleet planning). */
+const LAB_DECISIONS = [
+  {
+    id: "SEQ",
+    title: "Sequential test gates",
+    implication: "Per story: pixel → figma mock → figma live → delivery (strict 0.1%)"
+  },
+  {
+    id: "INV",
+    title: "Investigate before fix",
+    implication: "Tests Console fix workers read PNG/artifacts before shared adapter edits"
+  },
+  {
+    id: "VER",
+    title: "Verifier separate from fixer",
+    implication: "sandbox-promote compares metrics and git-restore on regression"
+  },
+  {
+    id: "TIER",
+    title: "Shared adapter lock",
+    implication: "No parallel fixes after code-v2 / scene-to-html / extract / contract until Tier C"
+  },
+  {
+    id: "HUMAN",
+    title: "Human-only Figma UI",
+    implication: "Plugin reload/open when relay bridge fails after automation"
+  }
 ];
 
 const CONSTRAINTS = [
@@ -206,22 +237,6 @@ function parseActivePhase(contextMd) {
 /**
  * @param {string} repoRoot
  */
-function loadDecisions(repoRoot) {
-  const path = join(repoRoot, "upload_to_cloud", "DECISIONS.md");
-  if (!existsSync(path)) return [];
-  const text = readFileSync(path, "utf8");
-  /** @type {Array<{ id: string, title: string, implication: string }>} */
-  const rows = [];
-  for (const line of text.split("\n")) {
-    const m = line.match(/^\| \*\*([^*]+)\*\* \| \*\*([^*]+)\*\* \| (.+) \|$/);
-    if (m) rows.push({ id: m[1], title: m[2], implication: m[3] });
-  }
-  return rows;
-}
-
-/**
- * @param {string} repoRoot
- */
 function loadKeyFiles(repoRoot) {
   return KEY_BRAIN_FILES.map(({ path, role }) => {
     const abs = join(repoRoot, path);
@@ -242,23 +257,27 @@ function loadKeyFiles(repoRoot) {
  */
 export function buildArchitectureConsoleState(repoRoot) {
   const agentContext = loadAgentContext(repoRoot);
+  const findings = loadFindings(repoRoot);
+  const proposal = proposalForApi(loadDeveloperProposal(repoRoot));
   return {
     generatedAt: new Date().toISOString(),
-    hasCursorCli: hasCursorAgent(),
+    hasCursorCli: hasCursorAgent(loadRunSettings().devAgentCli),
+    hasGitRepo: hasGitRepository(repoRoot),
     northStar:
       "Universal JSON hub → pixel-perfect Figma + @lab/ui; devs use props-only API (ds.list(…)).",
     activePhase: parseActivePhase(agentContext),
     pipeline: PIPELINE,
     packages: PACKAGES,
     agentRoles: AGENT_ROLES,
-    decisions: loadDecisions(repoRoot),
+    decisions: LAB_DECISIONS,
     constraints: CONSTRAINTS,
-    findings: loadFindings(repoRoot),
+    findings,
     latestAudit: loadLatestAudit(repoRoot),
     specs: loadSpecs(repoRoot),
     keyFiles: loadKeyFiles(repoRoot),
     agentContextMarkdown: agentContext,
-    proposal: proposalForApi(loadDeveloperProposal(repoRoot))
+    proposal,
+    activity: buildDeveloperActivityView(repoRoot, proposal, findings)
   };
 }
 

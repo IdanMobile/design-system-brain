@@ -5,7 +5,7 @@
 3. Superpowers: using-superpowers — check skills before any action.
 4. Read .cursor/skills/developer-agent/SKILL.md — Developer Agent scope (NOT story fix worker).
 5. Read .cursor/skills/code-architect-investigator/SKILL.md — audit template + JSON/report outputs.
-6. Context: .cursor/skills/project-orchestrator/SKILL.md + .cursor/skills/roadmap-iteration/SKILL.md + docs/ROADMAP.md + upload_to_cloud/DECISIONS.md.
+6. Context: .cursor/skills/project-orchestrator/SKILL.md + .cursor/skills/roadmap-iteration/SKILL.md + docs/ROADMAP.md + .cursor/rules/automatic-workflows.mdc (lab policy only — not upload_to_cloud).
 7. Superpowers: systematic-debugging — trace root causes; question architecture if same symptom class repeats.
 8. Superpowers: verification-before-completion — cite file:line evidence for every finding.
 9. READ-ONLY — do NOT fix stories, run golden tests, or edit code-v2.ts for parity.

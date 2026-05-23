@@ -1,5 +1,5 @@
 {
-  "id": 3,
+  "id": 4,
   "kind": "FRAME",
   "type": "FRAME",
   "name": "Button Canvas",
@@ -69,65 +69,77 @@
         26,
         26
       ],
-      "effects": [
-        {
-          "type": "DROP_SHADOW",
-          "color": {
-            "r": 0,
-            "g": 0.42745098039215684,
-            "b": 0.807843137254902,
-            "a": 0.24
-          },
-          "offset": {
-            "x": 0,
-            "y": 8
-          },
-          "radius": 18,
-          "blendMode": "NORMAL",
-          "visible": true
-        }
-      ],
+      "effects": [],
       "clipsContent": false,
       "children": [
         {
           "id": 2,
-          "kind": "TEXT",
-          "type": "TEXT",
-          "name": "Text",
-          "x": 31.19,
-          "y": 16,
-          "width": 67.2,
-          "height": 22,
+          "kind": "FRAME",
+          "type": "FRAME",
+          "name": "label",
+          "x": 22,
+          "y": 14.5,
+          "width": 85.58,
+          "height": 23,
           "opacity": 1,
-          "characters": "Compact",
-          "fontName": {
-            "family": "Inter",
-            "style": "Bold"
-          },
-          "fontSize": 20,
-          "fills": [
-            {
-              "type": "SOLID",
-              "color": {
-                "r": 1,
-                "g": 1,
-                "b": 1
-              },
-              "opacity": 1
-            }
+          "fills": [],
+          "strokes": [],
+          "strokeWeight": 1,
+          "strokeTopWeight": 0,
+          "strokeRightWeight": 0,
+          "strokeBottomWeight": 0,
+          "strokeLeftWeight": 0,
+          "dashPattern": [],
+          "cornerRadii": [
+            0,
+            0,
+            0,
+            0
           ],
-          "textAlignHorizontal": "CENTER",
-          "textAutoResize": "WIDTH_AND_HEIGHT",
-          "lineHeight": {
-            "unit": "PIXELS",
-            "value": 22
-          },
-          "letterSpacing": {
-            "unit": "PIXELS",
-            "value": 0
-          },
-          "textCase": "ORIGINAL",
-          "textDecoration": "NONE"
+          "effects": [],
+          "clipsContent": false,
+          "children": [
+            {
+              "id": 3,
+              "kind": "TEXT",
+              "type": "TEXT",
+              "name": "Text",
+              "x": 9.19,
+              "y": 0.5,
+              "width": 67.2,
+              "height": 22,
+              "opacity": 1,
+              "characters": "Compact",
+              "fontName": {
+                "family": "Inter",
+                "style": "Bold"
+              },
+              "fontSize": 20,
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 1,
+                    "g": 1,
+                    "b": 1
+                  },
+                  "opacity": 1
+                }
+              ],
+              "textAlignHorizontal": "CENTER",
+              "textAutoResize": "WIDTH_AND_HEIGHT",
+              "lineHeight": {
+                "unit": "PIXELS",
+                "value": 22
+              },
+              "letterSpacing": {
+                "unit": "PIXELS",
+                "value": 0
+              },
+              "textCase": "ORIGINAL",
+              "textDecoration": "NONE"
+            }
+          ]
         }
       ]
     }

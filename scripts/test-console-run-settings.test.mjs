@@ -5,7 +5,8 @@ import {
   DEFAULT_AGENT_MODEL,
   MAX_PARALLEL_WORKERS,
   normalizeRunSettings,
-  resolveAgentModel
+  resolveAgentModel,
+  resolveDevAgentModel
 } from "./test-console-run-settings.mjs";
 
 describe("resolveAgentModel", () => {
@@ -20,6 +21,21 @@ describe("resolveAgentModel", () => {
   it("keeps unknown model slug (CLI may add new ids)", () => {
     const s = normalizeRunSettings({ agentModel: "gpt-5.3-codex-high" });
     assert.equal(s.agentModel, "gpt-5.3-codex-high");
+  });
+});
+
+describe("resolveDevAgentModel", () => {
+  it("defaults to composer-2.5-fast", () => {
+    assert.equal(resolveDevAgentModel({}), DEFAULT_AGENT_MODEL);
+  });
+
+  it("uses persisted devAgentModel", () => {
+    assert.equal(resolveDevAgentModel({ devAgentModel: "gpt-5.3-codex" }), "gpt-5.3-codex");
+  });
+
+  it("keeps unknown devAgentModel slug", () => {
+    const s = normalizeRunSettings({ devAgentModel: "gpt-5.3-codex-high" });
+    assert.equal(s.devAgentModel, "gpt-5.3-codex-high");
   });
 });
 

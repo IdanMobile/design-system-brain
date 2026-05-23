@@ -7,7 +7,7 @@
  */
 
 import { createServer } from "node:http";
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { createReadStream, existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { extname, join, resolve, sep } from "node:path";
 import { randomUUID } from "node:crypto";
@@ -30,7 +30,7 @@ import {
   loadOrchestratorAuto,
   setOrchestratorAuto
 } from "./test-console-orchestrator-auto.mjs";
-import { loadOrchestratorState } from "./test-console-worker-supervisor.mjs";
+import { loadOrchestratorState, writeOrchestratorState } from "./test-console-worker-supervisor.mjs";
 import { loadRunSettings, setRunSettings, resolveGoldenRunAll } from "./test-console-run-settings.mjs";
 import { loadAgentModelOptions } from "./test-console-agent-models.mjs";
 import { SERVICE_TERMINAL } from "./test-console-services.mjs";
@@ -55,8 +55,11 @@ import { buildArchitectureConsoleState } from "./architecture-console.mjs";
 import {
   approveDeveloperProposal,
   discardDeveloperProposal,
-  loadDeveloperProposal
+  loadDeveloperProposal,
+  clearDeveloperProposal,
+  hasGitRepository
 } from "./developer-proposal.mjs";
+import { clearDeveloperActivity } from "./developer-activity.mjs";
 
 const __dirname = resolve(fileURLToPath(import.meta.url), "..");
 const REPO = resolve(__dirname, "..");
@@ -224,8 +227,96 @@ function serializeJob(j, { includeLogs = false } = {}) {
   return base;
 }
 
+function findFixAllOrchestratorPid(jobId) {
+  try {
+    const r = spawnSync("pgrep", ["-f", `run-fix-all ${jobId}`], { encoding: "utf8" });
+    if (r.status !== 0 || !r.stdout?.trim()) return null;
+    const pid = Number(String(r.stdout).trim().split("\n")[0]);
+    return pid > 0 && isProcessAlive(pid) ? pid : null;
+  } catch {
+    return null;
+  }
+}
+
+function parseFixAllStoryIdsFromPrompt(jobId) {
+  const promptPath = join(REPO, ".test-console", `fix-all-${jobId}.prompt.txt`);
+  if (!existsSync(promptPath)) return [];
+  const text = readFileSync(promptPath, "utf8");
+  const storiesIdx = text.indexOf("Stories:");
+  if (storiesIdx < 0) return [];
+  const ids = [];
+  for (const line of text.slice(storiesIdx).split("\n")) {
+    const m = line.match(/^\d+\.\s+(\S+)/);
+    if (m) ids.push(m[1]);
+  }
+  return ids;
+}
+
+function fixAllJobStartedAt(jobId) {
+  const promptPath = join(REPO, ".test-console", `fix-all-${jobId}.prompt.txt`);
+  if (existsSync(promptPath)) {
+    try {
+      const st = statSync(promptPath);
+      const t = st.birthtimeMs > 0 ? st.birthtime : st.mtime;
+      return t.toISOString();
+    } catch {
+      /* ok */
+    }
+  }
+  return new Date().toISOString();
+}
+
+/** After server restart, terminal fix-all may still run while in-memory jobs Map is empty. */
+function rehydrateOrphanFixAllJobs() {
+  let sup;
+  try {
+    sup = loadOrchestratorState(REPO);
+  } catch {
+    return;
+  }
+  if (!sup?.jobId || sup.finished) return;
+  const phase = sup.phase;
+  if (phase !== "fix-all" && phase !== "fix-all-batch") return;
+
+  const jobId = sup.jobId;
+  const existing = jobs.get(jobId);
+  if (existing && (existing.status === "running" || existing.finalizing)) return;
+
+  const pid = findFixAllOrchestratorPid(jobId);
+  if (!pid) return;
+
+  const suiteId = sup.suiteId ?? "figmaLive";
+  const cfg = SUITES[suiteId];
+  if (!cfg) return;
+
+  const storyIds = parseFixAllStoryIdsFromPrompt(jobId);
+  const count = storyIds.length || sup.storyTotal || "?";
+  const fixAllAction = `fix-all:${suiteId}`;
+  const logs = [`[test-console] Reattached to running fix-all (orchestrator pid ${pid})\n`];
+  if (sup.storyIndex != null && sup.storyTotal) {
+    logs.push(
+      `[fix-all] Story ${sup.storyIndex}/${sup.storyTotal}: ${sup.storyId ?? "…"} (try ${sup.attempt ?? "?"})\n`
+    );
+  }
+
+  jobs.set(jobId, {
+    id: jobId,
+    action: fixAllAction,
+    story: null,
+    label: `Fix all · ${cfg.label} (${count} stories)`,
+    status: "running",
+    storyIds,
+    logs,
+    exitCode: null,
+    startedAt: fixAllJobStartedAt(jobId),
+    fixAllOrchestratorPid: pid,
+    rehydrated: true
+  });
+}
+
 /** Running jobs always included — recent completed capped so poll/stream never lose active work. */
 function jobsForState() {
+  rehydrateOrphanFixAllJobs();
   reconcileStaleJobs();
   const all = [...jobs.values()];
   const running = all.filter((j) => j.status === "running" || j.finalizing);
@@ -264,6 +355,66 @@ function markFixAllEnded(job, { killed, note }) {
   if (note) job.logs.push(note);
 }
 
+function findPortfolioOrchestratorPid(jobId) {
+  try {
+    const r = spawnSync("pgrep", ["-f", `run-portfolio-orchestrator ${jobId}`], { encoding: "utf8" });
+    if (r.status !== 0 || !r.stdout?.trim()) return null;
+    const pid = Number(String(r.stdout).trim().split("\n")[0]);
+    return pid > 0 && isProcessAlive(pid) ? pid : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Clear supervisor file + kill flag when fix-all/orchestrator process is gone (UI stuck on "Fixing…"). */
+function dismissOrchestratorSupervisor(jobId, { killed = false } = {}) {
+  const sup = loadOrchestratorState(REPO);
+  if (sup?.jobId === jobId && !sup.finished) {
+    writeOrchestratorState(REPO, {
+      ...sup,
+      finished: true,
+      verdict: killed ? "CANCELLED" : "STALE",
+      nextWorkerMode: "stopped"
+    });
+  }
+  for (const name of [`fix-all-${jobId}.kill`, `portfolio-orchestrator-${jobId}.kill`]) {
+    const flag = join(REPO, ".test-console", name);
+    try {
+      if (!existsSync(join(REPO, ".test-console"))) mkdirSync(join(REPO, ".test-console"), { recursive: true });
+      writeFileSync(flag, "");
+    } catch {
+      /* ok */
+    }
+  }
+}
+
+/** Mark orchestrator-state finished when terminal process exited but file was left open. */
+function reconcileOrchestratorState() {
+  const sup = loadOrchestratorState(REPO);
+  if (!sup?.jobId || sup.finished) return sup;
+
+  const phase = String(sup.phase ?? "");
+  const isFixAll = phase === "fix-all" || phase === "fix-all-batch";
+  const isPortfolio = phase.startsWith("portfolio");
+  if (!isFixAll && !isPortfolio) return sup;
+
+  const pid = isFixAll
+    ? findFixAllOrchestratorPid(sup.jobId)
+    : findPortfolioOrchestratorPid(sup.jobId);
+  const job = jobs.get(sup.jobId);
+  const jobActive = job && (job.status === "running" || job.finalizing);
+  if (pid || jobActive) return sup;
+
+  const next = {
+    ...sup,
+    finished: true,
+    verdict: "STALE",
+    nextWorkerMode: "stopped"
+  };
+  writeOrchestratorState(REPO, next);
+  return next;
+}
+
 /** Child exited but handler not run yet (e.g. portfolio refresh). */
 function reconcileStaleJobs() {
   for (const job of jobs.values()) {
@@ -295,6 +446,7 @@ function reconcileStaleJobs() {
           ? "[test-console] Portfolio supervisor ended (terminal closed or crashed)\n"
           : "[test-console] Fix-all process ended (terminal closed or crashed)\n"
       });
+      dismissOrchestratorSupervisor(job.id, { killed: true });
       if (wasPortfolio && loadOrchestratorAuto().enabled) {
         setTimeout(() => ensureAutoOrchestratorRunning(true), 3000);
       }
@@ -690,7 +842,7 @@ function runFixOneOrAllAction(suiteId, singleStoryId, { openTerminal = true } = 
 
   if (!hasCursorAgent()) {
     throw new Error(
-      "Cursor CLI not found. Install: curl https://cursor.com/install -fsS | bash (then: agent --version)"
+      "Agent CLI not found. Please install the selected CLI (Cursor CLI or Gemini CLI)."
     );
   }
 
@@ -788,7 +940,7 @@ function runPortfolioOrchestratorAction({ autoMode = false } = {}) {
 
   if (!hasCursorAgent()) {
     throw new Error(
-      "Cursor CLI not found. Install: curl https://cursor.com/install -fsS | bash (then: agent --version)"
+      "Agent CLI not found. Please install the selected CLI (Cursor CLI or Gemini CLI)."
     );
   }
 
@@ -925,7 +1077,7 @@ async function handleApi(req, res, url) {
       jobs: jobsForState(),
       orchestratorAuto: loadOrchestratorAuto().enabled,
       orchestratorRunning: portfolioOrchestratorRunning(),
-      workerSupervisor: loadOrchestratorState(REPO),
+      workerSupervisor: reconcileOrchestratorState(),
       runSettings: loadRunSettings(),
       agentModelOptions: loadAgentModelOptions()
     });
@@ -1015,15 +1167,18 @@ async function handleApi(req, res, url) {
   }
 
   if (url.pathname === "/api/developer-console" && req.method === "GET") {
-    json(res, 200, buildArchitectureConsoleState(REPO));
+    const state = buildArchitectureConsoleState(REPO);
+    state.runSettings = loadRunSettings();
+    state.agentModelOptions = loadAgentModelOptions({ cliName: state.runSettings.devAgentCli });
+    json(res, 200, state);
     return true;
   }
 
   if (url.pathname === "/api/developer-console/audit" && req.method === "POST") {
     try {
-      if (!hasCursorAgent()) {
+      if (!hasCursorAgent(loadRunSettings().devAgentCli)) {
         json(res, 503, {
-          error: "Cursor CLI not found — install from cursor.com/docs/cli/overview"
+          error: "Agent CLI not found — please install the selected CLI (Cursor CLI or Gemini CLI)"
         });
         return true;
       }
@@ -1040,9 +1195,15 @@ async function handleApi(req, res, url) {
 
   if (url.pathname === "/api/developer-console/implement" && req.method === "POST") {
     try {
-      if (!hasCursorAgent()) {
+      if (!hasCursorAgent(loadRunSettings().devAgentCli)) {
         json(res, 503, {
-          error: "Cursor CLI not found — install from cursor.com/docs/cli/overview"
+          error: "Agent CLI not found — please install the selected CLI (Cursor CLI or Gemini CLI)"
+        });
+        return true;
+      }
+      if (!hasGitRepository(REPO)) {
+        json(res, 503, {
+          error: "Local git repo required — run: git init && git add . && git commit -m \"baseline\""
         });
         return true;
       }
@@ -1090,6 +1251,26 @@ async function handleApi(req, res, url) {
         return true;
       }
       json(res, 200, result);
+    } catch (e) {
+      json(res, 500, { error: e instanceof Error ? e.message : String(e) });
+    }
+    return true;
+  }
+
+  if (url.pathname === "/api/developer-console/proposal/clear" && req.method === "POST") {
+    try {
+      clearDeveloperProposal(REPO);
+      clearDeveloperActivity(REPO);
+      json(res, 200, { ok: true });
+    } catch (e) {
+      json(res, 500, { error: e instanceof Error ? e.message : String(e) });
+    }
+    return true;
+  }
+
+  if (url.pathname === "/api/developer-console/activity/clear" && req.method === "POST") {
+    try {
+      json(res, 200, clearDeveloperActivity(REPO));
     } catch (e) {
       json(res, 500, { error: e instanceof Error ? e.message : String(e) });
     }
@@ -1570,9 +1751,17 @@ async function handleApi(req, res, url) {
   const killMatch = url.pathname.match(/^\/api\/jobs\/([^/]+)\/kill$/);
   if (killMatch && req.method === "POST") {
     reconcileStaleJobs();
-    const job = jobs.get(killMatch[1]);
+    const jobId = killMatch[1];
+    const job = jobs.get(jobId);
     if (!job) {
-      json(res, 404, { error: "Job not found" });
+      dismissOrchestratorSupervisor(jobId, { killed: true });
+      reconcileOrchestratorState();
+      json(res, 200, {
+        ok: true,
+        dismissed: true,
+        status: "killed",
+        message: "No active job in memory — cleared stale fix-all / orchestrator state"
+      });
       return true;
     }
     if (job.status !== "running" && !job.finalizing) {
@@ -1610,6 +1799,7 @@ async function handleApi(req, res, url) {
         killOrchestratorJobProcesses(job, { signal: "SIGKILL" });
       }, 1200);
       markFixAllEnded(job, { killed: true, note: "[test-console] Cancelled by user\n" });
+      dismissOrchestratorSupervisor(job.id, { killed: true });
     } else {
       job.status = "killed";
       job.exitCode = 130;

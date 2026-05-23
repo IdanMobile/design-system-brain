@@ -10,6 +10,12 @@ import {
   FilterSidePanel,
   LoadingStates,
   LoginPage,
+  MeetingHomePage,
+  NeonArcadeScreen,
+  CryptoChaosDashboard,
+  FoodFrenzyScreen,
+  SpaceMissionControl,
+  RetroTerminalScreen,
   NavigationBars,
   OverlayStates,
   PricingPanel,
@@ -18,7 +24,8 @@ import {
   SelectField,
   SnackbarStack,
   TabsPanel,
-  MUIShowcase
+  MUIShowcase,
+  MUIWorkspaceScreen
 } from "@lab/ui";
 
 type ComponentMap = Record<string, React.ComponentType<StoryArgs>>;
@@ -33,7 +40,14 @@ const COMPONENTS: ComponentMap = {
   FilterSidePanel,
   LoadingStates,
   LoginPage,
+  MeetingHomePage,
+  NeonArcadeScreen,
+  CryptoChaosDashboard,
+  FoodFrenzyScreen,
+  SpaceMissionControl,
+  RetroTerminalScreen,
   MUIShowcase,
+  MUIWorkspaceScreen,
   NavigationBars,
   OverlayStates,
   PricingPanel,

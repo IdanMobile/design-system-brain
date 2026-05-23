@@ -50,7 +50,7 @@ wss.on("connection", (ws) => {
     }
 
     if (msg.type === "render-export") {
-      const { requestId, json } = msg;
+      const { requestId, json, exportScale } = msg;
       if (!requestId || typeof json !== "string") {
         send(ws, {
           type: "export-error",
@@ -85,7 +85,12 @@ wss.on("connection", (ws) => {
         });
       }, REQUEST_TIMEOUT_MS);
       pending.set(requestId, { testWs: ws, timer });
-      send(pluginWs, { type: "render-export", requestId, json });
+      send(pluginWs, {
+        type: "render-export",
+        requestId,
+        json,
+        ...(typeof exportScale === "number" && exportScale > 0 ? { exportScale } : {})
+      });
       return;
     }
 

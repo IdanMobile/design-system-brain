@@ -2,10 +2,13 @@
   "storyId": "lab-calendarscheduler--compact",
   "width": 734,
   "height": 746,
-  "pixelsDiffered": 7978,
+  "pixelsDiffered": 5578,
   "pixelsTotal": 547564,
-  "percent": 1.4569986339496388,
-  "maxRegionPercent": 4.13684279021343,
+  "percent": 1.018693705210715,
+  "maxRegionPercent": 4.01306299086392,
+  "globalTolerance": 2.5,
+  "regionTolerance": 2.2,
+  "failReason": "hotspot",
   "status": "fail",
   "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/storybook.png",
   "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/figma.png",
@@ -17,10 +20,10 @@
       "rect": {
         "x": 0,
         "y": 604,
-        "width": 452,
+        "width": 734,
         "height": 136,
-        "pixels": 2543,
-        "percent": 4.13684279021343
+        "pixels": 4006,
+        "percent": 4.01306299086392
       },
       "storybook": "regions/region-01-storybook.png",
       "rendered": "regions/region-01-rendered.png",
@@ -29,12 +32,12 @@
     {
       "index": 2,
       "rect": {
-        "x": 460,
-        "y": 604,
-        "width": 274,
-        "height": 136,
-        "pixels": 1490,
-        "percent": 3.998497209102619
+        "x": 604,
+        "y": 0,
+        "width": 130,
+        "height": 116,
+        "pixels": 374,
+        "percent": 2.480106100795756
       },
       "storybook": "regions/region-02-storybook.png",
       "rendered": "regions/region-02-rendered.png",
@@ -43,12 +46,12 @@
     {
       "index": 3,
       "rect": {
-        "x": 0,
-        "y": 0,
-        "width": 404,
-        "height": 164,
-        "pixels": 880,
-        "percent": 1.3281815986476697
+        "x": 508,
+        "y": 220,
+        "width": 88,
+        "height": 136,
+        "pixels": 294,
+        "percent": 2.4565508021390374
       },
       "storybook": "regions/region-03-storybook.png",
       "rendered": "regions/region-03-rendered.png",
@@ -57,12 +60,12 @@
     {
       "index": 4,
       "rect": {
-        "x": 172,
+        "x": 316,
         "y": 268,
-        "width": 232,
-        "height": 184,
-        "pixels": 460,
-        "percent": 1.0775862068965518
+        "width": 88,
+        "height": 136,
+        "pixels": 249,
+        "percent": 2.080548128342246
       },
       "storybook": "regions/region-04-storybook.png",
       "rendered": "regions/region-04-rendered.png",
@@ -71,12 +74,12 @@
     {
       "index": 5,
       "rect": {
-        "x": 604,
-        "y": 0,
-        "width": 130,
-        "height": 164,
-        "pixels": 398,
-        "percent": 1.8667917448405253
+        "x": 412,
+        "y": 412,
+        "width": 88,
+        "height": 88,
+        "pixels": 186,
+        "percent": 2.4018595041322315
       },
       "storybook": "regions/region-05-storybook.png",
       "rendered": "regions/region-05-rendered.png",
@@ -85,12 +88,12 @@
     {
       "index": 6,
       "rect": {
-        "x": 508,
-        "y": 172,
+        "x": 28,
+        "y": 0,
         "width": 88,
-        "height": 184,
-        "pixels": 360,
-        "percent": 2.2233201581027666
+        "height": 80,
+        "pixels": 60,
+        "percent": 0.8522727272727272
       },
       "storybook": "regions/region-06-storybook.png",
       "rendered": "regions/region-06-rendered.png",
@@ -100,11 +103,11 @@
       "index": 7,
       "rect": {
         "x": 412,
-        "y": 364,
+        "y": 268,
         "width": 88,
-        "height": 184,
-        "pixels": 351,
-        "percent": 2.1677371541501977
+        "height": 88,
+        "pixels": 35,
+        "percent": 0.4519628099173553
       },
       "storybook": "regions/region-07-storybook.png",
       "rendered": "regions/region-07-rendered.png",
@@ -113,17 +116,17 @@
     {
       "index": 8,
       "rect": {
-        "x": 172,
-        "y": 460,
-        "width": 232,
+        "x": 0,
+        "y": 364,
+        "width": 80,
         "height": 88,
-        "pixels": 167,
-        "percent": 0.8179858934169278
+        "pixels": 28,
+        "percent": 0.3977272727272727
       },
       "storybook": "regions/region-08-storybook.png",
       "rendered": "regions/region-08-rendered.png",
       "compare": "regions/region-08-compare.png"
     }
   ],
-  "testedAt": "2026-05-22T12:39:35.384Z"
+  "testedAt": "2026-05-23T11:49:34.435Z"
 }

@@ -1,0 +1,37 @@
+{
+  "storyId": "lab-pricingpanel--pro",
+  "attempt": 3,
+  "jobId": "f7dc4607-f94b-408b-8e7a-2579626a5a13",
+  "recordedAt": "2026-05-23T12:11:21.346Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 1.2875604787369492,
+    "maxRegionPercent": 3.206168831168831,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 1.2875604787369492,
+    "maxRegionPercent": 3.206168831168831,
+    "error": null
+  },
+  "agentExitCode": 0,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-pricingpanel--pro_try3-1779538000586.prompt.txt",
+    ".test-console/child-status/f7dc4607-f94b-408b-8e7a-2579626a5a13-agent-lab-pricingpanel--pro_try3-1779538000586.json"
+  ],
+  "evaluation": {
+    "verdict": "STUCK_LOOP",
+    "verdicts": [
+      "STUCK_LOOP"
+    ],
+    "nextWorkerMode": "investigate_first",
+    "interventionLines": [
+      "Supervisor: metrics unchanged across attempts — stop guessing; use investigate-figma-mismatch on compare PNG + artifact before editing."
+    ],
+    "tierCRequired": false
+  }
+}

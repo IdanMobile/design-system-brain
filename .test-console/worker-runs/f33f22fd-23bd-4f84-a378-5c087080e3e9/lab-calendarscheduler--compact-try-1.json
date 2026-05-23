@@ -1,0 +1,38 @@
+{
+  "storyId": "lab-calendarscheduler--compact",
+  "attempt": 1,
+  "jobId": "f33f22fd-23bd-4f84-a378-5c087080e3e9",
+  "recordedAt": "2026-05-23T11:10:38.985Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 1.018693705210715,
+    "maxRegionPercent": 4.01306299086392,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 1.018693705210715,
+    "maxRegionPercent": 4.01306299086392,
+    "error": null
+  },
+  "agentExitCode": 41,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-calendarscheduler--compact_try1-1779534619753.prompt.txt",
+    ".test-console/child-status/f33f22fd-23bd-4f84-a378-5c087080e3e9-agent-lab-calendarscheduler--compact_try1-1779534619753.json"
+  ],
+  "evaluation": {
+    "verdict": "STUCK_LOOP",
+    "verdicts": [
+      "STUCK_LOOP"
+    ],
+    "nextWorkerMode": "investigate_first",
+    "interventionLines": [
+      "Supervisor: two consecutive attempts with no metric movement — switch to investigate-first.",
+      "Supervisor: agent CLI exited 41 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

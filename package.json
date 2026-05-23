@@ -52,7 +52,7 @@
     "test:regression:tier-b": "node scripts/test-regression.mjs --tier b",
     "test:regression:tier-c": "node scripts/test-regression.mjs --tier c",
     "orchestrator:context": "node scripts/orchestrator-context.mjs",
-    "test:supervisor": "node --test scripts/test-console-worker-supervisor.test.mjs scripts/regression-tiers.test.mjs scripts/iterate-report-exit.test.mjs scripts/sandbox-promote.test.mjs scripts/architecture-console.test.mjs scripts/developer-proposal.test.mjs",
+    "test:supervisor": "node --test scripts/step-gate.test.mjs scripts/test-console-worker-supervisor.test.mjs scripts/regression-tiers.test.mjs scripts/iterate-report-exit.test.mjs scripts/sandbox-promote.test.mjs scripts/architecture-console.test.mjs scripts/developer-proposal.test.mjs scripts/developer-activity.test.mjs",
     "test:fix-all-batch": "node --test scripts/fix-all-batch-report.test.mjs",
     "test:run-settings": "node --test scripts/test-console-run-settings.test.mjs",
     "test:agent-models": "node --test scripts/test-console-agent-models.test.mjs",

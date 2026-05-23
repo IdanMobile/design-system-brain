@@ -2,10 +2,10 @@
   "storyId": "lab-radiogroupfield--default",
   "width": 458,
   "height": 89,
-  "pixelsDiffered": 396,
+  "pixelsDiffered": 211,
   "pixelsTotal": 40762,
-  "percent": 0.971493057259212,
-  "maxRegionPercent": 1.2498421916424693,
+  "percent": 0.5176389774790245,
+  "maxRegionPercent": 0.974025974025974,
   "status": "pass",
   "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-radiogroupfield-default/storybook.png",
   "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-radiogroupfield-default/figma.png",
@@ -15,17 +15,31 @@
     {
       "index": 1,
       "rect": {
-        "x": 0,
+        "x": 28,
         "y": 0,
-        "width": 356,
+        "width": 232,
         "height": 89,
-        "pixels": 396,
-        "percent": 1.2498421916424693
+        "pixels": 151,
+        "percent": 0.7313056954668733
       },
       "storybook": "regions/region-01-storybook.png",
       "rendered": "regions/region-01-rendered.png",
       "compare": "regions/region-01-compare.png"
+    },
+    {
+      "index": 2,
+      "rect": {
+        "x": 268,
+        "y": 19,
+        "width": 88,
+        "height": 70,
+        "pixels": 60,
+        "percent": 0.974025974025974
+      },
+      "storybook": "regions/region-02-storybook.png",
+      "rendered": "regions/region-02-rendered.png",
+      "compare": "regions/region-02-compare.png"
     }
   ],
-  "testedAt": "2026-05-22T10:51:50.743Z"
+  "testedAt": "2026-05-22T15:03:51.842Z"
 }

@@ -2,10 +2,10 @@
   "storyId": "lab-loginpage--filled-credentials",
   "width": 1168,
   "height": 803,
-  "pixelsDiffered": 2272,
+  "pixelsDiffered": 2181,
   "pixelsTotal": 937904,
-  "percent": 0.24224227639502552,
-  "maxRegionPercent": 1.3646536066424493,
+  "percent": 0.23253979085279516,
+  "maxRegionPercent": 1.290866632070576,
   "status": "pass",
   "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-loginpage-filled-credentials/storybook.png",
   "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-loginpage-filled-credentials/figma.png",
@@ -19,8 +19,8 @@
         "y": 412,
         "width": 328,
         "height": 376,
-        "pixels": 1683,
-        "percent": 1.3646536066424493
+        "pixels": 1592,
+        "percent": 1.290866632070576
       },
       "storybook": "regions/region-01-storybook.png",
       "rendered": "regions/region-01-rendered.png",
@@ -41,5 +41,5 @@
       "compare": "regions/region-02-compare.png"
     }
   ],
-  "testedAt": "2026-05-22T11:28:14.931Z"
+  "testedAt": "2026-05-22T15:03:51.840Z"
 }

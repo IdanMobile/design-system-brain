@@ -19,8 +19,8 @@ code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; }
 <h1>Developer delivery — pixel-diff report</h1>
 <p>Three-way check per story: <strong>Storybook</strong> (extraction source) · <strong>@lab/ui</strong> in the Vite playground · <strong>Figma</strong> via <code>code-v2.ts</code>. PASS when each leg is within 0.1% diff.</p>
 <div class="summary">
-  <div>Total: <strong>5</strong></div>
-  <div style="color:#16a34a">Pass: <strong>5</strong></div>
+  <div>Total: <strong>7</strong></div>
+  <div style="color:#16a34a">Pass: <strong>7</strong></div>
   <div style="color:#d97706">Warn: <strong>0</strong></div>
   <div style="color:#dc2626">Fail: <strong>0</strong></div>
   <div style="color:#7c3aed">Error: <strong>0</strong></div>
@@ -66,27 +66,51 @@ code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; }
         </td>
         <td></td>
       </tr><tr>
-        <td><code>lab-button--compact</code></td>
+        <td><code>lab-loadingstates--card-skeleton</code></td>
         <td style="color:#16a34a;font-weight:600">PASS</td>
         <td><span class="metric-primary" style="color:#16a34a">100.00%</span><span class="metric-sub">PASS</span></td>
-        <td><span class="metric-primary" style="color:#16a34a">99.97%</span><span class="metric-sub">PASS</span></td>
-        <td><span class="metric-primary" style="color:#16a34a">99.97%</span><span class="metric-sub">PASS</span></td>
+        <td><span class="metric-primary" style="color:#16a34a">100.00%</span><span class="metric-sub">PASS</span></td>
+        <td><span class="metric-primary" style="color:#16a34a">100.00%</span><span class="metric-sub">PASS</span></td>
         <td>
-          <a target="_blank" href="lab-button-compact/storybook.png">storybook</a> ·
-          <a target="_blank" href="lab-button-compact/developer.png">developer</a> · 
-          <a target="_blank" href="lab-button-compact/figma.png">figma</a>
+          <a target="_blank" href="lab-loadingstates-card-skeleton/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-loadingstates-card-skeleton/developer.png">developer</a> · 
+          <a target="_blank" href="lab-loadingstates-card-skeleton/figma.png">figma</a>
         </td>
         <td></td>
       </tr><tr>
-        <td><code>lab-loginpage--default</code></td>
+        <td><code>lab-productcard--dark</code></td>
         <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span class="metric-primary" style="color:#16a34a">98.47%</span><span class="metric-sub">PASS</span></td>
         <td><span class="metric-primary" style="color:#16a34a">100.00%</span><span class="metric-sub">PASS</span></td>
-        <td><span class="metric-primary" style="color:#16a34a">98.47%</span><span class="metric-sub">PASS</span></td>
+        <td><span class="metric-primary" style="color:#16a34a">100.00%</span><span class="metric-sub">PASS</span></td>
+        <td><span class="metric-primary" style="color:#16a34a">100.00%</span><span class="metric-sub">PASS</span></td>
         <td>
-          <a target="_blank" href="lab-loginpage-default/storybook.png">storybook</a> ·
-          <a target="_blank" href="lab-loginpage-default/developer.png">developer</a> · 
-          <a target="_blank" href="lab-loginpage-default/figma.png">figma</a>
+          <a target="_blank" href="lab-productcard-dark/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-productcard-dark/developer.png">developer</a> · 
+          <a target="_blank" href="lab-productcard-dark/figma.png">figma</a>
+        </td>
+        <td></td>
+      </tr><tr>
+        <td><code>lab-productcard--default</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary" style="color:#16a34a">100.00%</span><span class="metric-sub">PASS</span></td>
+        <td><span class="metric-primary" style="color:#16a34a">100.00%</span><span class="metric-sub">PASS</span></td>
+        <td><span class="metric-primary" style="color:#16a34a">100.00%</span><span class="metric-sub">PASS</span></td>
+        <td>
+          <a target="_blank" href="lab-productcard-default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-productcard-default/developer.png">developer</a> · 
+          <a target="_blank" href="lab-productcard-default/figma.png">figma</a>
+        </td>
+        <td></td>
+      </tr><tr>
+        <td><code>lab-snackbarstack--default</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary" style="color:#16a34a">100.00%</span><span class="metric-sub">PASS</span></td>
+        <td><span class="metric-primary" style="color:#16a34a">100.00%</span><span class="metric-sub">PASS</span></td>
+        <td><span class="metric-primary" style="color:#16a34a">100.00%</span><span class="metric-sub">PASS</span></td>
+        <td>
+          <a target="_blank" href="lab-snackbarstack-default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-snackbarstack-default/developer.png">developer</a> · 
+          <a target="_blank" href="lab-snackbarstack-default/figma.png">figma</a>
         </td>
         <td></td>
       </tr></tbody>
@@ -132,29 +156,55 @@ code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; }
     </p>
   </section>
   <section class="story-section">
-    <h2><code>lab-button--compact</code></h2>
+    <h2><code>lab-loadingstates--card-skeleton</code></h2>
     <div class="triple">
-      <figure><figcaption>Storybook</figcaption><img src="lab-button-compact/storybook.png" alt="storybook" /></figure>
-      <figure><figcaption>@lab/ui (Vite)</figcaption><img src="lab-button-compact/developer.png" alt="developer" /></figure>
-      <figure><figcaption>Figma render</figcaption><img src="lab-button-compact/figma.png" alt="figma" /></figure>
+      <figure><figcaption>Storybook</figcaption><img src="lab-loadingstates-card-skeleton/storybook.png" alt="storybook" /></figure>
+      <figure><figcaption>@lab/ui (Vite)</figcaption><img src="lab-loadingstates-card-skeleton/developer.png" alt="developer" /></figure>
+      <figure><figcaption>Figma render</figcaption><img src="lab-loadingstates-card-skeleton/figma.png" alt="figma" /></figure>
     </div>
     <p class="story-hint">
-      <a href="lab-button-compact/diff-storybook-dev.png">SB vs Dev diff</a> ·
-      <a href="lab-button-compact/diff-storybook-figma.png">SB vs Figma diff</a> ·
-      <a href="lab-button-compact/diff-dev-figma.png">Dev vs Figma diff</a>
+      <a href="lab-loadingstates-card-skeleton/diff-storybook-dev.png">SB vs Dev diff</a> ·
+      <a href="lab-loadingstates-card-skeleton/diff-storybook-figma.png">SB vs Figma diff</a> ·
+      <a href="lab-loadingstates-card-skeleton/diff-dev-figma.png">Dev vs Figma diff</a>
     </p>
   </section>
   <section class="story-section">
-    <h2><code>lab-loginpage--default</code></h2>
+    <h2><code>lab-productcard--dark</code></h2>
     <div class="triple">
-      <figure><figcaption>Storybook</figcaption><img src="lab-loginpage-default/storybook.png" alt="storybook" /></figure>
-      <figure><figcaption>@lab/ui (Vite)</figcaption><img src="lab-loginpage-default/developer.png" alt="developer" /></figure>
-      <figure><figcaption>Figma render</figcaption><img src="lab-loginpage-default/figma.png" alt="figma" /></figure>
+      <figure><figcaption>Storybook</figcaption><img src="lab-productcard-dark/storybook.png" alt="storybook" /></figure>
+      <figure><figcaption>@lab/ui (Vite)</figcaption><img src="lab-productcard-dark/developer.png" alt="developer" /></figure>
+      <figure><figcaption>Figma render</figcaption><img src="lab-productcard-dark/figma.png" alt="figma" /></figure>
     </div>
     <p class="story-hint">
-      <a href="lab-loginpage-default/diff-storybook-dev.png">SB vs Dev diff</a> ·
-      <a href="lab-loginpage-default/diff-storybook-figma.png">SB vs Figma diff</a> ·
-      <a href="lab-loginpage-default/diff-dev-figma.png">Dev vs Figma diff</a>
+      <a href="lab-productcard-dark/diff-storybook-dev.png">SB vs Dev diff</a> ·
+      <a href="lab-productcard-dark/diff-storybook-figma.png">SB vs Figma diff</a> ·
+      <a href="lab-productcard-dark/diff-dev-figma.png">Dev vs Figma diff</a>
+    </p>
+  </section>
+  <section class="story-section">
+    <h2><code>lab-productcard--default</code></h2>
+    <div class="triple">
+      <figure><figcaption>Storybook</figcaption><img src="lab-productcard-default/storybook.png" alt="storybook" /></figure>
+      <figure><figcaption>@lab/ui (Vite)</figcaption><img src="lab-productcard-default/developer.png" alt="developer" /></figure>
+      <figure><figcaption>Figma render</figcaption><img src="lab-productcard-default/figma.png" alt="figma" /></figure>
+    </div>
+    <p class="story-hint">
+      <a href="lab-productcard-default/diff-storybook-dev.png">SB vs Dev diff</a> ·
+      <a href="lab-productcard-default/diff-storybook-figma.png">SB vs Figma diff</a> ·
+      <a href="lab-productcard-default/diff-dev-figma.png">Dev vs Figma diff</a>
+    </p>
+  </section>
+  <section class="story-section">
+    <h2><code>lab-snackbarstack--default</code></h2>
+    <div class="triple">
+      <figure><figcaption>Storybook</figcaption><img src="lab-snackbarstack-default/storybook.png" alt="storybook" /></figure>
+      <figure><figcaption>@lab/ui (Vite)</figcaption><img src="lab-snackbarstack-default/developer.png" alt="developer" /></figure>
+      <figure><figcaption>Figma render</figcaption><img src="lab-snackbarstack-default/figma.png" alt="figma" /></figure>
+    </div>
+    <p class="story-hint">
+      <a href="lab-snackbarstack-default/diff-storybook-dev.png">SB vs Dev diff</a> ·
+      <a href="lab-snackbarstack-default/diff-storybook-figma.png">SB vs Figma diff</a> ·
+      <a href="lab-snackbarstack-default/diff-dev-figma.png">Dev vs Figma diff</a>
     </p>
   </section>
 </body></html>

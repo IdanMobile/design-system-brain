@@ -2,10 +2,13 @@
   "storyId": "lab-featurecard--success",
   "width": 618,
   "height": 338,
-  "pixelsDiffered": 3025,
+  "pixelsDiffered": 1935,
   "pixelsTotal": 208884,
-  "percent": 1.4481721912640508,
-  "maxRegionPercent": 4.57873950962646,
+  "percent": 0.9263514678003102,
+  "maxRegionPercent": 3.406683359013867,
+  "globalTolerance": 2.5,
+  "regionTolerance": 2.2,
+  "failReason": "hotspot",
   "status": "fail",
   "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-success/storybook.png",
   "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-success/figma.png",
@@ -15,12 +18,12 @@
     {
       "index": 1,
       "rect": {
-        "x": 28,
+        "x": 76,
         "y": 28,
-        "width": 520,
+        "width": 472,
         "height": 88,
-        "pixels": 1748,
-        "percent": 3.81993006993007
+        "pixels": 1415,
+        "percent": 3.406683359013867
       },
       "storybook": "regions/region-01-storybook.png",
       "rendered": "regions/region-01-rendered.png",
@@ -29,12 +32,12 @@
     {
       "index": 2,
       "rect": {
-        "x": 412,
+        "x": 460,
         "y": 220,
-        "width": 206,
+        "width": 158,
         "height": 118,
-        "pixels": 1113,
-        "percent": 4.57873950962646
+        "pixels": 502,
+        "percent": 2.6925552456554387
       },
       "storybook": "regions/region-02-storybook.png",
       "rendered": "regions/region-02-rendered.png",
@@ -43,17 +46,17 @@
     {
       "index": 3,
       "rect": {
-        "x": 0,
+        "x": 28,
         "y": 263,
-        "width": 164,
+        "width": 88,
         "height": 75,
-        "pixels": 164,
-        "percent": 1.3333333333333335
+        "pixels": 18,
+        "percent": 0.27272727272727276
       },
       "storybook": "regions/region-03-storybook.png",
       "rendered": "regions/region-03-rendered.png",
       "compare": "regions/region-03-compare.png"
     }
   ],
-  "testedAt": "2026-05-22T12:39:35.384Z"
+  "testedAt": "2026-05-23T11:49:36.794Z"
 }

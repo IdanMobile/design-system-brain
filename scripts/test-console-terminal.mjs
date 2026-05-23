@@ -14,6 +14,82 @@ function shellQuote(s) {
   return `"${String(s).replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\$/g, "\\$")}"`;
 }
 
+/** @param {number} pid */
+export function isProcessAlive(pid) {
+  if (pid == null || pid <= 0) return false;
+  try {
+    process.kill(pid, 0);
+    return true;
+  } catch (e) {
+    return e && typeof e === "object" && "code" in e && e.code === "EPERM";
+  }
+}
+
+/**
+ * @param {number} pid
+ * @returns {string}
+ */
+function processCommandLine(pid) {
+  try {
+    const r = spawnSync("ps", ["-p", String(pid), "-o", "args="], { encoding: "utf8" });
+    return (r.stdout || "").trim();
+  } catch {
+    return "";
+  }
+}
+
+/**
+ * Only kill PIDs that still exist and match this job's orchestrator/child scripts.
+ * Stale PIDs are kept in job.fixAllActivePids after children exit — reusing them can kill unrelated processes (e.g. the test-console server).
+ * @param {object} job
+ * @returns {number[]}
+ */
+export function collectSafeOrchestratorJobPids(job) {
+  const jobId = job.id;
+  const isPortfolio = job.action === "portfolio-orchestrator";
+  const markers = isPortfolio
+    ? [`run-portfolio-orchestrator ${jobId}`, `portfolio-orchestrator-${jobId}`]
+    : [
+        `run-fix-all ${jobId}`,
+        `fix-all-${jobId}`,
+        `test-console-child-run.mjs --parent ${jobId}`,
+        `test-console-agent-child-run.mjs --parent ${jobId}`
+      ];
+
+  const matchesJob = (pid) => {
+    if (!isProcessAlive(pid)) return false;
+    const cmd = processCommandLine(pid);
+    if (!cmd) return false;
+    return markers.some((m) => cmd.includes(m));
+  };
+
+  const discovered = [];
+  if (jobId) {
+    const pattern = isPortfolio
+      ? `run-portfolio-orchestrator ${jobId}`
+      : `run-fix-all ${jobId}`;
+    try {
+      const r = spawnSync("pgrep", ["-f", pattern], { encoding: "utf8" });
+      for (const line of (r.stdout || "").trim().split("\n").filter(Boolean)) {
+        const n = Number(line);
+        if (n > 0) discovered.push(n);
+      }
+    } catch {
+      /* ok */
+    }
+  }
+
+  const candidates = [
+    ...discovered,
+    job.fixAllOrchestratorPid,
+    job.fixAllActivePid,
+    job.fixAllPid,
+    ...(job.fixAllActivePids ?? [])
+  ].filter((p) => p != null && p > 0);
+
+  return [...new Set(candidates.filter(matchesJob))];
+}
+
 /**
  * Kill a process and its descendants (agent/golden child terminals stay attached on macOS).
  * @param {number | null | undefined} pid
@@ -57,7 +133,7 @@ export function collectOrchestratorJobPids(job) {
  */
 export function killOrchestratorJobProcesses(job, opts = {}) {
   const signal = opts.signal ?? "SIGTERM";
-  const pids = collectOrchestratorJobPids(job);
+  const pids = collectSafeOrchestratorJobPids(job);
   for (const pid of pids) {
     killProcessTree(pid, signal);
   }

@@ -1,0 +1,33 @@
+{
+  "storyId": "lab-pricingpanel--pro",
+  "attempt": 1,
+  "jobId": "f7dc4607-f94b-408b-8e7a-2579626a5a13",
+  "recordedAt": "2026-05-23T11:51:22.542Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "error",
+    "percent": 100,
+    "maxRegionPercent": null,
+    "error": "Export timed out after 180000ms"
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 1.2875604787369492,
+    "maxRegionPercent": 3.206168831168831,
+    "error": null
+  },
+  "agentExitCode": 0,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-pricingpanel--pro_try1-1779537018389.prompt.txt",
+    ".test-console/child-status/f7dc4607-f94b-408b-8e7a-2579626a5a13-agent-lab-pricingpanel--pro_try1-1779537018389.json"
+  ],
+  "evaluation": {
+    "verdict": "ON_TRACK",
+    "verdicts": [],
+    "nextWorkerMode": "continue",
+    "interventionLines": [],
+    "tierCRequired": false
+  }
+}

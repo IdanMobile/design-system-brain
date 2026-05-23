@@ -1,0 +1,87 @@
+{
+  "capturedAt": "2026-05-22T21:52:32.365Z",
+  "repoRoot": "/Users/user/Downloads/storybook-to-figma-lab",
+  "suiteId": "figmaLive",
+  "storyIds": [
+    "lab-button--danger",
+    "lab-button--ghost",
+    "lab-button--secondary",
+    "lab-button--compact",
+    "lab-tabspanel--activity-active",
+    "lab-tabspanel--settings-active",
+    "lab-pricingpanel--pro",
+    "lab-calendarscheduler--compact",
+    "lab-featurecard--success",
+    "lab-navigationbars--top-navigation",
+    "lab-calendarscheduler--monthly",
+    "lab-calendarscheduler--weekdays-only",
+    "mui--showcase"
+  ],
+  "stories": {
+    "lab-button--danger": {
+      "status": "fail",
+      "percent": 4.776995305164319,
+      "maxRegionPercent": 4.7995283018867925
+    },
+    "lab-button--ghost": {
+      "status": "fail",
+      "percent": 3.810861423220974,
+      "maxRegionPercent": 3.810861423220974
+    },
+    "lab-button--secondary": {
+      "status": "fail",
+      "percent": 3.7973933649289098,
+      "maxRegionPercent": 3.7973933649289098
+    },
+    "lab-button--compact": {
+      "status": "fail",
+      "percent": 2.544378698224852,
+      "maxRegionPercent": 3.2428355957767727
+    },
+    "lab-tabspanel--activity-active": {
+      "status": "fail",
+      "percent": 1.8024411013340902,
+      "maxRegionPercent": 3.417207792207792
+    },
+    "lab-tabspanel--settings-active": {
+      "status": "fail",
+      "percent": 1.7681426814268142,
+      "maxRegionPercent": 3.417207792207792
+    },
+    "lab-pricingpanel--pro": {
+      "status": "fail",
+      "percent": 1.3517528223410575,
+      "maxRegionPercent": 3.385300044782803
+    },
+    "lab-calendarscheduler--compact": {
+      "status": "fail",
+      "percent": 0.9987873563638222,
+      "maxRegionPercent": 3.9479483891649307
+    },
+    "lab-featurecard--success": {
+      "status": "fail",
+      "percent": 0.9364048945826391,
+      "maxRegionPercent": 3.392238058551618
+    },
+    "lab-navigationbars--top-navigation": {
+      "status": "fail",
+      "percent": 0.8810499867759851,
+      "maxRegionPercent": 2.244582043343653
+    },
+    "lab-calendarscheduler--monthly": {
+      "status": "fail",
+      "percent": 0.8487119826172418,
+      "maxRegionPercent": 3.0572646479269716
+    },
+    "lab-calendarscheduler--weekdays-only": {
+      "status": "fail",
+      "percent": 0.7869901659532395,
+      "maxRegionPercent": 3.0572646479269716
+    },
+    "mui--showcase": {
+      "status": "fail",
+      "percent": 0.7622255489021956,
+      "maxRegionPercent": 2.894233897202342
+    }
+  }
+}

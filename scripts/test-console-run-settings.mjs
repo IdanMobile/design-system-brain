@@ -29,7 +29,10 @@ export const DEFAULT_RUN_SETTINGS = {
   parallelWorkers: 20,
   processPool: false,
   applyToOrchestrator: true,
-  agentModel: DEFAULT_AGENT_MODEL
+  agentModel: DEFAULT_AGENT_MODEL,
+  agentCli: "cursor",
+  devAgentModel: DEFAULT_AGENT_MODEL,
+  devAgentCli: "cursor"
 };
 
 export const ACTION_SUITE = {
@@ -54,27 +57,45 @@ function clampWorkers(n) {
   return Math.min(MAX_PARALLEL_WORKERS, Math.max(1, Math.round(v)));
 }
 
-function normalizeAgentModel(raw) {
-  const id = String(raw ?? DEFAULT_AGENT_MODEL).trim();
-  return id || DEFAULT_AGENT_MODEL;
+function normalizeAgentModel(raw, agentCli = "cursor") {
+  const defaultModel = agentCli === "gemini" ? "gemini-2.5-flash" : DEFAULT_AGENT_MODEL;
+  let id = String(raw ?? defaultModel).trim();
+  if (agentCli === "gemini" && !id.startsWith("gemini")) {
+    id = "gemini-2.5-flash";
+  } else if (agentCli === "cursor" && id.startsWith("gemini")) {
+    id = DEFAULT_AGENT_MODEL;
+  }
+  return id || defaultModel;
 }
 
 /** @param {RunSettings} [settings] @returns {string} */
 export function resolveAgentModel(settings) {
   const env = process.env.TEST_CONSOLE_AGENT_MODEL?.trim();
   if (env) return env;
-  return normalizeAgentModel(settings?.agentModel);
+  return normalizeAgentModel(settings?.agentModel, settings?.agentCli);
+}
+
+/** @param {RunSettings} [settings] @returns {string} */
+export function resolveDevAgentModel(settings) {
+  const env = process.env.TEST_CONSOLE_DEV_AGENT_MODEL?.trim() || process.env.TEST_CONSOLE_AGENT_MODEL?.trim();
+  if (env) return env;
+  return normalizeAgentModel(settings?.devAgentModel, settings?.devAgentCli);
 }
 
 /** @returns {RunSettings} */
 export function normalizeRunSettings(raw = {}) {
+  const agentCli = String(raw.agentCli ?? "cursor").trim();
+  const devAgentCli = String(raw.devAgentCli ?? "cursor").trim();
   return {
     skipPass: Boolean(raw.skipPass),
     onlyNotTested: Boolean(raw.onlyNotTested),
     parallelWorkers: clampWorkers(raw.parallelWorkers ?? DEFAULT_RUN_SETTINGS.parallelWorkers),
     processPool: Boolean(raw.processPool),
     applyToOrchestrator: raw.applyToOrchestrator !== false,
-    agentModel: normalizeAgentModel(raw.agentModel)
+    agentCli,
+    agentModel: normalizeAgentModel(raw.agentModel, agentCli),
+    devAgentCli,
+    devAgentModel: normalizeAgentModel(raw.devAgentModel, devAgentCli)
   };
 }
 

@@ -3,6 +3,10 @@
   "onlyNotTested": false,
   "parallelWorkers": 20,
   "processPool": true,
-  "applyToOrchestrator": true,
-  "updatedAt": "2026-05-22T15:00:00.000Z"
+  "applyToOrchestrator": false,
+  "agentCli": "cursor",
+  "agentModel": "auto",
+  "devAgentCli": "gemini",
+  "devAgentModel": "gemini-2.5-flash",
+  "updatedAt": "2026-05-23T15:21:58.271Z"
 }

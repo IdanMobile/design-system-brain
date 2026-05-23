@@ -143,10 +143,10 @@
               "kind": "TEXT",
               "type": "TEXT",
               "name": "Text",
-              "x": 0,
-              "y": 0,
+              "x": 7.39,
+              "y": 0.5,
               "width": 115.19999999999999,
-              "height": 36,
+              "height": 33,
               "opacity": 1,
               "characters": "Continue",
               "fontName": {
@@ -168,11 +168,12 @@
               "textAlignHorizontal": "CENTER",
               "textAutoResize": "WIDTH_AND_HEIGHT",
               "lineHeight": {
-                "unit": "AUTO"
+                "unit": "PIXELS",
+                "value": 33
               },
               "letterSpacing": {
                 "unit": "PIXELS",
-                "value": -1.25
+                "value": 0
               },
               "textCase": "ORIGINAL",
               "textDecoration": "NONE"

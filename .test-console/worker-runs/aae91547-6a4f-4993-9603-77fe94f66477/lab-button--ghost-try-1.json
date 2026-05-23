@@ -1,0 +1,35 @@
+{
+  "storyId": "lab-button--ghost",
+  "attempt": 1,
+  "jobId": "aae91547-6a4f-4993-9603-77fe94f66477",
+  "recordedAt": "2026-05-22T23:02:59.648Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 3.810861423220974,
+    "maxRegionPercent": 3.810861423220974,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 3.810861423220974,
+    "maxRegionPercent": 3.810861423220974,
+    "error": null
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-button--ghost_try1-1779490966565.prompt.txt",
+    ".test-console/child-status/aae91547-6a4f-4993-9603-77fe94f66477-agent-lab-button--ghost_try1-1779490966565.json"
+  ],
+  "evaluation": {
+    "verdict": "ON_TRACK",
+    "verdicts": [],
+    "nextWorkerMode": "continue",
+    "interventionLines": [
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

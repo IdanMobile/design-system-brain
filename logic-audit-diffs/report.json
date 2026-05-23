@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T21:03:37.631Z",
+  "generatedAt": "2026-05-22T14:45:51.123Z",
   "baseUrl": "http://127.0.0.1:6108",
   "results": [
     {
@@ -18,1805 +18,292 @@
     },
     {
       "storyId": "lab-analyticscharts--revenue",
-      "status": "pass",
+      "status": "not_tested",
       "percent": 0,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:47:38.415Z",
-      "component": "AnalyticsCharts",
-      "gaps": [],
-      "dsBuiltIn": [],
-      "interactiveCount": 0,
-      "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-analyticscharts-revenue/interaction.webm"
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-analyticscharts--usage",
       "status": "pass",
       "percent": 0,
       "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:47:41.991Z",
+      "testedAt": "2026-05-22T14:45:51.315Z",
       "component": "AnalyticsCharts",
       "gaps": [],
       "dsBuiltIn": [],
       "interactiveCount": 0,
       "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-analyticscharts-usage/interaction.webm"
+      "findings": []
     },
     {
       "storyId": "lab-button--compact",
-      "status": "pass",
+      "status": "not_tested",
       "percent": 0,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:48:06.978Z",
-      "component": "Button",
-      "gaps": [],
-      "dsBuiltIn": [],
-      "interactiveCount": 0,
-      "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-button-compact/interaction.webm"
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-button--danger",
-      "status": "pass",
+      "status": "not_tested",
       "percent": 0,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:47:59.842Z",
-      "component": "Button",
-      "gaps": [],
-      "dsBuiltIn": [],
-      "interactiveCount": 0,
-      "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-button-danger/interaction.webm"
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-button--ghost",
-      "status": "pass",
+      "status": "not_tested",
       "percent": 0,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:48:03.404Z",
-      "component": "Button",
-      "gaps": [],
-      "dsBuiltIn": [],
-      "interactiveCount": 0,
-      "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-button-ghost/interaction.webm"
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-button--large-with-both-icons",
-      "status": "pass",
+      "status": "not_tested",
       "percent": 0,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:48:10.503Z",
-      "component": "Button",
-      "gaps": [],
-      "dsBuiltIn": [],
-      "interactiveCount": 0,
-      "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-button-large-with-both-icons/interaction.webm"
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-button--primary",
-      "status": "warn",
-      "percent": 1,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T21:03:27.682Z",
-      "component": "Button",
-      "gaps": [
-        "Primary: No visible state change — wire props/handlers in delivery package (packages/ui)"
-      ],
-      "dsBuiltIn": [],
-      "interactiveCount": 1,
-      "readonlyCount": 0,
-      "findings": [
-        {
-          "index": 0,
-          "tag": "button",
-          "role": "",
-          "text": "Primary",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — wire props/handlers in delivery package (packages/ui)"
-        }
-      ],
-      "demoVideo": "by-story/lab-button-primary/interaction.webm"
+      "status": "not_tested",
+      "percent": 0,
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-button--primary-with-icon",
-      "status": "pass",
+      "status": "not_tested",
       "percent": 0,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:47:52.683Z",
-      "component": "Button",
-      "gaps": [],
-      "dsBuiltIn": [],
-      "interactiveCount": 0,
-      "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-button-primary-with-icon/interaction.webm"
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-button--secondary",
-      "status": "pass",
+      "status": "not_tested",
       "percent": 0,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:47:56.195Z",
-      "component": "Button",
-      "gaps": [],
-      "dsBuiltIn": [],
-      "interactiveCount": 0,
-      "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-button-secondary/interaction.webm"
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-calendarscheduler--compact",
-      "status": "warn",
-      "percent": 1,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:48:25.461Z",
-      "component": "CalendarScheduler",
-      "gaps": [
-        "Create Event: No visible state change — needs developer props / callbacks in logic creator spec"
-      ],
-      "dsBuiltIn": [],
-      "interactiveCount": 1,
-      "readonlyCount": 0,
-      "findings": [
-        {
-          "index": 0,
-          "tag": "button",
-          "role": "",
-          "text": "Create Event",
-          "ariaLabel": "",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        }
-      ],
-      "demoVideo": "by-story/lab-calendarscheduler-compact/interaction.webm"
+      "status": "not_tested",
+      "percent": 0,
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-calendarscheduler--monthly",
-      "status": "warn",
-      "percent": 1,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:48:14.060Z",
-      "component": "CalendarScheduler",
-      "gaps": [
-        "Create Event: No visible state change — needs developer props / callbacks in logic creator spec"
-      ],
-      "dsBuiltIn": [],
-      "interactiveCount": 1,
-      "readonlyCount": 0,
-      "findings": [
-        {
-          "index": 0,
-          "tag": "button",
-          "role": "",
-          "text": "Create Event",
-          "ariaLabel": "",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        }
-      ],
-      "demoVideo": "by-story/lab-calendarscheduler-monthly/interaction.webm"
+      "status": "not_tested",
+      "percent": 0,
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-calendarscheduler--weekdays-only",
-      "status": "warn",
-      "percent": 1,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:48:19.749Z",
-      "component": "CalendarScheduler",
-      "gaps": [
-        "Create Event: No visible state change — needs developer props / callbacks in logic creator spec"
-      ],
-      "dsBuiltIn": [],
-      "interactiveCount": 1,
-      "readonlyCount": 0,
-      "findings": [
-        {
-          "index": 0,
-          "tag": "button",
-          "role": "",
-          "text": "Create Event",
-          "ariaLabel": "",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        }
-      ],
-      "demoVideo": "by-story/lab-calendarscheduler-weekdays-only/interaction.webm"
+      "status": "not_tested",
+      "percent": 0,
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-complexdashboardcard--default",
-      "status": "pass",
+      "status": "not_tested",
       "percent": 0,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:48:31.125Z",
-      "component": "ComplexDashboardCard",
-      "gaps": [],
-      "dsBuiltIn": [],
-      "interactiveCount": 0,
-      "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-complexdashboardcard-default/interaction.webm"
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-contentlistboard--compact",
-      "status": "warn",
-      "percent": 1,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:48:41.189Z",
-      "component": "ContentListBoard",
-      "gaps": [
-        "New Task: No visible state change — needs developer props / callbacks in logic creator spec"
-      ],
-      "dsBuiltIn": [],
-      "interactiveCount": 2,
-      "readonlyCount": 1,
-      "findings": [
-        {
-          "index": 1,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": true,
-          "disabled": false,
-          "outcome": "skipped_readonly",
-          "category": "readonly",
-          "note": "Read-only or display-only field"
-        },
-        {
-          "index": 0,
-          "tag": "button",
-          "role": "",
-          "text": "New Task",
-          "ariaLabel": "",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        }
-      ],
-      "demoVideo": "by-story/lab-contentlistboard-compact/interaction.webm"
+      "status": "not_tested",
+      "percent": 0,
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-contentlistboard--default",
-      "status": "warn",
-      "percent": 1,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:48:34.620Z",
-      "component": "ContentListBoard",
-      "gaps": [
-        "New Task: No visible state change — needs developer props / callbacks in logic creator spec"
-      ],
-      "dsBuiltIn": [],
-      "interactiveCount": 2,
-      "readonlyCount": 1,
-      "findings": [
-        {
-          "index": 1,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": true,
-          "disabled": false,
-          "outcome": "skipped_readonly",
-          "category": "readonly",
-          "note": "Read-only or display-only field"
-        },
-        {
-          "index": 0,
-          "tag": "button",
-          "role": "",
-          "text": "New Task",
-          "ariaLabel": "",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        }
-      ],
-      "demoVideo": "by-story/lab-contentlistboard-default/interaction.webm"
+      "status": "not_tested",
+      "percent": 0,
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-contentlistboard--highlighted",
-      "status": "warn",
-      "percent": 1,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:48:47.740Z",
-      "component": "ContentListBoard",
-      "gaps": [
-        "New Task: No visible state change — needs developer props / callbacks in logic creator spec"
-      ],
-      "dsBuiltIn": [],
-      "interactiveCount": 2,
-      "readonlyCount": 1,
-      "findings": [
-        {
-          "index": 1,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": true,
-          "disabled": false,
-          "outcome": "skipped_readonly",
-          "category": "readonly",
-          "note": "Read-only or display-only field"
-        },
-        {
-          "index": 0,
-          "tag": "button",
-          "role": "",
-          "text": "New Task",
-          "ariaLabel": "",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        }
-      ],
-      "demoVideo": "by-story/lab-contentlistboard-highlighted/interaction.webm"
+      "status": "not_tested",
+      "percent": 0,
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-featurecard--default",
-      "status": "pass",
+      "status": "not_tested",
       "percent": 0,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:48:54.403Z",
-      "component": "FeatureCard",
-      "gaps": [],
-      "dsBuiltIn": [],
-      "interactiveCount": 0,
-      "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-featurecard-default/interaction.webm"
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-featurecard--success",
-      "status": "pass",
+      "status": "not_tested",
       "percent": 0,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:48:57.943Z",
-      "component": "FeatureCard",
-      "gaps": [],
-      "dsBuiltIn": [],
-      "interactiveCount": 0,
-      "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-featurecard-success/interaction.webm"
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-featurecard--warning",
-      "status": "pass",
+      "status": "not_tested",
       "percent": 0,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:49:01.517Z",
-      "component": "FeatureCard",
-      "gaps": [],
-      "dsBuiltIn": [],
-      "interactiveCount": 0,
-      "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-featurecard-warning/interaction.webm"
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-filtersidepanel--collapsed",
-      "status": "warn",
-      "percent": 3,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:49:30.294Z",
-      "component": "FilterSidePanel",
-      "gaps": [
-        "+ Add: No visible state change — needs developer props / callbacks in logic creator spec",
-        "Reset: No visible state change — needs developer props / callbacks in logic creator spec",
-        "Apply: No visible state change — needs developer props / callbacks in logic creator spec"
-      ],
-      "dsBuiltIn": [],
-      "interactiveCount": 6,
-      "readonlyCount": 3,
-      "findings": [
-        {
-          "index": 1,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": true,
-          "disabled": false,
-          "outcome": "skipped_readonly",
-          "category": "readonly",
-          "note": "Read-only or display-only field"
-        },
-        {
-          "index": 2,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": true,
-          "disabled": false,
-          "outcome": "skipped_readonly",
-          "category": "readonly",
-          "note": "Read-only or display-only field"
-        },
-        {
-          "index": 3,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": true,
-          "disabled": false,
-          "outcome": "skipped_readonly",
-          "category": "readonly",
-          "note": "Read-only or display-only field"
-        },
-        {
-          "index": 0,
-          "tag": "button",
-          "role": "",
-          "text": "+ Add",
-          "ariaLabel": "",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        },
-        {
-          "index": 4,
-          "tag": "button",
-          "role": "",
-          "text": "Reset",
-          "ariaLabel": "",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        },
-        {
-          "index": 5,
-          "tag": "button",
-          "role": "",
-          "text": "Apply",
-          "ariaLabel": "",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        }
-      ],
-      "demoVideo": "by-story/lab-filtersidepanel-collapsed/interaction.webm"
+      "status": "not_tested",
+      "percent": 0,
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-filtersidepanel--left-panel",
-      "status": "warn",
-      "percent": 3,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:49:17.680Z",
-      "component": "FilterSidePanel",
-      "gaps": [
-        "+ Add: No visible state change — needs developer props / callbacks in logic creator spec",
-        "Reset: No visible state change — needs developer props / callbacks in logic creator spec",
-        "Apply: No visible state change — needs developer props / callbacks in logic creator spec"
-      ],
-      "dsBuiltIn": [],
-      "interactiveCount": 6,
-      "readonlyCount": 3,
-      "findings": [
-        {
-          "index": 1,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": true,
-          "disabled": false,
-          "outcome": "skipped_readonly",
-          "category": "readonly",
-          "note": "Read-only or display-only field"
-        },
-        {
-          "index": 2,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": true,
-          "disabled": false,
-          "outcome": "skipped_readonly",
-          "category": "readonly",
-          "note": "Read-only or display-only field"
-        },
-        {
-          "index": 3,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": true,
-          "disabled": false,
-          "outcome": "skipped_readonly",
-          "category": "readonly",
-          "note": "Read-only or display-only field"
-        },
-        {
-          "index": 0,
-          "tag": "button",
-          "role": "",
-          "text": "+ Add",
-          "ariaLabel": "",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        },
-        {
-          "index": 4,
-          "tag": "button",
-          "role": "",
-          "text": "Reset",
-          "ariaLabel": "",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        },
-        {
-          "index": 5,
-          "tag": "button",
-          "role": "",
-          "text": "Apply",
-          "ariaLabel": "",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        }
-      ],
-      "demoVideo": "by-story/lab-filtersidepanel-left-panel/interaction.webm"
+      "status": "not_tested",
+      "percent": 0,
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-filtersidepanel--right-panel",
-      "status": "warn",
-      "percent": 3,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:49:05.060Z",
-      "component": "FilterSidePanel",
-      "gaps": [
-        "+ Add: No visible state change — needs developer props / callbacks in logic creator spec",
-        "Reset: No visible state change — needs developer props / callbacks in logic creator spec",
-        "Apply: No visible state change — needs developer props / callbacks in logic creator spec"
-      ],
-      "dsBuiltIn": [],
-      "interactiveCount": 6,
-      "readonlyCount": 3,
-      "findings": [
-        {
-          "index": 1,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": true,
-          "disabled": false,
-          "outcome": "skipped_readonly",
-          "category": "readonly",
-          "note": "Read-only or display-only field"
-        },
-        {
-          "index": 2,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": true,
-          "disabled": false,
-          "outcome": "skipped_readonly",
-          "category": "readonly",
-          "note": "Read-only or display-only field"
-        },
-        {
-          "index": 3,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": true,
-          "disabled": false,
-          "outcome": "skipped_readonly",
-          "category": "readonly",
-          "note": "Read-only or display-only field"
-        },
-        {
-          "index": 0,
-          "tag": "button",
-          "role": "",
-          "text": "+ Add",
-          "ariaLabel": "",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        },
-        {
-          "index": 4,
-          "tag": "button",
-          "role": "",
-          "text": "Reset",
-          "ariaLabel": "",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        },
-        {
-          "index": 5,
-          "tag": "button",
-          "role": "",
-          "text": "Apply",
-          "ariaLabel": "",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        }
-      ],
-      "demoVideo": "by-story/lab-filtersidepanel-right-panel/interaction.webm"
+      "status": "not_tested",
+      "percent": 0,
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-loadingstates--card-skeleton",
-      "status": "pass",
+      "status": "not_tested",
       "percent": 0,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:49:42.888Z",
-      "component": "LoadingStates",
-      "gaps": [],
-      "dsBuiltIn": [],
-      "interactiveCount": 0,
-      "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-loadingstates-card-skeleton/interaction.webm"
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-loadingstates--list-skeleton",
-      "status": "pass",
+      "status": "not_tested",
       "percent": 0,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:49:46.315Z",
-      "component": "LoadingStates",
-      "gaps": [],
-      "dsBuiltIn": [],
-      "interactiveCount": 0,
-      "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-loadingstates-list-skeleton/interaction.webm"
+      "testedAt": "2026-05-22T14:45:51.123Z"
+    },
+    {
+      "storyId": "lab-loginpage--default",
+      "status": "not_tested",
+      "percent": 0,
+      "testedAt": "2026-05-22T14:45:51.123Z"
+    },
+    {
+      "storyId": "lab-loginpage--filled-credentials",
+      "status": "not_tested",
+      "percent": 0,
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-navigationbars--bottom-navigation",
-      "status": "warn",
-      "percent": 4,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:49:55.485Z",
-      "component": "NavigationBars",
-      "gaps": [
-        "Home: No visible state change — needs developer props / callbacks in logic creator spec",
-        "Search: No visible state change — needs developer props / callbacks in logic creator spec",
-        "Create: No visible state change — needs developer props / callbacks in logic creator spec",
-        "Profile: No visible state change — needs developer props / callbacks in logic creator spec"
-      ],
-      "dsBuiltIn": [],
-      "interactiveCount": 4,
-      "readonlyCount": 0,
-      "findings": [
-        {
-          "index": 0,
-          "tag": "button",
-          "role": "",
-          "text": "Home",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        },
-        {
-          "index": 1,
-          "tag": "button",
-          "role": "",
-          "text": "Search",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        },
-        {
-          "index": 2,
-          "tag": "button",
-          "role": "",
-          "text": "Create",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        },
-        {
-          "index": 3,
-          "tag": "button",
-          "role": "",
-          "text": "Profile",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        }
-      ],
-      "demoVideo": "by-story/lab-navigationbars-bottom-navigation/interaction.webm"
+      "status": "not_tested",
+      "percent": 0,
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-navigationbars--top-navigation",
-      "status": "warn",
-      "percent": 1,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:49:49.848Z",
-      "component": "NavigationBars",
-      "gaps": [
-        "Get Started: No visible state change — needs developer props / callbacks in logic creator spec"
-      ],
-      "dsBuiltIn": [],
-      "interactiveCount": 1,
-      "readonlyCount": 0,
-      "findings": [
-        {
-          "index": 0,
-          "tag": "button",
-          "role": "",
-          "text": "Get Started",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        }
-      ],
-      "demoVideo": "by-story/lab-navigationbars-top-navigation/interaction.webm"
+      "status": "not_tested",
+      "percent": 0,
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-overlaystates--bottom-sheet",
-      "status": "pass",
+      "status": "not_tested",
       "percent": 0,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:50:23.120Z",
-      "component": "OverlayStates",
-      "gaps": [],
-      "dsBuiltIn": [],
-      "interactiveCount": 0,
-      "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-overlaystates-bottom-sheet/interaction.webm"
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-overlaystates--dialog",
-      "status": "warn",
-      "percent": 2,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:50:07.555Z",
-      "component": "OverlayStates",
-      "gaps": [
-        "Cancel: No visible state change — needs developer props / callbacks in logic creator spec",
-        "Discard: No visible state change — needs developer props / callbacks in logic creator spec"
-      ],
-      "dsBuiltIn": [],
-      "interactiveCount": 2,
-      "readonlyCount": 0,
-      "findings": [
-        {
-          "index": 0,
-          "tag": "button",
-          "role": "",
-          "text": "Cancel",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        },
-        {
-          "index": 1,
-          "tag": "button",
-          "role": "",
-          "text": "Discard",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        }
-      ],
-      "demoVideo": "by-story/lab-overlaystates-dialog/interaction.webm"
+      "status": "not_tested",
+      "percent": 0,
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-overlaystates--drawer",
-      "status": "warn",
-      "percent": 2,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:50:15.338Z",
-      "component": "OverlayStates",
-      "gaps": [
-        "Reset: No visible state change — needs developer props / callbacks in logic creator spec",
-        "Apply: No visible state change — needs developer props / callbacks in logic creator spec"
-      ],
-      "dsBuiltIn": [],
-      "interactiveCount": 2,
-      "readonlyCount": 0,
-      "findings": [
-        {
-          "index": 0,
-          "tag": "button",
-          "role": "",
-          "text": "Reset",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        },
-        {
-          "index": 1,
-          "tag": "button",
-          "role": "",
-          "text": "Apply",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        }
-      ],
-      "demoVideo": "by-story/lab-overlaystates-drawer/interaction.webm"
+      "status": "not_tested",
+      "percent": 0,
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-pricingpanel--pro",
-      "status": "warn",
-      "percent": 1,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:50:32.494Z",
-      "component": "PricingPanel",
-      "gaps": [
-        "Upgrade now: No visible state change — needs developer props / callbacks in logic creator spec"
-      ],
-      "dsBuiltIn": [],
-      "interactiveCount": 1,
-      "readonlyCount": 0,
-      "findings": [
-        {
-          "index": 0,
-          "tag": "button",
-          "role": "",
-          "text": "Upgrade now",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        }
-      ],
-      "demoVideo": "by-story/lab-pricingpanel-pro/interaction.webm"
+      "status": "not_tested",
+      "percent": 0,
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-pricingpanel--starter",
-      "status": "warn",
-      "percent": 1,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:50:26.701Z",
-      "component": "PricingPanel",
-      "gaps": [
-        "Start free trial: No visible state change — needs developer props / callbacks in logic creator spec"
-      ],
-      "dsBuiltIn": [],
-      "interactiveCount": 1,
-      "readonlyCount": 0,
-      "findings": [
-        {
-          "index": 0,
-          "tag": "button",
-          "role": "",
-          "text": "Start free trial",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        }
-      ],
-      "demoVideo": "by-story/lab-pricingpanel-starter/interaction.webm"
+      "status": "not_tested",
+      "percent": 0,
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-productcard--alternate-image",
-      "status": "pass",
+      "status": "not_tested",
       "percent": 0,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:50:49.847Z",
-      "component": "ProductCard",
-      "gaps": [],
-      "dsBuiltIn": [],
-      "interactiveCount": 0,
-      "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-productcard-alternate-image/interaction.webm"
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-productcard--compact",
-      "status": "pass",
+      "status": "not_tested",
       "percent": 0,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:50:46.059Z",
-      "component": "ProductCard",
-      "gaps": [],
-      "dsBuiltIn": [],
-      "interactiveCount": 0,
-      "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-productcard-compact/interaction.webm"
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-productcard--dark",
-      "status": "pass",
+      "status": "not_tested",
       "percent": 0,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:50:42.196Z",
-      "component": "ProductCard",
-      "gaps": [],
-      "dsBuiltIn": [],
-      "interactiveCount": 0,
-      "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-productcard-dark/interaction.webm"
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-productcard--default",
-      "status": "pass",
+      "status": "not_tested",
       "percent": 0,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:50:38.326Z",
-      "component": "ProductCard",
-      "gaps": [],
-      "dsBuiltIn": [],
-      "interactiveCount": 0,
-      "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-productcard-default/interaction.webm"
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-radiogroupfield--default",
-      "status": "pass",
+      "status": "not_tested",
       "percent": 0,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:50:53.639Z",
-      "component": "RadioGroupField",
-      "gaps": [],
-      "dsBuiltIn": [],
-      "interactiveCount": 0,
-      "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-radiogroupfield-default/interaction.webm"
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-radiogroupfield--disabled",
-      "status": "pass",
+      "status": "not_tested",
       "percent": 0,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:51:00.689Z",
-      "component": "RadioGroupField",
-      "gaps": [],
-      "dsBuiltIn": [],
-      "interactiveCount": 0,
-      "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-radiogroupfield-disabled/interaction.webm"
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-radiogroupfield--pickup-selected",
-      "status": "pass",
+      "status": "not_tested",
       "percent": 0,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:50:57.150Z",
-      "component": "RadioGroupField",
-      "gaps": [],
-      "dsBuiltIn": [],
-      "interactiveCount": 0,
-      "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-radiogroupfield-pickup-selected/interaction.webm"
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-selectfield--closed",
-      "status": "warn",
-      "percent": 1,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T21:02:49.817Z",
-      "component": "SelectField",
-      "gaps": [
-        "Spacesuits▾: No visible state change — wire props/handlers in delivery package (packages/ui)"
-      ],
-      "dsBuiltIn": [],
-      "interactiveCount": 1,
-      "readonlyCount": 0,
-      "findings": [
-        {
-          "index": 0,
-          "tag": "div",
-          "role": "",
-          "text": "Spacesuits▾",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": true,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — wire props/handlers in delivery package (packages/ui)"
-        }
-      ],
-      "demoVideo": "by-story/lab-selectfield-closed/interaction.webm"
+      "status": "not_tested",
+      "percent": 0,
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-selectfield--expanded",
-      "status": "pass",
+      "status": "not_tested",
       "percent": 0,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:51:07.759Z",
-      "component": "SelectField",
-      "gaps": [],
-      "dsBuiltIn": [],
-      "interactiveCount": 0,
-      "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-selectfield-expanded/interaction.webm"
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-snackbarstack--default",
-      "status": "pass",
+      "status": "not_tested",
       "percent": 0,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:51:11.302Z",
-      "component": "SnackbarStack",
-      "gaps": [],
-      "dsBuiltIn": [],
-      "interactiveCount": 0,
-      "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-snackbarstack-default/interaction.webm"
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-snackbarstack--dense",
-      "status": "pass",
+      "status": "not_tested",
       "percent": 0,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:51:14.869Z",
-      "component": "SnackbarStack",
-      "gaps": [],
-      "dsBuiltIn": [],
-      "interactiveCount": 0,
-      "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-snackbarstack-dense/interaction.webm"
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-tabspanel--activity-active",
-      "status": "warn",
-      "percent": 3,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:51:18.423Z",
-      "component": "TabsPanel",
-      "gaps": [
-        "Overview: No visible state change — needs developer props / callbacks in logic creator spec",
-        "Activity: No visible state change — needs developer props / callbacks in logic creator spec",
-        "Settings: No visible state change — needs developer props / callbacks in logic creator spec"
-      ],
-      "dsBuiltIn": [],
-      "interactiveCount": 3,
-      "readonlyCount": 0,
-      "findings": [
-        {
-          "index": 0,
-          "tag": "button",
-          "role": "",
-          "text": "Overview",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        },
-        {
-          "index": 1,
-          "tag": "button",
-          "role": "",
-          "text": "Activity",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        },
-        {
-          "index": 2,
-          "tag": "button",
-          "role": "",
-          "text": "Settings",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        }
-      ],
-      "demoVideo": "by-story/lab-tabspanel-activity-active/interaction.webm"
+      "status": "not_tested",
+      "percent": 0,
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "lab-tabspanel--settings-active",
-      "status": "warn",
-      "percent": 3,
-      "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:51:28.627Z",
-      "component": "TabsPanel",
-      "gaps": [
-        "Overview: No visible state change — needs developer props / callbacks in logic creator spec",
-        "Activity: No visible state change — needs developer props / callbacks in logic creator spec",
-        "Settings: No visible state change — needs developer props / callbacks in logic creator spec"
-      ],
-      "dsBuiltIn": [],
-      "interactiveCount": 3,
-      "readonlyCount": 0,
-      "findings": [
-        {
-          "index": 0,
-          "tag": "button",
-          "role": "",
-          "text": "Overview",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        },
-        {
-          "index": 1,
-          "tag": "button",
-          "role": "",
-          "text": "Activity",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        },
-        {
-          "index": 2,
-          "tag": "button",
-          "role": "",
-          "text": "Settings",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": false,
-          "disabled": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — needs developer props / callbacks in logic creator spec"
-        }
-      ],
-      "demoVideo": "by-story/lab-tabspanel-settings-active/interaction.webm"
+      "status": "not_tested",
+      "percent": 0,
+      "testedAt": "2026-05-22T14:45:51.123Z"
     },
     {
       "storyId": "mui--showcase",
-      "status": "warn",
-      "percent": 16,
-      "maxRegionPercent": 5,
-      "testedAt": "2026-05-21T21:03:37.852Z",
-      "component": "MUIShowcase",
-      "gaps": [
-        "Contained: No visible state change — wire props/handlers in delivery package (packages/ui)",
-        "Outlined: No visible state change — wire props/handlers in delivery package (packages/ui)",
-        "Text: No visible state change — wire props/handlers in delivery package (packages/ui)",
-        "Home: No visible state change — wire props/handlers in delivery package (packages/ui)",
-        "Components: No visible state change — wire props/handlers in delivery package (packages/ui)",
-        "Overview: No visible state change — wire props/handlers in delivery package (packages/ui)",
-        "input[text]: No visible state change — wire props/handlers in delivery package (packages/ui)",
-        "Designer: No visible state change — wire props/handlers in delivery package (packages/ui)",
-        "page 1: No visible state change — wire props/handlers in delivery package (packages/ui)",
-        "Go to page 2: No visible state change — wire props/handlers in delivery package (packages/ui)",
-        "page 2: No visible state change — wire props/handlers in delivery package (packages/ui)",
-        "Go to page 3: No visible state change — wire props/handlers in delivery package (packages/ui)",
-        "Go to page 4: No visible state change — wire props/handlers in delivery package (packages/ui)",
-        "Go to page 8: No visible state change — wire props/handlers in delivery package (packages/ui)",
-        "View Details: No visible state change — wire props/handlers in delivery package (packages/ui)",
-        "Continue: No visible state change — wire props/handlers in delivery package (packages/ui)"
-      ],
-      "dsBuiltIn": [
-        "Design",
-        "Usage",
-        "input[checkbox]",
-        "input[switch]",
-        "Go to page 5"
-      ],
-      "interactiveCount": 35,
-      "readonlyCount": 0,
-      "findings": [
-        {
-          "index": 0,
-          "tag": "button",
-          "role": "",
-          "text": "Contained",
-          "ariaLabel": "",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — wire props/handlers in delivery package (packages/ui)"
-        },
-        {
-          "index": 1,
-          "tag": "button",
-          "role": "",
-          "text": "Outlined",
-          "ariaLabel": "",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — wire props/handlers in delivery package (packages/ui)"
-        },
-        {
-          "index": 2,
-          "tag": "button",
-          "role": "",
-          "text": "Text",
-          "ariaLabel": "",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — wire props/handlers in delivery package (packages/ui)"
-        },
-        {
-          "index": 3,
-          "tag": "a",
-          "role": "",
-          "text": "Home",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — wire props/handlers in delivery package (packages/ui)"
-        },
-        {
-          "index": 4,
-          "tag": "a",
-          "role": "",
-          "text": "Components",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — wire props/handlers in delivery package (packages/ui)"
-        },
-        {
-          "index": 5,
-          "tag": "button",
-          "role": "tab",
-          "text": "Overview",
-          "ariaLabel": "",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — wire props/handlers in delivery package (packages/ui)"
-        },
-        {
-          "index": 6,
-          "tag": "button",
-          "role": "tab",
-          "text": "Design",
-          "ariaLabel": "",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "state_changed",
-          "category": "ds_builtin",
-          "note": "Design-system widget responds to input"
-        },
-        {
-          "index": 7,
-          "tag": "button",
-          "role": "tab",
-          "text": "Usage",
-          "ariaLabel": "",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "state_changed",
-          "category": "ds_builtin",
-          "note": "Design-system widget responds to input"
-        },
-        {
-          "index": 8,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "text",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": true,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — wire props/handlers in delivery package (packages/ui)"
-        },
-        {
-          "index": 9,
-          "tag": "div",
-          "role": "combobox",
-          "text": "Designer",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": true,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — wire props/handlers in delivery package (packages/ui)"
-        },
-        {
-          "index": 10,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": true,
-          "outcome": "click_failed",
-          "category": "unknown",
-          "note": "Pointer click failed or element not reachable"
-        },
-        {
-          "index": 11,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "checkbox",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "state_changed",
-          "category": "ds_builtin",
-          "note": "Design-system widget responds to input"
-        },
-        {
-          "index": 12,
-          "tag": "input",
-          "role": "switch",
-          "text": "",
-          "ariaLabel": "",
-          "type": "checkbox",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "state_changed",
-          "category": "ds_builtin",
-          "note": "Design-system widget responds to input"
-        },
-        {
-          "index": 13,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "radio",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "click_failed",
-          "category": "unknown",
-          "note": "Pointer click failed or element not reachable"
-        },
-        {
-          "index": 14,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "radio",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "click_failed",
-          "category": "unknown",
-          "note": "Pointer click failed or element not reachable"
-        },
-        {
-          "index": 15,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "radio",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "click_failed",
-          "category": "unknown",
-          "note": "Pointer click failed or element not reachable"
-        },
-        {
-          "index": 16,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "radio",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "click_failed",
-          "category": "unknown",
-          "note": "Pointer click failed or element not reachable"
-        },
-        {
-          "index": 17,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "radio",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "click_failed",
-          "category": "unknown",
-          "note": "Pointer click failed or element not reachable"
-        },
-        {
-          "index": 18,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "radio",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "click_failed",
-          "category": "unknown",
-          "note": "Pointer click failed or element not reachable"
-        },
-        {
-          "index": 19,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "radio",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "click_failed",
-          "category": "unknown",
-          "note": "Pointer click failed or element not reachable"
-        },
-        {
-          "index": 20,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "radio",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "click_failed",
-          "category": "unknown",
-          "note": "Pointer click failed or element not reachable"
-        },
-        {
-          "index": 21,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "radio",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "click_failed",
-          "category": "unknown",
-          "note": "Pointer click failed or element not reachable"
-        },
-        {
-          "index": 22,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "radio",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "click_failed",
-          "category": "unknown",
-          "note": "Pointer click failed or element not reachable"
-        },
-        {
-          "index": 23,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "radio",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "click_failed",
-          "category": "unknown",
-          "note": "Pointer click failed or element not reachable"
-        },
-        {
-          "index": 24,
-          "tag": "input",
-          "role": "",
-          "text": "",
-          "ariaLabel": "",
-          "type": "range",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "click_failed",
-          "category": "unknown",
-          "note": "Pointer click failed or element not reachable"
-        },
-        {
-          "index": 26,
-          "tag": "button",
-          "role": "",
-          "text": "1",
-          "ariaLabel": "page 1",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — wire props/handlers in delivery package (packages/ui)"
-        },
-        {
-          "index": 27,
-          "tag": "button",
-          "role": "",
-          "text": "2",
-          "ariaLabel": "Go to page 2",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — wire props/handlers in delivery package (packages/ui)"
-        },
-        {
-          "index": 27,
-          "tag": "button",
-          "role": "",
-          "text": "2",
-          "ariaLabel": "page 2",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — wire props/handlers in delivery package (packages/ui)"
-        },
-        {
-          "index": 28,
-          "tag": "button",
-          "role": "",
-          "text": "3",
-          "ariaLabel": "Go to page 3",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — wire props/handlers in delivery package (packages/ui)"
-        },
-        {
-          "index": 29,
-          "tag": "button",
-          "role": "",
-          "text": "4",
-          "ariaLabel": "Go to page 4",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — wire props/handlers in delivery package (packages/ui)"
-        },
-        {
-          "index": 30,
-          "tag": "button",
-          "role": "",
-          "text": "5",
-          "ariaLabel": "Go to page 5",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "state_changed",
-          "category": "ds_builtin",
-          "note": "Design-system widget responds to input"
-        },
-        {
-          "index": 31,
-          "tag": "button",
-          "role": "",
-          "text": "8",
-          "ariaLabel": "Go to page 8",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — wire props/handlers in delivery package (packages/ui)"
-        },
-        {
-          "index": 33,
-          "tag": "button",
-          "role": "",
-          "text": "View Details",
-          "ariaLabel": "",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — wire props/handlers in delivery package (packages/ui)"
-        },
-        {
-          "index": 34,
-          "tag": "button",
-          "role": "",
-          "text": "Continue",
-          "ariaLabel": "",
-          "type": "button",
-          "readOnly": false,
-          "disabled": false,
-          "opensMenu": false,
-          "outcome": "no_visible_change",
-          "category": "static_shell",
-          "note": "No visible state change — wire props/handlers in delivery package (packages/ui)"
-        }
-      ],
-      "demoVideo": "by-story/mui-showcase/interaction.webm"
+      "status": "not_tested",
+      "percent": 0,
+      "testedAt": "2026-05-22T14:45:51.123Z"
     }
   ]
 }

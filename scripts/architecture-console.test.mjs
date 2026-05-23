@@ -12,6 +12,8 @@ describe("architecture-console", () => {
     assert.ok(state.pipeline.length >= 5);
     assert.ok(state.packages.length >= 5);
     assert.ok(state.agentRoles.some((r) => r.role.includes("architect")));
+    assert.ok(state.activity);
+    assert.equal(typeof state.hasGitRepo, "boolean");
   });
 
   it("audit prompt uses developer_audit workflow + superpowers", () => {

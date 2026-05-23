@@ -1,0 +1,129 @@
+{
+  "capturedAt": "2026-05-22T13:25:38.510Z",
+  "repoRoot": "/Users/user/Downloads/storybook-to-figma-lab",
+  "suiteId": "figmaLive",
+  "storyIds": [
+    "lab-button--danger",
+    "lab-button--ghost",
+    "lab-button--secondary",
+    "lab-tabspanel--activity-active",
+    "lab-pricingpanel--pro",
+    "lab-tabspanel--settings-active",
+    "lab-filtersidepanel--collapsed",
+    "lab-pricingpanel--starter",
+    "lab-filtersidepanel--left-panel",
+    "lab-filtersidepanel--right-panel",
+    "lab-contentlistboard--highlighted",
+    "lab-navigationbars--top-navigation",
+    "lab-calendarscheduler--compact",
+    "lab-featurecard--success",
+    "lab-contentlistboard--compact",
+    "lab-calendarscheduler--monthly",
+    "lab-calendarscheduler--weekdays-only",
+    "mui--showcase",
+    "lab-complexdashboardcard--default",
+    "lab-overlaystates--drawer"
+  ],
+  "stories": {
+    "lab-button--danger": {
+      "status": "fail",
+      "percent": 4.37793427230047,
+      "maxRegionPercent": 5.067934782608695
+    },
+    "lab-button--ghost": {
+      "status": "fail",
+      "percent": 3.8202247191011236,
+      "maxRegionPercent": 3.8202247191011236
+    },
+    "lab-button--secondary": {
+      "status": "fail",
+      "percent": 3.3116113744075832,
+      "maxRegionPercent": 3.8183060109289615
+    },
+    "lab-tabspanel--activity-active": {
+      "status": "fail",
+      "percent": 2.6457091493991864,
+      "maxRegionPercent": 4.991883116883117
+    },
+    "lab-pricingpanel--pro": {
+      "status": "fail",
+      "percent": 2.0239156268568035,
+      "maxRegionPercent": 5.1486229287953424
+    },
+    "lab-tabspanel--settings-active": {
+      "status": "fail",
+      "percent": 1.7917967641214874,
+      "maxRegionPercent": 3.3725649350649354
+    },
+    "lab-filtersidepanel--collapsed": {
+      "status": "fail",
+      "percent": 1.9405594405594406,
+      "maxRegionPercent": 2.2929533969679956
+    },
+    "lab-pricingpanel--starter": {
+      "status": "fail",
+      "percent": 1.4880889804671895,
+      "maxRegionPercent": 3.34478021978022
+    },
+    "lab-filtersidepanel--left-panel": {
+      "status": "fail",
+      "percent": 1.8031189083820662,
+      "maxRegionPercent": 2.7101769911504423
+    },
+    "lab-filtersidepanel--right-panel": {
+      "status": "fail",
+      "percent": 1.8031189083820662,
+      "maxRegionPercent": 2.7101769911504423
+    },
+    "lab-contentlistboard--highlighted": {
+      "status": "fail",
+      "percent": 0.5765100052850791,
+      "maxRegionPercent": 2.7229845626072042
+    },
+    "lab-navigationbars--top-navigation": {
+      "status": "fail",
+      "percent": 1.737304945781539,
+      "maxRegionPercent": 2.509098544232923
+    },
+    "lab-calendarscheduler--compact": {
+      "status": "fail",
+      "percent": 1.4569986339496388,
+      "maxRegionPercent": 4.13684279021343
+    },
+    "lab-featurecard--success": {
+      "status": "fail",
+      "percent": 1.4481721912640508,
+      "maxRegionPercent": 4.57873950962646
+    },
+    "lab-contentlistboard--compact": {
+      "status": "fail",
+      "percent": 1.3796040866293207,
+      "maxRegionPercent": 2.56526768010575
+    },
+    "lab-calendarscheduler--monthly": {
+      "status": "fail",
+      "percent": 1.200837166894608,
+      "maxRegionPercent": 3.0039811798769454
+    },
+    "lab-calendarscheduler--weekdays-only": {
+      "status": "fail",
+      "percent": 1.0469026601066884,
+      "maxRegionPercent": 3.0039811798769454
+    },
+    "mui--showcase": {
+      "status": "fail",
+      "percent": 0.7675149700598802,
+      "maxRegionPercent": 2.88582842724979
+    },
+    "lab-complexdashboardcard--default": {
+      "status": "fail",
+      "percent": 0.7082519402354681,
+      "maxRegionPercent": 4.260380622837371
+    },
+    "lab-overlaystates--drawer": {
+      "status": "warn",
+      "percent": 0.28591008771929827,
+      "maxRegionPercent": 2.2037694388100064
+    }
+  }
+}

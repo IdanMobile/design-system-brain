@@ -1,0 +1,35 @@
+{
+  "storyId": "lab-calendarscheduler--compact",
+  "attempt": 1,
+  "jobId": "aae91547-6a4f-4993-9603-77fe94f66477",
+  "recordedAt": "2026-05-22T23:53:13.465Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "error",
+    "percent": 100,
+    "maxRegionPercent": null,
+    "error": "Export timed out after 448000ms"
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 0.9987873563638222,
+    "maxRegionPercent": 3.9479483891649307,
+    "error": null
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-calendarscheduler--compact_try1-1779493701619.prompt.txt",
+    ".test-console/child-status/aae91547-6a4f-4993-9603-77fe94f66477-agent-lab-calendarscheduler--compact_try1-1779493701619.json"
+  ],
+  "evaluation": {
+    "verdict": "ON_TRACK",
+    "verdicts": [],
+    "nextWorkerMode": "continue",
+    "interventionLines": [
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

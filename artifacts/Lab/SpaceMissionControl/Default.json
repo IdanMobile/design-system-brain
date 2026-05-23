@@ -1,0 +1,3324 @@
+{
+  "schemaVersion": "1.0",
+  "meta": {
+    "storyId": "lab-spacemissioncontrol--default",
+    "componentName": "SpaceMissionControl",
+    "extractedAt": "2026-05-23T18:52:13.879Z",
+    "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-spacemissioncontrol--default&viewMode=story",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "width": 1200,
+      "height": 900
+    },
+    "devicePixelRatio": 1,
+    "canvasBackground": "rgb(245, 247, 251)"
+  },
+  "root": {
+    "id": "lay-1",
+    "name": "SpaceMissionControl",
+    "source": {
+      "kind": "dom",
+      "tag": "div",
+      "classList": [
+        "lab-space-mission"
+      ],
+      "dataset": {
+        "figmaComponent": "SpaceMissionControl"
+      }
+    },
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 390,
+      "height": 844
+    },
+    "computedBox": {
+      "x": 405,
+      "y": 28,
+      "width": 390,
+      "height": 844
+    },
+    "layout": {
+      "display": "flex",
+      "position": "relative",
+      "overflow": {
+        "x": "hidden",
+        "y": "hidden"
+      },
+      "padding": {
+        "top": 16,
+        "right": 16,
+        "bottom": 16,
+        "left": 16
+      },
+      "margin": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "inset": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "flex": {
+        "direction": "column",
+        "wrap": "nowrap",
+        "justify": "normal",
+        "align": "normal",
+        "rowGap": 12,
+        "columnGap": 12
+      }
+    },
+    "paint": {
+      "fills": [
+        {
+          "kind": "linear-gradient",
+          "angleDeg": 180,
+          "stops": [
+            {
+              "color": "rgb(2, 6, 23)",
+              "offset": 0
+            },
+            {
+              "color": "rgb(15, 23, 42)",
+              "offset": 0.5
+            },
+            {
+              "color": "rgb(2, 6, 23)",
+              "offset": 1
+            }
+          ]
+        }
+      ],
+      "cornerRadii": {
+        "topLeft": {
+          "x": 24,
+          "y": 24
+        },
+        "topRight": {
+          "x": 24,
+          "y": 24
+        },
+        "bottomRight": {
+          "x": 24,
+          "y": 24
+        },
+        "bottomLeft": {
+          "x": 24,
+          "y": 24
+        }
+      }
+    },
+    "children": [
+      {
+        "id": "lay-2",
+        "name": "header",
+        "source": {
+          "kind": "dom",
+          "tag": "header",
+          "classList": [
+            "lab-space-mission-header"
+          ]
+        },
+        "box": {
+          "x": 16,
+          "y": 16,
+          "width": 358,
+          "height": 21
+        },
+        "computedBox": {
+          "x": 421,
+          "y": 44,
+          "width": 358,
+          "height": 21
+        },
+        "layout": {
+          "display": "flex",
+          "position": "static",
+          "overflow": {
+            "x": "visible",
+            "y": "visible"
+          },
+          "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "margin": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "flex": {
+            "direction": "row",
+            "wrap": "nowrap",
+            "justify": "space-between",
+            "align": "center",
+            "rowGap": 0,
+            "columnGap": 0
+          }
+        },
+        "children": [
+          {
+            "id": "lay-3",
+            "name": "span",
+            "source": {
+              "kind": "dom",
+              "tag": "span",
+              "classList": [
+                "lab-space-mission-id"
+              ]
+            },
+            "box": {
+              "x": 0,
+              "y": 3,
+              "width": 46.22,
+              "height": 15
+            },
+            "computedBox": {
+              "x": 421,
+              "y": 47,
+              "width": 46.22,
+              "height": 15
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            },
+            "text": {
+              "value": "NX-7742",
+              "font": {
+                "family": "Roboto Mono",
+                "stack": "\"Roboto Mono\", monospace",
+                "size": 11,
+                "weight": 400,
+                "style": "normal",
+                "variant": "normal",
+                "featureSettings": "normal"
+              },
+              "color": "rgb(34, 211, 238)",
+              "lineHeight": 15,
+              "wordSpacing": 0,
+              "align": "start",
+              "verticalAlign": "baseline",
+              "transform": "none",
+              "whiteSpace": "normal",
+              "overflow": "visible",
+              "wordBreak": "normal",
+              "direction": "ltr"
+            }
+          },
+          {
+            "id": "lay-4",
+            "name": "h1",
+            "source": {
+              "kind": "dom",
+              "tag": "h1"
+            },
+            "box": {
+              "x": 96.98,
+              "y": 0,
+              "width": 150.83,
+              "height": 21
+            },
+            "computedBox": {
+              "x": 517.98,
+              "y": 44,
+              "width": 150.83,
+              "height": 21
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            },
+            "text": {
+              "value": "ORBIT CONTROL",
+              "font": {
+                "family": "Roboto Mono",
+                "stack": "\"Roboto Mono\", monospace",
+                "size": 16,
+                "weight": 700,
+                "style": "normal",
+                "variant": "normal",
+                "featureSettings": "normal"
+              },
+              "color": "rgb(226, 232, 240)",
+              "lineHeight": 21,
+              "letterSpacing": 2,
+              "wordSpacing": 0,
+              "align": "start",
+              "verticalAlign": "baseline",
+              "transform": "none",
+              "whiteSpace": "normal",
+              "overflow": "visible",
+              "wordBreak": "normal",
+              "direction": "ltr"
+            }
+          },
+          {
+            "id": "lay-5",
+            "name": "span",
+            "source": {
+              "kind": "dom",
+              "tag": "span",
+              "classList": [
+                "lab-space-mission-alert"
+              ]
+            },
+            "box": {
+              "x": 298.56,
+              "y": 3,
+              "width": 59.44,
+              "height": 15
+            },
+            "computedBox": {
+              "x": 719.56,
+              "y": 47,
+              "width": 59.44,
+              "height": 15
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            },
+            "text": {
+              "value": "⚠ ANOMALY",
+              "font": {
+                "family": "Roboto Mono",
+                "stack": "\"Roboto Mono\", monospace",
+                "size": 11,
+                "weight": 700,
+                "style": "normal",
+                "variant": "normal",
+                "featureSettings": "normal"
+              },
+              "color": "rgb(249, 115, 22)",
+              "lineHeight": 15,
+              "wordSpacing": 0,
+              "align": "start",
+              "verticalAlign": "baseline",
+              "transform": "none",
+              "whiteSpace": "normal",
+              "overflow": "visible",
+              "wordBreak": "normal",
+              "direction": "ltr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "lay-6",
+        "name": "section",
+        "source": {
+          "kind": "dom",
+          "tag": "section",
+          "classList": [
+            "lab-space-mission-radar"
+          ]
+        },
+        "box": {
+          "x": 16,
+          "y": 49,
+          "width": 358,
+          "height": 226
+        },
+        "computedBox": {
+          "x": 421,
+          "y": 77,
+          "width": 358,
+          "height": 226
+        },
+        "layout": {
+          "display": "flex",
+          "position": "static",
+          "overflow": {
+            "x": "visible",
+            "y": "visible"
+          },
+          "padding": {
+            "top": 12,
+            "right": 12,
+            "bottom": 12,
+            "left": 12
+          },
+          "margin": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "flex": {
+            "direction": "row",
+            "wrap": "nowrap",
+            "justify": "normal",
+            "align": "center",
+            "rowGap": 16,
+            "columnGap": 16
+          }
+        },
+        "paint": {
+          "fills": [
+            {
+              "kind": "color",
+              "color": "rgba(15, 23, 42, 0.8)"
+            }
+          ],
+          "borders": {
+            "top": {
+              "width": 1,
+              "color": "rgb(30, 58, 95)",
+              "style": "solid"
+            },
+            "right": {
+              "width": 1,
+              "color": "rgb(30, 58, 95)",
+              "style": "solid"
+            },
+            "bottom": {
+              "width": 1,
+              "color": "rgb(30, 58, 95)",
+              "style": "solid"
+            },
+            "left": {
+              "width": 1,
+              "color": "rgb(30, 58, 95)",
+              "style": "solid"
+            }
+          },
+          "cornerRadii": {
+            "topLeft": {
+              "x": 12,
+              "y": 12
+            },
+            "topRight": {
+              "x": 12,
+              "y": 12
+            },
+            "bottomRight": {
+              "x": 12,
+              "y": 12
+            },
+            "bottomLeft": {
+              "x": 12,
+              "y": 12
+            }
+          }
+        },
+        "children": [
+          {
+            "id": "lay-7",
+            "name": "svg",
+            "source": {
+              "kind": "svg",
+              "tag": "svg"
+            },
+            "box": {
+              "x": 13,
+              "y": 13,
+              "width": 190.34,
+              "height": 200
+            },
+            "computedBox": {
+              "x": 434,
+              "y": 90,
+              "width": 190.34,
+              "height": 200
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "hidden",
+                "y": "hidden"
+              },
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            },
+            "vector": {
+              "shapes": [
+                {
+                  "primitive": "circle",
+                  "attrs": {
+                    "cx": 100,
+                    "cy": 100,
+                    "r": 95,
+                    "fill": "none",
+                    "stroke": "#1e3a5f",
+                    "stroke-width": 2
+                  },
+                  "paint": {
+                    "fill": "none",
+                    "stroke": "rgb(30, 58, 95)",
+                    "strokeWidth": 2
+                  }
+                },
+                {
+                  "primitive": "circle",
+                  "attrs": {
+                    "cx": 100,
+                    "cy": 100,
+                    "r": 65,
+                    "fill": "none",
+                    "stroke": "#1e3a5f",
+                    "stroke-width": 1
+                  },
+                  "paint": {
+                    "fill": "none",
+                    "stroke": "rgb(30, 58, 95)",
+                    "strokeWidth": 1
+                  }
+                },
+                {
+                  "primitive": "circle",
+                  "attrs": {
+                    "cx": 100,
+                    "cy": 100,
+                    "r": 35,
+                    "fill": "none",
+                    "stroke": "#1e3a5f",
+                    "stroke-width": 1
+                  },
+                  "paint": {
+                    "fill": "none",
+                    "stroke": "rgb(30, 58, 95)",
+                    "strokeWidth": 1
+                  }
+                },
+                {
+                  "primitive": "line",
+                  "attrs": {
+                    "x1": 100,
+                    "y1": 5,
+                    "x2": 100,
+                    "y2": 195,
+                    "stroke": "#1e3a5f",
+                    "stroke-width": 1
+                  },
+                  "paint": {
+                    "fill": "rgb(0, 0, 0)",
+                    "stroke": "rgb(30, 58, 95)",
+                    "strokeWidth": 1
+                  }
+                },
+                {
+                  "primitive": "line",
+                  "attrs": {
+                    "x1": 5,
+                    "y1": 100,
+                    "x2": 195,
+                    "y2": 100,
+                    "stroke": "#1e3a5f",
+                    "stroke-width": 1
+                  },
+                  "paint": {
+                    "fill": "rgb(0, 0, 0)",
+                    "stroke": "rgb(30, 58, 95)",
+                    "strokeWidth": 1
+                  }
+                },
+                {
+                  "primitive": "path",
+                  "attrs": {
+                    "d": "M100 100 L100 20 A80 80 0 0 1 170 100 Z",
+                    "fill": "rgba(34,211,238,0.15)",
+                    "stroke": "#22d3ee",
+                    "stroke-width": 1
+                  },
+                  "paint": {
+                    "fill": "rgba(34, 211, 238, 0.15)",
+                    "stroke": "rgb(34, 211, 238)",
+                    "strokeWidth": 1
+                  }
+                },
+                {
+                  "primitive": "circle",
+                  "attrs": {
+                    "cx": 130,
+                    "cy": 70,
+                    "r": 6,
+                    "fill": "#f97316"
+                  },
+                  "paint": {
+                    "fill": "rgb(249, 115, 22)",
+                    "strokeWidth": 1
+                  }
+                },
+                {
+                  "primitive": "circle",
+                  "attrs": {
+                    "cx": 60,
+                    "cy": 120,
+                    "r": 4,
+                    "fill": "#22c55e"
+                  },
+                  "paint": {
+                    "fill": "rgb(34, 197, 94)",
+                    "strokeWidth": 1
+                  }
+                },
+                {
+                  "primitive": "circle",
+                  "attrs": {
+                    "cx": 145,
+                    "cy": 130,
+                    "r": 5,
+                    "fill": "#ef4444"
+                  },
+                  "paint": {
+                    "fill": "rgb(239, 68, 68)",
+                    "strokeWidth": 1
+                  }
+                }
+              ],
+              "viewBox": {
+                "x": 0,
+                "y": 0,
+                "width": 200,
+                "height": 200
+              }
+            }
+          },
+          {
+            "id": "lay-8",
+            "name": "div",
+            "source": {
+              "kind": "dom",
+              "tag": "div",
+              "classList": [
+                "lab-space-mission-radar-info"
+              ]
+            },
+            "box": {
+              "x": 219.34,
+              "y": 71,
+              "width": 125.66,
+              "height": 84
+            },
+            "computedBox": {
+              "x": 640.34,
+              "y": 148,
+              "width": 125.66,
+              "height": 84
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            },
+            "children": [
+              {
+                "id": "lay-9",
+                "name": "p",
+                "source": {
+                  "kind": "dom",
+                  "tag": "p"
+                },
+                "box": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 125.66,
+                  "height": 13
+                },
+                "computedBox": {
+                  "x": 640.34,
+                  "y": 148,
+                  "width": 125.66,
+                  "height": 13
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "static",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  },
+                  "margin": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "text": {
+                  "value": "TARGET LOCK",
+                  "font": {
+                    "family": "Roboto Mono",
+                    "stack": "\"Roboto Mono\", monospace",
+                    "size": 10,
+                    "weight": 400,
+                    "style": "normal",
+                    "variant": "normal",
+                    "featureSettings": "normal"
+                  },
+                  "color": "rgb(100, 116, 139)",
+                  "lineHeight": 13,
+                  "wordSpacing": 0,
+                  "align": "start",
+                  "verticalAlign": "baseline",
+                  "transform": "none",
+                  "whiteSpace": "normal",
+                  "overflow": "visible",
+                  "wordBreak": "normal",
+                  "direction": "ltr"
+                }
+              },
+              {
+                "id": "lay-10",
+                "name": "strong",
+                "source": {
+                  "kind": "dom",
+                  "tag": "strong"
+                },
+                "box": {
+                  "x": 0,
+                  "y": 17,
+                  "width": 125.66,
+                  "height": 21
+                },
+                "computedBox": {
+                  "x": 640.34,
+                  "y": 165,
+                  "width": 125.66,
+                  "height": 21
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "static",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  },
+                  "margin": {
+                    "top": 4,
+                    "right": 0,
+                    "bottom": 4,
+                    "left": 0
+                  }
+                },
+                "text": {
+                  "value": "DEBRIS FIELD",
+                  "font": {
+                    "family": "Roboto Mono",
+                    "stack": "\"Roboto Mono\", monospace",
+                    "size": 16,
+                    "weight": 700,
+                    "style": "normal",
+                    "variant": "normal",
+                    "featureSettings": "normal"
+                  },
+                  "color": "rgb(249, 115, 22)",
+                  "lineHeight": 21,
+                  "wordSpacing": 0,
+                  "align": "start",
+                  "verticalAlign": "baseline",
+                  "transform": "none",
+                  "whiteSpace": "normal",
+                  "overflow": "visible",
+                  "wordBreak": "normal",
+                  "direction": "ltr"
+                }
+              },
+              {
+                "id": "lay-11",
+                "name": "span",
+                "source": {
+                  "kind": "dom",
+                  "tag": "span"
+                },
+                "box": {
+                  "x": 0,
+                  "y": 49,
+                  "width": 84.02,
+                  "height": 34
+                },
+                "computedBox": {
+                  "x": 640.34,
+                  "y": 197,
+                  "width": 84.02,
+                  "height": 34
+                },
+                "layout": {
+                  "display": "inline",
+                  "position": "static",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  },
+                  "margin": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "text": {
+                  "value": "Range 842 km • Closing",
+                  "font": {
+                    "family": "Roboto Mono",
+                    "stack": "\"Roboto Mono\", monospace",
+                    "size": 10,
+                    "weight": 400,
+                    "style": "normal",
+                    "variant": "normal",
+                    "featureSettings": "normal"
+                  },
+                  "color": "rgb(148, 163, 184)",
+                  "wordSpacing": 0,
+                  "align": "start",
+                  "verticalAlign": "baseline",
+                  "transform": "none",
+                  "whiteSpace": "normal",
+                  "overflow": "visible",
+                  "wordBreak": "normal",
+                  "direction": "ltr"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "lay-12",
+        "name": "section",
+        "source": {
+          "kind": "dom",
+          "tag": "section",
+          "classList": [
+            "lab-space-mission-systems"
+          ]
+        },
+        "box": {
+          "x": 16,
+          "y": 287,
+          "width": 358,
+          "height": 51
+        },
+        "computedBox": {
+          "x": 421,
+          "y": 315,
+          "width": 358,
+          "height": 51
+        },
+        "layout": {
+          "display": "grid",
+          "position": "static",
+          "overflow": {
+            "x": "visible",
+            "y": "visible"
+          },
+          "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "margin": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "grid": {
+            "templateRows": "51px",
+            "templateColumns": "85px 85px 85px 85px",
+            "templateAreas": "none",
+            "rowGap": 6,
+            "columnGap": 6,
+            "autoFlow": "row",
+            "justify": "normal",
+            "align": "normal"
+          }
+        },
+        "children": [
+          {
+            "id": "lay-13",
+            "name": "article",
+            "source": {
+              "kind": "dom",
+              "tag": "article",
+              "classList": [
+                "ok"
+              ]
+            },
+            "box": {
+              "x": 0,
+              "y": 0,
+              "width": 85,
+              "height": 51
+            },
+            "computedBox": {
+              "x": 421,
+              "y": 315,
+              "width": 85,
+              "height": 51
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 8,
+                "right": 8,
+                "bottom": 8,
+                "left": 8
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            },
+            "paint": {
+              "fills": [
+                {
+                  "kind": "color",
+                  "color": "rgba(15, 23, 42, 0.8)"
+                }
+              ],
+              "borders": {
+                "top": {
+                  "width": 1,
+                  "color": "rgb(30, 58, 95)",
+                  "style": "solid"
+                },
+                "right": {
+                  "width": 1,
+                  "color": "rgb(30, 58, 95)",
+                  "style": "solid"
+                },
+                "bottom": {
+                  "width": 1,
+                  "color": "rgb(30, 58, 95)",
+                  "style": "solid"
+                },
+                "left": {
+                  "width": 1,
+                  "color": "rgb(30, 58, 95)",
+                  "style": "solid"
+                }
+              },
+              "cornerRadii": {
+                "topLeft": {
+                  "x": 8,
+                  "y": 8
+                },
+                "topRight": {
+                  "x": 8,
+                  "y": 8
+                },
+                "bottomRight": {
+                  "x": 8,
+                  "y": 8
+                },
+                "bottomLeft": {
+                  "x": 8,
+                  "y": 8
+                }
+              }
+            },
+            "children": [
+              {
+                "id": "lay-14",
+                "name": "span",
+                "source": {
+                  "kind": "dom",
+                  "tag": "span"
+                },
+                "box": {
+                  "x": 26.3,
+                  "y": 9,
+                  "width": 32.41,
+                  "height": 11
+                },
+                "computedBox": {
+                  "x": 447.3,
+                  "y": 324,
+                  "width": 32.41,
+                  "height": 11
+                },
+                "layout": {
+                  "display": "inline",
+                  "position": "static",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  },
+                  "margin": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "text": {
+                  "value": "OXYGEN",
+                  "font": {
+                    "family": "Roboto Mono",
+                    "stack": "\"Roboto Mono\", monospace",
+                    "size": 9,
+                    "weight": 400,
+                    "style": "normal",
+                    "variant": "normal",
+                    "featureSettings": "normal"
+                  },
+                  "color": "rgb(148, 163, 184)",
+                  "lineHeight": 11,
+                  "wordSpacing": 0,
+                  "align": "center",
+                  "verticalAlign": "baseline",
+                  "transform": "none",
+                  "whiteSpace": "normal",
+                  "overflow": "visible",
+                  "wordBreak": "normal",
+                  "direction": "ltr"
+                }
+              },
+              {
+                "id": "lay-15",
+                "name": "strong",
+                "source": {
+                  "kind": "dom",
+                  "tag": "strong"
+                },
+                "box": {
+                  "x": 9,
+                  "y": 24,
+                  "width": 67,
+                  "height": 18
+                },
+                "computedBox": {
+                  "x": 430,
+                  "y": 339,
+                  "width": 67,
+                  "height": 18
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "static",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  },
+                  "margin": {
+                    "top": 4,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "text": {
+                  "value": "98%",
+                  "font": {
+                    "family": "Roboto Mono",
+                    "stack": "\"Roboto Mono\", monospace",
+                    "size": 13,
+                    "weight": 700,
+                    "style": "normal",
+                    "variant": "normal",
+                    "featureSettings": "normal"
+                  },
+                  "color": "rgb(34, 197, 94)",
+                  "lineHeight": 18,
+                  "wordSpacing": 0,
+                  "align": "center",
+                  "verticalAlign": "baseline",
+                  "transform": "none",
+                  "whiteSpace": "normal",
+                  "overflow": "visible",
+                  "wordBreak": "normal",
+                  "direction": "ltr"
+                }
+              }
+            ]
+          },
+          {
+            "id": "lay-16",
+            "name": "article",
+            "source": {
+              "kind": "dom",
+              "tag": "article",
+              "classList": [
+                "ok"
+              ]
+            },
+            "box": {
+              "x": 91,
+              "y": 0,
+              "width": 85,
+              "height": 51
+            },
+            "computedBox": {
+              "x": 512,
+              "y": 315,
+              "width": 85,
+              "height": 51
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 8,
+                "right": 8,
+                "bottom": 8,
+                "left": 8
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            },
+            "paint": {
+              "fills": [
+                {
+                  "kind": "color",
+                  "color": "rgba(15, 23, 42, 0.8)"
+                }
+              ],
+              "borders": {
+                "top": {
+                  "width": 1,
+                  "color": "rgb(30, 58, 95)",
+                  "style": "solid"
+                },
+                "right": {
+                  "width": 1,
+                  "color": "rgb(30, 58, 95)",
+                  "style": "solid"
+                },
+                "bottom": {
+                  "width": 1,
+                  "color": "rgb(30, 58, 95)",
+                  "style": "solid"
+                },
+                "left": {
+                  "width": 1,
+                  "color": "rgb(30, 58, 95)",
+                  "style": "solid"
+                }
+              },
+              "cornerRadii": {
+                "topLeft": {
+                  "x": 8,
+                  "y": 8
+                },
+                "topRight": {
+                  "x": 8,
+                  "y": 8
+                },
+                "bottomRight": {
+                  "x": 8,
+                  "y": 8
+                },
+                "bottomLeft": {
+                  "x": 8,
+                  "y": 8
+                }
+              }
+            },
+            "children": [
+              {
+                "id": "lay-17",
+                "name": "span",
+                "source": {
+                  "kind": "dom",
+                  "tag": "span"
+                },
+                "box": {
+                  "x": 31.69,
+                  "y": 9,
+                  "width": 21.61,
+                  "height": 11
+                },
+                "computedBox": {
+                  "x": 543.69,
+                  "y": 324,
+                  "width": 21.61,
+                  "height": 11
+                },
+                "layout": {
+                  "display": "inline",
+                  "position": "static",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  },
+                  "margin": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "text": {
+                  "value": "FUEL",
+                  "font": {
+                    "family": "Roboto Mono",
+                    "stack": "\"Roboto Mono\", monospace",
+                    "size": 9,
+                    "weight": 400,
+                    "style": "normal",
+                    "variant": "normal",
+                    "featureSettings": "normal"
+                  },
+                  "color": "rgb(148, 163, 184)",
+                  "lineHeight": 11,
+                  "wordSpacing": 0,
+                  "align": "center",
+                  "verticalAlign": "baseline",
+                  "transform": "none",
+                  "whiteSpace": "normal",
+                  "overflow": "visible",
+                  "wordBreak": "normal",
+                  "direction": "ltr"
+                }
+              },
+              {
+                "id": "lay-18",
+                "name": "strong",
+                "source": {
+                  "kind": "dom",
+                  "tag": "strong"
+                },
+                "box": {
+                  "x": 9,
+                  "y": 24,
+                  "width": 67,
+                  "height": 18
+                },
+                "computedBox": {
+                  "x": 521,
+                  "y": 339,
+                  "width": 67,
+                  "height": 18
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "static",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  },
+                  "margin": {
+                    "top": 4,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "text": {
+                  "value": "64%",
+                  "font": {
+                    "family": "Roboto Mono",
+                    "stack": "\"Roboto Mono\", monospace",
+                    "size": 13,
+                    "weight": 700,
+                    "style": "normal",
+                    "variant": "normal",
+                    "featureSettings": "normal"
+                  },
+                  "color": "rgb(34, 197, 94)",
+                  "lineHeight": 18,
+                  "wordSpacing": 0,
+                  "align": "center",
+                  "verticalAlign": "baseline",
+                  "transform": "none",
+                  "whiteSpace": "normal",
+                  "overflow": "visible",
+                  "wordBreak": "normal",
+                  "direction": "ltr"
+                }
+              }
+            ]
+          },
+          {
+            "id": "lay-19",
+            "name": "article",
+            "source": {
+              "kind": "dom",
+              "tag": "article",
+              "classList": [
+                "bad"
+              ]
+            },
+            "box": {
+              "x": 182,
+              "y": 0,
+              "width": 85,
+              "height": 51
+            },
+            "computedBox": {
+              "x": 603,
+              "y": 315,
+              "width": 85,
+              "height": 51
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 8,
+                "right": 8,
+                "bottom": 8,
+                "left": 8
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            },
+            "paint": {
+              "fills": [
+                {
+                  "kind": "color",
+                  "color": "rgba(15, 23, 42, 0.8)"
+                }
+              ],
+              "borders": {
+                "top": {
+                  "width": 1,
+                  "color": "rgb(30, 58, 95)",
+                  "style": "solid"
+                },
+                "right": {
+                  "width": 1,
+                  "color": "rgb(30, 58, 95)",
+                  "style": "solid"
+                },
+                "bottom": {
+                  "width": 1,
+                  "color": "rgb(30, 58, 95)",
+                  "style": "solid"
+                },
+                "left": {
+                  "width": 1,
+                  "color": "rgb(30, 58, 95)",
+                  "style": "solid"
+                }
+              },
+              "cornerRadii": {
+                "topLeft": {
+                  "x": 8,
+                  "y": 8
+                },
+                "topRight": {
+                  "x": 8,
+                  "y": 8
+                },
+                "bottomRight": {
+                  "x": 8,
+                  "y": 8
+                },
+                "bottomLeft": {
+                  "x": 8,
+                  "y": 8
+                }
+              }
+            },
+            "children": [
+              {
+                "id": "lay-20",
+                "name": "span",
+                "source": {
+                  "kind": "dom",
+                  "tag": "span"
+                },
+                "box": {
+                  "x": 31.69,
+                  "y": 9,
+                  "width": 21.61,
+                  "height": 11
+                },
+                "computedBox": {
+                  "x": 634.69,
+                  "y": 324,
+                  "width": 21.61,
+                  "height": 11
+                },
+                "layout": {
+                  "display": "inline",
+                  "position": "static",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  },
+                  "margin": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "text": {
+                  "value": "HULL",
+                  "font": {
+                    "family": "Roboto Mono",
+                    "stack": "\"Roboto Mono\", monospace",
+                    "size": 9,
+                    "weight": 400,
+                    "style": "normal",
+                    "variant": "normal",
+                    "featureSettings": "normal"
+                  },
+                  "color": "rgb(148, 163, 184)",
+                  "lineHeight": 11,
+                  "wordSpacing": 0,
+                  "align": "center",
+                  "verticalAlign": "baseline",
+                  "transform": "none",
+                  "whiteSpace": "normal",
+                  "overflow": "visible",
+                  "wordBreak": "normal",
+                  "direction": "ltr"
+                }
+              },
+              {
+                "id": "lay-21",
+                "name": "strong",
+                "source": {
+                  "kind": "dom",
+                  "tag": "strong"
+                },
+                "box": {
+                  "x": 9,
+                  "y": 24,
+                  "width": 67,
+                  "height": 18
+                },
+                "computedBox": {
+                  "x": 612,
+                  "y": 339,
+                  "width": 67,
+                  "height": 18
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "static",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  },
+                  "margin": {
+                    "top": 4,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "text": {
+                  "value": "41%",
+                  "font": {
+                    "family": "Roboto Mono",
+                    "stack": "\"Roboto Mono\", monospace",
+                    "size": 13,
+                    "weight": 700,
+                    "style": "normal",
+                    "variant": "normal",
+                    "featureSettings": "normal"
+                  },
+                  "color": "rgb(239, 68, 68)",
+                  "lineHeight": 18,
+                  "wordSpacing": 0,
+                  "align": "center",
+                  "verticalAlign": "baseline",
+                  "transform": "none",
+                  "whiteSpace": "normal",
+                  "overflow": "visible",
+                  "wordBreak": "normal",
+                  "direction": "ltr"
+                }
+              }
+            ]
+          },
+          {
+            "id": "lay-22",
+            "name": "article",
+            "source": {
+              "kind": "dom",
+              "tag": "article",
+              "classList": [
+                "ok"
+              ]
+            },
+            "box": {
+              "x": 273,
+              "y": 0,
+              "width": 85,
+              "height": 51
+            },
+            "computedBox": {
+              "x": 694,
+              "y": 315,
+              "width": 85,
+              "height": 51
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 8,
+                "right": 8,
+                "bottom": 8,
+                "left": 8
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            },
+            "paint": {
+              "fills": [
+                {
+                  "kind": "color",
+                  "color": "rgba(15, 23, 42, 0.8)"
+                }
+              ],
+              "borders": {
+                "top": {
+                  "width": 1,
+                  "color": "rgb(30, 58, 95)",
+                  "style": "solid"
+                },
+                "right": {
+                  "width": 1,
+                  "color": "rgb(30, 58, 95)",
+                  "style": "solid"
+                },
+                "bottom": {
+                  "width": 1,
+                  "color": "rgb(30, 58, 95)",
+                  "style": "solid"
+                },
+                "left": {
+                  "width": 1,
+                  "color": "rgb(30, 58, 95)",
+                  "style": "solid"
+                }
+              },
+              "cornerRadii": {
+                "topLeft": {
+                  "x": 8,
+                  "y": 8
+                },
+                "topRight": {
+                  "x": 8,
+                  "y": 8
+                },
+                "bottomRight": {
+                  "x": 8,
+                  "y": 8
+                },
+                "bottomLeft": {
+                  "x": 8,
+                  "y": 8
+                }
+              }
+            },
+            "children": [
+              {
+                "id": "lay-23",
+                "name": "span",
+                "source": {
+                  "kind": "dom",
+                  "tag": "span"
+                },
+                "box": {
+                  "x": 28.98,
+                  "y": 9,
+                  "width": 27.02,
+                  "height": 11
+                },
+                "computedBox": {
+                  "x": 722.98,
+                  "y": 324,
+                  "width": 27.02,
+                  "height": 11
+                },
+                "layout": {
+                  "display": "inline",
+                  "position": "static",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  },
+                  "margin": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "text": {
+                  "value": "COMMS",
+                  "font": {
+                    "family": "Roboto Mono",
+                    "stack": "\"Roboto Mono\", monospace",
+                    "size": 9,
+                    "weight": 400,
+                    "style": "normal",
+                    "variant": "normal",
+                    "featureSettings": "normal"
+                  },
+                  "color": "rgb(148, 163, 184)",
+                  "lineHeight": 11,
+                  "wordSpacing": 0,
+                  "align": "center",
+                  "verticalAlign": "baseline",
+                  "transform": "none",
+                  "whiteSpace": "normal",
+                  "overflow": "visible",
+                  "wordBreak": "normal",
+                  "direction": "ltr"
+                }
+              },
+              {
+                "id": "lay-24",
+                "name": "strong",
+                "source": {
+                  "kind": "dom",
+                  "tag": "strong"
+                },
+                "box": {
+                  "x": 9,
+                  "y": 24,
+                  "width": 67,
+                  "height": 18
+                },
+                "computedBox": {
+                  "x": 703,
+                  "y": 339,
+                  "width": 67,
+                  "height": 18
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "static",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  },
+                  "margin": {
+                    "top": 4,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "text": {
+                  "value": "ONLINE",
+                  "font": {
+                    "family": "Roboto Mono",
+                    "stack": "\"Roboto Mono\", monospace",
+                    "size": 13,
+                    "weight": 700,
+                    "style": "normal",
+                    "variant": "normal",
+                    "featureSettings": "normal"
+                  },
+                  "color": "rgb(34, 197, 94)",
+                  "lineHeight": 18,
+                  "wordSpacing": 0,
+                  "align": "center",
+                  "verticalAlign": "baseline",
+                  "transform": "none",
+                  "whiteSpace": "normal",
+                  "overflow": "visible",
+                  "wordBreak": "normal",
+                  "direction": "ltr"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "lay-25",
+        "name": "section",
+        "source": {
+          "kind": "dom",
+          "tag": "section",
+          "classList": [
+            "lab-space-mission-log"
+          ]
+        },
+        "box": {
+          "x": 16,
+          "y": 350,
+          "width": 358,
+          "height": 99
+        },
+        "computedBox": {
+          "x": 421,
+          "y": 378,
+          "width": 358,
+          "height": 99
+        },
+        "layout": {
+          "display": "block",
+          "position": "static",
+          "overflow": {
+            "x": "visible",
+            "y": "visible"
+          },
+          "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "margin": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          }
+        },
+        "children": [
+          {
+            "id": "lay-26",
+            "name": "h2",
+            "source": {
+              "kind": "dom",
+              "tag": "h2"
+            },
+            "box": {
+              "x": 0,
+              "y": 0,
+              "width": 358,
+              "height": 15
+            },
+            "computedBox": {
+              "x": 421,
+              "y": 378,
+              "width": 358,
+              "height": 15
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 8,
+                "left": 0
+              }
+            },
+            "text": {
+              "value": "MISSION LOG",
+              "font": {
+                "family": "Roboto Mono",
+                "stack": "\"Roboto Mono\", monospace",
+                "size": 11,
+                "weight": 700,
+                "style": "normal",
+                "variant": "normal",
+                "featureSettings": "normal"
+              },
+              "color": "rgb(34, 211, 238)",
+              "lineHeight": 15,
+              "letterSpacing": 1,
+              "wordSpacing": 0,
+              "align": "start",
+              "verticalAlign": "baseline",
+              "transform": "none",
+              "whiteSpace": "normal",
+              "overflow": "visible",
+              "wordBreak": "normal",
+              "direction": "ltr"
+            }
+          },
+          {
+            "id": "lay-27",
+            "name": "p",
+            "source": {
+              "kind": "dom",
+              "tag": "p"
+            },
+            "box": {
+              "x": 0,
+              "y": 23,
+              "width": 358,
+              "height": 15
+            },
+            "computedBox": {
+              "x": 421,
+              "y": 401,
+              "width": 358,
+              "height": 15
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 4,
+                "left": 0
+              }
+            },
+            "text": {
+              "value": "> T+04:22:18 Thruster calibration complete",
+              "font": {
+                "family": "Roboto Mono",
+                "stack": "\"Roboto Mono\", monospace",
+                "size": 10,
+                "weight": 400,
+                "style": "normal",
+                "variant": "normal",
+                "featureSettings": "normal"
+              },
+              "color": "rgb(148, 163, 184)",
+              "lineHeight": 15,
+              "wordSpacing": 0,
+              "align": "start",
+              "verticalAlign": "baseline",
+              "transform": "none",
+              "whiteSpace": "normal",
+              "overflow": "visible",
+              "wordBreak": "normal",
+              "direction": "ltr"
+            }
+          },
+          {
+            "id": "lay-28",
+            "name": "p",
+            "source": {
+              "kind": "dom",
+              "tag": "p"
+            },
+            "box": {
+              "x": 0,
+              "y": 42,
+              "width": 358,
+              "height": 15
+            },
+            "computedBox": {
+              "x": 421,
+              "y": 420,
+              "width": 358,
+              "height": 15
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 4,
+                "left": 0
+              }
+            },
+            "text": {
+              "value": "> T+04:31:02 Solar array deployed 98%",
+              "font": {
+                "family": "Roboto Mono",
+                "stack": "\"Roboto Mono\", monospace",
+                "size": 10,
+                "weight": 400,
+                "style": "normal",
+                "variant": "normal",
+                "featureSettings": "normal"
+              },
+              "color": "rgb(148, 163, 184)",
+              "lineHeight": 15,
+              "wordSpacing": 0,
+              "align": "start",
+              "verticalAlign": "baseline",
+              "transform": "none",
+              "whiteSpace": "normal",
+              "overflow": "visible",
+              "wordBreak": "normal",
+              "direction": "ltr"
+            }
+          },
+          {
+            "id": "lay-29",
+            "name": "p",
+            "source": {
+              "kind": "dom",
+              "tag": "p",
+              "classList": [
+                "warn"
+              ]
+            },
+            "box": {
+              "x": 0,
+              "y": 61,
+              "width": 358,
+              "height": 15
+            },
+            "computedBox": {
+              "x": 421,
+              "y": 439,
+              "width": 358,
+              "height": 15
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 4,
+                "left": 0
+              }
+            },
+            "text": {
+              "value": "> T+04:44:11 Micrometeorite impact sector 7",
+              "font": {
+                "family": "Roboto Mono",
+                "stack": "\"Roboto Mono\", monospace",
+                "size": 10,
+                "weight": 400,
+                "style": "normal",
+                "variant": "normal",
+                "featureSettings": "normal"
+              },
+              "color": "rgb(249, 115, 22)",
+              "lineHeight": 15,
+              "wordSpacing": 0,
+              "align": "start",
+              "verticalAlign": "baseline",
+              "transform": "none",
+              "whiteSpace": "normal",
+              "overflow": "visible",
+              "wordBreak": "normal",
+              "direction": "ltr"
+            }
+          },
+          {
+            "id": "lay-30",
+            "name": "p",
+            "source": {
+              "kind": "dom",
+              "tag": "p"
+            },
+            "box": {
+              "x": 0,
+              "y": 80,
+              "width": 358,
+              "height": 15
+            },
+            "computedBox": {
+              "x": 421,
+              "y": 458,
+              "width": 358,
+              "height": 15
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 4,
+                "left": 0
+              }
+            },
+            "text": {
+              "value": "> T+04:45:00 Auto-seal initiated...",
+              "font": {
+                "family": "Roboto Mono",
+                "stack": "\"Roboto Mono\", monospace",
+                "size": 10,
+                "weight": 400,
+                "style": "normal",
+                "variant": "normal",
+                "featureSettings": "normal"
+              },
+              "color": "rgb(148, 163, 184)",
+              "lineHeight": 15,
+              "wordSpacing": 0,
+              "align": "start",
+              "verticalAlign": "baseline",
+              "transform": "none",
+              "whiteSpace": "normal",
+              "overflow": "visible",
+              "wordBreak": "normal",
+              "direction": "ltr"
+            }
+          }
+        ]
+      },
+      {
+        "id": "lay-31",
+        "name": "section",
+        "source": {
+          "kind": "dom",
+          "tag": "section",
+          "classList": [
+            "lab-space-mission-crew"
+          ]
+        },
+        "box": {
+          "x": 16,
+          "y": 461,
+          "width": 358,
+          "height": 101
+        },
+        "computedBox": {
+          "x": 421,
+          "y": 489,
+          "width": 358,
+          "height": 101
+        },
+        "layout": {
+          "display": "block",
+          "position": "static",
+          "overflow": {
+            "x": "visible",
+            "y": "visible"
+          },
+          "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "margin": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          }
+        },
+        "children": [
+          {
+            "id": "lay-32",
+            "name": "h2",
+            "source": {
+              "kind": "dom",
+              "tag": "h2"
+            },
+            "box": {
+              "x": 0,
+              "y": 0,
+              "width": 358,
+              "height": 15
+            },
+            "computedBox": {
+              "x": 421,
+              "y": 489,
+              "width": 358,
+              "height": 15
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 8,
+                "left": 0
+              }
+            },
+            "text": {
+              "value": "CREW STATUS",
+              "font": {
+                "family": "Roboto Mono",
+                "stack": "\"Roboto Mono\", monospace",
+                "size": 11,
+                "weight": 700,
+                "style": "normal",
+                "variant": "normal",
+                "featureSettings": "normal"
+              },
+              "color": "rgb(34, 211, 238)",
+              "lineHeight": 15,
+              "letterSpacing": 1,
+              "wordSpacing": 0,
+              "align": "start",
+              "verticalAlign": "baseline",
+              "transform": "none",
+              "whiteSpace": "normal",
+              "overflow": "visible",
+              "wordBreak": "normal",
+              "direction": "ltr"
+            }
+          },
+          {
+            "id": "lay-33",
+            "name": "div",
+            "source": {
+              "kind": "dom",
+              "tag": "div",
+              "classList": [
+                "lab-space-mission-crew-row"
+              ]
+            },
+            "box": {
+              "x": 0,
+              "y": 23,
+              "width": 358,
+              "height": 26
+            },
+            "computedBox": {
+              "x": 421,
+              "y": 512,
+              "width": 358,
+              "height": 26
+            },
+            "layout": {
+              "display": "grid",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 6,
+                "right": 0,
+                "bottom": 6,
+                "left": 0
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "grid": {
+                "templateRows": "13px",
+                "templateColumns": "216px 70px 60px",
+                "templateAreas": "none",
+                "rowGap": 6,
+                "columnGap": 6,
+                "autoFlow": "row",
+                "justify": "normal",
+                "align": "normal"
+              }
+            },
+            "paint": {
+              "borders": {
+                "bottom": {
+                  "width": 1,
+                  "color": "rgb(30, 41, 59)",
+                  "style": "solid"
+                }
+              }
+            },
+            "children": [
+              {
+                "id": "lay-34",
+                "name": "span",
+                "source": {
+                  "kind": "dom",
+                  "tag": "span",
+                  "classList": [
+                    "name"
+                  ]
+                },
+                "box": {
+                  "x": 0,
+                  "y": 6,
+                  "width": 216,
+                  "height": 13
+                },
+                "computedBox": {
+                  "x": 421,
+                  "y": 518,
+                  "width": 216,
+                  "height": 13
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "static",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  },
+                  "margin": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "text": {
+                  "value": "CMDR VEGA",
+                  "font": {
+                    "family": "Roboto Mono",
+                    "stack": "\"Roboto Mono\", monospace",
+                    "size": 10,
+                    "weight": 400,
+                    "style": "normal",
+                    "variant": "normal",
+                    "featureSettings": "normal"
+                  },
+                  "color": "rgb(226, 232, 240)",
+                  "lineHeight": 13,
+                  "wordSpacing": 0,
+                  "align": "start",
+                  "verticalAlign": "baseline",
+                  "transform": "none",
+                  "whiteSpace": "normal",
+                  "overflow": "visible",
+                  "wordBreak": "normal",
+                  "direction": "ltr"
+                }
+              },
+              {
+                "id": "lay-35",
+                "name": "span",
+                "source": {
+                  "kind": "dom",
+                  "tag": "span",
+                  "classList": [
+                    "role"
+                  ]
+                },
+                "box": {
+                  "x": 222,
+                  "y": 6,
+                  "width": 70,
+                  "height": 13
+                },
+                "computedBox": {
+                  "x": 643,
+                  "y": 518,
+                  "width": 70,
+                  "height": 13
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "static",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  },
+                  "margin": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "text": {
+                  "value": "Pilot",
+                  "font": {
+                    "family": "Roboto Mono",
+                    "stack": "\"Roboto Mono\", monospace",
+                    "size": 10,
+                    "weight": 400,
+                    "style": "normal",
+                    "variant": "normal",
+                    "featureSettings": "normal"
+                  },
+                  "color": "rgb(148, 163, 184)",
+                  "lineHeight": 13,
+                  "wordSpacing": 0,
+                  "align": "start",
+                  "verticalAlign": "baseline",
+                  "transform": "none",
+                  "whiteSpace": "normal",
+                  "overflow": "visible",
+                  "wordBreak": "normal",
+                  "direction": "ltr"
+                }
+              },
+              {
+                "id": "lay-36",
+                "name": "span",
+                "source": {
+                  "kind": "dom",
+                  "tag": "span",
+                  "classList": [
+                    "status"
+                  ]
+                },
+                "box": {
+                  "x": 298,
+                  "y": 6,
+                  "width": 60,
+                  "height": 13
+                },
+                "computedBox": {
+                  "x": 719,
+                  "y": 518,
+                  "width": 60,
+                  "height": 13
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "static",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  },
+                  "margin": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "text": {
+                  "value": "ACTIVE",
+                  "font": {
+                    "family": "Roboto Mono",
+                    "stack": "\"Roboto Mono\", monospace",
+                    "size": 10,
+                    "weight": 400,
+                    "style": "normal",
+                    "variant": "normal",
+                    "featureSettings": "normal"
+                  },
+                  "color": "rgb(34, 211, 238)",
+                  "lineHeight": 13,
+                  "wordSpacing": 0,
+                  "align": "right",
+                  "verticalAlign": "baseline",
+                  "transform": "none",
+                  "whiteSpace": "normal",
+                  "overflow": "visible",
+                  "wordBreak": "normal",
+                  "direction": "ltr"
+                }
+              }
+            ]
+          },
+          {
+            "id": "lay-37",
+            "name": "div",
+            "source": {
+              "kind": "dom",
+              "tag": "div",
+              "classList": [
+                "lab-space-mission-crew-row"
+              ]
+            },
+            "box": {
+              "x": 0,
+              "y": 49,
+              "width": 358,
+              "height": 26
+            },
+            "computedBox": {
+              "x": 421,
+              "y": 538,
+              "width": 358,
+              "height": 26
+            },
+            "layout": {
+              "display": "grid",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 6,
+                "right": 0,
+                "bottom": 6,
+                "left": 0
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "grid": {
+                "templateRows": "13px",
+                "templateColumns": "216px 70px 60px",
+                "templateAreas": "none",
+                "rowGap": 6,
+                "columnGap": 6,
+                "autoFlow": "row",
+                "justify": "normal",
+                "align": "normal"
+              }
+            },
+            "paint": {
+              "borders": {
+                "bottom": {
+                  "width": 1,
+                  "color": "rgb(30, 41, 59)",
+                  "style": "solid"
+                }
+              }
+            },
+            "children": [
+              {
+                "id": "lay-38",
+                "name": "span",
+                "source": {
+                  "kind": "dom",
+                  "tag": "span",
+                  "classList": [
+                    "name"
+                  ]
+                },
+                "box": {
+                  "x": 0,
+                  "y": 6,
+                  "width": 216,
+                  "height": 13
+                },
+                "computedBox": {
+                  "x": 421,
+                  "y": 544,
+                  "width": 216,
+                  "height": 13
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "static",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  },
+                  "margin": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "text": {
+                  "value": "DR CHEN",
+                  "font": {
+                    "family": "Roboto Mono",
+                    "stack": "\"Roboto Mono\", monospace",
+                    "size": 10,
+                    "weight": 400,
+                    "style": "normal",
+                    "variant": "normal",
+                    "featureSettings": "normal"
+                  },
+                  "color": "rgb(226, 232, 240)",
+                  "lineHeight": 13,
+                  "wordSpacing": 0,
+                  "align": "start",
+                  "verticalAlign": "baseline",
+                  "transform": "none",
+                  "whiteSpace": "normal",
+                  "overflow": "visible",
+                  "wordBreak": "normal",
+                  "direction": "ltr"
+                }
+              },
+              {
+                "id": "lay-39",
+                "name": "span",
+                "source": {
+                  "kind": "dom",
+                  "tag": "span",
+                  "classList": [
+                    "role"
+                  ]
+                },
+                "box": {
+                  "x": 222,
+                  "y": 6,
+                  "width": 70,
+                  "height": 13
+                },
+                "computedBox": {
+                  "x": 643,
+                  "y": 544,
+                  "width": 70,
+                  "height": 13
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "static",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  },
+                  "margin": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "text": {
+                  "value": "Science",
+                  "font": {
+                    "family": "Roboto Mono",
+                    "stack": "\"Roboto Mono\", monospace",
+                    "size": 10,
+                    "weight": 400,
+                    "style": "normal",
+                    "variant": "normal",
+                    "featureSettings": "normal"
+                  },
+                  "color": "rgb(148, 163, 184)",
+                  "lineHeight": 13,
+                  "wordSpacing": 0,
+                  "align": "start",
+                  "verticalAlign": "baseline",
+                  "transform": "none",
+                  "whiteSpace": "normal",
+                  "overflow": "visible",
+                  "wordBreak": "normal",
+                  "direction": "ltr"
+                }
+              },
+              {
+                "id": "lay-40",
+                "name": "span",
+                "source": {
+                  "kind": "dom",
+                  "tag": "span",
+                  "classList": [
+                    "status"
+                  ]
+                },
+                "box": {
+                  "x": 298,
+                  "y": 6,
+                  "width": 60,
+                  "height": 13
+                },
+                "computedBox": {
+                  "x": 719,
+                  "y": 544,
+                  "width": 60,
+                  "height": 13
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "static",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  },
+                  "margin": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "text": {
+                  "value": "EVA",
+                  "font": {
+                    "family": "Roboto Mono",
+                    "stack": "\"Roboto Mono\", monospace",
+                    "size": 10,
+                    "weight": 400,
+                    "style": "normal",
+                    "variant": "normal",
+                    "featureSettings": "normal"
+                  },
+                  "color": "rgb(34, 211, 238)",
+                  "lineHeight": 13,
+                  "wordSpacing": 0,
+                  "align": "right",
+                  "verticalAlign": "baseline",
+                  "transform": "none",
+                  "whiteSpace": "normal",
+                  "overflow": "visible",
+                  "wordBreak": "normal",
+                  "direction": "ltr"
+                }
+              }
+            ]
+          },
+          {
+            "id": "lay-41",
+            "name": "div",
+            "source": {
+              "kind": "dom",
+              "tag": "div",
+              "classList": [
+                "lab-space-mission-crew-row"
+              ]
+            },
+            "box": {
+              "x": 0,
+              "y": 75,
+              "width": 358,
+              "height": 26
+            },
+            "computedBox": {
+              "x": 421,
+              "y": 564,
+              "width": 358,
+              "height": 26
+            },
+            "layout": {
+              "display": "grid",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 6,
+                "right": 0,
+                "bottom": 6,
+                "left": 0
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "grid": {
+                "templateRows": "13px",
+                "templateColumns": "216px 70px 60px",
+                "templateAreas": "none",
+                "rowGap": 6,
+                "columnGap": 6,
+                "autoFlow": "row",
+                "justify": "normal",
+                "align": "normal"
+              }
+            },
+            "paint": {
+              "borders": {
+                "bottom": {
+                  "width": 1,
+                  "color": "rgb(30, 41, 59)",
+                  "style": "solid"
+                }
+              }
+            },
+            "children": [
+              {
+                "id": "lay-42",
+                "name": "span",
+                "source": {
+                  "kind": "dom",
+                  "tag": "span",
+                  "classList": [
+                    "name"
+                  ]
+                },
+                "box": {
+                  "x": 0,
+                  "y": 6,
+                  "width": 216,
+                  "height": 13
+                },
+                "computedBox": {
+                  "x": 421,
+                  "y": 570,
+                  "width": 216,
+                  "height": 13
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "static",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  },
+                  "margin": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "text": {
+                  "value": "LT OKONKWO",
+                  "font": {
+                    "family": "Roboto Mono",
+                    "stack": "\"Roboto Mono\", monospace",
+                    "size": 10,
+                    "weight": 400,
+                    "style": "normal",
+                    "variant": "normal",
+                    "featureSettings": "normal"
+                  },
+                  "color": "rgb(226, 232, 240)",
+                  "lineHeight": 13,
+                  "wordSpacing": 0,
+                  "align": "start",
+                  "verticalAlign": "baseline",
+                  "transform": "none",
+                  "whiteSpace": "normal",
+                  "overflow": "visible",
+                  "wordBreak": "normal",
+                  "direction": "ltr"
+                }
+              },
+              {
+                "id": "lay-43",
+                "name": "span",
+                "source": {
+                  "kind": "dom",
+                  "tag": "span",
+                  "classList": [
+                    "role"
+                  ]
+                },
+                "box": {
+                  "x": 222,
+                  "y": 6,
+                  "width": 70,
+                  "height": 13
+                },
+                "computedBox": {
+                  "x": 643,
+                  "y": 570,
+                  "width": 70,
+                  "height": 13
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "static",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  },
+                  "margin": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "text": {
+                  "value": "Engineer",
+                  "font": {
+                    "family": "Roboto Mono",
+                    "stack": "\"Roboto Mono\", monospace",
+                    "size": 10,
+                    "weight": 400,
+                    "style": "normal",
+                    "variant": "normal",
+                    "featureSettings": "normal"
+                  },
+                  "color": "rgb(148, 163, 184)",
+                  "lineHeight": 13,
+                  "wordSpacing": 0,
+                  "align": "start",
+                  "verticalAlign": "baseline",
+                  "transform": "none",
+                  "whiteSpace": "normal",
+                  "overflow": "visible",
+                  "wordBreak": "normal",
+                  "direction": "ltr"
+                }
+              },
+              {
+                "id": "lay-44",
+                "name": "span",
+                "source": {
+                  "kind": "dom",
+                  "tag": "span",
+                  "classList": [
+                    "status"
+                  ]
+                },
+                "box": {
+                  "x": 298,
+                  "y": 6,
+                  "width": 60,
+                  "height": 13
+                },
+                "computedBox": {
+                  "x": 719,
+                  "y": 570,
+                  "width": 60,
+                  "height": 13
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "static",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  },
+                  "margin": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "text": {
+                  "value": "REPAIR",
+                  "font": {
+                    "family": "Roboto Mono",
+                    "stack": "\"Roboto Mono\", monospace",
+                    "size": 10,
+                    "weight": 400,
+                    "style": "normal",
+                    "variant": "normal",
+                    "featureSettings": "normal"
+                  },
+                  "color": "rgb(34, 211, 238)",
+                  "lineHeight": 13,
+                  "wordSpacing": 0,
+                  "align": "right",
+                  "verticalAlign": "baseline",
+                  "transform": "none",
+                  "whiteSpace": "normal",
+                  "overflow": "visible",
+                  "wordBreak": "normal",
+                  "direction": "ltr"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "lay-45",
+        "name": "footer",
+        "source": {
+          "kind": "dom",
+          "tag": "footer",
+          "classList": [
+            "lab-space-mission-actions"
+          ]
+        },
+        "box": {
+          "x": 16,
+          "y": 788,
+          "width": 358,
+          "height": 40
+        },
+        "computedBox": {
+          "x": 421,
+          "y": 816,
+          "width": 358,
+          "height": 40
+        },
+        "layout": {
+          "display": "flex",
+          "position": "static",
+          "overflow": {
+            "x": "visible",
+            "y": "visible"
+          },
+          "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "margin": {
+            "top": 214,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          },
+          "flex": {
+            "direction": "row",
+            "wrap": "nowrap",
+            "justify": "normal",
+            "align": "normal",
+            "rowGap": 8,
+            "columnGap": 8
+          }
+        },
+        "children": [
+          {
+            "id": "lay-46",
+            "name": "button",
+            "source": {
+              "kind": "dom",
+              "tag": "button"
+            },
+            "box": {
+              "x": 0,
+              "y": 0,
+              "width": 175,
+              "height": 40
+            },
+            "computedBox": {
+              "x": 421,
+              "y": 816,
+              "width": 175,
+              "height": 40
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 1,
+                "right": 6,
+                "bottom": 1,
+                "left": 6
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "flexGrow": 1,
+              "flexBasis": "0%"
+            },
+            "paint": {
+              "borders": {
+                "top": {
+                  "width": 1,
+                  "color": "rgb(51, 65, 85)",
+                  "style": "solid"
+                },
+                "right": {
+                  "width": 1,
+                  "color": "rgb(51, 65, 85)",
+                  "style": "solid"
+                },
+                "bottom": {
+                  "width": 1,
+                  "color": "rgb(51, 65, 85)",
+                  "style": "solid"
+                },
+                "left": {
+                  "width": 1,
+                  "color": "rgb(51, 65, 85)",
+                  "style": "solid"
+                }
+              },
+              "cornerRadii": {
+                "topLeft": {
+                  "x": 8,
+                  "y": 8
+                },
+                "topRight": {
+                  "x": 8,
+                  "y": 8
+                },
+                "bottomRight": {
+                  "x": 8,
+                  "y": 8
+                },
+                "bottomLeft": {
+                  "x": 8,
+                  "y": 8
+                }
+              }
+            },
+            "text": {
+              "value": "Abort Burn",
+              "font": {
+                "family": "Roboto Mono",
+                "stack": "\"Roboto Mono\", monospace",
+                "size": 11,
+                "weight": 400,
+                "style": "normal",
+                "variant": "normal",
+                "featureSettings": "normal"
+              },
+              "color": "rgb(148, 163, 184)",
+              "lineHeight": 15,
+              "wordSpacing": 0,
+              "align": "center",
+              "verticalAlign": "baseline",
+              "transform": "none",
+              "whiteSpace": "normal",
+              "overflow": "visible",
+              "wordBreak": "normal",
+              "direction": "ltr"
+            }
+          },
+          {
+            "id": "lay-47",
+            "name": "button",
+            "source": {
+              "kind": "dom",
+              "tag": "button",
+              "classList": [
+                "primary"
+              ]
+            },
+            "box": {
+              "x": 183,
+              "y": 0,
+              "width": 175,
+              "height": 40
+            },
+            "computedBox": {
+              "x": 604,
+              "y": 816,
+              "width": 175,
+              "height": 40
+            },
+            "layout": {
+              "display": "block",
+              "position": "static",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "padding": {
+                "top": 1,
+                "right": 6,
+                "bottom": 1,
+                "left": 6
+              },
+              "margin": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "flexGrow": 1,
+              "flexBasis": "0%"
+            },
+            "paint": {
+              "fills": [
+                {
+                  "kind": "color",
+                  "color": "rgb(14, 165, 233)"
+                }
+              ],
+              "borders": {
+                "top": {
+                  "width": 1,
+                  "color": "rgb(14, 165, 233)",
+                  "style": "solid"
+                },
+                "right": {
+                  "width": 1,
+                  "color": "rgb(14, 165, 233)",
+                  "style": "solid"
+                },
+                "bottom": {
+                  "width": 1,
+                  "color": "rgb(14, 165, 233)",
+                  "style": "solid"
+                },
+                "left": {
+                  "width": 1,
+                  "color": "rgb(14, 165, 233)",
+                  "style": "solid"
+                }
+              },
+              "cornerRadii": {
+                "topLeft": {
+                  "x": 8,
+                  "y": 8
+                },
+                "topRight": {
+                  "x": 8,
+                  "y": 8
+                },
+                "bottomRight": {
+                  "x": 8,
+                  "y": 8
+                },
+                "bottomLeft": {
+                  "x": 8,
+                  "y": 8
+                }
+              }
+            },
+            "text": {
+              "value": "Execute Maneuver",
+              "font": {
+                "family": "Roboto Mono",
+                "stack": "\"Roboto Mono\", monospace",
+                "size": 11,
+                "weight": 700,
+                "style": "normal",
+                "variant": "normal",
+                "featureSettings": "normal"
+              },
+              "color": "rgb(2, 6, 23)",
+              "lineHeight": 15,
+              "wordSpacing": 0,
+              "align": "center",
+              "verticalAlign": "baseline",
+              "transform": "none",
+              "whiteSpace": "normal",
+              "overflow": "visible",
+              "wordBreak": "normal",
+              "direction": "ltr"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "diagnostics": {
+    "warnings": [],
+    "unmappedProperties": []
+  }
+}

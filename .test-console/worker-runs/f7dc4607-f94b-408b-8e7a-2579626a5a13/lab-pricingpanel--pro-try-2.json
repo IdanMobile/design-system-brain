@@ -1,0 +1,37 @@
+{
+  "storyId": "lab-pricingpanel--pro",
+  "attempt": 2,
+  "jobId": "f7dc4607-f94b-408b-8e7a-2579626a5a13",
+  "recordedAt": "2026-05-23T12:06:40.206Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 1.2875604787369492,
+    "maxRegionPercent": 3.206168831168831,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 1.2875604787369492,
+    "maxRegionPercent": 3.206168831168831,
+    "error": null
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-pricingpanel--pro_try2-1779537083057.prompt.txt"
+  ],
+  "evaluation": {
+    "verdict": "STUCK_LOOP",
+    "verdicts": [
+      "STUCK_LOOP"
+    ],
+    "nextWorkerMode": "investigate_first",
+    "interventionLines": [
+      "Supervisor: metrics unchanged across attempts — stop guessing; use investigate-figma-mismatch on compare PNG + artifact before editing.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

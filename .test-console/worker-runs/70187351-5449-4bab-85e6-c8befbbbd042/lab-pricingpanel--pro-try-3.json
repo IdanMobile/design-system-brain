@@ -1,0 +1,39 @@
+{
+  "storyId": "lab-pricingpanel--pro",
+  "attempt": 3,
+  "jobId": "70187351-5449-4bab-85e6-c8befbbbd042",
+  "recordedAt": "2026-05-23T05:26:21.136Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 1.4562643239113828,
+    "maxRegionPercent": 3.651197939991043,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 1.3448561242678891,
+    "maxRegionPercent": 3.3573107926556203,
+    "error": null
+  },
+  "agentExitCode": 0,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-pricingpanel--pro_try3-1779513444708.prompt.txt",
+    ".test-console/child-status/70187351-5449-4bab-85e6-c8befbbbd042-agent-lab-pricingpanel--pro_try3-1779513444708.json",
+    "packages/figma-importer-plugin/dist/code.js",
+    "packages/figma-importer-plugin/src/code-v2.ts"
+  ],
+  "evaluation": {
+    "verdict": "SHARED_ADAPTER",
+    "verdicts": [
+      "SHARED_ADAPTER"
+    ],
+    "nextWorkerMode": "tier_c_required",
+    "interventionLines": [
+      "Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done."
+    ],
+    "tierCRequired": true
+  }
+}

@@ -6,7 +6,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve, dirname } from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { DEFAULT_AGENT_MODEL } from "./test-console-run-settings.mjs";
+import { DEFAULT_AGENT_MODEL, loadRunSettings } from "./test-console-run-settings.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const CACHE_PATH = join(ROOT, ".test-console", "agent-models-cache.json");
@@ -17,6 +17,13 @@ export const FALLBACK_AGENT_MODEL_OPTIONS = [
   { id: "composer-2.5-fast", label: "Composer 2.5 Fast (default)" },
   { id: "composer-2.5", label: "Composer 2.5" },
   { id: "auto", label: "Auto" }
+];
+
+export const GEMINI_AGENT_MODEL_OPTIONS = [
+  { id: "gemini-2.5-flash", label: "Gemini 2.5 Flash (default)" },
+  { id: "gemini-2.5-pro", label: "Gemini 2.5 Pro" },
+  { id: "gemini-1.5-flash", label: "Gemini 1.5 Flash" },
+  { id: "gemini-1.5-pro", label: "Gemini 1.5 Pro" }
 ];
 
 /**
@@ -59,10 +66,16 @@ export function sortAgentModelOptions(options) {
 }
 
 /**
- * @param {{ refresh?: boolean }} [opts]
+ * @param {{ refresh?: boolean, cliName?: string }} [opts]
  * @returns {{ id: string, label: string }[]}
  */
 export function loadAgentModelOptions(opts = {}) {
+  const settings = loadRunSettings();
+  const selectedCli = opts.cliName || settings.agentCli || "cursor";
+  if (selectedCli === "gemini") {
+    return [...GEMINI_AGENT_MODEL_OPTIONS];
+  }
+
   if (!opts.refresh && existsSync(CACHE_PATH)) {
     try {
       const cached = JSON.parse(readFileSync(CACHE_PATH, "utf8"));

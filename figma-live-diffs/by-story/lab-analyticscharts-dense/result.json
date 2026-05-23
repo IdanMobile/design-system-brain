@@ -2,9 +2,9 @@
   "storyId": "lab-analyticscharts--dense",
   "width": 738,
   "height": 409,
-  "pixelsDiffered": 502,
+  "pixelsDiffered": 457,
   "pixelsTotal": 301842,
-  "percent": 0.16631217656919844,
+  "percent": 0.15140371452614282,
   "maxRegionPercent": 1.2533422459893049,
   "status": "pass",
   "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-analyticscharts-dense/storybook.png",
@@ -29,12 +29,12 @@
     {
       "index": 2,
       "rect": {
-        "x": 364,
-        "y": 76,
-        "width": 184,
+        "x": 220,
+        "y": 28,
+        "width": 136,
         "height": 88,
-        "pixels": 100,
-        "percent": 0.6175889328063241
+        "pixels": 80,
+        "percent": 0.6684491978609626
       },
       "storybook": "regions/region-02-storybook.png",
       "rendered": "regions/region-02-rendered.png",
@@ -43,12 +43,12 @@
     {
       "index": 3,
       "rect": {
-        "x": 220,
-        "y": 28,
-        "width": 136,
-        "height": 88,
-        "pixels": 80,
-        "percent": 0.6684491978609626
+        "x": 604,
+        "y": 0,
+        "width": 134,
+        "height": 116,
+        "pixels": 68,
+        "percent": 0.4374678332475553
       },
       "storybook": "regions/region-03-storybook.png",
       "rendered": "regions/region-03-rendered.png",
@@ -57,12 +57,12 @@
     {
       "index": 4,
       "rect": {
-        "x": 604,
-        "y": 0,
-        "width": 134,
-        "height": 116,
-        "pixels": 68,
-        "percent": 0.4374678332475553
+        "x": 28,
+        "y": 268,
+        "width": 136,
+        "height": 136,
+        "pixels": 75,
+        "percent": 0.40549307958477504
       },
       "storybook": "regions/region-04-storybook.png",
       "rendered": "regions/region-04-rendered.png",
@@ -71,17 +71,17 @@
     {
       "index": 5,
       "rect": {
-        "x": 28,
-        "y": 268,
+        "x": 412,
+        "y": 76,
         "width": 136,
-        "height": 136,
-        "pixels": 75,
-        "percent": 0.40549307958477504
+        "height": 88,
+        "pixels": 54,
+        "percent": 0.4512032085561497
       },
       "storybook": "regions/region-05-storybook.png",
       "rendered": "regions/region-05-rendered.png",
       "compare": "regions/region-05-compare.png"
     }
   ],
-  "testedAt": "2026-05-21T18:32:44.900Z"
+  "testedAt": "2026-05-22T15:03:51.836Z"
 }

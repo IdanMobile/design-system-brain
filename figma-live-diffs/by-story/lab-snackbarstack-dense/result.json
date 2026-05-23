@@ -2,10 +2,10 @@
   "storyId": "lab-snackbarstack--dense",
   "width": 520,
   "height": 160,
-  "pixelsDiffered": 354,
+  "pixelsDiffered": 199,
   "pixelsTotal": 83200,
-  "percent": 0.4254807692307692,
-  "maxRegionPercent": 0.8509615384615384,
+  "percent": 0.23918269230769232,
+  "maxRegionPercent": 0.6158088235294118,
   "status": "pass",
   "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-snackbarstack-dense/storybook.png",
   "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-snackbarstack-dense/figma.png",
@@ -15,17 +15,45 @@
     {
       "index": 1,
       "rect": {
-        "x": 0,
+        "x": 124,
         "y": 0,
-        "width": 260,
+        "width": 136,
         "height": 160,
-        "pixels": 354,
-        "percent": 0.8509615384615384
+        "pixels": 134,
+        "percent": 0.6158088235294118
       },
       "storybook": "regions/region-01-storybook.png",
       "rendered": "regions/region-01-rendered.png",
       "compare": "regions/region-01-compare.png"
+    },
+    {
+      "index": 2,
+      "rect": {
+        "x": 0,
+        "y": 76,
+        "width": 80,
+        "height": 84,
+        "pixels": 25,
+        "percent": 0.3720238095238095
+      },
+      "storybook": "regions/region-02-storybook.png",
+      "rendered": "regions/region-02-rendered.png",
+      "compare": "regions/region-02-compare.png"
+    },
+    {
+      "index": 3,
+      "rect": {
+        "x": 28,
+        "y": 0,
+        "width": 88,
+        "height": 80,
+        "pixels": 26,
+        "percent": 0.3693181818181818
+      },
+      "storybook": "regions/region-03-storybook.png",
+      "rendered": "regions/region-03-rendered.png",
+      "compare": "regions/region-03-compare.png"
     }
   ],
-  "testedAt": "2026-05-22T10:51:50.745Z"
+  "testedAt": "2026-05-22T15:03:51.843Z"
 }

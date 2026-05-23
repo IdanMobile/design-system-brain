@@ -7,6 +7,13 @@
     "extract:button": "node --experimental-strip-types src/extract.ts --story lab-button--primary --out ../../artifacts/button.primary.json",
     "extract:loginpage": "node --experimental-strip-types src/extract.ts --story lab-loginpage--default --out ../../artifacts/Lab/LoginPage/Default.json",
     "extract:loginpage:filled": "node --experimental-strip-types src/extract.ts --story lab-loginpage--filled-credentials --out ../../artifacts/Lab/LoginPage/Filled-Credentials.json",
+    "extract:meetinghomepage": "node --experimental-strip-types src/extract.ts --story lab-meetinghomepage--default --out ../../artifacts/Lab/MeetingHomePage/Default.json",
+    "extract:neonarcadescreen": "node --experimental-strip-types src/extract.ts --story lab-neonarcadescreen--default --out ../../artifacts/Lab/NeonArcadeScreen/Default.json",
+    "extract:cryptochaosdashboard": "node --experimental-strip-types src/extract.ts --story lab-cryptochaosdashboard--default --out ../../artifacts/Lab/CryptoChaosDashboard/Default.json",
+    "extract:foodfrenzyscreen": "node --experimental-strip-types src/extract.ts --story lab-foodfrenzyscreen--default --out ../../artifacts/Lab/FoodFrenzyScreen/Default.json",
+    "extract:spacemissioncontrol": "node --experimental-strip-types src/extract.ts --story lab-spacemissioncontrol--default --out ../../artifacts/Lab/SpaceMissionControl/Default.json",
+    "extract:retroterminalscreen": "node --experimental-strip-types src/extract.ts --story lab-retroterminalscreen--default --out ../../artifacts/Lab/RetroTerminalScreen/Default.json",
+    "extract:muiworkspacescreen": "node --experimental-strip-types src/extract.ts --story lab-muiworkspacescreen--default --out ../../artifacts/Lab/MUIWorkspaceScreen/Default.json",
     "extract:mui": "node --experimental-strip-types src/extract.ts --story mui--showcase --out ../../artifacts/MUI/Showcase.json",
     "extract:all": "node --experimental-strip-types src/extract-all.ts --outDir ../../artifacts"
   },

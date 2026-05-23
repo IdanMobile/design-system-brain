@@ -1,10 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { attachJobStream, killJob, type JobProgress } from "./job-stream";
+import { jobRuntimeLabel } from "./format-elapsed";
 import { DeveloperConsolePage } from "./DeveloperConsolePage";
 import { SERVICES, type ServiceKey } from "./services";
 import type {
   ActionDef,
   ConsoleState,
+  JobInfo,
+  PortfolioRow,
   PortfolioState,
   RunSettings,
   WorkerSupervisorState
@@ -42,6 +45,32 @@ const DEFAULT_RUN_SETTINGS: RunSettings = {
 
 function fixAllActionId(suiteId: string): string {
   return `fix-all:${suiteId}`;
+}
+
+const FIX_PIPELINE_STEPS = ["pixel", "figma", "figmaLive", "delivery"] as const;
+
+function isFixableStatus(status: string | undefined): boolean {
+  return status === "fail" || status === "warn" || status === "error";
+}
+
+/** Earliest failing pipeline step — fix that suite until PASS. */
+function fixSuiteForRow(row: PortfolioRow): string | null {
+  for (const stepId of FIX_PIPELINE_STEPS) {
+    if (isFixableStatus(row.cells[stepId]?.status)) {
+      return stepId;
+    }
+  }
+  return null;
+}
+
+function suiteLabelForFix(suiteId: string): string {
+  const labels: Record<string, string> = {
+    pixel: "Pixel",
+    figma: "Figma mock",
+    figmaLive: "Figma live",
+    delivery: "Delivery"
+  };
+  return labels[suiteId] ?? suiteId;
 }
 
 /** Pixel is schema parity (0% = no crop); compare PNGs only on diffs — skip the column. */
@@ -91,6 +120,9 @@ type RunningJobEntry = {
   storyId?: string;
   allStories?: boolean;
   label: string;
+  startedAt?: string;
+  endedAt?: string;
+  status?: string;
   progress?: JobProgress;
 };
 
@@ -105,36 +137,48 @@ function orchestratorActivityView(
 ): { title: string; meta?: string; detail?: string } {
   const title = progress?.activityTitle ?? "Listening to Terminal";
   const metaParts: string[] = [];
-  if (progress?.activityMeta) metaParts.push(progress.activityMeta);
+  const supervisorLive = workerSupervisor && !workerSupervisor.finished;
 
-  if (workerSupervisor && !workerSupervisor.finished) {
+  if (supervisorLive) {
     const step =
       workerSupervisor.suiteLabel ??
       (workerSupervisor.suiteId ? suiteStepLabel(workerSupervisor.suiteId) : undefined);
-    if (step && !metaParts.some((p) => p.includes(step))) {
-      metaParts.unshift(step);
-    }
+    if (step) metaParts.push(step);
+
     if (workerSupervisor.phase === "fix-all-batch") {
-      const batchLabel = `Batch ${workerSupervisor.attempt ?? "?"}/${workerSupervisor.maxAttempts ?? "?"}`;
-      if (!metaParts.some((p) => p.startsWith("Batch"))) metaParts.push(batchLabel);
+      metaParts.push(
+        `Batch ${workerSupervisor.attempt ?? "?"}/${workerSupervisor.maxAttempts ?? "?"}`
+      );
       const n = workerSupervisor.storyIds?.length ?? workerSupervisor.storyTotal;
-      if (n != null && n > 0 && !metaParts.some((p) => p.includes("stor"))) {
+      if (n != null && n > 0) {
         metaParts.push(`${n} ${n === 1 ? "story" : "stories"}`);
       }
-    } else if (workerSupervisor.storyId && workerSupervisor.attempt != null) {
-      const tryLabel = `Try ${workerSupervisor.attempt}/${workerSupervisor.maxAttempts ?? "?"}`;
-      if (!metaParts.some((p) => p.startsWith("Try"))) metaParts.push(tryLabel);
+    } else if (workerSupervisor.storyIndex != null && workerSupervisor.storyTotal) {
+      metaParts.push(`Story ${workerSupervisor.storyIndex}/${workerSupervisor.storyTotal}`);
+      if (workerSupervisor.attempt != null) {
+        metaParts.push(`Try ${workerSupervisor.attempt}/${workerSupervisor.maxAttempts ?? "?"}`);
+      }
     }
+  } else if (progress?.activityMeta) {
+    metaParts.push(progress.activityMeta);
   }
 
   let detail = progress?.activityDetail;
-  if (workerSupervisor?.storyId) {
+  if (supervisorLive && workerSupervisor.storyId) {
     const q = `"${shortStoryId(workerSupervisor.storyId)}"`;
-    detail = detail?.includes(workerSupervisor.storyId) ? detail : q + (detail ? ` · ${detail}` : "");
-  } else if (
-    workerSupervisor?.storyIds?.length &&
-    (!detail || !detail.includes('"'))
-  ) {
+    const actionHint = detail?.includes("·")
+      ? detail
+          .split("·")
+          .slice(1)
+          .join("·")
+          .trim()
+      : undefined;
+    const hintOk =
+      actionHint &&
+      !actionHint.includes(workerSupervisor.storyId) &&
+      !actionHint.startsWith('"');
+    detail = hintOk ? `${q} · ${actionHint}` : q;
+  } else if (workerSupervisor?.storyIds?.length && (!detail || !detail.includes('"'))) {
     const preview = workerSupervisor.storyIds
       .slice(0, 3)
       .map((s) => `"${shortStoryId(s)}"`)
@@ -154,6 +198,17 @@ function orchestratorActivityView(
   };
 }
 
+function formatOrchestratorActivityLabel(
+  progress: JobProgress | undefined,
+  workerSupervisor?: WorkerSupervisorState | null
+): string | undefined {
+  const activity = orchestratorActivityView(progress, workerSupervisor);
+  const parts = [activity.title];
+  if (activity.meta) parts.push(activity.meta);
+  if (activity.detail) parts.push(activity.detail);
+  return parts.join(" · ");
+}
+
 function suiteStepLabel(suiteId: string): string {
   const labels: Record<string, string> = {
     pixel: "Pixel",
@@ -165,13 +220,6 @@ function suiteStepLabel(suiteId: string): string {
   return labels[suiteId] ?? suiteId;
 }
 
-function formatActivityLabel(progress: JobProgress | undefined): string | undefined {
-  if (!progress?.activityTitle) return progress?.currentStory;
-  const parts = [progress.activityTitle];
-  if (progress.activityMeta) parts.push(progress.activityMeta);
-  if (progress.activityDetail) parts.push(progress.activityDetail);
-  return parts.join(" · ");
-}
 
 function formatSuiteRunLabel(
   entry: RunningJobEntry | undefined,
@@ -188,10 +236,14 @@ function formatSuiteRunLabel(
   return "Running…";
 }
 
-function formatFixAllLabel(entry: RunningJobEntry | undefined, finished: boolean): string {
+function formatFixAllLabel(
+  entry: RunningJobEntry | undefined,
+  finished: boolean,
+  workerSupervisor?: WorkerSupervisorState | null
+): string {
   if (finished) return "Finished";
   if (!entry) return "Fix all";
-  const activity = formatActivityLabel(entry.progress);
+  const activity = formatOrchestratorActivityLabel(entry.progress, workerSupervisor);
   if (activity) {
     const snippet = activity.length > 44 ? `${activity.slice(0, 44)}…` : activity;
     return snippet.startsWith("Fixing") ? `${snippet}` : `Fixing… ${snippet}`;
@@ -218,10 +270,87 @@ function syncRunningFromServer(
       actionId: j.action,
       storyId,
       allStories: j.allStories,
-      label: j.label || runningJobLabel(j.action, storyId, actions)
+      label: j.label || runningJobLabel(j.action, storyId, actions),
+      startedAt: j.startedAt,
+      endedAt: j.endedAt,
+      status: j.status
     };
   }
   return next;
+}
+
+function mergeSupervisorFixAllJob(
+  running: Record<string, RunningJobEntry>,
+  workerSupervisor: WorkerSupervisorState | null | undefined
+): Record<string, RunningJobEntry> {
+  if (!workerSupervisor?.jobId || workerSupervisor.finished) return running;
+  const phase = workerSupervisor.phase;
+  if (phase !== "fix-all" && phase !== "fix-all-batch") return running;
+  const suiteId = workerSupervisor.suiteId;
+  if (!suiteId) return running;
+  const jobId = workerSupervisor.jobId;
+  if (running[jobId]) return running;
+  const count = workerSupervisor.storyTotal ?? workerSupervisor.storyIds?.length ?? "?";
+  return {
+    ...running,
+    [jobId]: {
+      jobId,
+      actionId: fixAllActionId(suiteId),
+      label: `Fix all · ${workerSupervisor.suiteLabel ?? suiteStepLabel(suiteId)} (${count} stories)`,
+      startedAt: workerSupervisor.updatedAt
+    }
+  };
+}
+
+function findRecentJobForActions(
+  jobs: JobInfo[] | undefined,
+  actionIds: string[]
+): JobInfo | undefined {
+  if (!jobs?.length) return undefined;
+  return jobs.find((j) => actionIds.includes(j.action) && j.startedAt);
+}
+
+function resolveSuiteRuntime(
+  fixAllJob: RunningJobEntry | undefined,
+  activeJob: RunningJobEntry | undefined,
+  fixAllRunning: boolean,
+  suiteRunning: boolean,
+  jobs: JobInfo[] | undefined,
+  actionId: string,
+  fixAllActionId: string,
+  runClock: number,
+  showRecentDone: boolean
+): { label: string; live: boolean; title?: string } | null {
+  if (fixAllRunning && fixAllJob?.startedAt) {
+    const label = jobRuntimeLabel(fixAllJob.startedAt, undefined, runClock);
+    if (!label) return null;
+    return {
+      label,
+      live: true,
+      title: `Running since ${new Date(fixAllJob.startedAt).toLocaleString()}`
+    };
+  }
+  if (suiteRunning && activeJob?.startedAt) {
+    const label = jobRuntimeLabel(activeJob.startedAt, undefined, runClock);
+    if (!label) return null;
+    return {
+      label,
+      live: true,
+      title: `Running since ${new Date(activeJob.startedAt).toLocaleString()}`
+    };
+  }
+  if (!showRecentDone) return null;
+  const recent = findRecentJobForActions(jobs, [actionId, fixAllActionId]);
+  if (!recent?.startedAt || !recent.endedAt || recent.status === "running") return null;
+  const endedMs = Date.parse(recent.endedAt);
+  if (Number.isNaN(endedMs) || runClock - endedMs > 15 * 60 * 1000) return null;
+  const label = jobRuntimeLabel(recent.startedAt, recent.endedAt, runClock);
+  if (!label) return null;
+  return {
+    label,
+    live: false,
+    title: `Finished ${new Date(recent.endedAt).toLocaleString()}`
+  };
 }
 
 function ServicePill({
@@ -280,10 +409,17 @@ export function App() {
   const [portfolioOrchestratorFinished, setPortfolioOrchestratorFinished] = useState(false);
   const [runSettingsOpen, setRunSettingsOpen] = useState(true);
   const [activePage, setActivePage] = useState<AppPage>(() => pageFromHash());
+  const [runClock, setRunClock] = useState(() => Date.now());
   const orchestratorAuto = state?.orchestratorAuto ?? false;
   const orchestratorRunning = state?.orchestratorRunning ?? false;
   const orchestratorAutoStale = orchestratorAuto && !orchestratorRunning;
   const workerSupervisor = state?.workerSupervisor;
+  const supervisorFixAllActive = Boolean(
+    workerSupervisor?.jobId &&
+      !workerSupervisor.finished &&
+      workerSupervisor.suiteId &&
+      (workerSupervisor.phase === "fix-all" || workerSupervisor.phase === "fix-all-batch")
+  );
   const supervisorActive =
     workerSupervisor && !workerSupervisor.finished && workerSupervisor.storyId;
   const ensureAutoRef = useRef(0);
@@ -298,6 +434,32 @@ export function App() {
     return [{ id: current, label: `${current} (saved)` }, ...agentModelOptions];
   }, [agentModelOptions, runSettings.agentModel]);
 
+  const refresh = useCallback(async () => {
+    try {
+      const s = await fetchState();
+      setState(s);
+      setRunningJobs((prev) => {
+        const fromServer = syncRunningFromServer(s.jobs, actions, finishedJobIdsRef.current);
+        const withSupervisor = mergeSupervisorFixAllJob(fromServer, s.workerSupervisor);
+        const next: Record<string, RunningJobEntry> = { ...withSupervisor };
+        for (const id of Object.keys(next)) {
+          const progress = prev[id]?.progress;
+          const merged = next[id]!;
+          if (progress) next[id] = { ...merged, progress };
+        }
+        return next;
+      });
+      setRunningSuiteActions(syncRunningSuiteActions(s.jobs));
+      setApiError(null);
+      const p = await fetchPortfolio();
+      setPortfolio(p);
+    } catch {
+      setApiError("Cannot reach test console API. Start: pnpm test:console");
+      setState(null);
+      setPortfolio(null);
+    }
+  }, [actions]);
+
   const patchRunSettings = useCallback(async (patch: Partial<RunSettings>) => {
     try {
       const res = await fetch("/api/run-settings", {
@@ -308,41 +470,13 @@ export function App() {
       if (!res.ok) return;
       const next = (await res.json()) as RunSettings;
       setState((s) => (s ? { ...s, runSettings: next } : s));
+      if (patch.agentCli !== undefined) {
+        void refresh();
+      }
     } catch {
       /* ignore */
     }
-  }, []);
-
-  const refresh = useCallback(async () => {
-    try {
-      const s = await fetchState();
-      setState(s);
-      setRunningJobs((prev) => {
-        const fromServer = syncRunningFromServer(s.jobs, actions, finishedJobIdsRef.current);
-        const next: Record<string, RunningJobEntry> = { ...fromServer };
-        for (const id of Object.keys(next)) {
-          const progress = prev[id]?.progress;
-          if (progress) next[id] = { ...next[id], progress };
-        }
-        return next;
-      });
-      setRunningSuiteActions((prev) => {
-        const fromServer = syncRunningSuiteActions(s.jobs);
-        const next = new Set(fromServer);
-        for (const actionId of prev) {
-          if (!next.has(actionId)) next.add(actionId);
-        }
-        return next;
-      });
-      setApiError(null);
-      const p = await fetchPortfolio();
-      setPortfolio(p);
-    } catch {
-      setApiError("Cannot reach test console API. Start: pnpm test:console");
-      setState(null);
-      setPortfolio(null);
-    }
-  }, [actions]);
+  }, [refresh]);
 
   const runningJobKey = Object.keys(runningJobs).sort().join(",");
 
@@ -370,6 +504,12 @@ export function App() {
     const t = setInterval(refresh, busy ? 1500 : 4000);
     return () => clearInterval(t);
   }, [refresh, runningJobKey]);
+
+  useEffect(() => {
+    if (!runningJobKey.length && !supervisorFixAllActive) return;
+    const t = setInterval(() => setRunClock(Date.now()), 1000);
+    return () => clearInterval(t);
+  }, [runningJobKey, supervisorFixAllActive]);
 
   useEffect(() => {
     if (!orchestratorAutoStale || orchestratorRunning) return;
@@ -546,7 +686,58 @@ export function App() {
       const entry: RunningJobEntry = {
         jobId: data.jobId,
         actionId,
-        label: jobLabel
+        label: jobLabel,
+        startedAt: new Date().toISOString(),
+        status: "running"
+      };
+      setRunningJobs((prev) => ({ ...prev, [data.jobId!]: entry }));
+      if (!data.terminalDispatched) {
+        setApiError("Terminal did not open — watch job in dashboard or run: pnpm test:console:cursor pending");
+      }
+    } catch (e) {
+      setApiError(e instanceof Error ? e.message : String(e));
+    }
+  };
+
+  const queueFixOneForCursor = async (suiteId: string, storyId: string) => {
+    setApiError(null);
+    const actionId = fixAllActionId(suiteId);
+    try {
+      const res = await fetch("/api/agent/request-fix", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ suiteId, storyId })
+      });
+      const text = await res.text();
+      let data: {
+        error?: string;
+        terminalDispatched?: boolean;
+        jobId?: string;
+        label?: string;
+      } = {};
+      try {
+        data = JSON.parse(text) as typeof data;
+      } catch {
+        if (!res.ok) {
+          setApiError(`Fix story failed: ${text || res.statusText}`);
+          return;
+        }
+      }
+      if (!res.ok) {
+        setApiError(`Fix story failed: ${data.error ?? text ?? res.statusText}`);
+        return;
+      }
+      if (!data.jobId) {
+        setApiError("Fix story did not return a job id");
+        return;
+      }
+      const entry: RunningJobEntry = {
+        jobId: data.jobId,
+        actionId,
+        storyId,
+        label: data.label ?? `Fix · ${suiteLabelForFix(suiteId)} · ${storyId}`,
+        startedAt: new Date().toISOString(),
+        status: "running"
       };
       setRunningJobs((prev) => ({ ...prev, [data.jobId!]: entry }));
       if (!data.terminalDispatched) {
@@ -596,7 +787,9 @@ export function App() {
       const entry: RunningJobEntry = {
         jobId: data.jobId,
         actionId: PORTFOLIO_ORCHESTRATOR_ACTION,
-        label: data.label ?? "Orchestrator · golden path ALL"
+        label: data.label ?? "Orchestrator · golden path ALL",
+        startedAt: new Date().toISOString(),
+        status: "running"
       };
       setRunningJobs((prev) => ({ ...prev, [data.jobId!]: entry }));
       if (!data.terminalDispatched) {
@@ -679,7 +872,9 @@ export function App() {
         actionId,
         storyId,
         allStories: suiteScope,
-        label: jobLabel
+        label: jobLabel,
+        startedAt: new Date().toISOString(),
+        status: "running"
       };
       setRunningJobs((prev) => ({ ...prev, [jobId]: entry }));
     } catch (e) {
@@ -720,6 +915,11 @@ export function App() {
   const suiteFixAllJob = (suiteId: string) =>
     Object.values(runningJobs).find((j) => j.actionId === fixAllActionId(suiteId));
 
+  const storyFixJob = (suiteId: string, storyId: string) =>
+    Object.values(runningJobs).find(
+      (j) => j.actionId === fixAllActionId(suiteId) && j.storyId === storyId
+    );
+
   const portfolioOrchestratorJob = () =>
     Object.values(runningJobs).find((j) => j.actionId === PORTFOLIO_ORCHESTRATOR_ACTION);
 
@@ -740,6 +940,7 @@ export function App() {
     if (!job) return;
     await killJob(job.jobId);
     finishJob(job.jobId, fixAllActionId(suiteId), false, "killed");
+    void refresh();
   };
 
   const cancelPortfolioOrchestrator = async () => {
@@ -828,7 +1029,7 @@ export function App() {
             <p>
               Full story portfolio with per-step status. Per-story results live under{" "}
               <code>*/by-story/&lt;story&gt;/result.json</code>. After a test finishes, a terminal
-              opens and dispatches the Cursor CLI agent automatically.
+              opens and dispatches the {runSettings.agentCli === "gemini" ? "Gemini" : "Cursor"} CLI agent automatically.
             </p>
           </div>
           <div className="header-orchestrator">
@@ -855,7 +1056,7 @@ export function App() {
                 isPortfolioOrchestratorRunning
                   ? portfolioOrchestratorJob()?.progress?.logTail ??
                     "Orchestrator running in Terminal — pixel → figma → live → delivery"
-                  : "Run golden path for ALL portfolio stories until strict 0.1% green (opens Terminal + Cursor CLI)"
+                  : `Run golden path for ALL portfolio stories until strict 0.1% green (opens Terminal + ${runSettings.agentCli === "gemini" ? "Gemini" : "Cursor"} CLI)`
               }
               onClick={() => void queuePortfolioOrchestrator()}
             >
@@ -1018,13 +1219,30 @@ export function App() {
                 <small>Supervisor uses the filters above when running suite goldens</small>
               </span>
             </label>
+            <label className="run-settings-option run-settings-cli">
+              <span>
+                <strong>Agent CLI</strong>
+                <small>Choose the CLI tool to run fix agents (Cursor CLI vs Gemini CLI)</small>
+              </span>
+              <select
+                value={runSettings.agentCli ?? "cursor"}
+                onChange={(e) => void patchRunSettings({ agentCli: e.target.value })}
+              >
+                <option value="cursor">Cursor CLI</option>
+                <option value="gemini">Gemini CLI</option>
+              </select>
+            </label>
             <label className="run-settings-option run-settings-model">
               <span>
                 <strong>Fix agent model</strong>
-                <small>Cursor CLI model for fix agents (override with TEST_CONSOLE_AGENT_MODEL)</small>
+                <small>
+                  {runSettings.agentCli === "gemini"
+                    ? "Gemini CLI model for fix agents"
+                    : "Cursor CLI model for fix agents (override with TEST_CONSOLE_AGENT_MODEL)"}
+                </small>
               </span>
               <select
-                value={runSettings.agentModel ?? "composer-2.5-fast"}
+                value={runSettings.agentModel ?? (runSettings.agentCli === "gemini" ? "gemini-2.5-flash" : "composer-2.5-fast")}
                 onChange={(e) => void patchRunSettings({ agentModel: e.target.value })}
               >
                 {fixAgentModelOptions.map((opt) => (
@@ -1033,7 +1251,11 @@ export function App() {
                   </option>
                 ))}
               </select>
-              {fixAgentModelOptions.length <= 3 ? (
+              {runSettings.agentCli === "gemini" ? (
+                <small className="run-settings-model-hint">
+                  {fixAgentModelOptions.length} models configured for Gemini CLI
+                </small>
+              ) : fixAgentModelOptions.length <= 3 ? (
                 <small className="run-settings-model-hint">
                   Showing fallback list — restart test console to load all models from Cursor CLI.
                 </small>
@@ -1149,14 +1371,32 @@ export function App() {
                       ? failed
                       : failed + (r.counts?.warn ?? 0);
                   const actionId = SUITE_RUN_ACTION[suiteId];
-                  const activeJob = suiteRunJob(actionId);
+                  const orchestratorRunningSuite =
+                    isPortfolioOrchestratorRunning &&
+                    workerSupervisor &&
+                    !workerSupervisor.finished &&
+                    workerSupervisor.suiteId === suiteId;
+                  const activeJob =
+                    suiteRunJob(actionId) ??
+                    (orchestratorRunningSuite && workerSupervisor.phase === "portfolio"
+                      ? portfolioOrchestratorJob()
+                      : undefined);
                   const suiteFinalizing = Boolean(
                     state?.jobs?.find(
                       (j) => j.action === actionId && j.allStories && !j.story && j.finalizing
                     )
                   );
-                  const suiteRunning = isSuiteRunning(actionId) || suiteFinalizing;
-                  const fixAllJob = suiteFixAllJob(suiteId);
+                  const suiteRunning =
+                    isSuiteRunning(actionId) ||
+                    suiteFinalizing ||
+                    (orchestratorRunningSuite && workerSupervisor.phase === "portfolio");
+                  const fixAllJob =
+                    suiteFixAllJob(suiteId) ??
+                    (orchestratorRunningSuite &&
+                    (workerSupervisor.phase === "fix-all" ||
+                      workerSupervisor.phase === "fix-all-batch")
+                      ? portfolioOrchestratorJob()
+                      : undefined);
                   const fixAllRunning = fixAllJob != null;
                   const fixAllFinished = fixAllFinishedSuites.has(suiteId);
                   const needsRelay = actionId === "figma:live:golden";
@@ -1167,6 +1407,17 @@ export function App() {
                   const suiteBusy = suiteRunning || fixAllRunning || isPortfolioOrchestratorRunning;
                   const runDisabledWithOrchestrator =
                     runDisabled || isPortfolioOrchestratorRunning;
+                  const runtime = resolveSuiteRuntime(
+                    fixAllJob,
+                    activeJob,
+                    fixAllRunning,
+                    suiteRunning,
+                    state?.jobs,
+                    actionId,
+                    fixAllActionId(suiteId),
+                    runClock,
+                    fixAllFinished || suiteFinalizing
+                  );
                   return (
                     <div
                       key={r.suiteId}
@@ -1181,6 +1432,14 @@ export function App() {
                           {new Date(r.generatedAt).toLocaleString()}
                         </span>
                       )}
+                      {runtime ? (
+                        <span
+                          className={`suite-summary-runtime${runtime.live ? " suite-summary-runtime-live" : ""}`}
+                          title={runtime.title}
+                        >
+                          {runtime.label}
+                        </span>
+                      ) : null}
                       {r.total != null ? (
                         <div className="suite-summary-badges">
                           {(r.counts?.pass ?? 0) > 0 && (
@@ -1208,13 +1467,17 @@ export function App() {
                             : activeJob.progress.logTail.split("\n").pop()}
                         </span>
                       ) : null}
-                      {fixAllRunning && fixAllJob?.progress ? (
+                      {fixAllRunning ? (
                         <span
                           className="suite-summary-progress suite-summary-progress-fix"
-                          title={fixAllJob.progress.logTail}
+                          title={
+                            fixAllJob?.progress?.logTail ??
+                            formatOrchestratorActivityLabel(fixAllJob?.progress, workerSupervisor)
+                          }
                         >
-                          {formatActivityLabel(fixAllJob.progress) ??
-                            fixAllJob.progress.logTail.split("\n").pop()}
+                          {formatOrchestratorActivityLabel(fixAllJob?.progress, workerSupervisor) ??
+                            fixAllJob?.progress?.logTail?.split("\n").pop() ??
+                            "Fixing…"}
                         </span>
                       ) : null}
                       <div className="suite-summary-actions">
@@ -1258,13 +1521,13 @@ export function App() {
                           }
                           onClick={() => void queueFixAllForCursor(suiteId)}
                         >
-                          {formatFixAllLabel(fixAllJob, fixAllFinished)}
+                          {formatFixAllLabel(fixAllJob, fixAllFinished, workerSupervisor)}
                         </button>
                         {fixAllRunning && fixAllJob ? (
                           <button
                             type="button"
                             className="suite-summary-cancel"
-                            title="Stop Cursor agent"
+                            title={`Stop ${runSettings.agentCli === "gemini" ? "Gemini" : "Cursor"} agent`}
                             onClick={() => void cancelFixAll(suiteId)}
                           >
                             Cancel
@@ -1324,10 +1587,45 @@ export function App() {
                     </tr>
                   </thead>
                   <tbody>
-                    {portfolio.rows.map((row) => (
+                    {portfolio.rows.map((row) => {
+                      const fixSuite = fixSuiteForRow(row);
+                      const fixSuiteBusy = fixSuite ? suiteFixAllJob(fixSuite) != null : false;
+                      const storyFixActive =
+                        fixSuite != null &&
+                        (storyFixJob(fixSuite, row.storyId) != null ||
+                          (workerSupervisor?.storyId === row.storyId &&
+                            !workerSupervisor.finished &&
+                            workerSupervisor.suiteId === fixSuite));
+                      const fixOneDisabled =
+                        fixSuite == null ||
+                        fixSuiteBusy ||
+                        isPortfolioOrchestratorRunning ||
+                        (fixSuite === "figmaLive" && !state?.relay.pluginConnected);
+                      const fixOneTitle =
+                        fixSuite == null
+                          ? "All pipeline steps pass or not yet tested"
+                          : fixSuiteBusy && !storyFixActive
+                            ? `${suiteLabelForFix(fixSuite)} fix already running — wait or cancel`
+                            : fixSuite === "figmaLive" && !state?.relay.pluginConnected
+                              ? "Connect Figma relay and plugin first"
+                              : `Fix until PASS · ${suiteLabelForFix(fixSuite)} · up to 5 tries`;
+                      return (
                         <tr key={row.storyId} className="portfolio-row">
                           <td className="story-col">
-                            <code title={row.storyId}>{row.storyId}</code>
+                            <div className="story-col-inner">
+                              {fixSuite ? (
+                                <button
+                                  type="button"
+                                  className={`story-fix-btn${storyFixActive ? " story-fix-btn-active" : ""}`}
+                                  disabled={fixOneDisabled && !storyFixActive}
+                                  title={fixOneTitle}
+                                  onClick={() => void queueFixOneForCursor(fixSuite, row.storyId)}
+                                >
+                                  {storyFixActive ? "Fixing…" : "Fix"}
+                                </button>
+                              ) : null}
+                              <code title={row.storyId}>{row.storyId}</code>
+                            </div>
                           </td>
                           {portfolio.steps.flatMap((step, stepIndex) => {
                             const c = row.cells[step.id];
@@ -1385,7 +1683,8 @@ export function App() {
                             return cols;
                           })}
                         </tr>
-                    ))}
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>

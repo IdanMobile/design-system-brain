@@ -1,0 +1,115 @@
+make fixes after live test
+
+Fix all BATCH — attempt 3/3 — Figma live
+Fix **all 20 stories** in this ONE agent session (not one-by-one).
+
+── Automatic workflow (do not skip roles) ──
+1. Read .cursor/skills/project-orchestrator/SKILL.md — pre-flight: confirm phase + infra + verdict.
+2. Read .cursor/skills/roadmap-iteration/SKILL.md — active section: docs/ROADMAP.md (default §1.2 until live strict green).
+3. Worker: .cursor/skills/investigate-figma-mismatch/SKILL.md FIRST on ALL listed stories — read batch investigation report + compare PNGs.
+4. Worker: .cursor/skills/figma-renderer-until-pass/SKILL.md — implement **shared fixes for every story in one session** (not one-by-one).
+5. Prefer code-v2.ts / scene-to-html.ts / extract.ts changes that green multiple stories at once.
+6. Do NOT run golden tests yourself — harness re-tests all listed stories after plugin build.
+7. Harness sandbox gate: metrics regress → auto git restore; 2 batch regressions → FIX_ALL_SERIAL=1.
+8. Tier C if shared adapter touched — pnpm test:regression.
+── End automatic workflow ──
+Read .cursor/skills/figma-renderer-until-pass/SKILL.md and .cursor/skills/investigate-figma-mismatch/SKILL.md — investigate BEFORE editing.
+Act immediately — do NOT ask approval to start fixing.
+
+── Investigation report (read first) ──
+Markdown: /Users/user/Downloads/storybook-to-figma-lab/.test-console/fix-all-batch-e95bf9a6-2e75-4974-9666-476100b4092f-try-3.md
+JSON: /Users/user/Downloads/storybook-to-figma-lab/.test-console/fix-all-batch-e95bf9a6-2e75-4974-9666-476100b4092f-try-3.json
+
+Open the markdown report, then each story's compare PNG + artifact JSON.
+Find shared root cause across stories; implement one coordinated fix set.
+
+── Stories in this batch ──
+1. lab-button--danger — fail · 4.38% global · hotspot 5.07%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-danger/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-danger/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-danger/artifact.v2.json
+2. lab-button--ghost — fail · 3.82% global · hotspot 3.82%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-ghost/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-ghost/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-ghost/artifact.v2.json
+3. lab-button--secondary — fail · 3.31% global · hotspot 3.82%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-secondary/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-secondary/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-secondary/artifact.v2.json
+4. lab-tabspanel--activity-active — fail · 2.65% global · hotspot 4.99%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-activity-active/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-activity-active/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-activity-active/artifact.v2.json
+5. lab-pricingpanel--pro — fail · 2.02% global · hotspot 5.15%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-pricingpanel-pro/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-pricingpanel-pro/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-pricingpanel-pro/artifact.v2.json
+6. lab-tabspanel--settings-active — fail · 1.79% global · hotspot 3.37%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-settings-active/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-settings-active/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-settings-active/artifact.v2.json
+7. lab-filtersidepanel--collapsed — fail · 1.94% global · hotspot 2.29%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-filtersidepanel-collapsed/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-filtersidepanel-collapsed/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-filtersidepanel-collapsed/artifact.v2.json
+8. lab-pricingpanel--starter — fail · 1.49% global · hotspot 3.34%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-pricingpanel-starter/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-pricingpanel-starter/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-pricingpanel-starter/artifact.v2.json
+9. lab-filtersidepanel--left-panel — fail · 1.80% global · hotspot 2.71%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-filtersidepanel-left-panel/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-filtersidepanel-left-panel/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-filtersidepanel-left-panel/artifact.v2.json
+10. lab-filtersidepanel--right-panel — fail · 1.80% global · hotspot 2.71%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-filtersidepanel-right-panel/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-filtersidepanel-right-panel/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-filtersidepanel-right-panel/artifact.v2.json
+11. lab-contentlistboard--highlighted — fail · 0.58% global · hotspot 2.72%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-contentlistboard-highlighted/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-contentlistboard-highlighted/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-contentlistboard-highlighted/artifact.v2.json
+12. lab-navigationbars--top-navigation — fail · 1.74% global · hotspot 2.51%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-navigationbars-top-navigation/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-navigationbars-top-navigation/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-navigationbars-top-navigation/artifact.v2.json
+13. lab-calendarscheduler--compact — fail · 1.46% global · hotspot 4.14%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/artifact.v2.json
+14. lab-featurecard--success — fail · 1.45% global · hotspot 4.58%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-success/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-success/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-success/artifact.v2.json
+15. lab-contentlistboard--compact — fail · 1.38% global · hotspot 2.57%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-contentlistboard-compact/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-contentlistboard-compact/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-contentlistboard-compact/artifact.v2.json
+16. lab-calendarscheduler--monthly — fail · 1.20% global · hotspot 3.00%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-monthly/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-monthly/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-monthly/artifact.v2.json
+17. lab-calendarscheduler--weekdays-only — fail · 1.05% global · hotspot 3.00%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-weekdays-only/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-weekdays-only/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-weekdays-only/artifact.v2.json
+18. mui--showcase — fail · 0.77% global · hotspot 2.89%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/mui-showcase/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/mui-showcase/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/mui-showcase/artifact.v2.json
+19. lab-complexdashboardcard--default — fail · 0.71% global · hotspot 4.26%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-complexdashboardcard-default/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-complexdashboardcard-default/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-complexdashboardcard-default/artifact.v2.json
+20. lab-overlaystates--drawer — warn · 0.29% global · hotspot 2.20%
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-overlaystates-drawer/regions/region-01-compare.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-overlaystates-drawer/figma.png
+   Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-overlaystates-drawer/artifact.v2.json
+
+── Previous batch attempt did NOT green all stories ──
+Passed after re-test: 5/25
+Still failing: lab-button--danger, lab-button--ghost, lab-button--secondary, lab-tabspanel--activity-active, lab-pricingpanel--pro, lab-tabspanel--settings-active, lab-filtersidepanel--collapsed, lab-pricingpanel--starter, lab-filtersidepanel--left-panel, lab-filtersidepanel--right-panel, lab-contentlistboard--highlighted, lab-navigationbars--top-navigation, lab-calendarscheduler--compact, lab-featurecard--success, lab-contentlistboard--compact, lab-calendarscheduler--monthly, lab-calendarscheduler--weekdays-only, mui--showcase, lab-complexdashboardcard--default, lab-overlaystates--drawer
+Files changed last attempt: .test-console/agent-batch_try2-1779456054042.prompt.txt, .test-console/architecture-findings.json, .test-console/child-status/58c1a133-2c93-4ae8-ab92-6ae3a1a41031-agent-batch_try1-1779455644362.json, .test-console/child-status/58c1a133-2c93-4ae8-ab92-6ae3a1a41031-plugin_build-1779456059769.json, .test-console/child-status/58c1a133-2c93-4ae8-ab92-6ae3a1a41031-test_lab-analyticscharts--revenue-1779456166534.json, .test-console/child-status/58c1a133-2c93-4ae8-ab92-6ae3a1a41031-test_lab-analyticscharts--usage-1779456171760.json, .test-console/child-status/58c1a133-2c93-4ae8-ab92-6ae3a1a41031-test_lab-button--danger-1779456072971.json, .test-console/child-status/58c1a133-2c93-4ae8-ab92-6ae3a1a41031-test_lab-button--ghost-1779456078199.json, .test-console/child-status/58c1a133-2c93-4ae8-ab92-6ae3a1a41031-test_lab-button--secondary-1779456089460.json, .test-console/child-status/58c1a133-2c93-4ae8-ab92-6ae3a1a41031-test_lab-calendarscheduler--compact-1779456144406.json, .test-console/child-status/58c1a133-2c93-4ae8-ab92-6ae3a1a41031-test_lab-calendarscheduler--monthly-1779456161309.json, .test-console/child-status/58c1a133-2c93-4ae8-ab92-6ae3a1a41031-test_lab-calendarscheduler--weekdays-only-1779456176585.json, .test-console/child-status/58c1a133-2c93-4ae8-ab92-6ae3a1a41031-test_lab-contentlistboard--compact-1779456156080.json, .test-console/child-status/58c1a133-2c93-4ae8-ab92-6ae3a1a41031-test_lab-contentlistboard--highlighted-1779456105638.json, .test-console/child-status/58c1a133-2c93-4ae8-ab92-6ae3a1a41031-test_lab-featurecard--default-1779456128675.json, .test-console/child-status/58c1a133-2c93-4ae8-ab92-6ae3a1a41031-test_lab-featurecard--success-1779456150853.json, .test-console/child-status/58c1a133-2c93-4ae8-ab92-6ae3a1a41031-test_lab-filtersidepanel--collapsed-1779456111300.json, .test-console/child-status/58c1a133-2c93-4ae8-ab92-6ae3a1a41031-test_lab-filtersidepanel--left-panel-1779456117361.json, .test-console/child-status/58c1a133-2c93-4ae8-ab92-6ae3a1a41031-test_lab-filtersidepanel--right-panel-1779456123427.json, .test-console/child-status/58c1a133-2c93-4ae8-ab92-6ae3a1a41031-test_lab-navigationbars--top-navigation-1779456133920.json, .test-console/child-status/58c1a133-2c93-4ae8-ab92-6ae3a1a41031-test_lab-pricingpanel--pro-1779456066049.json, .test-console/child-status/58c1a133-2c93-4ae8-ab92-6ae3a1a41031-test_lab-pricingpanel--starter-1779456083823.json, .test-console/child-status/58c1a133-2c93-4ae8-ab92-6ae3a1a41031-test_lab-snackbarstack--default-1779456139169.json, .test-console/child-status/58c1a133-2c93-4ae8-ab92-6ae3a1a41031-test_lab-tabspanel--activity-active-1779456100811.json, .test-console/child-status/58c1a133-2c93-4ae8-ab92-6ae3a1a41031-test_lab-tabspanel--settings-active-1779456095581.json, .test-console/child-status/58c1a133-2c93-4ae8-ab92-6ae3a1a41031-test_mui--showcase-1779456181413.json, .test-console/child-status/742a33c5-c3ec-45ea-9a99-d65db41298a3-test_lab-analyticscharts--revenue-1779456002459.json, .test-console/child-status/742a33c5-c3ec-45ea-9a99-d65db41298a3-test_lab-analyticscharts--usage-1779456009306.json, .test-console/child-status/742a33c5-c3ec-45ea-9a99-d65db41298a3-test_lab-calendarscheduler--weekdays-only-1779456014540.json, .test-console/child-status/742a33c5-c3ec-45ea-9a99-d65db41298a3-test_lab-complexdashboardcard--default-1779456027174.json, .test-console/child-status/742a33c5-c3ec-45ea-9a99-d65db41298a3-test_lab-overlaystates--drawer-1779456046937.json, .test-console/child-status/742a33c5-c3ec-45ea-9a99-d65db41298a3-test_lab-productcard--dark-1779456032406.json, .test-console/child-status/742a33c5-c3ec-45ea-9a99-d65db41298a3-test_lab-productcard--default-1779456040102.json, .test-console/child-status/742a33c5-c3ec-45ea-9a99-d65db41298a3-test_mui--showcase-1779456021128.json, .test-console/child-status/e95bf9a6-2e75-4974-9666-476100b4092f-agent-batch_try2-1779455826037.json, .test-console/fix-all-batch-742a33c5-c3ec-45ea-9a99-d65db41298a3-try-2.json, .test-console/fix-all-batch-742a33c5-c3ec-45ea-9a99-d65db41298a3-try-2.md, .test-console/orchestrator-state.json, .test-console/sandbox-baseline/742a33c5-c3ec-45ea-9a99-d65db41298a3-batch-2.json, docs/superpowers/specs/2026-05-22-code-architect-audit.md, figma-diffs/by-story/lab-analyticscharts-revenue/result.json, figma-diffs/by-story/lab-analyticscharts-usage/result.json, figma-diffs/by-story/lab-button-danger/result.json, figma-diffs/by-story/lab-button-ghost/result.json, figma-diffs/by-story/lab-contentlistboard-highlighted/result.json, figma-diffs/by-story/lab-featurecard-default/result.json, figma-diffs/by-story/lab-loadingstates-card-skeleton/result.json, figma-diffs/by-story/lab-pricingpanel-pro/result.json, figma-diffs/by-story/lab-pricingpanel-starter/result.json, figma-diffs/by-story/lab-productcard-dark/result.json, figma-diffs/by-story/lab-productcard-default/result.json, figma-diffs/by-story/lab-snackbarstack-default/result.json, figma-diffs/by-story/lab-tabspanel-activity-active/result.json, figma-diffs/by-story/lab-tabspanel-settings-active/result.json, figma-diffs/by-story/mui-showcase/result.json, figma-diffs/lab-analyticscharts-revenue/artifact.v2.json, figma-diffs/lab-analyticscharts-usage/artifact.v2.json, figma-diffs/lab-button-danger/artifact.v2.json, figma-diffs/lab-button-ghost/artifact.v2.json, figma-diffs/lab-button-ghost/scene.json, figma-diffs/lab-contentlistboard-highlighted/artifact.v2.json, figma-diffs/lab-featurecard-default/artifact.v2.json, figma-diffs/lab-loadingstates-card-skeleton/artifact.v2.json, figma-diffs/lab-pricingpanel-pro/artifact.v2.json, figma-diffs/lab-pricingpanel-starter/artifact.v2.json, figma-diffs/lab-productcard-dark/artifact.v2.json, figma-diffs/lab-productcard-default/artifact.v2.json, figma-diffs/lab-snackbarstack-default/artifact.v2.json, figma-diffs/lab-tabspanel-activity-active/artifact.v2.json, figma-diffs/lab-tabspanel-activity-active/scene.json, figma-diffs/lab-tabspanel-settings-active/artifact.v2.json, figma-diffs/mui-showcase/artifact.v2.json, figma-diffs/mui-showcase/diff.png, figma-diffs/mui-showcase/regions/region-01-compare.png, figma-diffs/mui-showcase/regions/region-01-rendered.png, figma-diffs/mui-showcase/regions/region-01-storybook.png, figma-diffs/mui-showcase/rendered.png, figma-diffs/mui-showcase/scene.json, figma-diffs/mui-showcase/storybook.png, figma-diffs/report.html, figma-diffs/report.json, figma-live-diffs/mui-showcase/artifact.v2.json, figma-live-diffs/mui-showcase/storybook.png, packages/figma-importer-plugin/dist/code.js, packages/figma-importer-plugin/src/code-v2.ts, pixel-diffs/by-story/lab-analyticscharts-revenue/result.json, pixel-diffs/by-story/lab-analyticscharts-usage/result.json, pixel-diffs/by-story/lab-button-danger/result.json, pixel-diffs/by-story/lab-button-ghost/result.json, pixel-diffs/by-story/lab-button-secondary/result.json, pixel-diffs/by-story/lab-calendarscheduler-compact/result.json, pixel-diffs/by-story/lab-calendarscheduler-monthly/result.json, pixel-diffs/by-story/lab-calendarscheduler-weekdays-only/result.json, pixel-diffs/by-story/lab-complexdashboardcard-default/result.json, pixel-diffs/by-story/lab-contentlistboard-compact/result.json, pixel-diffs/by-story/lab-contentlistboard-highlighted/result.json, pixel-diffs/by-story/lab-featurecard-default/result.json, pixel-diffs/by-story/lab-featurecard-success/result.json, pixel-diffs/by-story/lab-filtersidepanel-collapsed/result.json, pixel-diffs/by-story/lab-filtersidepanel-left-panel/result.json, pixel-diffs/by-story/lab-filtersidepanel-right-panel/result.json, pixel-diffs/by-story/lab-loadingstates-card-skeleton/result.json, pixel-diffs/by-story/lab-navigationbars-top-navigation/result.json, pixel-diffs/by-story/lab-overlaystates-drawer/result.json, pixel-diffs/by-story/lab-pricingpanel-pro/result.json, pixel-diffs/by-story/lab-pricingpanel-starter/result.json, pixel-diffs/by-story/lab-productcard-dark/result.json, pixel-diffs/by-story/lab-productcard-default/result.json, pixel-diffs/by-story/lab-snackbarstack-default/result.json, pixel-diffs/by-story/lab-tabspanel-activity-active/result.json, pixel-diffs/by-story/lab-tabspanel-settings-active/result.json, pixel-diffs/by-story/mui-showcase/result.json, pixel-diffs/lab-analyticscharts-revenue/artifact.v2.json, pixel-diffs/lab-analyticscharts-usage/artifact.v2.json, pixel-diffs/lab-button-danger/artifact.v2.json, pixel-diffs/lab-button-ghost/artifact.v2.json, pixel-diffs/lab-button-secondary/artifact.v2.json, pixel-diffs/lab-calendarscheduler-compact/artifact.v2.json, pixel-diffs/lab-calendarscheduler-monthly/artifact.v2.json, pixel-diffs/lab-calendarscheduler-weekdays-only/artifact.v2.json, pixel-diffs/lab-complexdashboardcard-default/artifact.v2.json, pixel-diffs/lab-contentlistboard-compact/artifact.v2.json, pixel-diffs/lab-contentlistboard-highlighted/artifact.v2.json, pixel-diffs/lab-featurecard-default/artifact.v2.json, pixel-diffs/lab-featurecard-success/artifact.v2.json, pixel-diffs/lab-filtersidepanel-collapsed/artifact.v2.json, pixel-diffs/lab-filtersidepanel-left-panel/artifact.v2.json, pixel-diffs/lab-filtersidepanel-right-panel/artifact.v2.json, pixel-diffs/lab-loadingstates-card-skeleton/artifact.v2.json, pixel-diffs/lab-navigationbars-top-navigation/artifact.v2.json, pixel-diffs/lab-overlaystates-drawer/artifact.v2.json, pixel-diffs/lab-pricingpanel-pro/artifact.v2.json, pixel-diffs/lab-pricingpanel-starter/artifact.v2.json, pixel-diffs/lab-productcard-dark/artifact.v2.json, pixel-diffs/lab-productcard-default/artifact.v2.json, pixel-diffs/lab-snackbarstack-default/artifact.v2.json, pixel-diffs/lab-tabspanel-activity-active/artifact.v2.json, pixel-diffs/lab-tabspanel-settings-active/artifact.v2.json, pixel-diffs/mui-showcase/artifact.v2.json, pixel-diffs/mui-showcase/diff.png, pixel-diffs/mui-showcase/regions/region-03-compare.png, pixel-diffs/mui-showcase/regions/region-03-rendered.png, pixel-diffs/mui-showcase/regions/region-03-storybook.png, pixel-diffs/mui-showcase/rendered.png, pixel-diffs/mui-showcase/storybook.png, pixel-diffs/report.html, pixel-diffs/report.json, test-portfolio/portfolio.json, test-portfolio/report.html
+Adjust strategy — do not repeat the same ineffective edits.
+
+Do NOT run golden tests yourself. Harness rebuilds plugin (if needed) and re-tests every story.
+After rebuild: one line to reload Figma plugin before live re-test.

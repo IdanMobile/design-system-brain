@@ -2,11 +2,13 @@
   "storyId": "lab-button--danger",
   "width": 213,
   "height": 80,
-  "pixelsDiffered": 746,
+  "pixelsDiffered": 173,
   "pixelsTotal": 17040,
-  "percent": 4.37793427230047,
-  "maxRegionPercent": 5.067934782608695,
-  "status": "fail",
+  "percent": 1.0152582159624413,
+  "maxRegionPercent": 1.0200471698113207,
+  "globalTolerance": 2.5,
+  "regionTolerance": 2.2,
+  "status": "pass",
   "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-danger/storybook.png",
   "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-danger/figma.png",
   "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-danger/diff.png",
@@ -15,17 +17,17 @@
     {
       "index": 1,
       "rect": {
-        "x": 28,
+        "x": 0,
         "y": 0,
-        "width": 184,
+        "width": 212,
         "height": 80,
-        "pixels": 746,
-        "percent": 5.067934782608695
+        "pixels": 173,
+        "percent": 1.0200471698113207
       },
       "storybook": "regions/region-01-storybook.png",
       "rendered": "regions/region-01-rendered.png",
       "compare": "regions/region-01-compare.png"
     }
   ],
-  "testedAt": "2026-05-22T12:39:35.380Z"
+  "testedAt": "2026-05-23T01:29:42.870Z"
 }

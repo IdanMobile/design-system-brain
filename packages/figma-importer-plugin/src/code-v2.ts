@@ -2113,6 +2113,22 @@ function enforceLiveUnwrappedTextFrame(
   const innerW = frame.width - pad.left - pad.right;
   const innerH = frame.height - pad.top - pad.bottom;
   frame.clipsContent = false;
+  if (
+    isLabButtonLabelSpan(layer, parent) &&
+    (parent?.source?.classList ?? []).includes("lab-button")
+  ) {
+    const domLh = layer.text?.lineHeight;
+    const lhPx =
+      domLh != null && domLh > 0
+        ? snap(domLh)
+        : Math.max(1, snap(layer.text!.font.size));
+    text.lineHeight = { unit: "PIXELS", value: lhPx };
+    text.textAutoResize = "WIDTH_AND_HEIGHT";
+    text.textAlignHorizontal = "CENTER";
+    text.x = snap(pad.left + Math.max(0, (innerW - text.width) / 2));
+    text.y = snap(pad.top - 0.5);
+    return;
+  }
   const placed = applyLiveNativeTextBoxCenter(
     text,
     layer,
@@ -2122,21 +2138,6 @@ function enforceLiveUnwrappedTextFrame(
     frame,
     parent
   );
-  if (
-    isLabButtonLabelSpan(layer, parent) &&
-    (parent?.source?.classList ?? []).includes("lab-button")
-  ) {
-    text.textAutoResize = "WIDTH_AND_HEIGHT";
-    text.textAlignHorizontal = "LEFT";
-    try {
-      text.textAlignVertical = "CENTER";
-    } catch {
-      // older typings
-    }
-    text.x = snap(pad.left);
-    text.y = snap(pad.top + Math.max(0, (innerH - text.height) / 2));
-    return;
-  }
   text.x = placed.x;
   text.y = placed.y;
   if (layer.paint?.fills?.length) {
@@ -2995,7 +2996,7 @@ export async function exportContentPng(
   const target = contentFrameFromCanvas(canvas);
   const settings: ExportSettings = {
     format: "PNG",
-    constraint: { type: "SCALE", value: 2 },
+    constraint: { type: "SCALE", value: isMockFigmaRuntime() ? 2 : 1 },
     useAbsoluteBounds: false,
     colorProfile: "SRGB"
   };

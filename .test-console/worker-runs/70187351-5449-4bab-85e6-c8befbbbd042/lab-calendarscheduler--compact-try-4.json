@@ -1,0 +1,50 @@
+{
+  "storyId": "lab-calendarscheduler--compact",
+  "attempt": 4,
+  "jobId": "70187351-5449-4bab-85e6-c8befbbbd042",
+  "recordedAt": "2026-05-23T07:36:54.315Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "error",
+    "percent": 100,
+    "maxRegionPercent": null,
+    "error": "Export timed out after 600000ms"
+  },
+  "afterTest": {
+    "status": "error",
+    "percent": 100,
+    "maxRegionPercent": null,
+    "error": "Export timed out after 600000ms"
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-calendarscheduler--compact_try4-1779520306634.prompt.txt",
+    ".test-console/child-status/70187351-5449-4bab-85e6-c8befbbbd042-agent-lab-calendarscheduler--compact_try2-1779517288301.json",
+    "figma-diffs/by-story/lab-calendarscheduler-compact/result.json",
+    "figma-diffs/lab-calendarscheduler-compact/artifact.v2.json",
+    "figma-diffs/report.json",
+    "figma-live-diffs/by-story/lab-calendarscheduler-compact/result.json",
+    "figma-live-diffs/lab-calendarscheduler-compact/artifact.v2.json",
+    "figma-live-diffs/report.json",
+    "packages/figma-importer-plugin/dist/code.js",
+    "packages/figma-importer-plugin/src/code-v2.ts",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "STUCK_LOOP",
+    "verdicts": [
+      "STUCK_LOOP",
+      "SHARED_ADAPTER"
+    ],
+    "nextWorkerMode": "investigate_first",
+    "interventionLines": [
+      "Supervisor: two consecutive attempts with no metric movement — switch to investigate-first.",
+      "Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": true
+  }
+}

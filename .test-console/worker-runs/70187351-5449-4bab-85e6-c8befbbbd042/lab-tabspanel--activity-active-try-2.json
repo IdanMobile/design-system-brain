@@ -1,0 +1,41 @@
+{
+  "storyId": "lab-tabspanel--activity-active",
+  "attempt": 2,
+  "jobId": "70187351-5449-4bab-85e6-c8befbbbd042",
+  "recordedAt": "2026-05-23T03:10:20.586Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 1.8284605922982307,
+    "maxRegionPercent": 3.3967391304347823,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 2.4340051092818618,
+    "maxRegionPercent": 4.979707792207792,
+    "error": null
+  },
+  "agentExitCode": 0,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-tabspanel--activity-active_try2-1779505521257.prompt.txt",
+    ".test-console/child-status/70187351-5449-4bab-85e6-c8befbbbd042-agent-lab-tabspanel--activity-active_try2-1779505521257.json",
+    "packages/figma-importer-plugin/dist/code.js",
+    "packages/figma-importer-plugin/src/code-v2.ts"
+  ],
+  "evaluation": {
+    "verdict": "WORSE_METRICS",
+    "verdicts": [
+      "WORSE_METRICS",
+      "SHARED_ADAPTER"
+    ],
+    "nextWorkerMode": "narrow_scope",
+    "interventionLines": [
+      "Supervisor: global diff worsened by 0.61% — revert harmful edits; do not repeat the same approach.",
+      "Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done."
+    ],
+    "tierCRequired": true
+  }
+}

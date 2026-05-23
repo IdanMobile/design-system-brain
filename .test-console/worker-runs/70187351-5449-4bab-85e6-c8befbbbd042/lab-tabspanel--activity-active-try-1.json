@@ -1,0 +1,40 @@
+{
+  "storyId": "lab-tabspanel--activity-active",
+  "attempt": 1,
+  "jobId": "70187351-5449-4bab-85e6-c8befbbbd042",
+  "recordedAt": "2026-05-23T03:05:20.535Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 1.8284605922982307,
+    "maxRegionPercent": 3.3967391304347823,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 1.8284605922982307,
+    "maxRegionPercent": 3.3967391304347823,
+    "error": null
+  },
+  "agentExitCode": 0,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-tabspanel--activity-active_try1-1779505228046.prompt.txt",
+    ".test-console/agent-models-cache.json",
+    ".test-console/child-status/70187351-5449-4bab-85e6-c8befbbbd042-agent-lab-tabspanel--activity-active_try1-1779505228046.json",
+    "packages/figma-importer-plugin/dist/code.js",
+    "packages/figma-importer-plugin/src/code-v2.ts"
+  ],
+  "evaluation": {
+    "verdict": "SHARED_ADAPTER",
+    "verdicts": [
+      "SHARED_ADAPTER"
+    ],
+    "nextWorkerMode": "tier_c_required",
+    "interventionLines": [
+      "Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done."
+    ],
+    "tierCRequired": true
+  }
+}

@@ -332,13 +332,13 @@
                   "strokeLeftWeight": 0,
                   "dashPattern": [],
                   "cornerRadii": [
-                    999,
-                    999,
-                    999,
-                    999
+                    14,
+                    14,
+                    14,
+                    14
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 10,
@@ -417,7 +417,7 @@
                     10
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 12,
@@ -500,7 +500,7 @@
               "x": 0,
               "y": 0,
               "width": 161.59,
-              "height": 17,
+              "height": 19,
               "opacity": 1,
               "fills": [],
               "strokes": [],
@@ -526,7 +526,7 @@
                   "name": "Text",
                   "x": 0,
                   "y": 0,
-                  "width": 161.59,
+                  "width": 20.16,
                   "height": 17,
                   "opacity": 1,
                   "characters": "Mon",
@@ -547,7 +547,7 @@
                     }
                   ],
                   "textAlignHorizontal": "CENTER",
-                  "textAutoResize": "HEIGHT",
+                  "textAutoResize": "WIDTH_AND_HEIGHT",
                   "lineHeight": {
                     "unit": "PIXELS",
                     "value": 17
@@ -569,7 +569,7 @@
               "x": 169.59,
               "y": 0,
               "width": 161.59,
-              "height": 17,
+              "height": 19,
               "opacity": 1,
               "fills": [],
               "strokes": [],
@@ -595,7 +595,7 @@
                   "name": "Text",
                   "x": 0,
                   "y": 0,
-                  "width": 161.59,
+                  "width": 20.16,
                   "height": 17,
                   "opacity": 1,
                   "characters": "Tue",
@@ -616,7 +616,7 @@
                     }
                   ],
                   "textAlignHorizontal": "CENTER",
-                  "textAutoResize": "HEIGHT",
+                  "textAutoResize": "WIDTH_AND_HEIGHT",
                   "lineHeight": {
                     "unit": "PIXELS",
                     "value": 17
@@ -638,7 +638,7 @@
               "x": 339.19,
               "y": 0,
               "width": 161.61,
-              "height": 17,
+              "height": 19,
               "opacity": 1,
               "fills": [],
               "strokes": [],
@@ -664,7 +664,7 @@
                   "name": "Text",
                   "x": 0,
                   "y": 0,
-                  "width": 161.61,
+                  "width": 20.16,
                   "height": 17,
                   "opacity": 1,
                   "characters": "Wed",
@@ -685,7 +685,7 @@
                     }
                   ],
                   "textAlignHorizontal": "CENTER",
-                  "textAutoResize": "HEIGHT",
+                  "textAutoResize": "WIDTH_AND_HEIGHT",
                   "lineHeight": {
                     "unit": "PIXELS",
                     "value": 17
@@ -707,7 +707,7 @@
               "x": 508.8,
               "y": 0,
               "width": 161.59,
-              "height": 17,
+              "height": 19,
               "opacity": 1,
               "fills": [],
               "strokes": [],
@@ -733,7 +733,7 @@
                   "name": "Text",
                   "x": 0,
                   "y": 0,
-                  "width": 161.59,
+                  "width": 20.16,
                   "height": 17,
                   "opacity": 1,
                   "characters": "Thu",
@@ -754,7 +754,7 @@
                     }
                   ],
                   "textAlignHorizontal": "CENTER",
-                  "textAutoResize": "HEIGHT",
+                  "textAutoResize": "WIDTH_AND_HEIGHT",
                   "lineHeight": {
                     "unit": "PIXELS",
                     "value": 17
@@ -776,7 +776,7 @@
               "x": 678.39,
               "y": 0,
               "width": 161.61,
-              "height": 17,
+              "height": 19,
               "opacity": 1,
               "fills": [],
               "strokes": [],
@@ -802,7 +802,7 @@
                   "name": "Text",
                   "x": 0,
                   "y": 0,
-                  "width": 161.61,
+                  "width": 20.16,
                   "height": 17,
                   "opacity": 1,
                   "characters": "Fri",
@@ -823,7 +823,7 @@
                     }
                   ],
                   "textAlignHorizontal": "CENTER",
-                  "textAutoResize": "HEIGHT",
+                  "textAutoResize": "WIDTH_AND_HEIGHT",
                   "lineHeight": {
                     "unit": "PIXELS",
                     "value": 17
@@ -2534,13 +2534,13 @@
                   "strokeLeftWeight": 0,
                   "dashPattern": [],
                   "cornerRadii": [
-                    999,
-                    999,
-                    999,
-                    999
+                    19,
+                    19,
+                    19,
+                    19
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 67,
@@ -3321,13 +3321,13 @@
                   "strokeLeftWeight": 0,
                   "dashPattern": [],
                   "cornerRadii": [
-                    999,
-                    999,
-                    999,
-                    999
+                    19,
+                    19,
+                    19,
+                    19
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 87,
@@ -4075,7 +4075,7 @@
                 12
               ],
               "effects": [],
-              "clipsContent": false,
+              "clipsContent": true,
               "children": [
                 {
                   "id": 106,
@@ -4083,7 +4083,7 @@
                   "type": "FRAME",
                   "name": "p",
                   "x": 13,
-                  "y": 42.25,
+                  "y": 13,
                   "width": 246,
                   "height": 16,
                   "opacity": 1,
@@ -4221,7 +4221,7 @@
                   "type": "FRAME",
                   "name": "span",
                   "x": 13,
-                  "y": 42.25,
+                  "y": 90.5,
                   "width": 109.91,
                   "height": 16,
                   "opacity": 1,
@@ -4331,7 +4331,7 @@
                 12
               ],
               "effects": [],
-              "clipsContent": false,
+              "clipsContent": true,
               "children": [
                 {
                   "id": 113,
@@ -4339,7 +4339,7 @@
                   "type": "FRAME",
                   "name": "p",
                   "x": 13,
-                  "y": 42.25,
+                  "y": 13,
                   "width": 246,
                   "height": 16,
                   "opacity": 1,
@@ -4477,7 +4477,7 @@
                   "type": "FRAME",
                   "name": "span",
                   "x": 13,
-                  "y": 42.25,
+                  "y": 90.5,
                   "width": 143.83,
                   "height": 16,
                   "opacity": 1,
@@ -4587,7 +4587,7 @@
                 12
               ],
               "effects": [],
-              "clipsContent": false,
+              "clipsContent": true,
               "children": [
                 {
                   "id": 120,
@@ -4595,7 +4595,7 @@
                   "type": "FRAME",
                   "name": "p",
                   "x": 13,
-                  "y": 42.25,
+                  "y": 13,
                   "width": 246,
                   "height": 16,
                   "opacity": 1,
@@ -4733,7 +4733,7 @@
                   "type": "FRAME",
                   "name": "span",
                   "x": 13,
-                  "y": 42.25,
+                  "y": 90.5,
                   "width": 133.59,
                   "height": 16,
                   "opacity": 1,

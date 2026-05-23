@@ -105,9 +105,9 @@
               "type": "TEXT",
               "name": "Text",
               "x": 5.11,
-              "y": 2,
+              "y": 0.5,
               "width": 94.08,
-              "height": 28,
+              "height": 31,
               "opacity": 1,
               "characters": "Primary",
               "fontName": {
@@ -130,7 +130,7 @@
               "textAutoResize": "WIDTH_AND_HEIGHT",
               "lineHeight": {
                 "unit": "PIXELS",
-                "value": 28
+                "value": 31
               },
               "letterSpacing": {
                 "unit": "PIXELS",

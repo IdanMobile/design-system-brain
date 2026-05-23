@@ -1,9 +1,24 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type {
   ArchitectureConsoleState,
   ArchitectureFindingItem,
-  DeveloperProposal
+  DeveloperProposal,
+  DeveloperActivityView,
+  RunSettings,
+  AgentModelOption
 } from "./types";
+
+const DEFAULT_RUN_SETTINGS: RunSettings = {
+  skipPass: false,
+  onlyNotTested: false,
+  parallelWorkers: 20,
+  processPool: false,
+  applyToOrchestrator: true,
+  agentModel: "composer-2.5-fast",
+  agentCli: "cursor",
+  devAgentModel: "composer-2.5-fast",
+  devAgentCli: "cursor"
+};
 
 async function fetchArchitectureConsole(): Promise<ArchitectureConsoleState | null> {
   const res = await fetch("/api/developer-console");
@@ -63,30 +78,152 @@ function FindingList({
   );
 }
 
+function activityStatusClass(status?: string): string {
+  if (status === "running") return "dev-status-running";
+  if (status === "complete" || status === "awaiting_approval") return "dev-status-pass";
+  if (status === "failed") return "dev-status-failed";
+  return "dev-status-running";
+}
+
+function activityStatusLabel(status?: string, kind?: string): string {
+  if (status === "running") return "Running";
+  if (status === "awaiting_approval") return "Awaiting approval";
+  if (status === "complete") return kind === "audit" ? "Audit complete" : "Ready to review";
+  if (status === "failed") return "Failed";
+  return status ?? "—";
+}
+
+function kindTitle(kind?: string): string {
+  if (kind === "audit") return "Architecture audit";
+  if (kind === "implement") return "Sandbox implement";
+  return "Developer Agent";
+}
+
+function DeveloperActivityPanel({
+  activity,
+  onDismiss,
+  busy
+}: {
+  activity: DeveloperActivityView;
+  onDismiss: () => void;
+  busy: boolean;
+}) {
+  if (!activity?.active) return null;
+
+  const running = activity.status === "running";
+  const showLog = (activity.logTail?.length ?? 0) > 0;
+
+  return (
+    <section className={`card dev-activity-card ${running ? "dev-activity-live" : ""}`}>
+      <div className="dev-status-row">
+        <span className={`dev-status-pill ${activityStatusClass(activity.status)}`}>
+          {running ? (
+            <span className="dev-activity-pulse" aria-hidden>
+              ●{" "}
+            </span>
+          ) : null}
+          {activityStatusLabel(activity.status, activity.kind)}
+        </span>
+        <span className="dev-status-label">
+          {kindTitle(activity.kind)}
+          {activity.jobId ? (
+            <>
+              {" "}
+              · <code>{activity.jobId}</code>
+            </>
+          ) : null}
+          {activity.elapsed ? <> · {activity.elapsed}</> : null}
+        </span>
+        {!running ? (
+          <button type="button" className="run-settings-toggle dev-activity-dismiss" disabled={busy} onClick={onDismiss}>
+            Dismiss
+          </button>
+        ) : null}
+      </div>
+
+      {activity.steps?.length ? (
+        <ol className="dev-activity-steps">
+          {activity.steps.map((step) => (
+            <li
+              key={step.id}
+              className={`dev-activity-step dev-activity-step-${step.state}`}
+              aria-current={step.state === "current" ? "step" : undefined}
+            >
+              <span className="dev-activity-step-dot" aria-hidden />
+              <span className="dev-activity-step-label">{step.label}</span>
+            </li>
+          ))}
+        </ol>
+      ) : null}
+
+      {activity.detail ? <p className="dev-activity-detail">{activity.detail}</p> : null}
+
+      {activity.agentLabel && running ? (
+        <div className="dev-activity">
+          <strong>Agent now:</strong>
+          <span className="dev-activity-meta">{activity.agentLabel}</span>
+        </div>
+      ) : null}
+
+      {activity.model || activity.terminalTitle ? (
+        <p className="arch-meta dev-activity-meta-line">
+          {activity.model ? (
+            <>
+              Model <code>{activity.model}</code>
+            </>
+          ) : null}
+          {activity.terminalTitle ? (
+            <>
+              {activity.model ? " · " : ""}
+              Terminal tab <code>{activity.terminalTitle}</code>
+            </>
+          ) : null}
+        </p>
+      ) : null}
+
+      {showLog ? (
+        <details className="dev-activity-log" open={running}>
+          <summary>Activity log ({activity.logTail!.length} lines)</summary>
+          <pre className="dev-raw-log dev-activity-log-pre">{activity.logTail!.join("\n")}</pre>
+        </details>
+      ) : null}
+
+      {running ? (
+        <p className="developer-console-muted dev-activity-hint">
+          Live updates every few seconds. Full stream in Terminal →{" "}
+          <code>{activity.terminalTitle ?? "Developer implement"}</code>.
+        </p>
+      ) : null}
+
+      {activity.kind === "audit" && activity.status === "complete" && activity.findingsReady ? (
+        <p className="arch-section-blurb">Findings updated — scroll to Architecture findings below.</p>
+      ) : null}
+    </section>
+  );
+}
+
 function ProposalPanel({
   proposal,
   onApprove,
   onDiscard,
+  onClear,
+  onRetry,
+  hasGitRepo,
   busy
 }: {
   proposal: DeveloperProposal;
   onApprove: () => void;
   onDiscard: () => void;
+  onClear: () => void;
+  onRetry: () => void;
+  hasGitRepo: boolean;
   busy: boolean;
 }) {
   const v = proposal.verification;
   const status = proposal.status ?? "unknown";
 
   if (status === "running") {
-    return (
-      <section className="card dev-proposal-card dev-proposal-running">
-        <h2>Sandbox implement</h2>
-        <p className="developer-console-muted">
-          Agent running in isolated worktree… watch Terminal tab{" "}
-          <code>Developer implement</code>. This panel refreshes automatically.
-        </p>
-      </section>
-    );
+    return null;
   }
 
   if (status === "pending_approval") {
@@ -200,10 +337,25 @@ function ProposalPanel({
   }
 
   if (status === "failed") {
+    const staleGitError = /not a git repository/i.test(proposal.error ?? "");
     return (
       <section className="card dev-proposal-card dev-proposal-failed">
         <h2>Sandbox implement — failed</h2>
         <p className="dev-proposal-warn">{proposal.error ?? "Agent or verification failed"}</p>
+        {staleGitError && hasGitRepo ? (
+          <p className="arch-section-blurb">
+            Git is connected now — this message is from an earlier attempt before{" "}
+            <code>git init</code>. Dismiss and try again.
+          </p>
+        ) : null}
+        <div className="dev-proposal-actions">
+          <button type="button" className="dev-trigger-btn dev-trigger-primary" disabled={busy || !hasGitRepo} onClick={onRetry}>
+            Try again
+          </button>
+          <button type="button" className="dev-trigger-btn" disabled={busy} onClick={onClear}>
+            Dismiss
+          </button>
+        </div>
       </section>
     );
   }
@@ -221,6 +373,40 @@ export function DeveloperConsolePage() {
   const [showContext, setShowContext] = useState(false);
   const [showAudit, setShowAudit] = useState(false);
 
+  const runSettings = data?.runSettings ?? DEFAULT_RUN_SETTINGS;
+  const agentModelOptions = data?.agentModelOptions ?? [];
+  const devModelOptions = useMemo(() => {
+    const defaultModel = runSettings.devAgentCli === "gemini" ? "gemini-2.5-flash" : "composer-2.5-fast";
+    const current = runSettings.devAgentModel ?? defaultModel;
+    if (!current || agentModelOptions.some((o) => o.id === current)) {
+      return agentModelOptions;
+    }
+    return [{ id: current, label: `${current} (saved)` }, ...agentModelOptions];
+  }, [agentModelOptions, runSettings.devAgentModel, runSettings.devAgentCli]);
+
+  const patchRunSettings = useCallback(async (patch: Partial<RunSettings>) => {
+    try {
+      const res = await fetch("/api/run-settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(patch)
+      });
+      if (!res.ok) return;
+      const next = (await res.json()) as RunSettings;
+      setData((d) => (d ? { ...d, runSettings: next } : d));
+      if (patch.devAgentCli !== undefined) {
+        // Refresh to get updated model options for the new CLI
+        const devRes = await fetch("/api/developer-console");
+        if (devRes.ok) {
+          const devState = await devRes.json();
+          setData((d) => (d ? { ...d, agentModelOptions: devState.agentModelOptions } : d));
+        }
+      }
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
   const refresh = useCallback(async () => {
     try {
       const next = await fetchArchitectureConsole();
@@ -235,9 +421,10 @@ export function DeveloperConsolePage() {
 
   useEffect(() => {
     void refresh();
-    const t = setInterval(() => void refresh(), 8000);
+    const intervalMs = data?.activity?.status === "running" ? 2500 : 8000;
+    const t = setInterval(() => void refresh(), intervalMs);
     return () => clearInterval(t);
-  }, [refresh]);
+  }, [refresh, data?.activity?.status]);
 
   const runAudit = async () => {
     setAuditing(true);
@@ -310,8 +497,37 @@ export function DeveloperConsolePage() {
     }
   };
 
+  const clearProposal = async () => {
+    setProposalBusy(true);
+    setApiError(null);
+    try {
+      const res = await fetch("/api/developer-console/proposal/clear", { method: "POST" });
+      if (!res.ok) {
+        const body = await res.json();
+        setApiError(body.error ?? "Clear failed");
+        return;
+      }
+      void refresh();
+    } catch (e) {
+      setApiError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setProposalBusy(false);
+    }
+  };
+
+  const dismissActivity = async () => {
+    setProposalBusy(true);
+    try {
+      await fetch("/api/developer-console/activity/clear", { method: "POST" });
+      void refresh();
+    } finally {
+      setProposalBusy(false);
+    }
+  };
+
   const findings = data?.findings;
   const proposal = data?.proposal;
+  const activity = data?.activity;
   const proposalBlocksImplement =
     proposal?.status === "pending_approval" || proposal?.status === "running";
 
@@ -345,7 +561,11 @@ export function DeveloperConsolePage() {
             type="button"
             className="dev-trigger-btn"
             disabled={
-              !data?.hasCursorCli || implementing || proposalBlocksImplement || !findings?.recommendations?.length
+              !data?.hasCursorCli ||
+              !data?.hasGitRepo ||
+              implementing ||
+              proposalBlocksImplement ||
+              !findings?.recommendations?.length
             }
             onClick={() => void runImplement()}
             title="Implement top audit recommendations in isolated sandbox — approve before applying to main"
@@ -355,6 +575,47 @@ export function DeveloperConsolePage() {
           <button type="button" className="dev-trigger-btn" onClick={() => void refresh()}>
             Refresh
           </button>
+        </div>
+
+        <div className="dev-cli-settings">
+          <label className="run-settings-option run-settings-cli">
+            <span>
+              <strong>Agent CLI</strong>
+              <small>Choose the CLI tool for audit & implement agents</small>
+            </span>
+            <select
+              value={runSettings.devAgentCli ?? "cursor"}
+              onChange={(e) => void patchRunSettings({ devAgentCli: e.target.value })}
+            >
+              <option value="cursor">Cursor CLI</option>
+              <option value="gemini">Gemini CLI</option>
+            </select>
+          </label>
+          <label className="run-settings-option run-settings-model">
+            <span>
+              <strong>Agent model</strong>
+              <small>
+                {runSettings.devAgentCli === "gemini"
+                  ? "Gemini CLI model for Developer Agent actions"
+                  : "Cursor CLI model for Developer Agent actions"}
+              </small>
+            </span>
+            <select
+              value={runSettings.devAgentModel ?? (runSettings.devAgentCli === "gemini" ? "gemini-2.5-flash" : "composer-2.5-fast")}
+              onChange={(e) => void patchRunSettings({ devAgentModel: e.target.value })}
+            >
+              {devModelOptions.map((opt) => (
+                <option key={opt.id} value={opt.id}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+            <small className="run-settings-model-hint">
+              {runSettings.devAgentCli === "gemini"
+                ? `${devModelOptions.length} models configured for Gemini CLI`
+                : `${devModelOptions.length} models from Cursor CLI`}
+            </small>
+          </label>
         </div>
       </header>
 
@@ -367,9 +628,18 @@ export function DeveloperConsolePage() {
         </div>
       ) : null}
 
+      {!data?.hasGitRepo ? (
+        <p className="developer-console-warn">
+          Local git repo required for sandbox implement — run{" "}
+          <code>git init</code> and an initial commit (remote optional).
+        </p>
+      ) : null}
+
       {!data?.hasCursorCli ? (
         <p className="developer-console-warn">
-          Cursor CLI not installed — architecture audit dispatch requires <code>agent</code> on PATH.
+          {runSettings.devAgentCli === "gemini"
+            ? <>Gemini CLI not installed — install with <code>npm i -g @anthropic-ai/gemini</code> or select Cursor CLI above.</>
+            : <>Cursor CLI not installed — architecture audit dispatch requires <code>agent</code> on PATH.</>}
         </p>
       ) : null}
 
@@ -377,11 +647,18 @@ export function DeveloperConsolePage() {
         <p className="developer-console-muted">Loading architecture map…</p>
       ) : null}
 
-      {proposal && proposal.status && proposal.status !== "unknown" ? (
+      {activity?.active ? (
+        <DeveloperActivityPanel activity={activity} onDismiss={() => void dismissActivity()} busy={proposalBusy} />
+      ) : null}
+
+      {proposal && proposal.status && proposal.status !== "unknown" && proposal.status !== "running" ? (
         <ProposalPanel
           proposal={proposal}
           onApprove={() => void approveProposal()}
           onDiscard={() => void discardProposal()}
+          onClear={() => void clearProposal()}
+          onRetry={() => void clearProposal().then(() => runImplement())}
+          hasGitRepo={data?.hasGitRepo ?? false}
           busy={proposalBusy}
         />
       ) : null}

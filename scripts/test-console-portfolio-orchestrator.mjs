@@ -356,6 +356,14 @@ export async function runPortfolioGolden(jobId, { killFlagPath, autoMode = false
       let forceSerial = process.env.FIX_ALL_SERIAL === "1" || process.env.FIX_ALL_SERIAL === "true";
       let fixResult = await runFixAllIterate(jobId, { killFlagPath, suiteId, storyIds });
 
+      if (fixResult.blocked) {
+        await appendLog(
+          `[portfolio] BLOCKED (${fixResult.blockedReason ?? "unknown"}) — Cursor CLI cannot run fix agents. ` +
+            `Turn off AUTO, restore usage (Auto model or org limits), then re-run fix-all.\n`
+        );
+        break;
+      }
+
       if (fixResult.suggestSerial && !forceSerial && storyIds.length > 1) {
         await appendLog(
           `[portfolio] Batch regressed — retrying fix-all with FIX_ALL_SERIAL=1 (${storyIds.length} stories)\n`
@@ -414,6 +422,13 @@ export async function runPortfolioGolden(jobId, { killFlagPath, autoMode = false
         `\n[portfolio] ${cfg?.label ?? suiteId} not green (${status.failing.length} fail/warn, ${status.notTested.length} not tested)\n`
       );
       if (autoNow) {
+        const usageFlag = join(ROOT, ".test-console", "cursor-usage-blocked.flag");
+        if (existsSync(usageFlag)) {
+          await appendLog(
+            "[portfolio] AUTO paused — Cursor CLI usage limit was hit. Delete .test-console/cursor-usage-blocked.flag after restoring usage, or turn AUTO off.\n"
+          );
+          return { exitCode: 2, passed: false, summary: "blocked: cursor_usage" };
+        }
         await appendLog(
           `[portfolio] AUTO ON — retrying in ${Math.round(AUTO_RETRY_MS / 1000)}s…\n`
         );

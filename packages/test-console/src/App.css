@@ -10,7 +10,7 @@
   --warn: #f59e0b;
   --fail: #ef4444;
   --accent: #3b82f6;
-  --portfolio-story-w: 168px;
+  --portfolio-story-w: 228px;
   font-family: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   line-height: 1.45;
   background: var(--bg);
@@ -794,6 +794,19 @@ button.action span {
   white-space: nowrap;
 }
 
+.suite-summary-runtime {
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+  min-width: 3.5rem;
+}
+
+.suite-summary-runtime-live {
+  color: var(--accent);
+  font-weight: 600;
+}
+
 .suite-summary-badges {
   display: flex;
   flex-wrap: wrap;
@@ -1022,10 +1035,67 @@ button.action span {
 }
 
 .portfolio-table .story-col code {
+  flex: 1;
+  min-width: 0;
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.story-col-inner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.story-fix-btn {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--pass) 55%, var(--border));
+  background: color-mix(in srgb, var(--pass) 14%, var(--surface));
+  color: var(--pass);
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-family: inherit;
+  line-height: 1.2;
+  cursor: pointer;
+  white-space: nowrap;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.story-fix-btn:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--pass) 26%, var(--surface));
+  border-color: var(--pass);
+}
+
+.story-fix-btn:disabled:not(.story-fix-btn-active) {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.story-fix-btn-active,
+.story-fix-btn.story-fix-btn-active:disabled {
+  opacity: 1;
+  cursor: wait;
+  border-color: var(--pass);
+  background: color-mix(in srgb, var(--pass) 28%, var(--surface));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--pass) 35%, transparent);
+  animation: story-fix-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes story-fix-pulse {
+  0%,
+  100% {
+    background: color-mix(in srgb, var(--pass) 22%, var(--surface));
+  }
+  50% {
+    background: color-mix(in srgb, var(--pass) 36%, var(--surface));
+  }
 }
 
 .portfolio-row td,
@@ -1549,6 +1619,102 @@ button.action.recommended-action {
   color: var(--muted);
 }
 
+.dev-activity-hint {
+  margin: 10px 0 0;
+  font-size: 0.82rem;
+}
+
+.dev-activity-card {
+  border-left: 3px solid var(--accent);
+}
+
+.dev-activity-live {
+  border-left-color: #6b9fff;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 15%, transparent);
+}
+
+.dev-activity-pulse {
+  animation: dev-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes dev-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.dev-activity-dismiss {
+  margin-left: auto;
+}
+
+.dev-activity-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 12px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dev-activity-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.dev-activity-step-done {
+  color: var(--pass);
+}
+
+.dev-activity-step-current {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.dev-activity-step-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+.dev-activity-step-done .dev-activity-step-dot {
+  background: var(--pass);
+}
+
+.dev-activity-step-current .dev-activity-step-dot {
+  background: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.dev-activity-meta-line {
+  margin: 8px 0 0;
+}
+
+.dev-activity-log {
+  margin-top: 10px;
+}
+
+.dev-activity-log summary {
+  cursor: pointer;
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.dev-activity-log-pre {
+  max-height: 180px;
+  overflow: auto;
+  font-size: 0.75rem;
+}
+
 .dev-activity {
   margin: 8px 0;
   padding: 10px 12px;
@@ -1785,6 +1951,27 @@ button.action.recommended-action {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+.dev-cli-settings {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  width: 100%;
+  margin-top: 4px;
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.dev-cli-settings .run-settings-option {
+  flex: 1 1 220px;
+  min-width: 180px;
+}
+
+.dev-cli-settings select {
+  width: 100%;
 }
 
 .arch-section-blurb {

@@ -95,9 +95,9 @@
               "type": "TEXT",
               "name": "Text",
               "x": 8.27,
-              "y": 2,
+              "y": 0.5,
               "width": 134.4,
-              "height": 28,
+              "height": 31,
               "opacity": 1,
               "characters": "Learn More",
               "fontName": {
@@ -120,7 +120,7 @@
               "textAutoResize": "WIDTH_AND_HEIGHT",
               "lineHeight": {
                 "unit": "PIXELS",
-                "value": 28
+                "value": 31
               },
               "letterSpacing": {
                 "unit": "PIXELS",

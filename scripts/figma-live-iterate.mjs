@@ -110,8 +110,13 @@ function printStatus(report, options = {}) {
     const hotspots = regions ? `  (${regions} hotspots)` : "";
     const region =
       r.maxRegionPercent != null ? ` / ${r.maxRegionPercent.toFixed(2)}% hotspot` : "";
+    const limits =
+      r.globalTolerance != null && r.regionTolerance != null
+        ? ` [≤${r.globalTolerance}% / ≤${r.regionTolerance}%]`
+        : "";
+    const reason = r.failReason ? ` (${r.failReason})` : "";
     console.log(
-      `  ${icon} ${r.storyId.padEnd(42)} ${r.status.toUpperCase().padEnd(5)} ${r.percent.toFixed(3)}%${region}${hotspots}`
+      `  ${icon} ${r.storyId.padEnd(42)} ${r.status.toUpperCase().padEnd(5)} ${r.percent.toFixed(3)}%${region}${limits}${reason}${hotspots}`
     );
     if (r.error) console.log(`      error: ${r.error}`);
   }

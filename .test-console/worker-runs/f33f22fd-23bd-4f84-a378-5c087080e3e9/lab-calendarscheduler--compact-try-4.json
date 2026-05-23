@@ -1,0 +1,40 @@
+{
+  "storyId": "lab-calendarscheduler--compact",
+  "attempt": 4,
+  "jobId": "f33f22fd-23bd-4f84-a378-5c087080e3e9",
+  "recordedAt": "2026-05-23T11:21:32.770Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 1.018693705210715,
+    "maxRegionPercent": 4.01306299086392,
+    "error": null
+  },
+  "afterTest": {
+    "status": "error",
+    "percent": 100,
+    "maxRegionPercent": null,
+    "error": "Export timed out after 600000ms"
+  },
+  "agentExitCode": 41,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-calendarscheduler--compact_try4-1779534679965.prompt.txt",
+    ".test-console/child-status/f33f22fd-23bd-4f84-a378-5c087080e3e9-agent-lab-calendarscheduler--compact_try4-1779534679965.json",
+    ".test-console/orchestrator-state.json",
+    ".test-console/server.pid"
+  ],
+  "evaluation": {
+    "verdict": "WORSE_METRICS",
+    "verdicts": [
+      "WORSE_METRICS"
+    ],
+    "nextWorkerMode": "narrow_scope",
+    "interventionLines": [
+      "Supervisor: global diff worsened by 98.98% — revert harmful edits; do not repeat the same approach.",
+      "Supervisor: agent CLI exited 41 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

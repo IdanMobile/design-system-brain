@@ -1,0 +1,38 @@
+{
+  "storyId": "lab-button--ghost",
+  "attempt": 3,
+  "jobId": "af12c7ad-a90b-43af-b83a-a6b1b949cd10",
+  "recordedAt": "2026-05-22T20:35:06.977Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 3.5767790262172285,
+    "maxRegionPercent": 3.5767790262172285,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 3.5767790262172285,
+    "maxRegionPercent": 3.5767790262172285,
+    "error": null
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-button--ghost_try3-1779482093550.prompt.txt",
+    ".test-console/child-status/af12c7ad-a90b-43af-b83a-a6b1b949cd10-agent-lab-button--ghost_try3-1779482093550.json"
+  ],
+  "evaluation": {
+    "verdict": "STUCK_LOOP",
+    "verdicts": [
+      "STUCK_LOOP"
+    ],
+    "nextWorkerMode": "investigate_first",
+    "interventionLines": [
+      "Supervisor: metrics unchanged across attempts — stop guessing; use investigate-figma-mismatch on compare PNG + artifact before editing.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

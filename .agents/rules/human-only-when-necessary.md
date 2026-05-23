@@ -1,0 +1,38 @@
+# Human only when the agent cannot
+
+## Default: you run it
+
+- **All** `pnpm` / `node` commands — start yourself in the shell (background for long-running: `storybook:serve`, `figma:relay`).
+- **Never** paste a command list for the user to run unless you already tried and failed with an error you cannot fix.
+- **Never** ask "Should I run X?" — run X, then report the result.
+- Check health yourself: `pnpm infra:health` (or `node scripts/infra-health.mjs`) before live tests.
+
+## Human-only (cannot be automated here)
+
+| Action | Why human |
+| --- | --- |
+| **Reload Figma plugin** after `code-v2` rebuild | Figma Desktop UI — no API from agent |
+| **Open plugin first time** if Figma is closed | Desktop app not controllable from agent |
+| **Click "bridge connected"** in plugin UI | Only if `infra:health` shows `pluginConnected: false` after you started relay |
+| Secrets / login / OS dialogs | Outside repo |
+
+Do **not** ask the human to: run `pnpm storybook:serve`, `pnpm figma:relay`, `pnpm orchestrator:context`, tests, extract, or portfolio refresh — **you** do those.
+
+## Live Figma flow (agent-driven)
+
+1. `pnpm infra:health` — if storybook down → `pnpm storybook:serve` (background). If relay down → `pnpm figma:relay` (background). Wait and re-check.
+2. If `pluginConnected: false` → **one line** to user: open Figma → Development → Universal JSON Importer Lab; wait for bridge connected. Then continue when health passes (poll or user says ready).
+3. Fix → `pnpm figma:plugin:build-reload` (build + Cmd+Option+P auto-reload on macOS) → try live test. If reload/reconnect fails → **one line**: open/reload plugin in Figma, reply `ready`. No command dump.
+4. If user already said plugin is open/connected, proceed without asking again.
+
+## Bad vs good
+
+| Bad | Good |
+| --- | --- |
+| "Run `pnpm figma:relay` then …" | Start relay in background; report "relay up, plugin not connected — need Figma plugin open" |
+| "Before live tests, run these 5 commands" | Run them; show exit codes |
+| "Reply ready when done" (before trying) | Try live test first; ask `ready` only if bridge fails |
+
+## Orchestrator
+
+Verdict **BLOCKED** with `humanRequired: true` only for rows in the human-only table above — not for missing Storybook/relay (agent starts those).

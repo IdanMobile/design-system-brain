@@ -1,0 +1,50 @@
+{
+  "storyId": "lab-button--secondary",
+  "attempt": 1,
+  "jobId": "9bd634f3-55c8-4b07-9e61-9e67b8d14d11",
+  "recordedAt": "2026-05-23T15:27:19.064Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 3.382701421800948,
+    "maxRegionPercent": 3.382701421800948,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 3.6552132701421804,
+    "maxRegionPercent": 3.6552132701421804,
+    "error": null
+  },
+  "agentExitCode": 0,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-button--secondary_try1-1779549744126.prompt.txt",
+    ".test-console/child-status/9bd634f3-55c8-4b07-9e61-9e67b8d14d11-agent-lab-button--secondary_try1-1779549744126.json",
+    ".test-console/server.pid",
+    "figma-diffs/by-story/lab-button-secondary/result.json",
+    "figma-diffs/lab-button-secondary/artifact.v2.json",
+    "figma-diffs/report.json",
+    "packages/figma-importer-plugin/dist/code.js",
+    "packages/figma-importer-plugin/src/code-v2.ts",
+    "scripts/test-console-agent-child-run.mjs",
+    "scripts/test-console-cursor-cli.mjs",
+    "scripts/test-console-managed-run.mjs",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "WORSE_METRICS",
+    "verdicts": [
+      "WORSE_METRICS",
+      "SHARED_ADAPTER"
+    ],
+    "nextWorkerMode": "narrow_scope",
+    "interventionLines": [
+      "Supervisor: global diff worsened by 0.27% — revert harmful edits; do not repeat the same approach.",
+      "Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done."
+    ],
+    "tierCRequired": true
+  }
+}

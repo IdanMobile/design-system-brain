@@ -126,7 +126,7 @@
               "name": "button",
               "x": 12,
               "y": 12,
-              "width": 90.72,
+              "width": 91,
               "height": 33,
               "opacity": 1,
               "fills": [
@@ -154,14 +154,14 @@
                 999
               ],
               "effects": [],
-              "clipsContent": true,
+              "clipsContent": false,
               "children": [
                 {
                   "id": 4,
                   "kind": "TEXT",
                   "type": "TEXT",
                   "name": "Text",
-                  "x": 16.56,
+                  "x": 16.7,
                   "y": 8,
                   "width": 57.599999999999994,
                   "height": 17,
@@ -205,7 +205,7 @@
               "name": "button",
               "x": 112.72,
               "y": 12,
-              "width": 78.19,
+              "width": 78,
               "height": 33,
               "opacity": 1,
               "fills": [
@@ -233,7 +233,7 @@
                 999
               ],
               "effects": [],
-              "clipsContent": true,
+              "clipsContent": false,
               "children": [
                 {
                   "id": 6,
@@ -284,7 +284,7 @@
               "name": "button",
               "x": 200.91,
               "y": 12,
-              "width": 83.19,
+              "width": 83,
               "height": 33,
               "opacity": 1,
               "fills": [
@@ -312,14 +312,14 @@
                 999
               ],
               "effects": [],
-              "clipsContent": true,
+              "clipsContent": false,
               "children": [
                 {
                   "id": 8,
                   "kind": "TEXT",
                   "type": "TEXT",
                   "name": "Text",
-                  "x": 12.8,
+                  "x": 12.7,
                   "y": 8,
                   "width": 57.599999999999994,
                   "height": 17,

@@ -1,0 +1,77 @@
+{
+  "storyId": "lab-calendarscheduler--compact",
+  "attempt": 5,
+  "jobId": "70187351-5449-4bab-85e6-c8befbbbd042",
+  "recordedAt": "2026-05-23T07:56:24.140Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "error",
+    "percent": 100,
+    "maxRegionPercent": null,
+    "error": "Export timed out after 600000ms"
+  },
+  "afterTest": {
+    "status": "error",
+    "percent": 100,
+    "maxRegionPercent": null,
+    "error": "Export timed out after 90000ms"
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-calendarscheduler--compact_try5-1779521814978.prompt.txt",
+    "figma-diffs/by-story/lab-calendarscheduler-compact/result.json",
+    "figma-diffs/lab-calendarscheduler-compact/artifact.v2.json",
+    "figma-diffs/report.json",
+    "figma-live-diffs/by-story/lab-calendarscheduler-compact/result.json",
+    "figma-live-diffs/lab-calendarscheduler-compact/artifact.v2.json",
+    "figma-live-diffs/lab-calendarscheduler-compact/diff.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/figma.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/regions/region-01-compare.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/regions/region-01-rendered.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/regions/region-01-storybook.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/regions/region-02-compare.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/regions/region-02-rendered.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/regions/region-02-storybook.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/regions/region-03-compare.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/regions/region-03-rendered.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/regions/region-03-storybook.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/regions/region-04-compare.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/regions/region-04-rendered.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/regions/region-04-storybook.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/regions/region-05-compare.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/regions/region-05-rendered.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/regions/region-05-storybook.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/regions/region-06-compare.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/regions/region-06-rendered.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/regions/region-06-storybook.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/regions/region-07-compare.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/regions/region-07-rendered.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/regions/region-07-storybook.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/regions/region-08-compare.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/regions/region-08-rendered.png",
+    "figma-live-diffs/lab-calendarscheduler-compact/regions/region-08-storybook.png",
+    "figma-live-diffs/report.html",
+    "figma-live-diffs/report.json",
+    "packages/figma-importer-plugin/dist/code.js",
+    "packages/figma-importer-plugin/src/code-v2.ts",
+    "packages/figma-importer-plugin/src/code.ts",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "STUCK_LOOP",
+    "verdicts": [
+      "STUCK_LOOP",
+      "SHARED_ADAPTER"
+    ],
+    "nextWorkerMode": "investigate_first",
+    "interventionLines": [
+      "Supervisor: two consecutive attempts with no metric movement — switch to investigate-first.",
+      "Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": true
+  }
+}

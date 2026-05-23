@@ -1,0 +1,89 @@
+project: llm-platform-plan
+version: 0.1.0
+type: side-project
+last_updated: "2026-05-22"
+
+trigger_phrases:
+  - look in LLM-platform-plan
+  - LLM-platform-plan
+  - platform plan
+  - side project plan
+  - follow the platform plan
+
+entry: AGENTS.md
+side_project: true
+
+excludes:
+  - docs/ROADMAP.md
+  - .cursor/rules/automatic-workflows.mdc
+  - .cursor/skills/figma-renderer-until-pass
+
+active:
+  phase: P0
+  name: ir-specification
+  focus: UniversalLayer + SemanticGraph + DesignerLock
+
+priority_docs:
+  - GUIDELINES.md
+  - WORKFLOWS.md
+  - PHASES.md
+
+documents:
+  - id: agents
+    path: AGENTS.md
+    role: entry
+    tags: [ai, routing]
+  - id: guidelines
+    path: GUIDELINES.md
+    role: rules
+    tags: [ai, mandatory]
+  - id: workflows
+    path: WORKFLOWS.md
+    role: procedures
+    tags: [ai, steps]
+  - id: vision
+    path: VISION.md
+    tags: [product, north-star]
+  - id: architecture
+    path: ARCHITECTURE.md
+    tags: [ir, ingress, egress, diagrams]
+  - id: phases
+    path: PHASES.md
+    tags: [planning, p0-p6]
+  - id: human-prep
+    path: HUMAN-PREP.md
+    tags: [people, checklists]
+  - id: model-strategy
+    path: MODEL-STRATEGY.md
+    tags: [ml, training]
+  - id: infrastructure
+    path: INFRASTRUCTURE.md
+    tags: [hosting, gpu, ci]
+  - id: data-pipeline
+    path: DATA-PIPELINE.md
+    tags: [datasets, logging]
+  - id: risks
+    path: RISKS-AND-GATES.md
+    tags: [quality, go-no-go]
+  - id: lab-appendix
+    path: APPENDIX-LAB-REFERENCE.md
+    tags: [reference, optional]
+  - id: exec-summary
+    path: EXEC-SUMMARY.md
+    tags: [overview]
+
+workflows:
+  default:
+    steps: [AGENTS.md, GUIDELINES.md, WORKFLOWS.md, PHASES.md]
+  design-ir:
+    steps: [GUIDELINES.md, ARCHITECTURE.md, PHASES.md]
+  design-ingress:
+    steps: [GUIDELINES.md, ARCHITECTURE.md, WORKFLOWS.md, RISKS-AND-GATES.md]
+  design-egress:
+    steps: [GUIDELINES.md, ARCHITECTURE.md, WORKFLOWS.md, RISKS-AND-GATES.md]
+  pick-model:
+    steps: [GUIDELINES.md, MODEL-STRATEGY.md, INFRASTRUCTURE.md]
+  setup-infra:
+    steps: [INFRASTRUCTURE.md, RISKS-AND-GATES.md, HUMAN-PREP.md]
+  plan-next:
+    steps: [AGENTS.md, PHASES.md, RISKS-AND-GATES.md]

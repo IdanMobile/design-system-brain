@@ -55,7 +55,7 @@ Superpowers skills live in the Cursor Superpowers plugin. If unavailable in CLI,
 
 ## Process
 
-1. Read `docs/ROADMAP.md`, `.cursor/agent-context.auto.md`, `upload_to_cloud/DECISIONS.md`
+1. Read `docs/ROADMAP.md`, `.cursor/agent-context.auto.md`, `.cursor/rules/automatic-workflows.mdc`
 2. Map hot paths and list evidence (file:line) for each finding
 3. Cross-check orchestrator vs fix-worker responsibilities
 4. Write findings with severity; ordered recommendations

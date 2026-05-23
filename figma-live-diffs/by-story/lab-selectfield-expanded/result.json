@@ -2,10 +2,10 @@
   "storyId": "lab-selectfield--expanded",
   "width": 458,
   "height": 305,
-  "pixelsDiffered": 611,
+  "pixelsDiffered": 391,
   "pixelsTotal": 139690,
-  "percent": 0.437397093564321,
-  "maxRegionPercent": 1.1855257896841265,
+  "percent": 0.27990550504688955,
+  "maxRegionPercent": 0.7457017193122751,
   "status": "pass",
   "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-selectfield-expanded/storybook.png",
   "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-selectfield-expanded/figma.png",
@@ -19,8 +19,8 @@
         "y": 0,
         "width": 164,
         "height": 305,
-        "pixels": 593,
-        "percent": 1.1855257896841265
+        "pixels": 373,
+        "percent": 0.7457017193122751
       },
       "storybook": "regions/region-01-storybook.png",
       "rendered": "regions/region-01-rendered.png",
@@ -41,5 +41,5 @@
       "compare": "regions/region-02-compare.png"
     }
   ],
-  "testedAt": "2026-05-22T10:51:50.744Z"
+  "testedAt": "2026-05-22T15:03:51.843Z"
 }

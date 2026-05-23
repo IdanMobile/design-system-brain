@@ -2,11 +2,14 @@
   "storyId": "lab-featurecard--default",
   "width": 618,
   "height": 338,
-  "pixelsDiffered": 1961,
+  "pixelsDiffered": 1651,
   "pixelsTotal": 208884,
-  "percent": 0.9387985676260507,
-  "maxRegionPercent": 1.947701688555347,
-  "status": "pass",
+  "percent": 0.7903908389345283,
+  "maxRegionPercent": 3.7119425385934823,
+  "globalTolerance": 2.5,
+  "regionTolerance": 2.2,
+  "failReason": "hotspot",
+  "status": "fail",
   "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-default/storybook.png",
   "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-default/figma.png",
   "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-default/diff.png",
@@ -15,12 +18,12 @@
     {
       "index": 1,
       "rect": {
-        "x": 76,
-        "y": 0,
-        "width": 520,
-        "height": 164,
-        "pixels": 1661,
-        "percent": 1.947701688555347
+        "x": 172,
+        "y": 28,
+        "width": 424,
+        "height": 88,
+        "pixels": 1385,
+        "percent": 3.7119425385934823
       },
       "storybook": "regions/region-01-storybook.png",
       "rendered": "regions/region-01-rendered.png",
@@ -29,12 +32,12 @@
     {
       "index": 2,
       "rect": {
-        "x": 412,
+        "x": 508,
         "y": 220,
-        "width": 206,
+        "width": 110,
         "height": 118,
-        "pixels": 234,
-        "percent": 0.9626460424551588
+        "pixels": 237,
+        "percent": 1.8258859784283512
       },
       "storybook": "regions/region-02-storybook.png",
       "rendered": "regions/region-02-rendered.png",
@@ -43,17 +46,17 @@
     {
       "index": 3,
       "rect": {
-        "x": 28,
-        "y": 263,
+        "x": 76,
+        "y": 76,
         "width": 88,
-        "height": 75,
-        "pixels": 66,
-        "percent": 1
+        "height": 88,
+        "pixels": 17,
+        "percent": 0.21952479338842976
       },
       "storybook": "regions/region-03-storybook.png",
       "rendered": "regions/region-03-rendered.png",
       "compare": "regions/region-03-compare.png"
     }
   ],
-  "testedAt": "2026-05-22T13:17:56.512Z"
+  "testedAt": "2026-05-23T15:42:15.451Z"
 }
