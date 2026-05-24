@@ -48,9 +48,28 @@ import {
 
 const theme = createTheme();
 
+type MuiButtonId = "contained" | "outlined" | "text" | "view-details" | "continue";
+
 /** Page-scale MUI fixture — one wrapped deliverable matching Storybook / Figma. */
 export function MUIShowcase() {
   const [tabValue, setTabValue] = React.useState(0);
+  const [pressedButtons, setPressedButtons] = React.useState<
+    Record<MuiButtonId, boolean>
+  >({
+    contained: false,
+    outlined: false,
+    text: false,
+    "view-details": false,
+    continue: false
+  });
+  const togglePressed = (id: MuiButtonId) => () => {
+    setPressedButtons((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+  const pressedProps = (id: MuiButtonId) => ({
+    "aria-pressed": pressedButtons[id],
+    "data-pressed-managed": "true" as const,
+    onClick: togglePressed(id)
+  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -65,9 +84,15 @@ export function MUIShowcase() {
 
             <Paper elevation={1} sx={{ p: 3 }}>
               <Stack direction={{ xs: "column", sm: "row" }} spacing={2} useFlexGap sx={{ flexWrap: "wrap" }}>
-                <Button variant="contained">Contained</Button>
-                <Button variant="outlined">Outlined</Button>
-                <Button variant="text">Text</Button>
+                <Button variant="contained" {...pressedProps("contained")}>
+                  Contained
+                </Button>
+                <Button variant="outlined" {...pressedProps("outlined")}>
+                  Outlined
+                </Button>
+                <Button variant="text" {...pressedProps("text")}>
+                  Text
+                </Button>
                 <Chip label="Default Chip" />
                 <Chip color="success" label="Success Chip" />
                 <Badge badgeContent={4} color="primary">
@@ -222,8 +247,10 @@ export function MUIShowcase() {
               </CardContent>
               <Divider />
               <CardActions>
-                <Button size="small">View Details</Button>
-                <Button size="small" variant="contained">
+                <Button size="small" {...pressedProps("view-details")}>
+                  View Details
+                </Button>
+                <Button size="small" variant="contained" {...pressedProps("continue")}>
                   Continue
                 </Button>
               </CardActions>

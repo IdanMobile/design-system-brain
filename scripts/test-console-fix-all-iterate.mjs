@@ -55,6 +55,7 @@ import {
   promoteSandboxFiles,
   teardownSandbox
 } from "./sandbox-worktree.mjs";
+import { recordStoryFailureInVault } from "./lab-memory-vault.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const CURSOR_USAGE_FLAG = join(ROOT, ".test-console", "cursor-usage-blocked.flag");
@@ -74,10 +75,26 @@ export const MAX_BATCH_TRIES = Math.min(
   Math.max(1, Number(process.env.TEST_CONSOLE_FIX_ALL_BATCH_MAX_TRIES ?? 3))
 );
 
+/**
+ * Cap stories shown to the agent per batch attempt. The agent paralyzes when
+ * asked to investigate 14 stories at once. Worst-first sort + chunk ⇒ small
+ * focused fix sessions. Set to 0 (or a big number) to disable.
+ */
+export const BATCH_CHUNK_SIZE = Math.max(
+  1,
+  Number(process.env.FIX_ALL_BATCH_CHUNK_SIZE ?? 4)
+);
+
 function fixAllSerialMode(storyIds) {
-  const env = process.env.FIX_ALL_SERIAL;
-  if (env === "1" || env === "true") return true;
-  return storyIds.length <= 1;
+  const serialEnv = process.env.FIX_ALL_SERIAL;
+  if (serialEnv === "1" || serialEnv === "true") return true;
+  if (serialEnv === "0" || serialEnv === "false") return false;
+  const batchEnv = process.env.FIX_ALL_BATCH;
+  if (batchEnv === "1" || batchEnv === "true") return false;
+  // Default: serial mode for all suites/queue sizes. Batch mode paralyzes the
+  // agent on multi-story prompts (see watchdog logs). Set FIX_ALL_BATCH=1 to
+  // opt back into the multi-story-per-session batch loop.
+  return true;
 }
 
 /**
@@ -117,6 +134,70 @@ function readStoryStatus(suiteId, storyId) {
     maxRegionPercent: story.maxRegionPercent ?? null,
     error: story.error ?? null
   };
+}
+
+function readStoryResultMeta(suiteId, storyId) {
+  const cfg = SUITES[suiteId];
+  if (!cfg) return null;
+  const path = join(ROOT, cfg.dir, "by-story", safeSegment(storyId), "result.json");
+  if (!existsSync(path)) return null;
+  try {
+    const parsed = JSON.parse(readFileSync(path, "utf8"));
+    const testedAtRaw = parsed?.testedAt ?? parsed?.generatedAt ?? null;
+    const testedAtMs = testedAtRaw ? Date.parse(testedAtRaw) : NaN;
+    return {
+      status: typeof parsed?.status === "string" ? parsed.status : null,
+      testedAtMs: Number.isFinite(testedAtMs) ? testedAtMs : null,
+      error: typeof parsed?.error === "string" ? parsed.error : null
+    };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Before attempt 1 on a story, the report row often reflects a STALE result
+ * from a prior cancelled run (very common cause: an extractor `error` like
+ * "No [data-figma-component] root found" left behind by a failed batch).
+ * Handing those stale metrics to the agent makes it chase a renderer phantom
+ * instead of the real (small) pixel diff. Re-test once so the prompt + agent
+ * see the truth.
+ *
+ * Only refreshes when the prior result is OLDER than the current orchestrator
+ * job AND its status is `error`/missing — never refreshes a known PASS/FAIL/WARN
+ * (those metrics, even if minutes old, are still legitimate).
+ *
+ * @returns {Promise<boolean>} true when a refresh ran, false when skipped
+ */
+async function refreshStaleStoryResult({
+  suiteId,
+  storyId,
+  jobStartedAtMs,
+  appendLog,
+  jobId,
+  killFlagPath,
+  prefix
+}) {
+  const meta = readStoryResultMeta(suiteId, storyId);
+  const status = meta?.status ?? "missing";
+  const stale = !meta?.testedAtMs || meta.testedAtMs < jobStartedAtMs;
+  const looksBroken = status === "error" || status === "missing" || !meta;
+  if (!stale || !looksBroken) return false;
+  const ageNote = meta?.testedAtMs
+    ? `${Math.round((jobStartedAtMs - meta.testedAtMs) / 1000)}s before job start`
+    : "no result.json";
+  await appendLog(
+    `${prefix} — pre-attempt-1 metrics look stale (${status}, ${ageNote}); refreshing with one live test before invoking agent…\n`
+  );
+  try {
+    const refresh = await runFullSuiteGolden(suiteId, appendLog, jobId, killFlagPath, {
+      storyIds: [storyId]
+    });
+    await appendLog(`${prefix} — pre-attempt refresh finished exit ${refresh?.status ?? 1}\n`);
+  } catch (err) {
+    await appendLog(`${prefix} — pre-attempt refresh threw: ${String(err?.message ?? err)}\n`);
+  }
+  return true;
 }
 
 /** @returns {FixAllMetrics} */
@@ -360,6 +441,7 @@ async function runFixAllBatch(jobId, { killFlagPath, suiteId, storyIds, cfg, app
   let lastBatchOutcome = null;
   let storiesPassed = 0;
   let batchRegressionStreak = 0;
+  let watchdogStreak = 0;
   let suggestSerial = false;
   const useWorktree = sandboxWorktreeEnabled();
 
@@ -368,7 +450,7 @@ async function runFixAllBatch(jobId, { killFlagPath, suiteId, storyIds, cfg, app
       `[fix-all] Investigation report written before each agent session.\n` +
       `[fix-all] Sandbox gate ON — metrics regress → auto git restore.\n` +
       (useWorktree ? `[fix-all] FIX_ALL_SANDBOX=worktree — agent edits in isolated worktree.\n` : "") +
-      `[fix-all] Set FIX_ALL_SERIAL=1 to force one-story-at-a-time mode.\n`
+      `[fix-all] Legacy batch mode — serial is now the default; set FIX_ALL_BATCH=1 to opt back into batch.\n`
   );
 
   for (let batchAttempt = 1; batchAttempt <= MAX_BATCH_TRIES; batchAttempt++) {
@@ -384,13 +466,27 @@ async function runFixAllBatch(jobId, { killFlagPath, suiteId, storyIds, cfg, app
       break;
     }
 
-    const stories = remaining
+    const allStoriesForBatch = remaining
       .map((id) => agent.getStoryFromReport(suiteId, id, SUITES, safeSegment))
       .filter(Boolean);
 
-    if (!stories.length) {
+    if (!allStoriesForBatch.length) {
       await appendLog("[fix-all] batch — no report rows for remaining stories\n");
       break;
+    }
+
+    const sortedStories = [...allStoriesForBatch].sort((a, b) => {
+      const aHot = Math.max(a.percent ?? 0, a.maxRegionPercent ?? 0);
+      const bHot = Math.max(b.percent ?? 0, b.maxRegionPercent ?? 0);
+      return bHot - aHot;
+    });
+    const chunkSize = Math.min(BATCH_CHUNK_SIZE, sortedStories.length);
+    const stories = sortedStories.slice(0, chunkSize);
+    if (chunkSize < sortedStories.length) {
+      await appendLog(
+        `[fix-all] batch ${batchAttempt} — focusing on top ${chunkSize}/${sortedStories.length} worst stories ` +
+          `(${stories.map((s) => s.storyId).join(", ")}); harness re-tests ALL ${sortedStories.length} after the fix.\n`
+      );
     }
 
     const reportPath = join(ROOT, cfg.dir, "report.json");
@@ -410,7 +506,8 @@ async function runFixAllBatch(jobId, { killFlagPath, suiteId, storyIds, cfg, app
       suiteId,
       suiteLabel: cfg.label,
       tolerance,
-      regionTolerance
+      regionTolerance,
+      repoRoot: ROOT
     });
     const reportPaths = writeBatchInvestigationReport(ROOT, jobId, batchAttempt, payload);
 
@@ -492,6 +589,27 @@ async function runFixAllBatch(jobId, { killFlagPath, suiteId, storyIds, cfg, app
     }
 
     let filesChanged = diffWorkspaceSnapshots(gitBefore, snapshotWorkspace(activeRoot));
+
+    const codeFilesChanged = filesChanged.filter(
+      (p) => !p.startsWith(".test-console/") && !p.startsWith("figma-live-diffs/") && !p.startsWith("test-portfolio/")
+    );
+    if (batchAgent.watchdogTripped && codeFilesChanged.length === 0) {
+      watchdogStreak += 1;
+      await appendLog(
+        `[fix-all] batch ${batchAttempt} — watchdog kill #${watchdogStreak}: ${batchAgent.watchdogReason ?? "no progress"}\n`
+      );
+      if (watchdogStreak >= 2) {
+        suggestSerial = true;
+        await appendLog(
+          `[fix-all] batch — ${watchdogStreak} consecutive watchdog kills with 0 code edits. ` +
+            `Batch mode is paralyzing the agent on this suite. Auto-falling back to serial mode (one story at a time).\n`
+        );
+        if (sandbox) teardownSandbox(sandbox, ROOT);
+        break;
+      }
+    } else if (codeFilesChanged.length > 0) {
+      watchdogStreak = 0;
+    }
     if (sandbox && filesChanged.length) {
       const promoted = promoteSandboxFiles(ROOT, sandbox.path, filesChanged);
       await appendLog(`[sandbox] promoted ${promoted.length} file(s) to main for test\n`);
@@ -569,7 +687,7 @@ async function runFixAllBatch(jobId, { killFlagPath, suiteId, storyIds, cfg, app
       if (batchRegressionStreak >= 2) {
         suggestSerial = true;
         await appendLog(
-          `[fix-all] batch — ${batchRegressionStreak} consecutive regressions; stopping batch. Re-run with FIX_ALL_SERIAL=1.\n`
+          `[fix-all] batch — ${batchRegressionStreak} consecutive regressions; stopping batch. Auto-falling back to serial mode.\n`
         );
         break;
       }
@@ -602,6 +720,9 @@ async function runFixAllBatch(jobId, { killFlagPath, suiteId, storyIds, cfg, app
       stillFailing,
       filesChanged,
       agentExitCode: agentCode ?? 0,
+      watchdogTripped: Boolean(batchAgent.watchdogTripped),
+      watchdogReason: batchAgent.watchdogReason ?? null,
+      editCount: batchAgent.editCount ?? null,
       promotion: {
         discard: promotion.discard,
         promote: promotion.promote,
@@ -663,7 +784,7 @@ async function runFixAllBatch(jobId, { killFlagPath, suiteId, storyIds, cfg, app
     `\n[fix-all] Batch done: ${storiesPassed}/${storyIds.length} pass` +
       (storiesExhausted ? `, ${storiesExhausted} still failing` : "") +
       (killed ? " (cancelled)" : "") +
-      (suggestSerial ? " · suggest FIX_ALL_SERIAL=1" : "") +
+      (suggestSerial ? " · auto-falling back to serial mode" : "") +
       "\n"
   );
 
@@ -683,6 +804,11 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
   if (!hasCursorAgent()) {
     throw new Error("Cursor CLI not found");
   }
+
+  // Wall-clock anchor used to detect stale per-story result.json files that
+  // were left behind by a prior cancelled job (common cause of misleading
+  // "error 100%" handed to the agent on attempt 1).
+  const jobStartedAtMs = Date.now();
 
   const job = await api(`/api/jobs/${jobId}`);
   const suiteId = suiteOverride ?? String(job.action ?? "").replace(/^fix-all:/, "");
@@ -727,15 +853,35 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
 
   await appendLog(
     fixAllSerialMode(storyIds)
-      ? `[fix-all] Serial mode: up to ${MAX_TRIES_PER_STORY} fix→test cycles per story (${cfg.label})\n` +
+      ? `[fix-all] Serial mode (default): up to ${MAX_TRIES_PER_STORY} fix→test cycles per story across ${storyIds.length} stor${storyIds.length === 1 ? "y" : "ies"} (${cfg.label})\n` +
           `[fix-all] Worker supervisor ON — observes git diff + metrics, steers stuck agents.\n` +
-          `[fix-all] Supervisor stays in this tab; child Terminal tabs open for agents, builds, and tests.\n`
-      : `[fix-all] Batch mode: ${storyIds.length} stories — investigate report → one fixer session → re-test all (${cfg.label})\n` +
-          `[fix-all] Up to ${MAX_BATCH_TRIES} batch rounds. Set FIX_ALL_SERIAL=1 for one-by-one.\n`
+          `[fix-all] Supervisor stays in this tab; child Terminal tabs open for agents, builds, and tests.\n` +
+          `[fix-all] Legacy batch mode is opt-in: set FIX_ALL_BATCH=1.\n`
+      : `[fix-all] Legacy BATCH mode (FIX_ALL_BATCH=1): ${storyIds.length} stories — investigate report → one fixer session → re-test all (${cfg.label})\n` +
+          `[fix-all] Up to ${MAX_BATCH_TRIES} batch rounds.\n`
   );
 
+  let serialStoryIds = storyIds;
+
   if (!fixAllSerialMode(storyIds)) {
-    return runFixAllBatch(jobId, { killFlagPath, suiteId, storyIds, cfg, appendLog });
+    const batchResult = await runFixAllBatch(jobId, {
+      killFlagPath,
+      suiteId,
+      storyIds,
+      cfg,
+      appendLog
+    });
+    if (batchResult.blocked) return batchResult;
+    if (batchResult.passed) return batchResult;
+    if (existsSync(killFlagPath)) return batchResult;
+    if (!batchResult.suggestSerial) return batchResult;
+
+    serialStoryIds = storyIds.filter((id) => readStoryStatus(suiteId, id)?.status !== "pass");
+    if (!serialStoryIds.length) return batchResult;
+    await appendLog(
+      `\n[fix-all] ↩ Auto-fallback: continuing into SERIAL mode for ${serialStoryIds.length} still-failing stories ` +
+        `(${serialStoryIds.slice(0, 5).join(", ")}${serialStoryIds.length > 5 ? "…" : ""}).\n`
+    );
   }
 
   writeOrchestratorState(ROOT, {
@@ -744,7 +890,7 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
     suiteLabel: cfg.label,
     jobId,
     storyIndex: 0,
-    storyTotal: storyIds.length,
+    storyTotal: serialStoryIds.length,
     verdict: "ON_TRACK",
     nextWorkerMode: "continue"
   });
@@ -752,11 +898,11 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
   let storiesPassed = 0;
   let storiesExhausted = 0;
 
-  for (let i = 0; i < storyIds.length; i++) {
+  for (let i = 0; i < serialStoryIds.length; i++) {
     if (existsSync(killFlagPath)) break;
 
-    const storyId = storyIds[i];
-    const prefix = `[fix-all] ${i + 1}/${storyIds.length} ${storyId}`;
+    const storyId = serialStoryIds[i];
+    const prefix = `[fix-all] ${i + 1}/${serialStoryIds.length} ${storyId}`;
 
     let current = readStoryStatus(suiteId, storyId);
     if (current?.status === "pass") {
@@ -793,6 +939,26 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
       let pluginBuildFailed = false;
       let pluginBuildTail = "";
 
+      if (attempt === 1) {
+        const refreshed = await refreshStaleStoryResult({
+          suiteId,
+          storyId,
+          jobStartedAtMs,
+          appendLog,
+          jobId,
+          killFlagPath,
+          prefix
+        });
+        if (refreshed) {
+          const after = readStoryStatus(suiteId, storyId);
+          if (after?.status === "pass") {
+            await appendLog(`${prefix} — refreshed result is PASS; skipping agent\n`);
+            passed = true;
+            break;
+          }
+        }
+      }
+
       storyMeta = agent.getStoryFromReport(suiteId, storyId, SUITES, safeSegment) ?? storyMeta;
       const beforeAttempt = metricsFromStory(storyMeta);
       const hotspotNote =
@@ -803,6 +969,14 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
         `${prefix} attempt ${attempt}/${MAX_TRIES_PER_STORY} (${beforeAttempt.status} ${beforeAttempt.percent.toFixed(2)}%${hotspotNote}) — agent fix…\n`
       );
 
+      recordStoryFailureInVault(ROOT, storyMeta, suiteId, {
+        jobId,
+        source: "fix-all pre-agent",
+        attempt,
+        cfg,
+        safeSegment
+      });
+
       writeOrchestratorState(ROOT, {
         phase: "fix-all",
         suiteId,
@@ -810,7 +984,7 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
         jobId,
         storyId,
         storyIndex: i + 1,
-        storyTotal: storyIds.length,
+        storyTotal: serialStoryIds.length,
         attempt,
         maxAttempts: MAX_TRIES_PER_STORY,
         verdict: lastSupervisor?.verdict ?? "ON_TRACK",
@@ -967,7 +1141,7 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
         jobId,
         storyId,
         storyIndex: i + 1,
-        storyTotal: storyIds.length,
+        storyTotal: serialStoryIds.length,
         attempt,
         maxAttempts: MAX_TRIES_PER_STORY,
         verdict: evaluation.verdict,
@@ -985,7 +1159,7 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
       if (
         evaluation.verdict === "REGION_ONLY_FAIL" &&
         attempt >= 2 &&
-        storyIds.length === 1
+        serialStoryIds.length === 1
       ) {
         await appendLog(
           `${prefix} — supervisor stop: global PASS but hotspot still over bar — check tolerance or compare PNG, not code-v2 loop\n`
@@ -1071,13 +1245,13 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
   }
 
   if (!existsSync(killFlagPath)) {
-    if (storyIds.length === 1) {
-      await appendLog(`[fix-all] Refreshing report for ${storyIds[0]} only…\n`);
-      await runStoryTestManaged(suiteId, storyIds[0], jobId, appendLog, killFlagPath);
+    if (serialStoryIds.length === 1) {
+      await appendLog(`[fix-all] Refreshing report for ${serialStoryIds[0]} only…\n`);
+      await runStoryTestManaged(suiteId, serialStoryIds[0], jobId, appendLog, killFlagPath);
       spawnSync("node", ["scripts/test-portfolio-merge.mjs"], { cwd: ROOT, stdio: "ignore" });
     } else {
       await appendLog("[fix-all] Refreshing full suite report (child terminal)…\n");
-      await runFullSuiteGolden(suiteId, appendLog, jobId, killFlagPath, { storyIds });
+      await runFullSuiteGolden(suiteId, appendLog, jobId, killFlagPath, { storyIds: serialStoryIds });
     }
     spawnSync("node", ["scripts/orchestrator-context.mjs"], {
       cwd: ROOT,
@@ -1086,7 +1260,7 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
   }
 
   const killed = existsSync(killFlagPath);
-  const allPass = storiesPassed === storyIds.length && storyIds.length > 0;
+  const allPass = storiesPassed === serialStoryIds.length && serialStoryIds.length > 0;
   const exitCode = killed ? 130 : allPass ? 0 : 1;
 
   writeOrchestratorState(ROOT, {
@@ -1096,15 +1270,19 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
     verdict: killed ? "CANCELLED" : allPass ? "ON_TRACK" : "EXHAUSTED",
     nextWorkerMode: killed ? "stopped" : "continue",
     finished: true,
-    summary: killed ? "cancelled" : `${storiesPassed}/${storyIds.length} pass`
+    summary: killed ? "cancelled" : `${storiesPassed}/${serialStoryIds.length} pass`
   });
 
   await appendLog(
-    `\n[fix-all] Done: ${storiesPassed}/${storyIds.length} pass` +
+    `\n[fix-all] Done: ${storiesPassed}/${serialStoryIds.length} pass` +
       (storiesExhausted ? `, ${storiesExhausted} exhausted` : "") +
       (killed ? " (cancelled)" : "") +
       "\n"
   );
 
-  return { exitCode, passed: allPass && !killed, summary: `${storiesPassed}/${storyIds.length} pass` };
+  return {
+    exitCode,
+    passed: allPass && !killed,
+    summary: `${storiesPassed}/${serialStoryIds.length} pass`
+  };
 }

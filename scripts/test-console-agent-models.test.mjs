@@ -3,7 +3,9 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
   parseAgentListModelsOutput,
-  sortAgentModelOptions
+  sortAgentModelOptions,
+  resolveCursorCliModelId,
+  mergeCuratedCursorPresets
 } from "./test-console-agent-models.mjs";
 
 describe("parseAgentListModelsOutput", () => {
@@ -31,5 +33,25 @@ describe("sortAgentModelOptions", () => {
       { id: "gpt-5.2", label: "GPT-5.2" }
     ]);
     assert.equal(sorted[0].id, "composer-2.5-fast");
+  });
+});
+
+describe("resolveCursorCliModelId", () => {
+  it("maps premium-intelligence to thinking sonnet when available", () => {
+    const resolved = resolveCursorCliModelId("premium-intelligence", {
+      availableIds: new Set(["auto", "claude-4.6-sonnet-medium-thinking"])
+    });
+    assert.equal(resolved, "claude-4.6-sonnet-medium-thinking");
+  });
+
+  it("passes through concrete model ids", () => {
+    assert.equal(resolveCursorCliModelId("composer-2.5-fast"), "composer-2.5-fast");
+  });
+});
+
+describe("mergeCuratedCursorPresets", () => {
+  it("adds premium-intelligence to CLI list", () => {
+    const merged = mergeCuratedCursorPresets([{ id: "auto", label: "Auto" }]);
+    assert.ok(merged.some((o) => o.id === "premium-intelligence"));
   });
 });

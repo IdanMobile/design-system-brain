@@ -2,12 +2,12 @@
   "storyId": "lab-button--primary",
   "width": 168,
   "height": 80,
-  "pixelsDiffered": 243,
+  "pixelsDiffered": 144,
   "pixelsTotal": 13440,
-  "percent": 1.8080357142857144,
-  "maxRegionPercent": 1.8521341463414633,
-  "globalTolerance": 2.5,
-  "regionTolerance": 2.2,
+  "percent": 1.0714285714285714,
+  "maxRegionPercent": 1.9744318181818183,
+  "globalTolerance": 4.5,
+  "regionTolerance": 5,
   "status": "pass",
   "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-primary/storybook.png",
   "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-primary/figma.png",
@@ -17,17 +17,17 @@
     {
       "index": 1,
       "rect": {
-        "x": 0,
+        "x": 76,
         "y": 0,
-        "width": 164,
+        "width": 88,
         "height": 80,
-        "pixels": 243,
-        "percent": 1.8521341463414633
+        "pixels": 139,
+        "percent": 1.9744318181818183
       },
       "storybook": "regions/region-01-storybook.png",
       "rendered": "regions/region-01-rendered.png",
       "compare": "regions/region-01-compare.png"
     }
   ],
-  "testedAt": "2026-05-22T15:58:33.987Z"
+  "testedAt": "2026-05-24T20:57:45.474Z"
 }

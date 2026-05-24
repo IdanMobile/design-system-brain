@@ -12,7 +12,7 @@ export const Compact: StoryObj<typeof ProductCard> = {
 };
 export const AlternateImage: StoryObj<typeof ProductCard> = {
   args: {
-    image: "https://picsum.photos/seed/camera/600/600",
+    image: "/fixtures/product-camera.jpg",
     title: "Vintage Camera\nV12",
     status: "Back in stock"
   }

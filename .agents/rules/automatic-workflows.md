@@ -13,7 +13,7 @@ On **every** agent turn in this repo, apply the right **role chain** for the act
 
 | User / system activity | You automatically do |
 | --- | --- |
-| **Fix** — `run until pass`, `make fixes after live test`, test-console inbox, `pnpm test:console:cursor agent` | 1. `project-orchestrator` pre-flight (phase, infra, portfolio) 2. `systematic-debugging` + `investigate-figma-mismatch` **before** edits 3. `figma-renderer-until-pass` implement 4. Tier **A** (re-run steps 1..N for story) 5. Tier **C** if `code-v2.ts`, `scene-to-html.ts`, `extract.ts`, or `contract` changed 6. `verification-before-completion` with command output |
+| **Fix** — `run until pass`, `make fixes after live test`, test-console inbox, `pnpm test:console:cursor agent` | 1. `project-orchestrator` pre-flight (phase, infra, portfolio) 2. **Lab memory:** read `lab-memory/stories/<storyId>.md` if exists 3. `systematic-debugging` + `investigate-figma-mismatch` **before** edits 4. **Append** investigation to vault (`lab-memory/templates/investigation.md`) 5. `figma-renderer-until-pass` implement 6. Tier **A** (re-run steps 1..N for story) 7. Tier **C** if `code-v2.ts`, `scene-to-html.ts`, `extract.ts`, or `contract` changed 8. `verification-before-completion` with command output |
 | **Test** — `pnpm test:*`, `figma:iterate`, console Run | Run test → if fail, switch to **Fix** chain for that suite → `pnpm test:portfolio:refresh` → orchestrator verdict |
 | **Update shared adapter code** | `investigate` if visual → edit → **Tier C** mandatory → orchestrator post-flight |
 | **Update one story / variant** | Edit → Tier **A** for that story → verify step |

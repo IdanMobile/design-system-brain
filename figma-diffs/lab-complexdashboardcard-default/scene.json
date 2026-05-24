@@ -240,7 +240,7 @@
                     999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 7,
@@ -248,7 +248,7 @@
                       "type": "TEXT",
                       "name": "Text",
                       "x": 10,
-                      "y": 6,
+                      "y": 7,
                       "width": 20.16,
                       "height": 17,
                       "opacity": 1,
@@ -329,7 +329,7 @@
                     999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 9,
@@ -337,7 +337,7 @@
                       "type": "TEXT",
                       "name": "Text",
                       "x": 10,
-                      "y": 6,
+                      "y": 7,
                       "width": 13.44,
                       "height": 17,
                       "opacity": 1,
@@ -408,7 +408,7 @@
                     999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 11,
@@ -416,7 +416,7 @@
                       "type": "TEXT",
                       "name": "Text",
                       "x": 10,
-                      "y": 6,
+                      "y": 7,
                       "width": 20.16,
                       "height": 17,
                       "opacity": 1,

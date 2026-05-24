@@ -1,0 +1,35 @@
+{
+  "storyId": "lab-productcard--dark",
+  "attempt": 1,
+  "jobId": "a92e0e01-7d8a-46f9-8a21-29ba878ae770",
+  "recordedAt": "2026-05-24T18:12:44.827Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 10.559982821149076,
+    "maxRegionPercent": 24.915479624954923,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 10.559982821149076,
+    "maxRegionPercent": 24.915479624954923,
+    "error": null
+  },
+  "agentExitCode": 0,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-productcard--dark_try1-1779645781413.prompt.txt",
+    ".test-console/child-status/a92e0e01-7d8a-46f9-8a21-29ba878ae770-agent-lab-productcard--dark_try1-1779645781413.json",
+    "lab-memory/stories/lab-productcard--dark.md",
+    "packages/pixel-test/src/figma-live-test.ts"
+  ],
+  "evaluation": {
+    "verdict": "ON_TRACK",
+    "verdicts": [],
+    "nextWorkerMode": "continue",
+    "interventionLines": [],
+    "tierCRequired": false
+  }
+}

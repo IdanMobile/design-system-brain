@@ -1,0 +1,29 @@
+{
+  "storyId": "lab-meetinghomepage--default",
+  "width": 390,
+  "height": 844,
+  "pixelsDiffered": 246916,
+  "pixelsTotal": 329160,
+  "percent": 75.0139749665816,
+  "status": "fail",
+  "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-meetinghomepage-default/storybook.png",
+  "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-meetinghomepage-default/rendered.png",
+  "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-meetinghomepage-default/diff.png",
+  "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-meetinghomepage-default/artifact.v2.json",
+  "diffRegions": [
+    {
+      "index": 1,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844,
+        "pixels": 246878
+      },
+      "storybook": "regions/region-01-storybook.png",
+      "rendered": "regions/region-01-rendered.png",
+      "compare": "regions/region-01-compare.png"
+    }
+  ],
+  "testedAt": "2026-05-24T20:51:55.615Z"
+}

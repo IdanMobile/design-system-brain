@@ -1,0 +1,11 @@
+{
+  "tag": "lab-tabspanel--activity-active:try4",
+  "exitCode": 143,
+  "finishedAt": "2026-05-24T19:07:17.430Z",
+  "editCount": 0,
+  "readCount": 30,
+  "bigReadCount": 9,
+  "watchdogTripped": true,
+  "watchdogReason": "8.0m elapsed, 0 edits (reads=30, big-file reads=9). Investigation paralysis.",
+  "elapsedMs": 480441
+}

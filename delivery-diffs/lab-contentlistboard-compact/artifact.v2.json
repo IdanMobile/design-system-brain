@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-contentlistboard--compact",
     "componentName": "ContentListBoard",
-    "extractedAt": "2026-05-21T18:27:02.940Z",
+    "extractedAt": "2026-05-24T20:04:51.447Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-contentlistboard--compact&viewMode=story",
     "viewport": {
       "x": 0,
@@ -1163,7 +1163,8 @@
             "name": "input",
             "source": {
               "kind": "dom",
-              "tag": "input"
+              "tag": "input",
+              "inputType": "text"
             },
             "box": {
               "x": 0,

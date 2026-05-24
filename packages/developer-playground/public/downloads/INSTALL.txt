@@ -1,0 +1,13 @@
+@lab/ui v0.1.0
+
+1. Download lab-ui.tgz (or the versioned tarball).
+2. In your React app:
+   pnpm add ./lab-ui-0.1.0.tgz
+# or: npm install ./lab-ui-0.1.0.tgz
+3. Import styles once (e.g. in main.tsx):
+   import "@lab/ui/styles.css";
+4. Use components:
+   import { FeatureCard, Button } from "@lab/ui";
+
+Peer deps: react, react-dom (^18.3).
+MUI-based components also need @mui/material and @emotion/* (see package.json).

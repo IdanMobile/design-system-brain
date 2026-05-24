@@ -21,7 +21,10 @@ export interface DomSnapshot {
   digest: string;
   ariaExpanded: string[];
   ariaSelected: string[];
+  ariaPressed: string[];
   checked: string[];
+  inputValues: string[];
+  activeIndex: number;
   menuOpen: boolean;
 }
 
@@ -119,27 +122,76 @@ export function probeScript(): {
 }
 
 export function snapshotScript(): DomSnapshot {
+  const empty: DomSnapshot = {
+    digest: "",
+    ariaExpanded: [],
+    ariaSelected: [],
+    ariaPressed: [],
+    checked: [],
+    inputValues: [],
+    activeIndex: -1,
+    menuOpen: false
+  };
   const root = document.querySelector("[data-figma-component]");
-  if (!root) {
-    return { digest: "", ariaExpanded: [], ariaSelected: [], checked: [], menuOpen: false };
-  }
+  if (!root) return empty;
 
   const ariaExpanded: string[] = [];
   const ariaSelected: string[] = [];
+  const ariaPressed: string[] = [];
   const checked: string[] = [];
+  const inputValues: string[] = [];
 
-  root.querySelectorAll("[aria-expanded]").forEach((el) => {
+  // querySelectorAll only finds DESCENDANTS — but the [data-figma-component]
+  // root is often itself the interactive element (e.g. a Button). Walk root +
+  // descendants so we don't miss state changes on the root element.
+  const walk = (sel: string, cb: (el: Element) => void): void => {
+    if (root.matches(sel)) cb(root);
+    root.querySelectorAll(sel).forEach(cb);
+  };
+
+  walk("[aria-expanded]", (el) => {
     ariaExpanded.push(`${el.getAttribute("aria-expanded")}:${(el.textContent ?? "").slice(0, 20)}`);
   });
-  root.querySelectorAll("[aria-selected]").forEach((el) => {
+  walk("[aria-selected]", (el) => {
     ariaSelected.push(`${el.getAttribute("aria-selected")}:${(el.textContent ?? "").slice(0, 20)}`);
   });
-  root.querySelectorAll("input[type=checkbox], input[type=radio], [role=checkbox], [role=switch]").forEach((el) => {
+  walk("[aria-pressed], [data-pressed]", (el) => {
+    const v =
+      el.getAttribute("aria-pressed") ?? el.getAttribute("data-pressed") ?? "";
+    ariaPressed.push(`${v}:${(el.textContent ?? "").slice(0, 20)}`);
+  });
+  walk("input[type=checkbox], input[type=radio], [role=checkbox], [role=switch]", (el) => {
     const on =
       el.getAttribute("aria-checked") === "true" ||
       (el instanceof HTMLInputElement && el.checked);
     checked.push(`${on}:${(el.textContent ?? el.getAttribute("aria-label") ?? "").slice(0, 20)}`);
   });
+  walk("input, textarea", (el) => {
+    if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) {
+      inputValues.push(`${el.value}:${el.name ?? el.id ?? el.getAttribute("type") ?? ""}`);
+    }
+  });
+
+  // Capture which interactive descendant currently has visual focus / active
+  // styling — components can express "I just got clicked" by toggling a class
+  // (`.is-active`, `.lab-active`, `[data-active="true"]`) or by being the
+  // browser's `document.activeElement`. Either signal is enough for the audit.
+  let activeIndex = -1;
+  const focusable = root.querySelectorAll(
+    "button, a[href], input, select, textarea, [role='button'], [role='tab'], [tabindex]"
+  );
+  for (let i = 0; i < focusable.length; i += 1) {
+    const el = focusable[i] as HTMLElement;
+    if (
+      el === document.activeElement ||
+      el.matches(
+        '.is-active, .is-pressed, .lab-active, [data-active="true"], [data-pressed="true"], [aria-current="true"]'
+      )
+    ) {
+      activeIndex = i;
+      break;
+    }
+  }
 
   const menuOpen =
     root.querySelector(
@@ -150,11 +202,23 @@ export function snapshotScript(): DomSnapshot {
     root.textContent?.replace(/\s+/g, " ").trim().slice(0, 500) ?? "",
     ariaExpanded.join("|"),
     ariaSelected.join("|"),
+    ariaPressed.join("|"),
     checked.join("|"),
+    inputValues.join("|"),
+    `active:${activeIndex}`,
     menuOpen ? "menu-open" : "menu-closed"
   ].join("§");
 
-  return { digest, ariaExpanded, ariaSelected, checked, menuOpen };
+  return {
+    digest,
+    ariaExpanded,
+    ariaSelected,
+    ariaPressed,
+    checked,
+    inputValues,
+    activeIndex,
+    menuOpen
+  };
 }
 
 export function snapshotsEqual(a: DomSnapshot, b: DomSnapshot): boolean {
@@ -179,8 +243,13 @@ export function classifyFinding(
       control.role === "switch" ||
       control.role === "slider" ||
       control.tag === "select" ||
+      control.tag === "textarea" ||
       control.opensMenu ||
-      (control.tag === "input" && control.type === "checkbox");
+      (control.tag === "input" && control.type === "checkbox") ||
+      (control.tag === "input" &&
+        ["text", "email", "password", "search", "tel", "url", "number", ""].includes(
+          (control.type || "").toLowerCase()
+        ));
     return {
       ...control,
       outcome,

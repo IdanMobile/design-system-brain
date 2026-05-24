@@ -1,0 +1,38 @@
+{
+  "storyId": "lab-productcard--dark",
+  "attempt": 4,
+  "jobId": "c54ddee2-e8b7-4519-81c3-7a9a600b7a6c",
+  "recordedAt": "2026-05-24T16:16:52.428Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "error",
+    "percent": 100,
+    "maxRegionPercent": null,
+    "error": "page.evaluate: Error: No [data-figma-component] root found\n    at eval (eval at evaluate (:302:30), <anonymous>:1231:26)\n    at UtilityScript.evaluate (<anonymous>:304:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)"
+  },
+  "afterTest": {
+    "status": "error",
+    "percent": 100,
+    "maxRegionPercent": null,
+    "error": "page.evaluate: Error: No [data-figma-component] root found\n    at eval (eval at evaluate (:302:30), <anonymous>:1231:26)\n    at UtilityScript.evaluate (<anonymous>:304:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)"
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-productcard--dark_try4-1779637373291.prompt.txt",
+    ".test-console/child-status/c54ddee2-e8b7-4519-81c3-7a9a600b7a6c-agent-lab-productcard--dark_try4-1779637373291.json"
+  ],
+  "evaluation": {
+    "verdict": "STUCK_LOOP",
+    "verdicts": [
+      "STUCK_LOOP"
+    ],
+    "nextWorkerMode": "investigate_first",
+    "interventionLines": [
+      "Supervisor: two consecutive attempts with no metric movement — switch to investigate-first.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

@@ -322,10 +322,15 @@ export function openTerminalWatchJob(jobId) {
 
 /** Run fix-all orchestrator in a persistent Terminal tab (opens child tabs for agent/tests). */
 export function openTerminalRunFixAll(jobId) {
-  const serial =
-    process.env.FIX_ALL_SERIAL !== "0" &&
-    process.env.FIX_ALL_SERIAL !== "false";
-  const prefix = serial ? "FIX_ALL_SERIAL=1 " : "";
+  // Default = serial (one-story-at-a-time); batch mode is opt-in via FIX_ALL_BATCH=1.
+  const forceBatch =
+    process.env.FIX_ALL_BATCH === "1" || process.env.FIX_ALL_BATCH === "true";
+  const forceSerial =
+    process.env.FIX_ALL_SERIAL === "1" || process.env.FIX_ALL_SERIAL === "true";
+  const envParts = [];
+  if (forceBatch && !forceSerial) envParts.push("FIX_ALL_BATCH=1");
+  if (forceSerial) envParts.push("FIX_ALL_SERIAL=1");
+  const prefix = envParts.length ? `${envParts.join(" ")} ` : "";
   openTerminal(`${prefix}node scripts/test-console-cursor.mjs run-fix-all ${jobId}`, ROOT, {
     keepOpen: true,
     tabTitle: `Fix all · ${jobId.slice(0, 8)}`

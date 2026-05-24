@@ -70,6 +70,6 @@ server.on("request", (req, res) => {
 
 server.listen(PORT, "127.0.0.1", () => {
   console.log(`✓ Developer playground served from ${ROOT}`);
-  console.log(`  → http://127.0.0.1:${PORT}/?view=showcase  (Delivery showcase — all stories)`);
+  console.log(`  → http://127.0.0.1:${PORT}/?view=showcase  (Delivery showcase — download @lab/ui)`);
   console.log(`  → http://127.0.0.1:${PORT}/?story=lab-pricingpanel--pro  (single story)`);
 });

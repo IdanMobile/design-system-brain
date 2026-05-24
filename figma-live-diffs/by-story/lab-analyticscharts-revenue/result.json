@@ -2,12 +2,12 @@
   "storyId": "lab-analyticscharts--revenue",
   "width": 858,
   "height": 409,
-  "pixelsDiffered": 457,
+  "pixelsDiffered": 460,
   "pixelsTotal": 350922,
-  "percent": 0.1302283698371718,
-  "maxRegionPercent": 1.2533422459893049,
-  "globalTolerance": 2.5,
-  "regionTolerance": 2.2,
+  "percent": 0.13108326066761272,
+  "maxRegionPercent": 1.1614304812834224,
+  "globalTolerance": 4.5,
+  "regionTolerance": 5,
   "status": "pass",
   "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-analyticscharts-revenue/storybook.png",
   "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-analyticscharts-revenue/figma.png",
@@ -21,8 +21,8 @@
         "y": 268,
         "width": 88,
         "height": 136,
-        "pixels": 150,
-        "percent": 1.2533422459893049
+        "pixels": 139,
+        "percent": 1.1614304812834224
       },
       "storybook": "regions/region-01-storybook.png",
       "rendered": "regions/region-01-rendered.png",
@@ -35,8 +35,8 @@
         "y": 28,
         "width": 136,
         "height": 88,
-        "pixels": 80,
-        "percent": 0.6684491978609626
+        "pixels": 95,
+        "percent": 0.7937834224598931
       },
       "storybook": "regions/region-02-storybook.png",
       "rendered": "regions/region-02-rendered.png",
@@ -46,11 +46,11 @@
       "index": 3,
       "rect": {
         "x": 28,
-        "y": 268,
+        "y": 316,
         "width": 136,
-        "height": 136,
-        "pixels": 75,
-        "percent": 0.40549307958477504
+        "height": 88,
+        "pixels": 65,
+        "percent": 0.5431149732620321
       },
       "storybook": "regions/region-03-storybook.png",
       "rendered": "regions/region-03-rendered.png",
@@ -77,13 +77,13 @@
         "y": 0,
         "width": 110,
         "height": 116,
-        "pixels": 68,
-        "percent": 0.5329153605015674
+        "pixels": 65,
+        "percent": 0.5094043887147335
       },
       "storybook": "regions/region-05-storybook.png",
       "rendered": "regions/region-05-rendered.png",
       "compare": "regions/region-05-compare.png"
     }
   ],
-  "testedAt": "2026-05-23T15:42:15.450Z"
+  "testedAt": "2026-05-24T20:57:33.265Z"
 }

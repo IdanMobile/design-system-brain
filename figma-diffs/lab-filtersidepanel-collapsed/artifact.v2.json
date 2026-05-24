@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-filtersidepanel--collapsed",
     "componentName": "FilterSidePanel",
-    "extractedAt": "2026-05-22T09:01:17.428Z",
+    "extractedAt": "2026-05-24T20:56:33.602Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-filtersidepanel--collapsed&viewMode=story",
     "viewport": {
       "x": 0,
@@ -534,7 +534,11 @@
                 "name": "span",
                 "source": {
                   "kind": "dom",
-                  "tag": "span"
+                  "tag": "span",
+                  "role": "button",
+                  "dataset": {
+                    "pressedManaged": "true"
+                  }
                 },
                 "box": {
                   "x": 9,
@@ -622,7 +626,11 @@
                 "name": "span",
                 "source": {
                   "kind": "dom",
-                  "tag": "span"
+                  "tag": "span",
+                  "role": "button",
+                  "dataset": {
+                    "pressedManaged": "true"
+                  }
                 },
                 "box": {
                   "x": 95,
@@ -710,7 +718,11 @@
                 "name": "span",
                 "source": {
                   "kind": "dom",
-                  "tag": "span"
+                  "tag": "span",
+                  "role": "button",
+                  "dataset": {
+                    "pressedManaged": "true"
+                  }
                 },
                 "box": {
                   "x": 153.02,
@@ -798,7 +810,11 @@
                 "name": "span",
                 "source": {
                   "kind": "dom",
-                  "tag": "span"
+                  "tag": "span",
+                  "role": "button",
+                  "dataset": {
+                    "pressedManaged": "true"
+                  }
                 },
                 "box": {
                   "x": 9,
@@ -886,7 +902,10 @@
                 "name": "button",
                 "source": {
                   "kind": "dom",
-                  "tag": "button"
+                  "tag": "button",
+                  "dataset": {
+                    "pressedManaged": "true"
+                  }
                 },
                 "box": {
                   "x": 118.88,
@@ -1762,7 +1781,12 @@
                 "name": "i",
                 "source": {
                   "kind": "dom",
-                  "tag": "i"
+                  "tag": "i",
+                  "role": "button",
+                  "dataset": {
+                    "pressedManaged": "true",
+                    "active": "false"
+                  }
                 },
                 "box": {
                   "x": 0,
@@ -1860,7 +1884,12 @@
                 "name": "i",
                 "source": {
                   "kind": "dom",
-                  "tag": "i"
+                  "tag": "i",
+                  "role": "button",
+                  "dataset": {
+                    "pressedManaged": "true",
+                    "active": "false"
+                  }
                 },
                 "box": {
                   "x": 38,
@@ -1958,7 +1987,12 @@
                 "name": "i",
                 "source": {
                   "kind": "dom",
-                  "tag": "i"
+                  "tag": "i",
+                  "role": "button",
+                  "dataset": {
+                    "pressedManaged": "true",
+                    "active": "false"
+                  }
                 },
                 "box": {
                   "x": 76,
@@ -2056,7 +2090,12 @@
                 "name": "i",
                 "source": {
                   "kind": "dom",
-                  "tag": "i"
+                  "tag": "i",
+                  "role": "button",
+                  "dataset": {
+                    "pressedManaged": "true",
+                    "active": "false"
+                  }
                 },
                 "box": {
                   "x": 114,
@@ -2154,7 +2193,12 @@
                 "name": "i",
                 "source": {
                   "kind": "dom",
-                  "tag": "i"
+                  "tag": "i",
+                  "role": "button",
+                  "dataset": {
+                    "pressedManaged": "true",
+                    "active": "false"
+                  }
                 },
                 "box": {
                   "x": 152,
@@ -2252,7 +2296,12 @@
                 "name": "i",
                 "source": {
                   "kind": "dom",
-                  "tag": "i"
+                  "tag": "i",
+                  "role": "button",
+                  "dataset": {
+                    "pressedManaged": "true",
+                    "active": "false"
+                  }
                 },
                 "box": {
                   "x": 190,
@@ -3127,7 +3176,10 @@
               "tag": "button",
               "classList": [
                 "ghost"
-              ]
+              ],
+              "dataset": {
+                "pressedManaged": "true"
+              }
             },
             "box": {
               "x": 132.97,
@@ -3218,7 +3270,10 @@
               "tag": "button",
               "classList": [
                 "primary"
-              ]
+              ],
+              "dataset": {
+                "pressedManaged": "true"
+              }
             },
             "box": {
               "x": 203.11,

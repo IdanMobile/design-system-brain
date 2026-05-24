@@ -1,0 +1,38 @@
+{
+  "storyId": "lab-tabspanel--activity-active",
+  "attempt": 1,
+  "jobId": "c54ddee2-e8b7-4519-81c3-7a9a600b7a6c",
+  "recordedAt": "2026-05-24T17:44:20.819Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 1.8024411013340902,
+    "maxRegionPercent": 3.417207792207792,
+    "error": null
+  },
+  "afterTest": {
+    "status": "error",
+    "percent": 100,
+    "maxRegionPercent": null,
+    "error": "page.evaluate: Error: No [data-figma-component] root found\n    at eval (eval at evaluate (:302:30), <anonymous>:1231:26)\n    at UtilityScript.evaluate (<anonymous>:304:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)"
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-tabspanel--activity-active_try1-1779643562682.prompt.txt",
+    ".test-console/child-status/c54ddee2-e8b7-4519-81c3-7a9a600b7a6c-agent-lab-tabspanel--activity-active_try1-1779643562682.json"
+  ],
+  "evaluation": {
+    "verdict": "WORSE_METRICS",
+    "verdicts": [
+      "WORSE_METRICS"
+    ],
+    "nextWorkerMode": "narrow_scope",
+    "interventionLines": [
+      "Supervisor: global diff worsened by 98.20% — revert harmful edits; do not repeat the same approach.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

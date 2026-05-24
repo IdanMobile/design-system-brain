@@ -15,10 +15,39 @@ const monthCells = [
   { day: 25 }, { day: 26 }, { day: 27 }, { day: 28 }, { day: 29 }, { day: 30 }, { day: 31 }
 ];
 
+interface AgendaItem {
+  id: string;
+  time: string;
+  title: string;
+  owners: string;
+}
+
+const seedAgenda: AgendaItem[] = [
+  { id: "a-1", time: "10:30 - Design QA", title: "Dashboard widgets and status badges", owners: "Owners: Maya, Eli" },
+  { id: "a-2", time: "13:00 - Engineering Sync", title: "Pie chart tooltip and multi-select filters", owners: "Owners: Platform Team" },
+  { id: "a-3", time: "16:45 - Stakeholder Update", title: "Release checklist and panel walkthrough", owners: "Owners: PM + Design" }
+];
+
 export function CalendarScheduler({ compact = false, showWeekend = true }: CalendarSchedulerProps) {
   const days = showWeekend ? weekdays : weekdays.slice(0, 5);
   const columns = days.length;
   const cells = monthCells.filter((_, index) => showWeekend || (index % 7) < 5);
+
+  const [agenda, setAgenda] = React.useState<AgendaItem[]>(seedAgenda);
+  const [composing, setComposing] = React.useState(false);
+  const [draftTitle, setDraftTitle] = React.useState("Sprint review");
+  const [draftTime, setDraftTime] = React.useState("09:00");
+
+  const addEvent = (): void => {
+    const id = `event-${agenda.length + 1}`;
+    setAgenda((prev) => [
+      { id, time: `${draftTime} - New event`, title: draftTitle || "Untitled event", owners: "Owners: You" },
+      ...prev
+    ]);
+    setComposing(false);
+    setDraftTitle("Sprint review");
+    setDraftTime("09:00");
+  };
 
   return (
     <section className={`lab-calendar-scheduler ${compact ? "compact" : ""}`} data-figma-component="CalendarScheduler">
@@ -29,9 +58,41 @@ export function CalendarScheduler({ compact = false, showWeekend = true }: Calen
         </div>
         <div className="lab-calendar-actions">
           <span className="badge">Q3 Sprint</span>
-          <button type="button">Create Event</button>
+          <button
+            type="button"
+            aria-expanded={composing}
+            aria-controls="lab-calendar-composer"
+            data-pressed-managed="true"
+            onClick={() => setComposing((prev) => !prev)}
+          >
+            {composing ? "Close composer" : "Create Event"}
+          </button>
         </div>
       </header>
+
+      {composing && (
+        <div id="lab-calendar-composer" className="lab-calendar-composer" role="group" aria-label="New event">
+          <label>
+            <span>Title</span>
+            <input
+              type="text"
+              value={draftTitle}
+              onChange={(event) => setDraftTitle(event.target.value)}
+            />
+          </label>
+          <label>
+            <span>Time</span>
+            <input
+              type="text"
+              value={draftTime}
+              onChange={(event) => setDraftTime(event.target.value)}
+            />
+          </label>
+          <button type="button" data-pressed-managed="true" onClick={addEvent}>
+            Save event
+          </button>
+        </div>
+      )}
 
       <div className="lab-calendar-grid" style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}>
         {days.map((day) => (
@@ -50,21 +111,13 @@ export function CalendarScheduler({ compact = false, showWeekend = true }: Calen
       <div className="lab-calendar-divider" />
 
       <div className="lab-agenda-list">
-        <article>
-          <p>10:30 - Design QA</p>
-          <h4>Dashboard widgets and status badges</h4>
-          <span>Owners: Maya, Eli</span>
-        </article>
-        <article>
-          <p>13:00 - Engineering Sync</p>
-          <h4>Pie chart tooltip and multi-select filters</h4>
-          <span>Owners: Platform Team</span>
-        </article>
-        <article>
-          <p>16:45 - Stakeholder Update</p>
-          <h4>Release checklist and panel walkthrough</h4>
-          <span>Owners: PM + Design</span>
-        </article>
+        {agenda.map((item) => (
+          <article key={item.id}>
+            <p>{item.time}</p>
+            <h4>{item.title}</h4>
+            <span>{item.owners}</span>
+          </article>
+        ))}
       </div>
     </section>
   );

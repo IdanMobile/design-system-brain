@@ -271,26 +271,78 @@ export async function runManagedAgent({
     tabTitle: `Agent ${tag} · ${String(parentJobId).slice(0, 8)}`
   });
 
-  const deadline = Date.now() + 900_000;
+  const totalBudgetMs = Math.max(
+    60_000,
+    Number(process.env.AGENT_WATCHDOG_TOTAL_MS ?? 0) || 25 * 60_000
+  );
+  const orchestratorGraceMs = 2 * 60_000;
+  const deadline = Date.now() + totalBudgetMs + orchestratorGraceMs;
+  let warnedOverdue = false;
   while (Date.now() < deadline) {
-    if (killFlagPath && existsSync(killFlagPath)) return 130;
+    if (killFlagPath && existsSync(killFlagPath)) {
+      return { exitCode: 130, usageBlocked: false };
+    }
     if (existsSync(statusFile)) {
       try {
         const s = JSON.parse(readFileSync(statusFile, "utf8"));
+        const detail =
+          s.watchdogTripped
+            ? ` [watchdog: ${s.watchdogReason ?? "stalled"}]`
+            : typeof s.editCount === "number"
+              ? ` (edits=${s.editCount}, reads=${s.readCount ?? 0})`
+              : "";
         await log(
           parentJobId,
           appendLog,
           "orchestrator",
-          `Agent ${tag} finished exit ${s.exitCode ?? 1}\n`
+          `Agent ${tag} finished exit ${s.exitCode ?? 1}${detail}\n`
         );
-        return s.exitCode ?? 1;
+        return {
+          exitCode: s.exitCode ?? 1,
+          usageBlocked: Boolean(s.usageBlocked),
+          watchdogTripped: Boolean(s.watchdogTripped),
+          watchdogReason: s.watchdogReason ?? null,
+          editCount: s.editCount ?? 0
+        };
       } catch {
-        return 1;
+        return { exitCode: 1, usageBlocked: false };
       }
+    }
+    if (!warnedOverdue && Date.now() > deadline - orchestratorGraceMs) {
+      warnedOverdue = true;
+      await log(
+        parentJobId,
+        appendLog,
+        "orchestrator",
+        `Agent ${tag} approaching budget — watchdog should terminate within 2m grace.\n`
+      );
     }
     await sleep(400);
   }
-  return 1;
+  await log(
+    parentJobId,
+    appendLog,
+    "orchestrator",
+    `Agent ${tag} EXCEEDED orchestrator deadline (watchdog did not trip). Returning failure.\n`
+  );
+  return { exitCode: 1, usageBlocked: false, watchdogTripped: false };
+}
+
+/**
+ * @param {number | { exitCode?: number, usageBlocked?: boolean, watchdogTripped?: boolean, watchdogReason?: string | null, editCount?: number }} result
+ */
+export function normalizeAgentResult(result) {
+  if (result != null && typeof result === "object") {
+    return {
+      exitCode: result.exitCode ?? 1,
+      usageBlocked: Boolean(result.usageBlocked),
+      watchdogTripped: Boolean(result.watchdogTripped),
+      watchdogReason: result.watchdogReason ?? null,
+      editCount: result.editCount ?? 0
+    };
+  }
+  const exitCode = typeof result === "number" ? result : 1;
+  return { exitCode, usageBlocked: false, watchdogTripped: false, watchdogReason: null, editCount: 0 };
 }
 
 export { parseStreamJsonAgentLine };

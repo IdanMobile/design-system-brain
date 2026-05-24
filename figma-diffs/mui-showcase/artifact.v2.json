@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "mui--showcase",
     "componentName": "MUIShowcase",
-    "extractedAt": "2026-05-23T15:30:52.566Z",
+    "extractedAt": "2026-05-24T20:56:53.927Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=mui--showcase&viewMode=story",
     "viewport": {
       "x": 0,
@@ -466,7 +466,10 @@
                             "MuiButton-sizeMedium",
                             "MuiButton-colorPrimary",
                             "css-iafu2n"
-                          ]
+                          ],
+                          "dataset": {
+                            "pressedManaged": "true"
+                          }
                         },
                         "box": {
                           "x": 0,
@@ -603,7 +606,10 @@
                             "MuiButton-sizeMedium",
                             "MuiButton-colorPrimary",
                             "css-1bf9p9p"
-                          ]
+                          ],
+                          "dataset": {
+                            "pressedManaged": "true"
+                          }
                         },
                         "box": {
                           "x": 133.03,
@@ -730,7 +736,10 @@
                             "MuiButton-sizeMedium",
                             "MuiButton-colorPrimary",
                             "css-1c69r7k"
-                          ]
+                          ],
+                          "dataset": {
+                            "pressedManaged": "true"
+                          }
                         },
                         "box": {
                           "x": 255.03,
@@ -13580,16 +13589,16 @@
                                   "role": "progressbar"
                                 },
                                 "box": {
-                                  "x": -3.87,
-                                  "y": -3.87,
-                                  "width": 29.74,
-                                  "height": 29.74
+                                  "x": -3.67,
+                                  "y": -3.67,
+                                  "width": 29.34,
+                                  "height": 29.34
                                 },
                                 "computedBox": {
-                                  "x": 37.13,
-                                  "y": 1547.25,
-                                  "width": 29.74,
-                                  "height": 29.74
+                                  "x": 37.33,
+                                  "y": 1547.46,
+                                  "width": 29.34,
+                                  "height": 29.34
                                 },
                                 "layout": {
                                   "display": "block",
@@ -13613,10 +13622,10 @@
                                 },
                                 "transform": {
                                   "matrix": [
-                                    -0.468354,
-                                    0.883541,
-                                    -0.883541,
-                                    -0.468354,
+                                    -0.431379,
+                                    0.902171,
+                                    -0.902171,
+                                    -0.431379,
                                     0,
                                     0
                                   ],
@@ -13640,14 +13649,14 @@
                                     "box": {
                                       "x": 0,
                                       "y": 0,
-                                      "width": 29.74,
-                                      "height": 29.74
+                                      "width": 29.34,
+                                      "height": 29.34
                                     },
                                     "computedBox": {
-                                      "x": 37.13,
-                                      "y": 1547.25,
-                                      "width": 29.74,
-                                      "height": 29.74
+                                      "x": 37.33,
+                                      "y": 1547.46,
+                                      "width": 29.34,
+                                      "height": 29.34
                                     },
                                     "layout": {
                                       "display": "block",
@@ -13685,10 +13694,10 @@
                                             "stroke": "rgb(25, 118, 210)",
                                             "strokeWidth": 3.6,
                                             "dashArray": [
-                                              75.4428,
+                                              73.5431,
                                               200
                                             ],
-                                            "dashOffset": -11.2792
+                                            "dashOffset": -10.9914
                                           }
                                         }
                                       ],
@@ -13897,7 +13906,10 @@
                             "MuiButton-sizeSmall",
                             "MuiButton-colorPrimary",
                             "css-rulspo"
-                          ]
+                          ],
+                          "dataset": {
+                            "pressedManaged": "true"
+                          }
                         },
                         "box": {
                           "x": 8,
@@ -14002,7 +14014,10 @@
                             "MuiButton-sizeSmall",
                             "MuiButton-colorPrimary",
                             "css-271wgt"
-                          ]
+                          ],
+                          "dataset": {
+                            "pressedManaged": "true"
+                          }
                         },
                         "box": {
                           "x": 120.53,

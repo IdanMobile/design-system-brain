@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-overlaystates--drawer",
     "componentName": "OverlayStates",
-    "extractedAt": "2026-05-22T17:17:43.766Z",
+    "extractedAt": "2026-05-24T20:51:39.897Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-overlaystates--drawer&viewMode=story",
     "viewport": {
       "x": 0,
@@ -157,7 +157,10 @@
           "tag": "div",
           "classList": [
             "drawer"
-          ]
+          ],
+          "dataset": {
+            "state": "open"
+          }
         },
         "box": {
           "x": 450,
@@ -386,7 +389,10 @@
                 "name": "button",
                 "source": {
                   "kind": "dom",
-                  "tag": "button"
+                  "tag": "button",
+                  "dataset": {
+                    "pressedManaged": "true"
+                  }
                 },
                 "box": {
                   "x": 0,
@@ -477,7 +483,10 @@
                   "tag": "button",
                   "classList": [
                     "primary"
-                  ]
+                  ],
+                  "dataset": {
+                    "pressedManaged": "true"
+                  }
                 },
                 "box": {
                   "x": 81.58,

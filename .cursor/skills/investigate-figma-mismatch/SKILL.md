@@ -28,14 +28,18 @@ If the user says “pixel perfect,” treat any visible deviation as a bug until
 
 ```
 Pixel-perfect investigation
+- [ ] 0) Lab memory: read lab-memory/stories/<storyId>.md if it exists; create from lab-memory/templates/story.md if missing
 - [ ] 1) Label screenshots (Storybook vs Figma) + story + artifact path
 - [ ] 2) Section-by-section visual diff table (match / diff / severity)
 - [ ] 3) For each diff: trace artifact JSON → extractor vs importer
 - [ ] 4) Measure DOM in Storybook (box, computed style) as ground truth
+- [ ] 4b) Append investigation notes to lab-memory/stories/<storyId>.md (lab-memory/templates/investigation.md format) BEFORE code edits
 - [ ] 5) Apply minimal deterministic adapter fix
 - [ ] 6) Re-extract (if extractor changed) + rebuild plugin + re-import
 - [ ] 7) Re-screenshot compare; repeat until criteria pass
 ```
+
+**Vault policy:** no secrets in `lab-memory/` — link artifact paths and PRs only.
 
 ## Visual diff report format
 

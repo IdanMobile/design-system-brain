@@ -332,13 +332,13 @@
                   "strokeLeftWeight": 0,
                   "dashPattern": [],
                   "cornerRadii": [
-                    14,
-                    14,
-                    14,
-                    14
+                    999,
+                    999,
+                    999,
+                    999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 10,
@@ -490,7 +490,7 @@
             0
           ],
           "effects": [],
-          "clipsContent": true,
+          "clipsContent": false,
           "children": [
             {
               "id": 14,
@@ -517,7 +517,7 @@
                 0
               ],
               "effects": [],
-              "clipsContent": true,
+              "clipsContent": false,
               "children": [
                 {
                   "id": 15,
@@ -526,7 +526,7 @@
                   "name": "Text",
                   "x": 0,
                   "y": 0,
-                  "width": 93.14,
+                  "width": 20.16,
                   "height": 17,
                   "opacity": 1,
                   "characters": "Mon",
@@ -547,7 +547,7 @@
                     }
                   ],
                   "textAlignHorizontal": "CENTER",
-                  "textAutoResize": "HEIGHT",
+                  "textAutoResize": "WIDTH_AND_HEIGHT",
                   "lineHeight": {
                     "unit": "PIXELS",
                     "value": 17
@@ -586,7 +586,7 @@
                 0
               ],
               "effects": [],
-              "clipsContent": true,
+              "clipsContent": false,
               "children": [
                 {
                   "id": 17,
@@ -595,7 +595,7 @@
                   "name": "Text",
                   "x": 0,
                   "y": 0,
-                  "width": 93.14,
+                  "width": 20.16,
                   "height": 17,
                   "opacity": 1,
                   "characters": "Tue",
@@ -616,7 +616,7 @@
                     }
                   ],
                   "textAlignHorizontal": "CENTER",
-                  "textAutoResize": "HEIGHT",
+                  "textAutoResize": "WIDTH_AND_HEIGHT",
                   "lineHeight": {
                     "unit": "PIXELS",
                     "value": 17
@@ -655,7 +655,7 @@
                 0
               ],
               "effects": [],
-              "clipsContent": true,
+              "clipsContent": false,
               "children": [
                 {
                   "id": 19,
@@ -664,7 +664,7 @@
                   "name": "Text",
                   "x": 0,
                   "y": 0,
-                  "width": 93.14,
+                  "width": 20.16,
                   "height": 17,
                   "opacity": 1,
                   "characters": "Wed",
@@ -685,7 +685,7 @@
                     }
                   ],
                   "textAlignHorizontal": "CENTER",
-                  "textAutoResize": "HEIGHT",
+                  "textAutoResize": "WIDTH_AND_HEIGHT",
                   "lineHeight": {
                     "unit": "PIXELS",
                     "value": 17
@@ -724,7 +724,7 @@
                 0
               ],
               "effects": [],
-              "clipsContent": true,
+              "clipsContent": false,
               "children": [
                 {
                   "id": 21,
@@ -733,7 +733,7 @@
                   "name": "Text",
                   "x": 0,
                   "y": 0,
-                  "width": 93.14,
+                  "width": 20.16,
                   "height": 17,
                   "opacity": 1,
                   "characters": "Thu",
@@ -754,7 +754,7 @@
                     }
                   ],
                   "textAlignHorizontal": "CENTER",
-                  "textAutoResize": "HEIGHT",
+                  "textAutoResize": "WIDTH_AND_HEIGHT",
                   "lineHeight": {
                     "unit": "PIXELS",
                     "value": 17
@@ -793,7 +793,7 @@
                 0
               ],
               "effects": [],
-              "clipsContent": true,
+              "clipsContent": false,
               "children": [
                 {
                   "id": 23,
@@ -802,7 +802,7 @@
                   "name": "Text",
                   "x": 0,
                   "y": 0,
-                  "width": 93.14,
+                  "width": 20.16,
                   "height": 17,
                   "opacity": 1,
                   "characters": "Fri",
@@ -823,7 +823,7 @@
                     }
                   ],
                   "textAlignHorizontal": "CENTER",
-                  "textAutoResize": "HEIGHT",
+                  "textAutoResize": "WIDTH_AND_HEIGHT",
                   "lineHeight": {
                     "unit": "PIXELS",
                     "value": 17
@@ -862,7 +862,7 @@
                 0
               ],
               "effects": [],
-              "clipsContent": true,
+              "clipsContent": false,
               "children": [
                 {
                   "id": 25,
@@ -871,7 +871,7 @@
                   "name": "Text",
                   "x": 0,
                   "y": 0,
-                  "width": 93.14,
+                  "width": 20.16,
                   "height": 17,
                   "opacity": 1,
                   "characters": "Sat",
@@ -892,7 +892,7 @@
                     }
                   ],
                   "textAlignHorizontal": "CENTER",
-                  "textAutoResize": "HEIGHT",
+                  "textAutoResize": "WIDTH_AND_HEIGHT",
                   "lineHeight": {
                     "unit": "PIXELS",
                     "value": 17
@@ -931,7 +931,7 @@
                 0
               ],
               "effects": [],
-              "clipsContent": true,
+              "clipsContent": false,
               "children": [
                 {
                   "id": 27,
@@ -940,7 +940,7 @@
                   "name": "Text",
                   "x": 0,
                   "y": 0,
-                  "width": 93.16,
+                  "width": 20.16,
                   "height": 17,
                   "opacity": 1,
                   "characters": "Sun",
@@ -961,7 +961,7 @@
                     }
                   ],
                   "textAlignHorizontal": "CENTER",
-                  "textAutoResize": "HEIGHT",
+                  "textAutoResize": "WIDTH_AND_HEIGHT",
                   "lineHeight": {
                     "unit": "PIXELS",
                     "value": 17
@@ -1047,7 +1047,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 30,
@@ -1165,7 +1165,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 33,
@@ -1283,7 +1283,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 36,
@@ -1401,7 +1401,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 39,
@@ -1519,7 +1519,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 42,
@@ -1637,7 +1637,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 45,
@@ -1755,7 +1755,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 48,
@@ -1873,7 +1873,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 51,
@@ -1991,7 +1991,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 54,
@@ -2109,7 +2109,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 57,
@@ -2227,7 +2227,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 60,
@@ -2345,7 +2345,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 63,
@@ -2463,7 +2463,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 66,
@@ -2536,13 +2536,13 @@
                   "strokeLeftWeight": 0,
                   "dashPattern": [],
                   "cornerRadii": [
-                    19,
-                    19,
-                    19,
-                    19
+                    999,
+                    999,
+                    999,
+                    999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 68,
@@ -2660,7 +2660,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 71,
@@ -2778,7 +2778,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 74,
@@ -2896,7 +2896,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 77,
@@ -3014,7 +3014,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 80,
@@ -3150,7 +3150,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 83,
@@ -3223,13 +3223,13 @@
                   "strokeLeftWeight": 0,
                   "dashPattern": [],
                   "cornerRadii": [
-                    19,
-                    19,
-                    19,
-                    19
+                    999,
+                    999,
+                    999,
+                    999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 85,
@@ -3347,7 +3347,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 88,
@@ -3465,7 +3465,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 91,
@@ -3583,7 +3583,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 94,
@@ -3701,7 +3701,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 97,
@@ -3819,7 +3819,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 100,
@@ -3937,7 +3937,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 103,
@@ -4055,7 +4055,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 106,
@@ -4173,7 +4173,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 109,
@@ -4246,13 +4246,13 @@
                   "strokeLeftWeight": 0,
                   "dashPattern": [],
                   "cornerRadii": [
-                    19,
-                    19,
-                    19,
-                    19
+                    999,
+                    999,
+                    999,
+                    999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 111,
@@ -4370,7 +4370,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 114,
@@ -4488,7 +4488,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 117,
@@ -4606,7 +4606,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 120,
@@ -4724,7 +4724,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 123,
@@ -4842,7 +4842,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 126,
@@ -4960,7 +4960,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 129,
@@ -5078,7 +5078,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 132,
@@ -5196,7 +5196,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 135,
@@ -5314,7 +5314,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 138,

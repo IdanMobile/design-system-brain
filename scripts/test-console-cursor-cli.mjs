@@ -3,6 +3,7 @@
 import { spawn, spawnSync } from "node:child_process";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { resolveCursorCliModelId } from "./test-console-agent-models.mjs";
 
 export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -59,7 +60,7 @@ export function cursorAgentInvocation(prompt, options = {}) {
   ];
   const model = options.model?.trim();
   if (model) {
-    args.push("--model", model);
+    args.push("--model", resolveCursorCliModelId(model));
   }
   args.push("--workspace", ROOT, buildAgentPrompt(prompt));
   if (process.env.TEST_CONSOLE_CURSOR_NO_TRUST) {

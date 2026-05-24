@@ -1,0 +1,11 @@
+{
+  "tag": "lab-button--secondary:try1",
+  "exitCode": 143,
+  "finishedAt": "2026-05-24T18:01:21.435Z",
+  "editCount": 0,
+  "readCount": 22,
+  "bigReadCount": 7,
+  "watchdogTripped": true,
+  "watchdogReason": "8.0m elapsed, 0 edits (reads=22, big-file reads=7). Investigation paralysis.",
+  "elapsedMs": 480177
+}

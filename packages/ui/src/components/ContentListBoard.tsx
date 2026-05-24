@@ -5,11 +5,19 @@ type ContentListBoardProps = {
   highlighted?: boolean;
 };
 
-const rows = [
-  { title: "Release Notes / Data Widgets", owner: "Nora", status: "Ready", priority: "High" },
-  { title: "Billing Chart / Pie + Breakdown", owner: "Tom", status: "In review", priority: "Medium" },
-  { title: "Calendar Module / Sprint Timeline", owner: "Dana", status: "Blocked", priority: "High" },
-  { title: "Icon Tokens / Color Migration", owner: "Ruth", status: "Ready", priority: "Low" }
+interface TaskRow {
+  id: string;
+  title: string;
+  owner: string;
+  status: "Ready" | "In review" | "Blocked";
+  priority: "High" | "Medium" | "Low";
+}
+
+const seedRows: TaskRow[] = [
+  { id: "task-1", title: "Release Notes / Data Widgets", owner: "Nora", status: "Ready", priority: "High" },
+  { id: "task-2", title: "Billing Chart / Pie + Breakdown", owner: "Tom", status: "In review", priority: "Medium" },
+  { id: "task-3", title: "Calendar Module / Sprint Timeline", owner: "Dana", status: "Blocked", priority: "High" },
+  { id: "task-4", title: "Icon Tokens / Color Migration", owner: "Ruth", status: "Ready", priority: "Low" }
 ];
 
 function FolderIcon() {
@@ -21,6 +29,25 @@ function FolderIcon() {
 }
 
 export function ContentListBoard({ compact = false, highlighted = false }: ContentListBoardProps) {
+  const [rows, setRows] = React.useState<TaskRow[]>(seedRows);
+  const [quickEdit, setQuickEdit] = React.useState(
+    "Refine chart tooltip spacing and token usage"
+  );
+
+  const addTask = (): void => {
+    const nextIndex = rows.length + 1;
+    setRows((prev) => [
+      ...prev,
+      {
+        id: `task-${nextIndex}`,
+        title: `New Task #${nextIndex}`,
+        owner: "Unassigned",
+        status: "Ready",
+        priority: "Medium"
+      }
+    ]);
+  };
+
   return (
     <section className={`lab-content-board ${compact ? "compact" : ""} ${highlighted ? "highlighted" : ""}`} data-figma-component="ContentListBoard">
       <nav className="breadcrumbs" aria-label="Breadcrumb">
@@ -39,19 +66,24 @@ export function ContentListBoard({ compact = false, highlighted = false }: Conte
             <p>List, badges, icons, dividers and edit text controls</p>
           </div>
         </div>
-        <button type="button">New Task</button>
+        <button type="button" data-pressed-managed="true" onClick={addTask}>
+          New Task
+        </button>
       </header>
 
       <div className="board-divider" />
 
       <label className="inline-edit">
         <span>Quick edit</span>
-        <input value="Refine chart tooltip spacing and token usage" readOnly />
+        <input
+          value={quickEdit}
+          onChange={(event) => setQuickEdit(event.target.value)}
+        />
       </label>
 
       <ul className="task-list">
         {rows.map((row) => (
-          <li key={row.title}>
+          <li key={row.id}>
             <div>
               <h4>{row.title}</h4>
               <p>Owner: {row.owner}</p>

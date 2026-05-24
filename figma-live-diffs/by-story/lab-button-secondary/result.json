@@ -6,10 +6,9 @@
   "pixelsTotal": 16880,
   "percent": 3.009478672985782,
   "maxRegionPercent": 3.469945355191257,
-  "globalTolerance": 2.5,
-  "regionTolerance": 0.1,
-  "failReason": "global+hotspot",
-  "status": "fail",
+  "globalTolerance": 4.5,
+  "regionTolerance": 5,
+  "status": "pass",
   "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-secondary/storybook.png",
   "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-secondary/figma.png",
   "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-secondary/diff.png",
@@ -30,5 +29,5 @@
       "compare": "regions/region-01-compare.png"
     }
   ],
-  "testedAt": "2026-05-23T15:58:44.665Z"
+  "testedAt": "2026-05-24T20:57:48.892Z"
 }

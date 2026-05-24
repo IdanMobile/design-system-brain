@@ -4,7 +4,7 @@ Companion: [DECISIONS.md](./DECISIONS.md), [HUMAN-PREP.md](./HUMAN-PREP.md).
 
 ## North star
 
-Open `https://console.<your-domain>` from anywhere → see agent fleet status and live message feed → orchestrator assigns Investigator → step fixer → Verifier → Git agent auto-merges → portfolio updates. Mac workers run Figma, Storybook, relay, and Cursor CLI; cloud hosts dashboard + control plane only.
+Open `https://console.<your-domain>` from anywhere → see agent fleet status and live message feed → orchestrator assigns Investigator → step fixer → Verifier → Git agent auto-merges → portfolio updates. Mac workers run Figma, Storybook, relay, and **Ollama (Qwen 3.6)**; cloud hosts dashboard + control plane only.
 
 ---
 
@@ -24,7 +24,7 @@ Open `https://console.<your-domain>` from anywhere → see agent fleet status an
 ┌────────────────────────────▼─────────────────────────────────────┐
 │ Mac worker(s)                                                     │
 │  lab-worker-supervisor → logical agents                           │
-│  Cursor CLI, Figma Desktop, Storybook :6107, relay :3456          │
+│  Ollama (Qwen 3.6), Figma Desktop, Storybook :6107, relay :3456          │
 │  Obsidian vault (~/lab/lab-memory)                                │
 │  git clone of storybook-to-figma-lab                              │
 └────────────────────────────┬─────────────────────────────────────┘
@@ -45,7 +45,7 @@ Open `https://console.<your-domain>` from anywhere → see agent fleet status an
 
 ## Agent roster
 
-Each **logical agent** registers with the control plane. One **supervisor process per Mac** runs them. Idle = heartbeating; working = Cursor CLI or pnpm job for that role.
+Each **logical agent** registers with the control plane. One **supervisor process per Mac** runs them. Idle = heartbeating; working = Ollama agent job or pnpm job for that role.
 
 | Agent ID | Purpose | Skills (repo paths) | Capabilities |
 | --- | --- | --- | --- |
@@ -54,7 +54,7 @@ Each **logical agent** registers with the control plane. One **supervisor proces
 | `investigator` | Diagnose before edit | `investigate-figma-mismatch`, systematic-debugging | `read-only` |
 | `pixel-fixer` | Step 1 | scene-to-html / extract path | `pixel`, `playwright` |
 | `mock-figma-fixer` | Step 2 | `figma-renderer-until-pass` (emulator) | `figma-mock` |
-| `live-figma-fixer` | Step 3 | until-pass (live) | `figma-live`, `macos`, `cursor-cli` |
+| `live-figma-fixer` | Step 3 | until-pass (live) | `figma-live`, `macos`, `ollama` |
 | `delivery-fixer` | Step 4 | roadmap Phase 2 | `delivery` |
 | `verifier` | Tier A/B/C, portfolio refresh | verification-before-completion | `test`, `regression` |
 | `git-agent` | Branch, PR, merge | (new skill in Phase 7) | `git`, `github` |
@@ -207,10 +207,12 @@ curl -H "Authorization: Bearer $TOKEN" https://api.<domain>/agents
 | --- | --- |
 | 4.1 | API 409 if fixer assign without investigator complete |
 | 4.2 | Assign payload: storyId, step, R2 compare URLs |
-| 4.3 | Investigator: Cursor CLI + investigate skill envelope |
+| 4.3 | Investigator: Ollama + investigate skill envelope |
 | 4.4 | Diagnosis JSON schema → R2 |
 | 4.5 | Git commit to `lab-memory/stories/<id>.md` |
 | 4.6 | Fast-path if artifacts unchanged (`cached: true`) |
+
+**Local Mac (implemented now):** `scripts/lab-memory-vault.mjs` writes investigation stubs when the test console records a fail/warn; set `LAB_MEMORY_AUTO_COMMIT=1` for git commits. Cloud API gate (4.1–4.3) still Phase 4.
 
 **Exit:** Full investigator gate + vault notes.
 

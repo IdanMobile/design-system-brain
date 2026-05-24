@@ -165,23 +165,33 @@ async function pointerClickControl(
 /** After opening a select/combobox/lab dropdown, pick a visible menu option with the mouse. */
 async function pointerPickMenuOption(page: Page, demo: boolean): Promise<boolean> {
   await pause(page, demo ? 500 : 200);
-  const option = page
-    .locator(
-      [
-        '[role="listbox"] [role="option"]:visible',
-        '[role="menu"] [role="menuitem"]:visible',
-        ".MuiMenu-root [role=option]:visible",
-        ".MuiPopover-root [role=option]:visible",
-        "[data-figma-component] .lab-select-menu p:visible"
-      ].join(", ")
-    )
-    .first();
+  const selectors = [
+    '[role="listbox"] [role="option"]:visible',
+    '[role="menu"] [role="menuitem"]:visible',
+    ".MuiMenu-root [role=option]:visible",
+    ".MuiPopover-root [role=option]:visible",
+    "[data-figma-component] .lab-select-menu p:visible"
+  ].join(", ");
+  const options = page.locator(selectors);
   try {
-    if (!(await option.isVisible({ timeout: 2000 }))) return false;
+    const count = await options.count();
+    if (count === 0) return false;
+    // Prefer a non-selected option so the audit observes a real state change
+    // (picking the already-selected item is a visual no-op for many widgets).
+    let target = options.first();
+    for (let i = 0; i < count; i += 1) {
+      const cand = options.nth(i);
+      const selected = (await cand.getAttribute("aria-selected")) === "true";
+      if (!selected) {
+        target = cand;
+        break;
+      }
+    }
+    if (!(await target.isVisible({ timeout: 2000 }))) return false;
     if (demo) await pause(page, 400);
-    await option.hover({ timeout: 3000 });
+    await target.hover({ timeout: 3000 });
     if (demo) await pause(page, 350);
-    await option.click({ timeout: 3000 });
+    await target.click({ timeout: 3000 });
     if (demo) await pause(page, 500);
     return true;
   } catch {
@@ -194,12 +204,67 @@ async function interactControl(
   control: ControlProbe,
   demo: boolean
 ): Promise<boolean> {
+  // Text-like inputs aren't activated by a click — they expect typing. Fill
+  // them with a probe string and rely on the snapshot's `inputValues` channel
+  // to detect the change. This makes the audit semantically correct for
+  // login forms, search boxes, and any other text/email/password/textarea
+  // fields that the delivery package exposes.
+  if (control.tag === "input" && isTypingInput(control.type)) {
+    const loc = controlLocator(page, control.index);
+    try {
+      await loc.scrollIntoViewIfNeeded({ timeout: 8000 });
+      if (demo) await pause(page, 350);
+      await loc.click({ timeout: 8000, force: false });
+      if (demo) await pause(page, 250);
+      await loc.fill(typingProbeValue(control.type), { timeout: 8000 });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+  if (control.tag === "textarea") {
+    const loc = controlLocator(page, control.index);
+    try {
+      await loc.scrollIntoViewIfNeeded({ timeout: 8000 });
+      if (demo) await pause(page, 350);
+      await loc.click({ timeout: 8000, force: false });
+      if (demo) await pause(page, 250);
+      await loc.fill("Audit probe text.", { timeout: 8000 });
+      return true;
+    } catch {
+      return false;
+    }
+  }
   const clicked = await pointerClickControl(page, control, demo);
   if (!clicked) return false;
   if (control.opensMenu) {
     await pointerPickMenuOption(page, demo);
   }
   return true;
+}
+
+function isTypingInput(type: string): boolean {
+  const t = (type || "text").toLowerCase();
+  return (
+    t === "text" ||
+    t === "email" ||
+    t === "password" ||
+    t === "search" ||
+    t === "tel" ||
+    t === "url" ||
+    t === "number" ||
+    t === ""
+  );
+}
+
+function typingProbeValue(type: string): string {
+  const t = (type || "text").toLowerCase();
+  if (t === "email") return "audit@example.com";
+  if (t === "password") return "audit-probe-pw";
+  if (t === "number") return "42";
+  if (t === "tel") return "+15555550100";
+  if (t === "url") return "https://example.com";
+  return "audit probe";
 }
 
 async function loadStory(page: Page, storyId: string, opts: CliOpts): Promise<string | null> {

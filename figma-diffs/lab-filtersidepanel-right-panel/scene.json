@@ -230,7 +230,7 @@
                 999
               ],
               "effects": [],
-              "clipsContent": true,
+              "clipsContent": false,
               "children": [
                 {
                   "id": 6,
@@ -444,7 +444,7 @@
                     999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 12,
@@ -523,7 +523,7 @@
                     999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 14,
@@ -602,7 +602,7 @@
                     999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 16,
@@ -681,7 +681,7 @@
                     999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 18,
@@ -689,7 +689,7 @@
                       "type": "TEXT",
                       "name": "Text",
                       "x": 8,
-                      "y": 4,
+                      "y": 4.5,
                       "width": 74.88,
                       "height": 15,
                       "opacity": 1,
@@ -1043,7 +1043,7 @@
                     999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 28,
@@ -1122,7 +1122,7 @@
                     999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 30,
@@ -1201,7 +1201,7 @@
                     999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 32,
@@ -1280,7 +1280,7 @@
                     999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 34,
@@ -2521,7 +2521,7 @@
                 8
               ],
               "effects": [],
-              "clipsContent": true,
+              "clipsContent": false,
               "children": [
                 {
                   "id": 63,
@@ -2600,7 +2600,7 @@
                 8
               ],
               "effects": [],
-              "clipsContent": true,
+              "clipsContent": false,
               "children": [
                 {
                   "id": 65,

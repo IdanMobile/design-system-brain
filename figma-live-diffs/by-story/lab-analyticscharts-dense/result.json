@@ -2,10 +2,12 @@
   "storyId": "lab-analyticscharts--dense",
   "width": 738,
   "height": 409,
-  "pixelsDiffered": 457,
+  "pixelsDiffered": 460,
   "pixelsTotal": 301842,
-  "percent": 0.15140371452614282,
-  "maxRegionPercent": 1.2533422459893049,
+  "percent": 0.15239761199567986,
+  "maxRegionPercent": 1.1614304812834224,
+  "globalTolerance": 4.5,
+  "regionTolerance": 5,
   "status": "pass",
   "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-analyticscharts-dense/storybook.png",
   "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-analyticscharts-dense/figma.png",
@@ -19,8 +21,8 @@
         "y": 268,
         "width": 88,
         "height": 136,
-        "pixels": 150,
-        "percent": 1.2533422459893049
+        "pixels": 139,
+        "percent": 1.1614304812834224
       },
       "storybook": "regions/region-01-storybook.png",
       "rendered": "regions/region-01-rendered.png",
@@ -33,8 +35,8 @@
         "y": 28,
         "width": 136,
         "height": 88,
-        "pixels": 80,
-        "percent": 0.6684491978609626
+        "pixels": 95,
+        "percent": 0.7937834224598931
       },
       "storybook": "regions/region-02-storybook.png",
       "rendered": "regions/region-02-rendered.png",
@@ -47,8 +49,8 @@
         "y": 0,
         "width": 134,
         "height": 116,
-        "pixels": 68,
-        "percent": 0.4374678332475553
+        "pixels": 65,
+        "percent": 0.4181677817807514
       },
       "storybook": "regions/region-03-storybook.png",
       "rendered": "regions/region-03-rendered.png",
@@ -58,11 +60,11 @@
       "index": 4,
       "rect": {
         "x": 28,
-        "y": 268,
+        "y": 316,
         "width": 136,
-        "height": 136,
-        "pixels": 75,
-        "percent": 0.40549307958477504
+        "height": 88,
+        "pixels": 65,
+        "percent": 0.5431149732620321
       },
       "storybook": "regions/region-04-storybook.png",
       "rendered": "regions/region-04-rendered.png",
@@ -83,5 +85,5 @@
       "compare": "regions/region-05-compare.png"
     }
   ],
-  "testedAt": "2026-05-22T15:03:51.836Z"
+  "testedAt": "2026-05-24T20:57:29.932Z"
 }

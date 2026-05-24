@@ -347,7 +347,7 @@
                     10
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 10,
@@ -426,7 +426,7 @@
                     10
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 12,

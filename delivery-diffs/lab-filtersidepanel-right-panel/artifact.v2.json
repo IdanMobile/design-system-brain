@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-filtersidepanel--right-panel",
     "componentName": "FilterSidePanel",
-    "extractedAt": "2026-05-21T18:27:11.044Z",
+    "extractedAt": "2026-05-24T20:04:59.172Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-filtersidepanel--right-panel&viewMode=story",
     "viewport": {
       "x": 0,
@@ -31,13 +31,13 @@
     "box": {
       "x": 0,
       "y": 0,
-      "width": 394,
+      "width": 360,
       "height": 513
     },
     "computedBox": {
       "x": 16,
       "y": 16,
-      "width": 394,
+      "width": 360,
       "height": 513
     },
     "layout": {
@@ -137,13 +137,13 @@
         "box": {
           "x": 17,
           "y": 17,
-          "width": 360,
+          "width": 326,
           "height": 29
         },
         "computedBox": {
           "x": 33,
           "y": 33,
-          "width": 360,
+          "width": 326,
           "height": 29
         },
         "layout": {
@@ -248,13 +248,13 @@
               ]
             },
             "box": {
-              "x": 319.83,
+              "x": 285.83,
               "y": 3,
               "width": 40.17,
               "height": 23
             },
             "computedBox": {
-              "x": 352.83,
+              "x": 318.83,
               "y": 36,
               "width": 40.17,
               "height": 23
@@ -340,13 +340,13 @@
         "box": {
           "x": 17,
           "y": 58,
-          "width": 360,
+          "width": 326,
           "height": 96
         },
         "computedBox": {
           "x": 33,
           "y": 74,
-          "width": 360,
+          "width": 326,
           "height": 96
         },
         "layout": {
@@ -383,13 +383,13 @@
             "box": {
               "x": 0,
               "y": 0,
-              "width": 360,
+              "width": 326,
               "height": 17
             },
             "computedBox": {
               "x": 33,
               "y": 74,
-              "width": 360,
+              "width": 326,
               "height": 17
             },
             "layout": {
@@ -448,13 +448,13 @@
             "box": {
               "x": 0,
               "y": 25,
-              "width": 360,
+              "width": 326,
               "height": 71
             },
             "computedBox": {
               "x": 33,
               "y": 99,
-              "width": 360,
+              "width": 326,
               "height": 71
             },
             "layout": {
@@ -800,16 +800,16 @@
                   "tag": "span"
                 },
                 "box": {
-                  "x": 214.78,
-                  "y": 9,
+                  "x": 9,
+                  "y": 38,
                   "width": 103.88,
-                  "height": 23
+                  "height": 24
                 },
                 "computedBox": {
-                  "x": 247.78,
-                  "y": 108,
+                  "x": 42,
+                  "y": 137,
                   "width": 103.88,
-                  "height": 23
+                  "height": 24
                 },
                 "layout": {
                   "display": "block",
@@ -888,13 +888,13 @@
                   "tag": "button"
                 },
                 "box": {
-                  "x": 9,
+                  "x": 118.88,
                   "y": 38,
                   "width": 51.23,
                   "height": 24
                 },
                 "computedBox": {
-                  "x": 42,
+                  "x": 151.88,
                   "y": 137,
                   "width": 51.23,
                   "height": 24
@@ -1007,13 +1007,13 @@
         "box": {
           "x": 17,
           "y": 166,
-          "width": 360,
+          "width": 326,
           "height": 1
         },
         "computedBox": {
           "x": 33,
           "y": 182,
-          "width": 360,
+          "width": 326,
           "height": 1
         },
         "layout": {
@@ -1055,13 +1055,13 @@
         "box": {
           "x": 17,
           "y": 179,
-          "width": 360,
+          "width": 326,
           "height": 66
         },
         "computedBox": {
           "x": 33,
           "y": 195,
-          "width": 360,
+          "width": 326,
           "height": 66
         },
         "layout": {
@@ -1098,13 +1098,13 @@
             "box": {
               "x": 0,
               "y": 0,
-              "width": 360,
+              "width": 326,
               "height": 17
             },
             "computedBox": {
               "x": 33,
               "y": 195,
-              "width": 360,
+              "width": 326,
               "height": 17
             },
             "layout": {
@@ -1164,13 +1164,13 @@
             "box": {
               "x": 0,
               "y": 25,
-              "width": 360,
+              "width": 326,
               "height": 41
             },
             "computedBox": {
               "x": 33,
               "y": 220,
-              "width": 360,
+              "width": 326,
               "height": 41
             },
             "layout": {
@@ -1610,13 +1610,13 @@
         "box": {
           "x": 17,
           "y": 257,
-          "width": 360,
+          "width": 326,
           "height": 55
         },
         "computedBox": {
           "x": 33,
           "y": 273,
-          "width": 360,
+          "width": 326,
           "height": 55
         },
         "layout": {
@@ -1653,13 +1653,13 @@
             "box": {
               "x": 0,
               "y": 0,
-              "width": 360,
+              "width": 326,
               "height": 17
             },
             "computedBox": {
               "x": 33,
               "y": 273,
-              "width": 360,
+              "width": 326,
               "height": 17
             },
             "layout": {
@@ -1718,13 +1718,13 @@
             "box": {
               "x": 0,
               "y": 25,
-              "width": 360,
+              "width": 326,
               "height": 30
             },
             "computedBox": {
               "x": 33,
               "y": 298,
-              "width": 360,
+              "width": 326,
               "height": 30
             },
             "layout": {
@@ -2361,13 +2361,13 @@
         "box": {
           "x": 17,
           "y": 324,
-          "width": 360,
+          "width": 326,
           "height": 122
         },
         "computedBox": {
           "x": 33,
           "y": 340,
-          "width": 360,
+          "width": 326,
           "height": 122
         },
         "layout": {
@@ -2391,7 +2391,7 @@
           },
           "grid": {
             "templateRows": "57px 57px",
-            "templateColumns": "176px 176px",
+            "templateColumns": "168px 168px",
             "templateAreas": "none",
             "rowGap": 8,
             "columnGap": 8,
@@ -2411,13 +2411,13 @@
             "box": {
               "x": 0,
               "y": 0,
-              "width": 176,
+              "width": 168,
               "height": 57
             },
             "computedBox": {
               "x": 33,
               "y": 340,
-              "width": 176,
+              "width": 168,
               "height": 57
             },
             "layout": {
@@ -2459,13 +2459,13 @@
                 "box": {
                   "x": 0,
                   "y": 0,
-                  "width": 176,
+                  "width": 168,
                   "height": 15
                 },
                 "computedBox": {
                   "x": 33,
                   "y": 340,
-                  "width": 176,
+                  "width": 168,
                   "height": 15
                 },
                 "layout": {
@@ -2516,18 +2516,19 @@
                 "name": "input",
                 "source": {
                   "kind": "dom",
-                  "tag": "input"
+                  "tag": "input",
+                  "inputType": "text"
                 },
                 "box": {
                   "x": 0,
                   "y": 19,
-                  "width": 176,
+                  "width": 168,
                   "height": 38
                 },
                 "computedBox": {
                   "x": 33,
                   "y": 359,
-                  "width": 176,
+                  "width": 168,
                   "height": 38
                 },
                 "layout": {
@@ -2630,15 +2631,15 @@
               "tag": "label"
             },
             "box": {
-              "x": 184,
+              "x": 176,
               "y": 0,
-              "width": 176,
+              "width": 150,
               "height": 57
             },
             "computedBox": {
-              "x": 217,
+              "x": 209,
               "y": 340,
-              "width": 176,
+              "width": 150,
               "height": 57
             },
             "layout": {
@@ -2680,13 +2681,13 @@
                 "box": {
                   "x": 0,
                   "y": 0,
-                  "width": 176,
+                  "width": 168,
                   "height": 15
                 },
                 "computedBox": {
-                  "x": 217,
+                  "x": 209,
                   "y": 340,
-                  "width": 176,
+                  "width": 168,
                   "height": 15
                 },
                 "layout": {
@@ -2737,18 +2738,19 @@
                 "name": "input",
                 "source": {
                   "kind": "dom",
-                  "tag": "input"
+                  "tag": "input",
+                  "inputType": "text"
                 },
                 "box": {
                   "x": 0,
                   "y": 19,
-                  "width": 176,
+                  "width": 168,
                   "height": 38
                 },
                 "computedBox": {
-                  "x": 217,
+                  "x": 209,
                   "y": 359,
-                  "width": 176,
+                  "width": 168,
                   "height": 38
                 },
                 "layout": {
@@ -2853,13 +2855,13 @@
             "box": {
               "x": 0,
               "y": 65,
-              "width": 360,
+              "width": 326,
               "height": 57
             },
             "computedBox": {
               "x": 33,
               "y": 405,
-              "width": 360,
+              "width": 326,
               "height": 57
             },
             "layout": {
@@ -2902,13 +2904,13 @@
                 "box": {
                   "x": 0,
                   "y": 0,
-                  "width": 360,
+                  "width": 344,
                   "height": 15
                 },
                 "computedBox": {
                   "x": 33,
                   "y": 405,
-                  "width": 360,
+                  "width": 344,
                   "height": 15
                 },
                 "layout": {
@@ -2959,18 +2961,19 @@
                 "name": "input",
                 "source": {
                   "kind": "dom",
-                  "tag": "input"
+                  "tag": "input",
+                  "inputType": "text"
                 },
                 "box": {
                   "x": 0,
                   "y": 19,
-                  "width": 360,
+                  "width": 344,
                   "height": 38
                 },
                 "computedBox": {
                   "x": 33,
                   "y": 424,
-                  "width": 360,
+                  "width": 344,
                   "height": 38
                 },
                 "layout": {
@@ -3077,13 +3080,13 @@
         "box": {
           "x": 17,
           "y": 460,
-          "width": 360,
+          "width": 326,
           "height": 36
         },
         "computedBox": {
           "x": 33,
           "y": 476,
-          "width": 360,
+          "width": 326,
           "height": 36
         },
         "layout": {
@@ -3126,13 +3129,13 @@
               ]
             },
             "box": {
-              "x": 226.97,
+              "x": 192.97,
               "y": 0,
               "width": 62.14,
               "height": 36
             },
             "computedBox": {
-              "x": 259.97,
+              "x": 225.97,
               "y": 476,
               "width": 62.14,
               "height": 36
@@ -3217,13 +3220,13 @@
               ]
             },
             "box": {
-              "x": 297.11,
+              "x": 263.11,
               "y": 0,
               "width": 62.89,
               "height": 36
             },
             "computedBox": {
-              "x": 330.11,
+              "x": 296.11,
               "y": 476,
               "width": 62.89,
               "height": 36

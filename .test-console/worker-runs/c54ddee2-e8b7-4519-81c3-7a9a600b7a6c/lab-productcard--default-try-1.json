@@ -1,0 +1,38 @@
+{
+  "storyId": "lab-productcard--default",
+  "attempt": 1,
+  "jobId": "c54ddee2-e8b7-4519-81c3-7a9a600b7a6c",
+  "recordedAt": "2026-05-24T15:04:13.602Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 18.78364191639626,
+    "maxRegionPercent": 49.352669610598156,
+    "error": null
+  },
+  "afterTest": {
+    "status": "error",
+    "percent": 100,
+    "maxRegionPercent": null,
+    "error": "page.evaluate: Error: No [data-figma-component] root found\n    at eval (eval at evaluate (:302:30), <anonymous>:1231:26)\n    at UtilityScript.evaluate (<anonymous>:304:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)"
+  },
+  "agentExitCode": 143,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-productcard--default_try1-1779634290803.prompt.txt",
+    ".test-console/child-status/c54ddee2-e8b7-4519-81c3-7a9a600b7a6c-agent-lab-productcard--default_try1-1779634290803.json"
+  ],
+  "evaluation": {
+    "verdict": "WORSE_METRICS",
+    "verdicts": [
+      "WORSE_METRICS"
+    ],
+    "nextWorkerMode": "narrow_scope",
+    "interventionLines": [
+      "Supervisor: global diff worsened by 81.22% — revert harmful edits; do not repeat the same approach.",
+      "Supervisor: agent CLI exited 143 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

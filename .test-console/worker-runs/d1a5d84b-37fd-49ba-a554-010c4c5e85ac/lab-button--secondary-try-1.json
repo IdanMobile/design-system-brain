@@ -1,0 +1,60 @@
+{
+  "storyId": "lab-button--secondary",
+  "attempt": 1,
+  "jobId": "d1a5d84b-37fd-49ba-a554-010c4c5e85ac",
+  "recordedAt": "2026-05-24T18:01:31.578Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "error",
+    "percent": 100,
+    "maxRegionPercent": null,
+    "error": "page.evaluate: Error: No [data-figma-component] root found\n    at eval (eval at evaluate (:302:30), <anonymous>:1231:26)\n    at UtilityScript.evaluate (<anonymous>:304:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)"
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 3.009478672985782,
+    "maxRegionPercent": 3.469945355191257,
+    "error": null
+  },
+  "agentExitCode": 143,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-button--secondary_try1-1779645200434.prompt.txt",
+    ".test-console/child-status/d1a5d84b-37fd-49ba-a554-010c4c5e85ac-agent-lab-button--secondary_try1-1779645200434.json",
+    "figma-live-diffs/by-story/lab-button-secondary/result.json",
+    "figma-live-diffs/lab-button-secondary/artifact.v2.json",
+    "figma-live-diffs/report.html",
+    "figma-live-diffs/report.json",
+    "package.json",
+    "packages/developer-playground/dist/assets/index-C55UEq-q.js",
+    "packages/developer-playground/dist/assets/index-CevCxpH0.css",
+    "packages/developer-playground/dist/assets/index-DeGhejNL.js",
+    "packages/developer-playground/dist/assets/index-YvotHR2S.css",
+    "packages/developer-playground/dist/downloads/.gitignore",
+    "packages/developer-playground/dist/downloads/INSTALL.txt",
+    "packages/developer-playground/dist/downloads/meta.json",
+    "packages/developer-playground/dist/index.html",
+    "packages/developer-playground/public/downloads/.gitignore",
+    "packages/developer-playground/public/downloads/INSTALL.txt",
+    "packages/developer-playground/public/downloads/meta.json",
+    "packages/developer-playground/src/PackageDownload.tsx",
+    "packages/developer-playground/src/Showcase.tsx",
+    "packages/developer-playground/src/showcase.css",
+    "packages/ui/README.md",
+    "packages/ui/package.json",
+    "scripts/pack-lab-ui.mjs",
+    "scripts/serve-playground.mjs",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "ON_TRACK",
+    "verdicts": [],
+    "nextWorkerMode": "continue",
+    "interventionLines": [
+      "Supervisor: agent CLI exited 143 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

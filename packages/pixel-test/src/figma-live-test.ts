@@ -530,6 +530,25 @@ async function diffStory(
     await sbPage.evaluate(
       () => (document as Document & { fonts: { ready: Promise<unknown> } }).fonts.ready
     );
+    // Wait for any <img> elements inside the component to finish loading before
+    // screenshotting (external images like picsum.photos may not have loaded yet
+    // when domcontentloaded fires; extractor uses networkidle so its dataUrl is
+    // always captured — this aligns the screenshot with the extractor's state).
+    await sbPage.evaluate(() => {
+      const imgs = [
+        ...document.querySelectorAll<HTMLImageElement>("[data-figma-component] img")
+      ];
+      return Promise.all(
+        imgs.map((img) =>
+          img.complete
+            ? Promise.resolve()
+            : new Promise<void>((res) => {
+                img.addEventListener("load", () => res(), { once: true });
+                img.addEventListener("error", () => res(), { once: true });
+              })
+        )
+      );
+    });
     await sbPage.addStyleTag({
       content: `*,*::before,*::after{animation-play-state:paused !important;transition:none !important;caret-color:transparent !important;}${LIVE_STRIP_EFFECTS_CSS}`
     });

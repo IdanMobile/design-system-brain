@@ -2,8 +2,8 @@
   "schemaVersion": "1.0",
   "meta": {
     "storyId": "mui--showcase",
-    "componentName": "true",
-    "extractedAt": "2026-05-21T19:23:07.654Z",
+    "componentName": "MUIShowcase",
+    "extractedAt": "2026-05-24T20:05:22.396Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=mui--showcase&viewMode=story",
     "viewport": {
       "x": 0,
@@ -16,7 +16,7 @@
   },
   "root": {
     "id": "lay-1",
-    "name": "true",
+    "name": "MUIShowcase",
     "source": {
       "kind": "dom",
       "tag": "div",
@@ -25,7 +25,7 @@
         "css-1hbmzpr"
       ],
       "dataset": {
-        "figmaComponent": "true"
+        "figmaComponent": "MUIShowcase"
       }
     },
     "box": {
@@ -3416,7 +3416,8 @@
                                         "MuiInputBase-input",
                                         "MuiOutlinedInput-input",
                                         "css-15v65ck"
-                                      ]
+                                      ],
+                                      "inputType": "text"
                                     },
                                     "box": {
                                       "x": 0,
@@ -13579,16 +13580,16 @@
                                   "role": "progressbar"
                                 },
                                 "box": {
-                                  "x": -3.27,
-                                  "y": -3.27,
-                                  "width": 28.55,
-                                  "height": 28.55
+                                  "x": -3.48,
+                                  "y": -3.48,
+                                  "width": 28.97,
+                                  "height": 28.97
                                 },
                                 "computedBox": {
-                                  "x": 37.73,
-                                  "y": 1547.85,
-                                  "width": 28.55,
-                                  "height": 28.55
+                                  "x": 37.52,
+                                  "y": 1547.64,
+                                  "width": 28.97,
+                                  "height": 28.97
                                 },
                                 "layout": {
                                   "display": "block",
@@ -13612,10 +13613,10 @@
                                 },
                                 "transform": {
                                   "matrix": [
-                                    -0.367532,
-                                    0.930011,
-                                    -0.930011,
-                                    -0.367532,
+                                    -0.400218,
+                                    0.91642,
+                                    -0.91642,
+                                    -0.400218,
                                     0,
                                     0
                                   ],
@@ -13639,14 +13640,14 @@
                                     "box": {
                                       "x": 0,
                                       "y": 0,
-                                      "width": 28.55,
-                                      "height": 28.55
+                                      "width": 28.97,
+                                      "height": 28.97
                                     },
                                     "computedBox": {
-                                      "x": 37.73,
-                                      "y": 1547.85,
-                                      "width": 28.55,
-                                      "height": 28.55
+                                      "x": 37.52,
+                                      "y": 1547.64,
+                                      "width": 28.97,
+                                      "height": 28.97
                                     },
                                     "layout": {
                                       "display": "block",
@@ -13684,10 +13685,10 @@
                                             "stroke": "rgb(25, 118, 210)",
                                             "strokeWidth": 3.6,
                                             "dashArray": [
-                                              70.2238,
+                                              71.929,
                                               200
                                             ],
-                                            "dashOffset": -10.4885
+                                            "dashOffset": -10.7468
                                           }
                                         }
                                       ],

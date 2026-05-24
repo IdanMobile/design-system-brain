@@ -884,7 +884,7 @@ function runFixOneOrAllAction(suiteId, singleStoryId, { openTerminal = true } = 
 
   job.logs.push(
     storyIds.length > 1
-      ? `[fix-all] Launching BATCH fix loop in Terminal (investigate → one agent → re-test all, ≤${MAX_TRIES_PER_STORY} serial fallback via FIX_ALL_SERIAL=1)…\n`
+      ? `[fix-all] Launching SERIAL fix loop in Terminal — one story at a time, ≤${MAX_TRIES_PER_STORY} fix→test tries each (set FIX_ALL_BATCH=1 for legacy batch mode)…\n`
       : `[fix-all] Launching iterate loop in Terminal (≤${MAX_TRIES_PER_STORY} fix→test tries per story)…\n`
   );
 

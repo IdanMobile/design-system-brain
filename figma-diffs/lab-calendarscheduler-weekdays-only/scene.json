@@ -332,10 +332,10 @@
                   "strokeLeftWeight": 0,
                   "dashPattern": [],
                   "cornerRadii": [
-                    14,
-                    14,
-                    14,
-                    14
+                    999,
+                    999,
+                    999,
+                    999
                   ],
                   "effects": [],
                   "clipsContent": false,
@@ -2534,10 +2534,10 @@
                   "strokeLeftWeight": 0,
                   "dashPattern": [],
                   "cornerRadii": [
-                    19,
-                    19,
-                    19,
-                    19
+                    999,
+                    999,
+                    999,
+                    999
                   ],
                   "effects": [],
                   "clipsContent": false,
@@ -3321,10 +3321,10 @@
                   "strokeLeftWeight": 0,
                   "dashPattern": [],
                   "cornerRadii": [
-                    19,
-                    19,
-                    19,
-                    19
+                    999,
+                    999,
+                    999,
+                    999
                   ],
                   "effects": [],
                   "clipsContent": false,
@@ -4075,7 +4075,7 @@
                 12
               ],
               "effects": [],
-              "clipsContent": true,
+              "clipsContent": false,
               "children": [
                 {
                   "id": 106,
@@ -4083,7 +4083,7 @@
                   "type": "FRAME",
                   "name": "p",
                   "x": 13,
-                  "y": 13,
+                  "y": 42.25,
                   "width": 246,
                   "height": 16,
                   "opacity": 1,
@@ -4221,7 +4221,7 @@
                   "type": "FRAME",
                   "name": "span",
                   "x": 13,
-                  "y": 90.5,
+                  "y": 42.25,
                   "width": 109.91,
                   "height": 16,
                   "opacity": 1,
@@ -4331,7 +4331,7 @@
                 12
               ],
               "effects": [],
-              "clipsContent": true,
+              "clipsContent": false,
               "children": [
                 {
                   "id": 113,
@@ -4339,7 +4339,7 @@
                   "type": "FRAME",
                   "name": "p",
                   "x": 13,
-                  "y": 13,
+                  "y": 42.25,
                   "width": 246,
                   "height": 16,
                   "opacity": 1,
@@ -4477,7 +4477,7 @@
                   "type": "FRAME",
                   "name": "span",
                   "x": 13,
-                  "y": 90.5,
+                  "y": 42.25,
                   "width": 143.83,
                   "height": 16,
                   "opacity": 1,
@@ -4587,7 +4587,7 @@
                 12
               ],
               "effects": [],
-              "clipsContent": true,
+              "clipsContent": false,
               "children": [
                 {
                   "id": 120,
@@ -4595,7 +4595,7 @@
                   "type": "FRAME",
                   "name": "p",
                   "x": 13,
-                  "y": 13,
+                  "y": 42.25,
                   "width": 246,
                   "height": 16,
                   "opacity": 1,
@@ -4733,7 +4733,7 @@
                   "type": "FRAME",
                   "name": "span",
                   "x": 13,
-                  "y": 90.5,
+                  "y": 42.25,
                   "width": 133.59,
                   "height": 16,
                   "opacity": 1,

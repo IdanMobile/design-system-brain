@@ -19,7 +19,7 @@ Maximize **$0 cloud spend** for Phases 0–8 (solo lab, one Mac worker, 46 stori
 | Code + CI | **GitHub** private repo + Actions | Free tier minutes |
 | Semantic memory | **Obsidian** + git `lab-memory` repo | Free (skip Obsidian Sync) |
 | Mac admin (optional) | **Tailscale** personal | Free |
-| Worker runtime | **Your Mac** (Figma, Cursor CLI, Storybook) | Hardware you own |
+| Worker runtime | **Your Mac** (Figma, Ollama + Qwen 3.6, Storybook) | Hardware you own |
 
 ---
 
@@ -41,7 +41,7 @@ Skip domain registration until you want a branded URL.
 | Item | Why | Cheapest option |
 | --- | --- | --- |
 | **Mac worker** | Figma Desktop, macOS plugin reload, live golden | Mac you already own (dedicated user) |
-| **Cursor** | Cursor CLI agents | Your existing subscription |
+| **Ollama + Qwen 3.6** | Mac worker fixer/investigator agents | **$0** — runs locally on your hardware |
 | **Figma Desktop** | Live export tests | Free tier often enough for dev |
 | **Power** | 24/7 home Mac | Small electricity cost |
 

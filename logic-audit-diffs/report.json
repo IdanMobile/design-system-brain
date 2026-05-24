@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T14:45:51.123Z",
+  "generatedAt": "2026-05-24T20:31:46.545Z",
   "baseUrl": "http://127.0.0.1:6108",
   "results": [
     {
@@ -7,27 +7,33 @@
       "status": "pass",
       "percent": 0,
       "maxRegionPercent": 0,
-      "testedAt": "2026-05-21T20:47:45.621Z",
+      "testedAt": "2026-05-24T20:20:42.145Z",
       "component": "AnalyticsCharts",
       "gaps": [],
       "dsBuiltIn": [],
       "interactiveCount": 0,
       "readonlyCount": 0,
-      "findings": [],
-      "demoVideo": "by-story/lab-analyticscharts-dense/interaction.webm"
+      "findings": []
     },
     {
       "storyId": "lab-analyticscharts--revenue",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 0,
+      "testedAt": "2026-05-24T20:20:40.850Z",
+      "component": "AnalyticsCharts",
+      "gaps": [],
+      "dsBuiltIn": [],
+      "interactiveCount": 0,
+      "readonlyCount": 0,
+      "findings": []
     },
     {
       "storyId": "lab-analyticscharts--usage",
       "status": "pass",
       "percent": 0,
       "maxRegionPercent": 0,
-      "testedAt": "2026-05-22T14:45:51.315Z",
+      "testedAt": "2026-05-24T20:20:41.551Z",
       "component": "AnalyticsCharts",
       "gaps": [],
       "dsBuiltIn": [],
@@ -37,273 +43,1758 @@
     },
     {
       "storyId": "lab-button--compact",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 1,
+      "testedAt": "2026-05-24T20:20:49.835Z",
+      "component": "Button",
+      "gaps": [],
+      "dsBuiltIn": [
+        "Compact"
+      ],
+      "interactiveCount": 1,
+      "readonlyCount": 0,
+      "findings": [
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "",
+          "text": "Compact",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        }
+      ]
     },
     {
       "storyId": "lab-button--danger",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 1,
+      "testedAt": "2026-05-24T20:31:46.730Z",
+      "component": "Button",
+      "gaps": [],
+      "dsBuiltIn": [
+        "Delete Item"
+      ],
+      "interactiveCount": 1,
+      "readonlyCount": 0,
+      "findings": [
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "",
+          "text": "Delete Item",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        }
+      ]
     },
     {
       "storyId": "lab-button--ghost",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 1,
+      "testedAt": "2026-05-24T20:31:48.612Z",
+      "component": "Button",
+      "gaps": [],
+      "dsBuiltIn": [
+        "Learn More"
+      ],
+      "interactiveCount": 1,
+      "readonlyCount": 0,
+      "findings": [
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "",
+          "text": "Learn More",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        }
+      ]
     },
     {
       "storyId": "lab-button--large-with-both-icons",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 1,
+      "testedAt": "2026-05-24T20:31:50.037Z",
+      "component": "Button",
+      "gaps": [],
+      "dsBuiltIn": [
+        "Continue"
+      ],
+      "interactiveCount": 1,
+      "readonlyCount": 0,
+      "findings": [
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "",
+          "text": "Continue",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        }
+      ]
     },
     {
       "storyId": "lab-button--primary",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 1,
+      "testedAt": "2026-05-24T20:20:42.727Z",
+      "component": "Button",
+      "gaps": [],
+      "dsBuiltIn": [
+        "Primary"
+      ],
+      "interactiveCount": 1,
+      "readonlyCount": 0,
+      "findings": [
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "",
+          "text": "Primary",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        }
+      ]
     },
     {
       "storyId": "lab-button--primary-with-icon",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 1,
+      "testedAt": "2026-05-24T20:20:44.149Z",
+      "component": "Button",
+      "gaps": [],
+      "dsBuiltIn": [
+        "Primary"
+      ],
+      "interactiveCount": 1,
+      "readonlyCount": 0,
+      "findings": [
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "",
+          "text": "Primary",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        }
+      ]
     },
     {
       "storyId": "lab-button--secondary",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 1,
+      "testedAt": "2026-05-24T20:20:45.588Z",
+      "component": "Button",
+      "gaps": [],
+      "dsBuiltIn": [
+        "Secondary"
+      ],
+      "interactiveCount": 1,
+      "readonlyCount": 0,
+      "findings": [
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "",
+          "text": "Secondary",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        }
+      ]
     },
     {
       "storyId": "lab-calendarscheduler--compact",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 1,
+      "testedAt": "2026-05-24T20:20:55.559Z",
+      "component": "CalendarScheduler",
+      "gaps": [],
+      "dsBuiltIn": [
+        "Create Event"
+      ],
+      "interactiveCount": 1,
+      "readonlyCount": 0,
+      "findings": [
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "",
+          "text": "Create Event",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        }
+      ]
     },
     {
       "storyId": "lab-calendarscheduler--monthly",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 1,
+      "testedAt": "2026-05-24T20:20:52.705Z",
+      "component": "CalendarScheduler",
+      "gaps": [],
+      "dsBuiltIn": [
+        "Create Event"
+      ],
+      "interactiveCount": 1,
+      "readonlyCount": 0,
+      "findings": [
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "",
+          "text": "Create Event",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        }
+      ]
     },
     {
       "storyId": "lab-calendarscheduler--weekdays-only",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 1,
+      "testedAt": "2026-05-24T20:20:54.130Z",
+      "component": "CalendarScheduler",
+      "gaps": [],
+      "dsBuiltIn": [
+        "Create Event"
+      ],
+      "interactiveCount": 1,
+      "readonlyCount": 0,
+      "findings": [
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "",
+          "text": "Create Event",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        }
+      ]
     },
     {
       "storyId": "lab-complexdashboardcard--default",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 0,
+      "testedAt": "2026-05-24T20:20:56.982Z",
+      "component": "ComplexDashboardCard",
+      "gaps": [],
+      "dsBuiltIn": [],
+      "interactiveCount": 0,
+      "readonlyCount": 0,
+      "findings": []
     },
     {
       "storyId": "lab-contentlistboard--compact",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 1,
+      "testedAt": "2026-05-24T20:20:59.005Z",
+      "component": "ContentListBoard",
+      "gaps": [],
+      "dsBuiltIn": [
+        "New Task"
+      ],
+      "interactiveCount": 2,
+      "readonlyCount": 1,
+      "findings": [
+        {
+          "index": 1,
+          "tag": "input",
+          "role": "",
+          "text": "",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": true,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "skipped_readonly",
+          "category": "readonly",
+          "note": "Read-only or display-only field"
+        },
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "",
+          "text": "New Task",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        }
+      ]
     },
     {
       "storyId": "lab-contentlistboard--default",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 1,
+      "testedAt": "2026-05-24T20:20:57.583Z",
+      "component": "ContentListBoard",
+      "gaps": [],
+      "dsBuiltIn": [
+        "New Task"
+      ],
+      "interactiveCount": 2,
+      "readonlyCount": 1,
+      "findings": [
+        {
+          "index": 1,
+          "tag": "input",
+          "role": "",
+          "text": "",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": true,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "skipped_readonly",
+          "category": "readonly",
+          "note": "Read-only or display-only field"
+        },
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "",
+          "text": "New Task",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        }
+      ]
     },
     {
       "storyId": "lab-contentlistboard--highlighted",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 1,
+      "testedAt": "2026-05-24T20:21:00.425Z",
+      "component": "ContentListBoard",
+      "gaps": [],
+      "dsBuiltIn": [
+        "New Task"
+      ],
+      "interactiveCount": 2,
+      "readonlyCount": 1,
+      "findings": [
+        {
+          "index": 1,
+          "tag": "input",
+          "role": "",
+          "text": "",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": true,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "skipped_readonly",
+          "category": "readonly",
+          "note": "Read-only or display-only field"
+        },
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "",
+          "text": "New Task",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        }
+      ]
     },
     {
       "storyId": "lab-featurecard--default",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 0,
+      "testedAt": "2026-05-24T20:21:01.859Z",
+      "component": "FeatureCard",
+      "gaps": [],
+      "dsBuiltIn": [],
+      "interactiveCount": 0,
+      "readonlyCount": 0,
+      "findings": []
     },
     {
       "storyId": "lab-featurecard--success",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 0,
+      "testedAt": "2026-05-24T20:21:02.473Z",
+      "component": "FeatureCard",
+      "gaps": [],
+      "dsBuiltIn": [],
+      "interactiveCount": 0,
+      "readonlyCount": 0,
+      "findings": []
     },
     {
       "storyId": "lab-featurecard--warning",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 0,
+      "testedAt": "2026-05-24T20:21:03.055Z",
+      "component": "FeatureCard",
+      "gaps": [],
+      "dsBuiltIn": [],
+      "interactiveCount": 0,
+      "readonlyCount": 0,
+      "findings": []
     },
     {
       "storyId": "lab-filtersidepanel--collapsed",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 3,
+      "testedAt": "2026-05-24T20:21:11.814Z",
+      "component": "FilterSidePanel",
+      "gaps": [],
+      "dsBuiltIn": [
+        "+ Add",
+        "Reset",
+        "Apply"
+      ],
+      "interactiveCount": 6,
+      "readonlyCount": 3,
+      "findings": [
+        {
+          "index": 1,
+          "tag": "input",
+          "role": "",
+          "text": "",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": true,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "skipped_readonly",
+          "category": "readonly",
+          "note": "Read-only or display-only field"
+        },
+        {
+          "index": 2,
+          "tag": "input",
+          "role": "",
+          "text": "",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": true,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "skipped_readonly",
+          "category": "readonly",
+          "note": "Read-only or display-only field"
+        },
+        {
+          "index": 3,
+          "tag": "input",
+          "role": "",
+          "text": "",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": true,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "skipped_readonly",
+          "category": "readonly",
+          "note": "Read-only or display-only field"
+        },
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "",
+          "text": "+ Add",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        },
+        {
+          "index": 4,
+          "tag": "button",
+          "role": "",
+          "text": "Reset",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        },
+        {
+          "index": 5,
+          "tag": "button",
+          "role": "",
+          "text": "Apply",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        }
+      ]
     },
     {
       "storyId": "lab-filtersidepanel--left-panel",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 3,
+      "testedAt": "2026-05-24T20:21:06.764Z",
+      "component": "FilterSidePanel",
+      "gaps": [],
+      "dsBuiltIn": [
+        "+ Add",
+        "Reset",
+        "Apply"
+      ],
+      "interactiveCount": 6,
+      "readonlyCount": 3,
+      "findings": [
+        {
+          "index": 1,
+          "tag": "input",
+          "role": "",
+          "text": "",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": true,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "skipped_readonly",
+          "category": "readonly",
+          "note": "Read-only or display-only field"
+        },
+        {
+          "index": 2,
+          "tag": "input",
+          "role": "",
+          "text": "",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": true,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "skipped_readonly",
+          "category": "readonly",
+          "note": "Read-only or display-only field"
+        },
+        {
+          "index": 3,
+          "tag": "input",
+          "role": "",
+          "text": "",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": true,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "skipped_readonly",
+          "category": "readonly",
+          "note": "Read-only or display-only field"
+        },
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "",
+          "text": "+ Add",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        },
+        {
+          "index": 4,
+          "tag": "button",
+          "role": "",
+          "text": "Reset",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        },
+        {
+          "index": 5,
+          "tag": "button",
+          "role": "",
+          "text": "Apply",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        }
+      ]
     },
     {
       "storyId": "lab-filtersidepanel--right-panel",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 3,
+      "testedAt": "2026-05-24T20:21:03.674Z",
+      "component": "FilterSidePanel",
+      "gaps": [],
+      "dsBuiltIn": [
+        "+ Add",
+        "Reset",
+        "Apply"
+      ],
+      "interactiveCount": 6,
+      "readonlyCount": 3,
+      "findings": [
+        {
+          "index": 1,
+          "tag": "input",
+          "role": "",
+          "text": "",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": true,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "skipped_readonly",
+          "category": "readonly",
+          "note": "Read-only or display-only field"
+        },
+        {
+          "index": 2,
+          "tag": "input",
+          "role": "",
+          "text": "",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": true,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "skipped_readonly",
+          "category": "readonly",
+          "note": "Read-only or display-only field"
+        },
+        {
+          "index": 3,
+          "tag": "input",
+          "role": "",
+          "text": "",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": true,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "skipped_readonly",
+          "category": "readonly",
+          "note": "Read-only or display-only field"
+        },
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "",
+          "text": "+ Add",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        },
+        {
+          "index": 4,
+          "tag": "button",
+          "role": "",
+          "text": "Reset",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        },
+        {
+          "index": 5,
+          "tag": "button",
+          "role": "",
+          "text": "Apply",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        }
+      ]
     },
     {
       "storyId": "lab-loadingstates--card-skeleton",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 0,
+      "testedAt": "2026-05-24T20:21:15.080Z",
+      "component": "LoadingStates",
+      "gaps": [],
+      "dsBuiltIn": [],
+      "interactiveCount": 0,
+      "readonlyCount": 0,
+      "findings": []
     },
     {
       "storyId": "lab-loadingstates--list-skeleton",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 0,
+      "testedAt": "2026-05-24T20:21:15.705Z",
+      "component": "LoadingStates",
+      "gaps": [],
+      "dsBuiltIn": [],
+      "interactiveCount": 0,
+      "readonlyCount": 0,
+      "findings": []
     },
     {
       "storyId": "lab-loginpage--default",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 5,
+      "testedAt": "2026-05-24T20:21:16.319Z",
+      "component": "LoginPage",
+      "gaps": [],
+      "dsBuiltIn": [
+        "input[email]",
+        "input[password]",
+        "Login",
+        "Connect with Google",
+        "Connect with Facebook"
+      ],
+      "interactiveCount": 5,
+      "readonlyCount": 0,
+      "findings": [
+        {
+          "index": 0,
+          "tag": "input",
+          "role": "",
+          "text": "",
+          "ariaLabel": "",
+          "type": "email",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "Design-system widget responds to input"
+        },
+        {
+          "index": 1,
+          "tag": "input",
+          "role": "",
+          "text": "",
+          "ariaLabel": "",
+          "type": "password",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "Design-system widget responds to input"
+        },
+        {
+          "index": 2,
+          "tag": "button",
+          "role": "",
+          "text": "Login",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        },
+        {
+          "index": 3,
+          "tag": "button",
+          "role": "",
+          "text": "Connect with Google",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        },
+        {
+          "index": 4,
+          "tag": "button",
+          "role": "",
+          "text": "Connect with Facebook",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        }
+      ]
     },
     {
       "storyId": "lab-loginpage--filled-credentials",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 5,
+      "testedAt": "2026-05-24T20:21:20.955Z",
+      "component": "LoginPage",
+      "gaps": [],
+      "dsBuiltIn": [
+        "input[email]",
+        "input[password]",
+        "Login",
+        "Connect with Google",
+        "Connect with Facebook"
+      ],
+      "interactiveCount": 5,
+      "readonlyCount": 0,
+      "findings": [
+        {
+          "index": 0,
+          "tag": "input",
+          "role": "",
+          "text": "",
+          "ariaLabel": "",
+          "type": "email",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "Design-system widget responds to input"
+        },
+        {
+          "index": 1,
+          "tag": "input",
+          "role": "",
+          "text": "",
+          "ariaLabel": "",
+          "type": "password",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "Design-system widget responds to input"
+        },
+        {
+          "index": 2,
+          "tag": "button",
+          "role": "",
+          "text": "Login",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        },
+        {
+          "index": 3,
+          "tag": "button",
+          "role": "",
+          "text": "Connect with Google",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        },
+        {
+          "index": 4,
+          "tag": "button",
+          "role": "",
+          "text": "Connect with Facebook",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        }
+      ]
     },
     {
       "storyId": "lab-navigationbars--bottom-navigation",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 4,
+      "testedAt": "2026-05-24T20:21:27.066Z",
+      "component": "NavigationBars",
+      "gaps": [],
+      "dsBuiltIn": [
+        "Home",
+        "Search",
+        "Create",
+        "Profile"
+      ],
+      "interactiveCount": 4,
+      "readonlyCount": 0,
+      "findings": [
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "",
+          "text": "Home",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        },
+        {
+          "index": 1,
+          "tag": "button",
+          "role": "",
+          "text": "Search",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        },
+        {
+          "index": 2,
+          "tag": "button",
+          "role": "",
+          "text": "Create",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        },
+        {
+          "index": 3,
+          "tag": "button",
+          "role": "",
+          "text": "Profile",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        }
+      ]
     },
     {
       "storyId": "lab-navigationbars--top-navigation",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 1,
+      "testedAt": "2026-05-24T20:21:25.627Z",
+      "component": "NavigationBars",
+      "gaps": [],
+      "dsBuiltIn": [
+        "Get Started"
+      ],
+      "interactiveCount": 1,
+      "readonlyCount": 0,
+      "findings": [
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "",
+          "text": "Get Started",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        }
+      ]
     },
     {
       "storyId": "lab-overlaystates--bottom-sheet",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 0,
+      "testedAt": "2026-05-24T20:21:35.357Z",
+      "component": "OverlayStates",
+      "gaps": [],
+      "dsBuiltIn": [],
+      "interactiveCount": 0,
+      "readonlyCount": 0,
+      "findings": []
     },
     {
       "storyId": "lab-overlaystates--dialog",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 2,
+      "testedAt": "2026-05-24T20:21:30.908Z",
+      "component": "OverlayStates",
+      "gaps": [],
+      "dsBuiltIn": [
+        "Cancel",
+        "Discard"
+      ],
+      "interactiveCount": 2,
+      "readonlyCount": 0,
+      "findings": [
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "",
+          "text": "Cancel",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        },
+        {
+          "index": 1,
+          "tag": "button",
+          "role": "",
+          "text": "Discard",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        }
+      ]
     },
     {
       "storyId": "lab-overlaystates--drawer",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 2,
+      "testedAt": "2026-05-24T20:21:33.125Z",
+      "component": "OverlayStates",
+      "gaps": [],
+      "dsBuiltIn": [
+        "Reset",
+        "Apply"
+      ],
+      "interactiveCount": 2,
+      "readonlyCount": 0,
+      "findings": [
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "",
+          "text": "Reset",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        },
+        {
+          "index": 1,
+          "tag": "button",
+          "role": "",
+          "text": "Apply",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        }
+      ]
     },
     {
       "storyId": "lab-pricingpanel--pro",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 1,
+      "testedAt": "2026-05-24T20:21:37.343Z",
+      "component": "PricingPanel",
+      "gaps": [],
+      "dsBuiltIn": [
+        "Upgrade now"
+      ],
+      "interactiveCount": 1,
+      "readonlyCount": 0,
+      "findings": [
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "",
+          "text": "Upgrade now",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        }
+      ]
     },
     {
       "storyId": "lab-pricingpanel--starter",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 1,
+      "testedAt": "2026-05-24T20:21:35.941Z",
+      "component": "PricingPanel",
+      "gaps": [],
+      "dsBuiltIn": [
+        "Start free trial"
+      ],
+      "interactiveCount": 1,
+      "readonlyCount": 0,
+      "findings": [
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "",
+          "text": "Start free trial",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "UI state changed on interaction"
+        }
+      ]
     },
     {
       "storyId": "lab-productcard--alternate-image",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 0,
+      "testedAt": "2026-05-24T20:21:40.599Z",
+      "component": "ProductCard",
+      "gaps": [],
+      "dsBuiltIn": [],
+      "interactiveCount": 0,
+      "readonlyCount": 0,
+      "findings": []
     },
     {
       "storyId": "lab-productcard--compact",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 0,
+      "testedAt": "2026-05-24T20:21:39.996Z",
+      "component": "ProductCard",
+      "gaps": [],
+      "dsBuiltIn": [],
+      "interactiveCount": 0,
+      "readonlyCount": 0,
+      "findings": []
     },
     {
       "storyId": "lab-productcard--dark",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 0,
+      "testedAt": "2026-05-24T20:21:39.401Z",
+      "component": "ProductCard",
+      "gaps": [],
+      "dsBuiltIn": [],
+      "interactiveCount": 0,
+      "readonlyCount": 0,
+      "findings": []
     },
     {
       "storyId": "lab-productcard--default",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 0,
+      "testedAt": "2026-05-24T20:21:38.773Z",
+      "component": "ProductCard",
+      "gaps": [],
+      "dsBuiltIn": [],
+      "interactiveCount": 0,
+      "readonlyCount": 0,
+      "findings": []
     },
     {
       "storyId": "lab-radiogroupfield--default",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 0,
+      "testedAt": "2026-05-24T20:21:41.207Z",
+      "component": "RadioGroupField",
+      "gaps": [],
+      "dsBuiltIn": [],
+      "interactiveCount": 0,
+      "readonlyCount": 0,
+      "findings": []
     },
     {
       "storyId": "lab-radiogroupfield--disabled",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 0,
+      "testedAt": "2026-05-24T20:21:42.406Z",
+      "component": "RadioGroupField",
+      "gaps": [],
+      "dsBuiltIn": [],
+      "interactiveCount": 0,
+      "readonlyCount": 0,
+      "findings": []
     },
     {
       "storyId": "lab-radiogroupfield--pickup-selected",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 0,
+      "testedAt": "2026-05-24T20:21:41.800Z",
+      "component": "RadioGroupField",
+      "gaps": [],
+      "dsBuiltIn": [],
+      "interactiveCount": 0,
+      "readonlyCount": 0,
+      "findings": []
     },
     {
       "storyId": "lab-selectfield--closed",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 1,
+      "testedAt": "2026-05-24T20:21:43.016Z",
+      "component": "SelectField",
+      "gaps": [],
+      "dsBuiltIn": [
+        "Spacesuits▾"
+      ],
+      "interactiveCount": 1,
+      "readonlyCount": 0,
+      "findings": [
+        {
+          "index": 0,
+          "tag": "div",
+          "role": "combobox",
+          "text": "Spacesuits▾",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": true,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "Design-system widget responds to input"
+        }
+      ]
     },
     {
       "storyId": "lab-selectfield--expanded",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 1,
+      "testedAt": "2026-05-24T20:21:44.719Z",
+      "component": "SelectField",
+      "gaps": [],
+      "dsBuiltIn": [
+        "Spacesuits▾"
+      ],
+      "interactiveCount": 1,
+      "readonlyCount": 0,
+      "findings": [
+        {
+          "index": 0,
+          "tag": "div",
+          "role": "combobox",
+          "text": "Spacesuits▾",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": true,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "Design-system widget responds to input"
+        }
+      ]
     },
     {
       "storyId": "lab-snackbarstack--default",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 0,
+      "testedAt": "2026-05-24T20:21:46.350Z",
+      "component": "SnackbarStack",
+      "gaps": [],
+      "dsBuiltIn": [],
+      "interactiveCount": 0,
+      "readonlyCount": 0,
+      "findings": []
     },
     {
       "storyId": "lab-snackbarstack--dense",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 0,
+      "testedAt": "2026-05-24T20:21:46.953Z",
+      "component": "SnackbarStack",
+      "gaps": [],
+      "dsBuiltIn": [],
+      "interactiveCount": 0,
+      "readonlyCount": 0,
+      "findings": []
     },
     {
       "storyId": "lab-tabspanel--activity-active",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 3,
+      "testedAt": "2026-05-24T20:21:47.535Z",
+      "component": "TabsPanel",
+      "gaps": [],
+      "dsBuiltIn": [
+        "Overview",
+        "Activity",
+        "Settings"
+      ],
+      "interactiveCount": 3,
+      "readonlyCount": 0,
+      "findings": [
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "tab",
+          "text": "Overview",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "Design-system widget responds to input"
+        },
+        {
+          "index": 1,
+          "tag": "button",
+          "role": "tab",
+          "text": "Activity",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "Design-system widget responds to input"
+        },
+        {
+          "index": 2,
+          "tag": "button",
+          "role": "tab",
+          "text": "Settings",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "Design-system widget responds to input"
+        }
+      ]
     },
     {
       "storyId": "lab-tabspanel--settings-active",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 3,
+      "testedAt": "2026-05-24T20:21:50.580Z",
+      "component": "TabsPanel",
+      "gaps": [],
+      "dsBuiltIn": [
+        "Overview",
+        "Activity",
+        "Settings"
+      ],
+      "interactiveCount": 3,
+      "readonlyCount": 0,
+      "findings": [
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "tab",
+          "text": "Overview",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "Design-system widget responds to input"
+        },
+        {
+          "index": 1,
+          "tag": "button",
+          "role": "tab",
+          "text": "Activity",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "Design-system widget responds to input"
+        },
+        {
+          "index": 2,
+          "tag": "button",
+          "role": "tab",
+          "text": "Settings",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "Design-system widget responds to input"
+        }
+      ]
     },
     {
       "storyId": "mui--showcase",
-      "status": "not_tested",
+      "status": "pass",
       "percent": 0,
-      "testedAt": "2026-05-22T14:45:51.123Z"
+      "maxRegionPercent": 11,
+      "testedAt": "2026-05-24T20:20:22.122Z",
+      "component": "MUIShowcase",
+      "gaps": [],
+      "dsBuiltIn": [
+        "Contained",
+        "Outlined",
+        "Text",
+        "Home",
+        "Components",
+        "Overview",
+        "Design",
+        "Usage",
+        "input[text]",
+        "Designer",
+        "input[checkbox]"
+      ],
+      "interactiveCount": 35,
+      "readonlyCount": 0,
+      "findings": [
+        {
+          "index": 0,
+          "tag": "button",
+          "role": "",
+          "text": "Contained",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "Design-system widget responds to input"
+        },
+        {
+          "index": 1,
+          "tag": "button",
+          "role": "",
+          "text": "Outlined",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "Design-system widget responds to input"
+        },
+        {
+          "index": 2,
+          "tag": "button",
+          "role": "",
+          "text": "Text",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "Design-system widget responds to input"
+        },
+        {
+          "index": 3,
+          "tag": "a",
+          "role": "",
+          "text": "Home",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "Design-system widget responds to input"
+        },
+        {
+          "index": 4,
+          "tag": "a",
+          "role": "",
+          "text": "Components",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "Design-system widget responds to input"
+        },
+        {
+          "index": 5,
+          "tag": "button",
+          "role": "tab",
+          "text": "Overview",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "Design-system widget responds to input"
+        },
+        {
+          "index": 6,
+          "tag": "button",
+          "role": "tab",
+          "text": "Design",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "Design-system widget responds to input"
+        },
+        {
+          "index": 7,
+          "tag": "button",
+          "role": "tab",
+          "text": "Usage",
+          "ariaLabel": "",
+          "type": "button",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "Design-system widget responds to input"
+        },
+        {
+          "index": 8,
+          "tag": "input",
+          "role": "",
+          "text": "",
+          "ariaLabel": "",
+          "type": "text",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": true,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "Design-system widget responds to input"
+        },
+        {
+          "index": 9,
+          "tag": "div",
+          "role": "combobox",
+          "text": "Designer",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": true,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "Design-system widget responds to input"
+        },
+        {
+          "index": 10,
+          "tag": "input",
+          "role": "",
+          "text": "",
+          "ariaLabel": "",
+          "type": "",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": true,
+          "outcome": "click_failed",
+          "category": "unknown",
+          "note": "Pointer click failed or element not reachable"
+        },
+        {
+          "index": 11,
+          "tag": "input",
+          "role": "",
+          "text": "",
+          "ariaLabel": "",
+          "type": "checkbox",
+          "readOnly": false,
+          "disabled": false,
+          "opensMenu": false,
+          "outcome": "state_changed",
+          "category": "ds_builtin",
+          "note": "Design-system widget responds to input"
+        }
+      ]
     }
   ]
 }

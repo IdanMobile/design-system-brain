@@ -11,8 +11,28 @@ export const SKILLS = {
   architect: ".cursor/skills/code-architect-investigator/SKILL.md",
   developerAgent: ".cursor/skills/developer-agent/SKILL.md",
   console: ".cursor/skills/listen-to-test-console/SKILL.md",
-  roadmapDoc: "docs/ROADMAP.md"
+  roadmapDoc: "docs/ROADMAP.md",
+  labMemoryRule: ".cursor/rules/lab-memory.mdc"
 };
+
+/** Obsidian vault — read before investigate, append after. */
+export const LAB_MEMORY_LINES = [
+  "Read lab-memory/stories/<storyId>.md if it exists (create from lab-memory/templates/story.md if missing).",
+  "After investigate, before code edits: append lab-memory/templates/investigation.md to the story note.",
+  "Never store secrets in lab-memory/."
+];
+
+/**
+ * @param {string[]} lines
+ * @param {number} startAt
+ * @returns {number} next step number
+ */
+function appendLabMemorySteps(lines, startAt) {
+  lines.push(`${startAt}. Lab memory (${SKILLS.labMemoryRule}): ${LAB_MEMORY_LINES[0]}`);
+  lines.push(`${startAt + 1}. ${LAB_MEMORY_LINES[1]}`);
+  lines.push(`${startAt + 2}. ${LAB_MEMORY_LINES[2]}`);
+  return startAt + 3;
+}
 
 /** Superpowers plugin skills (by name — load when available in Cursor). */
 export const SUPERPOWERS = {
@@ -38,51 +58,59 @@ export function workflowPreamble(activity, ctx = {}) {
   ];
 
   switch (activity) {
-    case "fix_live":
+    case "fix_live": {
+      let n = appendLabMemorySteps(lines, 3);
       lines.push(
-        `3. Worker: ${SKILLS.untilPass} + ${SKILLS.investigate} — systematic-debugging BEFORE edits.`,
-        "4. Fix: code-v2.ts → plugin build → YOU run live test (pnpm infra:ensure first). Ask human ready ONLY if bridge/export fails.",
-        "5. Regression Tier A: re-run pixel + mock + live for this story (pnpm test:regression -- --tier a --story … --suite figmaLive).",
+        `${n}. Worker: ${SKILLS.untilPass} + ${SKILLS.investigate} — systematic-debugging BEFORE edits.`,
+        `${n + 1}. Fix: code-v2.ts → plugin build → YOU run live test (pnpm infra:ensure first). Ask human ready ONLY if bridge/export fails.`,
+        `${n + 2}. Regression Tier A: re-run pixel + mock + live for this story (pnpm test:regression -- --tier a --story … --suite figmaLive).`,
         sharedFilesTouched
-          ? "6. Regression Tier C: pnpm test:regression (or test:pixel:golden + figma:iterate:strict + figma:live-iterate --strict)."
-          : "6. Tier C: pnpm test:regression only if you touched shared adapter files.",
-        "7. Post-flight: verification-before-completion — paste command exit codes."
+          ? `${n + 3}. Regression Tier C: pnpm test:regression (or test:pixel:golden + figma:iterate:strict + figma:live-iterate --strict).`
+          : `${n + 3}. Tier C: pnpm test:regression only if you touched shared adapter files.`,
+        `${n + 4}. Post-flight: verification-before-completion — paste command exit codes.`
       );
       break;
+    }
     case "fix_mock":
     case "fix_pixel":
-    case "fix_delivery":
+    case "fix_delivery": {
+      let n = appendLabMemorySteps(lines, 3);
       lines.push(
-        `3. Worker: ${SKILLS.untilPass} + ${SKILLS.investigate}.`,
+        `${n}. Worker: ${SKILLS.untilPass} + ${SKILLS.investigate}.`,
         mode === "pixel"
-          ? "4. Fix: scene-to-html.ts / extract.ts — not code-v2 unless import path."
+          ? `${n + 1}. Fix: scene-to-html.ts / extract.ts — not code-v2 unless import path.`
           : mode === "delivery"
-            ? "4. Fix: @lab/ui + delivery path; steps 1–3 must already pass for story."
-            : "4. Fix: code-v2.ts (mock) → plugin build if importer changed.",
-        storyId ? `5. Tier A: pnpm test:regression -- --tier a --story ${storyId} --suite <pixel|figma|figmaLive|delivery>.` : "5. Tier A: re-run prior steps 1..N for target story after fix.",
+            ? `${n + 1}. Fix: @lab/ui + delivery path; steps 1–3 must already pass for story.`
+            : `${n + 1}. Fix: code-v2.ts (mock) → plugin build if importer changed.`,
+        storyId ? `${n + 2}. Tier A: pnpm test:regression -- --tier a --story ${storyId} --suite <pixel|figma|figmaLive|delivery>.` : `${n + 2}. Tier A: re-run prior steps 1..N for target story after fix.`,
         sharedFilesTouched
-          ? "6. Tier C: pnpm test:regression (full strict goldens on shared adapter change)."
-          : "6. Tier C: pnpm test:regression if code-v2.ts, scene-to-html.ts, extract.ts, or contract changed.",
-        "7. Post-flight: verification-before-completion."
+          ? `${n + 3}. Tier C: pnpm test:regression (full strict goldens on shared adapter change).`
+          : `${n + 3}. Tier C: pnpm test:regression if code-v2.ts, scene-to-html.ts, extract.ts, or contract changed.`,
+        `${n + 4}. Post-flight: verification-before-completion.`
       );
       break;
-    case "fix_all":
+    }
+    case "fix_all": {
+      let n = appendLabMemorySteps(lines, 3);
       lines.push(
-        `3. Worker: ${SKILLS.untilPass} + ${SKILLS.investigate} — ONE story per agent run (serial mode).`,
-        "4. Harness rebuilds/tests after you; do not run full suite yourself.",
-        "5. Post-flight per story: Tier A; after shared edit → Tier C before next story."
+        `${n}. Worker: ${SKILLS.untilPass} + ${SKILLS.investigate} — ONE story per agent run (serial mode).`,
+        `${n + 1}. Harness rebuilds/tests after you; do not run full suite yourself.`,
+        `${n + 2}. Post-flight per story: Tier A; after shared edit → Tier C before next story.`
       );
       break;
-    case "fix_all_batch":
+    }
+    case "fix_all_batch": {
+      let n = appendLabMemorySteps(lines, 3);
       lines.push(
-        `3. Worker: ${SKILLS.investigate} FIRST on ALL listed stories — read batch investigation report + compare PNGs.`,
-        `4. Worker: ${SKILLS.untilPass} — implement **shared fixes for every story in one session** (not one-by-one).`,
-        "5. Prefer code-v2.ts / scene-to-html.ts / extract.ts changes that green multiple stories at once.",
-        "6. Do NOT run golden tests yourself — harness re-tests all listed stories after plugin build.",
-        "7. Harness sandbox gate: metrics regress → auto git restore; 2 batch regressions → FIX_ALL_SERIAL=1.",
-        "8. Tier C if shared adapter touched — pnpm test:regression."
+        `${n}. Worker: ${SKILLS.investigate} FIRST on ALL listed stories — read batch investigation report + compare PNGs; append lab-memory per story.`,
+        `${n + 1}. Worker: ${SKILLS.untilPass} — implement **shared fixes for every story in one session** (not one-by-one).`,
+        `${n + 2}. Prefer code-v2.ts / scene-to-html.ts / extract.ts changes that green multiple stories at once.`,
+        `${n + 3}. Do NOT run golden tests yourself — harness re-tests all listed stories after plugin build.`,
+        `${n + 4}. Harness sandbox gate: metrics regress → auto git restore; 2 batch regressions → FIX_ALL_SERIAL=1.`,
+        `${n + 5}. Tier C if shared adapter touched — pnpm test:regression.`
       );
       break;
+    }
     case "test_run":
       lines.push(
         "3. Run requested test only; do not fix unless it fails.",
@@ -109,17 +137,19 @@ export function workflowPreamble(activity, ctx = {}) {
         "4. Dispatch one worker or subagent with ROADMAP § + validation commands."
       );
       break;
-    case "portfolio_golden":
+    case "portfolio_golden": {
+      let n = appendLabMemorySteps(lines, 3);
       lines.push(
-        `3. Supervisor: ${SKILLS.orchestrator} — drive full portfolio to PHASE_COMPLETE.`,
-        `4. Worker chain per story/step: ${SKILLS.investigate} BEFORE edits → ${SKILLS.untilPass} implement.`,
-        "5. Sequential gates: pixel → figma mock → figma live → delivery (strict 0.1% global + hotspot).",
-        "6. Do NOT stop for approval. Do NOT ask the human to say continue.",
-        "7. Human-only: reload/open Figma plugin after code-v2 rebuild (one line; wait for ready if live fails).",
-        "8. Tier A after each story fix; Tier C (pnpm test:regression) if code-v2.ts, scene-to-html.ts, extract.ts, or contract changed.",
-        "9. Stop only when all portfolio stories pass all steps — verdict PHASE_COMPLETE."
+        `${n}. Supervisor: ${SKILLS.orchestrator} — drive full portfolio to PHASE_COMPLETE.`,
+        `${n + 1}. Worker chain per story/step: ${SKILLS.investigate} BEFORE edits → ${SKILLS.untilPass} implement.`,
+        `${n + 2}. Sequential gates: pixel → figma mock → figma live → delivery (strict 0.1% global + hotspot).`,
+        `${n + 3}. Do NOT stop for approval. Do NOT ask the human to say continue.`,
+        `${n + 4}. Human-only: reload/open Figma plugin after code-v2 rebuild (one line; wait for ready if live fails).`,
+        `${n + 5}. Tier A after each story fix; Tier C (pnpm test:regression) if code-v2.ts, scene-to-html.ts, extract.ts, or contract changed.`,
+        `${n + 6}. Stop only when all portfolio stories pass all steps — verdict PHASE_COMPLETE.`
       );
       break;
+    }
     case "developer_audit":
       lines.push(
         `3. Superpowers: ${SUPERPOWERS.usingSuperpowers} — check skills before any action.`,

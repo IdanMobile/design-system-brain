@@ -12,7 +12,7 @@ export function ProductCard({
   variant = "default",
   title = "Space Helmet\nX24",
   status = "In stock",
-  image = "https://picsum.photos/seed/helmet/600/600",
+  image = "/fixtures/product-helmet.jpg",
   showBadge = false
 }: ProductCardProps) {
   const lines = title.split("\n");

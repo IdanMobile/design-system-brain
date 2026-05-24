@@ -1,0 +1,13 @@
+{
+  "storyId": "lab-analyticscharts--revenue",
+  "status": "pass",
+  "percent": 0,
+  "maxRegionPercent": 0,
+  "testedAt": "2026-05-24T20:20:40.850Z",
+  "component": "AnalyticsCharts",
+  "gaps": [],
+  "dsBuiltIn": [],
+  "interactiveCount": 0,
+  "readonlyCount": 0,
+  "findings": []
+}

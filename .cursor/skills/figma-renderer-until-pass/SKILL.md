@@ -25,9 +25,10 @@ Terminal tab: `run-fix-all`. Do not rely on a single mega-prompt for the whole s
 
 ## Console-triggered (CLI or pasted prompt)
 
-If the work started from **`pnpm test:console:cursor agent`** or a **pasted test-console message**, treat it as an explicit command:
+If the work started from **`pnpm test:console:cursor agent`**, **Gemini CLI**, **Antigravity**, or a **pasted test-console message**, treat it as an explicit command:
 
 - **Do not ask for approval** — start fixing in the same turn.
+- **Lab memory:** read `lab-memory/stories/<storyId>.md` if it exists; after investigate append `lab-memory/templates/investigation.md` before code edits (see `.cursor/rules/lab-memory.mdc`).
 - Read compare PNG → edit → build → re-test without "Should I proceed?"
 - Only block for **ready** after a live plugin rebuild (one line, not a permission gate).
 

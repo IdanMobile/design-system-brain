@@ -1,0 +1,11 @@
+{
+  "tag": "batch:try1",
+  "exitCode": 143,
+  "finishedAt": "2026-05-24T14:42:05.711Z",
+  "editCount": 0,
+  "readCount": 36,
+  "bigReadCount": 1,
+  "watchdogTripped": true,
+  "watchdogReason": "8.0m elapsed, 0 edits (reads=36, big-file reads=1). Investigation paralysis.",
+  "elapsedMs": 480156
+}

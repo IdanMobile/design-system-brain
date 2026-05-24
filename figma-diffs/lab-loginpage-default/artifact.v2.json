@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-loginpage--default",
     "componentName": "LoginPage",
-    "extractedAt": "2026-05-22T09:27:31.716Z",
+    "extractedAt": "2026-05-24T20:56:36.601Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-loginpage--default&viewMode=story",
     "viewport": {
       "x": 0,
@@ -24,7 +24,8 @@
         "lab-login-page"
       ],
       "dataset": {
-        "figmaComponent": "LoginPage"
+        "figmaComponent": "LoginPage",
+        "phase": "idle"
       }
     },
     "box": {
@@ -838,7 +839,10 @@
               "tag": "button",
               "classList": [
                 "lab-login-button"
-              ]
+              ],
+              "dataset": {
+                "pressedManaged": "true"
+              }
             },
             "box": {
               "x": 25,
@@ -980,7 +984,11 @@
                   "tag": "button",
                   "classList": [
                     "lab-login-social-button"
-                  ]
+                  ],
+                  "dataset": {
+                    "pressedManaged": "true",
+                    "state": "idle"
+                  }
                 },
                 "box": {
                   "x": 0,
@@ -1093,7 +1101,11 @@
                   "tag": "button",
                   "classList": [
                     "lab-login-social-button"
-                  ]
+                  ],
+                  "dataset": {
+                    "pressedManaged": "true",
+                    "state": "idle"
+                  }
                 },
                 "box": {
                   "x": 0,

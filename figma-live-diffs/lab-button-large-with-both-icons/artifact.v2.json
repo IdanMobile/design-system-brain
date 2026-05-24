@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-button--large-with-both-icons",
     "componentName": "Button",
-    "extractedAt": "2026-05-22T17:18:02.951Z",
+    "extractedAt": "2026-05-24T20:57:43.027Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-button--large-with-both-icons&viewMode=story",
     "viewport": {
       "x": 0,
@@ -26,7 +26,9 @@
         "lg"
       ],
       "dataset": {
-        "figmaComponent": "Button"
+        "figmaComponent": "Button",
+        "pressedManaged": "true",
+        "pressed": "false"
       }
     },
     "box": {

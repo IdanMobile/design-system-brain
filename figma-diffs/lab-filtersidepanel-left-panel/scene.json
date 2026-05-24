@@ -1,5 +1,5 @@
 {
-  "id": 65,
+  "id": 66,
   "kind": "FRAME",
   "type": "FRAME",
   "name": "FilterSidePanel Canvas",
@@ -230,7 +230,7 @@
                 999
               ],
               "effects": [],
-              "clipsContent": true,
+              "clipsContent": false,
               "children": [
                 {
                   "id": 6,
@@ -444,7 +444,7 @@
                     999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 12,
@@ -523,7 +523,7 @@
                     999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 14,
@@ -602,7 +602,7 @@
                     999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 16,
@@ -681,7 +681,7 @@
                     999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 18,
@@ -689,7 +689,7 @@
                       "type": "TEXT",
                       "name": "Text",
                       "x": 8,
-                      "y": 4,
+                      "y": 4.5,
                       "width": 74.88,
                       "height": 15,
                       "opacity": 1,
@@ -746,26 +746,13 @@
                       "opacity": 1
                     }
                   ],
-                  "strokes": [
-                    {
-                      "type": "SOLID",
-                      "color": {
-                        "r": 0.5764705882352941,
-                        "g": 0.7725490196078432,
-                        "b": 0.9921568627450981
-                      },
-                      "opacity": 1
-                    }
-                  ],
+                  "strokes": [],
                   "strokeWeight": 1,
-                  "strokeTopWeight": 1,
-                  "strokeRightWeight": 1,
-                  "strokeBottomWeight": 1,
-                  "strokeLeftWeight": 1,
-                  "dashPattern": [
-                    3,
-                    3
-                  ],
+                  "strokeTopWeight": 0,
+                  "strokeRightWeight": 0,
+                  "strokeBottomWeight": 0,
+                  "strokeLeftWeight": 0,
+                  "dashPattern": [],
                   "cornerRadii": [
                     999,
                     999,
@@ -773,7 +760,7 @@
                     999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 20,
@@ -814,6 +801,35 @@
                       },
                       "textCase": "ORIGINAL",
                       "textDecoration": "NONE"
+                    },
+                    {
+                      "id": 21,
+                      "kind": "SVG",
+                      "type": "FRAME",
+                      "name": "__border",
+                      "x": 0,
+                      "y": 0,
+                      "width": 51.23,
+                      "height": 24,
+                      "opacity": 1,
+                      "fills": [],
+                      "strokes": [],
+                      "strokeWeight": 1,
+                      "strokeTopWeight": 0,
+                      "strokeRightWeight": 0,
+                      "strokeBottomWeight": 0,
+                      "strokeLeftWeight": 0,
+                      "dashPattern": [],
+                      "cornerRadii": [
+                        0,
+                        0,
+                        0,
+                        0
+                      ],
+                      "effects": [],
+                      "clipsContent": false,
+                      "svgSource": "<svg width=\"51.23\" height=\"24\" viewBox=\"0 0 51.23 24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M 0.5 11.5 A 11 11 0 0 1 11.5 0.5 L 39.73 0.5 A 11 11 0 0 1 50.73 11.5 L 50.73 12.5 A 11 11 0 0 1 39.73 23.5 L 11.5 23.5 A 11 11 0 0 1 0.5 12.5 Z\" fill=\"none\" stroke=\"rgb(147, 197, 253)\" stroke-width=\"1\" stroke-dasharray=\"3 3\"/></svg>",
+                      "children": []
                     }
                   ]
                 }
@@ -822,7 +838,7 @@
           ]
         },
         {
-          "id": 21,
+          "id": 22,
           "kind": "FRAME",
           "type": "FRAME",
           "name": "div",
@@ -860,7 +876,7 @@
           "children": []
         },
         {
-          "id": 22,
+          "id": 23,
           "kind": "FRAME",
           "type": "FRAME",
           "name": "section",
@@ -887,7 +903,7 @@
           "clipsContent": false,
           "children": [
             {
-              "id": 23,
+              "id": 24,
               "kind": "FRAME",
               "type": "FRAME",
               "name": "p",
@@ -914,7 +930,7 @@
               "clipsContent": false,
               "children": [
                 {
-                  "id": 24,
+                  "id": 25,
                   "kind": "TEXT",
                   "type": "TEXT",
                   "name": "Text",
@@ -956,7 +972,7 @@
               ]
             },
             {
-              "id": 25,
+              "id": 26,
               "kind": "FRAME",
               "type": "FRAME",
               "name": "div",
@@ -993,7 +1009,7 @@
               "clipsContent": true,
               "children": [
                 {
-                  "id": 26,
+                  "id": 27,
                   "kind": "FRAME",
                   "type": "FRAME",
                   "name": "span",
@@ -1027,10 +1043,10 @@
                     999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
-                      "id": 27,
+                      "id": 28,
                       "kind": "TEXT",
                       "type": "TEXT",
                       "name": "Text",
@@ -1072,7 +1088,7 @@
                   ]
                 },
                 {
-                  "id": 28,
+                  "id": 29,
                   "kind": "FRAME",
                   "type": "FRAME",
                   "name": "span",
@@ -1106,10 +1122,10 @@
                     999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
-                      "id": 29,
+                      "id": 30,
                       "kind": "TEXT",
                       "type": "TEXT",
                       "name": "Text",
@@ -1151,7 +1167,7 @@
                   ]
                 },
                 {
-                  "id": 30,
+                  "id": 31,
                   "kind": "FRAME",
                   "type": "FRAME",
                   "name": "span",
@@ -1185,10 +1201,10 @@
                     999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
-                      "id": 31,
+                      "id": 32,
                       "kind": "TEXT",
                       "type": "TEXT",
                       "name": "Text",
@@ -1230,7 +1246,7 @@
                   ]
                 },
                 {
-                  "id": 32,
+                  "id": 33,
                   "kind": "FRAME",
                   "type": "FRAME",
                   "name": "span",
@@ -1264,10 +1280,10 @@
                     999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
-                      "id": 33,
+                      "id": 34,
                       "kind": "TEXT",
                       "type": "TEXT",
                       "name": "Text",
@@ -1313,7 +1329,7 @@
           ]
         },
         {
-          "id": 34,
+          "id": 35,
           "kind": "FRAME",
           "type": "FRAME",
           "name": "section",
@@ -1340,7 +1356,7 @@
           "clipsContent": false,
           "children": [
             {
-              "id": 35,
+              "id": 36,
               "kind": "FRAME",
               "type": "FRAME",
               "name": "p",
@@ -1367,7 +1383,7 @@
               "clipsContent": false,
               "children": [
                 {
-                  "id": 36,
+                  "id": 37,
                   "kind": "TEXT",
                   "type": "TEXT",
                   "name": "Text",
@@ -1409,7 +1425,7 @@
               ]
             },
             {
-              "id": 37,
+              "id": 38,
               "kind": "FRAME",
               "type": "FRAME",
               "name": "div",
@@ -1436,7 +1452,7 @@
               "clipsContent": false,
               "children": [
                 {
-                  "id": 38,
+                  "id": 39,
                   "kind": "FRAME",
                   "type": "FRAME",
                   "name": "i",
@@ -1502,7 +1518,7 @@
                   "children": []
                 },
                 {
-                  "id": 39,
+                  "id": 40,
                   "kind": "FRAME",
                   "type": "FRAME",
                   "name": "i",
@@ -1568,7 +1584,7 @@
                   "children": []
                 },
                 {
-                  "id": 40,
+                  "id": 41,
                   "kind": "FRAME",
                   "type": "FRAME",
                   "name": "i",
@@ -1634,7 +1650,7 @@
                   "children": []
                 },
                 {
-                  "id": 41,
+                  "id": 42,
                   "kind": "FRAME",
                   "type": "FRAME",
                   "name": "i",
@@ -1700,7 +1716,7 @@
                   "children": []
                 },
                 {
-                  "id": 42,
+                  "id": 43,
                   "kind": "FRAME",
                   "type": "FRAME",
                   "name": "i",
@@ -1766,7 +1782,7 @@
                   "children": []
                 },
                 {
-                  "id": 43,
+                  "id": 44,
                   "kind": "FRAME",
                   "type": "FRAME",
                   "name": "i",
@@ -1836,7 +1852,7 @@
           ]
         },
         {
-          "id": 44,
+          "id": 45,
           "kind": "FRAME",
           "type": "FRAME",
           "name": "section",
@@ -1863,7 +1879,7 @@
           "clipsContent": false,
           "children": [
             {
-              "id": 45,
+              "id": 46,
               "kind": "FRAME",
               "type": "FRAME",
               "name": "label",
@@ -1890,7 +1906,7 @@
               "clipsContent": false,
               "children": [
                 {
-                  "id": 46,
+                  "id": 47,
                   "kind": "FRAME",
                   "type": "FRAME",
                   "name": "span",
@@ -1917,7 +1933,7 @@
                   "clipsContent": false,
                   "children": [
                     {
-                      "id": 47,
+                      "id": 48,
                       "kind": "TEXT",
                       "type": "TEXT",
                       "name": "Text",
@@ -1959,7 +1975,7 @@
                   ]
                 },
                 {
-                  "id": 48,
+                  "id": 49,
                   "kind": "FRAME",
                   "type": "FRAME",
                   "name": "input",
@@ -2004,16 +2020,22 @@
                   ],
                   "effects": [],
                   "clipsContent": true,
+                  "source": {
+                    "tag": "input",
+                    "inputType": "text",
+                    "value": "120",
+                    "fontStack": "Inter, Arial, sans-serif"
+                  },
                   "children": [
                     {
-                      "id": 49,
+                      "id": 50,
                       "kind": "TEXT",
                       "type": "TEXT",
                       "name": "Text",
                       "x": 10,
-                      "y": 10.6,
+                      "y": 1,
                       "width": 20.16,
-                      "height": 16.8,
+                      "height": 36,
                       "opacity": 1,
                       "characters": "120",
                       "fontName": {
@@ -2035,7 +2057,8 @@
                       "textAlignHorizontal": "LEFT",
                       "textAutoResize": "WIDTH_AND_HEIGHT",
                       "lineHeight": {
-                        "unit": "AUTO"
+                        "unit": "PIXELS",
+                        "value": 36
                       },
                       "letterSpacing": {
                         "unit": "PIXELS",
@@ -2049,7 +2072,7 @@
               ]
             },
             {
-              "id": 50,
+              "id": 51,
               "kind": "FRAME",
               "type": "FRAME",
               "name": "label",
@@ -2076,7 +2099,7 @@
               "clipsContent": false,
               "children": [
                 {
-                  "id": 51,
+                  "id": 52,
                   "kind": "FRAME",
                   "type": "FRAME",
                   "name": "span",
@@ -2103,7 +2126,7 @@
                   "clipsContent": false,
                   "children": [
                     {
-                      "id": 52,
+                      "id": 53,
                       "kind": "TEXT",
                       "type": "TEXT",
                       "name": "Text",
@@ -2145,7 +2168,7 @@
                   ]
                 },
                 {
-                  "id": 53,
+                  "id": 54,
                   "kind": "FRAME",
                   "type": "FRAME",
                   "name": "input",
@@ -2190,16 +2213,22 @@
                   ],
                   "effects": [],
                   "clipsContent": true,
+                  "source": {
+                    "tag": "input",
+                    "inputType": "text",
+                    "value": "920",
+                    "fontStack": "Inter, Arial, sans-serif"
+                  },
                   "children": [
                     {
-                      "id": 54,
+                      "id": 55,
                       "kind": "TEXT",
                       "type": "TEXT",
                       "name": "Text",
                       "x": 10,
-                      "y": 10.6,
+                      "y": 1,
                       "width": 20.16,
-                      "height": 16.8,
+                      "height": 36,
                       "opacity": 1,
                       "characters": "920",
                       "fontName": {
@@ -2221,7 +2250,8 @@
                       "textAlignHorizontal": "LEFT",
                       "textAutoResize": "WIDTH_AND_HEIGHT",
                       "lineHeight": {
-                        "unit": "AUTO"
+                        "unit": "PIXELS",
+                        "value": 36
                       },
                       "letterSpacing": {
                         "unit": "PIXELS",
@@ -2235,7 +2265,7 @@
               ]
             },
             {
-              "id": 55,
+              "id": 56,
               "kind": "FRAME",
               "type": "FRAME",
               "name": "label",
@@ -2262,7 +2292,7 @@
               "clipsContent": false,
               "children": [
                 {
-                  "id": 56,
+                  "id": 57,
                   "kind": "FRAME",
                   "type": "FRAME",
                   "name": "span",
@@ -2289,7 +2319,7 @@
                   "clipsContent": false,
                   "children": [
                     {
-                      "id": 57,
+                      "id": 58,
                       "kind": "TEXT",
                       "type": "TEXT",
                       "name": "Text",
@@ -2331,7 +2361,7 @@
                   ]
                 },
                 {
-                  "id": 58,
+                  "id": 59,
                   "kind": "FRAME",
                   "type": "FRAME",
                   "name": "input",
@@ -2376,16 +2406,22 @@
                   ],
                   "effects": [],
                   "clipsContent": true,
+                  "source": {
+                    "tag": "input",
+                    "inputType": "text",
+                    "value": "q3 launch status",
+                    "fontStack": "Inter, Arial, sans-serif"
+                  },
                   "children": [
                     {
-                      "id": 59,
+                      "id": 60,
                       "kind": "TEXT",
                       "type": "TEXT",
                       "name": "Text",
                       "x": 10,
-                      "y": 10.6,
+                      "y": 1,
                       "width": 306,
-                      "height": 16.8,
+                      "height": 36,
                       "opacity": 1,
                       "characters": "q3 launch status",
                       "fontName": {
@@ -2407,7 +2443,8 @@
                       "textAlignHorizontal": "LEFT",
                       "textAutoResize": "HEIGHT",
                       "lineHeight": {
-                        "unit": "AUTO"
+                        "unit": "PIXELS",
+                        "value": 36
                       },
                       "letterSpacing": {
                         "unit": "PIXELS",
@@ -2423,7 +2460,7 @@
           ]
         },
         {
-          "id": 60,
+          "id": 61,
           "kind": "FRAME",
           "type": "FRAME",
           "name": "footer",
@@ -2450,7 +2487,7 @@
           "clipsContent": false,
           "children": [
             {
-              "id": 61,
+              "id": 62,
               "kind": "FRAME",
               "type": "FRAME",
               "name": "button",
@@ -2484,10 +2521,10 @@
                 8
               ],
               "effects": [],
-              "clipsContent": true,
+              "clipsContent": false,
               "children": [
                 {
-                  "id": 62,
+                  "id": 63,
                   "kind": "TEXT",
                   "type": "TEXT",
                   "name": "Text",
@@ -2529,7 +2566,7 @@
               ]
             },
             {
-              "id": 63,
+              "id": 64,
               "kind": "FRAME",
               "type": "FRAME",
               "name": "button",
@@ -2563,10 +2600,10 @@
                 8
               ],
               "effects": [],
-              "clipsContent": true,
+              "clipsContent": false,
               "children": [
                 {
-                  "id": 64,
+                  "id": 65,
                   "kind": "TEXT",
                   "type": "TEXT",
                   "name": "Text",

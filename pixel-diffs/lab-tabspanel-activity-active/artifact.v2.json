@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-tabspanel--activity-active",
     "componentName": "TabsPanel",
-    "extractedAt": "2026-05-23T03:57:12.602Z",
+    "extractedAt": "2026-05-24T20:51:52.363Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-tabspanel--activity-active&viewMode=story",
     "viewport": {
       "x": 0,
@@ -116,7 +116,8 @@
           "tag": "div",
           "classList": [
             "lab-tabs-row"
-          ]
+          ],
+          "role": "tablist"
         },
         "box": {
           "x": 1,
@@ -173,7 +174,11 @@
             "name": "button",
             "source": {
               "kind": "dom",
-              "tag": "button"
+              "tag": "button",
+              "role": "tab",
+              "dataset": {
+                "pressedManaged": "true"
+              }
             },
             "box": {
               "x": 12,
@@ -264,7 +269,11 @@
               "tag": "button",
               "classList": [
                 "active"
-              ]
+              ],
+              "role": "tab",
+              "dataset": {
+                "pressedManaged": "true"
+              }
             },
             "box": {
               "x": 112.72,
@@ -352,7 +361,11 @@
             "name": "button",
             "source": {
               "kind": "dom",
-              "tag": "button"
+              "tag": "button",
+              "role": "tab",
+              "dataset": {
+                "pressedManaged": "true"
+              }
             },
             "box": {
               "x": 200.91,

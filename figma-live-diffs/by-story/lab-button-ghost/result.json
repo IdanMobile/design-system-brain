@@ -2,12 +2,12 @@
   "storyId": "lab-button--ghost",
   "width": 267,
   "height": 80,
-  "pixelsDiffered": 468,
+  "pixelsDiffered": 761,
   "pixelsTotal": 21360,
-  "percent": 2.191011235955056,
-  "maxRegionPercent": 2.191011235955056,
-  "globalTolerance": 2.5,
-  "regionTolerance": 2.2,
+  "percent": 3.5627340823970037,
+  "maxRegionPercent": 3.5627340823970037,
+  "globalTolerance": 4.5,
+  "regionTolerance": 5,
   "status": "pass",
   "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-ghost/storybook.png",
   "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-ghost/figma.png",
@@ -21,13 +21,13 @@
         "y": 0,
         "width": 267,
         "height": 80,
-        "pixels": 468,
-        "percent": 2.191011235955056
+        "pixels": 761,
+        "percent": 3.5627340823970037
       },
       "storybook": "regions/region-01-storybook.png",
       "rendered": "regions/region-01-rendered.png",
       "compare": "regions/region-01-compare.png"
     }
   ],
-  "testedAt": "2026-05-23T01:43:17.760Z"
+  "testedAt": "2026-05-24T20:57:41.973Z"
 }

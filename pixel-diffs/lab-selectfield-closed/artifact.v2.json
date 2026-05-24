@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-selectfield--closed",
     "componentName": "SelectField",
-    "extractedAt": "2026-05-21T22:04:40.323Z",
+    "extractedAt": "2026-05-24T20:51:49.023Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-selectfield--closed&viewMode=story",
     "viewport": {
       "x": 0,
@@ -181,7 +181,11 @@
           "tag": "div",
           "classList": [
             "lab-select-field"
-          ]
+          ],
+          "role": "combobox",
+          "dataset": {
+            "pressedManaged": "true"
+          }
         },
         "box": {
           "x": 19,

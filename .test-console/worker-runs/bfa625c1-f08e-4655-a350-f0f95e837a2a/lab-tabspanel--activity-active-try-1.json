@@ -1,0 +1,35 @@
+{
+  "storyId": "lab-tabspanel--activity-active",
+  "attempt": 1,
+  "jobId": "bfa625c1-f08e-4655-a350-f0f95e837a2a",
+  "recordedAt": "2026-05-24T18:42:10.387Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 1.8024411013340902,
+    "maxRegionPercent": 3.417207792207792,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 1.8024411013340902,
+    "maxRegionPercent": 3.417207792207792,
+    "error": null
+  },
+  "agentExitCode": 143,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-tabspanel--activity-active_try1-1779647638956.prompt.txt",
+    ".test-console/child-status/bfa625c1-f08e-4655-a350-f0f95e837a2a-agent-lab-tabspanel--activity-active_try1-1779647638956.json"
+  ],
+  "evaluation": {
+    "verdict": "ON_TRACK",
+    "verdicts": [],
+    "nextWorkerMode": "continue",
+    "interventionLines": [
+      "Supervisor: agent CLI exited 143 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

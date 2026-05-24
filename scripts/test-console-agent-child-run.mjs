@@ -99,6 +99,67 @@ const child = spawn(bin, args, {
 let buf = "";
 let exitCode = 1;
 
+const startedAt = Date.now();
+let editCount = 0;
+let bigReadCount = 0;
+let readCount = 0;
+let watchdogTripped = false;
+let watchdogReason = "";
+
+const ENV_INT = (key, fallback) => {
+  const raw = process.env[key];
+  if (!raw) return fallback;
+  const n = Number(raw);
+  return Number.isFinite(n) && n > 0 ? n : fallback;
+};
+
+const DEADLINE_FIRST_EDIT_MS = ENV_INT("AGENT_WATCHDOG_FIRST_EDIT_MS", 8 * 60_000);
+const DEADLINE_MAX_BIG_READS = ENV_INT("AGENT_WATCHDOG_MAX_BIG_READS", 20);
+const DEADLINE_TOTAL_MS = ENV_INT("AGENT_WATCHDOG_TOTAL_MS", 25 * 60_000);
+const BIG_READ_LINE_THRESHOLD = 800;
+const WATCHDOG_DISABLED = process.env.AGENT_WATCHDOG_DISABLED === "1";
+
+function tripWatchdog(reason) {
+  if (watchdogTripped) return;
+  watchdogTripped = true;
+  watchdogReason = reason;
+  void append(parent, tag, `WATCHDOG: ${reason} — terminating agent (no progress detected)\n`);
+  try {
+    child.kill("SIGTERM");
+  } catch {
+    /* ok */
+  }
+  setTimeout(() => {
+    try {
+      child.kill("SIGKILL");
+    } catch {
+      /* ok */
+    }
+  }, 4000);
+}
+
+const READ_RE = /^Read .+ \((\d+) lines\)$/;
+
+const checkWatchdog = () => {
+  if (WATCHDOG_DISABLED || watchdogTripped) return;
+  const elapsed = Date.now() - startedAt;
+  if (elapsed > DEADLINE_TOTAL_MS) {
+    tripWatchdog(`total wall clock ${(elapsed / 60_000).toFixed(1)}m exceeded ${(DEADLINE_TOTAL_MS / 60_000).toFixed(0)}m`);
+    return;
+  }
+  if (editCount === 0 && elapsed > DEADLINE_FIRST_EDIT_MS) {
+    tripWatchdog(
+      `${(elapsed / 60_000).toFixed(1)}m elapsed, 0 edits (reads=${readCount}, big-file reads=${bigReadCount}). Investigation paralysis.`
+    );
+    return;
+  }
+  if (editCount === 0 && bigReadCount >= DEADLINE_MAX_BIG_READS) {
+    tripWatchdog(
+      `${bigReadCount} big-file reads (≥${BIG_READ_LINE_THRESHOLD} lines each) with 0 edits — redundant context loading.`
+    );
+  }
+};
+
 const flush = async (chunk, isErr) => {
   buf += chunk;
   const parts = buf.split("\n");
@@ -111,23 +172,53 @@ const flush = async (chunk, isErr) => {
       continue;
     }
     const parsed = parseStreamJsonAgentLine(trimmed);
-    if (parsed.label) await append(parent, tag, `${parsed.label}\n`);
+    if (parsed.label) {
+      const label = parsed.label;
+      if (label.startsWith("Editing ") || label.startsWith("Wrote ")) editCount += 1;
+      else {
+        const readMatch = READ_RE.exec(label);
+        if (readMatch) {
+          readCount += 1;
+          if (Number(readMatch[1]) >= BIG_READ_LINE_THRESHOLD) bigReadCount += 1;
+        }
+      }
+      await append(parent, tag, `${label}\n`);
+    }
     if (parsed.terminal) exitCode = parsed.exitCode ?? 0;
   }
+  checkWatchdog();
 };
+
+const watchdogInterval = setInterval(checkWatchdog, 15_000);
 
 child.stdout.on("data", (c) => void flush(String(c), false));
 child.stderr.on("data", (c) => void flush(String(c), true));
 
 child.on("close", (code) => {
-  const finalCode = code ?? exitCode ?? 1;
-  void append(parent, tag, `Turn complete exit ${finalCode}\n`).then(() => {
-    writeStatus(status, { tag, exitCode: finalCode, finishedAt: new Date().toISOString() });
+  clearInterval(watchdogInterval);
+  let finalCode = code ?? exitCode ?? 1;
+  if (watchdogTripped && finalCode === 0) finalCode = 124;
+  const note = watchdogTripped
+    ? `Turn terminated by watchdog (${watchdogReason}) exit ${finalCode}`
+    : `Turn complete exit ${finalCode} (edits=${editCount}, reads=${readCount}, bigReads=${bigReadCount}, elapsed=${((Date.now() - startedAt) / 60_000).toFixed(1)}m)`;
+  void append(parent, tag, `${note}\n`).then(() => {
+    writeStatus(status, {
+      tag,
+      exitCode: finalCode,
+      finishedAt: new Date().toISOString(),
+      editCount,
+      readCount,
+      bigReadCount,
+      watchdogTripped,
+      watchdogReason: watchdogTripped ? watchdogReason : undefined,
+      elapsedMs: Date.now() - startedAt
+    });
     process.exit(finalCode);
   });
 });
 
 child.on("error", (err) => {
+  clearInterval(watchdogInterval);
   void append(parent, tag, `spawn error: ${err.message}\n`).then(() => {
     writeStatus(status, { tag, exitCode: 1, error: err.message, finishedAt: new Date().toISOString() });
     process.exit(1);

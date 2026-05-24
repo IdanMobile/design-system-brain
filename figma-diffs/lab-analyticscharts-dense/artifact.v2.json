@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-analyticscharts--dense",
     "componentName": "AnalyticsCharts",
-    "extractedAt": "2026-05-20T21:46:38.895Z",
+    "extractedAt": "2026-05-24T20:56:17.406Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-analyticscharts--dense&viewMode=story",
     "viewport": {
       "x": 0,
@@ -32,13 +32,13 @@
       "x": 0,
       "y": 0,
       "width": 738,
-      "height": 404
+      "height": 409
     },
     "computedBox": {
       "x": 16,
       "y": 16,
       "width": 738,
-      "height": 404
+      "height": 409
     },
     "layout": {
       "display": "flex",
@@ -128,13 +128,13 @@
           "x": 19,
           "y": 19,
           "width": 700,
-          "height": 51
+          "height": 54
         },
         "computedBox": {
           "x": 35,
           "y": 35,
           "width": 700,
-          "height": 51
+          "height": 54
         },
         "layout": {
           "display": "flex",
@@ -175,14 +175,14 @@
             "box": {
               "x": 0,
               "y": 0,
-              "width": 278.47,
-              "height": 51
+              "width": 283.22,
+              "height": 54
             },
             "computedBox": {
               "x": 35,
               "y": 35,
-              "width": 278.47,
-              "height": 51
+              "width": 283.22,
+              "height": 54
             },
             "layout": {
               "display": "block",
@@ -218,14 +218,14 @@
                 "box": {
                   "x": 0,
                   "y": 0,
-                  "width": 278.47,
-                  "height": 15
+                  "width": 283.22,
+                  "height": 16
                 },
                 "computedBox": {
                   "x": 35,
                   "y": 35,
-                  "width": 278.47,
-                  "height": 15
+                  "width": 283.22,
+                  "height": 16
                 },
                 "layout": {
                   "display": "block",
@@ -259,7 +259,7 @@
                     "featureSettings": "normal"
                   },
                   "color": "rgb(100, 116, 139)",
-                  "lineHeight": 15,
+                  "lineHeight": 16,
                   "letterSpacing": 0.4,
                   "wordSpacing": 0,
                   "align": "start",
@@ -280,15 +280,15 @@
                 },
                 "box": {
                   "x": 0,
-                  "y": 19,
-                  "width": 278.47,
-                  "height": 32
+                  "y": 20,
+                  "width": 283.22,
+                  "height": 34
                 },
                 "computedBox": {
                   "x": 35,
-                  "y": 54,
-                  "width": 278.47,
-                  "height": 32
+                  "y": 55,
+                  "width": 283.22,
+                  "height": 34
                 },
                 "layout": {
                   "display": "block",
@@ -322,7 +322,7 @@
                     "featureSettings": "normal"
                   },
                   "color": "rgb(0, 0, 0)",
-                  "lineHeight": 31,
+                  "lineHeight": 34,
                   "wordSpacing": 0,
                   "align": "start",
                   "verticalAlign": "baseline",
@@ -347,16 +347,16 @@
               ]
             },
             "box": {
-              "x": 610.98,
-              "y": 12,
-              "width": 89.02,
-              "height": 27
+              "x": 605.55,
+              "y": 13,
+              "width": 94.45,
+              "height": 28
             },
             "computedBox": {
-              "x": 645.98,
-              "y": 47,
-              "width": 89.02,
-              "height": 27
+              "x": 640.55,
+              "y": 48,
+              "width": 94.45,
+              "height": 28
             },
             "layout": {
               "display": "block",
@@ -416,7 +416,7 @@
                 "featureSettings": "normal"
               },
               "color": "rgb(55, 48, 163)",
-              "lineHeight": 15,
+              "lineHeight": 16,
               "wordSpacing": 0,
               "align": "start",
               "verticalAlign": "baseline",
@@ -441,15 +441,15 @@
         },
         "box": {
           "x": 19,
-          "y": 86,
+          "y": 89,
           "width": 700,
-          "height": 299
+          "height": 301
         },
         "computedBox": {
           "x": 35,
-          "y": 102,
+          "y": 105,
           "width": 700,
-          "height": 299
+          "height": 301
         },
         "layout": {
           "display": "flex",
@@ -494,13 +494,13 @@
               "x": 0,
               "y": 0,
               "width": 330,
-              "height": 299
+              "height": 301
             },
             "computedBox": {
               "x": 35,
-              "y": 102,
+              "y": 105,
               "width": 330,
-              "height": 299
+              "height": 301
             },
             "layout": {
               "display": "flex",
@@ -599,7 +599,7 @@
                 },
                 "computedBox": {
                   "x": 115,
-                  "y": 117,
+                  "y": 120,
                   "width": 170,
                   "height": 170
                 },
@@ -803,13 +803,13 @@
                   "x": 15,
                   "y": 197,
                   "width": 300,
-                  "height": 85
+                  "height": 89
                 },
                 "computedBox": {
                   "x": 50,
-                  "y": 299,
+                  "y": 302,
                   "width": 300,
-                  "height": 85
+                  "height": 89
                 },
                 "layout": {
                   "display": "flex",
@@ -854,13 +854,13 @@
                       "x": 0,
                       "y": 0,
                       "width": 300,
-                      "height": 16
+                      "height": 17
                     },
                     "computedBox": {
                       "x": 50,
-                      "y": 299,
+                      "y": 302,
                       "width": 300,
-                      "height": 16
+                      "height": 17
                     },
                     "layout": {
                       "display": "flex",
@@ -904,14 +904,14 @@
                         "box": {
                           "x": 0,
                           "y": 0,
-                          "width": 78.7,
-                          "height": 16
+                          "width": 81.86,
+                          "height": 17
                         },
                         "computedBox": {
                           "x": 50,
-                          "y": 299,
-                          "width": 78.7,
-                          "height": 16
+                          "y": 302,
+                          "width": 81.86,
+                          "height": 17
                         },
                         "layout": {
                           "display": "flex",
@@ -955,13 +955,13 @@
                             },
                             "box": {
                               "x": 0,
-                              "y": 3,
+                              "y": 3.5,
                               "width": 10,
                               "height": 10
                             },
                             "computedBox": {
                               "x": 50,
-                              "y": 302,
+                              "y": 305.5,
                               "width": 10,
                               "height": 10
                             },
@@ -1022,14 +1022,14 @@
                             "box": {
                               "x": 18,
                               "y": 0,
-                              "width": 60.7,
-                              "height": 16
+                              "width": 63.86,
+                              "height": 17
                             },
                             "computedBox": {
                               "x": 68,
-                              "y": 299,
-                              "width": 60.7,
-                              "height": 16
+                              "y": 302,
+                              "width": 63.86,
+                              "height": 17
                             },
                             "layout": {
                               "display": "block",
@@ -1063,7 +1063,7 @@
                                 "featureSettings": "normal"
                               },
                               "color": "rgb(51, 65, 85)",
-                              "lineHeight": 16,
+                              "lineHeight": 17,
                               "wordSpacing": 0,
                               "align": "start",
                               "verticalAlign": "baseline",
@@ -1084,16 +1084,16 @@
                           "tag": "strong"
                         },
                         "box": {
-                          "x": 271.97,
+                          "x": 267.27,
                           "y": 0,
-                          "width": 28.03,
-                          "height": 16
+                          "width": 32.73,
+                          "height": 17
                         },
                         "computedBox": {
-                          "x": 321.97,
-                          "y": 299,
-                          "width": 28.03,
-                          "height": 16
+                          "x": 317.27,
+                          "y": 302,
+                          "width": 32.73,
+                          "height": 17
                         },
                         "layout": {
                           "display": "block",
@@ -1127,7 +1127,7 @@
                             "featureSettings": "normal"
                           },
                           "color": "rgb(51, 65, 85)",
-                          "lineHeight": 16,
+                          "lineHeight": 17,
                           "wordSpacing": 0,
                           "align": "start",
                           "verticalAlign": "baseline",
@@ -1152,15 +1152,15 @@
                     },
                     "box": {
                       "x": 0,
-                      "y": 23,
+                      "y": 24,
                       "width": 300,
-                      "height": 16
+                      "height": 17
                     },
                     "computedBox": {
                       "x": 50,
-                      "y": 322,
+                      "y": 326,
                       "width": 300,
-                      "height": 16
+                      "height": 17
                     },
                     "layout": {
                       "display": "flex",
@@ -1204,14 +1204,14 @@
                         "box": {
                           "x": 0,
                           "y": 0,
-                          "width": 70.16,
-                          "height": 16
+                          "width": 75.31,
+                          "height": 17
                         },
                         "computedBox": {
                           "x": 50,
-                          "y": 322,
-                          "width": 70.16,
-                          "height": 16
+                          "y": 326,
+                          "width": 75.31,
+                          "height": 17
                         },
                         "layout": {
                           "display": "flex",
@@ -1255,13 +1255,13 @@
                             },
                             "box": {
                               "x": 0,
-                              "y": 3,
+                              "y": 3.5,
                               "width": 10,
                               "height": 10
                             },
                             "computedBox": {
                               "x": 50,
-                              "y": 325,
+                              "y": 329.5,
                               "width": 10,
                               "height": 10
                             },
@@ -1322,14 +1322,14 @@
                             "box": {
                               "x": 18,
                               "y": 0,
-                              "width": 52.16,
-                              "height": 16
+                              "width": 57.31,
+                              "height": 17
                             },
                             "computedBox": {
                               "x": 68,
-                              "y": 322,
-                              "width": 52.16,
-                              "height": 16
+                              "y": 326,
+                              "width": 57.31,
+                              "height": 17
                             },
                             "layout": {
                               "display": "block",
@@ -1363,7 +1363,7 @@
                                 "featureSettings": "normal"
                               },
                               "color": "rgb(51, 65, 85)",
-                              "lineHeight": 16,
+                              "lineHeight": 17,
                               "wordSpacing": 0,
                               "align": "start",
                               "verticalAlign": "baseline",
@@ -1384,16 +1384,16 @@
                           "tag": "strong"
                         },
                         "box": {
-                          "x": 271.97,
+                          "x": 268.83,
                           "y": 0,
-                          "width": 28.03,
-                          "height": 16
+                          "width": 31.17,
+                          "height": 17
                         },
                         "computedBox": {
-                          "x": 321.97,
-                          "y": 322,
-                          "width": 28.03,
-                          "height": 16
+                          "x": 318.83,
+                          "y": 326,
+                          "width": 31.17,
+                          "height": 17
                         },
                         "layout": {
                           "display": "block",
@@ -1427,7 +1427,7 @@
                             "featureSettings": "normal"
                           },
                           "color": "rgb(51, 65, 85)",
-                          "lineHeight": 16,
+                          "lineHeight": 17,
                           "wordSpacing": 0,
                           "align": "start",
                           "verticalAlign": "baseline",
@@ -1452,15 +1452,15 @@
                     },
                     "box": {
                       "x": 0,
-                      "y": 46,
+                      "y": 48,
                       "width": 300,
-                      "height": 16
+                      "height": 17
                     },
                     "computedBox": {
                       "x": 50,
-                      "y": 345,
+                      "y": 350,
                       "width": 300,
-                      "height": 16
+                      "height": 17
                     },
                     "layout": {
                       "display": "flex",
@@ -1504,14 +1504,14 @@
                         "box": {
                           "x": 0,
                           "y": 0,
-                          "width": 81.81,
-                          "height": 16
+                          "width": 85.7,
+                          "height": 17
                         },
                         "computedBox": {
                           "x": 50,
-                          "y": 345,
-                          "width": 81.81,
-                          "height": 16
+                          "y": 350,
+                          "width": 85.7,
+                          "height": 17
                         },
                         "layout": {
                           "display": "flex",
@@ -1555,13 +1555,13 @@
                             },
                             "box": {
                               "x": 0,
-                              "y": 3,
+                              "y": 3.5,
                               "width": 10,
                               "height": 10
                             },
                             "computedBox": {
                               "x": 50,
-                              "y": 348,
+                              "y": 353.5,
                               "width": 10,
                               "height": 10
                             },
@@ -1622,14 +1622,14 @@
                             "box": {
                               "x": 18,
                               "y": 0,
-                              "width": 63.81,
-                              "height": 16
+                              "width": 67.7,
+                              "height": 17
                             },
                             "computedBox": {
                               "x": 68,
-                              "y": 345,
-                              "width": 63.81,
-                              "height": 16
+                              "y": 350,
+                              "width": 67.7,
+                              "height": 17
                             },
                             "layout": {
                               "display": "block",
@@ -1663,7 +1663,7 @@
                                 "featureSettings": "normal"
                               },
                               "color": "rgb(51, 65, 85)",
-                              "lineHeight": 16,
+                              "lineHeight": 17,
                               "wordSpacing": 0,
                               "align": "start",
                               "verticalAlign": "baseline",
@@ -1684,16 +1684,16 @@
                           "tag": "strong"
                         },
                         "box": {
-                          "x": 271.97,
+                          "x": 270.64,
                           "y": 0,
-                          "width": 28.03,
-                          "height": 16
+                          "width": 29.36,
+                          "height": 17
                         },
                         "computedBox": {
-                          "x": 321.97,
-                          "y": 345,
-                          "width": 28.03,
-                          "height": 16
+                          "x": 320.64,
+                          "y": 350,
+                          "width": 29.36,
+                          "height": 17
                         },
                         "layout": {
                           "display": "block",
@@ -1727,7 +1727,7 @@
                             "featureSettings": "normal"
                           },
                           "color": "rgb(51, 65, 85)",
-                          "lineHeight": 16,
+                          "lineHeight": 17,
                           "wordSpacing": 0,
                           "align": "start",
                           "verticalAlign": "baseline",
@@ -1752,15 +1752,15 @@
                     },
                     "box": {
                       "x": 0,
-                      "y": 69,
+                      "y": 72,
                       "width": 300,
-                      "height": 16
+                      "height": 17
                     },
                     "computedBox": {
                       "x": 50,
-                      "y": 368,
+                      "y": 374,
                       "width": 300,
-                      "height": 16
+                      "height": 17
                     },
                     "layout": {
                       "display": "flex",
@@ -1804,14 +1804,14 @@
                         "box": {
                           "x": 0,
                           "y": 0,
-                          "width": 51.7,
-                          "height": 16
+                          "width": 53.69,
+                          "height": 17
                         },
                         "computedBox": {
                           "x": 50,
-                          "y": 368,
-                          "width": 51.7,
-                          "height": 16
+                          "y": 374,
+                          "width": 53.69,
+                          "height": 17
                         },
                         "layout": {
                           "display": "flex",
@@ -1855,13 +1855,13 @@
                             },
                             "box": {
                               "x": 0,
-                              "y": 3,
+                              "y": 3.5,
                               "width": 10,
                               "height": 10
                             },
                             "computedBox": {
                               "x": 50,
-                              "y": 371,
+                              "y": 377.5,
                               "width": 10,
                               "height": 10
                             },
@@ -1922,14 +1922,14 @@
                             "box": {
                               "x": 18,
                               "y": 0,
-                              "width": 33.7,
-                              "height": 16
+                              "width": 35.69,
+                              "height": 17
                             },
                             "computedBox": {
                               "x": 68,
-                              "y": 368,
-                              "width": 33.7,
-                              "height": 16
+                              "y": 374,
+                              "width": 35.69,
+                              "height": 17
                             },
                             "layout": {
                               "display": "block",
@@ -1963,7 +1963,7 @@
                                 "featureSettings": "normal"
                               },
                               "color": "rgb(51, 65, 85)",
-                              "lineHeight": 16,
+                              "lineHeight": 17,
                               "wordSpacing": 0,
                               "align": "start",
                               "verticalAlign": "baseline",
@@ -1984,16 +1984,16 @@
                           "tag": "strong"
                         },
                         "box": {
-                          "x": 272.75,
+                          "x": 273.7,
                           "y": 0,
-                          "width": 27.25,
-                          "height": 16
+                          "width": 26.3,
+                          "height": 17
                         },
                         "computedBox": {
-                          "x": 322.75,
-                          "y": 368,
-                          "width": 27.25,
-                          "height": 16
+                          "x": 323.7,
+                          "y": 374,
+                          "width": 26.3,
+                          "height": 17
                         },
                         "layout": {
                           "display": "block",
@@ -2027,7 +2027,7 @@
                             "featureSettings": "normal"
                           },
                           "color": "rgb(51, 65, 85)",
-                          "lineHeight": 16,
+                          "lineHeight": 17,
                           "wordSpacing": 0,
                           "align": "start",
                           "verticalAlign": "baseline",
@@ -2058,13 +2058,13 @@
               "x": 344,
               "y": 0,
               "width": 356,
-              "height": 299
+              "height": 301
             },
             "computedBox": {
               "x": 379,
-              "y": 102,
+              "y": 105,
               "width": 356,
-              "height": 299
+              "height": 301
             },
             "layout": {
               "display": "flex",
@@ -2156,13 +2156,13 @@
                   "x": 15,
                   "y": 15,
                   "width": 326,
-                  "height": 23
+                  "height": 24
                 },
                 "computedBox": {
                   "x": 394,
-                  "y": 117,
+                  "y": 120,
                   "width": 326,
-                  "height": 23
+                  "height": 24
                 },
                 "layout": {
                   "display": "block",
@@ -2196,7 +2196,7 @@
                     "featureSettings": "normal"
                   },
                   "color": "rgb(0, 0, 0)",
-                  "lineHeight": 22,
+                  "lineHeight": 24,
                   "wordSpacing": 0,
                   "align": "start",
                   "verticalAlign": "baseline",
@@ -2219,13 +2219,13 @@
                 },
                 "box": {
                   "x": 15,
-                  "y": 50,
+                  "y": 51,
                   "width": 326,
                   "height": 208
                 },
                 "computedBox": {
                   "x": 394,
-                  "y": 152,
+                  "y": 156,
                   "width": 326,
                   "height": 208
                 },
@@ -2324,7 +2324,7 @@
                     },
                     "computedBox": {
                       "x": 403,
-                      "y": 161,
+                      "y": 165,
                       "width": 20.16,
                       "height": 190
                     },
@@ -2382,7 +2382,7 @@
                         },
                         "computedBox": {
                           "x": 403,
-                          "y": 290.2,
+                          "y": 294.2,
                           "width": 8.58,
                           "height": 60.8
                         },
@@ -2457,7 +2457,7 @@
                         },
                         "computedBox": {
                           "x": 414.58,
-                          "y": 313,
+                          "y": 317,
                           "width": 8.58,
                           "height": 38
                         },
@@ -2530,7 +2530,7 @@
                     },
                     "computedBox": {
                       "x": 429.16,
-                      "y": 161,
+                      "y": 165,
                       "width": 20.17,
                       "height": 190
                     },
@@ -2588,7 +2588,7 @@
                         },
                         "computedBox": {
                           "x": 429.16,
-                          "y": 271.2,
+                          "y": 275.2,
                           "width": 8.58,
                           "height": 79.8
                         },
@@ -2663,7 +2663,7 @@
                         },
                         "computedBox": {
                           "x": 440.73,
-                          "y": 305.41,
+                          "y": 309.41,
                           "width": 8.59,
                           "height": 45.59
                         },
@@ -2736,7 +2736,7 @@
                     },
                     "computedBox": {
                       "x": 455.33,
-                      "y": 161,
+                      "y": 165,
                       "width": 20.16,
                       "height": 190
                     },
@@ -2794,7 +2794,7 @@
                         },
                         "computedBox": {
                           "x": 455.33,
-                          "y": 278.81,
+                          "y": 282.81,
                           "width": 8.58,
                           "height": 72.19
                         },
@@ -2869,7 +2869,7 @@
                         },
                         "computedBox": {
                           "x": 466.91,
-                          "y": 301.61,
+                          "y": 305.61,
                           "width": 8.58,
                           "height": 49.39
                         },
@@ -2942,7 +2942,7 @@
                     },
                     "computedBox": {
                       "x": 481.48,
-                      "y": 161,
+                      "y": 165,
                       "width": 20.17,
                       "height": 190
                     },
@@ -3000,7 +3000,7 @@
                         },
                         "computedBox": {
                           "x": 481.48,
-                          "y": 252.2,
+                          "y": 256.2,
                           "width": 8.58,
                           "height": 98.8
                         },
@@ -3075,7 +3075,7 @@
                         },
                         "computedBox": {
                           "x": 493.06,
-                          "y": 294,
+                          "y": 298,
                           "width": 8.59,
                           "height": 57
                         },
@@ -3148,7 +3148,7 @@
                     },
                     "computedBox": {
                       "x": 507.66,
-                      "y": 161,
+                      "y": 165,
                       "width": 20.16,
                       "height": 190
                     },
@@ -3206,7 +3206,7 @@
                         },
                         "computedBox": {
                           "x": 507.66,
-                          "y": 225.61,
+                          "y": 229.61,
                           "width": 8.58,
                           "height": 125.39
                         },
@@ -3281,7 +3281,7 @@
                         },
                         "computedBox": {
                           "x": 519.23,
-                          "y": 286.41,
+                          "y": 290.41,
                           "width": 8.58,
                           "height": 64.59
                         },
@@ -3354,7 +3354,7 @@
                     },
                     "computedBox": {
                       "x": 533.81,
-                      "y": 161,
+                      "y": 165,
                       "width": 20.17,
                       "height": 190
                     },
@@ -3412,7 +3412,7 @@
                         },
                         "computedBox": {
                           "x": 533.81,
-                          "y": 240.81,
+                          "y": 244.81,
                           "width": 8.58,
                           "height": 110.19
                         },
@@ -3487,7 +3487,7 @@
                         },
                         "computedBox": {
                           "x": 545.39,
-                          "y": 278.81,
+                          "y": 282.81,
                           "width": 8.59,
                           "height": 72.19
                         },
@@ -3560,7 +3560,7 @@
                     },
                     "computedBox": {
                       "x": 559.98,
-                      "y": 161,
+                      "y": 165,
                       "width": 20.16,
                       "height": 190
                     },
@@ -3618,7 +3618,7 @@
                         },
                         "computedBox": {
                           "x": 559.98,
-                          "y": 210.41,
+                          "y": 214.41,
                           "width": 8.58,
                           "height": 140.59
                         },
@@ -3693,7 +3693,7 @@
                         },
                         "computedBox": {
                           "x": 571.56,
-                          "y": 271.2,
+                          "y": 275.2,
                           "width": 8.58,
                           "height": 79.8
                         },
@@ -3766,7 +3766,7 @@
                     },
                     "computedBox": {
                       "x": 586.14,
-                      "y": 161,
+                      "y": 165,
                       "width": 20.17,
                       "height": 190
                     },
@@ -3824,7 +3824,7 @@
                         },
                         "computedBox": {
                           "x": 586.14,
-                          "y": 221.81,
+                          "y": 225.81,
                           "width": 8.58,
                           "height": 129.19
                         },
@@ -3899,7 +3899,7 @@
                         },
                         "computedBox": {
                           "x": 597.72,
-                          "y": 267.41,
+                          "y": 271.41,
                           "width": 8.59,
                           "height": 83.59
                         },
@@ -3972,7 +3972,7 @@
                     },
                     "computedBox": {
                       "x": 612.31,
-                      "y": 161,
+                      "y": 165,
                       "width": 20.17,
                       "height": 190
                     },
@@ -4030,7 +4030,7 @@
                         },
                         "computedBox": {
                           "x": 612.31,
-                          "y": 199,
+                          "y": 203,
                           "width": 8.58,
                           "height": 152
                         },
@@ -4105,7 +4105,7 @@
                         },
                         "computedBox": {
                           "x": 623.89,
-                          "y": 259.81,
+                          "y": 263.81,
                           "width": 8.59,
                           "height": 91.19
                         },
@@ -4178,7 +4178,7 @@
                     },
                     "computedBox": {
                       "x": 638.48,
-                      "y": 161,
+                      "y": 165,
                       "width": 20.17,
                       "height": 190
                     },
@@ -4236,7 +4236,7 @@
                         },
                         "computedBox": {
                           "x": 638.48,
-                          "y": 233.2,
+                          "y": 237.2,
                           "width": 8.58,
                           "height": 117.8
                         },
@@ -4311,7 +4311,7 @@
                         },
                         "computedBox": {
                           "x": 650.06,
-                          "y": 252.2,
+                          "y": 256.2,
                           "width": 8.59,
                           "height": 98.8
                         },
@@ -4384,7 +4384,7 @@
                     },
                     "computedBox": {
                       "x": 664.66,
-                      "y": 161,
+                      "y": 165,
                       "width": 20.17,
                       "height": 190
                     },
@@ -4442,7 +4442,7 @@
                         },
                         "computedBox": {
                           "x": 664.66,
-                          "y": 244.61,
+                          "y": 248.61,
                           "width": 8.58,
                           "height": 106.39
                         },
@@ -4517,7 +4517,7 @@
                         },
                         "computedBox": {
                           "x": 676.23,
-                          "y": 240.81,
+                          "y": 244.81,
                           "width": 8.59,
                           "height": 110.19
                         },
@@ -4590,7 +4590,7 @@
                     },
                     "computedBox": {
                       "x": 690.83,
-                      "y": 161,
+                      "y": 165,
                       "width": 20.17,
                       "height": 190
                     },
@@ -4648,7 +4648,7 @@
                         },
                         "computedBox": {
                           "x": 690.83,
-                          "y": 229.41,
+                          "y": 233.41,
                           "width": 8.58,
                           "height": 121.59
                         },
@@ -4723,7 +4723,7 @@
                         },
                         "computedBox": {
                           "x": 702.41,
-                          "y": 233.2,
+                          "y": 237.2,
                           "width": 8.59,
                           "height": 117.8
                         },
@@ -4792,15 +4792,15 @@
                 },
                 "box": {
                   "x": 15,
-                  "y": 270,
+                  "y": 271,
                   "width": 326,
-                  "height": 14
+                  "height": 15
                 },
                 "computedBox": {
                   "x": 394,
-                  "y": 372,
+                  "y": 376,
                   "width": 326,
-                  "height": 14
+                  "height": 15
                 },
                 "layout": {
                   "display": "flex",
@@ -4841,14 +4841,14 @@
                     "box": {
                       "x": 4,
                       "y": 0,
-                      "width": 18,
-                      "height": 14
+                      "width": 17.64,
+                      "height": 15
                     },
                     "computedBox": {
                       "x": 398,
-                      "y": 372,
-                      "width": 18,
-                      "height": 14
+                      "y": 376,
+                      "width": 17.64,
+                      "height": 15
                     },
                     "layout": {
                       "display": "block",
@@ -4882,7 +4882,7 @@
                         "featureSettings": "normal"
                       },
                       "color": "rgb(100, 116, 139)",
-                      "lineHeight": 14,
+                      "lineHeight": 15,
                       "wordSpacing": 0,
                       "align": "start",
                       "verticalAlign": "baseline",
@@ -4901,16 +4901,16 @@
                       "tag": "span"
                     },
                     "box": {
-                      "x": 104,
+                      "x": 101.63,
                       "y": 0,
-                      "width": 18,
-                      "height": 14
+                      "width": 20.02,
+                      "height": 15
                     },
                     "computedBox": {
-                      "x": 498,
-                      "y": 372,
-                      "width": 18,
-                      "height": 14
+                      "x": 495.63,
+                      "y": 376,
+                      "width": 20.02,
+                      "height": 15
                     },
                     "layout": {
                       "display": "block",
@@ -4944,7 +4944,7 @@
                         "featureSettings": "normal"
                       },
                       "color": "rgb(100, 116, 139)",
-                      "lineHeight": 14,
+                      "lineHeight": 15,
                       "wordSpacing": 0,
                       "align": "start",
                       "verticalAlign": "baseline",
@@ -4963,16 +4963,16 @@
                       "tag": "span"
                     },
                     "box": {
-                      "x": 204,
+                      "x": 201.64,
                       "y": 0,
-                      "width": 18,
-                      "height": 14
+                      "width": 20.2,
+                      "height": 15
                     },
                     "computedBox": {
-                      "x": 598,
-                      "y": 372,
-                      "width": 18,
-                      "height": 14
+                      "x": 595.64,
+                      "y": 376,
+                      "width": 20.2,
+                      "height": 15
                     },
                     "layout": {
                       "display": "block",
@@ -5006,7 +5006,7 @@
                         "featureSettings": "normal"
                       },
                       "color": "rgb(100, 116, 139)",
-                      "lineHeight": 14,
+                      "lineHeight": 15,
                       "wordSpacing": 0,
                       "align": "start",
                       "verticalAlign": "baseline",
@@ -5025,16 +5025,16 @@
                       "tag": "span"
                     },
                     "box": {
-                      "x": 304,
+                      "x": 301.83,
                       "y": 0,
-                      "width": 18,
-                      "height": 14
+                      "width": 20.17,
+                      "height": 15
                     },
                     "computedBox": {
-                      "x": 698,
-                      "y": 372,
-                      "width": 18,
-                      "height": 14
+                      "x": 695.83,
+                      "y": 376,
+                      "width": 20.17,
+                      "height": 15
                     },
                     "layout": {
                       "display": "block",
@@ -5068,7 +5068,7 @@
                         "featureSettings": "normal"
                       },
                       "color": "rgb(100, 116, 139)",
-                      "lineHeight": 14,
+                      "lineHeight": 15,
                       "wordSpacing": 0,
                       "align": "start",
                       "verticalAlign": "baseline",

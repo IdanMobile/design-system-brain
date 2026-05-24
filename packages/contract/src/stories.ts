@@ -190,7 +190,7 @@ export const DEV_STORIES: DevStoryEntry[] = [
     id: "lab-productcard--alternate-image",
     component: "ProductCard",
     args: {
-      image: "https://picsum.photos/seed/camera/600/600",
+      image: "/fixtures/product-camera.jpg",
       title: "Vintage Camera\nV12",
       status: "Back in stock"
     }

@@ -1,20 +1,20 @@
 {
-  "updatedAt": "2026-05-23T15:57:40.058Z",
+  "updatedAt": "2026-05-24T19:31:09.140Z",
   "phase": "fix-all",
   "suiteId": "figmaLive",
   "suiteLabel": "Figma live",
-  "jobId": "9bd634f3-55c8-4b07-9e61-9e67b8d14d11",
+  "jobId": "f223a94e-3f42-4626-ad15-38f9dd9001a6",
   "storyId": "lab-button--secondary",
   "storyIndex": 1,
-  "storyTotal": 1,
-  "attempt": 4,
+  "storyTotal": 12,
+  "attempt": 2,
   "maxAttempts": 5,
   "verdict": "CANCELLED",
   "nextWorkerMode": "stopped",
   "metrics": {
     "status": "fail",
-    "percent": 3.104265402843602,
-    "maxRegionPercent": 3.104265402843602,
+    "percent": 3.009478672985782,
+    "maxRegionPercent": 3.469945355191257,
     "error": null
   },
   "finished": true

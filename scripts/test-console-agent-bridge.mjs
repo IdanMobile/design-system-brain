@@ -7,6 +7,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { skillFollowLines as preambleSkillFollowLines, SKILLS, workflowPreamble } from "./agent-workflow-preamble.mjs";
+import { recordStoryFailureInVault } from "./lab-memory-vault.mjs";
 
 /** @type {Array<{ resolve: (msg: object) => void, timer: ReturnType<typeof setTimeout> }>} */
 const waiters = [];
@@ -18,6 +19,31 @@ export const SKILL_ORCHESTRATOR = SKILLS.orchestrator;
 /** Lines included in every Fix / run-until-pass agent prompt (automatic role chain). */
 export function skillFollowLines(mode = "emulator", ctx = {}) {
   return preambleSkillFollowLines(mode, ctx);
+}
+
+/**
+ * Source-vs-renderer triage block. Forces the agent to decide WHICH side of
+ * the comparison owns the bug BEFORE diving into renderer code.
+ *
+ * Real example this prevents: ProductCard storybook.png was missing the
+ * picsum.photos image (flaky external network in the extractor), figma.png
+ * had the image (artifact embeds base64). Diff = 10%+. Agent assumed
+ * "Figma is wrong" and read code-v2.ts 5 times in a row. The fix was in the
+ * Storybook source (replace picsum with local fixture), not the renderer.
+ */
+export function sourceVsRendererTriageLines(mode, worst) {
+  const renderedLabel = mode === "pixel" ? "Rendered" : "Figma";
+  return [
+    "── Triage BEFORE editing renderer code ──",
+    `Step 1: open the compare PNG and Storybook + ${renderedLabel} PNGs side-by-side.`,
+    `Step 2: which side is wrong?`,
+    `  • ${renderedLabel} missing content that Storybook has  → renderer bug (code-v2.ts / scene-to-html.ts) ✅`,
+    `  • ${renderedLabel} has content that Storybook is missing  → SOURCE bug (Storybook story, component, asset path, flaky network image). DO NOT edit code-v2.ts.`,
+    `  • Both look the same but pixels differ  → tolerance, anti-aliasing, font, or sub-pixel layout — usually a small fix in the component or a tolerance config.`,
+    `Step 3: state your answer (one sentence) before any Read on a renderer file.`,
+    `Hard limit: do NOT Read code-v2.ts, extract.ts, or figma-live-test.ts in full before completing Step 3. Use Grep for specific symbols if needed.`,
+    ""
+  ];
 }
 
 export function initAgentBridge(repoRoot) {
@@ -97,6 +123,28 @@ export function initAgentBridge(repoRoot) {
 
   /** Terminal-only fix prompts — never queue IDE chat (stop hook). */
   const TERMINAL_CLI = { chatDispatch: false, cliDispatched: true };
+
+  function vaultRecordFailure(story, suiteId, suites, safeSegment, meta = {}) {
+    if (!story || story.status === "pass") return null;
+    try {
+      const cfg = suites[suiteId];
+      return recordStoryFailureInVault(repoRoot, story, suiteId, {
+        jobId: meta.jobId,
+        source: meta.source ?? "test-console",
+        attempt: meta.attempt,
+        cfg,
+        safeSegment
+      });
+    } catch (e) {
+      return { ok: false, reason: e instanceof Error ? e.message : String(e) };
+    }
+  }
+
+  function vaultRecordFailingStories(stories, suiteId, suites, safeSegment, meta = {}) {
+    for (const story of stories) {
+      if (story.status !== "pass") vaultRecordFailure(story, suiteId, suites, safeSegment, meta);
+    }
+  }
 
   function findFailingStories(suiteId, suites, safeSegment) {
     const cfg = suites[suiteId];
@@ -320,6 +368,7 @@ export function initAgentBridge(repoRoot) {
       `Storybook: ${worst.paths.storybookPng}`,
       `${mode === "pixel" ? "Rendered" : "Figma"}: ${worst.paths.figmaPng}`,
       "",
+      ...sourceVsRendererTriageLines(mode, worst),
       ...skillFollowLines(mode, { suiteId: worst.suiteId, storyId: worst.storyId }),
       mode === "live"
         ? "Live phase only. Fix now; after rebuild, one-line ask to reload plugin + reply ready before re-live."
@@ -430,9 +479,30 @@ export function initAgentBridge(repoRoot) {
       if (priorOutcome.filesChanged?.length) {
         lines.push(`Files changed last attempt: ${priorOutcome.filesChanged.join(", ")}`);
       }
-      lines.push("Adjust strategy — do not repeat the same ineffective edits.");
+      if (priorOutcome.watchdogTripped) {
+        lines.push(
+          "",
+          `⚠️  PREVIOUS ATTEMPT KILLED BY WATCHDOG: ${priorOutcome.watchdogReason ?? "investigation paralysis"}`,
+          "DO NOT repeat the read-everything investigation pattern this time.",
+          "MANDATORY this attempt:",
+          "  1. Read the investigation report MD (already aggregates all stories).",
+          "  2. Read ≤3 region compare PNGs from the report's top failures.",
+          "  3. Use Grep on code-v2.ts to locate ONE concrete symbol — DO NOT Read code-v2.ts in full.",
+          "  4. Land at least ONE code edit within 5 minutes.",
+          "If you cannot diagnose with that budget, write 'BLOCKED: <one-line reason>' to the report and exit."
+        );
+      } else {
+        lines.push("Adjust strategy — do not repeat the same ineffective edits.");
+      }
     }
     lines.push(
+      "",
+      "── Investigation budget (HARD LIMITS — exceed = orchestrator watchdog kills the run) ──",
+      "• READ ONCE: code-v2.ts (3016 lines), extract.ts (1408 lines), scene-to-html.ts, figma-live-test.ts. Re-reading wastes 50k+ tokens and produces no progress.",
+      "• After reading a big file once, use Grep/SemanticSearch to re-locate symbols — DO NOT call Read on the same path twice.",
+      "• Read the investigation MD + 3-5 worst-story PNGs + 3-5 worst-story artifact.v2.json. Do not read every story's artifact — the report aggregates them.",
+      "• First code edit MUST land within ~8 minutes of session start. If you cannot diagnose by then, write a 5-line BLOCKED note in the investigation MD and exit.",
+      "• Total wall clock target: ≤ 20 minutes per batch attempt.",
       "",
       "Do NOT run golden tests yourself. Harness rebuilds plugin (if needed) and re-tests every story.",
       mode === "live"
@@ -685,6 +755,10 @@ export function initAgentBridge(repoRoot) {
           const mode =
             suiteId === "figmaLive" ? "live" : suiteId === "pixel" ? "pixel" : "emulator";
           if (worst && worst.status !== "pass") {
+            vaultRecordFailure(worst, suiteId, suites, safeSegment, {
+              jobId: job.id,
+              source: `test finished · ${actionId}`
+            });
             return pushMessage({
               type: "test_finished",
               actionId,
@@ -777,6 +851,7 @@ export function initAgentBridge(repoRoot) {
       }
       const mode =
         targetSuite === "figmaLive" ? "live" : targetSuite === "pixel" ? "pixel" : "emulator";
+      vaultRecordFailure(worst, targetSuite, suites, safeSegment, { source: "fix requested" });
       return pushMessage({
         type: "fix_requested",
         suiteId: targetSuite,
@@ -811,6 +886,9 @@ export function initAgentBridge(repoRoot) {
       const mode =
         targetSuite === "figmaLive" ? "live" : targetSuite === "pixel" ? "pixel" : "emulator";
       const worst = stories[0];
+      vaultRecordFailingStories(stories, targetSuite, suites, safeSegment, {
+        source: "fix all requested"
+      });
       return pushMessage({
         type: "fix_all_requested",
         suiteId: targetSuite,

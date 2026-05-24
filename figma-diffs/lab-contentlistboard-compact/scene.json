@@ -720,7 +720,7 @@
                 10
               ],
               "effects": [],
-              "clipsContent": true,
+              "clipsContent": false,
               "children": [
                 {
                   "id": 21,
@@ -945,7 +945,13 @@
                 9
               ],
               "effects": [],
-              "clipsContent": false,
+              "clipsContent": true,
+              "source": {
+                "tag": "input",
+                "inputType": "text",
+                "value": "Refine chart tooltip spacing and token usage",
+                "fontStack": "Inter, Arial, sans-serif"
+              },
               "children": [
                 {
                   "id": 27,
@@ -953,9 +959,9 @@
                   "type": "TEXT",
                   "name": "Text",
                   "x": 10,
-                  "y": 11.6,
+                  "y": 1,
                   "width": 680,
-                  "height": 16.8,
+                  "height": 38,
                   "opacity": 1,
                   "characters": "Refine chart tooltip spacing and token usage",
                   "fontName": {
@@ -977,7 +983,8 @@
                   "textAlignHorizontal": "LEFT",
                   "textAutoResize": "HEIGHT",
                   "lineHeight": {
-                    "unit": "AUTO"
+                    "unit": "PIXELS",
+                    "value": 38
                   },
                   "letterSpacing": {
                     "unit": "PIXELS",
@@ -1293,7 +1300,7 @@
                         999
                       ],
                       "effects": [],
-                      "clipsContent": true,
+                      "clipsContent": false,
                       "children": [
                         {
                           "id": 37,
@@ -1372,7 +1379,7 @@
                         999
                       ],
                       "effects": [],
-                      "clipsContent": true,
+                      "clipsContent": false,
                       "children": [
                         {
                           "id": 39,
@@ -1696,7 +1703,7 @@
                         999
                       ],
                       "effects": [],
-                      "clipsContent": true,
+                      "clipsContent": false,
                       "children": [
                         {
                           "id": 48,
@@ -1775,7 +1782,7 @@
                         999
                       ],
                       "effects": [],
-                      "clipsContent": true,
+                      "clipsContent": false,
                       "children": [
                         {
                           "id": 50,
@@ -2099,7 +2106,7 @@
                         999
                       ],
                       "effects": [],
-                      "clipsContent": true,
+                      "clipsContent": false,
                       "children": [
                         {
                           "id": 59,
@@ -2178,7 +2185,7 @@
                         999
                       ],
                       "effects": [],
-                      "clipsContent": true,
+                      "clipsContent": false,
                       "children": [
                         {
                           "id": 61,
@@ -2502,7 +2509,7 @@
                         999
                       ],
                       "effects": [],
-                      "clipsContent": true,
+                      "clipsContent": false,
                       "children": [
                         {
                           "id": 70,
@@ -2581,7 +2588,7 @@
                         999
                       ],
                       "effects": [],
-                      "clipsContent": true,
+                      "clipsContent": false,
                       "children": [
                         {
                           "id": 72,

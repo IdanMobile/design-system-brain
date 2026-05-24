@@ -1,0 +1,11 @@
+{
+  "tag": "lab-productcard--dark:try2",
+  "exitCode": 143,
+  "finishedAt": "2026-05-24T18:20:46.711Z",
+  "editCount": 0,
+  "readCount": 15,
+  "bigReadCount": 4,
+  "watchdogTripped": true,
+  "watchdogReason": "8.0m elapsed, 0 edits (reads=15, big-file reads=4). Investigation paralysis.",
+  "elapsedMs": 480126
+}

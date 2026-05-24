@@ -6,7 +6,7 @@
   "x": 0,
   "y": 0,
   "width": 786,
-  "height": 452,
+  "height": 457,
   "opacity": 1,
   "fills": [
     {
@@ -43,7 +43,7 @@
       "x": 24,
       "y": 24,
       "width": 738,
-      "height": 404,
+      "height": 409,
       "opacity": 1,
       "fills": [
         {
@@ -90,7 +90,7 @@
           "x": 19,
           "y": 19,
           "width": 700,
-          "height": 51,
+          "height": 54,
           "opacity": 1,
           "fills": [],
           "strokes": [],
@@ -116,8 +116,8 @@
               "name": "div",
               "x": 0,
               "y": 0,
-              "width": 278.47,
-              "height": 51,
+              "width": 283.22,
+              "height": 54,
               "opacity": 1,
               "fills": [],
               "strokes": [],
@@ -143,8 +143,8 @@
                   "name": "p",
                   "x": 0,
                   "y": 0,
-                  "width": 278.47,
-                  "height": 15,
+                  "width": 283.22,
+                  "height": 16,
                   "opacity": 1,
                   "fills": [],
                   "strokes": [],
@@ -171,7 +171,7 @@
                       "x": 0,
                       "y": 0,
                       "width": 68.64,
-                      "height": 15,
+                      "height": 16,
                       "opacity": 1,
                       "characters": "PERFORMANCE",
                       "fontName": {
@@ -194,7 +194,7 @@
                       "textAutoResize": "WIDTH_AND_HEIGHT",
                       "lineHeight": {
                         "unit": "PIXELS",
-                        "value": 15
+                        "value": 16
                       },
                       "letterSpacing": {
                         "unit": "PIXELS",
@@ -211,9 +211,9 @@
                   "type": "FRAME",
                   "name": "h3",
                   "x": 0,
-                  "y": 19,
-                  "width": 279,
-                  "height": 31,
+                  "y": 20,
+                  "width": 283.22,
+                  "height": 34,
                   "opacity": 1,
                   "fills": [],
                   "strokes": [],
@@ -239,8 +239,8 @@
                       "name": "Text",
                       "x": 0,
                       "y": 0,
-                      "width": 279,
-                      "height": 31,
+                      "width": 268.8,
+                      "height": 34,
                       "opacity": 1,
                       "characters": "Revenue distribution",
                       "fontName": {
@@ -260,10 +260,10 @@
                         }
                       ],
                       "textAlignHorizontal": "LEFT",
-                      "textAutoResize": "HEIGHT",
+                      "textAutoResize": "WIDTH_AND_HEIGHT",
                       "lineHeight": {
                         "unit": "PIXELS",
-                        "value": 31
+                        "value": 34
                       },
                       "letterSpacing": {
                         "unit": "PIXELS",
@@ -281,10 +281,10 @@
               "kind": "FRAME",
               "type": "FRAME",
               "name": "span",
-              "x": 610.98,
-              "y": 12,
-              "width": 89.02,
-              "height": 27,
+              "x": 605.55,
+              "y": 13,
+              "width": 94.45,
+              "height": 28,
               "opacity": 1,
               "fills": [
                 {
@@ -311,7 +311,7 @@
                 999
               ],
               "effects": [],
-              "clipsContent": true,
+              "clipsContent": false,
               "children": [
                 {
                   "id": 9,
@@ -320,8 +320,8 @@
                   "name": "Text",
                   "x": 10,
                   "y": 6,
-                  "width": 70,
-                  "height": 15,
+                  "width": 62.4,
+                  "height": 16,
                   "opacity": 1,
                   "characters": "Net +18.4%",
                   "fontName": {
@@ -341,10 +341,10 @@
                     }
                   ],
                   "textAlignHorizontal": "LEFT",
-                  "textAutoResize": "HEIGHT",
+                  "textAutoResize": "WIDTH_AND_HEIGHT",
                   "lineHeight": {
                     "unit": "PIXELS",
-                    "value": 15
+                    "value": 16
                   },
                   "letterSpacing": {
                     "unit": "PIXELS",
@@ -363,9 +363,9 @@
           "type": "FRAME",
           "name": "div",
           "x": 19,
-          "y": 86,
+          "y": 89,
           "width": 700,
-          "height": 299,
+          "height": 301,
           "opacity": 1,
           "fills": [],
           "strokes": [],
@@ -392,7 +392,7 @@
               "x": 0,
               "y": 0,
               "width": 330,
-              "height": 299,
+              "height": 301,
               "opacity": 1,
               "fills": [
                 {
@@ -468,7 +468,7 @@
                   "x": 15,
                   "y": 197,
                   "width": 300,
-                  "height": 85,
+                  "height": 89,
                   "opacity": 1,
                   "fills": [],
                   "strokes": [],
@@ -495,7 +495,7 @@
                       "x": 0,
                       "y": 0,
                       "width": 300,
-                      "height": 16,
+                      "height": 17,
                       "opacity": 1,
                       "fills": [],
                       "strokes": [],
@@ -521,8 +521,8 @@
                           "name": "div",
                           "x": 0,
                           "y": 0,
-                          "width": 78.7,
-                          "height": 16,
+                          "width": 81.86,
+                          "height": 17,
                           "opacity": 1,
                           "fills": [],
                           "strokes": [],
@@ -547,7 +547,7 @@
                               "type": "FRAME",
                               "name": "i",
                               "x": 0,
-                              "y": 3,
+                              "y": 3.5,
                               "width": 10,
                               "height": 10,
                               "opacity": 1,
@@ -586,8 +586,8 @@
                               "name": "typography",
                               "x": 18,
                               "y": 0,
-                              "width": 60.7,
-                              "height": 16,
+                              "width": 63.86,
+                              "height": 17,
                               "opacity": 1,
                               "fills": [],
                               "strokes": [],
@@ -613,8 +613,8 @@
                                   "name": "Text",
                                   "x": 0,
                                   "y": 0,
-                                  "width": 61,
-                                  "height": 16,
+                                  "width": 60.48,
+                                  "height": 17,
                                   "opacity": 1,
                                   "characters": "Core plan",
                                   "fontName": {
@@ -634,10 +634,10 @@
                                     }
                                   ],
                                   "textAlignHorizontal": "LEFT",
-                                  "textAutoResize": "HEIGHT",
+                                  "textAutoResize": "WIDTH_AND_HEIGHT",
                                   "lineHeight": {
                                     "unit": "PIXELS",
-                                    "value": 16
+                                    "value": 17
                                   },
                                   "letterSpacing": {
                                     "unit": "PIXELS",
@@ -655,10 +655,10 @@
                           "kind": "FRAME",
                           "type": "FRAME",
                           "name": "strong",
-                          "x": 271.97,
+                          "x": 267.27,
                           "y": 0,
-                          "width": 28.03,
-                          "height": 16,
+                          "width": 32.73,
+                          "height": 17,
                           "opacity": 1,
                           "fills": [],
                           "strokes": [],
@@ -685,7 +685,7 @@
                               "x": 0,
                               "y": 0,
                               "width": 20.16,
-                              "height": 16,
+                              "height": 17,
                               "opacity": 1,
                               "characters": "43%",
                               "fontName": {
@@ -708,7 +708,7 @@
                               "textAutoResize": "WIDTH_AND_HEIGHT",
                               "lineHeight": {
                                 "unit": "PIXELS",
-                                "value": 16
+                                "value": 17
                               },
                               "letterSpacing": {
                                 "unit": "PIXELS",
@@ -727,9 +727,9 @@
                       "type": "FRAME",
                       "name": "div",
                       "x": 0,
-                      "y": 23,
+                      "y": 24,
                       "width": 300,
-                      "height": 16,
+                      "height": 17,
                       "opacity": 1,
                       "fills": [],
                       "strokes": [],
@@ -755,8 +755,8 @@
                           "name": "div",
                           "x": 0,
                           "y": 0,
-                          "width": 70.16,
-                          "height": 16,
+                          "width": 75.31,
+                          "height": 17,
                           "opacity": 1,
                           "fills": [],
                           "strokes": [],
@@ -781,7 +781,7 @@
                               "type": "FRAME",
                               "name": "i",
                               "x": 0,
-                              "y": 3,
+                              "y": 3.5,
                               "width": 10,
                               "height": 10,
                               "opacity": 1,
@@ -820,8 +820,8 @@
                               "name": "typography",
                               "x": 18,
                               "y": 0,
-                              "width": 52.16,
-                              "height": 16,
+                              "width": 57.31,
+                              "height": 17,
                               "opacity": 1,
                               "fills": [],
                               "strokes": [],
@@ -848,7 +848,7 @@
                                   "x": 0,
                                   "y": 0,
                                   "width": 47.04,
-                                  "height": 16,
+                                  "height": 17,
                                   "opacity": 1,
                                   "characters": "Add-ons",
                                   "fontName": {
@@ -871,7 +871,7 @@
                                   "textAutoResize": "WIDTH_AND_HEIGHT",
                                   "lineHeight": {
                                     "unit": "PIXELS",
-                                    "value": 16
+                                    "value": 17
                                   },
                                   "letterSpacing": {
                                     "unit": "PIXELS",
@@ -889,10 +889,10 @@
                           "kind": "FRAME",
                           "type": "FRAME",
                           "name": "strong",
-                          "x": 271.97,
+                          "x": 268.83,
                           "y": 0,
-                          "width": 28.03,
-                          "height": 16,
+                          "width": 31.17,
+                          "height": 17,
                           "opacity": 1,
                           "fills": [],
                           "strokes": [],
@@ -919,7 +919,7 @@
                               "x": 0,
                               "y": 0,
                               "width": 20.16,
-                              "height": 16,
+                              "height": 17,
                               "opacity": 1,
                               "characters": "27%",
                               "fontName": {
@@ -942,7 +942,7 @@
                               "textAutoResize": "WIDTH_AND_HEIGHT",
                               "lineHeight": {
                                 "unit": "PIXELS",
-                                "value": 16
+                                "value": 17
                               },
                               "letterSpacing": {
                                 "unit": "PIXELS",
@@ -961,9 +961,9 @@
                       "type": "FRAME",
                       "name": "div",
                       "x": 0,
-                      "y": 46,
+                      "y": 48,
                       "width": 300,
-                      "height": 16,
+                      "height": 17,
                       "opacity": 1,
                       "fills": [],
                       "strokes": [],
@@ -989,8 +989,8 @@
                           "name": "div",
                           "x": 0,
                           "y": 0,
-                          "width": 81.81,
-                          "height": 16,
+                          "width": 85.7,
+                          "height": 17,
                           "opacity": 1,
                           "fills": [],
                           "strokes": [],
@@ -1015,7 +1015,7 @@
                               "type": "FRAME",
                               "name": "i",
                               "x": 0,
-                              "y": 3,
+                              "y": 3.5,
                               "width": 10,
                               "height": 10,
                               "opacity": 1,
@@ -1054,8 +1054,8 @@
                               "name": "typography",
                               "x": 18,
                               "y": 0,
-                              "width": 63.81,
-                              "height": 16,
+                              "width": 67.7,
+                              "height": 17,
                               "opacity": 1,
                               "fills": [],
                               "strokes": [],
@@ -1082,7 +1082,7 @@
                                   "x": 0,
                                   "y": 0,
                                   "width": 67.2,
-                                  "height": 16,
+                                  "height": 17,
                                   "opacity": 1,
                                   "characters": "Enterprise",
                                   "fontName": {
@@ -1105,7 +1105,7 @@
                                   "textAutoResize": "WIDTH_AND_HEIGHT",
                                   "lineHeight": {
                                     "unit": "PIXELS",
-                                    "value": 16
+                                    "value": 17
                                   },
                                   "letterSpacing": {
                                     "unit": "PIXELS",
@@ -1123,10 +1123,10 @@
                           "kind": "FRAME",
                           "type": "FRAME",
                           "name": "strong",
-                          "x": 271.97,
+                          "x": 270.64,
                           "y": 0,
-                          "width": 28.03,
-                          "height": 16,
+                          "width": 29.36,
+                          "height": 17,
                           "opacity": 1,
                           "fills": [],
                           "strokes": [],
@@ -1153,7 +1153,7 @@
                               "x": 0,
                               "y": 0,
                               "width": 20.16,
-                              "height": 16,
+                              "height": 17,
                               "opacity": 1,
                               "characters": "19%",
                               "fontName": {
@@ -1176,7 +1176,7 @@
                               "textAutoResize": "WIDTH_AND_HEIGHT",
                               "lineHeight": {
                                 "unit": "PIXELS",
-                                "value": 16
+                                "value": 17
                               },
                               "letterSpacing": {
                                 "unit": "PIXELS",
@@ -1195,9 +1195,9 @@
                       "type": "FRAME",
                       "name": "div",
                       "x": 0,
-                      "y": 69,
+                      "y": 72,
                       "width": 300,
-                      "height": 16,
+                      "height": 17,
                       "opacity": 1,
                       "fills": [],
                       "strokes": [],
@@ -1223,8 +1223,8 @@
                           "name": "div",
                           "x": 0,
                           "y": 0,
-                          "width": 51.7,
-                          "height": 16,
+                          "width": 53.69,
+                          "height": 17,
                           "opacity": 1,
                           "fills": [],
                           "strokes": [],
@@ -1249,7 +1249,7 @@
                               "type": "FRAME",
                               "name": "i",
                               "x": 0,
-                              "y": 3,
+                              "y": 3.5,
                               "width": 10,
                               "height": 10,
                               "opacity": 1,
@@ -1288,8 +1288,8 @@
                               "name": "typography",
                               "x": 18,
                               "y": 0,
-                              "width": 33.7,
-                              "height": 16,
+                              "width": 35.69,
+                              "height": 17,
                               "opacity": 1,
                               "fills": [],
                               "strokes": [],
@@ -1316,7 +1316,7 @@
                                   "x": 0,
                                   "y": 0,
                                   "width": 40.32,
-                                  "height": 16,
+                                  "height": 17,
                                   "opacity": 1,
                                   "characters": "Trials",
                                   "fontName": {
@@ -1339,7 +1339,7 @@
                                   "textAutoResize": "WIDTH_AND_HEIGHT",
                                   "lineHeight": {
                                     "unit": "PIXELS",
-                                    "value": 16
+                                    "value": 17
                                   },
                                   "letterSpacing": {
                                     "unit": "PIXELS",
@@ -1357,10 +1357,10 @@
                           "kind": "FRAME",
                           "type": "FRAME",
                           "name": "strong",
-                          "x": 272.75,
+                          "x": 273.7,
                           "y": 0,
-                          "width": 27.25,
-                          "height": 16,
+                          "width": 26.3,
+                          "height": 17,
                           "opacity": 1,
                           "fills": [],
                           "strokes": [],
@@ -1387,7 +1387,7 @@
                               "x": 0,
                               "y": 0,
                               "width": 20.16,
-                              "height": 16,
+                              "height": 17,
                               "opacity": 1,
                               "characters": "11%",
                               "fontName": {
@@ -1410,7 +1410,7 @@
                               "textAutoResize": "WIDTH_AND_HEIGHT",
                               "lineHeight": {
                                 "unit": "PIXELS",
-                                "value": 16
+                                "value": 17
                               },
                               "letterSpacing": {
                                 "unit": "PIXELS",
@@ -1435,7 +1435,7 @@
               "x": 344,
               "y": 0,
               "width": 356,
-              "height": 299,
+              "height": 301,
               "opacity": 1,
               "fills": [
                 {
@@ -1482,7 +1482,7 @@
                   "x": 15,
                   "y": 15,
                   "width": 326,
-                  "height": 22,
+                  "height": 24,
                   "opacity": 1,
                   "fills": [],
                   "strokes": [],
@@ -1508,8 +1508,8 @@
                       "name": "Text",
                       "x": 0,
                       "y": 0,
-                      "width": 326,
-                      "height": 22,
+                      "width": 115.19999999999999,
+                      "height": 24,
                       "opacity": 1,
                       "characters": "30-day trend",
                       "fontName": {
@@ -1529,10 +1529,10 @@
                         }
                       ],
                       "textAlignHorizontal": "LEFT",
-                      "textAutoResize": "HEIGHT",
+                      "textAutoResize": "WIDTH_AND_HEIGHT",
                       "lineHeight": {
                         "unit": "PIXELS",
-                        "value": 22
+                        "value": 24
                       },
                       "letterSpacing": {
                         "unit": "PIXELS",
@@ -1549,7 +1549,7 @@
                   "type": "FRAME",
                   "name": "div",
                   "x": 15,
-                  "y": 50,
+                  "y": 51,
                   "width": 326,
                   "height": 208,
                   "opacity": 1,
@@ -2858,9 +2858,9 @@
                   "type": "FRAME",
                   "name": "div",
                   "x": 15,
-                  "y": 270,
+                  "y": 271,
                   "width": 326,
-                  "height": 14,
+                  "height": 15,
                   "opacity": 1,
                   "fills": [],
                   "strokes": [],
@@ -2886,8 +2886,8 @@
                       "name": "typography",
                       "x": 4,
                       "y": 0,
-                      "width": 18,
-                      "height": 14,
+                      "width": 17.64,
+                      "height": 15,
                       "opacity": 1,
                       "fills": [],
                       "strokes": [],
@@ -2914,7 +2914,7 @@
                           "x": 0,
                           "y": 0,
                           "width": 11.52,
-                          "height": 14,
+                          "height": 15,
                           "opacity": 1,
                           "characters": "W1",
                           "fontName": {
@@ -2937,7 +2937,7 @@
                           "textAutoResize": "WIDTH_AND_HEIGHT",
                           "lineHeight": {
                             "unit": "PIXELS",
-                            "value": 14
+                            "value": 15
                           },
                           "letterSpacing": {
                             "unit": "PIXELS",
@@ -2953,10 +2953,10 @@
                       "kind": "FRAME",
                       "type": "FRAME",
                       "name": "typography",
-                      "x": 104,
+                      "x": 101.63,
                       "y": 0,
-                      "width": 18,
-                      "height": 14,
+                      "width": 20.02,
+                      "height": 15,
                       "opacity": 1,
                       "fills": [],
                       "strokes": [],
@@ -2983,7 +2983,7 @@
                           "x": 0,
                           "y": 0,
                           "width": 11.52,
-                          "height": 14,
+                          "height": 15,
                           "opacity": 1,
                           "characters": "W2",
                           "fontName": {
@@ -3006,7 +3006,7 @@
                           "textAutoResize": "WIDTH_AND_HEIGHT",
                           "lineHeight": {
                             "unit": "PIXELS",
-                            "value": 14
+                            "value": 15
                           },
                           "letterSpacing": {
                             "unit": "PIXELS",
@@ -3022,10 +3022,10 @@
                       "kind": "FRAME",
                       "type": "FRAME",
                       "name": "typography",
-                      "x": 204,
+                      "x": 201.64,
                       "y": 0,
-                      "width": 18,
-                      "height": 14,
+                      "width": 20.2,
+                      "height": 15,
                       "opacity": 1,
                       "fills": [],
                       "strokes": [],
@@ -3052,7 +3052,7 @@
                           "x": 0,
                           "y": 0,
                           "width": 11.52,
-                          "height": 14,
+                          "height": 15,
                           "opacity": 1,
                           "characters": "W3",
                           "fontName": {
@@ -3075,7 +3075,7 @@
                           "textAutoResize": "WIDTH_AND_HEIGHT",
                           "lineHeight": {
                             "unit": "PIXELS",
-                            "value": 14
+                            "value": 15
                           },
                           "letterSpacing": {
                             "unit": "PIXELS",
@@ -3091,10 +3091,10 @@
                       "kind": "FRAME",
                       "type": "FRAME",
                       "name": "typography",
-                      "x": 304,
+                      "x": 301.83,
                       "y": 0,
-                      "width": 18,
-                      "height": 14,
+                      "width": 20.17,
+                      "height": 15,
                       "opacity": 1,
                       "fills": [],
                       "strokes": [],
@@ -3121,7 +3121,7 @@
                           "x": 0,
                           "y": 0,
                           "width": 11.52,
-                          "height": 14,
+                          "height": 15,
                           "opacity": 1,
                           "characters": "W4",
                           "fontName": {
@@ -3144,7 +3144,7 @@
                           "textAutoResize": "WIDTH_AND_HEIGHT",
                           "lineHeight": {
                             "unit": "PIXELS",
-                            "value": 14
+                            "value": 15
                           },
                           "letterSpacing": {
                             "unit": "PIXELS",

@@ -338,7 +338,7 @@
                     999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 10,
@@ -417,7 +417,7 @@
                     10
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 12,
@@ -500,7 +500,7 @@
               "x": 0,
               "y": 0,
               "width": 113.14,
-              "height": 17,
+              "height": 19,
               "opacity": 1,
               "fills": [],
               "strokes": [],
@@ -526,7 +526,7 @@
                   "name": "Text",
                   "x": 0,
                   "y": 0,
-                  "width": 113.14,
+                  "width": 20.16,
                   "height": 17,
                   "opacity": 1,
                   "characters": "Mon",
@@ -547,7 +547,7 @@
                     }
                   ],
                   "textAlignHorizontal": "CENTER",
-                  "textAutoResize": "HEIGHT",
+                  "textAutoResize": "WIDTH_AND_HEIGHT",
                   "lineHeight": {
                     "unit": "PIXELS",
                     "value": 17
@@ -569,7 +569,7 @@
               "x": 121.14,
               "y": 0,
               "width": 113.14,
-              "height": 17,
+              "height": 19,
               "opacity": 1,
               "fills": [],
               "strokes": [],
@@ -595,7 +595,7 @@
                   "name": "Text",
                   "x": 0,
                   "y": 0,
-                  "width": 113.14,
+                  "width": 20.16,
                   "height": 17,
                   "opacity": 1,
                   "characters": "Tue",
@@ -616,7 +616,7 @@
                     }
                   ],
                   "textAlignHorizontal": "CENTER",
-                  "textAutoResize": "HEIGHT",
+                  "textAutoResize": "WIDTH_AND_HEIGHT",
                   "lineHeight": {
                     "unit": "PIXELS",
                     "value": 17
@@ -638,7 +638,7 @@
               "x": 242.28,
               "y": 0,
               "width": 113.14,
-              "height": 17,
+              "height": 19,
               "opacity": 1,
               "fills": [],
               "strokes": [],
@@ -664,7 +664,7 @@
                   "name": "Text",
                   "x": 0,
                   "y": 0,
-                  "width": 113.14,
+                  "width": 20.16,
                   "height": 17,
                   "opacity": 1,
                   "characters": "Wed",
@@ -685,7 +685,7 @@
                     }
                   ],
                   "textAlignHorizontal": "CENTER",
-                  "textAutoResize": "HEIGHT",
+                  "textAutoResize": "WIDTH_AND_HEIGHT",
                   "lineHeight": {
                     "unit": "PIXELS",
                     "value": 17
@@ -707,7 +707,7 @@
               "x": 363.42,
               "y": 0,
               "width": 113.14,
-              "height": 17,
+              "height": 19,
               "opacity": 1,
               "fills": [],
               "strokes": [],
@@ -733,7 +733,7 @@
                   "name": "Text",
                   "x": 0,
                   "y": 0,
-                  "width": 113.14,
+                  "width": 20.16,
                   "height": 17,
                   "opacity": 1,
                   "characters": "Thu",
@@ -754,7 +754,7 @@
                     }
                   ],
                   "textAlignHorizontal": "CENTER",
-                  "textAutoResize": "HEIGHT",
+                  "textAutoResize": "WIDTH_AND_HEIGHT",
                   "lineHeight": {
                     "unit": "PIXELS",
                     "value": 17
@@ -776,7 +776,7 @@
               "x": 484.56,
               "y": 0,
               "width": 113.14,
-              "height": 17,
+              "height": 19,
               "opacity": 1,
               "fills": [],
               "strokes": [],
@@ -802,7 +802,7 @@
                   "name": "Text",
                   "x": 0,
                   "y": 0,
-                  "width": 113.14,
+                  "width": 20.16,
                   "height": 17,
                   "opacity": 1,
                   "characters": "Fri",
@@ -823,7 +823,7 @@
                     }
                   ],
                   "textAlignHorizontal": "CENTER",
-                  "textAutoResize": "HEIGHT",
+                  "textAutoResize": "WIDTH_AND_HEIGHT",
                   "lineHeight": {
                     "unit": "PIXELS",
                     "value": 17
@@ -845,7 +845,7 @@
               "x": 605.7,
               "y": 0,
               "width": 113.14,
-              "height": 17,
+              "height": 19,
               "opacity": 1,
               "fills": [],
               "strokes": [],
@@ -871,7 +871,7 @@
                   "name": "Text",
                   "x": 0,
                   "y": 0,
-                  "width": 113.14,
+                  "width": 20.16,
                   "height": 17,
                   "opacity": 1,
                   "characters": "Sat",
@@ -892,7 +892,7 @@
                     }
                   ],
                   "textAlignHorizontal": "CENTER",
-                  "textAutoResize": "HEIGHT",
+                  "textAutoResize": "WIDTH_AND_HEIGHT",
                   "lineHeight": {
                     "unit": "PIXELS",
                     "value": 17
@@ -914,7 +914,7 @@
               "x": 726.84,
               "y": 0,
               "width": 113.16,
-              "height": 17,
+              "height": 19,
               "opacity": 1,
               "fills": [],
               "strokes": [],
@@ -940,7 +940,7 @@
                   "name": "Text",
                   "x": 0,
                   "y": 0,
-                  "width": 113.16,
+                  "width": 20.16,
                   "height": 17,
                   "opacity": 1,
                   "characters": "Sun",
@@ -961,7 +961,7 @@
                     }
                   ],
                   "textAlignHorizontal": "CENTER",
-                  "textAutoResize": "HEIGHT",
+                  "textAutoResize": "WIDTH_AND_HEIGHT",
                   "lineHeight": {
                     "unit": "PIXELS",
                     "value": 17
@@ -2542,7 +2542,7 @@
                     999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 68,
@@ -3229,7 +3229,7 @@
                     999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 85,
@@ -4252,7 +4252,7 @@
                     999
                   ],
                   "effects": [],
-                  "clipsContent": true,
+                  "clipsContent": false,
                   "children": [
                     {
                       "id": 111,

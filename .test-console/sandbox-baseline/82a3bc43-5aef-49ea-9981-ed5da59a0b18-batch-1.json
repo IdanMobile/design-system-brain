@@ -1,0 +1,93 @@
+{
+  "capturedAt": "2026-05-24T11:17:57.261Z",
+  "repoRoot": "/Users/user/Downloads/storybook-to-figma-lab",
+  "suiteId": "figmaLive",
+  "storyIds": [
+    "mui--showcase",
+    "lab-productcard--default",
+    "lab-productcard--dark",
+    "lab-button--secondary",
+    "lab-tabspanel--activity-active",
+    "lab-tabspanel--settings-active",
+    "lab-pricingpanel--pro",
+    "lab-navigationbars--top-navigation",
+    "lab-calendarscheduler--compact",
+    "lab-featurecard--success",
+    "lab-calendarscheduler--monthly",
+    "lab-calendarscheduler--weekdays-only",
+    "lab-featurecard--default",
+    "lab-contentlistboard--highlighted"
+  ],
+  "stories": {
+    "mui--showcase": {
+      "status": "error",
+      "percent": 100,
+      "maxRegionPercent": null
+    },
+    "lab-productcard--default": {
+      "status": "fail",
+      "percent": 18.77529108608513,
+      "maxRegionPercent": 49.33259735046166
+    },
+    "lab-productcard--dark": {
+      "status": "fail",
+      "percent": 10.607463256346632,
+      "maxRegionPercent": 25.030427335016224
+    },
+    "lab-button--secondary": {
+      "status": "fail",
+      "percent": 3.009478672985782,
+      "maxRegionPercent": 3.469945355191257
+    },
+    "lab-tabspanel--activity-active": {
+      "status": "fail",
+      "percent": 1.8284605922982307,
+      "maxRegionPercent": 3.3967391304347823
+    },
+    "lab-tabspanel--settings-active": {
+      "status": "fail",
+      "percent": 1.7917967641214874,
+      "maxRegionPercent": 3.3725649350649354
+    },
+    "lab-pricingpanel--pro": {
+      "status": "fail",
+      "percent": 1.2875604787369492,
+      "maxRegionPercent": 3.206168831168831
+    },
+    "lab-navigationbars--top-navigation": {
+      "status": "fail",
+      "percent": 1.1587542978048135,
+      "maxRegionPercent": 3.609283625730994
+    },
+    "lab-calendarscheduler--compact": {
+      "status": "fail",
+      "percent": 1.018693705210715,
+      "maxRegionPercent": 4.01306299086392
+    },
+    "lab-featurecard--success": {
+      "status": "fail",
+      "percent": 0.9263514678003102,
+      "maxRegionPercent": 3.406683359013867
+    },
+    "lab-calendarscheduler--monthly": {
+      "status": "fail",
+      "percent": 0.8652895448867101,
+      "maxRegionPercent": 3.11859090360719
+    },
+    "lab-calendarscheduler--weekdays-only": {
+      "status": "fail",
+      "percent": 0.8037157421715423,
+      "maxRegionPercent": 3.11859090360719
+    },
+    "lab-featurecard--default": {
+      "status": "fail",
+      "percent": 0.7903908389345283,
+      "maxRegionPercent": 3.7119425385934823
+    },
+    "lab-contentlistboard--highlighted": {
+      "status": "fail",
+      "percent": 0.6034202704602867,
+      "maxRegionPercent": 2.7229845626072042
+    }
+  }
+}

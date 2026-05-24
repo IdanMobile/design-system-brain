@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { DEV_STORIES, type DevStoryEntry } from "../../contract/src/stories.ts";
 import { renderDevStory } from "./registry";
+import { PackageDownload } from "./PackageDownload";
 import "./showcase.css";
 
 function groupByComponent(stories: DevStoryEntry[]): [string, DevStoryEntry[]][] {
@@ -29,6 +30,8 @@ export function Showcase() {
           <code>?story=&lt;story-id&gt;</code>
         </p>
       </header>
+
+      <PackageDownload />
 
       {grouped.map(([component, stories]) => (
         <section key={component} className="showcase-section">

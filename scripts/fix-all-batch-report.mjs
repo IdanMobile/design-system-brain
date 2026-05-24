@@ -5,6 +5,115 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
+const KNOWN_RENDERER_FILES = [
+  { repoPath: "packages/figma-importer-plugin/src/code-v2.ts", label: "code-v2.ts (renderer)" },
+  { repoPath: "packages/figma-importer-plugin/src/scene-to-html.ts", label: "scene-to-html.ts (extractor)" },
+  { repoPath: "packages/extractor-playwright/src/extract.ts", label: "extract.ts (playwright extractor)" }
+];
+
+const SUSPECT_HINT_PATTERNS = [
+  {
+    failReason: "global_over",
+    terms: ["buildLayer", "applyTransform", "applyBorders", "applyCornerRadii", "clampNodeWidthToParent", "createFrameNode", "snap", "snapBoxSize"]
+  },
+  {
+    failReason: "global_and_hotspot",
+    terms: ["buildLayer", "applyTransform", "applyBorders", "applyCornerRadii", "clampNodeWidthToParent", "createFrameNode", "snap"]
+  },
+  {
+    failReason: "hotspot_over",
+    terms: ["createTextNode", "resolveFont", "preloadFonts", "buildFills", "applyBorders", "applyCornerRadii", "weightToStyle", "liveCompensatedWeight", "buildBorderOutlineSvg", "createImageNode", "createVectorNode"]
+  },
+  {
+    failReason: "status_not_pass",
+    terms: ["buildLayer", "isUniversalDocumentV2"]
+  }
+];
+
+const ALWAYS_INCLUDE_SYMBOLS = ["buildLayer"];
+
+/** Best-effort symbol scan: returns "symbol → first line" map for a JS/TS file. */
+function indexSymbols(source) {
+  const lines = source.split(/\r?\n/);
+  const out = new Map();
+  const fnRe = /^\s*(?:export\s+)?(?:async\s+)?function\s+([A-Za-z0-9_$]+)\s*\(/;
+  const constRe = /^\s*(?:export\s+)?(?:const|let)\s+([A-Za-z0-9_$]+)\s*=\s*(?:async\s*)?\(?/;
+  const classRe = /^\s*(?:export\s+)?class\s+([A-Za-z0-9_$]+)/;
+  const methodRe = /^\s*(?:public\s+|private\s+|protected\s+)?(?:static\s+)?(?:async\s+)?([A-Za-z0-9_$]+)\s*\([^)]*\)\s*\{/;
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const fnMatch = fnRe.exec(line) || constRe.exec(line) || classRe.exec(line);
+    if (fnMatch) {
+      if (!out.has(fnMatch[1])) out.set(fnMatch[1], i);
+      continue;
+    }
+    const m = methodRe.exec(line);
+    if (m && !line.includes("if ") && !line.includes("for ") && !line.includes("while ") && !line.includes("switch")) {
+      const name = m[1];
+      if (name.length > 1 && !out.has(name)) out.set(name, i);
+    }
+  }
+  return { lines, symbols: out };
+}
+
+/** @param {{lines: string[], symbols: Map<string, number>}} idx @param {string} sym */
+function snippetForSymbol(idx, sym, contextBefore = 1, contextAfter = 40) {
+  const start = idx.symbols.get(sym);
+  if (start == null) return null;
+  const from = Math.max(0, start - contextBefore);
+  const to = Math.min(idx.lines.length, start + contextAfter);
+  return {
+    symbol: sym,
+    startLine: from + 1,
+    endLine: to,
+    code: idx.lines.slice(from, to).join("\n")
+  };
+}
+
+/**
+ * Find suspect symbols across renderer files. Returns at most `maxSnippets`
+ * snippets so the report stays compact.
+ * @param {string} repoRoot
+ * @param {object} payload
+ */
+function extractSuspectSnippets(repoRoot, payload, maxSnippets = 8) {
+  const seenFailReasons = new Set(payload.stories.map((s) => s.failReason));
+  const suspectTerms = new Set(ALWAYS_INCLUDE_SYMBOLS);
+  for (const hint of SUSPECT_HINT_PATTERNS) {
+    if (seenFailReasons.has(hint.failReason)) {
+      for (const t of hint.terms) suspectTerms.add(t);
+    }
+  }
+  if (!suspectTerms.size) return [];
+
+  const snippets = [];
+  for (const file of KNOWN_RENDERER_FILES) {
+    const abs = join(repoRoot, file.repoPath);
+    if (!existsSync(abs)) continue;
+    let source;
+    try {
+      source = readFileSync(abs, "utf8");
+    } catch {
+      continue;
+    }
+    const idx = indexSymbols(source);
+    for (const term of suspectTerms) {
+      if (snippets.length >= maxSnippets) break;
+      const snippet = snippetForSymbol(idx, term);
+      if (snippet) {
+        snippets.push({
+          file: file.repoPath,
+          fileLabel: file.label,
+          totalFileLines: idx.lines.length,
+          ...snippet
+        });
+      }
+    }
+    if (snippets.length >= maxSnippets) break;
+  }
+  return snippets;
+}
+
 /** @param {string} storyId */
 export function componentFamily(storyId) {
   const dash = storyId.indexOf("--");
@@ -76,7 +185,7 @@ export function buildBatchInvestigationPayload(stories, meta) {
     hints.push("All `@lab` stories — likely shared code-v2.ts or scene-to-html.ts path.");
   }
 
-  return {
+  const payload = {
     generatedAt: new Date().toISOString(),
     suiteId: meta.suiteId,
     suiteLabel: meta.suiteLabel,
@@ -85,8 +194,17 @@ export function buildBatchInvestigationPayload(stories, meta) {
     storyCount: stories.length,
     families: Object.fromEntries(families),
     hints,
-    stories: rows
+    stories: rows,
+    suspectSnippets: []
   };
+  if (meta.repoRoot) {
+    try {
+      payload.suspectSnippets = extractSuspectSnippets(meta.repoRoot, payload);
+    } catch {
+      /* best-effort */
+    }
+  }
+  return payload;
 }
 
 /**
@@ -140,12 +258,33 @@ export function formatBatchInvestigationMarkdown(payload) {
     );
   }
 
+  if (payload.suspectSnippets?.length) {
+    lines.push(
+      "## Suspect renderer snippets (pre-extracted — do NOT Read the full files)",
+      "",
+      "These are the most likely sites to edit for the failure patterns above. " +
+        "Use Grep on the file if you need a different symbol — never `Read` `code-v2.ts`, `scene-to-html.ts`, or `extract.ts` in full.",
+      ""
+    );
+    for (const snip of payload.suspectSnippets) {
+      lines.push(
+        `### \`${snip.symbol}\` — \`${snip.file}\` (lines ${snip.startLine}–${snip.endLine} of ${snip.totalFileLines})`,
+        "",
+        "```ts",
+        snip.code,
+        "```",
+        ""
+      );
+    }
+  }
+
   lines.push(
     "## Agent instructions",
     "",
     "1. Read this report, then open compare PNGs + artifact JSON per story above.",
     "2. Find **shared root cause** across families — implement **one batch of edits** for all stories.",
-    "3. Do **not** run golden tests yourself; the harness re-tests every listed story after your session.",
+    "3. The snippets above are pre-extracted — edit those areas directly, do NOT Read `code-v2.ts` in full.",
+    "4. Do **not** run golden tests yourself; the harness re-tests every listed story after your session.",
     ""
   );
 

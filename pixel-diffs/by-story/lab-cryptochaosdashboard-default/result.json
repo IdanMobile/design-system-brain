@@ -1,0 +1,68 @@
+{
+  "storyId": "lab-cryptochaosdashboard--default",
+  "width": 390,
+  "height": 844,
+  "pixelsDiffered": 320,
+  "pixelsTotal": 329160,
+  "percent": 0.09721715882853323,
+  "status": "pass",
+  "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-cryptochaosdashboard-default/storybook.png",
+  "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-cryptochaosdashboard-default/rendered.png",
+  "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-cryptochaosdashboard-default/diff.png",
+  "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-cryptochaosdashboard-default/artifact.v2.json",
+  "diffRegions": [
+    {
+      "index": 1,
+      "rect": {
+        "x": 124,
+        "y": 748,
+        "width": 266,
+        "height": 88,
+        "pixels": 121
+      },
+      "storybook": "regions/region-01-storybook.png",
+      "rendered": "regions/region-01-rendered.png",
+      "compare": "regions/region-01-compare.png"
+    },
+    {
+      "index": 2,
+      "rect": {
+        "x": 268,
+        "y": 124,
+        "width": 122,
+        "height": 88,
+        "pixels": 114
+      },
+      "storybook": "regions/region-02-storybook.png",
+      "rendered": "regions/region-02-rendered.png",
+      "compare": "regions/region-02-compare.png"
+    },
+    {
+      "index": 3,
+      "rect": {
+        "x": 28,
+        "y": 748,
+        "width": 88,
+        "height": 88,
+        "pixels": 50
+      },
+      "storybook": "regions/region-03-storybook.png",
+      "rendered": "regions/region-03-rendered.png",
+      "compare": "regions/region-03-compare.png"
+    },
+    {
+      "index": 4,
+      "rect": {
+        "x": 268,
+        "y": 0,
+        "width": 88,
+        "height": 80,
+        "pixels": 27
+      },
+      "storybook": "regions/region-04-storybook.png",
+      "rendered": "regions/region-04-rendered.png",
+      "compare": "regions/region-04-compare.png"
+    }
+  ],
+  "testedAt": "2026-05-24T20:51:55.614Z"
+}
