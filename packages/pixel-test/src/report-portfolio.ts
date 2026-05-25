@@ -62,6 +62,13 @@ export interface StoryResultRecord {
   hasDevPackage?: boolean;
   /** Logic audit — per-story interaction demo */
   demoVideo?: string;
+  /** Logic audit (v2) — per-element verdict rows. Shape matches `ElementVerdictRow`. */
+  perElement?: Array<{
+    labId: string;
+    displayName: string;
+    verdict: string;
+    reason: string;
+  }>;
 }
 
 /** Cast harness rows for legacy HTML reporters that expect suite-specific result shapes. */

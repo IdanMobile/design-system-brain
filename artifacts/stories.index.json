@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-05-21T19:04:52.945Z",
+  "generatedAt": "2026-05-24T21:51:44.689Z",
   "baseUrl": "http://127.0.0.1:6107",
   "stories": [
     {
@@ -106,6 +106,12 @@
       "output": "Lab/ContentListBoard/Highlighted.json"
     },
     {
+      "id": "lab-cryptochaosdashboard--default",
+      "title": "Lab/CryptoChaosDashboard",
+      "name": "Default",
+      "output": "Lab/CryptoChaosDashboard/Default.json"
+    },
+    {
       "id": "lab-featurecard--default",
       "title": "Lab/FeatureCard",
       "name": "Default",
@@ -142,6 +148,12 @@
       "output": "Lab/FilterSidePanel/Right-Panel.json"
     },
     {
+      "id": "lab-foodfrenzyscreen--default",
+      "title": "Lab/FoodFrenzyScreen",
+      "name": "Default",
+      "output": "Lab/FoodFrenzyScreen/Default.json"
+    },
+    {
       "id": "lab-loadingstates--card-skeleton",
       "title": "Lab/LoadingStates",
       "name": "Card Skeleton",
@@ -166,6 +178,18 @@
       "output": "Lab/LoginPage/Filled-Credentials.json"
     },
     {
+      "id": "lab-meetinghomepage--default",
+      "title": "Lab/MeetingHomePage",
+      "name": "Default",
+      "output": "Lab/MeetingHomePage/Default.json"
+    },
+    {
+      "id": "lab-muiworkspacescreen--default",
+      "title": "Lab/MUIWorkspaceScreen",
+      "name": "Default",
+      "output": "Lab/MUIWorkspaceScreen/Default.json"
+    },
+    {
       "id": "lab-navigationbars--bottom-navigation",
       "title": "Lab/NavigationBars",
       "name": "Bottom Navigation",
@@ -176,6 +200,12 @@
       "title": "Lab/NavigationBars",
       "name": "Top Navigation",
       "output": "Lab/NavigationBars/Top-Navigation.json"
+    },
+    {
+      "id": "lab-neonarcadescreen--default",
+      "title": "Lab/NeonArcadeScreen",
+      "name": "Default",
+      "output": "Lab/NeonArcadeScreen/Default.json"
     },
     {
       "id": "lab-overlaystates--bottom-sheet",
@@ -250,6 +280,12 @@
       "output": "Lab/RadioGroupField/Pickup-Selected.json"
     },
     {
+      "id": "lab-retroterminalscreen--default",
+      "title": "Lab/RetroTerminalScreen",
+      "name": "Default",
+      "output": "Lab/RetroTerminalScreen/Default.json"
+    },
+    {
       "id": "lab-selectfield--closed",
       "title": "Lab/SelectField",
       "name": "Closed",
@@ -272,6 +308,12 @@
       "title": "Lab/SnackbarStack",
       "name": "Dense",
       "output": "Lab/SnackbarStack/Dense.json"
+    },
+    {
+      "id": "lab-spacemissioncontrol--default",
+      "title": "Lab/SpaceMissionControl",
+      "name": "Default",
+      "output": "Lab/SpaceMissionControl/Default.json"
     },
     {
       "id": "lab-tabspanel--activity-active",

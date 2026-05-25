@@ -1,0 +1,146 @@
+{
+  "storyId": "lab-loginpage--default",
+  "status": "warn",
+  "percent": 0,
+  "maxRegionPercent": 5,
+  "testedAt": "2026-05-25T08:04:02.303Z",
+  "component": "LoginPage",
+  "gaps": [],
+  "dsBuiltIn": [
+    "input[email]",
+    "input[password]",
+    "Login",
+    "Connect with Google",
+    "Connect with Facebook"
+  ],
+  "interactiveCount": 5,
+  "readonlyCount": 0,
+  "nativeCount": 5,
+  "baselineCount": 0,
+  "findings": [
+    {
+      "index": 0,
+      "tag": "input",
+      "role": "",
+      "text": "",
+      "ariaLabel": "",
+      "type": "email",
+      "readOnly": false,
+      "disabled": false,
+      "opensMenu": false,
+      "labId": "el-input",
+      "outcome": "state_changed",
+      "category": "ds_builtin",
+      "source": "native",
+      "note": "Design-system widget responds to input"
+    },
+    {
+      "index": 1,
+      "tag": "input",
+      "role": "",
+      "text": "",
+      "ariaLabel": "",
+      "type": "password",
+      "readOnly": false,
+      "disabled": false,
+      "opensMenu": false,
+      "labId": "el-input-2",
+      "outcome": "state_changed",
+      "category": "ds_builtin",
+      "source": "native",
+      "note": "Design-system widget responds to input"
+    },
+    {
+      "index": 2,
+      "tag": "button",
+      "role": "",
+      "text": "Login",
+      "ariaLabel": "",
+      "type": "button",
+      "readOnly": false,
+      "disabled": false,
+      "opensMenu": false,
+      "labId": "el-login",
+      "outcome": "state_changed",
+      "category": "ds_builtin",
+      "source": "native",
+      "note": "Component code owns the state"
+    },
+    {
+      "index": 3,
+      "tag": "button",
+      "role": "",
+      "text": "Connect with Google",
+      "ariaLabel": "",
+      "type": "button",
+      "readOnly": false,
+      "disabled": false,
+      "opensMenu": false,
+      "labId": "el-connect-with-google",
+      "outcome": "state_changed",
+      "category": "ds_builtin",
+      "source": "native",
+      "note": "Component code owns the state"
+    },
+    {
+      "index": 4,
+      "tag": "button",
+      "role": "",
+      "text": "Connect with Facebook",
+      "ariaLabel": "",
+      "type": "button",
+      "readOnly": false,
+      "disabled": false,
+      "opensMenu": false,
+      "labId": "el-connect-with-facebook",
+      "outcome": "state_changed",
+      "category": "ds_builtin",
+      "source": "native",
+      "note": "Component code owns the state"
+    }
+  ],
+  "verdict": "needs-approval",
+  "verdictReason": "1/5 pass, 4 need approval, 0 new, 0 drift, 0 regression",
+  "observedEvents": [
+    "input",
+    "input",
+    "Login",
+    "Connect with Google",
+    "Connect with Facebook"
+  ],
+  "missingEvents": [],
+  "extraEvents": [],
+  "perElement": [
+    {
+      "labId": "el-input",
+      "displayName": "input",
+      "verdict": "needs-approval",
+      "reason": "proposed — approve in showcase"
+    },
+    {
+      "labId": "el-input-2",
+      "displayName": "input",
+      "verdict": "needs-approval",
+      "reason": "proposed — approve in showcase"
+    },
+    {
+      "labId": "el-login",
+      "displayName": "Login",
+      "verdict": "pass",
+      "reason": "approved"
+    },
+    {
+      "labId": "el-connect-with-google",
+      "displayName": "Connect with Google",
+      "verdict": "needs-approval",
+      "reason": "proposed — approve in showcase"
+    },
+    {
+      "labId": "el-connect-with-facebook",
+      "displayName": "Connect with Facebook",
+      "verdict": "needs-approval",
+      "reason": "proposed — approve in showcase"
+    }
+  ],
+  "specStatus": "proposed"
+}

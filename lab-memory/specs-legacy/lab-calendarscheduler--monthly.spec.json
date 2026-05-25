@@ -1,0 +1,46 @@
+{
+  "storyId": "lab-calendarscheduler--monthly",
+  "component": "CalendarScheduler",
+  "status": "approved",
+  "approvedAt": "2026-05-24T23:10:21.196Z",
+  "approvedBy": "phase-7-bulk-approve",
+  "specVersion": 2,
+  "intent": "Month grid with agenda list and inline event composer.",
+  "props": [
+    {
+      "name": "compact",
+      "type": "boolean",
+      "default": "false",
+      "description": "Tighter cell sizing."
+    },
+    {
+      "name": "showWeekend",
+      "type": "boolean",
+      "default": "true",
+      "description": "Drops Sat/Sun columns when false."
+    }
+  ],
+  "events": [
+    {
+      "name": "onCreateEventClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    }
+  ],
+  "behaviours": [
+    {
+      "id": "open-composer",
+      "label": "Click Create Event → Inline title/time form expands (aria-expanded toggles)",
+      "source": "component"
+    },
+    {
+      "id": "edit-draft",
+      "label": "Type into Title or Time → Draft state updates",
+      "source": "component"
+    },
+    {
+      "id": "save-event",
+      "label": "Click Save event → Prepends new agenda item, closes composer, resets draft",
+      "source": "component"
+    }
+  ]
+}

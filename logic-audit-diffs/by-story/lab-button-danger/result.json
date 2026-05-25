@@ -1,0 +1,41 @@
+{
+  "storyId": "lab-button--danger",
+  "status": "pass",
+  "percent": 0,
+  "maxRegionPercent": 1,
+  "testedAt": "2026-05-24T23:16:53.638Z",
+  "component": "Button",
+  "gaps": [],
+  "dsBuiltIn": [
+    "Delete Item"
+  ],
+  "interactiveCount": 1,
+  "readonlyCount": 0,
+  "nativeCount": 0,
+  "baselineCount": 1,
+  "findings": [
+    {
+      "index": 0,
+      "tag": "button",
+      "role": "",
+      "text": "Delete Item",
+      "ariaLabel": "",
+      "type": "button",
+      "readOnly": false,
+      "disabled": false,
+      "opensMenu": false,
+      "outcome": "state_changed",
+      "category": "ds_builtin",
+      "source": "baseline",
+      "note": "Wired by @lab/ui design-system baseline runtime"
+    }
+  ],
+  "verdict": "pass",
+  "verdictReason": "1 event(s) match approved spec",
+  "observedEvents": [
+    "onDeleteItemClicked"
+  ],
+  "missingEvents": [],
+  "extraEvents": [],
+  "specStatus": "approved"
+}

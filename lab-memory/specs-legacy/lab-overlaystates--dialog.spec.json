@@ -1,0 +1,48 @@
+{
+  "storyId": "lab-overlaystates--dialog",
+  "component": "OverlayStates",
+  "status": "approved",
+  "approvedAt": "2026-05-24T23:10:21.203Z",
+  "approvedBy": "phase-7-bulk-approve",
+  "specVersion": 2,
+  "intent": "Reusable overlay surface that renders as dialog, drawer, or sheet depending on `mode`.",
+  "props": [
+    {
+      "name": "mode",
+      "type": "\"dialog\" | \"drawer\" | \"sheet\"",
+      "default": "\"dialog\""
+    }
+  ],
+  "events": [
+    {
+      "name": "onCancelClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onDiscardClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    }
+  ],
+  "behaviours": [
+    {
+      "id": "dialog-cancel",
+      "label": "Click Cancel → dialog state → cancelled; title/body switch to 'Edit kept'",
+      "source": "component"
+    },
+    {
+      "id": "dialog-discard",
+      "label": "Click Discard → dialog state → discarded; title/body switch to 'Changes discarded'",
+      "source": "component"
+    },
+    {
+      "id": "drawer-reset",
+      "label": "Click Reset → drawer state → reset; body switches to 'Filters cleared.'",
+      "source": "component"
+    },
+    {
+      "id": "drawer-apply",
+      "label": "Click Apply → drawer state → applied; body switches to 'Filters applied...'",
+      "source": "component"
+    }
+  ]
+}

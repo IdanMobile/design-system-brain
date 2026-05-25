@@ -11,10 +11,14 @@
             "id": "d9a3cc3b4dfbded6",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "stories/lab-calendarscheduler--compact.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "lab-calendarscheduler--compact"
             }
           }
         ]
@@ -90,6 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "stories/lab-calendarscheduler--compact.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -99,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks"
+              "title": "Backlinks for lab-calendarscheduler--compact"
             }
           },
           {
@@ -108,11 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "stories/lab-calendarscheduler--compact.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links"
+              "title": "Outgoing links from lab-calendarscheduler--compact"
             }
           },
           {
@@ -150,12 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "stories/lab-calendarscheduler--compact.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline"
+              "title": "Outline of lab-calendarscheduler--compact"
             }
           }
         ]
@@ -178,6 +185,18 @@
   },
   "active": "9aafa49dad30ab70",
   "lastOpenFiles": [
+    "stories/lab-meetinghomepage--default.md",
+    "specs-legacy/mui--showcase.spec.json",
+    "specs-legacy/lab-tabspanel--settings-active.spec.json",
+    "specs-legacy/lab-tabspanel--activity-active.spec.json",
+    "specs-legacy/lab-spacemissioncontrol--default.spec.json",
+    "specs-legacy/lab-snackbarstack--dense.spec.json",
+    "specs-legacy/lab-snackbarstack--default.spec.json",
+    "specs-legacy/lab-selectfield--expanded.spec.json",
+    "specs-legacy/lab-selectfield--closed.spec.json",
+    "specs-legacy/lab-retroterminalscreen--default.spec.json",
+    "specs-legacy/lab-radiogroupfield--pickup-selected.spec.json",
+    "specs/README.md",
     "stories/lab-productcard--default.md",
     "stories/lab-contentlistboard--highlighted.md",
     "stories/lab-featurecard--default.md",

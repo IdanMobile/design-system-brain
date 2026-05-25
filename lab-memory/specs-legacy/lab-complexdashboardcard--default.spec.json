@@ -1,0 +1,12 @@
+{
+  "storyId": "lab-complexdashboardcard--default",
+  "component": "ComplexDashboardCard",
+  "status": "approved",
+  "approvedAt": "2026-05-24T23:06:33.011Z",
+  "approvedBy": "phase-7-bulk-approve",
+  "specVersion": 1,
+  "intent": "Multi-section dashboard card (header + KPI + chart). Static composition.",
+  "props": [],
+  "events": [],
+  "behaviours": []
+}

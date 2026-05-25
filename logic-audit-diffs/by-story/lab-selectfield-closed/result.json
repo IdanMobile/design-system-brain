@@ -1,0 +1,41 @@
+{
+  "storyId": "lab-selectfield--closed",
+  "status": "pass",
+  "percent": 0,
+  "maxRegionPercent": 1,
+  "testedAt": "2026-05-24T23:18:14.475Z",
+  "component": "SelectField",
+  "gaps": [],
+  "dsBuiltIn": [
+    "Spacesuits▾"
+  ],
+  "interactiveCount": 1,
+  "readonlyCount": 0,
+  "nativeCount": 1,
+  "baselineCount": 0,
+  "findings": [
+    {
+      "index": 0,
+      "tag": "div",
+      "role": "combobox",
+      "text": "Spacesuits▾",
+      "ariaLabel": "",
+      "type": "",
+      "readOnly": false,
+      "disabled": false,
+      "opensMenu": true,
+      "outcome": "state_changed",
+      "category": "ds_builtin",
+      "source": "native",
+      "note": "Design-system widget responds to input"
+    }
+  ],
+  "verdict": "pass",
+  "verdictReason": "1 event(s) match approved spec",
+  "observedEvents": [
+    "onSpacesuitsClicked"
+  ],
+  "missingEvents": [],
+  "extraEvents": [],
+  "specStatus": "approved"
+}

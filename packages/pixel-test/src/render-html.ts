@@ -525,7 +525,12 @@ function textToHtml(
   if (t.value.includes("\n")) {
     props.push("white-space: pre-line");
     if (t.lineHeight) props.push(`line-height: ${snap(t.lineHeight)}px`);
-  } else if (t.whiteSpace && t.whiteSpace !== "normal") props.push(`white-space: ${t.whiteSpace}`);
+  } else if (t.whiteSpace && t.whiteSpace !== "normal") {
+    props.push(`white-space: ${t.whiteSpace}`);
+  } else if (!t.value.includes("\n") && t.lineHeight && layer.box.height > 0 && layer.box.height <= t.lineHeight * 1.5) {
+    // Single-line text: prevent sub-pixel wrap differences vs Storybook measurement.
+    props.push("white-space: nowrap");
+  }
   if (t.wordBreak && t.wordBreak !== "normal") props.push(`word-break: ${t.wordBreak}`);
   if (t.direction && t.direction !== "ltr") props.push(`direction: ${t.direction}`);
   if (t.decoration?.lines.length) {

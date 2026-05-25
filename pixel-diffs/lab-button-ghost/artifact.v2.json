@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-button--ghost",
     "componentName": "Button",
-    "extractedAt": "2026-05-24T20:51:13.238Z",
+    "extractedAt": "2026-05-24T21:41:08.706Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-button--ghost&viewMode=story",
     "viewport": {
       "x": 0,
@@ -26,9 +26,7 @@
         "md"
       ],
       "dataset": {
-        "figmaComponent": "Button",
-        "pressedManaged": "true",
-        "pressed": "false"
+        "figmaComponent": "Button"
       }
     },
     "box": {

@@ -1,0 +1,27 @@
+{
+  "storyId": "lab-analyticscharts--usage",
+  "hasDevPackage": true,
+  "width": 858,
+  "height": 409,
+  "status": "pass",
+  "storybookVsFigma": {
+    "percent": 0,
+    "status": "pass",
+    "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-analyticscharts-usage/diff-storybook-figma.png"
+  },
+  "storybookVsDev": {
+    "percent": 0,
+    "status": "pass",
+    "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-analyticscharts-usage/diff-storybook-dev.png"
+  },
+  "devVsFigma": {
+    "percent": 0,
+    "status": "pass",
+    "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-analyticscharts-usage/diff-dev-figma.png"
+  },
+  "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-analyticscharts-usage/storybook.png",
+  "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-analyticscharts-usage/figma.png",
+  "developerPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-analyticscharts-usage/developer.png",
+  "percent": 0,
+  "testedAt": "2026-05-24T23:09:40.419Z"
+}

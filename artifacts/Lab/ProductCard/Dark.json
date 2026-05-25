@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-productcard--dark",
     "componentName": "ProductCard",
-    "extractedAt": "2026-05-21T19:04:36.424Z",
+    "extractedAt": "2026-05-24T21:51:26.064Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-productcard--dark&viewMode=story",
     "viewport": {
       "x": 0,
@@ -155,7 +155,7 @@
           }
         },
         "image": {
-          "src": "https://picsum.photos/seed/helmet/600/600",
+          "src": "http://127.0.0.1:6107/fixtures/product-helmet.jpg",
           "intrinsic": {
             "width": 600,
             "height": 600

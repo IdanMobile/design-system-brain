@@ -110,6 +110,23 @@ export const DEV_STORIES = [
     { id: "lab-filtersidepanel--collapsed", component: "FilterSidePanel", args: { collapsed: true } },
     { id: "lab-loadingstates--card-skeleton", component: "LoadingStates" },
     { id: "lab-loadingstates--list-skeleton", component: "LoadingStates", args: { mode: "list" } },
+    { id: "lab-loginpage--default", component: "LoginPage" },
+    {
+        id: "lab-loginpage--filled-credentials",
+        component: "LoginPage",
+        args: {
+            email: "team@lab.dev",
+            password: "password123",
+            subtitle: "Sign in and continue where you left off."
+        }
+    },
+    { id: "lab-meetinghomepage--default", component: "MeetingHomePage" },
+    { id: "lab-neonarcadescreen--default", component: "NeonArcadeScreen" },
+    { id: "lab-cryptochaosdashboard--default", component: "CryptoChaosDashboard" },
+    { id: "lab-foodfrenzyscreen--default", component: "FoodFrenzyScreen" },
+    { id: "lab-spacemissioncontrol--default", component: "SpaceMissionControl" },
+    { id: "lab-retroterminalscreen--default", component: "RetroTerminalScreen" },
+    { id: "lab-muiworkspacescreen--default", component: "MUIWorkspaceScreen" },
     { id: "lab-navigationbars--top-navigation", component: "NavigationBars" },
     { id: "lab-navigationbars--bottom-navigation", component: "NavigationBars", args: { mobile: true } },
     { id: "lab-overlaystates--dialog", component: "OverlayStates" },
@@ -132,7 +149,7 @@ export const DEV_STORIES = [
         id: "lab-productcard--alternate-image",
         component: "ProductCard",
         args: {
-            image: "https://picsum.photos/seed/camera/600/600",
+            image: "/fixtures/product-camera.jpg",
             title: "Vintage Camera\nV12",
             status: "Back in stock"
         }
@@ -163,4 +180,19 @@ export function isStorybookOnlyStory(storyId) {
 /** Page-scale fixture (e.g. MUI showcase) — relaxed Figma raster tolerance; full delivery. */
 export function isLargeFixtureStory(storyId) {
     return storyId === "mui--showcase";
+}
+/** Component name for a story id, if registered in DEV_STORIES. */
+export function componentForStory(storyId) {
+    return DEV_STORY_BY_ID[storyId]?.component ?? null;
+}
+/** All story ids sharing the same dev component (Tier B regression family). */
+export function storiesForComponent(component) {
+    return DEV_STORIES.filter((s) => s.component === component).map((s) => s.id);
+}
+/** All story ids in the same component family as `storyId`. */
+export function storiesInSameFamily(storyId) {
+    const component = componentForStory(storyId);
+    if (!component)
+        return [storyId];
+    return storiesForComponent(component);
 }

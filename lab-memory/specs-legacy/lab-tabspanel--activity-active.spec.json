@@ -1,0 +1,37 @@
+{
+  "storyId": "lab-tabspanel--activity-active",
+  "component": "TabsPanel",
+  "status": "approved",
+  "approvedAt": "2026-05-24T23:10:21.205Z",
+  "approvedBy": "phase-7-bulk-approve",
+  "specVersion": 2,
+  "intent": "Pill-tab navigation with single-selection (Overview / Activity / Settings).",
+  "props": [
+    {
+      "name": "active",
+      "type": "\"overview\" | \"activity\" | \"settings\"",
+      "default": "\"activity\""
+    }
+  ],
+  "events": [
+    {
+      "name": "onOverviewClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onActivityClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onSettingsClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    }
+  ],
+  "behaviours": [
+    {
+      "id": "switch",
+      "label": "Click a tab → Sets current; aria-selected and .active class flip",
+      "source": "component"
+    }
+  ]
+}

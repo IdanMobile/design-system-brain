@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "mui--showcase",
     "componentName": "MUIShowcase",
-    "extractedAt": "2026-05-24T20:51:53.362Z",
+    "extractedAt": "2026-05-25T08:13:09.070Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=mui--showcase&viewMode=story",
     "viewport": {
       "x": 0,
@@ -10404,7 +10404,7 @@
                                                   "y": 4
                                                 }
                                               },
-                                              "opacity": 0.38
+                                              "opacity": 0.7
                                             },
                                             "children": [
                                               {
@@ -13589,16 +13589,16 @@
                                   "role": "progressbar"
                                 },
                                 "box": {
-                                  "x": -3.69,
-                                  "y": -3.69,
-                                  "width": 29.38,
-                                  "height": 29.38
+                                  "x": -3.26,
+                                  "y": -3.26,
+                                  "width": 28.52,
+                                  "height": 28.52
                                 },
                                 "computedBox": {
-                                  "x": 37.31,
-                                  "y": 1547.44,
-                                  "width": 29.38,
-                                  "height": 29.38
+                                  "x": 37.74,
+                                  "y": 1547.86,
+                                  "width": 28.52,
+                                  "height": 28.52
                                 },
                                 "layout": {
                                   "display": "block",
@@ -13622,10 +13622,10 @@
                                 },
                                 "transform": {
                                   "matrix": [
-                                    -0.434995,
-                                    0.900433,
-                                    -0.900433,
-                                    -0.434995,
+                                    -0.365716,
+                                    0.930727,
+                                    -0.930727,
+                                    -0.365716,
                                     0,
                                     0
                                   ],
@@ -13649,14 +13649,14 @@
                                     "box": {
                                       "x": 0,
                                       "y": 0,
-                                      "width": 29.38,
-                                      "height": 29.38
+                                      "width": 28.52,
+                                      "height": 28.52
                                     },
                                     "computedBox": {
-                                      "x": 37.31,
-                                      "y": 1547.44,
-                                      "width": 29.38,
-                                      "height": 29.38
+                                      "x": 37.74,
+                                      "y": 1547.86,
+                                      "width": 28.52,
+                                      "height": 28.52
                                     },
                                     "layout": {
                                       "display": "block",
@@ -13694,10 +13694,10 @@
                                             "stroke": "rgb(25, 118, 210)",
                                             "strokeWidth": 3.6,
                                             "dashArray": [
-                                              73.7297,
+                                              70.1287,
                                               200
                                             ],
-                                            "dashOffset": -11.0196
+                                            "dashOffset": -10.474
                                           }
                                         }
                                       ],

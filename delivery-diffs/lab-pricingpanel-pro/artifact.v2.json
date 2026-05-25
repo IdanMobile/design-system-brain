@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-pricingpanel--pro",
     "componentName": "PricingPanel",
-    "extractedAt": "2026-05-24T20:05:09.519Z",
+    "extractedAt": "2026-05-24T23:09:28.680Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-pricingpanel--pro&viewMode=story",
     "viewport": {
       "x": 0,
@@ -25,7 +25,8 @@
         "pro"
       ],
       "dataset": {
-        "figmaComponent": "PricingPanel"
+        "figmaComponent": "PricingPanel",
+        "ctaState": "idle"
       }
     },
     "box": {
@@ -650,7 +651,10 @@
           "tag": "button",
           "classList": [
             "lab-pricing-cta"
-          ]
+          ],
+          "dataset": {
+            "pressedManaged": "true"
+          }
         },
         "box": {
           "x": 28,

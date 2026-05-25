@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-contentlistboard--highlighted",
     "componentName": "ContentListBoard",
-    "extractedAt": "2026-05-24T20:04:54.857Z",
+    "extractedAt": "2026-05-24T23:09:37.514Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-contentlistboard--highlighted&viewMode=story",
     "viewport": {
       "x": 0,
@@ -919,7 +919,10 @@
             "name": "button",
             "source": {
               "kind": "dom",
-              "tag": "button"
+              "tag": "button",
+              "dataset": {
+                "pressedManaged": "true"
+              }
             },
             "box": {
               "x": 732.45,

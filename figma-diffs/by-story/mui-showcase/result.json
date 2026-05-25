@@ -2,9 +2,9 @@
   "storyId": "mui--showcase",
   "width": 1200,
   "height": 1670,
-  "pixelsDiffered": 1070,
+  "pixelsDiffered": 1060,
   "pixelsTotal": 2004000,
-  "percent": 0.05339321357285429,
+  "percent": 0.05289421157684631,
   "maxRegionPercent": 1.0150255754475703,
   "status": "pass",
   "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-diffs/mui-showcase/storybook.png",
@@ -20,8 +20,8 @@
         "y": 1516,
         "width": 260,
         "height": 136,
-        "pixels": 351,
-        "percent": 0.9926470588235293
+        "pixels": 341,
+        "percent": 0.9643665158371041
       },
       "storybook": "regions/region-01-storybook.png",
       "rendered": "regions/region-01-rendered.png",
@@ -112,5 +112,5 @@
       "compare": "regions/region-07-compare.png"
     }
   ],
-  "testedAt": "2026-05-24T20:56:55.976Z"
+  "testedAt": "2026-05-24T23:08:46.293Z"
 }

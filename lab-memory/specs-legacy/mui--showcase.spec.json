@@ -1,0 +1,165 @@
+{
+  "storyId": "mui--showcase",
+  "component": "MUIShowcase",
+  "status": "approved",
+  "approvedAt": "2026-05-24T23:07:33.653Z",
+  "approvedBy": "phase-7-bulk-approve",
+  "specVersion": 2,
+  "intent": "Material UI sample page — buttons, tabs, form controls, list, table, alerts, progress. Pressed state tracked per button.",
+  "props": [],
+  "events": [
+    {
+      "name": "onContainedClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onOutlinedClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onTextClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onHomeClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onComponentsClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onOverviewClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onDesignClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onUsageClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onTextChanged",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onDesignerClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onValueChanged",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onCheckboxChanged",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onCheckboxChanged_2",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onRadioChanged",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onRadioChanged_2",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onRadioChanged_3",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onRadioChanged_4",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onRadioChanged_5",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onRadioChanged_6",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onRadioChanged_7",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onRadioChanged_8",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onRadioChanged_9",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onRadioChanged_10",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onRadioChanged_11",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onAction1Clicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "on1Clicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "on2Clicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "on3Clicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "on4Clicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "on5Clicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "on8Clicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onAction1Clicked_2",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onViewDetailsClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onContinueClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    }
+  ],
+  "behaviours": [
+    {
+      "id": "mui-button",
+      "label": "Click Contained / Outlined / Text / View Details / Continue → aria-pressed toggles per button",
+      "source": "component"
+    },
+    {
+      "id": "mui-tabs",
+      "label": "Click Overview/Design/Usage → tabValue updates; body text changes",
+      "source": "component"
+    },
+    {
+      "id": "mui-form",
+      "label": "Type into Email TextField → Controlled MUI TextField updates",
+      "source": "component"
+    }
+  ]
+}

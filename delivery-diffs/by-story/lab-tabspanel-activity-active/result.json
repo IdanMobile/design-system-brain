@@ -1,0 +1,27 @@
+{
+  "storyId": "lab-tabspanel--activity-active",
+  "hasDevPackage": true,
+  "width": 542,
+  "height": 156,
+  "status": "pass",
+  "storybookVsFigma": {
+    "percent": 0,
+    "status": "pass",
+    "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-tabspanel-activity-active/diff-storybook-figma.png"
+  },
+  "storybookVsDev": {
+    "percent": 0,
+    "status": "pass",
+    "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-tabspanel-activity-active/diff-storybook-dev.png"
+  },
+  "devVsFigma": {
+    "percent": 0,
+    "status": "pass",
+    "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-tabspanel-activity-active/diff-dev-figma.png"
+  },
+  "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-tabspanel-activity-active/storybook.png",
+  "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-tabspanel-activity-active/figma.png",
+  "developerPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-tabspanel-activity-active/developer.png",
+  "percent": 0,
+  "testedAt": "2026-05-24T21:58:11.499Z"
+}

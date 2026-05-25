@@ -8,7 +8,7 @@ export const DEFAULT_REGION_TOLERANCE_PERCENT = 0.1;
 export const STORYBOOK_ONLY_REGION_TOLERANCE_PERCENT = 0.1;
 
 /** Large page fixtures (e.g. mui--showcase) — mock emulator allows higher hotspot % (MUI raster/subpixel). */
-export const MOCK_LARGE_FIXTURE_REGION_TOLERANCE_PERCENT = 2.0;
+export const MOCK_LARGE_FIXTURE_REGION_TOLERANCE_PERCENT = 0.5;
 
 /**
  * Live Figma Desktop raster AA — allow up to 5% per region.
@@ -27,7 +27,7 @@ export const MOCK_LARGE_FIXTURE_REGION_TOLERANCE_PERCENT = 2.0;
  * tabspanel/featurecard ~3.9%). Bumping above 5% would risk hiding real
  * regressions; below 5% leaves visually-identical buttons stuck as FAIL.
  */
-export const LIVE_RASTER_REGION_TOLERANCE_PERCENT = 5.0;
+export const LIVE_RASTER_REGION_TOLERANCE_PERCENT = 1.0;
 
 /**
  * Live global when Figma mock already passes at strict — Chromium vs Figma export raster gap.
@@ -37,7 +37,7 @@ export const LIVE_RASTER_REGION_TOLERANCE_PERCENT = 5.0;
  * A single rasterized word's AA delta dominates global % at this scale.
  * Other suites stay at 0.1% strict.
  */
-export const LIVE_RASTER_GLOBAL_TOLERANCE_PERCENT = 4.5;
+export const LIVE_RASTER_GLOBAL_TOLERANCE_PERCENT = 1.5;
 
 /** Delivery sb↔dev when sb↔figma already passes — playground font/subpixel vs Storybook. */
-export const DELIVERY_DEV_TOLERANCE_PERCENT = 0.9;
+export const DELIVERY_DEV_TOLERANCE_PERCENT = 0.5;

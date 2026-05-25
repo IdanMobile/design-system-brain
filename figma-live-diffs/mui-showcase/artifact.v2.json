@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "mui--showcase",
     "componentName": "MUIShowcase",
-    "extractedAt": "2026-05-24T20:28:09.163Z",
+    "extractedAt": "2026-05-24T23:08:48.691Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=mui--showcase&viewMode=story",
     "viewport": {
       "x": 0,
@@ -466,7 +466,10 @@
                             "MuiButton-sizeMedium",
                             "MuiButton-colorPrimary",
                             "css-iafu2n"
-                          ]
+                          ],
+                          "dataset": {
+                            "pressedManaged": "true"
+                          }
                         },
                         "box": {
                           "x": 0,
@@ -603,7 +606,10 @@
                             "MuiButton-sizeMedium",
                             "MuiButton-colorPrimary",
                             "css-1bf9p9p"
-                          ]
+                          ],
+                          "dataset": {
+                            "pressedManaged": "true"
+                          }
                         },
                         "box": {
                           "x": 133.03,
@@ -730,7 +736,10 @@
                             "MuiButton-sizeMedium",
                             "MuiButton-colorPrimary",
                             "css-1c69r7k"
-                          ]
+                          ],
+                          "dataset": {
+                            "pressedManaged": "true"
+                          }
                         },
                         "box": {
                           "x": 255.03,
@@ -10395,7 +10404,7 @@
                                                   "y": 4
                                                 }
                                               },
-                                              "opacity": 0.38
+                                              "opacity": 0.7
                                             },
                                             "children": [
                                               {
@@ -13580,16 +13589,16 @@
                                   "role": "progressbar"
                                 },
                                 "box": {
-                                  "x": -3.26,
-                                  "y": -3.26,
-                                  "width": 28.51,
-                                  "height": 28.51
+                                  "x": -3.86,
+                                  "y": -3.86,
+                                  "width": 29.72,
+                                  "height": 29.72
                                 },
                                 "computedBox": {
-                                  "x": 37.74,
-                                  "y": 1547.87,
-                                  "width": 28.51,
-                                  "height": 28.51
+                                  "x": 37.14,
+                                  "y": 1547.26,
+                                  "width": 29.72,
+                                  "height": 29.72
                                 },
                                 "layout": {
                                   "display": "block",
@@ -13613,10 +13622,10 @@
                                 },
                                 "transform": {
                                   "matrix": [
-                                    -0.364959,
-                                    0.931023,
-                                    -0.931023,
-                                    -0.364959,
+                                    -0.46637,
+                                    0.88459,
+                                    -0.88459,
+                                    -0.46637,
                                     0,
                                     0
                                   ],
@@ -13640,14 +13649,14 @@
                                     "box": {
                                       "x": 0,
                                       "y": 0,
-                                      "width": 28.51,
-                                      "height": 28.51
+                                      "width": 29.72,
+                                      "height": 29.72
                                     },
                                     "computedBox": {
-                                      "x": 37.74,
-                                      "y": 1547.87,
-                                      "width": 28.51,
-                                      "height": 28.51
+                                      "x": 37.14,
+                                      "y": 1547.26,
+                                      "width": 29.72,
+                                      "height": 29.72
                                     },
                                     "layout": {
                                       "display": "block",
@@ -13685,10 +13694,10 @@
                                             "stroke": "rgb(25, 118, 210)",
                                             "strokeWidth": 3.6,
                                             "dashArray": [
-                                              70.0891,
+                                              75.3413,
                                               200
                                             ],
-                                            "dashOffset": -10.468
+                                            "dashOffset": -11.2638
                                           }
                                         }
                                       ],
@@ -13897,7 +13906,10 @@
                             "MuiButton-sizeSmall",
                             "MuiButton-colorPrimary",
                             "css-rulspo"
-                          ]
+                          ],
+                          "dataset": {
+                            "pressedManaged": "true"
+                          }
                         },
                         "box": {
                           "x": 8,
@@ -14002,7 +14014,10 @@
                             "MuiButton-sizeSmall",
                             "MuiButton-colorPrimary",
                             "css-271wgt"
-                          ]
+                          ],
+                          "dataset": {
+                            "pressedManaged": "true"
+                          }
                         },
                         "box": {
                           "x": 120.53,

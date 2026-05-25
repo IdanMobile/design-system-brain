@@ -3,7 +3,7 @@
  * playground routing, and delivery pixel tests.
  */
 export type StoryArgs = Record<string, string | number | boolean | undefined>;
-export type DevComponentName = "AnalyticsCharts" | "Button" | "CalendarScheduler" | "ComplexDashboardCard" | "ContentListBoard" | "FeatureCard" | "FilterSidePanel" | "LoadingStates" | "MUIShowcase" | "NavigationBars" | "OverlayStates" | "PricingPanel" | "ProductCard" | "RadioGroupField" | "SelectField" | "SnackbarStack" | "TabsPanel";
+export type DevComponentName = "AnalyticsCharts" | "Button" | "CalendarScheduler" | "ComplexDashboardCard" | "ContentListBoard" | "FeatureCard" | "FilterSidePanel" | "LoadingStates" | "LoginPage" | "MeetingHomePage" | "NeonArcadeScreen" | "CryptoChaosDashboard" | "FoodFrenzyScreen" | "SpaceMissionControl" | "RetroTerminalScreen" | "MUIShowcase" | "MUIWorkspaceScreen" | "NavigationBars" | "OverlayStates" | "PricingPanel" | "ProductCard" | "RadioGroupField" | "SelectField" | "SnackbarStack" | "TabsPanel";
 export interface DevStoryEntry {
     id: string;
     component: DevComponentName;
@@ -23,3 +23,9 @@ export declare function isDevPackageStory(storyId: string): boolean;
 export declare function isStorybookOnlyStory(storyId: string): boolean;
 /** Page-scale fixture (e.g. MUI showcase) — relaxed Figma raster tolerance; full delivery. */
 export declare function isLargeFixtureStory(storyId: string): boolean;
+/** Component name for a story id, if registered in DEV_STORIES. */
+export declare function componentForStory(storyId: string): DevComponentName | null;
+/** All story ids sharing the same dev component (Tier B regression family). */
+export declare function storiesForComponent(component: DevComponentName): string[];
+/** All story ids in the same component family as `storyId`. */
+export declare function storiesInSameFamily(storyId: string): string[];

@@ -1,0 +1,12 @@
+{
+  "storyId": "lab-spacemissioncontrol--default",
+  "component": "SpaceMissionControl",
+  "status": "approved",
+  "approvedAt": "2026-05-24T23:06:33.017Z",
+  "approvedBy": "phase-7-bulk-approve",
+  "specVersion": 1,
+  "intent": "Mission control UI with telemetry panels.",
+  "props": [],
+  "events": [],
+  "behaviours": []
+}

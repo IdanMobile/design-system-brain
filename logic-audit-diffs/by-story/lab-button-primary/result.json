@@ -1,0 +1,50 @@
+{
+  "storyId": "lab-button--primary",
+  "status": "warn",
+  "percent": 1,
+  "maxRegionPercent": 0,
+  "testedAt": "2026-05-25T08:04:07.586Z",
+  "component": "Button",
+  "gaps": [
+    "Primary: No visible state change — even with the design-system baseline this control did nothing"
+  ],
+  "dsBuiltIn": [],
+  "interactiveCount": 1,
+  "readonlyCount": 0,
+  "nativeCount": 0,
+  "baselineCount": 0,
+  "findings": [
+    {
+      "index": 0,
+      "tag": "button",
+      "role": "",
+      "text": "Primary",
+      "ariaLabel": "",
+      "type": "button",
+      "readOnly": false,
+      "disabled": false,
+      "opensMenu": false,
+      "labId": "el-primary",
+      "outcome": "no_visible_change",
+      "category": "static_shell",
+      "source": "none",
+      "note": "No visible state change — even with the design-system baseline this control did nothing"
+    }
+  ],
+  "verdict": "needs-approval",
+  "verdictReason": "0/1 pass, 1 need approval, 0 new, 0 drift, 0 regression",
+  "observedEvents": [
+    "Primary"
+  ],
+  "missingEvents": [],
+  "extraEvents": [],
+  "perElement": [
+    {
+      "labId": "el-primary",
+      "displayName": "Primary",
+      "verdict": "needs-approval",
+      "reason": "proposed — approve in showcase"
+    }
+  ],
+  "specStatus": "proposed"
+}

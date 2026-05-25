@@ -182,38 +182,73 @@ pnpm test:portfolio:refresh
 
 **Principle:** Mock timers, polling, and fake APIs live in **developer-playground** (consumer app), never inside `@lab/ui`. The package is prop-driven only (`ds.list({ isLoading, items, onItemAction, … })`).
 
-### 2.0 Logic audit — test first (“logic creator” discovery)
+### 2.0 Logic audit — spec-aware verdicts + inline approval (✅ delivered 2026-05-25, ⤴ superseded by 2.5)
 
-**Principle:** Design-system wrappers (MUI, future page imports) often **already implement** interaction logic. Audit the **Delivery showcase** before writing specs.
+**Principle:** The audit **infers** what each story does, the human **approves** through the showcase. After approval the spec becomes the source of truth — subsequent audits detect **regression** (approved behaviour gone) or **drift** (new control appeared).
 
-- [ ] `pnpm test:logic:audit` — Playwright probes `?story=` on :6108 (see `docs/semantic/logic-audit-workflow.md`).
-- [ ] Output: `logic-audit-diffs/report.html` — per control: `ds_builtin` vs `static_shell` vs `readonly`.
-- [ ] Gate: run after step 4 delivery **pass** for that story.
+- [x] `lab-memory/specs/<storyId>.spec.json` — one git-tracked JSON spec per story (55 stories bootstrapped from the deleted `component-specs.ts`).
+- [x] Inference engine — `spec-inference.ts` combines TS prop types + Storybook args + DOM walk into a proposed spec. Auto-names events (`onLoginClicked`, `onEmailChanged`, …).
+- [x] Spec store + diff — `spec-store.ts` with `specVersion` auto-bump.
+- [x] Audit verdicts — `pass` / `regression` / `drift` / `needs-approval` / `needs-spec`. Drift writes `<storyId>.proposed.json` sidecar.
+- [x] Spec server — `scripts/specs-server.mjs` mounted on `pnpm playground:serve` at `/api/specs`.
+- [x] Showcase inline editor — `SpecEditor.tsx` with JSX preview, props/events/behaviours tables, [Approve] / [Save draft].
+- [x] One-shot tools — `pnpm specs:bootstrap` (seed from legacy file), `pnpm specs:accept-drift` (bulk-accept sidecars).
+- [x] Design doc: `docs/superpowers/specs/2026-05-25-logic-approval-flow-design.md`; plan: `docs/superpowers/plans/2026-05-25-logic-approval-flow.md`.
 
-**Validation 2.0**
+**Why superseded:** designer feedback that the developer-shaped editor (tables of props/events/behaviours) was too much work to understand. The v2.5 redesign keeps the spec-aware audit loop, but the designer interaction is "click an element in the preview → type plain English → AI translates".
+
+### 2.5 Element approval — designer clicks elements + describes in plain English (✅ delivered 2026-05-25)
+
+**Principle:** Approve **per element**, not per spec. A designer clicks an interactive element in the preview, types a plain-English sentence ("click to reveal a search input"), and the AI extracts the runtime behaviour + developer API. The audit verdicts now roll up from per-element decisions.
+
+- [x] New schema v2 (`packages/contract/src/spec-types.ts`): `StorySpec.elements[]` with `description`, `aiSuggestion`, `aiExtracted` (heuristic or LLM), per-element `status`.
+- [x] Stable element IDs: `data-lab-id` stamped on every interactive descendant by `@lab/ui/element-ids-runtime.ts`; matched by the audit via `packages/pixel-test/src/element-id.ts`.
+- [x] Local heuristic extractor: `spec-extract-heuristic.ts` translates designer descriptions into `behaviour` + `devApi` cards instantly (no LLM required).
+- [x] Per-element audit verdicts: `logic-audit-verdict.ts` — `pass` / `needs-approval` / `new-element` / `drift` / `regression`. Story rollup = worst verdict.
+- [x] Click-in-preview UX: `ElementOverlay.tsx` + `ElementPanel.tsx`. Designer sees an outline on hover, clicks → side panel switches to the element editor with the AI suggestion pre-filled.
+- [x] Optional **✨ Improve with AI** button → server endpoint `/api/specs/extract` (OpenAI / Anthropic). Falls back to the heuristic when `LAB_LLM_API_KEY` is unset, so the UI button is always safe.
+- [x] Migration: `pnpm specs:bootstrap-v2` archives v1 specs into `lab-memory/specs-legacy/` and writes fresh v2 files.
+- [x] Deleted: `spec-event-namer.ts`, `spec-prop-parser.ts`, `spec-inference.ts`, `behaviour-baseline.ts`, `SpecPreview.tsx`, `specs-bootstrap.mjs`, `specs-accept-drift.mjs`, the v1 `SpecEditor.tsx`.
+- [x] Design doc: `docs/superpowers/specs/2026-05-25-element-approval-redesign-design.md`; plan: `docs/superpowers/plans/2026-05-25-element-approval-redesign.md`.
+
+**Validation 2.5**
 
 ```bash
-pnpm playground:serve
-pnpm test:logic:audit -- --all
-# report.html lists gaps per story; MUI showcase should show ds_builtin (tabs, switch, …)
+node --experimental-strip-types --test \
+  packages/pixel-test/src/spec-store.test.ts \
+  packages/pixel-test/src/element-id.test.ts \
+  packages/pixel-test/src/spec-extract-heuristic.test.ts \
+  packages/pixel-test/src/logic-audit-verdict.test.ts
+# 37 pass
+
+node --test scripts/specs-server.test.mjs scripts/specs-llm.test.mjs scripts/specs-bootstrap-v2.test.mjs
+# 13 pass
+
+pnpm playground:build && pnpm playground:serve
+# Showcase: http://127.0.0.1:6108/?view=showcase
+# Hover → outline; click → element panel; type → AI cards; Approve → status flips.
+
+pnpm test:logic:audit -- --stories lab-loginpage--default --no-gate
+# ▶ lab-loginpage--default … △ NEEDS-APPROVAL · 1/5 pass, 4 need approval, 0 new, 0 drift, 0 regression
 ```
+
+Set `LAB_LLM_API_KEY` (see `.env.example`) to swap heuristic extraction for OpenAI/Anthropic on the **✨ Improve with AI** button.
 
 ---
 
-### 2.1 Behavioral spec — document gaps only
+### 2.1 Behavioural spec — emergent from approvals
 
-Per component (grouped by `data-figma-component`), produce a spec **from audit gaps** — not from scratch.
+The 2.5 deliverable replaces "hand-author specs from audit gaps" with "designer describes elements in plain English, AI translates, audit gates". As a result:
 
-- [ ] Template: `docs/semantic/<Component>.md` + typed schema in `packages/contract/src/semantic/`.
-- [ ] **DS-provided** section — behaviors audit marked `ds_builtin` (no duplicate API).
-- [ ] **Developer API** section — only `static_shell` / missing callbacks (`isLoading`, `onItemAction`, …).
-- [ ] Interaction matrix — formal tests for gaps + regression on DS behavior.
-- [ ] Pilot: refine [ContentListBoard.md](./semantic/ContentListBoard.md) using audit output.
+- [x] The hand-authored `packages/contract/src/component-specs.ts` is **deleted**. Specs now live one-per-story in `lab-memory/specs/`.
+- [x] Per-event TypeScript callback signature (`onEmailChanged: (value: string) => void`) — `AiExtracted.devApi[]` stores the full signature on every approved element.
+- [ ] Component-level rollups (e.g. *all 7 Button stories share these props*) — current editor is per-element on a single story. Follow-up to aggregate identical elements across stories.
+- [ ] Refine ContentListBoard / OnboardingForm / LoginPage specs through showcase approval — open the showcase, click each element, write the description, approve.
 
 **Validation 2.1**
 
-- Audit gap list mapped to spec rows for ContentListBoard.
-- Typecheck: `pnpm build`.
+- Approved spec drives the audit (regression / drift verdicts).
+- Typecheck: `pnpm playground:build` (TS errors in spec types would fail Vite).
 
 ---
 

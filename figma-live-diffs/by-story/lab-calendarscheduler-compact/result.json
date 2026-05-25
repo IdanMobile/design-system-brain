@@ -1,0 +1,131 @@
+{
+  "storyId": "lab-calendarscheduler--compact",
+  "width": 734,
+  "height": 746,
+  "pixelsDiffered": 5469,
+  "pixelsTotal": 547564,
+  "percent": 0.9987873563638222,
+  "maxRegionPercent": 3.9479483891649307,
+  "globalTolerance": 4.5,
+  "regionTolerance": 5,
+  "status": "pass",
+  "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/storybook.png",
+  "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/figma.png",
+  "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/diff.png",
+  "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/artifact.v2.json",
+  "diffRegions": [
+    {
+      "index": 1,
+      "rect": {
+        "x": 0,
+        "y": 604,
+        "width": 734,
+        "height": 136,
+        "pixels": 3941,
+        "percent": 3.9479483891649307
+      },
+      "storybook": "regions/region-01-storybook.png",
+      "rendered": "regions/region-01-rendered.png",
+      "compare": "regions/region-01-compare.png"
+    },
+    {
+      "index": 2,
+      "rect": {
+        "x": 604,
+        "y": 0,
+        "width": 130,
+        "height": 116,
+        "pixels": 393,
+        "percent": 2.6061007957559683
+      },
+      "storybook": "regions/region-02-storybook.png",
+      "rendered": "regions/region-02-rendered.png",
+      "compare": "regions/region-02-compare.png"
+    },
+    {
+      "index": 3,
+      "rect": {
+        "x": 508,
+        "y": 220,
+        "width": 88,
+        "height": 136,
+        "pixels": 278,
+        "percent": 2.322860962566845
+      },
+      "storybook": "regions/region-03-storybook.png",
+      "rendered": "regions/region-03-rendered.png",
+      "compare": "regions/region-03-compare.png"
+    },
+    {
+      "index": 4,
+      "rect": {
+        "x": 316,
+        "y": 316,
+        "width": 88,
+        "height": 88,
+        "pixels": 251,
+        "percent": 3.241219008264463
+      },
+      "storybook": "regions/region-04-storybook.png",
+      "rendered": "regions/region-04-rendered.png",
+      "compare": "regions/region-04-compare.png"
+    },
+    {
+      "index": 5,
+      "rect": {
+        "x": 412,
+        "y": 412,
+        "width": 88,
+        "height": 88,
+        "pixels": 183,
+        "percent": 2.363119834710744
+      },
+      "storybook": "regions/region-05-storybook.png",
+      "rendered": "regions/region-05-rendered.png",
+      "compare": "regions/region-05-compare.png"
+    },
+    {
+      "index": 6,
+      "rect": {
+        "x": 412,
+        "y": 268,
+        "width": 88,
+        "height": 88,
+        "pixels": 36,
+        "percent": 0.46487603305785125
+      },
+      "storybook": "regions/region-06-storybook.png",
+      "rendered": "regions/region-06-rendered.png",
+      "compare": "regions/region-06-compare.png"
+    },
+    {
+      "index": 7,
+      "rect": {
+        "x": 28,
+        "y": 0,
+        "width": 88,
+        "height": 80,
+        "pixels": 36,
+        "percent": 0.5113636363636364
+      },
+      "storybook": "regions/region-07-storybook.png",
+      "rendered": "regions/region-07-rendered.png",
+      "compare": "regions/region-07-compare.png"
+    },
+    {
+      "index": 8,
+      "rect": {
+        "x": 0,
+        "y": 364,
+        "width": 80,
+        "height": 88,
+        "pixels": 27,
+        "percent": 0.3835227272727273
+      },
+      "storybook": "regions/region-08-storybook.png",
+      "rendered": "regions/region-08-rendered.png",
+      "compare": "regions/region-08-compare.png"
+    }
+  ],
+  "testedAt": "2026-05-24T21:57:05.141Z"
+}

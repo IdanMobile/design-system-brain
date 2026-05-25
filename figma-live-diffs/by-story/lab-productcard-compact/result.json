@@ -1,0 +1,33 @@
+{
+  "storyId": "lab-productcard--compact",
+  "width": 688,
+  "height": 408,
+  "pixelsDiffered": 463,
+  "pixelsTotal": 280704,
+  "percent": 0.16494243046055632,
+  "maxRegionPercent": 0.8986801242236025,
+  "globalTolerance": 4.5,
+  "regionTolerance": 5,
+  "status": "pass",
+  "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-compact/storybook.png",
+  "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-compact/figma.png",
+  "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-compact/diff.png",
+  "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-compact/artifact.v2.json",
+  "diffRegions": [
+    {
+      "index": 1,
+      "rect": {
+        "x": 268,
+        "y": 28,
+        "width": 280,
+        "height": 184,
+        "pixels": 463,
+        "percent": 0.8986801242236025
+      },
+      "storybook": "regions/region-01-storybook.png",
+      "rendered": "regions/region-01-rendered.png",
+      "compare": "regions/region-01-compare.png"
+    }
+  ],
+  "testedAt": "2026-05-24T21:57:05.145Z"
+}

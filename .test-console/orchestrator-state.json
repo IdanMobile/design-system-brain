@@ -1,21 +1,20 @@
 {
-  "updatedAt": "2026-05-24T19:31:09.140Z",
+  "updatedAt": "2026-05-25T08:31:12.515Z",
   "phase": "fix-all",
-  "suiteId": "figmaLive",
-  "suiteLabel": "Figma live",
-  "jobId": "f223a94e-3f42-4626-ad15-38f9dd9001a6",
-  "storyId": "lab-button--secondary",
+  "suiteId": "pixel",
+  "suiteLabel": "Pixel (schema)",
+  "jobId": "8b708980-fcda-4ebf-9f68-594d819ce593",
+  "storyId": "lab-meetinghomepage--default",
   "storyIndex": 1,
-  "storyTotal": 12,
-  "attempt": 2,
+  "storyTotal": 6,
+  "attempt": 4,
   "maxAttempts": 5,
-  "verdict": "CANCELLED",
-  "nextWorkerMode": "stopped",
+  "verdict": "STUCK_LOOP",
+  "nextWorkerMode": "investigate_first",
   "metrics": {
     "status": "fail",
-    "percent": 3.009478672985782,
-    "maxRegionPercent": 3.469945355191257,
+    "percent": 0.6471017134524243,
+    "maxRegionPercent": null,
     "error": null
-  },
-  "finished": true
+  }
 }

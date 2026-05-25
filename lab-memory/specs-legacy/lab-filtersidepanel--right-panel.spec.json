@@ -1,0 +1,119 @@
+{
+  "storyId": "lab-filtersidepanel--right-panel",
+  "component": "FilterSidePanel",
+  "status": "approved",
+  "approvedAt": "2026-05-24T23:10:21.200Z",
+  "approvedBy": "phase-7-bulk-approve",
+  "specVersion": 2,
+  "intent": "Advanced filter sidebar with chip multiselect, color picker, range inputs, and apply/reset footer.",
+  "props": [
+    {
+      "name": "side",
+      "type": "\"left\" | \"right\"",
+      "default": "\"right\""
+    },
+    {
+      "name": "collapsed",
+      "type": "boolean",
+      "default": "false"
+    }
+  ],
+  "events": [
+    {
+      "name": "onDashboardClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onBillingClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onMobileClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onDesignSystemClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onAddClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onAction1Clicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onAction1Clicked_2",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onAction1Clicked_3",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onAction1Clicked_4",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onAction1Clicked_5",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onAction1Clicked_6",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onValueChanged",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onValueChanged_2",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onValueChanged_3",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onResetClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onApplyClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    }
+  ],
+  "behaviours": [
+    {
+      "id": "add-tag",
+      "label": "Click + Add → Pulls next suggestion into the chip list",
+      "source": "component"
+    },
+    {
+      "id": "remove-tag",
+      "label": "Click a chip → Removes the chip",
+      "source": "component"
+    },
+    {
+      "id": "pick-swatch",
+      "label": "Click a swatch → Toggles aria-pressed on the swatch",
+      "source": "component"
+    },
+    {
+      "id": "type-range",
+      "label": "Type into Min/Max/Search → Controlled values update; appliedAt is cleared",
+      "source": "component"
+    },
+    {
+      "id": "reset",
+      "label": "Click Reset → Restores seed tags, clears swatch, restores range defaults",
+      "source": "component"
+    },
+    {
+      "id": "apply",
+      "label": "Click Apply → Stamps appliedAt timestamp; status label switches to 'Applied · {time}'",
+      "source": "component"
+    }
+  ]
+}

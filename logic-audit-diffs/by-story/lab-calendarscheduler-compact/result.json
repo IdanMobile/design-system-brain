@@ -1,0 +1,41 @@
+{
+  "storyId": "lab-calendarscheduler--compact",
+  "status": "pass",
+  "percent": 0,
+  "maxRegionPercent": 1,
+  "testedAt": "2026-05-24T23:17:02.201Z",
+  "component": "CalendarScheduler",
+  "gaps": [],
+  "dsBuiltIn": [
+    "Create Event"
+  ],
+  "interactiveCount": 1,
+  "readonlyCount": 0,
+  "nativeCount": 1,
+  "baselineCount": 0,
+  "findings": [
+    {
+      "index": 0,
+      "tag": "button",
+      "role": "",
+      "text": "Create Event",
+      "ariaLabel": "",
+      "type": "button",
+      "readOnly": false,
+      "disabled": false,
+      "opensMenu": false,
+      "outcome": "state_changed",
+      "category": "ds_builtin",
+      "source": "native",
+      "note": "Component code owns the state"
+    }
+  ],
+  "verdict": "pass",
+  "verdictReason": "1 event(s) match approved spec",
+  "observedEvents": [
+    "onCreateEventClicked"
+  ],
+  "missingEvents": [],
+  "extraEvents": [],
+  "specStatus": "approved"
+}

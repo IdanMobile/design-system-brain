@@ -32,10 +32,10 @@ code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; }
 <p>Each story is rendered through the actual <code>code-v2.ts</code> plugin against a mock Figma API.
 The recorded scene tree is then serialized to HTML/SVG and screenshotted. Mismatches here mean a bug in the renderer.</p>
 <div class="summary">
-  <div>Total: <strong>48</strong></div>
+  <div>Total: <strong>49</strong></div>
   <div style="color:#16a34a">Pass: <strong>48</strong></div>
   <div style="color:#d97706">Warn: <strong>0</strong></div>
-  <div style="color:#dc2626">Fail: <strong>0</strong></div>
+  <div style="color:#dc2626">Fail: <strong>1</strong></div>
   <div style="color:#7c3aed">Error: <strong>0</strong></div>
 </div>
 <p class="summary-hint">Counts of stories by outcome. <strong>Pass</strong> = within tolerance; <strong>Warn</strong> = slightly over; <strong>Fail</strong> = too much diff; <strong>Error</strong> = test could not run.</p>
@@ -304,6 +304,20 @@ The recorded scene tree is then serialized to HTML/SVG and screenshotted. Mismat
           <a target="_blank" href="lab-contentlistboard-highlighted/diff.png">diff heatmap</a> ·
           <a target="_blank" href="lab-contentlistboard-highlighted/scene.json">scene</a>
           
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lab-cryptochaosdashboard--default</code></td>
+        <td style="color:#dc2626;font-weight:600">FAIL</td>
+        <td><span class="metric-primary">99.35% match</span><span class="metric-sub">worst area: 97.3% match</span></td>
+        <td><span class="metric-primary">2,139 pixels differ</span><span class="metric-sub">0.65% of 329K · 390×844px</span></td>
+        <td>
+          <a target="_blank" href="lab-cryptochaosdashboard-default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-cryptochaosdashboard-default/rendered.png">rendered</a> ·
+          <a target="_blank" href="lab-cryptochaosdashboard-default/diff.png">diff heatmap</a> ·
+          <a target="_blank" href="lab-cryptochaosdashboard-default/scene.json">scene</a>
+           · <a href="#story-lab-cryptochaosdashboard-default">7 hotspots</a>
         </td>
         <td></td>
       </tr>
@@ -731,7 +745,7 @@ The recorded scene tree is then serialized to HTML/SVG and screenshotted. Mismat
         <td><code>mui--showcase</code></td>
         <td style="color:#16a34a;font-weight:600">PASS</td>
         <td><span class="metric-primary">99.95% match</span><span class="metric-sub">worst area: 99.0% match</span></td>
-        <td><span class="metric-primary">1,070 pixels differ</span><span class="metric-sub">0.05% of 2.0 million · 1200×1670px</span></td>
+        <td><span class="metric-primary">1,060 pixels differ</span><span class="metric-sub">0.05% of 2.0 million · 1200×1670px</span></td>
         <td>
           <a target="_blank" href="mui-showcase/storybook.png">storybook</a> ·
           <a target="_blank" href="mui-showcase/rendered.png">rendered</a> ·
@@ -743,6 +757,109 @@ The recorded scene tree is then serialized to HTML/SVG and screenshotted. Mismat
       </tr></tbody>
 </table>
 <h2 id="hotspots">Diff hotspots (Storybook vs Rendered)</h2>
+  <section class="story-section" id="story-lab-cryptochaosdashboard-default">
+    <h2><code>lab-cryptochaosdashboard--default</code> <span style="color:#dc2626">FAIL</span> · 99.35% match · worst area 97.3%</h2>
+    <p class="story-hint">Each card is a cropped <strong>Storybook | Rendered</strong> view at a place pixelmatch found differences (not the red heatmap). The <strong>Region</strong> line shows crop size, top-left position on the canvas, and diff % inside that crop only.</p>
+    <div class="regions">
+    <div class="region-card">
+      <div class="region-meta">
+        Region 1 · crop 314×184px at (76, 124)
+        · 98.9% match in this area
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="lab-cryptochaosdashboard-default/regions/region-01-compare.png" target="_blank" title="Open full size">
+        <img src="lab-cryptochaosdashboard-default/regions/region-01-compare.png" alt="Region 1 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="lab-cryptochaosdashboard-default/regions/region-01-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="lab-cryptochaosdashboard-default/regions/region-01-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div>
+    <div class="region-card">
+      <div class="region-meta">
+        Region 2 · crop 122×136px at (268, 412)
+        · 97.7% match in this area
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="lab-cryptochaosdashboard-default/regions/region-02-compare.png" target="_blank" title="Open full size">
+        <img src="lab-cryptochaosdashboard-default/regions/region-02-compare.png" alt="Region 2 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="lab-cryptochaosdashboard-default/regions/region-02-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="lab-cryptochaosdashboard-default/regions/region-02-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div>
+    <div class="region-card">
+      <div class="region-meta">
+        Region 3 · crop 116×116px at (0, 0)
+        · 97.6% match in this area
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="lab-cryptochaosdashboard-default/regions/region-03-compare.png" target="_blank" title="Open full size">
+        <img src="lab-cryptochaosdashboard-default/regions/region-03-compare.png" alt="Region 3 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="lab-cryptochaosdashboard-default/regions/region-03-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="lab-cryptochaosdashboard-default/regions/region-03-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div>
+    <div class="region-card">
+      <div class="region-meta">
+        Region 4 · crop 88×88px at (28, 748)
+        · 97.3% match in this area
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="lab-cryptochaosdashboard-default/regions/region-04-compare.png" target="_blank" title="Open full size">
+        <img src="lab-cryptochaosdashboard-default/regions/region-04-compare.png" alt="Region 4 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="lab-cryptochaosdashboard-default/regions/region-04-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="lab-cryptochaosdashboard-default/regions/region-04-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div>
+    <div class="region-card">
+      <div class="region-meta">
+        Region 5 · crop 122×80px at (268, 0)
+        · 98.0% match in this area
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="lab-cryptochaosdashboard-default/regions/region-05-compare.png" target="_blank" title="Open full size">
+        <img src="lab-cryptochaosdashboard-default/regions/region-05-compare.png" alt="Region 5 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="lab-cryptochaosdashboard-default/regions/region-05-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="lab-cryptochaosdashboard-default/regions/region-05-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div>
+    <div class="region-card">
+      <div class="region-meta">
+        Region 6 · crop 136×88px at (124, 748)
+        · 98.3% match in this area
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="lab-cryptochaosdashboard-default/regions/region-06-compare.png" target="_blank" title="Open full size">
+        <img src="lab-cryptochaosdashboard-default/regions/region-06-compare.png" alt="Region 6 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="lab-cryptochaosdashboard-default/regions/region-06-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="lab-cryptochaosdashboard-default/regions/region-06-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div>
+    <div class="region-card">
+      <div class="region-meta">
+        Region 7 · crop 122×88px at (268, 748)
+        · 98.6% match in this area
+      </div>
+      <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
+      <a href="lab-cryptochaosdashboard-default/regions/region-07-compare.png" target="_blank" title="Open full size">
+        <img src="lab-cryptochaosdashboard-default/regions/region-07-compare.png" alt="Region 7 compare" loading="lazy" />
+      </a>
+      <div class="region-links">
+        <a href="lab-cryptochaosdashboard-default/regions/region-07-storybook.png" target="_blank">storybook crop</a> ·
+        <a href="lab-cryptochaosdashboard-default/regions/region-07-rendered.png" target="_blank">rendered crop</a>
+      </div>
+    </div></div>
+  </section>
   <section class="story-section" id="story-mui-showcase">
     <h2><code>mui--showcase</code> <span style="color:#16a34a">PASS</span> · 99.95% match · worst area 99.0%</h2>
     <p class="story-hint">Each card is a cropped <strong>Storybook | Rendered</strong> view at a place pixelmatch found differences (not the red heatmap). The <strong>Region</strong> line shows crop size, top-left position on the canvas, and diff % inside that crop only.</p>
@@ -750,7 +867,7 @@ The recorded scene tree is then serialized to HTML/SVG and screenshotted. Mismat
     <div class="region-card">
       <div class="region-meta">
         Region 1 · crop 260×136px at (0, 1516)
-        · 99.01% match in this area
+        · 99.04% match in this area
       </div>
       <div class="region-labels"><span>Storybook</span><span>Rendered</span></div>
       <a href="mui-showcase/regions/region-01-compare.png" target="_blank" title="Open full size">

@@ -1,0 +1,29 @@
+{
+  "storyId": "lab-pricingpanel--pro",
+  "component": "PricingPanel",
+  "status": "approved",
+  "approvedAt": "2026-05-24T23:07:33.652Z",
+  "approvedBy": "phase-7-bulk-approve",
+  "specVersion": 2,
+  "intent": "Pricing card with single subscribe CTA — `idle → loading → done` state machine.",
+  "props": [
+    {
+      "name": "plan",
+      "type": "\"starter\" | \"pro\"",
+      "default": "\"pro\""
+    }
+  ],
+  "events": [
+    {
+      "name": "onUpgradeNowClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    }
+  ],
+  "behaviours": [
+    {
+      "id": "cta",
+      "label": "Click Start free trial / Upgrade now → state: idle → loading (aria-busy=true, disabled) → done; label and dataset reflect state",
+      "source": "component"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "storyId": "lab-navigationbars--top-navigation",
+  "width": 796,
+  "height": 76,
+  "pixelsDiffered": 692,
+  "pixelsTotal": 60496,
+  "percent": 1.1438772811425548,
+  "maxRegionPercent": 3.5727339181286553,
+  "globalTolerance": 4.5,
+  "regionTolerance": 5,
+  "status": "pass",
+  "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-navigationbars-top-navigation/storybook.png",
+  "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-navigationbars-top-navigation/figma.png",
+  "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-navigationbars-top-navigation/diff.png",
+  "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-navigationbars-top-navigation/artifact.v2.json",
+  "diffRegions": [
+    {
+      "index": 1,
+      "rect": {
+        "x": 652,
+        "y": 0,
+        "width": 144,
+        "height": 76,
+        "pixels": 391,
+        "percent": 3.5727339181286553
+      },
+      "storybook": "regions/region-01-storybook.png",
+      "rendered": "regions/region-01-rendered.png",
+      "compare": "regions/region-01-compare.png"
+    },
+    {
+      "index": 2,
+      "rect": {
+        "x": 220,
+        "y": 0,
+        "width": 376,
+        "height": 76,
+        "pixels": 200,
+        "percent": 0.6998880179171333
+      },
+      "storybook": "regions/region-02-storybook.png",
+      "rendered": "regions/region-02-rendered.png",
+      "compare": "regions/region-02-compare.png"
+    },
+    {
+      "index": 3,
+      "rect": {
+        "x": 28,
+        "y": 0,
+        "width": 136,
+        "height": 76,
+        "pixels": 101,
+        "percent": 0.9771671826625387
+      },
+      "storybook": "regions/region-03-storybook.png",
+      "rendered": "regions/region-03-rendered.png",
+      "compare": "regions/region-03-compare.png"
+    }
+  ],
+  "testedAt": "2026-05-24T21:57:05.144Z"
+}

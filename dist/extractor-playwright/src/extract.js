@@ -245,6 +245,7 @@ export async function extractStoryV2(storyId, out, baseUrl = "http://127.0.0.1:6
             if (head.startsWith("circle") ||
                 head.startsWith("ellipse") ||
                 head.startsWith("at ") ||
+                head.includes(" at ") ||
                 head.includes("closest-") ||
                 head.includes("farthest-")) {
                 if (head.includes("circle"))
@@ -466,6 +467,15 @@ export async function extractStoryV2(storyId, out, baseUrl = "http://127.0.0.1:6
                 return false;
             if (html.children.length > 0)
                 return false;
+            if (tag === "input") {
+                const input = html;
+                if (input.type === "checkbox" || input.type === "radio" || input.type === "range")
+                    return false;
+                return Boolean(input.value || input.getAttribute("value"));
+            }
+            if (tag === "textarea") {
+                return Boolean(html.value);
+            }
             const value = visibleTextValue(html);
             return value.length > 0;
         }
@@ -1018,6 +1028,13 @@ export async function extractStoryV2(storyId, out, baseUrl = "http://127.0.0.1:6
             const aria = html.getAttribute("aria-label");
             if (aria)
                 source.ariaLabel = aria;
+            if (source.tag === "input") {
+                const inp = html;
+                if (inp.type)
+                    source.inputType = inp.type;
+                if (inp.placeholder)
+                    source.placeholder = inp.placeholder;
+            }
             if (Object.keys(ds).length)
                 source.dataset = ds;
             return source;
@@ -1131,10 +1148,13 @@ export async function extractStoryV2(storyId, out, baseUrl = "http://127.0.0.1:6
                 if (out)
                     children.push(out);
             }
-            // Inputs/textarea: synthesize a text leaf for their value/placeholder.
+            // Inputs/textarea: synthesize a text leaf for their value (not placeholder).
             if (tag === "input" || tag === "textarea") {
-                const value = visibleTextValue(html);
-                if (value) {
+                const actualValue = tag === "input"
+                    ? html.value || html.getAttribute("value") || ""
+                    : html.value || "";
+                if (actualValue) {
+                    const value = actualValue;
                     const padTop = px(style.paddingTop);
                     const padLeft = px(style.paddingLeft);
                     const padRight = px(style.paddingRight);
@@ -1160,7 +1180,7 @@ export async function extractStoryV2(storyId, out, baseUrl = "http://127.0.0.1:6
             }
             // Direct text + element children mixed: emit text as a synthetic leaf if no
             // element child duplicates it.
-            if (!["input", "textarea", "select", "button"].includes(tag) &&
+            if (!["input", "textarea", "select"].includes(tag) &&
                 el.children.length > 0) {
                 const hasBr = Array.from(el.children).some((c) => c.tagName.toLowerCase() === "br");
                 const directText = hasBr

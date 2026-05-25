@@ -1,0 +1,22 @@
+{
+  "storyId": "lab-featurecard--default",
+  "status": "warn",
+  "percent": 0,
+  "maxRegionPercent": 0,
+  "testedAt": "2026-05-25T08:04:09.027Z",
+  "component": "FeatureCard",
+  "gaps": [],
+  "dsBuiltIn": [],
+  "interactiveCount": 0,
+  "readonlyCount": 0,
+  "nativeCount": 0,
+  "baselineCount": 0,
+  "findings": [],
+  "verdict": "needs-approval",
+  "verdictReason": "no interactive elements observed — approve as static",
+  "observedEvents": [],
+  "missingEvents": [],
+  "extraEvents": [],
+  "perElement": [],
+  "specStatus": "proposed"
+}

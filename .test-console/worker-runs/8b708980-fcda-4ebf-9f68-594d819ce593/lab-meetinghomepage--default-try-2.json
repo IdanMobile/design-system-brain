@@ -1,0 +1,54 @@
+{
+  "storyId": "lab-meetinghomepage--default",
+  "attempt": 2,
+  "jobId": "8b708980-fcda-4ebf-9f68-594d819ce593",
+  "recordedAt": "2026-05-25T08:23:03.062Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 0.7631546968039858,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 0.6471017134524243,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "agentExitCode": 143,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-meetinghomepage--default_try2-1779696894814.prompt.txt",
+    ".test-console/child-status/8b708980-fcda-4ebf-9f68-594d819ce593-agent-lab-meetinghomepage--default_try2-1779696894814.json",
+    "dist/extractor-playwright/src/extract.js",
+    "lab-memory/stories/lab-meetinghomepage--default.md",
+    "packages/extractor-playwright/src/extract.ts",
+    "packages/pixel-test/src/render-html.ts",
+    "pixel-diffs/by-story/lab-meetinghomepage-default/result.json",
+    "pixel-diffs/lab-meetinghomepage-default/artifact.v2.json",
+    "pixel-diffs/lab-meetinghomepage-default/diff.png",
+    "pixel-diffs/lab-meetinghomepage-default/regions/region-01-compare.png",
+    "pixel-diffs/lab-meetinghomepage-default/regions/region-01-rendered.png",
+    "pixel-diffs/lab-meetinghomepage-default/regions/region-02-compare.png",
+    "pixel-diffs/lab-meetinghomepage-default/regions/region-02-rendered.png",
+    "pixel-diffs/lab-meetinghomepage-default/rendered.png",
+    "pixel-diffs/report.html",
+    "pixel-diffs/report.json",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "SHARED_ADAPTER",
+    "verdicts": [
+      "SHARED_ADAPTER"
+    ],
+    "nextWorkerMode": "tier_c_required",
+    "interventionLines": [
+      "Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done.",
+      "Supervisor: agent CLI exited 143 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": true
+  }
+}

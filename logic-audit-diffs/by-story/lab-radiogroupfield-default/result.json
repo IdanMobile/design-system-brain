@@ -1,0 +1,21 @@
+{
+  "storyId": "lab-radiogroupfield--default",
+  "status": "pass",
+  "percent": 0,
+  "maxRegionPercent": 0,
+  "testedAt": "2026-05-24T23:18:12.597Z",
+  "component": "RadioGroupField",
+  "gaps": [],
+  "dsBuiltIn": [],
+  "interactiveCount": 0,
+  "readonlyCount": 0,
+  "nativeCount": 0,
+  "baselineCount": 0,
+  "findings": [],
+  "verdict": "pass",
+  "verdictReason": "0 event(s) match approved spec",
+  "observedEvents": [],
+  "missingEvents": [],
+  "extraEvents": [],
+  "specStatus": "approved"
+}

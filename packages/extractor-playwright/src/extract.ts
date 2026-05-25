@@ -273,6 +273,7 @@ export async function extractStoryV2(
           head.startsWith("circle") ||
           head.startsWith("ellipse") ||
           head.startsWith("at ") ||
+          head.includes(" at ") ||
           head.includes("closest-") ||
           head.includes("farthest-")
         ) {
@@ -1207,7 +1208,7 @@ export async function extractStoryV2(
         // Direct text + element children mixed: emit text as a synthetic leaf if no
         // element child duplicates it.
         if (
-          !["input", "textarea", "select", "button"].includes(tag) &&
+          !["input", "textarea", "select"].includes(tag) &&
           el.children.length > 0
         ) {
           const hasBr = Array.from(el.children).some((c) => c.tagName.toLowerCase() === "br");

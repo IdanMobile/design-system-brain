@@ -1,0 +1,33 @@
+{
+  "storyId": "lab-overlaystates--dialog",
+  "width": 760,
+  "height": 480,
+  "pixelsDiffered": 690,
+  "pixelsTotal": 364800,
+  "percent": 0.18914473684210525,
+  "maxRegionPercent": 1.3392857142857142,
+  "globalTolerance": 4.5,
+  "regionTolerance": 5,
+  "status": "pass",
+  "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-overlaystates-dialog/storybook.png",
+  "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-overlaystates-dialog/figma.png",
+  "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-overlaystates-dialog/diff.png",
+  "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-overlaystates-dialog/artifact.v2.json",
+  "diffRegions": [
+    {
+      "index": 1,
+      "rect": {
+        "x": 172,
+        "y": 124,
+        "width": 280,
+        "height": 184,
+        "pixels": 690,
+        "percent": 1.3392857142857142
+      },
+      "storybook": "regions/region-01-storybook.png",
+      "rendered": "regions/region-01-rendered.png",
+      "compare": "regions/region-01-compare.png"
+    }
+  ],
+  "testedAt": "2026-05-24T21:57:05.144Z"
+}

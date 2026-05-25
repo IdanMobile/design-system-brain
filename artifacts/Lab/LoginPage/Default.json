@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-loginpage--default",
     "componentName": "LoginPage",
-    "extractedAt": "2026-05-21T21:53:38.694Z",
+    "extractedAt": "2026-05-24T21:51:06.458Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-loginpage--default&viewMode=story",
     "viewport": {
       "x": 0,
@@ -24,7 +24,8 @@
         "lab-login-page"
       ],
       "dataset": {
-        "figmaComponent": "LoginPage"
+        "figmaComponent": "LoginPage",
+        "phase": "idle"
       }
     },
     "box": {
@@ -215,10 +216,10 @@
         "children": [
           {
             "id": "lay-3",
-            "name": "img",
+            "name": "svg",
             "source": {
-              "kind": "dom",
-              "tag": "img",
+              "kind": "svg",
+              "tag": "svg",
               "classList": [
                 "lab-login-image"
               ]
@@ -239,8 +240,8 @@
               "display": "block",
               "position": "static",
               "overflow": {
-                "x": "clip",
-                "y": "clip"
+                "x": "hidden",
+                "y": "hidden"
               },
               "padding": {
                 "top": 0,
@@ -275,16 +276,131 @@
                 }
               }
             },
-            "image": {
-              "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='220' viewBox='0 0 360 220' fill='none'%3E%3Crect width='360' height='220' rx='22' fill='%23DCEBFF'/%3E%3Ccircle cx='72' cy='66' r='30' fill='%2395BEFF'/%3E%3Crect x='118' y='52' width='176' height='16' rx='8' fill='%2389B2F4'/%3E%3Crect x='118' y='82' width='132' height='12' rx='6' fill='%239ABCEC'/%3E%3Crect x='50' y='124' width='260' height='58' rx='14' fill='white'/%3E%3Crect x='70' y='145' width='160' height='12' rx='6' fill='%23D6E4F8'/%3E%3Ccircle cx='278' cy='152' r='16' fill='%230F6DFF'/%3E%3Cpath d='M272 152.5L276 157L285 148' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E",
-              "intrinsic": {
+            "vector": {
+              "shapes": [
+                {
+                  "primitive": "rect",
+                  "attrs": {
+                    "width": 360,
+                    "height": 220,
+                    "rx": 22,
+                    "fill": "#DCEBFF"
+                  },
+                  "paint": {
+                    "fill": "rgb(220, 235, 255)",
+                    "strokeWidth": 1
+                  }
+                },
+                {
+                  "primitive": "circle",
+                  "attrs": {
+                    "cx": 72,
+                    "cy": 66,
+                    "r": 30,
+                    "fill": "#95BEFF"
+                  },
+                  "paint": {
+                    "fill": "rgb(149, 190, 255)",
+                    "strokeWidth": 1
+                  }
+                },
+                {
+                  "primitive": "rect",
+                  "attrs": {
+                    "x": 118,
+                    "y": 52,
+                    "width": 176,
+                    "height": 16,
+                    "rx": 8,
+                    "fill": "#89B2F4"
+                  },
+                  "paint": {
+                    "fill": "rgb(137, 178, 244)",
+                    "strokeWidth": 1
+                  }
+                },
+                {
+                  "primitive": "rect",
+                  "attrs": {
+                    "x": 118,
+                    "y": 82,
+                    "width": 132,
+                    "height": 12,
+                    "rx": 6,
+                    "fill": "#9ABCEC"
+                  },
+                  "paint": {
+                    "fill": "rgb(154, 188, 236)",
+                    "strokeWidth": 1
+                  }
+                },
+                {
+                  "primitive": "rect",
+                  "attrs": {
+                    "x": 50,
+                    "y": 124,
+                    "width": 260,
+                    "height": 58,
+                    "rx": 14,
+                    "fill": "white"
+                  },
+                  "paint": {
+                    "fill": "rgb(255, 255, 255)",
+                    "strokeWidth": 1
+                  }
+                },
+                {
+                  "primitive": "rect",
+                  "attrs": {
+                    "x": 70,
+                    "y": 145,
+                    "width": 160,
+                    "height": 12,
+                    "rx": 6,
+                    "fill": "#D6E4F8"
+                  },
+                  "paint": {
+                    "fill": "rgb(214, 228, 248)",
+                    "strokeWidth": 1
+                  }
+                },
+                {
+                  "primitive": "circle",
+                  "attrs": {
+                    "cx": 278,
+                    "cy": 152,
+                    "r": 16,
+                    "fill": "#0F6DFF"
+                  },
+                  "paint": {
+                    "fill": "rgb(15, 109, 255)",
+                    "strokeWidth": 1
+                  }
+                },
+                {
+                  "primitive": "path",
+                  "attrs": {
+                    "d": "M272 152.5L276 157L285 148",
+                    "stroke": "white",
+                    "stroke-width": 3,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round"
+                  },
+                  "paint": {
+                    "fill": "none",
+                    "stroke": "rgb(255, 255, 255)",
+                    "strokeWidth": 3,
+                    "lineCap": "round",
+                    "lineJoin": "round"
+                  }
+                }
+              ],
+              "viewBox": {
+                "x": 0,
+                "y": 0,
                 "width": 360,
                 "height": 220
-              },
-              "mode": "cover",
-              "positionX": "50%",
-              "positionY": "50%",
-              "alt": "Illustration showing secure account login"
+              }
             }
           },
           {
@@ -723,7 +839,10 @@
               "tag": "button",
               "classList": [
                 "lab-login-button"
-              ]
+              ],
+              "dataset": {
+                "pressedManaged": "true"
+              }
             },
             "box": {
               "x": 25,
@@ -865,7 +984,11 @@
                   "tag": "button",
                   "classList": [
                     "lab-login-social-button"
-                  ]
+                  ],
+                  "dataset": {
+                    "pressedManaged": "true",
+                    "state": "idle"
+                  }
                 },
                 "box": {
                   "x": 0,
@@ -978,7 +1101,11 @@
                   "tag": "button",
                   "classList": [
                     "lab-login-social-button"
-                  ]
+                  ],
+                  "dataset": {
+                    "pressedManaged": "true",
+                    "state": "idle"
+                  }
                 },
                 "box": {
                   "x": 0,

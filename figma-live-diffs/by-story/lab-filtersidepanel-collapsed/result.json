@@ -1,0 +1,75 @@
+{
+  "storyId": "lab-filtersidepanel--collapsed",
+  "width": 300,
+  "height": 572,
+  "pixelsDiffered": 1029,
+  "pixelsTotal": 171600,
+  "percent": 0.5996503496503497,
+  "maxRegionPercent": 1.8601190476190477,
+  "globalTolerance": 4.5,
+  "regionTolerance": 5,
+  "status": "pass",
+  "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-filtersidepanel-collapsed/storybook.png",
+  "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-filtersidepanel-collapsed/figma.png",
+  "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-filtersidepanel-collapsed/diff.png",
+  "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-filtersidepanel-collapsed/artifact.v2.json",
+  "diffRegions": [
+    {
+      "index": 1,
+      "rect": {
+        "x": 0,
+        "y": 460,
+        "width": 300,
+        "height": 112,
+        "pixels": 625,
+        "percent": 1.8601190476190477
+      },
+      "storybook": "regions/region-01-storybook.png",
+      "rendered": "regions/region-01-rendered.png",
+      "compare": "regions/region-01-compare.png"
+    },
+    {
+      "index": 2,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 212,
+        "height": 164,
+        "pixels": 204,
+        "percent": 0.5867464335020709
+      },
+      "storybook": "regions/region-02-storybook.png",
+      "rendered": "regions/region-02-rendered.png",
+      "compare": "regions/region-02-compare.png"
+    },
+    {
+      "index": 3,
+      "rect": {
+        "x": 0,
+        "y": 316,
+        "width": 116,
+        "height": 136,
+        "pixels": 145,
+        "percent": 0.9191176470588236
+      },
+      "storybook": "regions/region-03-storybook.png",
+      "rendered": "regions/region-03-rendered.png",
+      "compare": "regions/region-03-compare.png"
+    },
+    {
+      "index": 4,
+      "rect": {
+        "x": 76,
+        "y": 172,
+        "width": 88,
+        "height": 88,
+        "pixels": 31,
+        "percent": 0.40030991735537186
+      },
+      "storybook": "regions/region-04-storybook.png",
+      "rendered": "regions/region-04-rendered.png",
+      "compare": "regions/region-04-compare.png"
+    }
+  ],
+  "testedAt": "2026-05-24T21:57:05.143Z"
+}

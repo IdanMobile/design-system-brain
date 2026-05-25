@@ -1,0 +1,17 @@
+{
+  "storyId": "lab-loadingstates--card-skeleton",
+  "width": 474,
+  "height": 298,
+  "pixelsDiffered": 0,
+  "pixelsTotal": 141252,
+  "percent": 0,
+  "globalTolerance": 4.5,
+  "regionTolerance": 5,
+  "status": "pass",
+  "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-loadingstates-card-skeleton/storybook.png",
+  "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-loadingstates-card-skeleton/figma.png",
+  "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-loadingstates-card-skeleton/diff.png",
+  "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-loadingstates-card-skeleton/artifact.v2.json",
+  "diffRegions": [],
+  "testedAt": "2026-05-24T23:09:25.886Z"
+}

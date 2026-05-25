@@ -1,0 +1,21 @@
+{
+  "storyId": "lab-featurecard--success",
+  "status": "pass",
+  "percent": 0,
+  "maxRegionPercent": 0,
+  "testedAt": "2026-05-24T23:17:11.447Z",
+  "component": "FeatureCard",
+  "gaps": [],
+  "dsBuiltIn": [],
+  "interactiveCount": 0,
+  "readonlyCount": 0,
+  "nativeCount": 0,
+  "baselineCount": 0,
+  "findings": [],
+  "verdict": "pass",
+  "verdictReason": "0 event(s) match approved spec",
+  "observedEvents": [],
+  "missingEvents": [],
+  "extraEvents": [],
+  "specStatus": "approved"
+}

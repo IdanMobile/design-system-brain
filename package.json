@@ -60,7 +60,11 @@
     "test:terminal": "node --test scripts/test-console-terminal.test.mjs",
     "infra:health": "node scripts/infra-health.mjs",
     "infra:ensure": "node scripts/infra-health.mjs --start-missing",
-    "test:parallel": "node scripts/test-console-parallel.mjs"
+    "test:parallel": "node scripts/test-console-parallel.mjs",
+    "specs:bootstrap-v2": "node --experimental-strip-types scripts/specs-bootstrap-v2.mjs",
+    "specs:bootstrap": "node --experimental-strip-types scripts/specs-bootstrap-v2.mjs",
+    "test:specs": "pnpm --filter @lab/pixel-test test:specs",
+    "test:specs:server": "node --test scripts/specs-server.test.mjs"
   },
   "devDependencies": {
     "typescript": "^5.6.3",

@@ -1,0 +1,76 @@
+{
+  "storyId": "lab-loginpage--default",
+  "schemaVersion": 2,
+  "intent": "",
+  "status": "proposed",
+  "approvedAt": null,
+  "approvedBy": null,
+  "specVersion": 6,
+  "elements": [
+    {
+      "id": "el-input",
+      "selector": "[data-lab-id=\"el-input\"]",
+      "displayName": "input",
+      "description": "",
+      "source": "ai",
+      "aiSuggestion": "Designer types in this input field",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-input-2",
+      "selector": "[data-lab-id=\"el-input-2\"]",
+      "displayName": "input",
+      "description": "",
+      "source": "ai",
+      "aiSuggestion": "Designer types in this input field",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-login",
+      "selector": "[data-lab-id=\"el-login\"]",
+      "displayName": "Login",
+      "description": "click to sign in",
+      "source": "designer",
+      "aiSuggestion": "Click triggers the \"Login\" action",
+      "aiExtracted": {
+        "behaviour": "On click",
+        "devApi": [
+          {
+            "name": "onLoginClicked",
+            "signature": "() => void"
+          }
+        ],
+        "extractedBy": "heuristic",
+        "extractedAt": "2026-05-25T08:04:07.443Z"
+      },
+      "status": "approved",
+      "approvedAt": "2026-05-25T08:03:40.109Z"
+    },
+    {
+      "id": "el-connect-with-google",
+      "selector": "[data-lab-id=\"el-connect-with-google\"]",
+      "displayName": "Connect with Google",
+      "description": "",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"Connect with Google\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-connect-with-facebook",
+      "selector": "[data-lab-id=\"el-connect-with-facebook\"]",
+      "displayName": "Connect with Facebook",
+      "description": "",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"Connect with Facebook\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    }
+  ]
+}

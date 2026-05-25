@@ -15,6 +15,8 @@ export interface ControlProbe {
   disabled: boolean;
   /** Click may open a listbox / menu (native select, MUI Select, lab dropdown shell) */
   opensMenu?: boolean;
+  /** Value of `data-lab-id` stamped by @lab/ui/element-ids-runtime.ts (v2). */
+  labId: string;
 }
 
 export interface DomSnapshot {
@@ -22,6 +24,12 @@ export interface DomSnapshot {
   ariaExpanded: string[];
   ariaSelected: string[];
   ariaPressed: string[];
+  /**
+   * Captured provenance of each pressed element: "baseline" if the
+   * design-system runtime stamped it, "native" if a component controls it.
+   * Used to attribute each finding's source in the audit report.
+   */
+  pressedSources: BehaviourSource[];
   checked: string[];
   inputValues: string[];
   activeIndex: number;
@@ -30,9 +38,22 @@ export interface DomSnapshot {
 
 export type InteractionOutcome = "state_changed" | "no_visible_change" | "skipped_readonly" | "click_failed";
 
+/**
+ * Provenance of an observed behaviour:
+ *   • `native`   — the component implements the behaviour itself
+ *                  (React state, controlled inputs, real handlers, MUI built-ins).
+ *   • `baseline` — the design-system runtime (@lab/ui/behaviour-baseline.ts)
+ *                  auto-wired the behaviour because the component author left
+ *                  the control unmanaged. Audit detects by sniffing the
+ *                  `data-pressed-source="baseline"` stamp.
+ *   • `none`     — the behaviour was not observed (true gap).
+ */
+export type BehaviourSource = "native" | "baseline" | "none";
+
 export interface InteractionFinding extends ControlProbe {
   outcome: InteractionOutcome;
   category: "ds_builtin" | "static_shell" | "readonly" | "unknown";
+  source: BehaviourSource;
   note?: string;
 }
 
@@ -114,7 +135,8 @@ export function probeScript(): {
       type: el.getAttribute("type") ?? "",
       readOnly,
       disabled,
-      opensMenu: menuTrigger(el)
+      opensMenu: menuTrigger(el),
+      labId: el.getAttribute("data-lab-id") ?? ""
     });
   }
 
@@ -127,6 +149,7 @@ export function snapshotScript(): DomSnapshot {
     ariaExpanded: [],
     ariaSelected: [],
     ariaPressed: [],
+    pressedSources: [],
     checked: [],
     inputValues: [],
     activeIndex: -1,
@@ -138,6 +161,7 @@ export function snapshotScript(): DomSnapshot {
   const ariaExpanded: string[] = [];
   const ariaSelected: string[] = [];
   const ariaPressed: string[] = [];
+  const pressedSources: ("native" | "baseline" | "none")[] = [];
   const checked: string[] = [];
   const inputValues: string[] = [];
 
@@ -159,6 +183,12 @@ export function snapshotScript(): DomSnapshot {
     const v =
       el.getAttribute("aria-pressed") ?? el.getAttribute("data-pressed") ?? "";
     ariaPressed.push(`${v}:${(el.textContent ?? "").slice(0, 20)}`);
+    const html = el as HTMLElement;
+    const source =
+      html.getAttribute("data-pressed-source") === "baseline"
+        ? "baseline"
+        : "native";
+    pressedSources.push(source);
   });
   walk("input[type=checkbox], input[type=radio], [role=checkbox], [role=switch]", (el) => {
     const on =
@@ -214,6 +244,7 @@ export function snapshotScript(): DomSnapshot {
     ariaExpanded,
     ariaSelected,
     ariaPressed,
+    pressedSources,
     checked,
     inputValues,
     activeIndex,
@@ -225,16 +256,41 @@ export function snapshotsEqual(a: DomSnapshot, b: DomSnapshot): boolean {
   return a.digest === b.digest;
 }
 
+/**
+ * Detect the **source** of a behaviour that just occurred:
+ *   - If the after-snapshot grew a new pressedSource entry tagged "baseline",
+ *     the design-system runtime auto-wired it.
+ *   - If a press toggle happened but no baseline tag was added, the component
+ *     code owns the behaviour (native).
+ *   - Otherwise no behaviour observed.
+ */
+function diffSource(before: DomSnapshot, after: DomSnapshot): BehaviourSource {
+  const beforeBaseline = before.pressedSources.filter((s) => s === "baseline").length;
+  const afterBaseline = after.pressedSources.filter((s) => s === "baseline").length;
+  if (afterBaseline > beforeBaseline) return "baseline";
+  if (before.digest !== after.digest) return "native";
+  return "none";
+}
+
 export function classifyFinding(
   control: ControlProbe,
   outcome: InteractionOutcome,
-  component: string | null
+  component: string | null,
+  before?: DomSnapshot,
+  after?: DomSnapshot
 ): InteractionFinding {
+  const source: BehaviourSource =
+    before && after && outcome === "state_changed"
+      ? diffSource(before, after)
+      : outcome === "state_changed"
+        ? "native"
+        : "none";
+
   if (outcome === "skipped_readonly") {
-    return { ...control, outcome, category: "readonly", note: "Read-only or display-only field" };
+    return { ...control, outcome, category: "readonly", source: "none", note: "Read-only or display-only field" };
   }
   if (outcome === "click_failed") {
-    return { ...control, outcome, category: "unknown", note: "Pointer click failed or element not reachable" };
+    return { ...control, outcome, category: "unknown", source: "none", note: "Pointer click failed or element not reachable" };
   }
   if (outcome === "state_changed") {
     const isDs =
@@ -250,17 +306,25 @@ export function classifyFinding(
         ["text", "email", "password", "search", "tel", "url", "number", ""].includes(
           (control.type || "").toLowerCase()
         ));
+    const sourceNote =
+      source === "baseline"
+        ? "Wired by @lab/ui design-system baseline runtime"
+        : isDs
+          ? "Design-system widget responds to input"
+          : "Component code owns the state";
     return {
       ...control,
       outcome,
       category: "ds_builtin",
-      note: isDs ? "Design-system widget responds to input" : "UI state changed on interaction"
+      source,
+      note: sourceNote
     };
   }
   return {
     ...control,
     outcome,
     category: "static_shell",
-    note: "No visible state change — wire props/handlers in delivery package (packages/ui)"
+    source: "none",
+    note: "No visible state change — even with the design-system baseline this control did nothing"
   };
 }

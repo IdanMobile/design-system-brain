@@ -1,0 +1,23 @@
+{
+  "storyId": "lab-analyticscharts--usage",
+  "component": "AnalyticsCharts",
+  "status": "approved",
+  "approvedAt": "2026-05-24T23:06:33.007Z",
+  "approvedBy": "phase-7-bulk-approve",
+  "specVersion": 1,
+  "intent": "Dashboard with revenue/usage charts. Currently a static visual; click handlers are a slot for the parent.",
+  "props": [
+    {
+      "name": "focus",
+      "type": "\"revenue\" | \"usage\"",
+      "default": "\"usage\""
+    },
+    {
+      "name": "dense",
+      "type": "boolean",
+      "default": "false"
+    }
+  ],
+  "events": [],
+  "behaviours": []
+}

@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-button--danger",
     "componentName": "Button",
-    "extractedAt": "2026-05-24T20:56:20.967Z",
+    "extractedAt": "2026-05-24T21:44:13.874Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-button--danger&viewMode=story",
     "viewport": {
       "x": 0,
@@ -26,9 +26,7 @@
         "md"
       ],
       "dataset": {
-        "figmaComponent": "Button",
-        "pressedManaged": "true",
-        "pressed": "false"
+        "figmaComponent": "Button"
       }
     },
     "box": {
