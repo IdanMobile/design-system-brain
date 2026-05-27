@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-25T07:55:19.632Z",
+  "fetchedAt": "2026-05-27T10:11:40.715Z",
   "options": [
     {
       "id": "composer-2.5-fast",
@@ -20,7 +20,7 @@
     {
       "id": "composer-2.5",
       "label": "Composer 2.5",
-      "isCurrent": false,
+      "isCurrent": true,
       "isDefault": false
     },
     {

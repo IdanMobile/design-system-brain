@@ -1,0 +1,59 @@
+{
+  "storyId": "lab-calendarscheduler--monthly",
+  "schemaVersion": 2,
+  "intent": "",
+  "status": "proposed",
+  "approvedAt": null,
+  "approvedBy": null,
+  "specVersion": 15,
+  "elements": [
+    {
+      "id": "ly-input-uiotis",
+      "selector": "",
+      "displayName": "<input>",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Designer types in this <input> field",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "ly-input-1o35gj",
+      "selector": "",
+      "displayName": "<input>",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Designer types in this <input> field",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "ly-save-event-1qh6hv",
+      "selector": "",
+      "displayName": "Save event",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"Save event\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-create-event",
+      "selector": "[data-lab-id=\"el-create-event\"]",
+      "displayName": "Create Event",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"Create Event\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    }
+  ]
+}

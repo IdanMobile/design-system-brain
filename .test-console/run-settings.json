@@ -1,12 +1,12 @@
 {
   "skipPass": true,
   "onlyNotTested": false,
-  "parallelWorkers": 20,
+  "parallelWorkers": 12,
   "processPool": true,
-  "applyToOrchestrator": true,
+  "applyToOrchestrator": false,
   "agentCli": "cursor",
-  "agentModel": "premium-intelligence",
+  "agentModel": "composer-2.5-fast",
   "devAgentCli": "cursor",
   "devAgentModel": "composer-2.5-fast",
-  "updatedAt": "2026-05-24T11:17:52.368Z"
+  "updatedAt": "2026-05-25T18:55:54.246Z"
 }

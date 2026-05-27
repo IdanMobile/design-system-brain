@@ -2,10 +2,10 @@
   "storyId": "lab-neonarcadescreen--default",
   "width": 390,
   "height": 844,
-  "pixelsDiffered": 2904,
+  "pixelsDiffered": 282,
   "pixelsTotal": 329160,
-  "percent": 0.8822457163689391,
-  "status": "fail",
+  "percent": 0.08567262121764492,
+  "status": "pass",
   "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-neonarcadescreen-default/storybook.png",
   "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-neonarcadescreen-default/rendered.png",
   "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-neonarcadescreen-default/diff.png",
@@ -14,11 +14,11 @@
     {
       "index": 1,
       "rect": {
-        "x": 0,
-        "y": 28,
-        "width": 390,
-        "height": 376,
-        "pixels": 2399
+        "x": 268,
+        "y": 220,
+        "width": 122,
+        "height": 184,
+        "pixels": 185
       },
       "storybook": "regions/region-01-storybook.png",
       "rendered": "regions/region-01-rendered.png",
@@ -27,29 +27,16 @@
     {
       "index": 2,
       "rect": {
-        "x": 76,
-        "y": 748,
-        "width": 280,
-        "height": 88,
-        "pixels": 382
-      },
-      "storybook": "regions/region-02-storybook.png",
-      "rendered": "regions/region-02-rendered.png",
-      "compare": "regions/region-02-compare.png"
-    },
-    {
-      "index": 3,
-      "rect": {
         "x": 0,
         "y": 0,
         "width": 80,
         "height": 80,
         "pixels": 83
       },
-      "storybook": "regions/region-03-storybook.png",
-      "rendered": "regions/region-03-rendered.png",
-      "compare": "regions/region-03-compare.png"
+      "storybook": "regions/region-02-storybook.png",
+      "rendered": "regions/region-02-rendered.png",
+      "compare": "regions/region-02-compare.png"
     }
   ],
-  "testedAt": "2026-05-24T21:41:52.974Z"
+  "testedAt": "2026-05-25T19:29:24.595Z"
 }

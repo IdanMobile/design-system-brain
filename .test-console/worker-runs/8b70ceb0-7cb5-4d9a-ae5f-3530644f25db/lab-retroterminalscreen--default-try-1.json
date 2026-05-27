@@ -1,0 +1,36 @@
+{
+  "storyId": "lab-retroterminalscreen--default",
+  "attempt": 1,
+  "jobId": "8b70ceb0-7cb5-4d9a-ae5f-3530644f25db",
+  "recordedAt": "2026-05-25T15:02:22.823Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 3.1899380240612465,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 3.1899380240612465,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "agentExitCode": 143,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".agents/rules/lab-memory.md",
+    ".test-console/agent-lab-retroterminalscreen--default_try1-1779721223886.prompt.txt",
+    ".test-console/child-status/8b70ceb0-7cb5-4d9a-ae5f-3530644f25db-agent-lab-retroterminalscreen--default_try1-1779721223886.json"
+  ],
+  "evaluation": {
+    "verdict": "ON_TRACK",
+    "verdicts": [],
+    "nextWorkerMode": "continue",
+    "interventionLines": [
+      "Supervisor: agent CLI exited 143 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

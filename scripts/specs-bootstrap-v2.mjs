@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Migrate v1 spec files to v2 (elements-shape):
- *   1. Copy every existing lab-memory/specs/<id>.spec.json to lab-memory/specs-legacy/
+ *   1. Copy every existing lab-memory/logic/specs/<id>.spec.json to lab-memory/logic/archive/
  *      (only if it doesn't look v2 already — schemaVersion !== 2).
  *   2. Write fresh v2 files for every DEV_STORY with empty elements[] and intent.
  *
@@ -12,10 +12,12 @@
 
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { logicSpecsDir, logicArchiveDir } from "./lab-memory-paths.mjs";
 
 const repoRoot = resolve(process.cwd());
-const vault = resolve(repoRoot, "lab-memory/specs");
-const legacy = resolve(repoRoot, "lab-memory/specs-legacy");
+
+const vault = logicSpecsDir(repoRoot);
+const legacy = logicArchiveDir(repoRoot);
 
 mkdirSync(vault, { recursive: true });
 mkdirSync(legacy, { recursive: true });

@@ -31,7 +31,12 @@ import {
   setOrchestratorAuto
 } from "./test-console-orchestrator-auto.mjs";
 import { loadOrchestratorState, writeOrchestratorState } from "./test-console-worker-supervisor.mjs";
-import { loadRunSettings, setRunSettings, resolveGoldenRunAll } from "./test-console-run-settings.mjs";
+import {
+  loadRunSettings,
+  setRunSettings,
+  resolveGoldenRunAll,
+  MAX_PARALLEL_WORKERS
+} from "./test-console-run-settings.mjs";
 import { loadAgentModelOptions } from "./test-console-agent-models.mjs";
 import { SERVICE_TERMINAL } from "./test-console-services.mjs";
 import {
@@ -60,6 +65,17 @@ import {
   hasGitRepository
 } from "./developer-proposal.mjs";
 import { clearDeveloperActivity } from "./developer-activity.mjs";
+import {
+  buildFigmaScreenPortfolioState,
+  discoverFigmaScreens,
+  readScreenResult
+} from "./figma-screen-portfolio.mjs";
+import {
+  FIGMA_ENTRY_STEP_ORDER,
+  figmaEntryGoldenActionId,
+  isFigmaEntryFixSuite
+} from "./figma-entry-fix.mjs";
+import { FIGMA_ENTRY_STEPS } from "./figma-entry-portfolio-config.mjs";
 
 const __dirname = resolve(fileURLToPath(import.meta.url), "..");
 const REPO = resolve(__dirname, "..");
@@ -89,7 +105,27 @@ const SUITES = {
     stepId: "figmaLive"
   },
   delivery: { dir: "delivery-diffs", label: "Delivery (3-way)", figmaField: "figmaPng", stepId: "delivery" },
-  logic: { dir: "logic-audit-diffs", label: "Logic audit", figmaField: null, stepId: "logic" }
+  logic: { dir: "logic-audit-diffs", label: "Logic audit", figmaField: null, stepId: "logic" },
+  figmaScreen: {
+    dir: "figma-screen-diffs",
+    label: "Figma screens",
+    figmaField: "renderedPng",
+    stepId: "roundtrip"
+  },
+  ...Object.fromEntries(
+    FIGMA_ENTRY_STEPS.map((step) => [
+      step.id,
+      {
+        dir: "figma-screen-diffs",
+        label: step.label,
+        figmaField: "renderedPng",
+        stepId: step.id,
+        pipeline: "figmaEntry",
+        actionId: step.actionId,
+        needsRelay: Boolean(step.needsRelay)
+      }
+    ])
+  )
 };
 
 /** Actions that may run alongside other test jobs. */
@@ -104,6 +140,7 @@ const PARALLEL_SAFE_ACTIONS = new Set([
 /** Only one of these at a time. */
 const SERIAL_ACTIONS = new Set([
   "figma:live:golden",
+  "figma:screen:golden",
   "figma:run-until-pass",
   "tests:parallel",
   "portfolio-orchestrator"
@@ -129,6 +166,9 @@ function refreshPortfolioAsync() {
 }
 
 function readStoryResultFromDisk(suiteId, storyId) {
+  if (suiteId === "figmaScreen") {
+    return readScreenResult(REPO, storyId);
+  }
   const cfg = SUITES[suiteId];
   const path = join(REPO, cfg.dir, "by-story", safeSegment(storyId), "result.json");
   if (!existsSync(path)) return null;
@@ -469,7 +509,10 @@ function summarizeReport(suiteId) {
       if (suiteId === "logic" && status === "gap") status = "warn";
       counts[status] = (counts[status] ?? 0) + 1;
     }
-    const portfolioIds = portfolioStoryIds();
+    const portfolioIds =
+      suiteId === "figmaScreen"
+        ? discoverFigmaScreens(REPO).map((s) => s.screenId)
+        : portfolioStoryIds();
     const totalStories = portfolioIds.length || results.length;
     // Older reports may only cover a subset (e.g. delivery golden = 12 stories).
     const missingFromReport = Math.max(0, totalStories - results.length);
@@ -528,6 +571,19 @@ function normalizeStoryResult(r, suiteId) {
       compareUrl: null
     };
   }
+  if (suiteId === "figmaScreen") {
+    return {
+      storyId: r.storyId ?? r.screenId,
+      status: r.status,
+      percent: r.percent,
+      maxRegionPercent: r.maxRegionPercent,
+      error: r.error,
+      storybookUrl: toPublicPath(r.referencePng),
+      figmaUrl: toPublicPath(figmaPath ?? r.renderedPng),
+      diffUrl: toPublicPath(r.diffPng),
+      compareUrl: toPublicPath(r.diffPng)
+    };
+  }
   return {
     storyId: r.storyId,
     status: r.status,
@@ -569,6 +625,22 @@ const ACTIONS = Object.fromEntries(
     "figma:live:golden": {
       command: ["pnpm", "figma:live-iterate"],
       needsRelay: true
+    },
+    "figma:screen:golden": {
+      command: ["pnpm", "test:figma:screen"],
+      needsRelay: true
+    },
+    "figma:screen:manifest": {
+      command: ["pnpm", "test:figma:screen:manifest"]
+    },
+    "figma:screen:storybook": {
+      command: ["pnpm", "test:figma:screen:storybook"]
+    },
+    "figma:screen:four-way": {
+      command: ["pnpm", "test:figma:screen:four-way"]
+    },
+    "figma:screen:logic": {
+      command: ["node", "scripts/figma-screen-logic-test.mjs"]
     },
     "figma:run-until-pass": {
       command: ["node", "scripts/test-console-run-until-pass.mjs"],
@@ -637,6 +709,39 @@ function resolveSpawn(actionId, story, allStories = false) {
     return {
       bin: "pnpm",
       args: ["--filter", "@lab/pixel-test", "test:logic:audit", "--", "--stories", story]
+    };
+  }
+  if (actionId === "figma:screen:golden" && story) {
+    const screens = discoverFigmaScreens(REPO);
+    const hit = screens.find((s) => s.screenId === story);
+    if (!hit) throw new Error(`Unknown figma screen: ${story}`);
+    return { bin: "node", args: ["scripts/figma-screen-test.mjs", "--artifact", hit.manifestPath] };
+  }
+  if (actionId === "figma:screen:manifest" && story) {
+    const screens = discoverFigmaScreens(REPO);
+    const hit = screens.find((s) => s.screenId === story);
+    if (!hit) throw new Error(`Unknown figma screen: ${story}`);
+    return {
+      bin: "node",
+      args: ["scripts/figma-screen-manifest-test.mjs", "--artifact", hit.manifestPath]
+    };
+  }
+  if (actionId === "figma:screen:storybook" && story) {
+    const screens = discoverFigmaScreens(REPO);
+    const hit = screens.find((s) => s.screenId === story);
+    if (!hit) throw new Error(`Unknown figma screen: ${story}`);
+    return {
+      bin: "node",
+      args: ["scripts/figma-screen-storybook-test.mjs", "--artifact", hit.manifestPath]
+    };
+  }
+  if (actionId === "figma:screen:four-way" && story) {
+    const screens = discoverFigmaScreens(REPO);
+    const hit = screens.find((s) => s.screenId === story);
+    if (!hit) throw new Error(`Unknown figma screen: ${story}`);
+    return {
+      bin: "node",
+      args: ["scripts/figma-screen-four-way-test.mjs", "--artifact", hit.manifestPath]
     };
   }
   const [bin, ...args] = def.command;
@@ -713,6 +818,10 @@ function runAction(actionId, story, allStories = false) {
             "pixel:golden",
             "figma:golden",
             "figma:live:golden",
+            "figma:screen:golden",
+            "figma:screen:manifest",
+            "figma:screen:storybook",
+            "figma:screen:four-way",
             "delivery:golden",
             "tests:parallel",
             "figma:run-until-pass"
@@ -732,6 +841,10 @@ function runAction(actionId, story, allStories = false) {
           "pixel:golden": "pixel",
           "figma:golden": "figma",
           "figma:live:golden": "figmaLive",
+          "figma:screen:golden": "figmaScreen",
+          "figma:screen:manifest": "figmaScreen",
+          "figma:screen:storybook": "figmaScreen",
+          "figma:screen:four-way": "figmaScreen",
           "delivery:golden": "delivery",
           "logic:golden": "logic"
         };
@@ -754,7 +867,10 @@ const SUITE_GOLDEN_ACTION = {
   figma: "figma:golden",
   figmaLive: "figma:live:golden",
   delivery: "delivery:golden",
-  logic: "logic:golden"
+  logic: "logic:golden",
+  ...Object.fromEntries(
+    FIGMA_ENTRY_STEP_ORDER.map((stepId) => [stepId, figmaEntryGoldenActionId(stepId)])
+  )
 };
 
 /** Stop portfolio/suite golden runs so Fix all is the only active terminal workflow. */
@@ -1079,6 +1195,7 @@ async function handleApi(req, res, url) {
       orchestratorRunning: portfolioOrchestratorRunning(),
       workerSupervisor: reconcileOrchestratorState(),
       runSettings: loadRunSettings(),
+      maxParallelWorkers: MAX_PARALLEL_WORKERS,
       agentModelOptions: loadAgentModelOptions()
     });
     return true;
@@ -1105,6 +1222,11 @@ async function handleApi(req, res, url) {
         }))
       )
     );
+    return true;
+  }
+
+  if (url.pathname === "/api/figma-screens" && req.method === "GET") {
+    json(res, 200, buildFigmaScreenPortfolioState(REPO));
     return true;
   }
 
@@ -1291,7 +1413,10 @@ async function handleApi(req, res, url) {
       json(res, 404, { error: "Unknown suite" });
       return true;
     }
-    const storyIds = portfolioStoryIds();
+    const storyIds =
+      suiteId === "figmaScreen"
+        ? discoverFigmaScreens(REPO).map((s) => s.screenId)
+        : portfolioStoryIds();
     const results = storyIds.map((storyId) => {
       const rec =
         readStoryResultFromDisk(suiteId, storyId) ??
@@ -1299,9 +1424,13 @@ async function handleApi(req, res, url) {
           const reportPath = join(REPO, cfg.dir, "report.json");
           if (!existsSync(reportPath)) return null;
           const raw = JSON.parse(readFileSync(reportPath, "utf8"));
-          return (raw.results ?? []).find((r) => r.storyId === storyId) ?? null;
+          return (
+            (raw.results ?? []).find(
+              (r) => r.storyId === storyId || r.screenId === storyId
+            ) ?? null
+          );
         })();
-      const storybookOnly = isStorybookOnlyStory(storyId);
+      const storybookOnly = suiteId === "figmaScreen" ? false : isStorybookOnlyStory(storyId);
       const status = rec?.status ?? "not_tested";
       const base =
         !rec || status === "not_tested"
@@ -1364,14 +1493,30 @@ async function handleApi(req, res, url) {
       (j) => j.status === "running" || j.finalizing
     );
     const serialRunning = runningJobs.some((j) => SERIAL_ACTIONS.has(j.action));
-    const liveRunning = runningJobs.some((j) => j.action === "figma:live:golden");
+    const liveRunning = runningJobs.some(
+      (j) => j.action === "figma:live:golden" || j.action === "figma:screen:golden"
+    );
     if (SERIAL_ACTIONS.has(actionId) && runningJobs.length > 0) {
       json(res, 409, { error: "Another job is running — wait or use parallel-safe suites" });
       return true;
     }
-    if (actionId === "figma:live:golden" && liveRunning) {
-      json(res, 409, { error: "Figma live already running" });
+    if (
+      (actionId === "figma:live:golden" || actionId === "figma:screen:golden") &&
+      liveRunning
+    ) {
+      json(res, 409, { error: "A relay-backed Figma test is already running" });
       return true;
+    }
+    const actionDef = ACTIONS[actionId];
+    if (actionDef?.needsRelay) {
+      const relay = await checkRelay();
+      if (!relay.ok || !relay.pluginConnected) {
+        json(res, 409, {
+          error: "Figma relay and plugin must be connected before running screen round-trip tests",
+          code: "relay_required"
+        });
+        return true;
+      }
     }
     if (!PARALLEL_SAFE_ACTIONS.has(actionId) && serialRunning) {
       json(res, 409, { error: "A serial job is running (live / run-until-pass)" });

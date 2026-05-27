@@ -1,0 +1,11 @@
+{
+  "tag": "lab-retroterminalscreen--default:try3",
+  "exitCode": 143,
+  "finishedAt": "2026-05-25T09:11:50.627Z",
+  "editCount": 0,
+  "readCount": 15,
+  "bigReadCount": 4,
+  "watchdogTripped": true,
+  "watchdogReason": "8.0m elapsed, 0 edits (reads=15, big-file reads=4). Investigation paralysis.",
+  "elapsedMs": 480213
+}

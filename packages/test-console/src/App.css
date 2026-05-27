@@ -1389,6 +1389,27 @@ button.action.recommended-action {
   min-width: 200px;
 }
 
+.suite-summary-na {
+  opacity: 0.72;
+}
+
+.portfolio-card-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.portfolio-card-header h2 {
+  margin: 0;
+}
+
+.portfolio-list-tabs {
+  margin-top: 0;
+}
+
 /* ── Console tabs (legacy — removed from tests header) ── */
 .console-tabs {
   display: flex;

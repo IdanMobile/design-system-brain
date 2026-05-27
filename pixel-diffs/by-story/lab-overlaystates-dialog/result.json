@@ -2,9 +2,9 @@
   "storyId": "lab-overlaystates--dialog",
   "width": 760,
   "height": 480,
-  "pixelsDiffered": 241,
+  "pixelsDiffered": 180,
   "pixelsTotal": 364800,
-  "percent": 0.06606359649122807,
+  "percent": 0.049342105263157895,
   "status": "pass",
   "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-overlaystates-dialog/storybook.png",
   "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-overlaystates-dialog/rendered.png",
@@ -16,14 +16,14 @@
       "rect": {
         "x": 172,
         "y": 220,
-        "width": 184,
+        "width": 232,
         "height": 88,
-        "pixels": 220
+        "pixels": 171
       },
       "storybook": "regions/region-01-storybook.png",
       "rendered": "regions/region-01-rendered.png",
       "compare": "regions/region-01-compare.png"
     }
   ],
-  "testedAt": "2026-05-24T21:41:52.975Z"
+  "testedAt": "2026-05-25T19:29:24.596Z"
 }

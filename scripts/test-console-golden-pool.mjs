@@ -9,7 +9,11 @@
 import { spawn } from "node:child_process";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { MAX_PARALLEL_WORKERS } from "./test-console-run-settings.mjs";
+import {
+  MAX_PARALLEL_WORKERS,
+  harnessEnvForSuite,
+  storybookParallelCap
+} from "./test-console-run-settings.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -98,7 +102,7 @@ function commandForChunk(suite, storiesCsv) {
   }
 }
 
-function runChunk(spec, index, total) {
+function runChunk(spec, index, total, suite, harnessEnv) {
   return new Promise((resolveJob, reject) => {
     const [bin, ...args] = spec.cmd;
     console.log(
@@ -106,7 +110,12 @@ function runChunk(spec, index, total) {
     );
     const child = spawn(bin, args, {
       cwd: ROOT,
-      env: { ...process.env, FORCE_COLOR: "0", TEST_PARALLEL: "1" },
+      env: {
+        ...process.env,
+        ...harnessEnv,
+        /** One story per chunk process; parallelism is across processes. */
+        TEST_PARALLEL: "1"
+      },
       stdio: "inherit"
     });
     child.on("close", (code) => {
@@ -145,7 +154,9 @@ if (!suite || !stories.length) {
   process.exit(2);
 }
 
-const effectiveWorkers = suite === "figmaLive" ? 1 : workers;
+const effectiveWorkers =
+  suite === "figmaLive" ? workers : Math.min(workers, storybookParallelCap(workers));
+const harnessEnv = harnessEnvForSuite(suite, workers);
 const chunks = chunkStories(stories, effectiveWorkers);
 const specs = chunks
   .map((chunk) => commandForChunk(suite, chunk.join(",")))
@@ -161,7 +172,7 @@ console.log(
 );
 
 try {
-  await Promise.all(specs.map((spec, i) => runChunk(spec, i, specs.length)));
+  await Promise.all(specs.map((spec, i) => runChunk(spec, i, specs.length, suite, harnessEnv)));
   await mergePortfolio();
   console.log("[golden-pool] complete");
   process.exit(0);

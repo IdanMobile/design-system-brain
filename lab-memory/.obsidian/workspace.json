@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "19c909606d8f0e29",
+        "id": "d74d7b3bbbe3ed3f",
         "type": "tabs",
         "children": [
           {
-            "id": "d9a3cc3b4dfbded6",
+            "id": "82b7ff8bd471a604",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "stories/lab-calendarscheduler--compact.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "lab-calendarscheduler--compact"
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
             }
           }
         ]
@@ -94,7 +90,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "stories/lab-calendarscheduler--compact.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +99,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for lab-calendarscheduler--compact"
+              "title": "Backlinks"
             }
           },
           {
@@ -113,12 +108,11 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "stories/lab-calendarscheduler--compact.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from lab-calendarscheduler--compact"
+              "title": "Outgoing links"
             }
           },
           {
@@ -156,13 +150,12 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "stories/lab-calendarscheduler--compact.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of lab-calendarscheduler--compact"
+              "title": "Outline"
             }
           }
         ]
@@ -183,40 +176,43 @@
       "bases:Create new base": false
     }
   },
-  "active": "9aafa49dad30ab70",
+  "active": "82b7ff8bd471a604",
   "lastOpenFiles": [
-    "stories/lab-meetinghomepage--default.md",
-    "specs-legacy/mui--showcase.spec.json",
-    "specs-legacy/lab-tabspanel--settings-active.spec.json",
-    "specs-legacy/lab-tabspanel--activity-active.spec.json",
-    "specs-legacy/lab-spacemissioncontrol--default.spec.json",
-    "specs-legacy/lab-snackbarstack--dense.spec.json",
-    "specs-legacy/lab-snackbarstack--default.spec.json",
-    "specs-legacy/lab-selectfield--expanded.spec.json",
-    "specs-legacy/lab-selectfield--closed.spec.json",
-    "specs-legacy/lab-retroterminalscreen--default.spec.json",
-    "specs-legacy/lab-radiogroupfield--pickup-selected.spec.json",
-    "specs/README.md",
-    "stories/lab-productcard--default.md",
-    "stories/lab-contentlistboard--highlighted.md",
-    "stories/lab-featurecard--default.md",
-    "stories/lab-calendarscheduler--weekdays-only.md",
-    "stories/lab-calendarscheduler--monthly.md",
-    "stories/lab-featurecard--success.md",
-    "stories/lab-calendarscheduler--compact.md",
-    "stories/lab-navigationbars--top-navigation.md",
-    "stories/lab-pricingpanel--pro.md",
-    "stories/lab-tabspanel--settings-active.md",
-    "stories/lab-tabspanel--activity-active.md",
-    "stories/lab-productcard--dark.md",
-    "stories/mui--showcase.md",
-    "stories/lab-button--secondary.md",
-    "runbooks/worker-mac.md",
-    "runbooks/infra.md",
-    "runbooks/figma-plugin.md",
+    "stories/lab-retroterminalscreen--default.md",
+    "visual/patterns/render-html-layer-class-allowlist-regression.md",
+    "visual/patterns/render-html-computed-font-stack.md",
+    "visual/patterns/extract-svg-attribute-scalar-coercion.md",
     "Home.md",
-    "README.md",
-    "orchestrator/README.md",
-    "agents/README.md"
+    "stories/lab-muiworkspacescreen--default.md",
+    "stories/lab-meetinghomepage--default.md",
+    "stories/lab-neonarcadescreen--default.md",
+    "stories/lab-foodfrenzyscreen--default.md",
+    "stories",
+    "logic/archive/README.md",
+    "visual/investigations/archive/README.md",
+    "ops/README.md",
+    "visual/investigations/_index.md",
+    "visual/README.md",
+    "ops/runbooks/worker-mac.md",
+    "ops/runbooks/infra.md",
+    "ops/orchestrator/README.md",
+    "ops/runbooks/figma-plugin.md",
+    "ops/agents/README.md",
+    "ops/runbooks",
+    "ops/agents",
+    "ops/orchestrator",
+    "ops",
+    "logic/specs/mui--showcase.spec.json",
+    "logic/specs/lab-tabspanel--settings-active.spec.json",
+    "logic/specs/lab-tabspanel--activity-active.spec.json",
+    "logic/specs/lab-snackbarstack--dense.spec.json",
+    "logic/specs/lab-spacemissioncontrol--default.spec.json",
+    "logic/README.md",
+    "visual/investigations/archive/mui--showcase.md",
+    "visual/investigations/archive/lab-tabspanel--activity-active.md",
+    "visual/investigations/archive/lab-productcard--default.md",
+    "visual/investigations/archive/lab-button--secondary.md",
+    "visual/investigations/active/lab-tabspanel--settings-active.md",
+    "visual/investigations/active/lab-retroterminalscreen--default.md"
   ]
 }

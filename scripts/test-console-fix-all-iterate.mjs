@@ -34,6 +34,7 @@ import {
 import {
   diffWorkspaceSnapshots,
   evaluateAttempt,
+  adapterFilesForMode,
   loadPriorWorkerRuns,
   snapshotWorkspace,
   writeOrchestratorState,
@@ -55,7 +56,19 @@ import {
   promoteSandboxFiles,
   teardownSandbox
 } from "./sandbox-worktree.mjs";
-import { recordStoryFailureInVault } from "./lab-memory-vault.mjs";
+import {
+  appendStoryResolution,
+  loadLabMemoryFixHint,
+  recordStoryFailureInVault
+} from "./lab-memory-vault.mjs";
+import {
+  FIGMA_ENTRY_STEP_ORDER,
+  figmaEntryGoldenSpawn,
+  figmaEntryNeedsPluginBuild,
+  isFigmaEntryFixSuite,
+  readFigmaEntryStoryStatus
+} from "./figma-entry-fix.mjs";
+import { FIGMA_ENTRY_STEPS } from "./figma-entry-portfolio-config.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const CURSOR_USAGE_FLAG = join(ROOT, ".test-console", "cursor-usage-blocked.flag");
@@ -116,7 +129,19 @@ export const SUITES = {
   pixel: { dir: "pixel-diffs", label: "Pixel (schema)", mode: "pixel", needsPluginBuild: false },
   figma: { dir: "figma-diffs", label: "Figma emulator", mode: "emulator", needsPluginBuild: true },
   figmaLive: { dir: "figma-live-diffs", label: "Figma live", mode: "live", needsPluginBuild: true },
-  delivery: { dir: "delivery-diffs", label: "Delivery (3-way)", mode: "emulator", needsPluginBuild: true }
+  delivery: { dir: "delivery-diffs", label: "Delivery (3-way)", mode: "emulator", needsPluginBuild: true },
+  ...Object.fromEntries(
+    FIGMA_ENTRY_STEPS.map((step) => [
+      step.id,
+      {
+        dir: "figma-screen-diffs",
+        label: step.label,
+        mode: step.id === "contractFigma" ? "live" : "figmaEntry",
+        needsPluginBuild: figmaEntryNeedsPluginBuild(step.id),
+        pipeline: "figmaEntry"
+      }
+    ])
+  )
 };
 
 const agent = initAgentBridge(ROOT);
@@ -126,6 +151,9 @@ function safeSegment(id) {
 }
 
 function readStoryStatus(suiteId, storyId) {
+  if (isFigmaEntryFixSuite(suiteId)) {
+    return readFigmaEntryStoryStatus(ROOT, storyId, suiteId);
+  }
   const story = agent.getStoryFromReport(suiteId, storyId, SUITES, safeSegment);
   if (!story) return null;
   return {
@@ -137,6 +165,33 @@ function readStoryStatus(suiteId, storyId) {
 }
 
 function readStoryResultMeta(suiteId, storyId) {
+  if (isFigmaEntryFixSuite(suiteId)) {
+    const st = readFigmaEntryStoryStatus(ROOT, storyId, suiteId);
+    if (!st) return null;
+    const path = join(
+      ROOT,
+      "figma-screen-diffs",
+      "by-screen",
+      safeSegment(storyId),
+      suiteId,
+      "result.json"
+    );
+    let testedAtMs = NaN;
+    if (existsSync(path)) {
+      try {
+        const parsed = JSON.parse(readFileSync(path, "utf8"));
+        const testedAtRaw = parsed?.testedAt ?? null;
+        testedAtMs = testedAtRaw ? Date.parse(testedAtRaw) : NaN;
+      } catch {
+        /* ok */
+      }
+    }
+    return {
+      status: st.status,
+      testedAtMs: Number.isFinite(testedAtMs) ? testedAtMs : null,
+      error: st.error ?? null
+    };
+  }
   const cfg = SUITES[suiteId];
   if (!cfg) return null;
   const path = join(ROOT, cfg.dir, "by-story", safeSegment(storyId), "result.json");
@@ -221,6 +276,11 @@ function runPluginBuild() {
 
 function runStoryTest(suiteId, storyId) {
   const opts = { cwd: ROOT, env: process.env, stdio: "pipe", encoding: "utf8" };
+  if (isFigmaEntryFixSuite(suiteId)) {
+    const spec = figmaEntryGoldenSpawn(suiteId, storyId, ROOT);
+    if (!spec) return { status: 1, stdout: "", stderr: `Unknown figma entry step ${suiteId}` };
+    return spawnSync(spec.bin, spec.args, opts);
+  }
   switch (suiteId) {
     case "pixel":
       return spawnSync(
@@ -317,6 +377,19 @@ export function runFullSuiteGolden(suiteId, appendLog, parentJobId, killFlagPath
 }
 
 async function runStoryTestManaged(suiteId, storyId, parentJobId, appendLog, killFlagPath) {
+  if (isFigmaEntryFixSuite(suiteId)) {
+    const spec = figmaEntryGoldenSpawn(suiteId, storyId, ROOT);
+    if (!spec) return 1;
+    return runManagedCommand({
+      parentJobId,
+      tag: spec.tag,
+      bin: spec.bin,
+      args: spec.args,
+      appendLog,
+      killFlagPath,
+      openTerminal: true
+    });
+  }
   switch (suiteId) {
     case "pixel":
       return runManagedCommand({
@@ -884,6 +957,12 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
     );
   }
 
+  serialStoryIds = [...serialStoryIds].sort((a, b) => {
+    const pa = readStoryStatus(suiteId, a)?.percent ?? 0;
+    const pb = readStoryStatus(suiteId, b)?.percent ?? 0;
+    return pb - pa;
+  });
+
   writeOrchestratorState(ROOT, {
     phase: "fix-all",
     suiteId,
@@ -999,6 +1078,7 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
             interventionLines: lastSupervisor.interventionLines
           }
         : null;
+      const workerMode = supervisorForPrompt?.nextWorkerMode ?? "continue";
 
       const gitBefore = snapshotWorkspace(ROOT);
 
@@ -1017,7 +1097,9 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
           tag: `${storyId}:try${attempt}`,
           prompt,
           appendLog,
-          killFlagPath
+          killFlagPath,
+          investigateFirst: workerMode === "investigate_first",
+          fixMode: cfg.mode
         })
       );
       if (storyAgent.usageBlocked) {
@@ -1078,7 +1160,19 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
 
       if (afterTest.status === "pass") {
         passed = true;
+        const hint = loadLabMemoryFixHint(ROOT, storyId, suiteId);
+        appendStoryResolution({
+          repoRoot: ROOT,
+          storyId,
+          suiteId,
+          attempt
+        });
         await appendLog(`${prefix} — PASS after attempt ${attempt}\n`);
+        if (hint?.recommendedFixArea && !hint.recommendedFixArea.includes("infra")) {
+          await appendLog(
+            `${prefix} — consider adding lab-memory/visual/patterns/ for this fix (reusable rule, not story-only).\n`
+          );
+        }
         break;
       }
 
@@ -1119,6 +1213,22 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
       );
       for (const line of evaluation.interventionLines) {
         await appendLog(`[supervisor] ${line}\n`);
+      }
+
+      const adapterEdits = adapterFilesForMode(cfg.mode, filesChanged);
+      if (
+        attempt >= 2 &&
+        adapterEdits.length === 0 &&
+        (evaluation.verdict === "STUCK_LOOP" ||
+          evaluation.verdict === "NO_ADAPTER_EDIT" ||
+          evaluation.verdict === "WRONG_DIRECTION" ||
+          evaluation.verdict === "NO_EDIT")
+      ) {
+        await appendLog(
+          `${prefix} — early stop: ${MAX_TRIES_PER_STORY - attempt} attempt(s) skipped (metrics flat, no render-html/extract edits). ` +
+            `Escalate: open compare PNG + artifact, edit adapter by hand, or paste BLOCKED in lab-memory.\n`
+        );
+        break;
       }
 
       if (evaluation.verdict === "WORSE_METRICS" && filesChanged.length) {

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-25T08:04:01.811Z",
+  "generatedAt": "2026-05-25T09:21:06.039Z",
   "baseUrl": "http://127.0.0.1:6108",
   "results": [
     {
@@ -683,7 +683,7 @@
       "storyId": "lab-cryptochaosdashboard--default",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-25T08:04:01.811Z"
+      "testedAt": "2026-05-25T09:21:06.039Z"
     },
     {
       "storyId": "lab-featurecard--default",
@@ -1449,7 +1449,7 @@
       "storyId": "lab-foodfrenzyscreen--default",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-25T08:04:01.811Z"
+      "testedAt": "2026-05-25T09:21:06.039Z"
     },
     {
       "storyId": "lab-loadingstates--card-skeleton",
@@ -1498,7 +1498,7 @@
       "status": "warn",
       "percent": 0,
       "maxRegionPercent": 5,
-      "testedAt": "2026-05-25T08:04:02.303Z",
+      "testedAt": "2026-05-25T09:21:06.512Z",
       "component": "LoginPage",
       "gaps": [],
       "dsBuiltIn": [
@@ -1594,47 +1594,60 @@
           "note": "Component code owns the state"
         }
       ],
-      "verdict": "needs-approval",
-      "verdictReason": "1/5 pass, 4 need approval, 0 new, 0 drift, 0 regression",
+      "verdict": "new-element",
+      "verdictReason": "1/6 pass, 0 need approval, 5 new, 0 drift, 0 regression",
       "observedEvents": [
+        "input",
+        "input",
+        "Login",
+        "Connect with Google",
+        "Connect with Facebook",
+        "Welcome backSign in to continue to y"
+      ],
+      "missingEvents": [],
+      "extraEvents": [
         "input",
         "input",
         "Login",
         "Connect with Google",
         "Connect with Facebook"
       ],
-      "missingEvents": [],
-      "extraEvents": [],
       "perElement": [
         {
           "labId": "el-input",
           "displayName": "input",
-          "verdict": "needs-approval",
-          "reason": "proposed — approve in showcase"
+          "verdict": "new-element",
+          "reason": "observed but not in spec yet"
         },
         {
           "labId": "el-input-2",
           "displayName": "input",
-          "verdict": "needs-approval",
-          "reason": "proposed — approve in showcase"
+          "verdict": "new-element",
+          "reason": "observed but not in spec yet"
         },
         {
           "labId": "el-login",
           "displayName": "Login",
-          "verdict": "pass",
-          "reason": "approved"
+          "verdict": "new-element",
+          "reason": "observed but not in spec yet"
         },
         {
           "labId": "el-connect-with-google",
           "displayName": "Connect with Google",
-          "verdict": "needs-approval",
-          "reason": "proposed — approve in showcase"
+          "verdict": "new-element",
+          "reason": "observed but not in spec yet"
         },
         {
           "labId": "el-connect-with-facebook",
           "displayName": "Connect with Facebook",
-          "verdict": "needs-approval",
-          "reason": "proposed — approve in showcase"
+          "verdict": "new-element",
+          "reason": "observed but not in spec yet"
+        },
+        {
+          "labId": "ly-welcome-backsign-in-to-continue-to-y-pshd8i",
+          "displayName": "Welcome backSign in to continue to y",
+          "verdict": "pass",
+          "reason": "approved"
         }
       ],
       "specStatus": "proposed"
@@ -1752,13 +1765,13 @@
       "storyId": "lab-meetinghomepage--default",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-25T08:04:01.811Z"
+      "testedAt": "2026-05-25T09:21:06.039Z"
     },
     {
       "storyId": "lab-muiworkspacescreen--default",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-25T08:04:01.811Z"
+      "testedAt": "2026-05-25T09:21:06.039Z"
     },
     {
       "storyId": "lab-navigationbars--bottom-navigation",
@@ -1948,7 +1961,7 @@
       "storyId": "lab-neonarcadescreen--default",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-25T08:04:01.811Z"
+      "testedAt": "2026-05-25T09:21:06.039Z"
     },
     {
       "storyId": "lab-overlaystates--bottom-sheet",
@@ -2320,7 +2333,7 @@
       "storyId": "lab-retroterminalscreen--default",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-25T08:04:01.811Z"
+      "testedAt": "2026-05-25T09:21:06.039Z"
     },
     {
       "storyId": "lab-selectfield--closed",
@@ -2450,7 +2463,7 @@
       "storyId": "lab-spacemissioncontrol--default",
       "status": "not_tested",
       "percent": 0,
-      "testedAt": "2026-05-25T08:04:01.811Z"
+      "testedAt": "2026-05-25T09:21:06.039Z"
     },
     {
       "storyId": "lab-tabspanel--activity-active",

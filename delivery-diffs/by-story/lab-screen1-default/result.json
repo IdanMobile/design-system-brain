@@ -1,0 +1,27 @@
+{
+  "storyId": "lab-screen1--default",
+  "hasDevPackage": true,
+  "width": 1921,
+  "height": 937,
+  "status": "pass",
+  "storybookVsFigma": {
+    "percent": 0,
+    "status": "pass",
+    "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-screen1-default/diff-storybook-figma.png"
+  },
+  "storybookVsDev": {
+    "percent": 0,
+    "status": "pass",
+    "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-screen1-default/diff-storybook-dev.png"
+  },
+  "devVsFigma": {
+    "percent": 0,
+    "status": "pass",
+    "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-screen1-default/diff-dev-figma.png"
+  },
+  "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-screen1-default/storybook.png",
+  "figmaPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-screen1-default/figma.png",
+  "developerPng": "/Users/user/Downloads/storybook-to-figma-lab/delivery-diffs/lab-screen1-default/developer.png",
+  "percent": 0,
+  "testedAt": "2026-05-26T22:00:08.975Z"
+}

@@ -10,9 +10,9 @@ const repoStoriesModule = resolve(process.cwd(), "packages/contract/src/stories.
 
 function makeRepoFixture() {
   const root = mkdtempSync(join(tmpdir(), "specs-boot-v2-"));
-  mkdirSync(join(root, "lab-memory/specs"), { recursive: true });
+  mkdirSync(join(root, "lab-memory/logic/specs"), { recursive: true });
   writeFileSync(
-    join(root, "lab-memory/specs/lab-button--primary.spec.json"),
+    join(root, "lab-memory/logic/specs/lab-button--primary.spec.json"),
     JSON.stringify({ storyId: "lab-button--primary", events: [{ name: "onPrimaryClicked" }] }) + "\n"
   );
   mkdirSync(join(root, "packages/contract/src"), { recursive: true });
@@ -33,15 +33,15 @@ test("archives v1 specs and writes fresh v2 files", () => {
     assert.equal(res.status, 0, res.stderr);
 
     const legacy = JSON.parse(
-      readFileSync(join(root, "lab-memory/specs-legacy/lab-button--primary.spec.json"), "utf8")
+      readFileSync(join(root, "lab-memory/logic/archive/lab-button--primary.spec.json"), "utf8")
     );
     assert.equal(legacy.events[0].name, "onPrimaryClicked");
 
-    const freshFiles = readdirSync(join(root, "lab-memory/specs"))
+    const freshFiles = readdirSync(join(root, "lab-memory/logic/specs"))
       .filter((n) => n.endsWith(".spec.json"));
     assert.ok(freshFiles.length >= 1);
     const fresh = JSON.parse(
-      readFileSync(join(root, "lab-memory/specs/lab-button--primary.spec.json"), "utf8")
+      readFileSync(join(root, "lab-memory/logic/specs/lab-button--primary.spec.json"), "utf8")
     );
     assert.equal(fresh.schemaVersion, 2);
     assert.equal(fresh.status, "proposed");
@@ -56,9 +56,9 @@ test("is idempotent — second run does not re-archive an already-fresh file", (
   const root = makeRepoFixture();
   try {
     spawnSync(process.execPath, ["--experimental-strip-types", script], { cwd: root });
-    const legacyBefore = readdirSync(join(root, "lab-memory/specs-legacy")).length;
+    const legacyBefore = readdirSync(join(root, "lab-memory/logic/archive")).length;
     spawnSync(process.execPath, ["--experimental-strip-types", script], { cwd: root });
-    const legacyAfter = readdirSync(join(root, "lab-memory/specs-legacy")).length;
+    const legacyAfter = readdirSync(join(root, "lab-memory/logic/archive")).length;
     assert.equal(legacyBefore, legacyAfter, "second run should not touch the archive");
   } finally {
     rmSync(root, { recursive: true, force: true });

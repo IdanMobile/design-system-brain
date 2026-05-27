@@ -1,0 +1,44 @@
+{
+  "storyId": "lab-meetinghomepage--default",
+  "attempt": 5,
+  "jobId": "8b708980-fcda-4ebf-9f68-594d819ce593",
+  "recordedAt": "2026-05-25T08:47:32.173Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 0.6471017134524243,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 0.6471017134524243,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "agentExitCode": 143,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-meetinghomepage--default_try5-1779698363864.prompt.txt",
+    ".test-console/child-status/8b708980-fcda-4ebf-9f68-594d819ce593-agent-lab-meetinghomepage--default_try5-1779698363864.json",
+    "lab-memory/specs/lab-button--primary.spec.json",
+    "pixel-diffs/by-story/lab-meetinghomepage-default/result.json",
+    "pixel-diffs/lab-meetinghomepage-default/artifact.v2.json",
+    "pixel-diffs/report.json",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "STUCK_LOOP",
+    "verdicts": [
+      "STUCK_LOOP"
+    ],
+    "nextWorkerMode": "investigate_first",
+    "interventionLines": [
+      "Supervisor: two consecutive attempts with no metric movement — switch to investigate-first.",
+      "Supervisor: agent CLI exited 143 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "storyId": "lab-neonarcadescreen--default",
+  "schemaVersion": 2,
+  "intent": "",
+  "status": "proposed",
+  "approvedAt": null,
+  "approvedBy": null,
+  "specVersion": 3,
+  "elements": [
+    {
+      "id": "el-shieldready",
+      "selector": "[data-lab-id=\"el-shieldready\"]",
+      "displayName": "SHIELDREADY",
+      "description": "click",
+      "source": "designer",
+      "aiSuggestion": "",
+      "aiExtracted": null,
+      "status": "approved",
+      "approvedAt": "2026-05-25T09:45:23.350Z"
+    },
+    {
+      "id": "el-rapidready",
+      "selector": "[data-lab-id=\"el-rapidready\"]",
+      "displayName": "RAPIDREADY",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"RAPIDREADY\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-bombready",
+      "selector": "[data-lab-id=\"el-bombready\"]",
+      "displayName": "BOMBREADY",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"BOMBREADY\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-ghostready",
+      "selector": "[data-lab-id=\"el-ghostready\"]",
+      "displayName": "GHOSTREADY",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"GHOSTREADY\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-insert-coin-play-again",
+      "selector": "[data-lab-id=\"el-insert-coin-play-again\"]",
+      "displayName": "INSERT COIN — PLAY AGAIN",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"INSERT COIN — PLAY AGAIN\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    }
+  ]
+}

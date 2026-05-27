@@ -1,0 +1,76 @@
+{
+  "storyId": "lab-foodfrenzyscreen--default",
+  "attempt": 1,
+  "jobId": "966cb478-7793-40f5-b0d2-056b936d4019",
+  "recordedAt": "2026-05-25T11:26:17.708Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 1.4837768866204886,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 1.1252886134402722,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "agentExitCode": 143,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-foodfrenzyscreen--default_try1-1779708197745.prompt.txt",
+    ".test-console/child-status/966cb478-7793-40f5-b0d2-056b936d4019-agent-lab-foodfrenzyscreen--default_try1-1779708197745.json",
+    "lab-memory/stories/lab-foodfrenzyscreen--default.md",
+    "packages/pixel-test/src/render-html.ts",
+    "pixel-diffs/by-story/lab-foodfrenzyscreen-default/result.json",
+    "pixel-diffs/by-story/lab-retroterminalscreen-default/result.json",
+    "pixel-diffs/lab-foodfrenzyscreen-default/artifact.v2.json",
+    "pixel-diffs/lab-foodfrenzyscreen-default/diff.png",
+    "pixel-diffs/lab-foodfrenzyscreen-default/regions/region-01-compare.png",
+    "pixel-diffs/lab-foodfrenzyscreen-default/regions/region-01-rendered.png",
+    "pixel-diffs/lab-foodfrenzyscreen-default/regions/region-01-storybook.png",
+    "pixel-diffs/lab-foodfrenzyscreen-default/regions/region-02-compare.png",
+    "pixel-diffs/lab-foodfrenzyscreen-default/regions/region-02-rendered.png",
+    "pixel-diffs/lab-foodfrenzyscreen-default/regions/region-02-storybook.png",
+    "pixel-diffs/lab-foodfrenzyscreen-default/regions/region-04-compare.png",
+    "pixel-diffs/lab-foodfrenzyscreen-default/regions/region-04-rendered.png",
+    "pixel-diffs/lab-foodfrenzyscreen-default/regions/region-04-storybook.png",
+    "pixel-diffs/lab-foodfrenzyscreen-default/regions/region-05-compare.png",
+    "pixel-diffs/lab-foodfrenzyscreen-default/regions/region-05-rendered.png",
+    "pixel-diffs/lab-foodfrenzyscreen-default/regions/region-05-storybook.png",
+    "pixel-diffs/lab-foodfrenzyscreen-default/regions/region-06-compare.png",
+    "pixel-diffs/lab-foodfrenzyscreen-default/regions/region-06-rendered.png",
+    "pixel-diffs/lab-foodfrenzyscreen-default/regions/region-06-storybook.png",
+    "pixel-diffs/lab-foodfrenzyscreen-default/regions/region-07-compare.png",
+    "pixel-diffs/lab-foodfrenzyscreen-default/regions/region-07-rendered.png",
+    "pixel-diffs/lab-foodfrenzyscreen-default/regions/region-07-storybook.png",
+    "pixel-diffs/lab-foodfrenzyscreen-default/rendered.png",
+    "pixel-diffs/lab-retroterminalscreen-default/artifact.v2.json",
+    "pixel-diffs/lab-retroterminalscreen-default/diff.png",
+    "pixel-diffs/lab-retroterminalscreen-default/regions/region-01-compare.png",
+    "pixel-diffs/lab-retroterminalscreen-default/regions/region-01-rendered.png",
+    "pixel-diffs/lab-retroterminalscreen-default/regions/region-01-storybook.png",
+    "pixel-diffs/lab-retroterminalscreen-default/regions/region-02-compare.png",
+    "pixel-diffs/lab-retroterminalscreen-default/regions/region-02-rendered.png",
+    "pixel-diffs/lab-retroterminalscreen-default/regions/region-02-storybook.png",
+    "pixel-diffs/lab-retroterminalscreen-default/rendered.png",
+    "pixel-diffs/report.html",
+    "pixel-diffs/report.json",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "SHARED_ADAPTER",
+    "verdicts": [
+      "SHARED_ADAPTER"
+    ],
+    "nextWorkerMode": "tier_c_required",
+    "interventionLines": [
+      "Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done.",
+      "Supervisor: agent CLI exited 143 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": true
+  }
+}

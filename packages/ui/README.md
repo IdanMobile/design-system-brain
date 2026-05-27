@@ -15,7 +15,7 @@ pnpm add ./lab-ui-0.1.0.tgz
 
 ```tsx
 import "@lab/ui/styles.css";
-import { FeatureCard, Button, MUIShowcase } from "@lab/ui";
+import { FeatureCard, Button, MUIShowcase, Screen1 } from "@lab/ui";
 
 export function App() {
   return (
@@ -31,5 +31,6 @@ export function App() {
 
 - **Peer:** `react`, `react-dom` (^18.3)
 - **MUI stories:** `@mui/material`, `@emotion/react`, `@emotion/styled` (listed as dependencies; install in your app if you use `MUIShowcase`, `MUIWorkspaceScreen`, etc.)
+- **`Screen1`:** Figma-imported screen — bundles `figma-export.png` from Contract → Figma live. Re-bake with `pnpm ui:bake:screen1` after Contract → Figma passes.
 
 This package ships TypeScript source. Use Vite, Next.js (with transpilePackages), or equivalent so `.tsx` in `node_modules/@lab/ui` is compiled.

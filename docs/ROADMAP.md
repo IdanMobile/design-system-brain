@@ -9,7 +9,7 @@
 | Step | ID | Command (golden) | Proves |
 | --- | --- | --- | --- |
 | 0 | extract | `pnpm extract:all` | Artifacts fresh |
-| 1 | pixel | `pnpm test:pixel:golden` | Schema / extractor / `scene-to-html` |
+| 1 | pixel | `pnpm test:pixel:golden` | Schema / extractor / `render-html.ts` |
 | 2 | figma | `pnpm figma:iterate:strict` | Mock renderer `code-v2.ts` |
 | 3 | figmaLive | `pnpm figma:live-iterate --strict` | Real Figma export |
 | 4 | delivery | `pnpm test:delivery:golden` | **Always 3-way:** Storybook (designer) · `@lab/ui` · Figma mock — every story, including page-scale composites (see [delivery-principles.md](./delivery-principles.md)) |
@@ -197,9 +197,11 @@ pnpm test:portfolio:refresh
 
 **Why superseded:** designer feedback that the developer-shaped editor (tables of props/events/behaviours) was too much work to understand. The v2.5 redesign keeps the spec-aware audit loop, but the designer interaction is "click an element in the preview → type plain English → AI translates".
 
-### 2.5 Element approval — designer clicks elements + describes in plain English (✅ delivered 2026-05-25)
+### 2.5 Element approval — designer clicks elements + describes in plain English (✅ delivered 2026-05-25, ⤴ click-in-preview superseded by 2.6)
 
 **Principle:** Approve **per element**, not per spec. A designer clicks an interactive element in the preview, types a plain-English sentence ("click to reveal a search input"), and the AI extracts the runtime behaviour + developer API. The audit verdicts now roll up from per-element decisions.
+
+**Why partly superseded:** the click-in-preview overlay obscured the component and intercepted clicks the designer expected to "just work". The 2.6 redesign restores a clean preview and moves selection to a Figma-style layer tree on the right.
 
 - [x] New schema v2 (`packages/contract/src/spec-types.ts`): `StorySpec.elements[]` with `description`, `aiSuggestion`, `aiExtracted` (heuristic or LLM), per-element `status`.
 - [x] Stable element IDs: `data-lab-id` stamped on every interactive descendant by `@lab/ui/element-ids-runtime.ts`; matched by the audit via `packages/pixel-test/src/element-id.ts`.
@@ -233,6 +235,34 @@ pnpm test:logic:audit -- --stories lab-loginpage--default --no-gate
 ```
 
 Set `LAB_LLM_API_KEY` (see `.env.example`) to swap heuristic extraction for OpenAI/Anthropic on the **✨ Improve with AI** button.
+
+### 2.6 Layer-tree approval — Figma-style picker, clean preview (✅ delivered 2026-05-25)
+
+**Principle:** The preview stays "as before" — no overlays, no click capture. Selection happens in a Figma-style **layer tree** on the right side: designer clicks **+ Add behaviour**, hovers a layer (preview highlights it via `HoverOutline`), and clicks to open the same editor the 2.5 flow used. Behaviour can be attached to **any DOM node**, not just interactive ones, because the audit re-finds non-interactive layers by structural ID.
+
+- [x] `layer-tree.ts` — walks every node under the preview root and builds a tree of `LayerNode { id, tag, role, displayName, isInteractive, labId?, depth, children }`. Interactive nodes reuse the existing `data-lab-id`; non-interactive nodes get a `ly-<slug>-<hash>` structural ID derived from tag-path + text.
+- [x] `element-id.ts` `computeStructuralId({ tagPath, text, tag })` — shared algorithm used by both the playground tree and the audit probe. Two non-interactive divs at the same depth with no text resolve to different IDs because the path differs.
+- [x] `HoverOutline.tsx` — pointer-events: none box positioned over the hovered layer. Uses `ResizeObserver` to track size changes.
+- [x] `LayerPanel.tsx` — three sections: **Story intent** (with status badge), **Approved behaviours** (flat list of `status: approved` elements, inline badges in the tree too), and **+ Add behaviour** (expands the layer tree). Editor view reuses the 2.5 description + heuristic + ✨ polish flow.
+- [x] `logic-audit-probes.ts` `allLayersScript()` — full-DOM walk in `page.evaluate`. The audit observes interactive elements (always) **plus** non-interactive layers whose structural ID is already in the spec. New non-interactive layers stay invisible to the audit unless approved.
+- [x] Deleted: `ElementOverlay.tsx`, the click-in-preview `ElementPanel.tsx`. CSS rewritten (`.layer-row`, `.layer-tree`, `.hover-outline`, `.layer-panel__*`).
+- [x] Smoke: `scripts/layer-panel-smoke.mjs` — opens the showcase, asserts the preview has no click capture, opens the tree, hovers a non-interactive layer, approves it, runs the audit, and confirms it shows as `pass` instead of `regression`.
+
+**Validation 2.6**
+
+```bash
+node --experimental-strip-types --test \
+  packages/pixel-test/src/spec-store.test.ts \
+  packages/pixel-test/src/element-id.test.ts \
+  packages/pixel-test/src/spec-extract-heuristic.test.ts \
+  packages/pixel-test/src/logic-audit-verdict.test.ts
+# 42 pass (5 new computeStructuralId tests)
+
+node scripts/layer-panel-smoke.mjs --keep-spec && \
+  pnpm test:logic:audit -- --stories lab-loginpage--default --no-gate
+# ✓ ly-welcome-backsign-in-to-continue-to-y-pshd8i — pass: approved
+# Non-interactive layer approved in showcase is recognised by the audit.
+```
 
 ---
 

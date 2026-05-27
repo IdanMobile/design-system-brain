@@ -2,10 +2,10 @@
   "storyId": "lab-foodfrenzyscreen--default",
   "width": 390,
   "height": 844,
-  "pixelsDiffered": 4884,
+  "pixelsDiffered": 608,
   "pixelsTotal": 329160,
-  "percent": 1.4837768866204886,
-  "status": "fail",
+  "percent": 0.18471260177421314,
+  "status": "warn",
   "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-foodfrenzyscreen-default/storybook.png",
   "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-foodfrenzyscreen-default/rendered.png",
   "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-foodfrenzyscreen-default/diff.png",
@@ -14,11 +14,11 @@
     {
       "index": 1,
       "rect": {
-        "x": 0,
+        "x": 28,
         "y": 172,
-        "width": 390,
-        "height": 280,
-        "pixels": 2420
+        "width": 280,
+        "height": 136,
+        "pixels": 520
       },
       "storybook": "regions/region-01-storybook.png",
       "rendered": "regions/region-01-rendered.png",
@@ -27,11 +27,11 @@
     {
       "index": 2,
       "rect": {
-        "x": 0,
-        "y": 0,
-        "width": 212,
-        "height": 116,
-        "pixels": 785
+        "x": 268,
+        "y": 364,
+        "width": 88,
+        "height": 88,
+        "pixels": 13
       },
       "storybook": "regions/region-02-storybook.png",
       "rendered": "regions/region-02-rendered.png",
@@ -40,11 +40,11 @@
     {
       "index": 3,
       "rect": {
-        "x": 76,
-        "y": 748,
-        "width": 232,
+        "x": 268,
+        "y": 508,
+        "width": 88,
         "height": 88,
-        "pixels": 601
+        "pixels": 13
       },
       "storybook": "regions/region-03-storybook.png",
       "rendered": "regions/region-03-rendered.png",
@@ -53,68 +53,16 @@
     {
       "index": 4,
       "rect": {
-        "x": 28,
-        "y": 460,
-        "width": 184,
+        "x": 268,
+        "y": 604,
+        "width": 88,
         "height": 88,
-        "pixels": 264
+        "pixels": 13
       },
       "storybook": "regions/region-04-storybook.png",
       "rendered": "regions/region-04-rendered.png",
       "compare": "regions/region-04-compare.png"
-    },
-    {
-      "index": 5,
-      "rect": {
-        "x": 28,
-        "y": 556,
-        "width": 184,
-        "height": 136,
-        "pixels": 197
-      },
-      "storybook": "regions/region-05-storybook.png",
-      "rendered": "regions/region-05-rendered.png",
-      "compare": "regions/region-05-compare.png"
-    },
-    {
-      "index": 6,
-      "rect": {
-        "x": 268,
-        "y": 364,
-        "width": 122,
-        "height": 136,
-        "pixels": 183
-      },
-      "storybook": "regions/region-06-storybook.png",
-      "rendered": "regions/region-06-rendered.png",
-      "compare": "regions/region-06-compare.png"
-    },
-    {
-      "index": 7,
-      "rect": {
-        "x": 268,
-        "y": 508,
-        "width": 122,
-        "height": 88,
-        "pixels": 183
-      },
-      "storybook": "regions/region-07-storybook.png",
-      "rendered": "regions/region-07-rendered.png",
-      "compare": "regions/region-07-compare.png"
-    },
-    {
-      "index": 8,
-      "rect": {
-        "x": 268,
-        "y": 604,
-        "width": 122,
-        "height": 88,
-        "pixels": 182
-      },
-      "storybook": "regions/region-08-storybook.png",
-      "rendered": "regions/region-08-rendered.png",
-      "compare": "regions/region-08-compare.png"
     }
   ],
-  "testedAt": "2026-05-24T21:41:52.973Z"
+  "testedAt": "2026-05-25T19:30:10.046Z"
 }

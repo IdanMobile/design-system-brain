@@ -1,0 +1,22 @@
+{
+  "storyId": "lab-button--primary",
+  "schemaVersion": 2,
+  "intent": "",
+  "status": "proposed",
+  "approvedAt": null,
+  "approvedBy": null,
+  "specVersion": 3,
+  "elements": [
+    {
+      "id": "el-primary",
+      "selector": "[data-lab-id=\"el-primary\"]",
+      "displayName": "Primary",
+      "description": "click",
+      "source": "designer",
+      "aiSuggestion": "Click triggers the \"Primary\" action",
+      "aiExtracted": null,
+      "status": "approved",
+      "approvedAt": "2026-05-25T08:42:20.623Z"
+    }
+  ]
+}

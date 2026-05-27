@@ -23,6 +23,7 @@ import {
   type TestStepId
 } from "../../contract/src/test-portfolio.ts";
 import { isStorybookOnlyStory } from "../../contract/src/stories.ts";
+import { getHarnessConcurrency } from "./concurrency.ts";
 
 export function safeStorySegment(storyId: string): string {
   return storyId
@@ -119,10 +120,7 @@ export async function loadPortfolioStoryIds(repoRoot?: string): Promise<string[]
 }
 
 export function getDefaultConcurrency(suite: "pixel" | "figma" | "figmaLive" | "delivery" | "logic"): number {
-  const step = TEST_STEPS.find((s) => s.id === suite);
-  if (step?.serialOnly) return 1;
-  const n = Number(process.env.TEST_PARALLEL ?? "4");
-  return Number.isFinite(n) && n >= 1 ? Math.min(n, 20) : 4;
+  return getHarnessConcurrency(suite);
 }
 
 /** Run story jobs with a bounded pool (separate browser contexts per story). */

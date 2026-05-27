@@ -7,7 +7,8 @@ import { join } from "node:path";
 
 const KNOWN_RENDERER_FILES = [
   { repoPath: "packages/figma-importer-plugin/src/code-v2.ts", label: "code-v2.ts (renderer)" },
-  { repoPath: "packages/figma-importer-plugin/src/scene-to-html.ts", label: "scene-to-html.ts (extractor)" },
+  { repoPath: "packages/pixel-test/src/render-html.ts", label: "render-html.ts (pixel schema replay)" },
+  { repoPath: "packages/figma-importer-plugin/src/scene-to-html.ts", label: "scene-to-html.ts (mock replay)" },
   { repoPath: "packages/extractor-playwright/src/extract.ts", label: "extract.ts (playwright extractor)" }
 ];
 

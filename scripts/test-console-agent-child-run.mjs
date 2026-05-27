@@ -8,7 +8,9 @@ import { readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { resolve, dirname as pathDirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { parseStreamJsonAgentLine } from "./test-console-cursor-cli.mjs";
+import { cursorAgentInvocation, parseStreamJsonAgentLine } from "./test-console-cursor-cli.mjs";
+import { resolveAgentModel, loadRunSettings } from "./test-console-run-settings.mjs";
+
 const ROOT = resolve(pathDirname(fileURLToPath(import.meta.url)), "..");
 const CWD = process.env.TEST_CONSOLE_CWD || ROOT;
 const UI = process.env.TEST_CONSOLE_UI ?? "http://127.0.0.1:6110";
@@ -25,7 +27,7 @@ async function api(path, init) {
 }
 
 function parseArgs(argv) {
-  const out = { parent: null, tag: "agent", status: null, promptFile: null, cmd: [] };
+  const out = { parent: null, tag: "agent", status: null, promptFile: null, model: null, cmd: [] };
   let i = 2;
   while (i < argv.length) {
     const a = argv[i];
@@ -37,6 +39,7 @@ function parseArgs(argv) {
     else if (a === "--tag") out.tag = argv[++i];
     else if (a === "--status") out.status = argv[++i];
     else if (a === "--prompt-file") out.promptFile = argv[++i];
+    else if (a === "--model") out.model = argv[++i];
     i += 1;
   }
   return out;
@@ -64,9 +67,34 @@ function writeStatus(statusPath, payload) {
   writeFileSync(statusPath, JSON.stringify(payload, null, 2));
 }
 
-const { parent, tag, status, promptFile, cmd } = parseArgs(process.argv);
-if (!cmd.length) {
-  console.error("Missing agent command after --");
+const { parent, tag, status, promptFile, model, cmd } = parseArgs(process.argv);
+
+/** @type {string} */
+let agentBin;
+/** @type {string[]} */
+let agentArgs;
+
+if (promptFile) {
+  let prompt;
+  try {
+    prompt = readFileSync(promptFile, "utf8");
+  } catch (e) {
+    console.error(
+      `[agent:${tag}] Could not read --prompt-file: ${e instanceof Error ? e.message : e}`
+    );
+    process.exit(2);
+  }
+  const agentModel = model ?? resolveAgentModel(loadRunSettings());
+  ({ bin: agentBin, args: agentArgs } = cursorAgentInvocation(prompt, {
+    streamProgress: true,
+    model: agentModel
+  }));
+} else if (cmd.length) {
+  agentBin = cmd[0];
+  agentArgs = cmd.slice(1);
+} else {
+  console.error("Usage: test-console-agent-child-run.mjs --prompt-file <path> [--model <id>]");
+  console.error("   or: test-console-agent-child-run.mjs -- ... agent args");
   process.exit(2);
 }
 
@@ -87,10 +115,9 @@ if (promptFile) {
   await append(parent, tag, `Prompt preview:\n${preview}\n…\n`);
 }
 
-const [bin, ...args] = cmd;
-await append(parent, tag, `▶ ${bin} ${args.slice(0, 4).join(" ")}…\n`);
+await append(parent, tag, `▶ ${agentBin} ${agentArgs.slice(0, 4).join(" ")}…\n`);
 
-const child = spawn(bin, args, {
+const child = spawn(agentBin, agentArgs, {
   cwd: CWD,
   env: { ...process.env, FORCE_COLOR: "0" },
   stdio: ["ignore", "pipe", "pipe"]
@@ -113,7 +140,11 @@ const ENV_INT = (key, fallback) => {
   return Number.isFinite(n) && n > 0 ? n : fallback;
 };
 
-const DEADLINE_FIRST_EDIT_MS = ENV_INT("AGENT_WATCHDOG_FIRST_EDIT_MS", 8 * 60_000);
+/** Supervisor `investigate_first` — allow diagnosis before first edit (see test-console-managed-run). */
+const INVESTIGATE_FIRST_MODE = process.env.AGENT_WATCHDOG_INVESTIGATE_MODE === "1";
+const DEADLINE_FIRST_EDIT_MS = INVESTIGATE_FIRST_MODE
+  ? ENV_INT("AGENT_WATCHDOG_FIRST_EDIT_MS", 14 * 60_000)
+  : ENV_INT("AGENT_WATCHDOG_FIRST_EDIT_MS", 8 * 60_000);
 const DEADLINE_MAX_BIG_READS = ENV_INT("AGENT_WATCHDOG_MAX_BIG_READS", 20);
 const DEADLINE_TOTAL_MS = ENV_INT("AGENT_WATCHDOG_TOTAL_MS", 25 * 60_000);
 const BIG_READ_LINE_THRESHOLD = 800;
@@ -149,7 +180,9 @@ const checkWatchdog = () => {
   }
   if (editCount === 0 && elapsed > DEADLINE_FIRST_EDIT_MS) {
     tripWatchdog(
-      `${(elapsed / 60_000).toFixed(1)}m elapsed, 0 edits (reads=${readCount}, big-file reads=${bigReadCount}). Investigation paralysis.`
+      INVESTIGATE_FIRST_MODE
+        ? `${(elapsed / 60_000).toFixed(1)}m elapsed, 0 edits (reads=${readCount}, big-file reads=${bigReadCount}). Investigate-first budget exceeded — land a targeted edit or write BLOCKED in lab-memory.`
+        : `${(elapsed / 60_000).toFixed(1)}m elapsed, 0 edits (reads=${readCount}, big-file reads=${bigReadCount}). Investigation paralysis.`
     );
     return;
   }

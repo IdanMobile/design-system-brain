@@ -15,7 +15,7 @@ export interface TestStepDef {
   dir: string;
   /** Test console action id */
   actionId: string;
-  /** Must not run concurrently with other stories (Figma live relay) */
+  /** @deprecated Figma export is queued on relay; use STORYBOOK_PARALLEL for load caps. */
   serialOnly?: boolean;
 }
 
@@ -26,8 +26,7 @@ export const TEST_STEPS: TestStepDef[] = [
     id: "figmaLive",
     label: "Figma live",
     dir: "figma-live-diffs",
-    actionId: "figma:live:golden",
-    serialOnly: true
+    actionId: "figma:live:golden"
   },
   { id: "delivery", label: "Delivery (3-way)", dir: "delivery-diffs", actionId: "delivery:golden" },
   { id: "logic", label: "Logic audit", dir: "logic-audit-diffs", actionId: "logic:golden" }
@@ -139,7 +138,7 @@ export function recommendAction(
   if (status === "fail") {
     if (stepId === "figmaLive") return "Fix renderer — reload plugin, re-run live";
     if (stepId === "figma") return "Fix code-v2.ts — mock golden";
-    if (stepId === "pixel") return "Fix schema / scene-to-html";
+    if (stepId === "pixel") return "Fix schema / render-html.ts";
     if (stepId === "delivery") return "Fix SB ↔ dev ↔ Figma pipeline";
     if (stepId === "logic") return "Fix audit harness / Delivery showcase load";
     return "Fix pipeline";

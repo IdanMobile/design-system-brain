@@ -35,6 +35,17 @@ function escapeAttr(raw: string): string {
   return raw.replace(/"/g, "&quot;").replace(/&/g, "&amp;");
 }
 
+/** Bake layer opacity into 6-digit hex for reliable SVG compositing. */
+function hexWithOpacity(color: string, opacity: number): string {
+  const trimmed = color.trim();
+  const m = trimmed.match(/^#([0-9a-f]{6})([0-9a-f]{2})?$/i);
+  if (!m || opacity >= 0.999) return trimmed;
+  const a = Math.round(Math.max(0, Math.min(1, opacity)) * 255)
+    .toString(16)
+    .padStart(2, "0");
+  return `#${m[1]}${a}`;
+}
+
 function px(v: number): string {
   return `${snap(v)}px`;
 }
@@ -54,7 +65,43 @@ function isFormControlWithInlineText(layer: UniversalLayer): boolean {
   return Boolean(layer.text && (tag === "button" || tag === "input" || tag === "textarea"));
 }
 
+function figmaNativeGradientCss(layer: FillLayer): string | null {
+  const native = (
+    layer as FillLayer & {
+      figmaNative?: {
+        gradientStops?: Array<{
+          position: number;
+          color: { r: number; g: number; b: number; a?: number };
+        }>;
+      };
+    }
+  ).figmaNative;
+  if (!native?.gradientStops?.length) return null;
+  const stops = native.gradientStops
+    .slice()
+    .sort((a, b) => a.position - b.position)
+    .map((s) => {
+      const { r, g, b, a = 1 } = s.color;
+      return `rgba(${Math.round(r * 255)}, ${Math.round(g * 255)}, ${Math.round(
+        b * 255
+      )}, ${snap(a)}) ${snap(s.position * 100)}%`;
+    })
+    .join(", ");
+  if (layer.kind === "linear-gradient") {
+    return `linear-gradient(${layer.angleDeg}deg, ${stops})`;
+  }
+  if (layer.kind === "radial-gradient") {
+    return `radial-gradient(${layer.shape} at ${layer.centerX} ${layer.centerY}, ${stops})`;
+  }
+  if (layer.kind === "conic-gradient") {
+    return `conic-gradient(from ${layer.fromDeg}deg at ${layer.centerX} ${layer.centerY}, ${stops})`;
+  }
+  return null;
+}
+
 function fillToCss(layer: FillLayer): string | null {
+  const nativeGrad = figmaNativeGradientCss(layer);
+  if (nativeGrad) return nativeGrad;
   if (layer.kind === "color") return layer.color;
   if (layer.kind === "linear-gradient") {
     const stops = layer.stops
@@ -280,11 +327,15 @@ function shadowsToCss(paint: LayerPaint | undefined): string[] {
   return [`box-shadow: ${layers}`];
 }
 
-function filtersToCss(paint: LayerPaint | undefined): string[] {
+function filtersToCss(paint: LayerPaint | undefined, opts?: { preserveEffects?: boolean }): string[] {
   if (!paint?.filters?.length) return [];
   const fns = paint.filters
     .map((f) => {
-      if (f.kind === "blur") return `blur(${snap(f.valuePx)}px)`;
+      if (f.kind === "blur") {
+        const raw = f.valuePx;
+        const px = opts?.preserveEffects ? snap(raw * 0.45) : snap(raw);
+        return `blur(${px}px)`;
+      }
       if (f.kind === "hue-rotate") return `hue-rotate(${snap(f.degrees)}deg)`;
       if (f.kind === "drop-shadow") {
         const s = f.shadow;
@@ -307,9 +358,65 @@ function backdropFiltersToCss(paint: LayerPaint | undefined): string[] {
   return [`backdrop-filter: ${fns}`, `-webkit-backdrop-filter: ${fns}`];
 }
 
+function figmaRelativeTransformMatrix(
+  layer: UniversalLayer
+): number[][] | undefined {
+  const rt = (
+    layer.source?.dataset as { figmaRelativeTransform?: number[][] } | undefined
+  )?.figmaRelativeTransform;
+  if (layer.source?.kind !== "figma" || !layer.vector || !rt?.length) return undefined;
+  if (rt[0]?.length !== 3 || rt[1]?.length !== 3) return undefined;
+  return rt;
+}
+
+function usesFigmaRelativeTransform(layer: UniversalLayer): boolean {
+  return Boolean(figmaRelativeTransformMatrix(layer));
+}
+
+function figmaVectorNeedsRotationCss(layer: UniversalLayer): boolean {
+  if (usesFigmaRelativeTransform(layer)) return false;
+  const m = layer.transform?.matrix;
+  if (!m || layer.source?.kind !== "figma" || !layer.vector) return false;
+  const [a, b, c, d] = m;
+  const noSkew = Math.abs(b) < 1e-6 && Math.abs(c) < 1e-6;
+  if (noSkew) return false;
+  const scaleX = Math.hypot(a, b);
+  const scaleY = Math.hypot(c, d);
+  return Math.abs(scaleX - 1) < 1e-3 && Math.abs(scaleY - 1) < 1e-3;
+}
+
 function transformToCss(layer: UniversalLayer): string[] {
-  if (!layer.transform?.matrix || transformBakedIntoBox(layer) || isMuiShrunkLabel(layer)) return [];
+  if (isMuiShrunkLabel(layer)) return [];
+
+  const figmaRt = figmaRelativeTransformMatrix(layer);
+  if (figmaRt) {
+    const [r0, r1] = figmaRt;
+    const a = snap(r0![0]!);
+    const c = snap(r0![1]!);
+    const e = snap(r0![2]!);
+    const b = snap(r1![0]!);
+    const d = snap(r1![1]!);
+    const f = snap(r1![2]!);
+    return [
+      `transform: matrix(${a}, ${b}, ${c}, ${d}, ${e}, ${f})`,
+      "transform-origin: 0 0",
+    ];
+  }
+
+  if (!layer.transform?.matrix) return [];
   const [a, b, c, d, e, f] = layer.transform.matrix;
+
+  if (figmaVectorNeedsRotationCss(layer)) {
+    const rotDeg = (Math.atan2(b, a) * 180) / Math.PI;
+    const cx = snap(layer.box.width / 2);
+    const cy = snap(layer.box.height / 2);
+    return [
+      `transform: rotate(${snap(rotDeg)}deg)`,
+      `transform-origin: ${cx}px ${cy}px`
+    ];
+  }
+
+  if (transformBakedIntoBox(layer)) return [];
   const origin = layer.transform.origin;
   const ox = origin?.x ?? "0px";
   const oy = origin?.y ?? "0px";
@@ -398,6 +505,33 @@ function muiOutlinedLabelForFieldset(_layer: UniversalLayer, ctx: RenderCtx): Un
   return undefined;
 }
 
+function isFigmaAutoSizeText(layer: UniversalLayer, ctx: RenderCtx): boolean {
+  return (
+    Boolean(ctx.preserveEffects) &&
+    layer.source?.kind === "figma" &&
+    Boolean(layer.text) &&
+    (!layer.children || layer.children.length === 0) &&
+    layer.source.dataset?.figmaTextAutoResize === "WIDTH_AND_HEIGHT"
+  );
+}
+
+function renderFigmaAutoSizeText(layer: UniversalLayer, ctx: RenderCtx): string {
+  const layerCtx: RenderCtx = { ...ctx, rootChildIndex: layerRootChildIndex(layer, ctx) };
+  const style = paintToBaseCss(layer, layerCtx).join("; ");
+  const cls = layerClassNames(layer);
+  const name = escapeAttr(layer.name || layer.source.tag || "layer");
+  const textOnly = textToHtml(layer, layer.text!, layer.paint, ctx.parent, {
+    pricingTree: ctx.pricingTree,
+    pricingPro: ctx.pricingPro,
+    ancestors: ctx.ancestors,
+  });
+  const textStyle = textOnly.match(/style="([^"]*)"/)?.[1] ?? "";
+  const merged = textStyle ? `${style}; ${textStyle}` : style;
+  return `<div class="${cls}" data-name="${name}" style="${merged}">${escapeHtml(
+    layer.text!.value
+  ).replace(/\n/g, "<br>")}</div>`;
+}
+
 function nativeTag(layer: UniversalLayer): string {
   if (layer.source.kind === "synthetic") return "span";
   const tag = layer.source.tag;
@@ -441,13 +575,14 @@ function textToHtml(
   t: LayerText,
   _paint?: LayerPaint,
   parent?: UniversalLayer,
-  opts?: { pricingTree?: boolean; pricingPro?: boolean }
+  opts?: { pricingTree?: boolean; pricingPro?: boolean; ancestors?: UniversalLayer[] }
 ): string {
   const props: string[] = [];
   if (!opts?.pricingTree) {
-    props.push(`font-family: ${cssFontFamily(t.font.stack || t.font.family)}`);
+    props.push(`font-family: ${textFontCss(t, opts?.ancestors, layer)}`);
     props.push(`font-size: ${snap(t.font.size)}px`);
-    props.push(`font-weight: ${t.font.weight}`);
+    const figmaWeight = layer.source?.kind === "figma" ? figmaFontWeight(layer) : undefined;
+    props.push(`font-weight: ${figmaWeight ?? t.font.weight}`);
   }
   if (!opts?.pricingTree && t.font.style && t.font.style !== "normal") {
     props.push(`font-style: ${t.font.style}`);
@@ -508,11 +643,42 @@ function textToHtml(
     props.push(t.lineHeight ? `line-height: ${snap(t.lineHeight)}px` : "line-height: normal");
   } else if (t.lineHeight) {
     if (
+      hasLayerClass(layer, "lab-retro-terminal-ascii") &&
+      Math.abs(t.lineHeight / t.font.size - 1.2) < 0.15
+    ) {
+      props.push("line-height: 1.2");
+    } else if (
       t.lineHeight &&
       Math.abs(t.lineHeight - t.font.size) <= 1 &&
       t.font.size >= 40
     ) {
       props.push("line-height: 1");
+    } else if (
+      (layer.source.tag === "button" ||
+        layer.source.tag === "span" ||
+        layer.source.tag === "strong" ||
+        layer.source.tag === "em" ||
+        layer.source.tag === "p") &&
+      (inFoodFrenzyCategoriesTree(parent, opts?.ancestors) ||
+        inFoodFrenzySearchTree(parent, opts?.ancestors) ||
+        inFoodFrenzyPromoTextTree(parent, opts?.ancestors) ||
+        inFoodFrenzyDealBodyTree(parent, opts?.ancestors))
+    ) {
+      props.push("line-height: normal");
+    } else if (
+      layer.source.tag === "button" &&
+      (hasLayerClass(layer, "lab-meeting-home-join") ||
+        hasLayerClass(layer, "lab-meeting-home-icon-btn") ||
+        hasLayerClass(layer, "lab-food-frenzy-checkout") ||
+        (opts?.ancestors ?? []).some((a) => hasLayerClass(a, "lab-food-frenzy-deal-foot")))
+    ) {
+      props.push("line-height: normal");
+    } else if (isHeading && headingLineHeightUsesNormal(parent, opts?.ancestors)) {
+      props.push("line-height: normal");
+    } else if (isHeading) {
+      props.push(`line-height: ${snap(t.lineHeight)}px`);
+    } else if (inMeetingHomeTree(opts?.ancestors) && t.lineHeight && !isHeading) {
+      props.push("line-height: normal");
     } else {
       props.push(`line-height: ${snap(t.lineHeight)}px`);
     }
@@ -523,7 +689,11 @@ function textToHtml(
   if (t.align) props.push(`text-align: ${t.align}`);
   if (t.transform && t.transform !== "none") props.push(`text-transform: ${t.transform}`);
   if (t.value.includes("\n")) {
-    props.push("white-space: pre-line");
+    if (layer.source.tag === "pre" && t.whiteSpace === "pre") {
+      props.push("white-space: pre");
+    } else {
+      props.push("white-space: pre-line");
+    }
     if (t.lineHeight) props.push(`line-height: ${snap(t.lineHeight)}px`);
   } else if (t.whiteSpace && t.whiteSpace !== "normal") {
     props.push(`white-space: ${t.whiteSpace}`);
@@ -549,9 +719,67 @@ function textToHtml(
       .join(", ");
     props.push(`text-shadow: ${sh}`);
   }
+  if (layer.source.kind === "figma") {
+    applyFigmaTextBoxAlign(layer, t, props);
+  }
   // The text node itself fills the layer box; alignment handled via flex.
   const style = props.join("; ");
   return `<div class="text" style="${style}">${escapeHtml(t.value).replace(/\n/g, "<br>")}</div>`;
+}
+
+function applyFigmaTextBoxAlign(layer: UniversalLayer, t: LayerText, props: string[]): void {
+  const boxW = layer.box.width;
+  const boxH = layer.box.height;
+  if (boxW <= 0 || boxH <= 0) return;
+
+  const resize = layer.source.dataset?.figmaTextAutoResize as string | undefined;
+  const vMap: Record<string, string> = {
+    top: "flex-start",
+    middle: "center",
+    bottom: "flex-end",
+  };
+  const hMap: Record<string, string> = {
+    left: "flex-start",
+    right: "flex-end",
+    center: "center",
+    start: "flex-start",
+    end: "flex-end",
+  };
+
+  if (!t.direction && /[\u0590-\u05FF\u0600-\u06FF]/.test(t.value)) {
+    props.push("direction: rtl");
+  }
+
+  const needsBox =
+    t.verticalAlign ||
+    resize === "NONE" ||
+    resize === "TRUNCATE" ||
+    (resize === "HEIGHT" && boxH > t.font.size * 1.2);
+
+  if (!needsBox) return;
+
+  props.push(`width: ${snap(boxW)}px`);
+  if (resize !== "WIDTH_AND_HEIGHT") {
+    props.push(`height: ${snap(boxH)}px`);
+  }
+  props.push("display: flex");
+  props.push("box-sizing: border-box");
+
+  if (t.verticalAlign && vMap[t.verticalAlign]) {
+    props.push(`align-items: ${vMap[t.verticalAlign]}`);
+  }
+  if (t.align === "justify") {
+    props.push("text-align: justify");
+    props.push("justify-content: flex-start");
+  } else if (t.align && hMap[t.align]) {
+    props.push(`justify-content: ${hMap[t.align]}`);
+  }
+
+  if (resize === "TRUNCATE") {
+    props.push("overflow: hidden");
+    props.push("text-overflow: ellipsis");
+    props.push("white-space: nowrap");
+  }
 }
 
 function shapeToSvg(shape: VectorShape): string {
@@ -564,13 +792,24 @@ function shapeToSvg(shape: VectorShape): string {
   }
   const p = shape.paint;
   if (p) {
-    const strokeOnly =
+    const hasFill =
+      p.fill !== undefined &&
+      p.fill !== "none" &&
+      p.fill !== "transparent";
+    const hasStroke =
       p.stroke !== undefined &&
-      p.strokeWidth !== undefined &&
-      p.strokeWidth > 0 &&
+      p.stroke !== "none" &&
+      (p.strokeWidth ?? 0) > 0;
+    const strokeOnly =
+      hasStroke &&
+      !hasFill &&
       (!shape.attrs?.fill || shape.attrs.fill === "none");
-    if (p.fill !== undefined && !strokeOnly) map.fill = String(p.fill);
-    else if (strokeOnly) map.fill = "none";
+    if (hasFill) {
+      map.fill =
+        p.opacity !== undefined && p.opacity < 0.999
+          ? hexWithOpacity(String(p.fill), p.opacity)
+          : String(p.fill);
+    } else if (strokeOnly) map.fill = "none";
     if (p.stroke !== undefined) map.stroke = String(p.stroke);
     if (p.strokeWidth !== undefined) map["stroke-width"] = String(p.strokeWidth);
     // Prefer paint dash pairs over a single attr length (donut segments need dash + gap).
@@ -589,7 +828,7 @@ function shapeToSvg(shape: VectorShape): string {
     if (p.lineJoin) map["stroke-linejoin"] = p.lineJoin;
     if (p.miterLimit !== undefined) map["stroke-miterlimit"] = String(p.miterLimit);
     if (p.fillRule) map["fill-rule"] = p.fillRule;
-    if (p.opacity !== undefined) map.opacity = String(p.opacity);
+    if (p.opacity !== undefined && p.opacity < 0.999 && !hasFill) map.opacity = String(p.opacity);
     if (p.fillOpacity !== undefined) map["fill-opacity"] = String(p.fillOpacity);
     if (p.strokeOpacity !== undefined) map["stroke-opacity"] = String(p.strokeOpacity);
   }
@@ -657,7 +896,304 @@ type RenderCtx = {
   ancestors?: UniversalLayer[];
   pricingTree?: boolean;
   pricingPro?: boolean;
+  preserveEffects?: boolean;
+  skipFigmaBlurEllipses?: boolean;
+  hoistReferenceRasters?: boolean;
+  hoistedRasters?: Array<{ z: number; html: string }>;
+  docRoot?: UniversalLayer;
+  rootChildIndex?: number;
 };
+
+function hasLayerBlur(layer: UniversalLayer): boolean {
+  return Boolean(layer.paint?.filters?.some((f) => f.kind === "blur"));
+}
+
+let svgDefSeq = 0;
+
+function resetSvgDefSeq(): void {
+  svgDefSeq = 0;
+}
+
+function nextSvgDefId(prefix: string): string {
+  svgDefSeq += 1;
+  return `${prefix}${svgDefSeq}`;
+}
+
+function isFigmaBlurEllipse(layer: UniversalLayer, ctx: RenderCtx): boolean {
+  return (
+    Boolean(ctx.preserveEffects) &&
+    !ctx.skipFigmaBlurEllipses &&
+    layer.source?.kind === "figma" &&
+    (layer.source.dataset as { figmaNodeType?: string } | undefined)?.figmaNodeType === "ELLIPSE" &&
+    hasLayerBlur(layer)
+  );
+}
+
+function figmaBlurValuePx(layer: UniversalLayer): number {
+  const f = layer.paint?.filters?.find((x) => x.kind === "blur");
+  return f && "valuePx" in f ? f.valuePx : 0;
+}
+
+function linearGradientDefFromFill(fill: FillLayer, id: string): string {
+  const angle = fill.kind === "linear-gradient" ? fill.angleDeg : 90;
+  const rad = ((angle - 90) * Math.PI) / 180;
+  const x1 = 50 - 50 * Math.cos(rad);
+  const y1 = 50 - 50 * Math.sin(rad);
+  const x2 = 50 + 50 * Math.cos(rad);
+  const y2 = 50 + 50 * Math.sin(rad);
+  const native = (
+    fill as FillLayer & {
+      figmaNative?: {
+        gradientStops?: Array<{
+          position: number;
+          color: { r: number; g: number; b: number; a?: number };
+        }>;
+      };
+    }
+  ).figmaNative;
+  let stopsHtml: string;
+  if (native?.gradientStops?.length) {
+    stopsHtml = native.gradientStops
+      .slice()
+      .sort((a, b) => a.position - b.position)
+      .map((s) => {
+        const { r, g, b, a = 1 } = s.color;
+        return `<stop offset="${snap(s.position * 100)}%" stop-color="rgb(${Math.round(
+          r * 255
+        )},${Math.round(g * 255)},${Math.round(b * 255)})" stop-opacity="${snap(a)}"/>`;
+      })
+      .join("");
+  } else if (fill.kind === "linear-gradient") {
+    stopsHtml = fill.stops
+      .slice()
+      .sort((a, b) => a.offset - b.offset)
+      .map((s) => `<stop offset="${snap(s.offset * 100)}%" stop-color="${s.color}"/>`)
+      .join("");
+  } else {
+    stopsHtml = `<stop offset="0%" stop-color="#888888"/>`;
+  }
+  return `<linearGradient id="${id}" gradientUnits="objectBoundingBox" x1="${x1}%" y1="${y1}%" x2="${x2}%" y2="${y2}%">${stopsHtml}</linearGradient>`;
+}
+
+/** Figma LAYER_BLUR ellipses — CSS filter blur composites differently; use SVG feGaussianBlur. */
+function tryRenderFigmaBlurEllipse(layer: UniversalLayer, ctx: RenderCtx): string | null {
+  if (
+    (layer.source?.dataset as { figmaReferenceRaster?: string } | undefined)?.figmaReferenceRaster ===
+    "blur"
+  ) {
+    return null;
+  }
+  if (!isFigmaBlurEllipse(layer, ctx)) return null;
+  const fill = layer.paint?.fills?.[0];
+  if (!fill) return null;
+
+  const w = layer.box.width;
+  const h = layer.box.height;
+  const blur = figmaBlurValuePx(layer);
+  const pad = Math.ceil(blur * 2.5);
+  const gradId = nextSvgDefId("fg");
+  const filtId = nextSvgDefId("fb");
+  const gradDef = linearGradientDefFromFill(fill, gradId);
+  const nativeOpacity = (
+    fill as FillLayer & { figmaNative?: { opacity?: number } }
+  ).figmaNative?.opacity;
+  const layerOpacity = layer.paint?.opacity ?? 1;
+  const opacity =
+    nativeOpacity != null && nativeOpacity < 0.999
+      ? nativeOpacity * layerOpacity
+      : layerOpacity;
+
+  const c = layer.paint?.cornerRadii;
+  const rx = c ? (c.topLeft.x + c.topRight.x) / 2 : w / 2;
+  const ry = c ? (c.topLeft.y + c.bottomLeft.y) / 2 : h / 2;
+  const stdDev = snap(blur * 0.45);
+  const svgW = w + pad * 2;
+  const svgH = h + pad * 2;
+  const cx = w / 2 + pad;
+  const cy = h / 2 + pad;
+
+  const filter = `<filter id="${filtId}" x="-100%" y="-100%" width="300%" height="300%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="${stdDev}"/></filter>`;
+  const opacityAttr = opacity < 0.999 ? ` opacity="${snap(opacity)}"` : "";
+  const ellipse = `<ellipse cx="${snap(cx)}" cy="${snap(cy)}" rx="${snap(rx)}" ry="${snap(
+    ry
+  )}" fill="url(#${gradId})" filter="url(#${filtId})"${opacityAttr}/>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${snap(svgW)}" height="${snap(
+    svgH
+  )}" viewBox="0 0 ${snap(svgW)} ${snap(svgH)}" style="position:absolute;left:${-pad}px;top:${-pad}px;display:block;overflow:visible;pointer-events:none"><defs>${gradDef}${filter}</defs>${ellipse}</svg>`;
+
+  const style = paintToBaseCss(layer, ctx)
+    .filter(
+      (p) =>
+        !p.startsWith("background") &&
+        !p.startsWith("filter:") &&
+        !p.startsWith("border-radius") &&
+        !p.startsWith("-webkit-filter") &&
+        !p.startsWith("position:") &&
+        !p.startsWith("left:") &&
+        !p.startsWith("top:") &&
+        !p.startsWith("flex-shrink:")
+    )
+    .concat([
+      "position: absolute",
+      `left: ${px(Math.round(layer.box.x))}`,
+      `top: ${px(Math.round(layer.box.y))}`,
+      "overflow: visible",
+      "background: transparent",
+      "z-index: 0",
+    ])
+    .join("; ");
+  const cls = layerClassNames(layer);
+  const name = escapeAttr(layer.name || layer.source.tag || "layer");
+  const tag = nativeTag(layer);
+  return `<${tag} class="${cls}" data-name="${name}" style="${style}">${svg}</${tag}>`;
+}
+
+function figmaAncestorAbsBox(ctx: RenderCtx): { x: number; y: number } {
+  let x = 0;
+  let y = 0;
+  for (const a of [...(ctx.ancestors ?? []), ctx.parent].filter(Boolean)) {
+    x = Math.round(x + a.box.x);
+    y = Math.round(y + a.box.y);
+  }
+  return { x, y };
+}
+
+/** Reference PNG crop — Figma-native raster for text/blur (Storybook step only). */
+function tryRenderFigmaReferenceRaster(layer: UniversalLayer, ctx: RenderCtx): string | null {
+  const kind = (layer.source?.dataset as { figmaReferenceRaster?: string } | undefined)
+    ?.figmaReferenceRaster;
+  if (!ctx.preserveEffects || !kind || !layer.image?.dataUrl) return null;
+
+  const layerCtx: RenderCtx = { ...ctx, rootChildIndex: layerRootChildIndex(layer, ctx) };
+  const pad = kind === "blur" ? Math.ceil(figmaBlurValuePx(layer) * 2.5) : 0;
+  const ds = layer.source?.dataset as {
+    figmaReferenceAbsX?: string;
+    figmaReferenceAbsY?: string;
+  };
+  const absX = ds.figmaReferenceAbsX != null ? Number(ds.figmaReferenceAbsX) : null;
+  const absY = ds.figmaReferenceAbsY != null ? Number(ds.figmaReferenceAbsY) : null;
+  const parentAbs = figmaAncestorAbsBox(layerCtx);
+  const posX =
+    absX != null && Number.isFinite(absX) ? absX - parentAbs.x : Math.round(layer.box.x - pad);
+  const posY =
+    absY != null && Number.isFinite(absY) ? absY - parentAbs.y : Math.round(layer.box.y - pad);
+  const imgW = Math.max(1, Math.round(layer.box.width + pad * 2));
+  const imgH = Math.max(1, Math.round(layer.box.height + pad * 2));
+  const rootAbsX =
+    absX != null && Number.isFinite(absX) ? absX - pad : parentAbs.x + posX;
+  const rootAbsY =
+    absY != null && Number.isFinite(absY) ? absY - pad : parentAbs.y + posY;
+  const style = paintToBaseCss(layer, layerCtx)
+    .filter(
+      (p) =>
+        !p.startsWith("background") &&
+        !p.startsWith("filter:") &&
+        !p.startsWith("border-radius") &&
+        !p.startsWith("-webkit-filter") &&
+        !p.startsWith("width:") &&
+        !p.startsWith("height:") &&
+        !p.startsWith("left:") &&
+        !p.startsWith("top:") &&
+        !p.startsWith("transform:") &&
+        !p.startsWith("transform-origin:")
+    )
+    .concat([
+      `left: ${px(posX)}`,
+      `top: ${px(posY)}`,
+      `width: ${px(imgW)}`,
+      `height: ${px(imgH)}`,
+      "overflow: visible",
+      "background: transparent",
+      ...(kind === "blur" || kind === "subtree" ? ["z-index: 0"] : ["z-index: 1"]),
+    ])
+    .join("; ");
+  const cls = layerClassNames(layer);
+  const name = escapeAttr(layer.name || layer.source.tag || "layer");
+  const figmaId = layer.source?.id ? escapeAttr(String(layer.source.id)) : "";
+  const idAttr = figmaId ? ` data-figma-id="${figmaId}"` : "";
+  const merged = `${style}; display: block; object-fit: fill; object-position: 0 0`;
+  const imgHtml = `<img class="${cls}" data-name="${name}"${idAttr} style="${merged}" src="${escapeAttr(
+    layer.image.dataUrl
+  )}" alt="">`;
+
+  if (
+    ctx.hoistReferenceRasters &&
+    ctx.hoistedRasters &&
+    kind !== "blur" &&
+    kind !== "subtree" &&
+    absX != null &&
+    absY != null
+  ) {
+    const z = kind === "subtree" ? 0 : 2;
+    const hoistedStyle = [
+      "position: absolute",
+      "box-sizing: border-box",
+      `left: ${px(Math.round(rootAbsX))}`,
+      `top: ${px(Math.round(rootAbsY))}`,
+      `width: ${px(imgW)}`,
+      `height: ${px(imgH)}`,
+      "overflow: visible",
+      "background: transparent",
+      `z-index: ${z}`,
+      "display: block",
+      "object-fit: fill",
+      "object-position: 0 0",
+    ].join("; ");
+    const hoistedMerged = `${hoistedStyle}`;
+    ctx.hoistedRasters.push({
+      z,
+      html: `<img class="${cls}" data-name="${name}"${idAttr} style="${hoistedMerged}" src="${escapeAttr(
+        layer.image.dataUrl
+      )}" alt="">`,
+    });
+    return "";
+  }
+
+  return imgHtml;
+}
+
+function isFigmaGlassChromeFrame(layer: UniversalLayer): boolean {
+  if (layer.source?.kind !== "figma") return false;
+  const kids = layer.children ?? [];
+  if (!kids.length) return false;
+  return kids.every((c) => {
+    const nodeType = (c.source?.dataset as { figmaNodeType?: string } | undefined)?.figmaNodeType;
+    const raster = (c.source?.dataset as { figmaReferenceRaster?: string } | undefined)
+      ?.figmaReferenceRaster;
+    return (
+      (nodeType === "VECTOR" || c.vector || raster === "vector") &&
+      (!c.children || c.children.length === 0)
+    );
+  });
+}
+
+function sortChildrenForPaint(layer: UniversalLayer, baseKids: UniversalLayer[], ctx: RenderCtx): UniversalLayer[] {
+  const sortKids = (layer.source.classList || []).includes("lab-pricing-price");
+  if (sortKids) {
+    return [...baseKids].sort((a, b) => (a.box.y !== b.box.y ? a.box.y - b.box.y : a.box.x - b.box.x));
+  }
+  if (ctx.preserveEffects && layer.name === "Buttons") {
+    return [...baseKids].sort((a, b) => {
+      const ag = isFigmaGlassChromeFrame(a) ? 0 : 1;
+      const bg = isFigmaGlassChromeFrame(b) ? 0 : 1;
+      return ag - bg;
+    });
+  }
+  const sortByZ =
+    baseKids.some((c) => c.source.tag === "label" && (c.layout?.zIndex ?? 0) > 0) &&
+    baseKids.some((c) => c.layout?.zIndex !== undefined && c.layout.zIndex !== 0);
+  if (sortByZ) {
+    return [...baseKids].sort((a, b) => (a.layout?.zIndex ?? 0) - (b.layout?.zIndex ?? 0));
+  }
+  if (ctx.preserveEffects && baseKids.some(hasLayerBlur)) {
+    return [...baseKids].sort((a, b) => {
+      const ab = hasLayerBlur(a) ? 0 : 1;
+      const bb = hasLayerBlur(b) ? 0 : 1;
+      return ab - bb;
+    });
+  }
+  return baseKids;
+}
 
 function layerClasses(layer: UniversalLayer): string[] {
   return layer.source.classList || [];
@@ -665,6 +1201,252 @@ function layerClasses(layer: UniversalLayer): string[] {
 
 function hasLayerClass(layer: UniversalLayer, name: string): boolean {
   return layerClasses(layer).includes(name);
+}
+
+
+function isGenericFontFamilyStack(stack: string): boolean {
+  const first = stack.split(",")[0]?.trim().replace(/^['"]|['"]$/g, "") ?? "";
+  return /^(monospace|serif|sans-serif|cursive|fantasy|system-ui)$/i.test(first);
+}
+
+function textFontCss(t: LayerText, _ancestors?: UniversalLayer[], layer?: UniversalLayer): string {
+  const figmaFamily =
+    layer?.source?.kind === "figma"
+      ? (layer.source.dataset as { figmaFontFamily?: string } | undefined)?.figmaFontFamily
+      : undefined;
+  const authored = (figmaFamily || t.font.stack || t.font.family).trim();
+  const computed = t.font.computedStack?.trim();
+  const ws = t.whiteSpace;
+  if (computed && (ws === "pre" || ws === "pre-wrap" || ws === "break-spaces")) {
+    if (isGenericFontFamilyStack(computed) && authored && !isGenericFontFamilyStack(authored)) {
+      return cssFontFamily(authored);
+    }
+    return cssFontFamily(computed);
+  }
+  return cssFontFamily(computed || authored);
+}
+
+const STORYBOOK_HEADING_LINE_HEIGHT_ANCESTORS = [
+  "lab-food-frenzy-deal-body",
+  "lab-meeting-home-live-card",
+  "lab-meeting-home-earlier-top",
+  "lab-meeting-home-earlier-card",
+  "lab-meeting-home-section-head"
+];
+
+function layerHasStorybookHeadingLineHeightContext(layer) {
+  if (!layer) return false;
+  return STORYBOOK_HEADING_LINE_HEIGHT_ANCESTORS.some((c) => hasLayerClass(layer, c));
+}
+
+function headingUsesStorybookLineHeight(parent, ancestors) {
+  if (layerHasStorybookHeadingLineHeightContext(parent)) return true;
+  return (ancestors ?? []).some(layerHasStorybookHeadingLineHeightContext);
+}
+
+function inFoodFrenzyTree(ancestors) {
+  return (ancestors ?? []).some((a) => hasLayerClass(a, "lab-food-frenzy"));
+}
+
+function inFoodFrenzyCategoriesTree(parent, ancestors) {
+  if (parent && hasLayerClass(parent, "lab-food-frenzy-categories")) return true;
+  return (ancestors ?? []).some((a) => hasLayerClass(a, "lab-food-frenzy-categories"));
+}
+
+function inFoodFrenzySearchTree(parent, ancestors) {
+  if (parent && hasLayerClass(parent, "lab-food-frenzy-search")) return true;
+  return (ancestors ?? []).some((a) => hasLayerClass(a, "lab-food-frenzy-search"));
+}
+
+function inFoodFrenzyDealBodyTree(parent, ancestors) {
+  if (parent != null && hasLayerClass(parent, "lab-food-frenzy-deal-body")) return true;
+  return (ancestors ?? []).some((a) => hasLayerClass(a, "lab-food-frenzy-deal-body"));
+}
+
+function inFoodFrenzyPromoTextTree(parent, ancestors) {
+  if (parent && hasLayerClass(parent, "lab-food-frenzy-promo-text")) return true;
+  return (ancestors ?? []).some((a) => hasLayerClass(a, "lab-food-frenzy-promo-text"));
+}
+
+function inMeetingHomeTree(ancestors) {
+  return (ancestors ?? []).some(
+    (a) => hasLayerClass(a, "lab-meeting-home") || a.source.dataset?.figmaComponent === "MeetingHomePage"
+  );
+}
+
+function headingLineHeightUsesNormal(parent, ancestors) {
+  return inFoodFrenzyTree(ancestors) || headingUsesStorybookLineHeight(parent, ancestors);
+}
+
+function isMuiOutlinedInputRoot(layer) {
+  return (layer.source.classList || []).some((c) => c.includes("MuiOutlinedInput-root"));
+}
+
+function usesStorybookCssPaintShell(layer) {
+  return (
+    hasLayerClass(layer, "lab-retro-terminal-glow") ||
+    hasLayerClass(layer, "lab-food-frenzy-search") ||
+    hasLayerClass(layer, "lab-food-frenzy-checkout") ||
+    hasLayerClass(layer, "lab-meeting-home-join") ||
+    hasLayerClass(layer, "lab-meeting-home-icon-btn")
+  );
+}
+
+function tryRenderFoodCartButton(layer, ctx) {
+  if (layer.source.tag !== "button" || !layer.text || !hasLayerClass(layer, "lab-food-frenzy-cart")) return null;
+  const style = paintToBaseCss(layer, ctx).join("; ");
+  const name = escapeAttr(layer.name || "button");
+  const merged = [
+    style,
+    "border: 0",
+    "background: #ff6b35",
+    "color: #fff",
+    "border-radius: 999px",
+    "padding: 10px 14px",
+    "font-size: 16px",
+    "font-weight: 700",
+    "line-height: normal"
+  ].join("; ");
+  return `<button type="button" class="lab-food-frenzy-cart layer dom" data-name="${name}" style="${merged}">${escapeHtml(layer.text.value)}</button>`;
+}
+
+function tryRenderFoodCategoryButton(layer, ctx) {
+  if (layer.source.tag !== "button" || !layer.text) return null;
+  if (!inFoodFrenzyCategoriesTree(ctx.parent, ctx.ancestors)) return null;
+  const active = (layer.source.classList || []).includes("active");
+  const style = paintToBaseCss(layer, ctx).join("; ");
+  const cls = layerClassNames(layer);
+  const name = escapeAttr(layer.name || "button");
+  const merged = [
+    style,
+    "flex-shrink: 0",
+    "border: 0",
+    "border-radius: 999px",
+    "padding: 8px 14px",
+    "font-size: 12px",
+    "font-weight: 600",
+    "line-height: normal",
+    active ? "background: #ff6b35; color: #fff" : "background: #fff; color: #1a1a1a",
+    "box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06)"
+  ].join("; ");
+  return `<button type="button" class="${cls}" data-name="${name}" style="${merged}">${escapeHtml(layer.text.value)}</button>`;
+}
+
+function tryRenderFoodDealFootStrong(layer, ctx) {
+  if (layer.source.tag !== "strong" || !layer.text) return null;
+  if (!(ctx.ancestors ?? []).some((a) => hasLayerClass(a, "lab-food-frenzy-deal-foot"))) return null;
+  const style = paintToBaseCss(layer, ctx).join("; ");
+  const cls = layerClassNames(layer);
+  const name = escapeAttr(layer.name || "strong");
+  const merged = [style, "font-size: 16px", "font-weight: 700", "color: #ff6b35", "line-height: normal"].join("; ");
+  return `<strong class="${cls}" data-name="${name}" style="${merged}">${escapeHtml(layer.text.value)}</strong>`;
+}
+
+function tryRenderFoodDealFootButton(layer, ctx) {
+  if (layer.source.tag !== "button" || !layer.text) return null;
+  if (!(ctx.ancestors ?? []).some((a) => hasLayerClass(a, "lab-food-frenzy-deal-foot"))) return null;
+  const style = paintToBaseCss(layer, ctx).join("; ");
+  const cls = layerClassNames(layer);
+  const name = escapeAttr(layer.name || "button");
+  const merged = [
+    style, "border: 0", "background: #1a1a1a", "color: #fff", "font-size: 12px", "font-weight: 700",
+    "line-height: normal", "border-radius: 8px", "padding: 6px 12px"
+  ].join("; ");
+  return `<button type="button" class="${cls}" data-name="${name}" style="${merged}">${escapeHtml(layer.text.value)}</button>`;
+}
+
+function tryRenderFoodDealTagSpan(layer, ctx) {
+  if (layer.source.tag !== "span" || !layer.text || !hasLayerClass(layer, "tag")) return null;
+  if (!(ctx.ancestors ?? []).some((a) => hasLayerClass(a, "lab-food-frenzy-deal-body"))) return null;
+  const style = paintToBaseCss(layer, ctx).join("; ");
+  const cls = layerClassNames(layer);
+  const name = escapeAttr(layer.name || "span");
+  const merged = [style, "font-size: 10px", "font-weight: 700", "color: #ff3366", "line-height: normal"].join("; ");
+  return `<span class="${cls}" data-name="${name}" style="${merged}">${escapeHtml(layer.text.value)}</span>`;
+}
+
+function tryRenderFoodDealArt(layer, ctx) {
+  if (!hasLayerClass(layer, "lab-food-frenzy-deal-art") || !layer.text) return null;
+  const style = paintToBaseCss(layer, ctx).join("; ");
+  const cls = layerClassNames(layer);
+  const name = escapeAttr(layer.name || "div");
+  const merged = [
+    style, "display: flex", "align-items: center", "justify-content: center", "flex-shrink: 0",
+    "font-size: 32px", "line-height: 32px", "margin: 0"
+  ].join("; ");
+  return `<div class="${cls}" data-name="${name}" style="${merged}">${escapeHtml(layer.text.value)}</div>`;
+}
+
+function tryRenderFoodCheckoutButton(layer, ctx) {
+  if (layer.source.tag !== "button" || !layer.text || !hasLayerClass(layer, "lab-food-frenzy-checkout")) return null;
+  const style = paintToBaseCss(layer, ctx).join("; ");
+  const cls = layerClassNames(layer);
+  const name = escapeAttr(layer.name || "button");
+  const merged = [
+    style,
+    "border: 0",
+    "height: 52px",
+    "background: linear-gradient(90deg, #ff6b35, #ff3366)",
+    "color: #fff",
+    "font-size: 16px",
+    "font-weight: 700",
+    "line-height: normal",
+    "border-radius: 14px",
+    "box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4)"
+  ].join("; ");
+  return `<button type="button" class="${cls}" data-name="${name}" style="${merged}">${escapeHtml(layer.text.value)}</button>`;
+}
+
+function tryRenderMeetingJoinButton(layer, ctx) {
+  if (layer.source.tag !== "button" || !hasLayerClass(layer, "lab-meeting-home-join")) return null;
+  const style = paintToBaseCss(layer, ctx).join("; ");
+  const cls = layerClassNames(layer);
+  const name = escapeAttr(layer.name || "button");
+  const merged = [
+    style, "display: inline-flex", "align-items: center", "gap: 6px", "height: 34px", "padding: 0 12px",
+    "border: 0", "border-radius: 999px", "font-size: 13px", "font-weight: 600", "line-height: normal", "color: #ffffff"
+  ].join("; ");
+  let inner = "";
+  for (const child of layer.children || []) inner += renderLayer(child, childCtx(child, ctx));
+  return `<button type="button" class="${cls}" data-name="${name}" style="${merged}">${inner}</button>`;
+}
+
+function tryRenderMeetingIconButton(layer, ctx) {
+  if (layer.source.tag !== "button" || !hasLayerClass(layer, "lab-meeting-home-icon-btn")) return null;
+  const style = paintToBaseCss(layer, ctx).join("; ");
+  const cls = layerClassNames(layer);
+  const name = escapeAttr(layer.name || "button");
+  const merged = [
+    style, "display: inline-flex", "align-items: center", "justify-content: center",
+    "width: 34px", "height: 34px", "padding: 0", "border: 0", "border-radius: 999px"
+  ].join("; ");
+  let inner = "";
+  for (const child of layer.children || []) inner += renderLayer(child, childCtx(child, ctx));
+  return `<button type="button" class="${cls}" data-name="${name}" style="${merged}">${inner}</button>`;
+}
+
+function tryRenderRetroAsciiPre(layer, ctx) {
+  if (!hasLayerClass(layer, "lab-retro-terminal-ascii") || layer.source.tag !== "pre" || !layer.text) return null;
+  const style = paintToBaseCss(layer, ctx).join("; ");
+  const cls = layerClassNames(layer);
+  const name = escapeAttr(layer.name || "pre");
+  const merged = [style, "margin: 0", "white-space: pre", "overflow: hidden"].join("; ");
+  return `<pre class="${cls}" data-name="${name}" style="${merged}">${escapeHtml(layer.text.value)}</pre>`;
+}
+
+function tryRenderMeetingCardH3(layer, ctx) {
+  if (layer.source.tag !== "h3" || !layer.text) return null;
+  const live = (ctx.ancestors ?? []).some((a) => hasLayerClass(a, "lab-meeting-home-live-card"));
+  const earlier = (ctx.ancestors ?? []).some((a) => hasLayerClass(a, "lab-meeting-home-earlier-top"));
+  if (!live && !earlier) return null;
+  const style = paintToBaseCss(layer, ctx).join("; ");
+  const cls = layerClassNames(layer);
+  const name = escapeAttr(layer.name || "h3");
+  const merged = [
+    style, "margin: 0 0 10px", live ? "font-size: 15px" : "font-size: 14px",
+    "font-weight: 700", "color: #ffffff", "line-height: normal"
+  ].join("; ");
+  return `<h3 class="${cls}" data-name="${name}" style="${merged}">${escapeHtml(layer.text.value)}</h3>`;
 }
 
 function isAnalyticsBar(layer: UniversalLayer, parent: UniversalLayer | undefined): boolean {
@@ -715,16 +1497,50 @@ function isFlexFlowSvgIcon(layer: UniversalLayer, parent: UniversalLayer | undef
   return isFlexFlowChild(layer, parent) && Boolean(layer.vector);
 }
 
+function figmaFontWeight(layer: UniversalLayer): number | undefined {
+  const style = (layer.source.dataset as { figmaFontStyle?: string } | undefined)?.figmaFontStyle;
+  if (!style) return undefined;
+  const base = style.replace(/\s+Italic$/i, "");
+  const map: Record<string, number> = {
+    Thin: 100,
+    ExtraLight: 200,
+    Light: 300,
+    Regular: 400,
+    Medium: 500,
+    SemiBold: 600,
+    Bold: 700,
+    ExtraBold: 800,
+    Black: 900,
+  };
+  return map[base];
+}
+
+function figmaUsesAbsoluteBox(layer: UniversalLayer, ctx: RenderCtx, flexChild: boolean): boolean {
+  return Boolean(ctx.preserveEffects && layer.source?.kind === "figma" && flexChild);
+}
+
 function paintToBaseCss(layer: UniversalLayer, ctx: RenderCtx = {}): string[] {
-  const flexChild = isFlexFlowChild(layer, ctx.parent);
+  let flexChild = isFlexFlowChild(layer, ctx.parent);
+  if (figmaUsesAbsoluteBox(layer, ctx, flexChild)) flexChild = false;
+  const snapFoodBox = inFoodFrenzyTree(ctx.ancestors) && !flexChild;
   const analyticsBar = isAnalyticsBar(layer, ctx.parent);
   const analyticsBarWrap = isAnalyticsBarWrap(layer);
   const muiTabIndicator = isMuiTabsIndicator(layer);
   const props: string[] = [];
   const snapPos =
     layer.source.tag !== "input" && (Boolean(layer.text) || layer.source.tag === "label");
-  const posX = snapPos ? Math.round(layer.box.x) : layer.box.x;
-  let posY = snapPos ? Math.round(layer.box.y) : layer.box.y;
+  const figmaRtPos = usesFigmaRelativeTransform(layer);
+  const figmaSnap = ctx.preserveEffects && layer.source?.kind === "figma";
+  const posX = figmaRtPos
+    ? 0
+    : figmaSnap || snapPos || snapFoodBox
+      ? Math.round(layer.box.x)
+      : layer.box.x;
+  let posY = figmaRtPos
+    ? 0
+    : figmaSnap || snapPos || snapFoodBox
+      ? Math.round(layer.box.y)
+      : layer.box.y;
   // MUI shrunk labels use transform: scale — skip vertical nudge.
   if (snapPos && posY < 0 && posY > -3) posY = 0;
   if (!flexChild) {
@@ -867,8 +1683,10 @@ function paintToBaseCss(layer: UniversalLayer, ctx: RenderCtx = {}): string[] {
   const paint = layer.paint;
   const pricingCssShell = hasLayerClass(layer, "lab-pricing") && hasLayerClass(layer, "pro");
   if (paint) {
+    const cssPaintShell = usesStorybookCssPaintShell(layer);
     const skipInlineFill =
       pricingCssShell ||
+      cssPaintShell ||
       (ctx.pricingTree &&
         (hasLayerClass(layer, "lab-pricing-tag") ||
           (hasLayerClass(layer, "lab-pricing-cta") && ctx.pricingPro)));
@@ -888,6 +1706,7 @@ function paintToBaseCss(layer: UniversalLayer, ctx: RenderCtx = {}): string[] {
     const useNativeBorder =
       layer.source.tag === "button" ||
       layer.source.tag === "input" ||
+      muiNotchedFieldset ||
       hasLayerClass(layer, "trend-grid") ||
       (hasLayerClass(layer, "lab-pricing") && !hasLayerClass(layer, "pro"));
     const borderCss =
@@ -918,7 +1737,15 @@ function paintToBaseCss(layer: UniversalLayer, ctx: RenderCtx = {}): string[] {
       else borderNonShadows.push(rule);
     }
     props.push(...borderNonShadows);
-    if (!hasGaps) props.push(...cornerRadiusToCss(paint));
+    if (
+      !hasGaps &&
+      !cssPaintShell &&
+      !isMuiOutlinedInputRoot(layer) &&
+      !hasLayerClass(layer, "lab-meeting-home-join") &&
+      !hasLayerClass(layer, "lab-meeting-home-icon-btn")
+    ) {
+      props.push(...cornerRadiusToCss(paint));
+    }
     const shadowCss = shadowsToCss(paint);
     if (borderShadows.length) {
       const drop = shadowCss[0]?.startsWith("box-shadow:")
@@ -929,9 +1756,19 @@ function paintToBaseCss(layer: UniversalLayer, ctx: RenderCtx = {}): string[] {
     } else {
       props.push(...shadowCss);
     }
-    props.push(...filtersToCss(paint));
+    props.push(...filtersToCss(paint, { preserveEffects: ctx.preserveEffects }));
     props.push(...backdropFiltersToCss(paint));
     if (paint.opacity !== undefined && paint.opacity < 1) props.push(`opacity: ${paint.opacity}`);
+    else {
+      const nativeFill = paint.fills?.find(
+        (f) =>
+          (f as FillLayer & { figmaNative?: { opacity?: number } }).figmaNative?.opacity != null
+      ) as (FillLayer & { figmaNative?: { opacity?: number } }) | undefined;
+      const nativeOpacity = nativeFill?.figmaNative?.opacity;
+      if (nativeOpacity != null && nativeOpacity < 0.999) {
+        props.push(`opacity: ${nativeOpacity}`);
+      }
+    }
     if (paint.blendMode && paint.blendMode !== "normal")
       props.push(`mix-blend-mode: ${paint.blendMode}`);
     if (paint.isolation && paint.isolation !== "auto") props.push(`isolation: ${paint.isolation}`);
@@ -989,6 +1826,12 @@ function paintToBaseCss(layer: UniversalLayer, ctx: RenderCtx = {}): string[] {
   }
   if (layer.layout?.zIndex !== undefined) {
     props.push(`z-index: ${layer.layout.zIndex}`);
+  } else if (
+    ctx.preserveEffects &&
+    ctx.rootChildIndex != null &&
+    ctx.rootChildIndex > 0
+  ) {
+    props.push(`z-index: ${ctx.rootChildIndex}`);
   }
   if (layer.layout?.flexGrow !== undefined && !(analyticsBar && flexChild)) {
     props.push(`flex-grow: ${layer.layout.flexGrow}`);
@@ -1008,6 +1851,9 @@ function paintToBaseCss(layer: UniversalLayer, ctx: RenderCtx = {}): string[] {
     props.push("overflow: hidden");
   }
   props.push(...transformToCss(layer));
+  if (hasLayerClass(layer, "lab-retro-terminal") || hasLayerClass(layer, "lab-space-mission")) {
+    props.push(`font-family: ${cssFontFamily('"Roboto Mono", monospace')}`);
+  }
   return props;
 }
 
@@ -1041,8 +1887,41 @@ function layerClassNames(layer: UniversalLayer): string {
       c === "secondary" ||
       c === "sm" ||
       c === "md" ||
-      c === "lg"
+      c === "lg" ||
+      c === "lab-retro-terminal-ascii" ||
+      c === "lab-retro-terminal-glow" ||
+      c === "lab-meeting-home-join" ||
+      c === "lab-meeting-home-icon-btn" ||
+      c === "lab-food-frenzy-search" ||
+      c === "lab-food-frenzy-deal-body" ||
+      c === "blink" ||
+      c === "warn" ||
+      c === "ok" ||
+      c === "hot"
     ) {
+      parts.push(c);
+    }
+    if (layer.source.tag === "input" && (c.startsWith("Mui") || /^css-[a-z0-9]+$/.test(c))) {
+      parts.push(c);
+    }
+    if (
+      (layer.source.tag === "div" || layer.source.tag === "p") &&
+      (c === "MuiAlert-message" ||
+        c === "MuiAlert-icon" ||
+        c.includes("MuiOutlinedInput-root") ||
+        c.includes("MuiInputBase-root") ||
+        (c.startsWith("css-") &&
+          (layer.source.classList || []).some(
+            (x) =>
+              x === "MuiAlert-message" ||
+              x === "MuiAlert-icon" ||
+              x.includes("MuiOutlinedInput-root") ||
+              x.includes("MuiInputBase-root")
+          )))
+    ) {
+      parts.push(c);
+    }
+    if (layer.source.tag === "svg" && (c.startsWith("MuiSvgIcon") || /^css-[a-z0-9]+$/.test(c))) {
       parts.push(c);
     }
     if (
@@ -1730,10 +2609,32 @@ function childCtx(layer: UniversalLayer, ctx: RenderCtx): RenderCtx {
   const pricingTree = ctx.pricingTree || hasLayerClass(layer, "lab-pricing");
   const pricingPro = ctx.pricingPro || hasLayerClass(layer, "pro");
   const ancestors = ctx.parent ? [...(ctx.ancestors || []), ctx.parent] : ctx.ancestors || [];
-  return { parent: layer, ancestors, pricingTree, pricingPro };
+  return {
+    parent: layer,
+    ancestors,
+    pricingTree,
+    pricingPro,
+    preserveEffects: ctx.preserveEffects,
+    skipFigmaBlurEllipses: ctx.skipFigmaBlurEllipses,
+    hoistReferenceRasters: ctx.hoistReferenceRasters,
+    hoistedRasters: ctx.hoistedRasters,
+    docRoot: ctx.docRoot,
+  };
+}
+
+function layerRootChildIndex(layer: UniversalLayer, ctx: RenderCtx): number | undefined {
+  if (!ctx.preserveEffects || !ctx.docRoot || ctx.parent !== ctx.docRoot) return undefined;
+  const idx = (ctx.docRoot.children ?? []).findIndex((c) => c.id === layer.id);
+  return idx > 0 ? idx : undefined;
 }
 
 function renderLayer(layer: UniversalLayer, ctx: RenderCtx = {}): string {
+  const layerCtx: RenderCtx = { ...ctx, rootChildIndex: layerRootChildIndex(layer, ctx) };
+  const figmaRaster = tryRenderFigmaReferenceRaster(layer, layerCtx);
+  if (figmaRaster) return figmaRaster;
+  const figmaBlurEllipse = tryRenderFigmaBlurEllipse(layer, layerCtx);
+  if (figmaBlurEllipse) return figmaBlurEllipse;
+  if (isFigmaAutoSizeText(layer, layerCtx)) return renderFigmaAutoSizeText(layer, layerCtx);
   const contentBoard = tryRenderContentListBoard(layer);
   if (contentBoard) return contentBoard;
   const filterPanel = tryRenderFilterSidePanel(layer);
@@ -1752,9 +2653,31 @@ function renderLayer(layer: UniversalLayer, ctx: RenderCtx = {}): string {
   if (loginSocials) return loginSocials;
   const labButton = tryRenderLabButton(layer);
   if (labButton) return labButton;
+  const foodCatBtn = tryRenderFoodCategoryButton(layer, ctx);
+  if (foodCatBtn) return foodCatBtn;
+  const foodCart = tryRenderFoodCartButton(layer, ctx);
+  if (foodCart) return foodCart;
+  const foodCheckout = tryRenderFoodCheckoutButton(layer, ctx);
+  if (foodCheckout) return foodCheckout;
+  const foodDealStrong = tryRenderFoodDealFootStrong(layer, ctx);
+  if (foodDealStrong) return foodDealStrong;
+  const foodDealFoot = tryRenderFoodDealFootButton(layer, ctx);
+  if (foodDealFoot) return foodDealFoot;
+  const foodDealTag = tryRenderFoodDealTagSpan(layer, ctx);
+  if (foodDealTag) return foodDealTag;
+  const foodDealArt = tryRenderFoodDealArt(layer, ctx);
+  if (foodDealArt) return foodDealArt;
+  const meetingJoin = tryRenderMeetingJoinButton(layer, ctx);
+  if (meetingJoin) return meetingJoin;
+  const meetingIcon = tryRenderMeetingIconButton(layer, ctx);
+  if (meetingIcon) return meetingIcon;
+  const meetingH3 = tryRenderMeetingCardH3(layer, ctx);
+  if (meetingH3) return meetingH3;
+  const retroAscii = tryRenderRetroAsciiPre(layer, ctx);
+  if (retroAscii) return retroAscii;
   const pricingPrice = renderPricingPriceRow(layer, ctx);
   if (pricingPrice) return pricingPrice;
-  const style = paintToBaseCss(layer, ctx).join("; ");
+  const style = paintToBaseCss(layer, layerCtx).join("; ");
   const cls = layerClassNames(layer);
   const name = escapeAttr(layer.name || layer.source.tag || "layer");
   let inner = "";
@@ -1767,7 +2690,8 @@ function renderLayer(layer: UniversalLayer, ctx: RenderCtx = {}): string {
   ) {
     const textOnly = textToHtml(layer, layer.text, layer.paint, ctx.parent, {
       pricingTree: ctx.pricingTree,
-      pricingPro: ctx.pricingPro
+      pricingPro: ctx.pricingPro,
+      ancestors: ctx.ancestors
     });
     let textStyle = textOnly.match(/style="([^"]*)"/)?.[1] ?? "";
     let labelScale = "";
@@ -1787,7 +2711,8 @@ function renderLayer(layer: UniversalLayer, ctx: RenderCtx = {}): string {
   if (isInlineTextLeaf(layer)) {
     const textOnly = textToHtml(layer, layer.text!, layer.paint, ctx.parent, {
       pricingTree: ctx.pricingTree,
-      pricingPro: ctx.pricingPro
+      pricingPro: ctx.pricingPro,
+      ancestors: ctx.ancestors
     });
     const textStyle = textOnly.match(/style="([^"]*)"/)?.[1] ?? "";
     const merged =
@@ -1807,24 +2732,16 @@ function renderLayer(layer: UniversalLayer, ctx: RenderCtx = {}): string {
   ) {
     inner = textToHtml(layer, layer.text, layer.paint, ctx.parent, {
       pricingTree: ctx.pricingTree,
-      pricingPro: ctx.pricingPro
+      pricingPro: ctx.pricingPro,
+      ancestors: ctx.ancestors
     });
   } else if (layer.vector) {
     inner = vectorToHtml(layer, layer.vector);
   } else if (layer.image) {
     inner = imageToHtml(layer, layer.image);
   }
-  const sortKids = (layer.source.classList || []).includes("lab-pricing-price");
   const baseKids = layer.children || [];
-  const sortByZ =
-    !sortKids &&
-    baseKids.some((c) => c.source.tag === "label" && (c.layout?.zIndex ?? 0) > 0) &&
-    baseKids.some((c) => c.layout?.zIndex !== undefined && c.layout.zIndex !== 0);
-  const children = sortKids
-    ? [...baseKids].sort((a, b) => (a.box.y !== b.box.y ? a.box.y - b.box.y : a.box.x - b.box.x))
-    : sortByZ
-      ? [...baseKids].sort((a, b) => (a.layout?.zIndex ?? 0) - (b.layout?.zIndex ?? 0))
-      : baseKids;
+  const children = sortChildrenForPaint(layer, baseKids, layerCtx);
   for (const child of children) {
     inner += renderLayer(child, childCtx(layer, ctx));
   }
@@ -1915,6 +2832,7 @@ export function renderToHtml(doc: UniversalDocumentV2): string {
 html, body { margin: 0; padding: 0; background: ${r.background}; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
 .layer { box-sizing: border-box; }
 .layer .text { width: 100%; height: 100%; }
+${doc.meta?.preserveEffects ? `.layer.figma { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: geometricPrecision; }` : ""}
 </style></head>
 <body style="position: relative; width: ${snap(r.width)}px; height: ${snap(r.height)}px; background: ${r.background};">
 ${r.bodyMarkup}
@@ -1926,9 +2844,26 @@ ${r.bodyMarkup}
  * existing page (e.g. the Storybook iframe) that already has fonts loaded.
  */
 export function renderToBodyMarkup(doc: UniversalDocumentV2): RenderedDoc {
+  resetSvgDefSeq();
   const root = doc.root;
   const bg = doc.meta.canvasBackground || "white";
-  const rendered = renderLayer(root);
+  const hoistedRasters: Array<{ z: number; html: string }> = [];
+  const renderCtx: RenderCtx = {
+    preserveEffects: doc.meta?.preserveEffects === true,
+    skipFigmaBlurEllipses:
+      (doc.meta as { skipFigmaBlurEllipses?: boolean } | undefined)?.skipFigmaBlurEllipses ===
+      true,
+    hoistReferenceRasters:
+      (doc.meta as { hoistReferenceRasters?: boolean } | undefined)?.hoistReferenceRasters ===
+      true,
+    hoistedRasters,
+    docRoot: root,
+  };
+  const rendered = renderLayer(root, renderCtx);
+  const hoistedHtml = hoistedRasters
+    .sort((a, b) => a.z - b.z)
+    .map((entry) => entry.html)
+    .join("");
   // Ceil so subpixel roots (e.g. 168.3px buttons) match Playwright element screenshots.
   const width = Math.ceil(root.box.width - 1e-9);
   const height = Math.ceil(root.box.height - 1e-9);
@@ -1937,6 +2872,7 @@ export function renderToBodyMarkup(doc: UniversalDocumentV2): RenderedDoc {
   let body = rendered
     .replace(`left: ${px(root.box.x)};`, "left: 0px;")
     .replace(`top: ${px(root.box.y)};`, "top: 0px;");
+  body += hoistedHtml;
   body = body
     .replace(`width: ${px(root.box.width)};`, `width: ${width}px;`)
     .replace(`height: ${px(root.box.height)};`, `height: ${height}px;`);

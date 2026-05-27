@@ -1,0 +1,46 @@
+{
+  "storyId": "screen_2",
+  "attempt": 1,
+  "jobId": "3532a1fe-4f84-47da-956d-6bb6f716d996",
+  "recordedAt": "2026-05-27T10:43:57.440Z",
+  "suiteId": "contractFigma",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 5.159288146459649,
+    "maxRegionPercent": 11.164285714285715,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 5.159288146459649,
+    "maxRegionPercent": 11.164285714285715,
+    "error": null
+  },
+  "agentExitCode": 143,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-screen_2_try1-1779878384014.prompt.txt",
+    ".test-console/child-status/3532a1fe-4f84-47da-956d-6bb6f716d996-agent-screen_2_try1-1779878384014.json",
+    ".test-console/server.pid",
+    "packages/test-console/dist/assets/index-DNpgk46g.js",
+    "packages/test-console/dist/assets/index-JrA-A3iC.js",
+    "packages/test-console/dist/index.html",
+    "packages/test-console/src/App.tsx",
+    "packages/test-console/src/types.ts",
+    "packages/test-console/vite.config.ts",
+    "scripts/test-console-version.mjs"
+  ],
+  "evaluation": {
+    "verdict": "NO_ADAPTER_EDIT",
+    "verdicts": [
+      "NO_ADAPTER_EDIT"
+    ],
+    "nextWorkerMode": "narrow_scope",
+    "interventionLines": [
+      "Supervisor: edits did not touch the adapter for this step — change renderer/extract paths named in the prompt, not docs or lab-memory.",
+      "Supervisor: agent CLI exited 143 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

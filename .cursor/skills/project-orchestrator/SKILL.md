@@ -68,7 +68,7 @@ Build a **maintained React design system** (`@lab/ui` → published package) whe
 | --- | --- | --- |
 | Live Figma failures | `figma-renderer-until-pass` + `investigate-figma-mismatch` | `make fixes after live test` |
 | Mock Figma failures | same (emulator phase) | `run until pass` or fix worst from `figma-diffs` |
-| Pixel / schema | `investigate-figma-mismatch` → `scene-to-html` / extract | Fix `lab-*` from `pixel-diffs` |
+| Pixel / schema | `investigate-figma-mismatch` → `render-html.ts` / extract | Fix `lab-*` from `pixel-diffs` |
 | Delivery / `@lab/ui` | `roadmap-iteration` Phase 2 + delivery golden | After steps 1–3 pass for story |
 | Test console | `listen-to-test-console` | `pnpm test:console:cursor agent` |
 | Multi-story independent | Superpowers `dispatching-parallel-agents` | Only if **no** shared file change |

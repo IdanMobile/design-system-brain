@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-button--primary",
     "componentName": "Button",
-    "extractedAt": "2026-05-24T21:41:08.939Z",
+    "extractedAt": "2026-05-25T19:28:42.389Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-button--primary&viewMode=story",
     "viewport": {
       "x": 0,
@@ -153,6 +153,7 @@
           "font": {
             "family": "Inter",
             "stack": "Inter, Arial, sans-serif",
+            "computedStack": "Arial",
             "size": 28,
             "weight": 700,
             "style": "normal",

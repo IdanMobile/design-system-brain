@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { computeElementId, resolveCollisions } from "./element-id.ts";
+import { computeElementId, computeStructuralId, resolveCollisions } from "./element-id.ts";
 
 test("slugifies meaningful text", () => {
   assert.equal(computeElementId({ text: "Sign in", role: "", tag: "button" }), "el-sign-in");
@@ -42,4 +42,32 @@ test("computeElementId is deterministic", () => {
   const a = computeElementId({ text: "Login", role: "button", tag: "button" });
   const b = computeElementId({ text: "Login", role: "button", tag: "button" });
   assert.equal(a, b);
+});
+
+test("computeStructuralId uses ly- prefix and includes structural hash", () => {
+  const id = computeStructuralId({ tagPath: "div[0]>section[0]>div[1]", text: "Welcome", tag: "div" });
+  assert.match(id, /^ly-welcome-[a-z0-9]{6}$/);
+});
+
+test("computeStructuralId is deterministic for same inputs", () => {
+  const a = computeStructuralId({ tagPath: "div[0]>div[1]", text: "Hi", tag: "p" });
+  const b = computeStructuralId({ tagPath: "div[0]>div[1]", text: "Hi", tag: "p" });
+  assert.equal(a, b);
+});
+
+test("computeStructuralId differs when path differs", () => {
+  const a = computeStructuralId({ tagPath: "div[0]>div[0]", text: "", tag: "div" });
+  const b = computeStructuralId({ tagPath: "div[0]>div[1]", text: "", tag: "div" });
+  assert.notEqual(a, b);
+});
+
+test("computeStructuralId differs when text differs", () => {
+  const a = computeStructuralId({ tagPath: "div[0]", text: "One", tag: "div" });
+  const b = computeStructuralId({ tagPath: "div[0]", text: "Two", tag: "div" });
+  assert.notEqual(a, b);
+});
+
+test("computeStructuralId falls back to tag when text is empty", () => {
+  const id = computeStructuralId({ tagPath: "div[0]", text: "", tag: "section" });
+  assert.match(id, /^ly-section-[a-z0-9]{6}$/);
 });

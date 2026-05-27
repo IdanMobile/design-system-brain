@@ -3,10 +3,12 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
   DEFAULT_AGENT_MODEL,
+  DEFAULT_STORYBOOK_PARALLEL,
   MAX_PARALLEL_WORKERS,
   normalizeRunSettings,
   resolveAgentModel,
-  resolveDevAgentModel
+  resolveDevAgentModel,
+  storybookParallelCap
 } from "./test-console-run-settings.mjs";
 
 describe("resolveAgentModel", () => {
@@ -41,8 +43,15 @@ describe("resolveDevAgentModel", () => {
 
 describe("parallelWorkers", () => {
   it(`clamps to ${MAX_PARALLEL_WORKERS}`, () => {
-    const s = normalizeRunSettings({ parallelWorkers: 99 });
+    const s = normalizeRunSettings({ parallelWorkers: 150 });
     assert.equal(s.parallelWorkers, MAX_PARALLEL_WORKERS);
-    assert.equal(MAX_PARALLEL_WORKERS, 20);
+    assert.equal(MAX_PARALLEL_WORKERS, 100);
+  });
+});
+
+describe("storybookParallelCap", () => {
+  it(`caps Storybook load at ${DEFAULT_STORYBOOK_PARALLEL} by default`, () => {
+    assert.equal(storybookParallelCap(100), DEFAULT_STORYBOOK_PARALLEL);
+    assert.equal(DEFAULT_STORYBOOK_PARALLEL, 12);
   });
 });

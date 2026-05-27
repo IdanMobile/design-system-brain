@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-contentlistboard--highlighted",
     "componentName": "ContentListBoard",
-    "extractedAt": "2026-05-25T08:13:16.630Z",
+    "extractedAt": "2026-05-25T19:28:51.977Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-contentlistboard--highlighted&viewMode=story",
     "viewport": {
       "x": 0,
@@ -223,6 +223,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 14,
                 "weight": 700,
                 "style": "normal",
@@ -351,6 +352,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 14,
                 "weight": 700,
                 "style": "normal",
@@ -482,6 +484,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 14,
                 "weight": 700,
                 "style": "normal",
@@ -830,6 +833,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 24,
                         "weight": 700,
                         "style": "normal",
@@ -892,6 +896,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 14,
                         "weight": 400,
                         "style": "normal",
@@ -987,6 +992,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Arial",
                 "size": 14,
                 "weight": 700,
                 "style": "normal",
@@ -1153,6 +1159,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 13,
                 "weight": 700,
                 "style": "normal",
@@ -1264,6 +1271,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Arial",
                 "size": 14,
                 "weight": 400,
                 "style": "normal",
@@ -1514,6 +1522,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 17,
                         "weight": 700,
                         "style": "normal",
@@ -1576,6 +1585,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 13,
                         "weight": 400,
                         "style": "normal",
@@ -1721,6 +1731,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 12,
                         "weight": 700,
                         "style": "normal",
@@ -1813,6 +1824,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 12,
                         "weight": 700,
                         "style": "normal",
@@ -2015,6 +2027,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 17,
                         "weight": 700,
                         "style": "normal",
@@ -2077,6 +2090,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 13,
                         "weight": 400,
                         "style": "normal",
@@ -2222,6 +2236,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 12,
                         "weight": 700,
                         "style": "normal",
@@ -2314,6 +2329,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 12,
                         "weight": 700,
                         "style": "normal",
@@ -2516,6 +2532,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 17,
                         "weight": 700,
                         "style": "normal",
@@ -2578,6 +2595,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 13,
                         "weight": 400,
                         "style": "normal",
@@ -2723,6 +2741,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 12,
                         "weight": 700,
                         "style": "normal",
@@ -2815,6 +2834,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 12,
                         "weight": 700,
                         "style": "normal",
@@ -3017,6 +3037,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 17,
                         "weight": 700,
                         "style": "normal",
@@ -3079,6 +3100,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 13,
                         "weight": 400,
                         "style": "normal",
@@ -3224,6 +3246,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 12,
                         "weight": 700,
                         "style": "normal",
@@ -3316,6 +3339,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 12,
                         "weight": 700,
                         "style": "normal",

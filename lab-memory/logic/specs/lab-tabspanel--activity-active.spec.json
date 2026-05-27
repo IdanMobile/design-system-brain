@@ -1,0 +1,47 @@
+{
+  "storyId": "lab-tabspanel--activity-active",
+  "schemaVersion": 2,
+  "intent": "",
+  "status": "proposed",
+  "approvedAt": null,
+  "approvedBy": null,
+  "specVersion": 2,
+  "elements": [
+    {
+      "id": "el-overview",
+      "selector": "[data-lab-id=\"el-overview\"]",
+      "displayName": "Overview",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click switches to the \"Overview\" tab",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-activity",
+      "selector": "[data-lab-id=\"el-activity\"]",
+      "displayName": "Activity",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click switches to the \"Activity\" tab",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-settings",
+      "selector": "[data-lab-id=\"el-settings\"]",
+      "displayName": "Settings",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click switches to the \"Settings\" tab",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    }
+  ]
+}

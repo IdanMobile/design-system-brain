@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-spacemissioncontrol--default",
     "componentName": "SpaceMissionControl",
-    "extractedAt": "2026-05-24T21:41:47.650Z",
+    "extractedAt": "2026-05-25T19:29:19.427Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-spacemissioncontrol--default&viewMode=story",
     "viewport": {
       "x": 0,
@@ -212,6 +212,7 @@
               "font": {
                 "family": "Roboto Mono",
                 "stack": "\"Roboto Mono\", monospace",
+                "computedStack": "\"Roboto Mono\", monospace",
                 "size": 11,
                 "weight": 400,
                 "style": "normal",
@@ -274,6 +275,7 @@
               "font": {
                 "family": "Roboto Mono",
                 "stack": "\"Roboto Mono\", monospace",
+                "computedStack": "\"Roboto Mono\", monospace",
                 "size": 16,
                 "weight": 700,
                 "style": "normal",
@@ -340,6 +342,7 @@
               "font": {
                 "family": "Roboto Mono",
                 "stack": "\"Roboto Mono\", monospace",
+                "computedStack": "\"Roboto Mono\", monospace",
                 "size": 11,
                 "weight": 700,
                 "style": "normal",
@@ -729,6 +732,7 @@
                   "font": {
                     "family": "Roboto Mono",
                     "stack": "\"Roboto Mono\", monospace",
+                    "computedStack": "\"Roboto Mono\", monospace",
                     "size": 10,
                     "weight": 400,
                     "style": "normal",
@@ -791,6 +795,7 @@
                   "font": {
                     "family": "Roboto Mono",
                     "stack": "\"Roboto Mono\", monospace",
+                    "computedStack": "\"Roboto Mono\", monospace",
                     "size": 16,
                     "weight": 700,
                     "style": "normal",
@@ -853,6 +858,7 @@
                   "font": {
                     "family": "Roboto Mono",
                     "stack": "\"Roboto Mono\", monospace",
+                    "computedStack": "\"Roboto Mono\", monospace",
                     "size": 10,
                     "weight": 400,
                     "style": "normal",
@@ -1062,6 +1068,7 @@
                   "font": {
                     "family": "Roboto Mono",
                     "stack": "\"Roboto Mono\", monospace",
+                    "computedStack": "\"Roboto Mono\", monospace",
                     "size": 9,
                     "weight": 400,
                     "style": "normal",
@@ -1124,6 +1131,7 @@
                   "font": {
                     "family": "Roboto Mono",
                     "stack": "\"Roboto Mono\", monospace",
+                    "computedStack": "\"Roboto Mono\", monospace",
                     "size": 13,
                     "weight": 700,
                     "style": "normal",
@@ -1279,6 +1287,7 @@
                   "font": {
                     "family": "Roboto Mono",
                     "stack": "\"Roboto Mono\", monospace",
+                    "computedStack": "\"Roboto Mono\", monospace",
                     "size": 9,
                     "weight": 400,
                     "style": "normal",
@@ -1341,6 +1350,7 @@
                   "font": {
                     "family": "Roboto Mono",
                     "stack": "\"Roboto Mono\", monospace",
+                    "computedStack": "\"Roboto Mono\", monospace",
                     "size": 13,
                     "weight": 700,
                     "style": "normal",
@@ -1496,6 +1506,7 @@
                   "font": {
                     "family": "Roboto Mono",
                     "stack": "\"Roboto Mono\", monospace",
+                    "computedStack": "\"Roboto Mono\", monospace",
                     "size": 9,
                     "weight": 400,
                     "style": "normal",
@@ -1558,6 +1569,7 @@
                   "font": {
                     "family": "Roboto Mono",
                     "stack": "\"Roboto Mono\", monospace",
+                    "computedStack": "\"Roboto Mono\", monospace",
                     "size": 13,
                     "weight": 700,
                     "style": "normal",
@@ -1713,6 +1725,7 @@
                   "font": {
                     "family": "Roboto Mono",
                     "stack": "\"Roboto Mono\", monospace",
+                    "computedStack": "\"Roboto Mono\", monospace",
                     "size": 9,
                     "weight": 400,
                     "style": "normal",
@@ -1775,6 +1788,7 @@
                   "font": {
                     "family": "Roboto Mono",
                     "stack": "\"Roboto Mono\", monospace",
+                    "computedStack": "\"Roboto Mono\", monospace",
                     "size": 13,
                     "weight": 700,
                     "style": "normal",
@@ -1884,6 +1898,7 @@
               "font": {
                 "family": "Roboto Mono",
                 "stack": "\"Roboto Mono\", monospace",
+                "computedStack": "\"Roboto Mono\", monospace",
                 "size": 11,
                 "weight": 700,
                 "style": "normal",
@@ -1947,6 +1962,7 @@
               "font": {
                 "family": "Roboto Mono",
                 "stack": "\"Roboto Mono\", monospace",
+                "computedStack": "\"Roboto Mono\", monospace",
                 "size": 10,
                 "weight": 400,
                 "style": "normal",
@@ -2009,6 +2025,7 @@
               "font": {
                 "family": "Roboto Mono",
                 "stack": "\"Roboto Mono\", monospace",
+                "computedStack": "\"Roboto Mono\", monospace",
                 "size": 10,
                 "weight": 400,
                 "style": "normal",
@@ -2074,6 +2091,7 @@
               "font": {
                 "family": "Roboto Mono",
                 "stack": "\"Roboto Mono\", monospace",
+                "computedStack": "\"Roboto Mono\", monospace",
                 "size": 10,
                 "weight": 400,
                 "style": "normal",
@@ -2136,6 +2154,7 @@
               "font": {
                 "family": "Roboto Mono",
                 "stack": "\"Roboto Mono\", monospace",
+                "computedStack": "\"Roboto Mono\", monospace",
                 "size": 10,
                 "weight": 400,
                 "style": "normal",
@@ -2243,6 +2262,7 @@
               "font": {
                 "family": "Roboto Mono",
                 "stack": "\"Roboto Mono\", monospace",
+                "computedStack": "\"Roboto Mono\", monospace",
                 "size": 11,
                 "weight": 700,
                 "style": "normal",
@@ -2371,6 +2391,7 @@
                   "font": {
                     "family": "Roboto Mono",
                     "stack": "\"Roboto Mono\", monospace",
+                    "computedStack": "\"Roboto Mono\", monospace",
                     "size": 10,
                     "weight": 400,
                     "style": "normal",
@@ -2436,6 +2457,7 @@
                   "font": {
                     "family": "Roboto Mono",
                     "stack": "\"Roboto Mono\", monospace",
+                    "computedStack": "\"Roboto Mono\", monospace",
                     "size": 10,
                     "weight": 400,
                     "style": "normal",
@@ -2501,6 +2523,7 @@
                   "font": {
                     "family": "Roboto Mono",
                     "stack": "\"Roboto Mono\", monospace",
+                    "computedStack": "\"Roboto Mono\", monospace",
                     "size": 10,
                     "weight": 400,
                     "style": "normal",
@@ -2630,6 +2653,7 @@
                   "font": {
                     "family": "Roboto Mono",
                     "stack": "\"Roboto Mono\", monospace",
+                    "computedStack": "\"Roboto Mono\", monospace",
                     "size": 10,
                     "weight": 400,
                     "style": "normal",
@@ -2695,6 +2719,7 @@
                   "font": {
                     "family": "Roboto Mono",
                     "stack": "\"Roboto Mono\", monospace",
+                    "computedStack": "\"Roboto Mono\", monospace",
                     "size": 10,
                     "weight": 400,
                     "style": "normal",
@@ -2760,6 +2785,7 @@
                   "font": {
                     "family": "Roboto Mono",
                     "stack": "\"Roboto Mono\", monospace",
+                    "computedStack": "\"Roboto Mono\", monospace",
                     "size": 10,
                     "weight": 400,
                     "style": "normal",
@@ -2889,6 +2915,7 @@
                   "font": {
                     "family": "Roboto Mono",
                     "stack": "\"Roboto Mono\", monospace",
+                    "computedStack": "\"Roboto Mono\", monospace",
                     "size": 10,
                     "weight": 400,
                     "style": "normal",
@@ -2954,6 +2981,7 @@
                   "font": {
                     "family": "Roboto Mono",
                     "stack": "\"Roboto Mono\", monospace",
+                    "computedStack": "\"Roboto Mono\", monospace",
                     "size": 10,
                     "weight": 400,
                     "style": "normal",
@@ -3019,6 +3047,7 @@
                   "font": {
                     "family": "Roboto Mono",
                     "stack": "\"Roboto Mono\", monospace",
+                    "computedStack": "\"Roboto Mono\", monospace",
                     "size": 10,
                     "weight": 400,
                     "style": "normal",
@@ -3180,6 +3209,7 @@
               "font": {
                 "family": "Roboto Mono",
                 "stack": "\"Roboto Mono\", monospace",
+                "computedStack": "\"Roboto Mono\", monospace",
                 "size": 11,
                 "weight": 400,
                 "style": "normal",
@@ -3295,6 +3325,7 @@
               "font": {
                 "family": "Roboto Mono",
                 "stack": "\"Roboto Mono\", monospace",
+                "computedStack": "\"Roboto Mono\", monospace",
                 "size": 11,
                 "weight": 700,
                 "style": "normal",

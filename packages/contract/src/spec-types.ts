@@ -3,8 +3,10 @@
  *
  * See `docs/superpowers/specs/2026-05-25-element-approval-redesign-design.md`
  * for the full model. One JSON file per story at
- * `lab-memory/specs/<storyId>.spec.json`.
+ * `lab-memory/logic/specs/<storyId>.spec.json`.
  */
+
+import type { BehaviorPresetId } from "./behavior-presets.ts";
 
 export type SpecStatus = "proposed" | "approved";
 export type ElementSource = "ai" | "designer";
@@ -30,6 +32,8 @@ export interface ElementSpec {
   selector: string;
   displayName: string;
   description: string;
+  /** Static preset used in the showcase editor, or `custom` for free-form text. */
+  behaviorPreset?: BehaviorPresetId | null;
   source: ElementSource;
   aiSuggestion: string;
   aiExtracted: AiExtracted | null;

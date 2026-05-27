@@ -2,9 +2,9 @@
   "storyId": "lab-retroterminalscreen--default",
   "width": 390,
   "height": 844,
-  "pixelsDiffered": 19322,
+  "pixelsDiffered": 18074,
   "pixelsTotal": 329160,
-  "percent": 5.870093571515373,
+  "percent": 5.490946652084093,
   "status": "fail",
   "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/storybook.png",
   "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/rendered.png",
@@ -31,12 +31,12 @@
         "y": 0,
         "width": 308,
         "height": 260,
-        "pixels": 7616
+        "pixels": 6368
       },
       "storybook": "regions/region-02-storybook.png",
       "rendered": "regions/region-02-rendered.png",
       "compare": "regions/region-02-compare.png"
     }
   ],
-  "testedAt": "2026-05-24T21:41:52.976Z"
+  "testedAt": "2026-05-25T19:29:24.597Z"
 }

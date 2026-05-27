@@ -1,0 +1,50 @@
+{
+  "storyId": "screen_2",
+  "attempt": 2,
+  "jobId": "3532a1fe-4f84-47da-956d-6bb6f716d996",
+  "recordedAt": "2026-05-27T10:50:54.689Z",
+  "suiteId": "contractFigma",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 5.159288146459649,
+    "maxRegionPercent": 11.164285714285715,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 5.159510371521414,
+    "maxRegionPercent": 11.2,
+    "error": null
+  },
+  "agentExitCode": 143,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-screen_2_try2-1779878637776.prompt.txt",
+    ".test-console/child-status/3532a1fe-4f84-47da-956d-6bb6f716d996-agent-screen_2_try2-1779878637776.json",
+    "artifacts/figma-screens/screen_2.contract.json",
+    "figma-screen-diffs/by-screen/screen_2/contractFigma/result.json",
+    "figma-screen-diffs/portfolio.json",
+    "figma-screen-diffs/report.html",
+    "figma-screen-diffs/report.json",
+    "figma-screen-diffs/screen_2/diff.png",
+    "figma-screen-diffs/screen_2/rendered.png",
+    "lab-memory/visual/investigations/active/screen_2.md",
+    "packages/figma-importer-plugin/dist/code.js",
+    "packages/figma-importer-plugin/src/code-v2.ts"
+  ],
+  "evaluation": {
+    "verdict": "STUCK_LOOP",
+    "verdicts": [
+      "STUCK_LOOP",
+      "SHARED_ADAPTER"
+    ],
+    "nextWorkerMode": "investigate_first",
+    "interventionLines": [
+      "Supervisor: two consecutive attempts with no metric movement — switch to investigate-first.",
+      "Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done.",
+      "Supervisor: agent CLI exited 143 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": true
+  }
+}

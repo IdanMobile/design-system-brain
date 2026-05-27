@@ -1,0 +1,52 @@
+{
+  "storyId": "lab-retroterminalscreen--default",
+  "attempt": 5,
+  "jobId": "966cb478-7793-40f5-b0d2-056b936d4019",
+  "recordedAt": "2026-05-25T11:23:17.290Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 5.870093571515373,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 5.932677117511241,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "agentExitCode": 143,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-retroterminalscreen--default_try5-1779708093933.prompt.txt",
+    ".test-console/child-status/966cb478-7793-40f5-b0d2-056b936d4019-agent-lab-retroterminalscreen--default_try5-1779708093933.json",
+    "pixel-diffs/by-story/lab-retroterminalscreen-default/result.json",
+    "pixel-diffs/lab-retroterminalscreen-default/artifact.v2.json",
+    "pixel-diffs/lab-retroterminalscreen-default/diff.png",
+    "pixel-diffs/lab-retroterminalscreen-default/regions/region-01-compare.png",
+    "pixel-diffs/lab-retroterminalscreen-default/regions/region-01-rendered.png",
+    "pixel-diffs/lab-retroterminalscreen-default/regions/region-01-storybook.png",
+    "pixel-diffs/lab-retroterminalscreen-default/regions/region-02-compare.png",
+    "pixel-diffs/lab-retroterminalscreen-default/regions/region-02-rendered.png",
+    "pixel-diffs/lab-retroterminalscreen-default/regions/region-02-storybook.png",
+    "pixel-diffs/lab-retroterminalscreen-default/rendered.png",
+    "pixel-diffs/report.html",
+    "pixel-diffs/report.json",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "WORSE_METRICS",
+    "verdicts": [
+      "WORSE_METRICS"
+    ],
+    "nextWorkerMode": "narrow_scope",
+    "interventionLines": [
+      "Supervisor: global diff worsened by 0.06% — revert harmful edits; do not repeat the same approach.",
+      "Supervisor: agent CLI exited 143 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

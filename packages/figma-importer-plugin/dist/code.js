@@ -129,6 +129,9 @@
     const c = parseColor(color);
     return { type: "SOLID", color: toFigmaRgb(c), opacity: c.a * alphaMul };
   }
+  function transparentFill() {
+    return { type: "SOLID", color: { r: 1, g: 1, b: 1 }, opacity: 0 };
+  }
   function svgStrokeColorAttrs(color) {
     const c = parseColor(color);
     const r = Math.round(c.r * 255);
@@ -168,7 +171,33 @@
   function reverseLinearStops(stops) {
     return stops.map((s) => __spreadProps(__spreadValues({}, s), { position: 1 - s.position })).sort((a, b) => a.position - b.position);
   }
+  function figmaNativeGradientPaint(layer) {
+    var _a, _b;
+    const native = layer.figmaNative;
+    if (!(native == null ? void 0 : native.gradientTransform) || !((_a = native.gradientStops) == null ? void 0 : _a.length)) return null;
+    const gradientStops = native.gradientStops.slice().sort((a, b) => a.position - b.position).map((s) => ({
+      position: Math.max(0, Math.min(1, s.position)),
+      color: {
+        r: s.color.r,
+        g: s.color.g,
+        b: s.color.b,
+        a: s.color.a
+      }
+    }));
+    const type = (_b = native.type) != null ? _b : layer.kind === "radial-gradient" ? "GRADIENT_RADIAL" : layer.kind === "conic-gradient" ? "GRADIENT_ANGULAR" : "GRADIENT_LINEAR";
+    const paint = {
+      type,
+      gradientTransform: native.gradientTransform,
+      gradientStops
+    };
+    if (native.opacity != null && native.opacity < 0.999) {
+      paint.opacity = snap(native.opacity);
+    }
+    return paint;
+  }
   function gradientPaint(layer, width, height) {
+    const nativePaint = figmaNativeGradientPaint(layer);
+    if (nativePaint) return nativePaint;
     if (layer.kind === "linear-gradient") {
       const stops = toColorStops(layer.stops);
       return {
@@ -268,6 +297,16 @@
     );
     return allSame ? first : null;
   }
+  function countActiveBorderSides(b) {
+    var _a, _b, _c, _d;
+    if (!b) return 0;
+    let n = 0;
+    if ((_a = b.top) == null ? void 0 : _a.width) n++;
+    if ((_b = b.right) == null ? void 0 : _b.width) n++;
+    if ((_c = b.bottom) == null ? void 0 : _c.width) n++;
+    if ((_d = b.left) == null ? void 0 : _d.width) n++;
+    return n;
+  }
   function singleEdgeBorderSide(b) {
     var _a, _b, _c, _d;
     if (!b || b.gaps && b.gaps.length) return null;
@@ -278,22 +317,20 @@
     if ((_d = b.left) == null ? void 0 : _d.width) active.push("left");
     return active.length === 1 ? active[0] : null;
   }
-  function buildSingleEdgeBorderSvg(width, height, paint, edge) {
-    const b = paint.borders;
-    const side = b == null ? void 0 : b[edge];
-    if (!b || !(side == null ? void 0 : side.width)) return null;
-    const corners = paint.cornerRadii;
-    const r = corners ? Math.max(
-      corners.topLeft.x,
-      corners.topRight.x,
-      corners.bottomRight.x,
-      corners.bottomLeft.x
-    ) : 0;
-    const sw = side.width;
-    const inset = sw / 2;
-    const color = side.color || "black";
-    const style = side.style || "solid";
-    const cornerR = Math.max(0, Math.min(r, width / 2 - 1, height / 2 - 1));
+  function perCornerRadii(paint) {
+    var _a, _b, _c, _d, _e, _f, _g, _h;
+    const c = paint.cornerRadii;
+    return {
+      tl: (_b = (_a = c == null ? void 0 : c.topLeft) == null ? void 0 : _a.x) != null ? _b : 0,
+      tr: (_d = (_c = c == null ? void 0 : c.topRight) == null ? void 0 : _c.x) != null ? _d : 0,
+      br: (_f = (_e = c == null ? void 0 : c.bottomRight) == null ? void 0 : _e.x) != null ? _f : 0,
+      bl: (_h = (_g = c == null ? void 0 : c.bottomLeft) == null ? void 0 : _g.x) != null ? _h : 0
+    };
+  }
+  function clampCornerRadius(r, width, height) {
+    return Math.max(0, Math.min(r, width / 2 - 1, height / 2 - 1));
+  }
+  function borderStrokeAttrs(color, style, sw) {
     let dashAttr = "";
     if (style === "dashed") {
       const dash = Math.max(2, Math.round(sw * 3));
@@ -303,18 +340,48 @@
       const gapLen = Math.max(2, Math.round(sw * 2));
       dashAttr = ` stroke-dasharray="${dot} ${gapLen}" stroke-linecap="round"`;
     }
-    const strokeAttrs = `fill="none" ${svgStrokeColorAttrs(color)} stroke-width="${sw}"${dashAttr}`;
-    let d = "";
-    if (edge === "bottom") {
-      d = `M ${inset + cornerR} ${height - inset} L ${width - inset - cornerR} ${height - inset}`;
-    } else if (edge === "top") {
-      d = `M ${inset + cornerR} ${inset} L ${width - inset - cornerR} ${inset}`;
-    } else if (edge === "left") {
-      d = `M ${inset} ${inset + cornerR} L ${inset} ${height - inset - cornerR}`;
-    } else {
-      d = `M ${width - inset} ${inset + cornerR} L ${width - inset} ${height - inset - cornerR}`;
-    }
-    return `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg"><path d="${d}" ${strokeAttrs}/></svg>`;
+    return `fill="none" ${svgStrokeColorAttrs(color)} stroke-width="${sw}"${dashAttr}`;
+  }
+  function edgeSegmentPath(edge, width, height, inset, cr) {
+    const tl = clampCornerRadius(cr.tl, width, height);
+    const tr = clampCornerRadius(cr.tr, width, height);
+    const br = clampCornerRadius(cr.br, width, height);
+    const bl = clampCornerRadius(cr.bl, width, height);
+    if (edge === "top") return `M ${inset + tl} ${inset} L ${width - inset - tr} ${inset}`;
+    if (edge === "bottom") return `M ${inset + bl} ${height - inset} L ${width - inset - br} ${height - inset}`;
+    if (edge === "left") return `M ${inset} ${inset + tl} L ${inset} ${height - inset - bl}`;
+    return `M ${width - inset} ${inset + tr} L ${width - inset} ${height - inset - br}`;
+  }
+  function buildActiveBorderSvg(width, height, paint) {
+    var _a, _b, _c, _d;
+    const b = paint.borders;
+    if (!b) return null;
+    const edges = [];
+    if ((_a = b.top) == null ? void 0 : _a.width) edges.push("top");
+    if ((_b = b.right) == null ? void 0 : _b.width) edges.push("right");
+    if ((_c = b.bottom) == null ? void 0 : _c.width) edges.push("bottom");
+    if ((_d = b.left) == null ? void 0 : _d.width) edges.push("left");
+    if (!edges.length) return null;
+    const ref = b[edges[0]];
+    const color = ref.color || "black";
+    const style = ref.style || "solid";
+    const sw = Math.max(...edges.map((e) => b[e].width || 0));
+    if (!sw) return null;
+    const uniformStyle = edges.every(
+      (e) => b[e].color === ref.color && b[e].style === ref.style
+    );
+    if (!uniformStyle) return null;
+    const inset = sw / 2;
+    const cr = perCornerRadii(paint);
+    const strokeAttrs = borderStrokeAttrs(color, style, sw);
+    const paths = edges.map((e) => `<path d="${edgeSegmentPath(e, width, height, inset, cr)}" ${strokeAttrs} />`).join("");
+    return `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">${paths}</svg>`;
+  }
+  function buildSingleEdgeBorderSvg(width, height, paint, edge) {
+    const b = paint.borders;
+    const side = b == null ? void 0 : b[edge];
+    if (!b || !(side == null ? void 0 : side.width)) return null;
+    return buildActiveBorderSvg(width, height, paint);
   }
   function buildBorderOutlineSvg(width, height, paint) {
     var _a, _b, _c, _d, _e, _f;
@@ -480,6 +547,38 @@
     }
     return false;
   }
+  function figmaStyleAliases(style) {
+    const out = /* @__PURE__ */ new Set([style]);
+    const pairs = [
+      [/SemiBold/i, "Semi Bold"],
+      [/Semi Bold/i, "SemiBold"],
+      [/ExtraBold/i, "Extra Bold"],
+      [/Extra Bold/i, "ExtraBold"],
+      [/ExtraLight/i, "Extra Light"],
+      [/Extra Light/i, "ExtraLight"]
+    ];
+    for (const [re, alt] of pairs) {
+      if (re.test(style)) out.add(style.replace(re, alt));
+    }
+    return [...out];
+  }
+  function isFigmaNativeEllipse(layer) {
+    var _a, _b;
+    return ((_a = layer.source) == null ? void 0 : _a.kind) === "figma" && ((_b = layer.source.dataset) == null ? void 0 : _b.figmaNodeType) === "ELLIPSE";
+  }
+  function isFigmaNativeTextLayer(layer) {
+    var _a, _b;
+    return ((_a = layer.source) == null ? void 0 : _a.kind) === "figma" && ((_b = layer.source.dataset) == null ? void 0 : _b.figmaNodeType) === "TEXT";
+  }
+  function figmaNativeNeedsFixedTextBox(layer, text) {
+    var _a, _b, _c;
+    if (!isFigmaNativeTextLayer(layer)) return false;
+    const resize = (_b = (_a = layer.source) == null ? void 0 : _a.dataset) == null ? void 0 : _b.figmaTextAutoResize;
+    if (resize !== "WIDTH_AND_HEIGHT") return false;
+    const lh = (_c = text.lineHeight) != null ? _c : text.font.size;
+    if (!(layer.box.height > lh * 1.3)) return false;
+    return /\s/.test(text.value.trim());
+  }
   function weightToStyle(weight, italic) {
     let base;
     if (weight >= 900) base = "Black";
@@ -509,7 +608,7 @@
     return raw.split(",").map((s) => s.replace(/['"]/g, "").trim()).filter(Boolean);
   }
   async function resolveFont(text, layer, parent) {
-    var _a;
+    var _a, _b, _c;
     const italic = text.font.style === "italic" || text.font.style === "oblique";
     let weight = liveCompensatedWeight(text.font.weight || 400, text.font, layer, parent);
     const tag = (_a = layer == null ? void 0 : layer.source.tag) != null ? _a : "";
@@ -518,6 +617,23 @@
     }
     const desired = weightToStyle(weight, italic);
     const fonts = await listFonts();
+    if (((_b = layer == null ? void 0 : layer.source) == null ? void 0 : _b.kind) === "figma") {
+      const ds = layer.source.dataset;
+      if ((ds == null ? void 0 : ds.figmaFontFamily) && (ds == null ? void 0 : ds.figmaFontStyle)) {
+        const families = [ds.figmaFontFamily];
+        if (/[\u0590-\u05FF]/.test((_c = text.value) != null ? _c : "") && ds.figmaFontFamily === "Open Sans") {
+          families.push("Open Sans Hebrew");
+        }
+        for (const family of families) {
+          for (const style of figmaStyleAliases(ds.figmaFontStyle)) {
+            const hit = fonts.find(
+              (f) => f.fontName.family === family && f.fontName.style === style
+            );
+            if (hit) return hit.fontName;
+          }
+        }
+      }
+    }
     const candidates = familyCandidates(text.font);
     const styleWeight = (style) => {
       const s = style.toLowerCase();
@@ -588,14 +704,22 @@
     );
   }
   function applyTransform(node, layer) {
-    var _a, _b;
+    var _a, _b, _c, _d, _e, _f, _g;
     if (!("relativeTransform" in node)) return;
+    const rt = (_b = (_a = layer.source) == null ? void 0 : _a.dataset) == null ? void 0 : _b.figmaRelativeTransform;
+    if (((_c = layer.source) == null ? void 0 : _c.kind) === "figma" && layer.vector && (rt == null ? void 0 : rt.length) === 2 && ((_d = rt[0]) == null ? void 0 : _d.length) === 3 && ((_e = rt[1]) == null ? void 0 : _e.length) === 3) {
+      node.relativeTransform = [
+        [snap(rt[0][0]), snap(rt[0][1]), snap(rt[0][2])],
+        [snap(rt[1][0]), snap(rt[1][1]), snap(rt[1][2])]
+      ];
+      return;
+    }
     let x = snap(layer.box.x);
     const y = snap(layer.box.y);
     if (isMuiShrunkInputLabel(layer) && isMockFigmaRuntime()) {
       x = snap(x - 3);
     }
-    const t = (_a = layer.transform) == null ? void 0 : _a.matrix;
+    const t = (_f = layer.transform) == null ? void 0 : _f.matrix;
     if (!t || isIdentity(t)) {
       node.x = x;
       node.y = y;
@@ -605,10 +729,8 @@
     const scaleX = Math.hypot(a, b);
     const scaleY = Math.hypot(c, d);
     if (Math.abs(scaleX - 1) < 1e-3 && Math.abs(scaleY - 1) < 1e-3 && Math.abs(a * d - b * c - 1) < 1e-3) {
-      if (isMockFigmaRuntime() && "rotation" in node) {
-        const isCircularProgress = ((_b = layer.source.classList) != null ? _b : []).some(
-          (c2) => c2.includes("MuiCircularProgress-root")
-        );
+      if ("rotation" in node) {
+        const isCircularProgress = isMockFigmaRuntime() && ((_g = layer.source.classList) != null ? _g : []).some((c2) => c2.includes("MuiCircularProgress-root"));
         if (!isCircularProgress) {
           const rotDeg = Math.atan2(b, a) * 180 / Math.PI;
           if (Math.abs(rotDeg) > 0.01) {
@@ -660,6 +782,19 @@
     if (!(paint == null ? void 0 : paint.borders)) return null;
     const uniform = bordersUniform(paint.borders);
     const singleEdge = singleEdgeBorderSide(paint.borders);
+    const activeCount = countActiveBorderSides(paint.borders);
+    if (!isMockFigmaRuntime() && activeCount >= 1 && activeCount < 4) {
+      const svg2 = buildActiveBorderSvg(width, height, paint);
+      if (svg2) {
+        const vector2 = figma.createNodeFromSvg(svg2);
+        vector2.name = "__border";
+        vector2.x = 0;
+        vector2.y = 0;
+        vector2.resize(Math.max(1, snap(width)), Math.max(1, snap(height)));
+        if ("fills" in vector2) vector2.fills = [];
+        return vector2;
+      }
+    }
     if (singleEdge && !isMockFigmaRuntime()) {
       const edgeSvg = buildSingleEdgeBorderSvg(width, height, paint, singleEdge);
       if (edgeSvg) {
@@ -858,7 +993,41 @@
   }
   function centerLabButtonVector(_node, _layer, _parent, _w, _h) {
   }
+  function createFigmaNativeVectorNode(layer) {
+    var _a, _b, _c, _d, _e, _f, _g, _h;
+    const native = (_a = layer.vector) == null ? void 0 : _a.figmaNative;
+    if (((_b = layer.source) == null ? void 0 : _b.kind) !== "figma" || !((_c = native == null ? void 0 : native.vectorPaths) == null ? void 0 : _c.length)) return null;
+    const v = figma.createVector();
+    v.vectorPaths = native.vectorPaths.map((p) => ({
+      windingRule: p.windingRule === "EVENODD" ? "EVENODD" : "NONZERO",
+      data: p.data
+    }));
+    const fills = [];
+    if (native.fill) fills.push(solidPaint(native.fill));
+    v.fills = fills;
+    if (native.stroke && ((_d = native.strokeWeight) != null ? _d : 0) > 0) {
+      v.strokes = [solidPaint(native.stroke)];
+      v.strokeWeight = snap(native.strokeWeight);
+      if (native.strokeAlign && "strokeAlign" in v) {
+        v.strokeAlign = native.strokeAlign;
+      }
+    } else {
+      v.strokes = [];
+      v.strokeWeight = 0;
+    }
+    const shapeOpacity = (_h = (_g = (_f = (_e = layer.vector) == null ? void 0 : _e.shapes) == null ? void 0 : _f[0]) == null ? void 0 : _g.paint) == null ? void 0 : _h.opacity;
+    if (shapeOpacity != null && shapeOpacity < 0.999) {
+      v.opacity = Math.max(0, Math.min(1, snap(shapeOpacity)));
+    }
+    const w = Math.max(1, snap(layer.box.width));
+    const h = Math.max(1, snap(layer.box.height));
+    v.resize(w, h);
+    v.name = layer.name || "vector";
+    return v;
+  }
   function createVectorNode(layer, parent) {
+    const nativeVector = createFigmaNativeVectorNode(layer);
+    if (nativeVector) return nativeVector;
     const v = layer.vector;
     const w = Math.max(1, snap(layer.box.width));
     const h = Math.max(1, snap(layer.box.height));
@@ -877,7 +1046,7 @@
       const wrap = figma.createFrame();
       wrap.name = layer.name || "vector";
       wrap.resize(w, h);
-      wrap.clipsContent = true;
+      wrap.clipsContent = !isPrevNextGroupChild(parent);
       wrap.fills = [];
       wrap.layoutMode = "NONE";
       if ("rescale" in imported && imported.width > 0 && imported.height > 0) {
@@ -943,7 +1112,7 @@
     return value;
   }
   async function createTextNode(layer, parent) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D;
     const text = layer.text;
     const displayValue = textDisplayValue(layer, text.value);
     const labLabel = isLabButtonLabelSpan(layer, parent);
@@ -970,7 +1139,12 @@
     } else if (text.letterSpacing !== void 0 && text.letterSpacing !== 0) {
       t.letterSpacing = { unit: "PIXELS", value: snap(text.letterSpacing) };
     }
-    if (labBtnLabel) {
+    const figmaNativeText = isFigmaNativeTextLayer(layer);
+    if (figmaNativeText) {
+      if (text.lineHeight !== void 0 && text.lineHeight > 0) {
+        t.lineHeight = { unit: "PIXELS", value: snap(text.lineHeight) };
+      }
+    } else if (labBtnLabel) {
       const lhPx2 = text.lineHeight != null && text.lineHeight > 0 ? snap(text.lineHeight) : Math.max(1, snap(text.font.size));
       t.lineHeight = { unit: "PIXELS", value: lhPx2 };
     } else if (/^h[1-6]$/.test((_m = (_l = layer.source) == null ? void 0 : _l.tag) != null ? _m : "") && text.lineHeight !== void 0 && text.lineHeight > 0) {
@@ -983,7 +1157,7 @@
         t.lineHeight = { unit: "PIXELS", value: glyphLh };
       }
     }
-    if (!labLabel && !labBtnLabel && !/^h[1-6]$/.test((_o = (_n = layer.source) == null ? void 0 : _n.tag) != null ? _o : "") && liveGlyphLineHeightPx(text, layer) == null && text.lineHeight !== void 0 && text.lineHeight > 0) {
+    if (!figmaNativeText && !labLabel && !labBtnLabel && !/^h[1-6]$/.test((_o = (_n = layer.source) == null ? void 0 : _n.tag) != null ? _o : "") && liveGlyphLineHeightPx(text, layer) == null && text.lineHeight !== void 0 && text.lineHeight > 0) {
       const lh = snap(text.lineHeight);
       const fs = Math.max(1, snap(text.font.size));
       const boxH2 = layer.box.height;
@@ -1002,10 +1176,22 @@
     }
     const align = text.align === "center" ? "CENTER" : text.align === "right" || text.align === "end" ? "RIGHT" : text.align === "justify" ? "JUSTIFIED" : "LEFT";
     t.textAlignHorizontal = align;
+    if (text.direction === "rtl") {
+      try {
+        t.textDirection = "RTL";
+      } catch (e) {
+      }
+    }
     t.fills = [solidPaint(text.color)];
     if ((_r = text.decoration) == null ? void 0 : _r.lines.includes("underline")) t.textDecoration = "UNDERLINE";
     else if ((_s = text.decoration) == null ? void 0 : _s.lines.includes("line-through")) t.textDecoration = "STRIKETHROUGH";
-    if (text.transform && text.transform !== "none") {
+    const figmaTextCase = (_u = (_t = layer.source) == null ? void 0 : _t.dataset) == null ? void 0 : _u.figmaTextCase;
+    if (figmaTextCase) {
+      try {
+        t.textCase = figmaTextCase;
+      } catch (e) {
+      }
+    } else if (text.transform && text.transform !== "none") {
       const map = {
         uppercase: "UPPER",
         lowercase: "LOWER",
@@ -1023,7 +1209,7 @@
     const labTightBtn = isLabTightCenterButton(layer, parent);
     const blockTight = isBlockTypoTightLineBox(layer);
     try {
-      const skipLeadingTrim = !isMockFigmaRuntime() || labLabel && !labBtnLabel || multiline || blockTight || ((_t = layer.source) == null ? void 0 : _t.tag) === "input" || isLabTightCenterButton(layer, parent) || ((_u = text.font.weight) != null ? _u : 400) >= 500 && !labTightBtn && !blockTight || tightLineBox && !labTightBtn && !blockTight || text.transform === "uppercase";
+      const skipLeadingTrim = !isMockFigmaRuntime() || ((_v = layer.source) == null ? void 0 : _v.kind) === "figma" || labLabel && !labBtnLabel || multiline || blockTight || ((_w = layer.source) == null ? void 0 : _w.tag) === "input" || isLabTightCenterButton(layer, parent) || ((_x = text.font.weight) != null ? _x : 400) >= 500 && !labTightBtn && !blockTight || tightLineBox && !labTightBtn && !blockTight || text.transform === "uppercase";
       if (!skipLeadingTrim) {
         try {
           t.leadingTrim = "CAP_HEIGHT";
@@ -1032,11 +1218,47 @@
       }
     } catch (e) {
     }
+    const figmaResize = (_z = (_y = layer.source) == null ? void 0 : _y.dataset) == null ? void 0 : _z.figmaTextAutoResize;
+    if (((_A = layer.source) == null ? void 0 : _A.kind) === "figma" && figmaResize) {
+      const resizeMap = {
+        WIDTH_AND_HEIGHT: "WIDTH_AND_HEIGHT",
+        HEIGHT: "HEIGHT",
+        NONE: "NONE",
+        TRUNCATE: "TRUNCATE"
+      };
+      let mode = resizeMap[figmaResize];
+      if (mode === "WIDTH_AND_HEIGHT" && figmaNativeNeedsFixedTextBox(layer, text)) {
+        mode = "NONE";
+      }
+      if (mode) {
+        t.textAutoResize = mode;
+        if (text.verticalAlign === "middle") {
+          t.textAlignVertical = "CENTER";
+        } else if (text.verticalAlign === "bottom") {
+          t.textAlignVertical = "BOTTOM";
+        } else if (text.verticalAlign === "top") {
+          t.textAlignVertical = "TOP";
+        }
+        if (mode !== "WIDTH_AND_HEIGHT") {
+          if (mode === "NONE" && text.verticalAlign === "middle" && text.lineHeight != null && text.lineHeight > layer.box.height + 0.25) {
+            t.lineHeight = {
+              unit: "PIXELS",
+              value: Math.max(1, snap(layer.box.height))
+            };
+          }
+          t.resize(
+            Math.max(1, Math.ceil(snap(layer.box.width))),
+            Math.max(1, Math.ceil(snap(layer.box.height)))
+          );
+        }
+        return t;
+      }
+    }
     const labPillButton = layer.source.tag === "button" && isLabDomCenterButton(layer, parent);
     const noWrapCss = text.whiteSpace === "nowrap" || text.whiteSpace === "pre" || labBtnLabel || labPillButton;
     const hasWrappableWhitespace = /\s/.test(displayValue.trim());
-    const pad = (_v = layer.layout) == null ? void 0 : _v.padding;
-    const innerH = layer.box.height - ((_w = pad == null ? void 0 : pad.top) != null ? _w : 0) - ((_x = pad == null ? void 0 : pad.bottom) != null ? _x : 0);
+    const pad = (_B = layer.layout) == null ? void 0 : _B.padding;
+    const innerH = layer.box.height - ((_C = pad == null ? void 0 : pad.top) != null ? _C : 0) - ((_D = pad == null ? void 0 : pad.bottom) != null ? _D : 0);
     const singleLineTextBox = lhPx != null && innerH > 0 && Math.abs(lhPx - innerH) <= 2 && !noWrapCss && !displayValue.includes("\n");
     if (noWrapCss || !hasWrappableWhitespace || isMuiAlertMessageText(layer) || singleLineTextBox) {
       t.textAutoResize = "WIDTH_AND_HEIGHT";
@@ -1189,6 +1411,7 @@
   }
   function shouldApplyCornerRadii(layer, parent) {
     var _a, _b, _c, _d;
+    if (isFigmaNativeEllipse(layer)) return false;
     if (hasNotchedOutlineChild(layer)) {
       const cl = (_a = layer.source.classList) != null ? _a : [];
       if (cl.some((c) => c.includes("MuiOutlinedInput-root"))) {
@@ -1512,6 +1735,7 @@
     }
   }
   function reaffirmChildBoxPositions(built, parent) {
+    var _a, _b;
     if (isMockFigmaRuntime()) return;
     for (const { node, layer } of built) {
       if (isLiveLabButtonBareLabel(layer, parent) && node.type === "TEXT") {
@@ -1520,6 +1744,9 @@
         text.textAutoResize = "WIDTH_AND_HEIGHT";
         text.x = snap(layer.box.x);
         text.y = snap(layer.box.y);
+        continue;
+      }
+      if (((_a = layer.source) == null ? void 0 : _a.kind) === "figma" && ((_b = layer.source.dataset) == null ? void 0 : _b.figmaRelativeTransform)) {
         continue;
       }
       node.x = snap(layer.box.x);
@@ -1553,8 +1780,53 @@
     if (((_p = (_o = parent == null ? void 0 : parent.source) == null ? void 0 : _o.classList) != null ? _p : []).includes("lab-feature-footer")) return false;
     return textUsesTightLineBox(layer);
   }
+  function isFigmaFlipFrame(layer) {
+    var _a, _b, _c;
+    const rt = (_b = (_a = layer.source) == null ? void 0 : _a.dataset) == null ? void 0 : _b.figmaRelativeTransform;
+    return Boolean(((_c = rt == null ? void 0 : rt[0]) == null ? void 0 : _c[0]) != null && rt[0][0] < -0.5);
+  }
+  function isPrevNextGroup(layer) {
+    var _a;
+    const ds = (_a = layer.source) == null ? void 0 : _a.dataset;
+    return layer.name === "prev-next" || (ds == null ? void 0 : ds.name) === "prev-next" || (ds == null ? void 0 : ds.figmaNodeType) === "GROUP" && layer.name === "prev-next";
+  }
+  function isPrevNextGroupChild(parent) {
+    return Boolean(parent && isPrevNextGroup(parent));
+  }
+  function normalizeAbsoluteGroupChildren(layer) {
+    var _a;
+    if (!((_a = layer.children) == null ? void 0 : _a.length)) return;
+    if (isPrevNextGroup(layer)) {
+      const ox = layer.box.x;
+      const oy = layer.box.y;
+      const minChildX = Math.min(...layer.children.map((c) => c.box.x));
+      const maxChildR = Math.max(...layer.children.map((c) => c.box.x + c.box.width));
+      const needsRebase = minChildX + 0.5 >= ox || maxChildR > ox + layer.box.width + 0.5;
+      if (needsRebase) {
+        for (const child of layer.children) {
+          child.box = __spreadProps(__spreadValues({}, child.box), {
+            x: snap(child.box.x - ox),
+            y: snap(child.box.y - oy)
+          });
+        }
+      }
+      let maxR = 0;
+      let maxB = 0;
+      for (const child of layer.children) {
+        maxR = Math.max(maxR, child.box.x + child.box.width);
+        maxB = Math.max(maxB, child.box.y + child.box.height);
+      }
+      layer.box = __spreadProps(__spreadValues({}, layer.box), {
+        width: Math.max(layer.box.width, maxR),
+        height: Math.max(layer.box.height, maxB)
+      });
+    }
+    for (const child of layer.children) normalizeAbsoluteGroupChildren(child);
+  }
   function shouldClipContent(layer, parent) {
     var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o;
+    if (isPrevNextGroup(layer)) return false;
+    if (isFigmaFlipFrame(layer)) return false;
     if (hasNotchedOutlineChild(layer)) return false;
     if (isMuiShrunkInputLabel(layer)) return false;
     const parentCl = (_a = parent == null ? void 0 : parent.source.classList) != null ? _a : [];
@@ -1581,16 +1853,27 @@
     const rounded = c && !circleAvatar && layer.box.width < 400 && layer.box.height < 400 && (c.topLeft.x > 0 || c.topRight.x > 0 || c.bottomRight.x > 0 || c.bottomLeft.x > 0);
     return explicitClip || hasSpreadShadow || Boolean(pill) || Boolean(rounded);
   }
+  function frameRequiresClipContent(layer) {
+    var _a, _b, _c, _d, _e, _f, _g, _h;
+    if (isFigmaFlipFrame(layer)) return false;
+    return ((_b = (_a = layer.layout) == null ? void 0 : _a.overflow) == null ? void 0 : _b.x) === "hidden" || ((_d = (_c = layer.layout) == null ? void 0 : _c.overflow) == null ? void 0 : _d.y) === "hidden" || ((_f = (_e = layer.layout) == null ? void 0 : _e.overflow) == null ? void 0 : _f.x) === "clip" || ((_h = (_g = layer.layout) == null ? void 0 : _g.overflow) == null ? void 0 : _h.y) === "clip";
+  }
   async function buildLayer(layer, parent, grandparent) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D, _E, _F, _G, _H, _I, _J, _K, _L, _M, _N, _O, _P, _Q, _R, _S, _T, _U, _V, _W, _X, _Y, _Z, __, _$, _aa, _ba, _ca, _da, _ea, _fa, _ga, _ha, _ia, _ja, _ka, _la, _ma, _na, _oa, _pa;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D, _E, _F, _G, _H, _I, _J, _K, _L, _M, _N, _O, _P, _Q, _R, _S, _T, _U, _V, _W, _X, _Y, _Z, __, _$, _aa, _ba, _ca, _da, _ea, _fa, _ga, _ha, _ia, _ja, _ka, _la, _ma, _na, _oa, _pa, _qa, _ra, _sa, _ta;
     if (!isLayerVisible(layer)) return null;
     let node;
     let textChildToPlace = null;
     const isTextLeaf = layer.text && (!layer.children || layer.children.length === 0);
+    const figmaBareText = isTextLeaf && isFigmaNativeTextLayer(layer) && !((_a = layer.paint) == null ? void 0 : _a.borders) && !((_c = (_b = layer.paint) == null ? void 0 : _b.shadows) == null ? void 0 : _c.length);
+    if (figmaBareText) {
+      const t = await createTextNode(layer, parent);
+      t.name = layer.name || "text";
+      return t;
+    }
     if (isTextLeaf) {
       if (isLiveLabButtonBareLabel(layer, parent)) {
         const t = await createTextNode(layer, parent);
-        t.name = layer.name || ((_a = layer.source.dataset) == null ? void 0 : _a.figmaName) || "label";
+        t.name = layer.name || ((_d = layer.source.dataset) == null ? void 0 : _d.figmaName) || "label";
         return t;
       }
       const frame = figma.createFrame();
@@ -1603,6 +1886,8 @@
       node = createVectorNode(layer, parent);
     } else if (layer.image) {
       node = createImageNode(layer);
+    } else if (isFigmaNativeEllipse(layer)) {
+      node = figma.createEllipse();
     } else {
       const f = figma.createFrame();
       f.layoutMode = "NONE";
@@ -1614,32 +1899,32 @@
     if (isMuiOutlinedValueField(layer, parent) && isMockFigmaRuntime()) {
       node.name = layer.source.tag === "input" ? "outlined-value" : "outlined-select-value";
     }
-    if (isMockFigmaRuntime() && isMuiCompactCenterButton(layer) && !((_c = (_b = layer.paint) == null ? void 0 : _b.fills) == null ? void 0 : _c.length)) {
+    if (isMockFigmaRuntime() && isMuiCompactCenterButton(layer) && !((_f = (_e = layer.paint) == null ? void 0 : _e.fills) == null ? void 0 : _f.length)) {
       node.name = "mui-action-btn";
     }
-    if (((_d = layer.source) == null ? void 0 : _d.tag) === "input") {
+    if (((_g = layer.source) == null ? void 0 : _g.tag) === "input") {
       const inputType = layer.source.inputType;
       const src = {
         tag: "input",
         inputType: inputType || "text"
       };
-      if ((_e = layer.text) == null ? void 0 : _e.value) {
+      if ((_h = layer.text) == null ? void 0 : _h.value) {
         src.value = layer.text.value;
       }
-      if ((_g = (_f = layer.text) == null ? void 0 : _f.font) == null ? void 0 : _g.stack) {
+      if ((_j = (_i = layer.text) == null ? void 0 : _i.font) == null ? void 0 : _j.stack) {
         src.fontStack = layer.text.font.stack;
       }
       if (isMockFigmaRuntime() && !isMuiOutlinedValueField(layer, parent)) {
         node.source = src;
       }
     }
-    if (node.type === "FRAME" && "fills" in node && !((_i = (_h = layer.paint) == null ? void 0 : _h.fills) == null ? void 0 : _i.length)) {
+    if (node.type === "FRAME" && "fills" in node && !((_l = (_k = layer.paint) == null ? void 0 : _k.fills) == null ? void 0 : _l.length)) {
       node.fills = [];
     }
     if ("resize" in node && node.type !== "TEXT") {
       const w = snapBoxSize(layer, "width");
       let h = snapBoxSize(layer, "height");
-      if (((_j = layer.source) == null ? void 0 : _j.tag) === "input" && ((_l = (_k = parent == null ? void 0 : parent.source) == null ? void 0 : _k.classList) == null ? void 0 : _l.includes("lab-login-card")) && Math.round(layer.box.height) === 52) {
+      if (((_m = layer.source) == null ? void 0 : _m.tag) === "input" && ((_o = (_n = parent == null ? void 0 : parent.source) == null ? void 0 : _n.classList) == null ? void 0 : _o.includes("lab-login-card")) && Math.round(layer.box.height) === 52) {
         h = 50;
       }
       node.resize(w, h);
@@ -1654,14 +1939,14 @@
         const fw = Math.max(1, snap(layer.box.width));
         const fh = Math.max(1, snap(layer.box.height));
         frame.resize(fw, fh);
-        frame.name = layer.name || ((_m = layer.source.dataset) == null ? void 0 : _m.figmaName) || "label";
-        const labBtn = ((_o = (_n = parent == null ? void 0 : parent.source) == null ? void 0 : _n.classList) != null ? _o : []).includes("lab-button");
+        frame.name = layer.name || ((_p = layer.source.dataset) == null ? void 0 : _p.figmaName) || "label";
+        const labBtn = ((_r = (_q = parent == null ? void 0 : parent.source) == null ? void 0 : _q.classList) != null ? _r : []).includes("lab-button");
         if (labBtn) {
           if (!isMockFigmaRuntime()) {
             frame.appendChild(text);
             enforceLiveUnwrappedTextFrame(frame, text, layer, parent);
           } else {
-            const lhPx = (_p = liveTightLineHeightPx(layer.text, layer, fh)) != null ? _p : Math.max(1, snap(layer.text.font.size));
+            const lhPx = (_s = liveTightLineHeightPx(layer.text, layer, fh)) != null ? _s : Math.max(1, snap(layer.text.font.size));
             text.lineHeight = { unit: "PIXELS", value: lhPx };
             text.textAutoResize = "WIDTH_AND_HEIGHT";
             text.textAlignHorizontal = "CENTER";
@@ -1672,7 +1957,7 @@
             frame.appendChild(text);
           }
         } else {
-          const lh = (_q = layer.text) == null ? void 0 : _q.lineHeight;
+          const lh = (_t = layer.text) == null ? void 0 : _t.lineHeight;
           if (lh != null && lh > 0) {
             text.lineHeight = { unit: "PIXELS", value: snap(lh) };
           }
@@ -1681,7 +1966,7 @@
           const tw = text.width;
           const th = text.height;
           let tx = 0;
-          if (((_r = layer.text) == null ? void 0 : _r.align) === "center" && fw > tw + 0.5) {
+          if (((_u = layer.text) == null ? void 0 : _u.align) === "center" && fw > tw + 0.5) {
             tx = (fw - tw) / 2;
           }
           text.x = snap(Math.max(0, tx));
@@ -1690,7 +1975,7 @@
           frame.appendChild(text);
         }
       } else {
-        const matrix = (_s = layer.transform) == null ? void 0 : _s.matrix;
+        const matrix = (_v = layer.transform) == null ? void 0 : _v.matrix;
         const skipScaleBake = isMuiShrunkInputLabel(layer) && isMockFigmaRuntime();
         if (matrix && !skipScaleBake) {
           const sx = Math.hypot(matrix[0], matrix[1]);
@@ -1727,15 +2012,15 @@
         }
         const fw = frame.width;
         const fh = frame.height;
-        const pad = (_u = (_t = layer.layout) == null ? void 0 : _t.padding) != null ? _u : { top: 0, right: 0, bottom: 0, left: 0 };
-        const justify = (_x = (_w = (_v = layer.layout) == null ? void 0 : _v.flex) == null ? void 0 : _w.justify) != null ? _x : "normal";
-        const align = (_A = (_z = (_y = layer.layout) == null ? void 0 : _y.flex) == null ? void 0 : _z.align) != null ? _A : "normal";
+        const pad = (_x = (_w = layer.layout) == null ? void 0 : _w.padding) != null ? _x : { top: 0, right: 0, bottom: 0, left: 0 };
+        const justify = (_A = (_z = (_y = layer.layout) == null ? void 0 : _y.flex) == null ? void 0 : _z.justify) != null ? _A : "normal";
+        const align = (_D = (_C = (_B = layer.layout) == null ? void 0 : _B.flex) == null ? void 0 : _C.align) != null ? _D : "normal";
         const innerW = fw - pad.left - pad.right;
         const innerH = fh - pad.top - pad.bottom;
         clampMockTextToDomBox(text, innerW, innerH, layer, parent);
         const tw = text.width;
         const th = text.height;
-        const textAlign = (_B = layer.text) == null ? void 0 : _B.align;
+        const textAlign = (_E = layer.text) == null ? void 0 : _E.align;
         let x = pad.left;
         let y = pad.top;
         let usedNativeTextAlign = false;
@@ -1763,12 +2048,12 @@
             text.textAlignVertical = "CENTER";
           } catch (e) {
           }
-        } else if (!isMockFigmaRuntime() && ((_C = layer.source) == null ? void 0 : _C.tag) === "input") {
-          const b = (_D = layer.paint) == null ? void 0 : _D.borders;
-          const borderL = (_F = (_E = b == null ? void 0 : b.left) == null ? void 0 : _E.width) != null ? _F : 0;
-          const borderR = (_H = (_G = b == null ? void 0 : b.right) == null ? void 0 : _G.width) != null ? _H : 0;
-          const borderT = (_J = (_I = b == null ? void 0 : b.top) == null ? void 0 : _I.width) != null ? _J : 0;
-          const borderB = (_L = (_K = b == null ? void 0 : b.bottom) == null ? void 0 : _K.width) != null ? _L : 0;
+        } else if (!isMockFigmaRuntime() && ((_F = layer.source) == null ? void 0 : _F.tag) === "input") {
+          const b = (_G = layer.paint) == null ? void 0 : _G.borders;
+          const borderL = (_I = (_H = b == null ? void 0 : b.left) == null ? void 0 : _H.width) != null ? _I : 0;
+          const borderR = (_K = (_J = b == null ? void 0 : b.right) == null ? void 0 : _J.width) != null ? _K : 0;
+          const borderT = (_M = (_L = b == null ? void 0 : b.top) == null ? void 0 : _L.width) != null ? _M : 0;
+          const borderB = (_O = (_N = b == null ? void 0 : b.bottom) == null ? void 0 : _N.width) != null ? _O : 0;
           const contentW = Math.max(1, snap(innerW - borderL - borderR));
           const contentH = Math.max(1, snap(innerH - borderT - borderB));
           text.textAutoResize = "NONE";
@@ -1788,7 +2073,7 @@
         const wideBlockButton = blockButtonCenter && !isLabDomCenterButton(layer, parent) && (innerW > tw + 12 && innerH > 40);
         if (tableCell && (textAlign === "right" || textAlign === "end" || textAlign === "center") || isMuiPaginationItemButton(layer) || blockButtonCenter || (textAlign === "center" || textAlign === "right" || textAlign === "end") && innerW > tw + 2) {
           if (wideBlockButton) {
-            const btnLh = (_M = layer.text) == null ? void 0 : _M.lineHeight;
+            const btnLh = (_P = layer.text) == null ? void 0 : _P.lineHeight;
             if (btnLh != null && btnLh > 0) {
               text.lineHeight = { unit: "PIXELS", value: snap(btnLh) };
             }
@@ -1806,7 +2091,7 @@
                 x = placed.x;
                 y = placed.y;
               } else {
-                const lhPx = (_N = liveTightLineHeightPx(layer.text, layer, innerH)) != null ? _N : Math.max(1, snap(layer.text.font.size));
+                const lhPx = (_Q = liveTightLineHeightPx(layer.text, layer, innerH)) != null ? _Q : Math.max(1, snap(layer.text.font.size));
                 text.lineHeight = { unit: "PIXELS", value: lhPx };
                 text.textAutoResize = "WIDTH_AND_HEIGHT";
                 text.textAlignHorizontal = "CENTER";
@@ -1831,7 +2116,7 @@
             usedNativeTextAlign = true;
             usedNativeVerticalAlign = true;
           } else if (isMuiPaginationItemButton(layer)) {
-            const fs = (_Q = (_P = (_O = layer.text) == null ? void 0 : _O.font) == null ? void 0 : _P.size) != null ? _Q : 14;
+            const fs = (_T = (_S = (_R = layer.text) == null ? void 0 : _R.font) == null ? void 0 : _S.size) != null ? _T : 14;
             text.lineHeight = { unit: "PIXELS", value: Math.max(1, snap(fs)) };
             text.textAutoResize = "WIDTH_AND_HEIGHT";
             text.textAlignHorizontal = "CENTER";
@@ -1854,7 +2139,7 @@
                 x = placed.x;
                 y = placed.y;
               } else {
-                const lhPx = (_R = liveTightLineHeightPx(layer.text, layer, innerH)) != null ? _R : Math.max(1, snap(layer.text.font.size));
+                const lhPx = (_U = liveTightLineHeightPx(layer.text, layer, innerH)) != null ? _U : Math.max(1, snap(layer.text.font.size));
                 text.lineHeight = { unit: "PIXELS", value: lhPx };
                 text.textAutoResize = "WIDTH_AND_HEIGHT";
                 text.textAlignHorizontal = "CENTER";
@@ -1867,7 +2152,7 @@
                 x = placed.x;
                 y = placed.y;
               } else {
-                const btnLh = (_S = layer.text) == null ? void 0 : _S.lineHeight;
+                const btnLh = (_V = layer.text) == null ? void 0 : _V.lineHeight;
                 if (btnLh != null && btnLh > 0) {
                   text.lineHeight = { unit: "PIXELS", value: snap(btnLh) };
                 }
@@ -1892,7 +2177,7 @@
           x = fw - tw - pad.right;
         }
         if (!usedNativeVerticalAlign) {
-          const blockFlowPinTop = !isMockFigmaRuntime() && ((_T = parent == null ? void 0 : parent.layout) == null ? void 0 : _T.display) === "block" && (layer.source.tag === "p" || /^h[1-6]$/.test((_U = layer.source.tag) != null ? _U : "") || layer.source.tag === "span");
+          const blockFlowPinTop = !isMockFigmaRuntime() && ((_W = parent == null ? void 0 : parent.layout) == null ? void 0 : _W.display) === "block" && (layer.source.tag === "p" || /^h[1-6]$/.test((_X = layer.source.tag) != null ? _X : "") || layer.source.tag === "span");
           if (blockFlowPinTop) {
             y = pad.top;
             try {
@@ -1919,10 +2204,10 @@
             }
           } else if (isMuiShrunkInputLabel(layer)) {
             y = pad.top + Math.max(0, (innerH - th) / 2);
-          } else if (((_V = layer.source) == null ? void 0 : _V.tag) === "input") {
-            const b = (_W = layer.paint) == null ? void 0 : _W.borders;
-            const borderTop = (_Y = (_X = b == null ? void 0 : b.top) == null ? void 0 : _X.width) != null ? _Y : 0;
-            const borderBottom = (__ = (_Z = b == null ? void 0 : b.bottom) == null ? void 0 : _Z.width) != null ? __ : 0;
+          } else if (((_Y = layer.source) == null ? void 0 : _Y.tag) === "input") {
+            const b = (_Z = layer.paint) == null ? void 0 : _Z.borders;
+            const borderTop = (_$ = (__ = b == null ? void 0 : b.top) == null ? void 0 : __.width) != null ? _$ : 0;
+            const borderBottom = (_ba = (_aa = b == null ? void 0 : b.bottom) == null ? void 0 : _aa.width) != null ? _ba : 0;
             const contentInnerH = innerH - borderTop - borderBottom;
             y = pad.top + borderTop + Math.max(0, (contentInnerH - th) / 2);
             try {
@@ -1971,19 +2256,19 @@
             frame.resize(frame.width, snap(neededH));
           }
         }
-        if (!isMockFigmaRuntime() && /^h[1-6]$/.test((_$ = layer.source.tag) != null ? _$ : "") && text.textAutoResize === "HEIGHT") {
+        if (!isMockFigmaRuntime() && /^h[1-6]$/.test((_ca = layer.source.tag) != null ? _ca : "") && text.textAutoResize === "HEIGHT") {
           const neededH = snap(text.y + text.height + pad.bottom);
           const domH = snap(layer.box.height);
           if (neededH > frame.height + 0.5 || domH > frame.height + 0.5) {
             frame.resize(frame.width, Math.max(domH, neededH));
           }
         }
-        if (textFramePinsToTop(layer, parent) && !((_ba = (_aa = layer.paint) == null ? void 0 : _aa.fills) == null ? void 0 : _ba.length) && layer.box.width <= snap(text.width) + 2) {
+        if (textFramePinsToTop(layer, parent) && !((_ea = (_da = layer.paint) == null ? void 0 : _da.fills) == null ? void 0 : _ea.length) && layer.box.width <= snap(text.width) + 2) {
           frame.resize(
             Math.max(1, snap(text.width)),
             Math.max(1, snap(text.height))
           );
-        } else if (textFramePinsToTop(layer, parent) && !((_da = (_ca = layer.paint) == null ? void 0 : _ca.fills) == null ? void 0 : _da.length) && (/^h[1-6]$/.test((_ea = layer.source.tag) != null ? _ea : "") || preserveDomLineBoxHeight(layer, parent))) {
+        } else if (textFramePinsToTop(layer, parent) && !((_ga = (_fa = layer.paint) == null ? void 0 : _fa.fills) == null ? void 0 : _ga.length) && (/^h[1-6]$/.test((_ha = layer.source.tag) != null ? _ha : "") || preserveDomLineBoxHeight(layer, parent))) {
           frame.resize(fw, Math.max(1, snap(layer.box.height)));
         }
       }
@@ -1992,7 +2277,7 @@
       const paint = layer.paint;
       if ("fills" in node && node.type !== "TEXT") {
         if (layer.image) {
-          const bgFills = ((_fa = paint.fills) == null ? void 0 : _fa.length) ? buildFills(paint, layer.box.width, layer.box.height) : void 0;
+          const bgFills = ((_ia = paint.fills) == null ? void 0 : _ia.length) ? buildFills(paint, layer.box.width, layer.box.height) : void 0;
           if (bgFills == null ? void 0 : bgFills.length) {
             node.fills = [
               ...clonePaints(bgFills),
@@ -2000,13 +2285,19 @@
             ];
           }
         } else {
-          const fills = ((_ga = paint.fills) == null ? void 0 : _ga.length) ? buildFills(paint, layer.box.width, layer.box.height) : void 0;
-          node.fills = (fills == null ? void 0 : fills.length) ? clonePaints(fills) : [];
+          const fills = ((_ja = paint.fills) == null ? void 0 : _ja.length) ? buildFills(paint, layer.box.width, layer.box.height) : void 0;
+          if (fills == null ? void 0 : fills.length) {
+            node.fills = clonePaints(fills);
+          } else if (((_ka = layer.source) == null ? void 0 : _ka.kind) === "figma" && node.type === "FRAME" && !isMockFigmaRuntime()) {
+            node.fills = [transparentFill()];
+          } else {
+            node.fills = [];
+          }
         }
       }
       if (node.type !== "TEXT" && shouldApplyCornerRadii(layer, parent)) applyCornerRadii(node, paint);
       if ("effects" in node) {
-        const skipMockContainedButtonShadow = isMockFigmaRuntime() && layer.source.tag === "button" && Boolean((_ia = (_ha = layer.paint) == null ? void 0 : _ha.fills) == null ? void 0 : _ia.length);
+        const skipMockContainedButtonShadow = isMockFigmaRuntime() && layer.source.tag === "button" && Boolean((_ma = (_la = layer.paint) == null ? void 0 : _la.fills) == null ? void 0 : _ma.length);
         if (!skipMockContainedButtonShadow) {
           const allowSpread = isMockFigmaRuntime() || node.type !== "TEXT" && (node.clipsContent === true || node.type !== "FRAME");
           const effects = effectsFromPaint(paint, allowSpread);
@@ -2029,9 +2320,9 @@
     if (layer.children && "appendChild" in node) {
       if (shouldUseLabButtonAutoLayout(layer) && node.type === "FRAME") {
         const frame = node;
-        const pad = (_ka = (_ja = layer.layout) == null ? void 0 : _ja.padding) != null ? _ka : { top: 0, right: 0, bottom: 0, left: 0 };
-        const flex = (_la = layer.layout) == null ? void 0 : _la.flex;
-        const gap = (_na = (_ma = flex == null ? void 0 : flex.columnGap) != null ? _ma : flex == null ? void 0 : flex.rowGap) != null ? _na : 0;
+        const pad = (_oa = (_na = layer.layout) == null ? void 0 : _na.padding) != null ? _oa : { top: 0, right: 0, bottom: 0, left: 0 };
+        const flex = (_pa = layer.layout) == null ? void 0 : _pa.flex;
+        const gap = (_ra = (_qa = flex == null ? void 0 : flex.columnGap) != null ? _qa : flex == null ? void 0 : flex.rowGap) != null ? _ra : 0;
         const btnW = snapBoxSize(layer, "width");
         const btnH = snapBoxSize(layer, "height");
         frame.layoutMode = "HORIZONTAL";
@@ -2044,7 +2335,7 @@
         frame.paddingRight = snap(pad.right);
         frame.paddingTop = snap(pad.top);
         frame.paddingBottom = snap(pad.bottom);
-        const kids = (_oa = layer.children) != null ? _oa : [];
+        const kids = (_sa = layer.children) != null ? _sa : [];
         const childLayers = [...kids].sort((a, b) => a.box.x - b.box.x);
         for (const child of childLayers) {
           const childNode = await buildLayer(child, layer, parent);
@@ -2091,7 +2382,7 @@
           for (const { node: childNode, layer: childLayer } of positionedBuilt) {
             applyMuiLinearProgressBarPlacement(childNode, childLayer);
           }
-          if (!isMockFigmaRuntime() && node.type === "FRAME" && ((_pa = layer.source.classList) != null ? _pa : []).includes("lab-button") && !shouldUseLabButtonAutoLayout(layer)) {
+          if (!isMockFigmaRuntime() && node.type === "FRAME" && ((_ta = layer.source.classList) != null ? _ta : []).includes("lab-button") && !shouldUseLabButtonAutoLayout(layer)) {
             centerLabButtonSoleChild(node, layer);
           }
         }
@@ -2099,12 +2390,18 @@
     }
     if (borderOverlay && "appendChild" in node) {
       node.appendChild(borderOverlay);
-      if ("clipsContent" in node) node.clipsContent = false;
+      if ("clipsContent" in node && !frameRequiresClipContent(layer)) {
+        node.clipsContent = false;
+      }
+    }
+    if (node.type === "FRAME" && frameRequiresClipContent(layer)) {
+      node.clipsContent = true;
     }
     return node;
   }
   async function renderDocumentV2(doc) {
     const rootLayer = JSON.parse(JSON.stringify(doc.root));
+    normalizeAbsoluteGroupChildren(rootLayer);
     await preloadFonts(rootLayer, /* @__PURE__ */ new Set());
     const root = await buildLayer(rootLayer);
     if (!root) throw new Error("Root layer produced no node");
@@ -2120,6 +2417,12 @@
       canvas.fills = [solidPaint(doc.meta.canvasBackground)];
     } else {
       canvas.fills = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 } }];
+    }
+    if (doc.meta.preserveEffects) {
+      try {
+        canvas.setPluginData("preserveEffects", "1");
+      } catch (e) {
+      }
     }
     root.x = padding;
     root.y = padding;
@@ -2153,6 +2456,7 @@
     return saved;
   }
   async function exportContentPng(canvas, _canvasBackground) {
+    var _a;
     const target = contentFrameFromCanvas(canvas);
     const settings = {
       format: "PNG",
@@ -2160,7 +2464,8 @@
       useAbsoluteBounds: false,
       colorProfile: "SRGB"
     };
-    const stripped = stripEffectsForExport(target);
+    const preserveEffects = canvas.type === "FRAME" && ((_a = canvas.getPluginData) == null ? void 0 : _a.call(canvas, "preserveEffects")) === "1";
+    const stripped = preserveEffects ? [] : stripEffectsForExport(target);
     try {
       return await target.exportAsync(settings);
     } finally {
@@ -2174,7 +2479,7 @@
   }
 
   // src/code.ts
-  figma.showUI(__html__, { width: 520, height: 520 });
+  figma.showUI(__html__, { width: 520, height: 600 });
   function sortBatchItems(items) {
     var _a;
     const manifest = items.find((item) => {
@@ -2355,6 +2660,7 @@
       } else {
         figma.notify(`Imported ${imported.length} files.`);
       }
+      return;
     }
   };
 })();

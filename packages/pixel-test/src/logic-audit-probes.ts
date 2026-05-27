@@ -83,6 +83,24 @@ export const INTERACTIVE_SELECTOR = [
 /** Playwright + probe: root component node if interactive, plus descendants. */
 export const ROOT_AND_DESCENDANT_INTERACTIVE = `[data-figma-component]:is(${INTERACTIVE_SELECTOR}), [data-figma-component] ${INTERACTIVE_SELECTOR}`;
 
+/**
+ * A single DOM layer (interactive or static) observed under the figma-component
+ * root, with the same `ly-…` structural ID that the playground's LayerPanel
+ * uses. Lets the audit match approved non-interactive layers (e.g. a card the
+ * designer attached a "hover to show tooltip" behaviour to).
+ */
+export interface LayerProbe {
+  /** Structural ID for non-interactive layers (`ly-<slug>-<hash>`),
+   *  or the existing `data-lab-id` for interactive ones. */
+  id: string;
+  tag: string;
+  role: string;
+  displayName: string;
+  text: string;
+  isInteractive: boolean;
+  labId: string;
+}
+
 export function probeScript(): {
   component: string | null;
   controls: ControlProbe[];
@@ -141,6 +159,106 @@ export function probeScript(): {
   }
 
   return { component, controls };
+}
+
+/**
+ * Walks every descendant of `[data-figma-component]` and emits one LayerProbe
+ * per node. Structural ID is computed identically to the playground
+ * (`computeStructuralId` in element-id.ts) so the audit and the LayerPanel
+ * agree on element identity.
+ */
+export function allLayersScript(): { layers: LayerProbe[] } {
+  function slugify(s: string): string {
+    return s
+      .normalize("NFKD")
+      .replace(/[^\p{L}\p{N}\s-]/gu, "")
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .slice(0, 40);
+  }
+  function shortHash(s: string): string {
+    let h = 0x811c9dc5;
+    for (let i = 0; i < s.length; i++) {
+      h ^= s.charCodeAt(i);
+      h = (h * 0x01000193) >>> 0;
+    }
+    return h.toString(36).slice(0, 6);
+  }
+  function structuralId(tagPath: string, text: string, tag: string): string {
+    const meaningful = (text || "").trim();
+    const base = meaningful ? slugify(meaningful) : slugify(tag || "layer");
+    const hash = shortHash(`${tagPath}|${meaningful}|${tag}`);
+    return `ly-${base || "layer"}-${hash}`;
+  }
+  function ownText(el: Element): string {
+    const own = Array.from(el.childNodes)
+      .filter((n) => n.nodeType === 3)
+      .map((n) => n.textContent ?? "")
+      .join(" ")
+      .trim();
+    if (own) return own.slice(0, 36);
+    return (el.textContent ?? "").trim().slice(0, 36);
+  }
+  function elRole(el: HTMLElement): string {
+    const explicit = el.getAttribute("role");
+    if (explicit) return explicit;
+    const tag = el.tagName.toLowerCase();
+    if (tag === "button") return "button";
+    if (tag === "a" && el.hasAttribute("href")) return "link";
+    if (tag === "input") return (el as HTMLInputElement).type || "input";
+    if (tag === "select") return "combobox";
+    if (tag === "textarea") return "textbox";
+    return "";
+  }
+  function siblingIdx(el: Element): number {
+    let i = 0;
+    let p = el.previousElementSibling;
+    while (p) {
+      if (p.tagName === el.tagName) i++;
+      p = p.previousElementSibling;
+    }
+    return i;
+  }
+  function tagPath(root: Element, node: Element): string {
+    const segs: string[] = [];
+    let cur: Element | null = node;
+    while (cur && cur !== root) {
+      segs.unshift(`${cur.tagName.toLowerCase()}[${siblingIdx(cur)}]`);
+      cur = cur.parentElement;
+    }
+    return segs.join(">");
+  }
+  const SKIP = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "META", "LINK"]);
+  const INTERACTIVE =
+    'button, input, select, textarea, a[href], [role="button"], [role="link"], [role="menuitem"], [role="tab"], [role="switch"], [contenteditable=""], [contenteditable="true"], [tabindex]:not([tabindex="-1"])';
+
+  const root = document.querySelector("[data-figma-component]");
+  if (!root) return { layers: [] };
+
+  const layers: LayerProbe[] = [];
+  function walk(node: Element): void {
+    if (SKIP.has(node.tagName)) return;
+    const el = node as HTMLElement;
+    const tag = el.tagName.toLowerCase();
+    const text = ownText(el);
+    const role = elRole(el);
+    const labId = el.getAttribute("data-lab-id") ?? "";
+    const isInteractive = el.matches(INTERACTIVE);
+    const id = labId || structuralId(tagPath(root, el), text, tag);
+    layers.push({
+      id,
+      tag,
+      role,
+      displayName: text || el.getAttribute("aria-label") || `<${tag}>`,
+      text,
+      isInteractive,
+      labId,
+    });
+    for (const child of Array.from(el.children)) walk(child);
+  }
+  for (const child of Array.from(root.children)) walk(child);
+  return { layers };
 }
 
 export function snapshotScript(): DomSnapshot {

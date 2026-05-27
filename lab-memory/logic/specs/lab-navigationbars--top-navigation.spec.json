@@ -1,0 +1,59 @@
+{
+  "storyId": "lab-navigationbars--top-navigation",
+  "schemaVersion": 2,
+  "intent": "",
+  "status": "proposed",
+  "approvedAt": null,
+  "approvedBy": null,
+  "specVersion": 2,
+  "elements": [
+    {
+      "id": "el-components",
+      "selector": "[data-lab-id=\"el-components\"]",
+      "displayName": "Components",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click toggles or navigates via \"Components\"",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-tokens",
+      "selector": "[data-lab-id=\"el-tokens\"]",
+      "displayName": "Tokens",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click toggles or navigates via \"Tokens\"",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-templates",
+      "selector": "[data-lab-id=\"el-templates\"]",
+      "displayName": "Templates",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click toggles or navigates via \"Templates\"",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-get-started",
+      "selector": "[data-lab-id=\"el-get-started\"]",
+      "displayName": "Get Started",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"Get Started\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    }
+  ]
+}

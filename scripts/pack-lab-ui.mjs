@@ -26,6 +26,11 @@ const versionedName = `lab-ui-${version}.tgz`;
 
 mkdirSync(OUT_DIR, { recursive: true });
 
+execSync("node scripts/bake-figma-screen-ui.mjs --screen screen_1 --component Screen1", {
+  cwd: REPO,
+  stdio: "inherit"
+});
+
 for (const name of readdirSync(UI_DIR)) {
   if (name.endsWith(".tgz")) unlinkSync(join(UI_DIR, name));
 }

@@ -256,6 +256,8 @@ export async function extractStoryV2(
       function parseRadialGradient(raw: string): {
         kind: "radial-gradient";
         shape: "ellipse" | "circle";
+        sizeX?: string;
+        sizeY?: string;
         centerX: string;
         centerY: string;
         stops: Array<{ color: string; offset: number }>;
@@ -265,6 +267,8 @@ export async function extractStoryV2(
         const segments = splitTopLevel(inner[1]);
         if (!segments.length) return null;
         let shape: "ellipse" | "circle" = "ellipse";
+        let sizeX: string | undefined;
+        let sizeY: string | undefined;
         let centerX = "50%";
         let centerY = "50%";
         let stopsStart = 0;
@@ -277,11 +281,50 @@ export async function extractStoryV2(
           head.includes("closest-") ||
           head.includes("farthest-")
         ) {
-          if (head.includes("circle")) shape = "circle";
-          const atMatch = head.match(/at\s+([^\s]+)\s+([^\s]+)/);
-          if (atMatch) {
-            centerX = atMatch[1];
-            centerY = atMatch[2];
+          let rest = head;
+          if (rest.startsWith("circle")) {
+            shape = "circle";
+            rest = rest.slice(6).trim();
+          } else if (rest.startsWith("ellipse")) {
+            rest = rest.slice(7).trim();
+          }
+          const atIdx = rest.indexOf(" at ");
+          if (atIdx >= 0) {
+            const beforeAt = rest.slice(0, atIdx).trim();
+            const afterAt = rest.slice(atIdx + 4).trim();
+            const sizeParts = beforeAt.split(/\s+/).filter(Boolean);
+            if (
+              sizeParts.length >= 2 &&
+              /^[\d.]+%?$/.test(sizeParts[0]) &&
+              /^[\d.]+%?$/.test(sizeParts[1])
+            ) {
+              sizeX = sizeParts[0];
+              sizeY = sizeParts[1];
+            }
+            const atParts = afterAt.split(/\s+/).filter(Boolean);
+            if (atParts.length === 1 && atParts[0] === "center") {
+              centerX = "50%";
+              centerY = "50%";
+            } else if (atParts.length >= 2) {
+              centerX = atParts[0];
+              centerY = atParts[1];
+            }
+          } else if (rest.startsWith("at ")) {
+            const afterAt = rest.slice(3).trim();
+            const atParts = afterAt.split(/\s+/).filter(Boolean);
+            if (atParts.length === 1 && atParts[0] === "center") {
+              centerX = "50%";
+              centerY = "50%";
+            } else if (atParts.length >= 2) {
+              centerX = atParts[0];
+              centerY = atParts[1];
+            }
+          } else {
+            const atMatch = rest.match(/at\s+([^\s]+)\s+([^\s]+)/);
+            if (atMatch) {
+              centerX = atMatch[1];
+              centerY = atMatch[2];
+            }
           }
           stopsStart = 1;
         }
@@ -300,7 +343,14 @@ export async function extractStoryV2(
           }
           stops.push({ color, offset });
         });
-        return { kind: "radial-gradient", shape, centerX, centerY, stops };
+        return {
+          kind: "radial-gradient",
+          shape,
+          ...(sizeX && sizeY ? { sizeX, sizeY } : {}),
+          centerX,
+          centerY,
+          stops
+        };
       }
 
       function parseConicGradient(raw: string): {
@@ -494,6 +544,15 @@ export async function extractStoryV2(
           const selected = select.options[select.selectedIndex];
           return selected?.text || "";
         }
+        // For pre-formatted elements (white-space: pre / pre-wrap), leading and
+        // trailing whitespace is visually significant — a leading "\n  " creates
+        // an empty first line and indents subsequent rows.  Trimming strips that,
+        // shifting ASCII art and other pre-formatted content relative to the
+        // measured bounding box (which was measured with the full whitespace).
+        const ws = window.getComputedStyle(html).whiteSpace;
+        if (ws === "pre" || ws === "pre-wrap") {
+          return html.textContent || "";
+        }
         return (html.innerText || html.textContent || "").trim();
       }
 
@@ -633,8 +692,11 @@ export async function extractStoryV2(
         const attrs: Record<string, string | number> = {};
         for (const a of Array.from(el.attributes)) {
           if (a.name === "style" || a.name === "class") continue;
-          const numeric = Number.parseFloat(a.value);
-          attrs[a.name] = Number.isFinite(numeric) && /^-?\d/.test(a.value) ? numeric : a.value;
+          const raw = a.value;
+          // Only coerce pure scalars — polygon/polyline `points` and path `d` start
+          // with digits but must stay strings (parseFloat("60,8 …") === 60).
+          const isPureScalar = /^-?\d+(\.\d+)?$/.test(raw.trim());
+          attrs[a.name] = isPureScalar ? Number.parseFloat(raw) : raw;
         }
         const shape: any = { primitive, attrs };
         const paint = svgPaint(el as SVGElement);
@@ -857,13 +919,17 @@ export async function extractStoryV2(
         measureStyle: CSSStyleDeclaration
       ): string {
         let familyRaw = measureStyle.fontFamily || style.fontFamily || "Inter";
+        const genericOnly =
+          /^[\s"']*?(serif|sans-serif|monospace|cursive|fantasy|system-ui|ui-monospace|ui-sans-serif)[\s"']*?$/i.test(
+            familyRaw.trim()
+          );
         // Buttons and their label spans often resolve to Arial/system-ui even
         // when the page declares Inter — walk up for the authored stack.
-        if (measureEl && isSystemUiFont(familyRaw)) {
+        if (measureEl && (isSystemUiFont(familyRaw) || genericOnly)) {
           let ancestor = measureEl.parentElement;
           while (ancestor) {
             const inherited = getComputedStyle(ancestor).fontFamily;
-            if (inherited && !isSystemUiFont(inherited)) {
+            if (inherited && !isSystemUiFont(inherited) && !/^[\s"']*?monospace[\s"']*?$/i.test(inherited.trim())) {
               familyRaw = inherited;
               break;
             }
@@ -886,6 +952,20 @@ export async function extractStoryV2(
         const familyRaw = resolveFontFamilyRaw(measureEl ?? undefined, style, measureStyle);
         const family = pickFontFamily(familyRaw);
         const stack = familyRaw.trim();
+        let computedStack = (measureStyle.fontFamily || style.fontFamily || "").trim() || undefined;
+        const wsPre = (style.whiteSpace as string) || "normal";
+        const genericFirst =
+          computedStack &&
+          /^(monospace|serif|sans-serif|cursive|fantasy|system-ui)$/i.test(
+            computedStack.split(",")[0]?.trim().replace(/^['"]|['"]$/g, "") ?? ""
+          );
+        if (
+          genericFirst &&
+          stack &&
+          (wsPre === "pre" || wsPre === "pre-wrap" || wsPre === "break-spaces")
+        ) {
+          computedStack = stack;
+        }
         const lineHeight = resolveLineHeight(measureStyle, measureEl || el);
         const ls = style.letterSpacing;
         const letterSpacing = !ls || ls === "normal" ? undefined : px(ls);
@@ -913,6 +993,7 @@ export async function extractStoryV2(
           font: {
             family,
             stack,
+            computedStack: computedStack || undefined,
             size: px(style.fontSize),
             weight: Number(style.fontWeight) || 400,
             style: (style.fontStyle as any) || "normal",
@@ -1371,6 +1452,47 @@ export async function extractStoryV2(
     for (const child of layer.children ?? []) attachImageData(child);
   }
   attachImageData(tree.root as UniversalLayer);
+
+  function isPrevNextGroup(layer: UniversalLayer): boolean {
+    const ds = layer.source?.dataset as { name?: string } | undefined;
+    return layer.name === "prev-next" || ds?.name === "prev-next";
+  }
+
+  /** Pagination chevrons: children use frame-absolute coords inside prev-next wrapper. */
+  function rebaseNamedGroupChildren(layer: UniversalLayer): void {
+    if (!layer.children?.length) return;
+    if (isPrevNextGroup(layer)) {
+      const ox = layer.box.x;
+      const oy = layer.box.y;
+      const minChildX = Math.min(...layer.children.map((c) => c.box.x));
+      const maxChildR = Math.max(...layer.children.map((c) => c.box.x + c.box.width));
+      const needsRebase =
+        minChildX + 0.5 >= ox ||
+        maxChildR > ox + layer.box.width + 0.5;
+      if (needsRebase) {
+        for (const child of layer.children) {
+          child.box = {
+            ...child.box,
+            x: snap(child.box.x - ox),
+            y: snap(child.box.y - oy)
+          };
+        }
+      }
+      let maxR = 0;
+      let maxB = 0;
+      for (const child of layer.children) {
+        maxR = Math.max(maxR, child.box.x + child.box.width);
+        maxB = Math.max(maxB, child.box.y + child.box.height);
+      }
+      layer.box = {
+        ...layer.box,
+        width: Math.max(layer.box.width, maxR),
+        height: Math.max(layer.box.height, maxB)
+      };
+    }
+    for (const child of layer.children) rebaseNamedGroupChildren(child);
+  }
+  rebaseNamedGroupChildren(tree.root as UniversalLayer);
 
   const doc: UniversalDocumentV2 = {
     schemaVersion: "1.0",

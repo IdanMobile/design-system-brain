@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-pricingpanel--starter",
     "componentName": "PricingPanel",
-    "extractedAt": "2026-05-25T08:13:09.111Z",
+    "extractedAt": "2026-05-25T19:29:08.932Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-pricingpanel--starter&viewMode=story",
     "viewport": {
       "x": 0,
@@ -192,6 +192,7 @@
           "font": {
             "family": "Inter",
             "stack": "Inter, Arial, sans-serif",
+            "computedStack": "Inter, Arial, sans-serif",
             "size": 14,
             "weight": 700,
             "style": "normal",
@@ -255,6 +256,7 @@
           "font": {
             "family": "Inter",
             "stack": "Inter, Arial, sans-serif",
+            "computedStack": "Inter, Arial, sans-serif",
             "size": 32,
             "weight": 700,
             "style": "normal",
@@ -360,6 +362,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 18,
                 "weight": 500,
                 "style": "normal",
@@ -396,6 +399,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 58,
                 "weight": 800,
                 "style": "normal",
@@ -511,6 +515,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 20,
                 "weight": 400,
                 "style": "normal",
@@ -573,6 +578,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 20,
                 "weight": 400,
                 "style": "normal",
@@ -635,6 +641,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 20,
                 "weight": 400,
                 "style": "normal",
@@ -731,6 +738,7 @@
           "font": {
             "family": "Inter",
             "stack": "Inter, Arial, sans-serif",
+            "computedStack": "Arial",
             "size": 20,
             "weight": 700,
             "style": "normal",

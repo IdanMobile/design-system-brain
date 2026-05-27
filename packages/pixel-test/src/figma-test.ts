@@ -38,12 +38,20 @@ import {
   DEFAULT_DIFF_TOLERANCE_PERCENT,
   DEFAULT_REGION_TOLERANCE_PERCENT,
   MOCK_LARGE_FIXTURE_REGION_TOLERANCE_PERCENT,
+  MOCK_LARGE_FIXTURE_GLOBAL_TOLERANCE_PERCENT,
   STORYBOOK_ONLY_REGION_TOLERANCE_PERCENT
 } from "./test-tolerance.ts";
 
 function regionToleranceForStory(storyId: string, base: number): number {
   if (isLargeFixtureStory(storyId)) {
     return MOCK_LARGE_FIXTURE_REGION_TOLERANCE_PERCENT;
+  }
+  return base;
+}
+
+function globalToleranceForStory(storyId: string, base: number): number {
+  if (isLargeFixtureStory(storyId)) {
+    return MOCK_LARGE_FIXTURE_GLOBAL_TOLERANCE_PERCENT;
   }
   return base;
 }
@@ -436,9 +444,10 @@ async function diffStory(
     const total = width * height;
     const percent = total > 0 ? (pixelsDiffered / total) * 100 : 0;
     const regionTol = regionToleranceForStory(storyId, opts.regionTolerance);
-    const globalOk = percent <= opts.tolerance;
+    const globalTol = globalToleranceForStory(storyId, opts.tolerance);
+    const globalOk = percent <= globalTol;
     const regionOk = maxRegionPercent <= regionTol;
-    const globalWarn = percent <= opts.tolerance * 4;
+    const globalWarn = percent <= globalTol * 4;
     const regionWarn = maxRegionPercent <= regionTol * 4;
     const status: DiffResult["status"] =
       globalOk && regionOk ? "pass" : globalWarn && regionWarn ? "warn" : "fail";

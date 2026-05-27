@@ -207,6 +207,7 @@ export function mergeElementSpec({
     selector: `[data-lab-id="${observed.labId}"]`,
     displayName: observed.displayName || existing.displayName,
     aiSuggestion,
-    aiExtracted
+    aiExtracted,
+    behaviorPreset: existing.behaviorPreset ?? null
   };
 }

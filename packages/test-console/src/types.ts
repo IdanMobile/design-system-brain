@@ -69,7 +69,14 @@ export interface PortfolioState {
   stepIds: string[];
   rows: PortfolioRow[];
   htmlUrl?: string;
+  /** storybook (default) or figma manifest entry point */
+  source?: "storybook" | "figma";
+  /** First column header — Story vs Screen */
+  itemLabel?: string;
 }
+
+/** @deprecated same shape as PortfolioState */
+export type FigmaScreenPortfolioState = PortfolioState;
 
 export interface ActionDef {
   id: string;
@@ -152,6 +159,7 @@ export interface WorkerSupervisorState {
 }
 
 export interface ConsoleState {
+  serverVersion?: number;
   storybook: ServiceState["storybook"];
   playground: ServiceState["playground"];
   relay: ServiceState["relay"];
@@ -160,6 +168,8 @@ export interface ConsoleState {
   orchestratorRunning?: boolean;
   workerSupervisor?: WorkerSupervisorState | null;
   runSettings?: RunSettings;
+  /** Upper bound for parallel workers slider (matches server clamp). */
+  maxParallelWorkers?: number;
   agentModelOptions?: AgentModelOption[];
   agentUnread?: number;
   pendingForCursor?: AgentMessage | null;

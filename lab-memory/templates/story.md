@@ -15,7 +15,11 @@
 
 ## Linked patterns
 
-<!-- [[patterns/...]] -->
+<!-- [[visual/patterns/...]] -->
+
+## Logic spec (optional)
+
+<!-- [[logic/specs/{{storyId}}.spec.json]] — behavior track, not visual -->
 
 ## Artifacts
 

@@ -1,0 +1,17 @@
+{
+  "status": "pass",
+  "percent": 449,
+  "layerCount": 449,
+  "contractPath": "/Users/user/Downloads/storybook-to-figma-lab/artifacts/figma-screens/screen_1.contract.json",
+  "manifestPath": "/Users/user/Downloads/storybook-to-figma-lab/artifacts/figma-screens/screen_1.manifest.json",
+  "viewport": {
+    "x": 0,
+    "y": 0,
+    "width": 1921,
+    "height": 937
+  },
+  "screenId": "screen_1",
+  "storyId": "screen_1",
+  "stepId": "manifestContract",
+  "testedAt": "2026-05-26T20:17:21.280Z"
+}

@@ -1,35 +1,40 @@
 # Lab memory (Obsidian vault)
 
-Vault path: `lab-memory/` (open in Obsidian). Applies to **Cursor**, **Gemini CLI**, and **Antigravity** agents in this repo.
+Vault path: `lab-memory/` (open in Obsidian). Applies to **Cursor**, **Gemini CLI**, and **Antigravity** agents.
+
+## Three zones
+
+| Zone | Path | Use |
+| --- | --- | --- |
+| **Visual** | `lab-memory/visual/` | Pixel / Figma / delivery parity |
+| **Logic** | `lab-memory/logic/specs/` | Element behavior JSON — **not** visual diffs |
+| **Ops** | `lab-memory/ops/` | Runbooks, orchestrator briefs |
 
 ## Before investigating or fixing a story
 
-When you know the `storyId` (test console, portfolio, or user message):
+When you know the `storyId`:
 
-1. Read `lab-memory/stories/<storyId>.md` **if it exists** — prior diagnosis, verification, patterns.
-2. If missing and you will investigate, create it from `lab-memory/templates/story.md` (fill `storyId` in title).
-3. Skim linked `lab-memory/patterns/` notes referenced from the story file.
+1. Read **`lab-memory/visual/patterns/`** notes linked from the investigation (`[[visual/patterns/...]]`).
+2. Read **`lab-memory/visual/investigations/active/<storyId>.md`** (or `archive/` if present).
+3. Do **not** confuse with `lab-memory/logic/specs/<storyId>.spec.json` (logic track only).
 
 ## After investigation (before code edits)
 
-Append a dated section to `lab-memory/stories/<storyId>.md` using the structure in `lab-memory/templates/investigation.md`:
+Append to the investigation note using `lab-memory/templates/investigation.md`:
 
-- Compare regions, root cause, recommended fix area, job/step ids, artifact paths
-- Link `[[patterns/...]]` when a reusable pattern applies
-- **Never** store secrets, PATs, API keys, or `.env` content in the vault
+- Root cause, recommended fix area, artifacts
+- Link `[[visual/patterns/...]]` when reusable
+- **Never** store secrets in the vault
 
-## After verify / merge (when applicable)
+## After PASS
 
-Append verification or merge sections using `lab-memory/templates/merge.md` shape.
-
-## Local automation (Phase 4-lite)
-
-Test console hooks (`scripts/lab-memory-vault.mjs`) append investigation stubs when a story **fails or warns** (metrics + artifact paths). Agents still fill **Root cause** and **Recommended fix area**.
-
-Optional auto-commit after each vault write:
+- Automation appends **Resolved** on the investigation note
+- Add or update **`visual/patterns/`** for generalized fixes
 
 ```bash
-export LAB_MEMORY_AUTO_COMMIT=1
+pnpm lab-memory:report
 ```
 
-Full cloud Phase 4 (Investigator API gate, R2 diagnosis JSON) — see `upload_to_cloud/AGENT-PLATFORM.md`.
+Optional: `export LAB_MEMORY_AUTO_COMMIT=1`
+
+Cloud Phase 4 — see `upload_to_cloud/AGENT-PLATFORM.md`.

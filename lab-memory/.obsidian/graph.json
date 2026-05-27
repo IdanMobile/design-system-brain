@@ -1,6 +1,6 @@
 {
   "collapse-filter": false,
-  "search": "",
+  "search": "-path:logic/archive -path:logic/specs",
   "showTags": true,
   "showAttachments": true,
   "hideUnresolved": false,
@@ -9,14 +9,14 @@
   "colorGroups": [],
   "collapse-display": false,
   "showArrow": true,
-  "textFadeMultiplier": -2.1,
-  "nodeSizeMultiplier": 1.37965711805556,
+  "textFadeMultiplier": -3,
+  "nodeSizeMultiplier": 2.00321614583333,
   "lineSizeMultiplier": 5,
   "collapse-forces": false,
-  "centerStrength": 0.473263888888889,
-  "repelStrength": 8.93055555555556,
+  "centerStrength": 0.423177083333333,
+  "repelStrength": 20,
   "linkStrength": 1,
-  "linkDistance": 213,
-  "scale": 0.5050248121232949,
+  "linkDistance": 500,
+  "scale": 0.23302096651388735,
   "close": true
 }

@@ -18,7 +18,7 @@ import type {
 } from "../../contract/src/spec-types.ts";
 
 export interface SpecStoreOptions {
-  /** Absolute path to the vault directory (e.g. `<repo>/lab-memory/specs`). */
+  /** Absolute path to the vault directory (e.g. `<repo>/lab-memory/logic/specs`). */
   vaultDir: string;
 }
 

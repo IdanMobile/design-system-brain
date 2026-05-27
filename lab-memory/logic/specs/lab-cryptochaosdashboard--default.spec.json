@@ -1,0 +1,59 @@
+{
+  "storyId": "lab-cryptochaosdashboard--default",
+  "schemaVersion": 2,
+  "intent": "",
+  "status": "proposed",
+  "approvedAt": null,
+  "approvedBy": null,
+  "specVersion": 2,
+  "elements": [
+    {
+      "id": "el-panic-sell",
+      "selector": "[data-lab-id=\"el-panic-sell\"]",
+      "displayName": "PANIC SELL",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"PANIC SELL\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-limit-buy",
+      "selector": "[data-lab-id=\"el-limit-buy\"]",
+      "displayName": "Limit Buy",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"Limit Buy\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-market-buy",
+      "selector": "[data-lab-id=\"el-market-buy\"]",
+      "displayName": "Market Buy",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"Market Buy\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-liquidate-all",
+      "selector": "[data-lab-id=\"el-liquidate-all\"]",
+      "displayName": "Liquidate All",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"Liquidate All\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    }
+  ]
+}

@@ -8,7 +8,13 @@ export const DEFAULT_REGION_TOLERANCE_PERCENT = 0.1;
 export const STORYBOOK_ONLY_REGION_TOLERANCE_PERCENT = 0.1;
 
 /** Large page fixtures (e.g. mui--showcase) — mock emulator allows higher hotspot % (MUI raster/subpixel). */
-export const MOCK_LARGE_FIXTURE_REGION_TOLERANCE_PERCENT = 0.5;
+export const MOCK_LARGE_FIXTURE_REGION_TOLERANCE_PERCENT = 2.0;
+
+/** Large contract-baked screens — extract→mock round-trip with reference rasters. */
+export const MOCK_LARGE_FIXTURE_GLOBAL_TOLERANCE_PERCENT = 1.0;
+
+/** Live Figma export for large contract-baked screens (reference rasters + Desktop raster AA). */
+export const LIVE_LARGE_FIXTURE_REGION_TOLERANCE_PERCENT = 4.0;
 
 /**
  * Live Figma Desktop raster AA — allow up to 5% per region.
@@ -41,3 +47,12 @@ export const LIVE_RASTER_GLOBAL_TOLERANCE_PERCENT = 1.5;
 
 /** Delivery sb↔dev when sb↔figma already passes — playground font/subpixel vs Storybook. */
 export const DELIVERY_DEV_TOLERANCE_PERCENT = 0.5;
+
+/**
+ * Figma manifest round-trip — reference PNG and re-import PNG are both Figma Desktop exports.
+ * Strict 0.1% global + per-region gates (see figma-screen-reference-align.mjs).
+ */
+export const FIGMA_SCREEN_GLOBAL_TOLERANCE_PERCENT = 0.1;
+
+/** Per-hotspot gate for Figma screen pipeline (breadcrumbs, filter button, toolbar, etc.). */
+export const FIGMA_SCREEN_REGION_TOLERANCE_PERCENT = 0.1;

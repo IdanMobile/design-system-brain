@@ -71,6 +71,53 @@ export const ACTION_META = {
     order: 12,
     needsRelay: true
   },
+  "figma:screen:golden": {
+    label: "Contract → Figma live",
+    description: "Guing contract → live import → PNG diff",
+    whenHint: "Step 2 — requires Manifest → Contract pass + relay",
+    when: "After manifest adapter is green",
+    output: "figma-screen-diffs/report.html",
+    phase: "test",
+    order: 12.6,
+    needsRelay: true
+  },
+  "figma:screen:manifest": {
+    label: "Manifest → Contract",
+    description: "Adapter + contract schema sanity",
+    whenHint: "Step 1 — artifacts/figma-screens/*.manifest.json",
+    when: "First step for Figma-sourced screens",
+    output: "figma-screen-diffs/by-screen/*/manifestContract/",
+    phase: "test",
+    order: 12.4
+  },
+  "figma:screen:storybook": {
+    label: "Storybook pixel",
+    description: "Contract HTML render vs Guing reference PNG",
+    whenHint: "Step 3 — needs Storybook on :6107",
+    when: "After Contract → Figma pass",
+    output: "figma-screen-diffs/by-screen/*/storybook/",
+    phase: "test",
+    order: 12.7
+  },
+  "figma:screen:four-way": {
+    label: "4-way (strict)",
+    description:
+      "Original PNG · Figma live · Storybook @lab/ui · honest React HTML — strict 0.1%",
+    whenHint: "Step 4 — catches Storybook↔Figma gaps the residual Storybook step hides",
+    when: "After Storybook step",
+    output: "figma-screen-diffs/*/fourWay/report.html",
+    phase: "test",
+    order: 12.8
+  },
+  "figma:screen:logic": {
+    label: "Logic audit",
+    description: "Element behavior probes for Figma-sourced screen",
+    whenHint: "Step 5 — after 4-way pass",
+    when: "After 4-way strict pass",
+    output: "figma-screen-diffs/",
+    phase: "test",
+    order: 12.9
+  },
   "figma:run-until-pass": {
     label: "Run until pass",
     description: "One sweep: mock → live",
@@ -130,6 +177,11 @@ const SUITE_HELP = {
   logic: {
     title: "Logic audit",
     blurb: "Probes controls on Delivery showcase — pass or gap (needs spec)."
+  },
+  figmaScreen: {
+    title: "Figma screens",
+    blurb:
+      "Guing entry — Manifest → Contract → Figma live → Storybook → Logic (sequential, no Delivery)."
   }
 };
 

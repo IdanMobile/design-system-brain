@@ -8,20 +8,21 @@ import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { openTerminal } from "./test-console-terminal.mjs";
 import { api } from "./test-console-api.mjs";
-import { cursorAgentInvocation, parseStreamJsonAgentLine } from "./test-console-cursor-cli.mjs";
+import { parseStreamJsonAgentLine } from "./test-console-cursor-cli.mjs";
+import { shellQuote } from "./shell-quote.mjs";
 import {
   buildGoldenSpawnSpec,
   loadRunSettings,
   orchestratorGoldenStoryIds,
   resolveAgentModel
 } from "./test-console-run-settings.mjs";
+import {
+  figmaEntryGoldenSpawn,
+  isFigmaEntryFixSuite
+} from "./figma-entry-fix.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const STATUS_DIR = join(ROOT, ".test-console", "child-status");
-
-function shellQuote(s) {
-  return `"${String(s).replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\$/g, "\\$")}"`;
-}
 
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
@@ -112,7 +113,7 @@ export async function runManagedCommand({
     bin,
     ...args
   ]
-    .map((p) => (p.includes(" ") ? shellQuote(p) : p))
+    .map((p) => (/\s/.test(p) ? shellQuote(p) : p))
     .join(" ");
   const runner = envPrefix ? `${envPrefix} ${runnerBody}` : runnerBody;
 
@@ -179,6 +180,26 @@ export function goldenCommandForSuite(suiteId, options = {}) {
     if (spec) {
       return { bin: spec.bin, args: spec.args, tag: spec.tag, env: spec.env, empty: spec.empty };
     }
+    if (isFigmaEntryFixSuite(suiteId) && storyIds.length === 1) {
+      const spawnSpec = figmaEntryGoldenSpawn(suiteId, storyIds[0], ROOT);
+      if (spawnSpec) {
+        return {
+          bin: spawnSpec.bin,
+          args: spawnSpec.args,
+          tag: spawnSpec.tag,
+          env: {}
+        };
+      }
+    }
+  }
+
+  if (isFigmaEntryFixSuite(suiteId)) {
+    return {
+      bin: "pnpm",
+      args: [`test:figma:screen${suiteId === "manifestContract" ? ":manifest" : suiteId === "storybook" ? ":storybook" : suiteId === "fourWay" ? ":four-way" : suiteId === "logic" ? ":logic" : ""}`],
+      tag: `golden:figmaEntry:${suiteId}`,
+      env: { TEST_PARALLEL: "1" }
+    };
   }
 
   switch (suiteId) {
@@ -226,7 +247,9 @@ export async function runManagedAgent({
   prompt,
   appendLog,
   killFlagPath,
-  workspaceRoot
+  workspaceRoot,
+  investigateFirst = false,
+  /** @type {'pixel' | 'emulator' | 'live' | undefined} */ fixMode
 }) {
   const workdir = workspaceRoot ?? ROOT;
   mkdirSync(STATUS_DIR, { recursive: true });
@@ -239,12 +262,14 @@ export async function runManagedAgent({
   if (existsSync(statusFile)) unlinkSync(statusFile);
 
   const agentModel = resolveAgentModel(loadRunSettings());
-  const { bin, args } = cursorAgentInvocation(prompt, {
-    streamProgress: true,
-    model: agentModel
-  });
+  /** Pixel fix-all: shorter budgets — adapter edits must land quickly. */
+  const pixelWatchdog =
+    fixMode === "pixel"
+      ? `AGENT_WATCHDOG_FIRST_EDIT_MS=${investigateFirst ? 6 * 60_000 : 5 * 60_000} AGENT_WATCHDOG_TOTAL_MS=${18 * 60_000} `
+      : "";
+  const envPrefix = `${investigateFirst ? "AGENT_WATCHDOG_INVESTIGATE_MODE=1 " : ""}${pixelWatchdog}`;
   const agentRunner = [
-    "node",
+    `${envPrefix}node`,
     "scripts/test-console-agent-child-run.mjs",
     "--parent",
     parentJobId,
@@ -254,11 +279,10 @@ export async function runManagedAgent({
     statusFile,
     "--prompt-file",
     promptFile,
-    "--",
-    bin,
-    ...args
+    "--model",
+    agentModel
   ]
-    .map((p) => (p.includes(" ") ? shellQuote(p) : p))
+    .map((p) => (/\s/.test(p) ? shellQuote(p) : p))
     .join(" ");
 
   await log(

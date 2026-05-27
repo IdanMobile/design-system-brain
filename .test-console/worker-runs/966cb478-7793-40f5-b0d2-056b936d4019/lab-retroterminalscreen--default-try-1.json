@@ -1,0 +1,45 @@
+{
+  "storyId": "lab-retroterminalscreen--default",
+  "attempt": 1,
+  "jobId": "966cb478-7793-40f5-b0d2-056b936d4019",
+  "recordedAt": "2026-05-25T10:41:38.810Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 2.6333697897678943,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 2.6333697897678943,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "agentExitCode": 143,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-retroterminalscreen--default_try1-1779705510129.prompt.txt",
+    ".test-console/child-status/966cb478-7793-40f5-b0d2-056b936d4019-agent-lab-retroterminalscreen--default_try1-1779705510129.json",
+    "lab-memory/stories/lab-retroterminalscreen--default.md",
+    "packages/pixel-test/src/render-html.ts",
+    "pixel-diffs/by-story/lab-retroterminalscreen-default/result.json",
+    "pixel-diffs/lab-retroterminalscreen-default/artifact.v2.json",
+    "pixel-diffs/report.json",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "SHARED_ADAPTER",
+    "verdicts": [
+      "SHARED_ADAPTER"
+    ],
+    "nextWorkerMode": "tier_c_required",
+    "interventionLines": [
+      "Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done.",
+      "Supervisor: agent CLI exited 143 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": true
+  }
+}

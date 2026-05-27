@@ -1,16 +1,16 @@
 {
   "storyId": "lab-analyticscharts--dense",
-  "width": 738,
-  "height": 409,
+  "width": 0,
+  "height": 0,
   "pixelsDiffered": 0,
-  "pixelsTotal": 301842,
-  "percent": 0,
-  "status": "pass",
+  "pixelsTotal": 0,
+  "percent": 100,
+  "status": "error",
+  "error": "page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"http://127.0.0.1:6107/iframe.html?id=lab-analyticscharts--dense&viewMode=story\", waiting until \"networkidle\"\n",
   "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-analyticscharts-dense/storybook.png",
   "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-analyticscharts-dense/rendered.png",
   "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-analyticscharts-dense/diff.png",
   "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-analyticscharts-dense/artifact.v2.json",
   "sceneJsonPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-diffs/lab-analyticscharts-dense/scene.json",
-  "diffRegions": [],
-  "testedAt": "2026-05-24T21:44:48.830Z"
+  "testedAt": "2026-05-25T13:39:27.946Z"
 }

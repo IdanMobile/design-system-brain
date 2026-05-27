@@ -18,12 +18,14 @@ import type { StorySpec } from "../../contract/src/spec-types.ts";
 import {
   classifyFinding,
   ROOT_AND_DESCENDANT_INTERACTIVE,
+  allLayersScript,
   probeScript,
   snapshotScript,
   snapshotsEqual,
   type ControlProbe,
   type InteractionFinding,
-  type DomSnapshot
+  type DomSnapshot,
+  type LayerProbe
 } from "./logic-audit-probes.ts";
 import { createSpecStore } from "./spec-store.ts";
 import { extractFromDescription } from "./spec-extract-heuristic.ts";
@@ -482,9 +484,13 @@ async function auditStory(
     const nativeCount = findings.filter((f) => f.source === "native").length;
     const baselineCount = findings.filter((f) => f.source === "baseline").length;
 
-    // Build observed elements list from initial DOM probe. Skip controls
-    // without a labId (they weren't stamped by @lab/ui — e.g. story shell).
-    const observedElements: ObservedElement[] = initial.controls
+    // Build observed elements list. Two sources merge into one list:
+    //   1) Interactive controls with a `data-lab-id` (always observed).
+    //   2) Non-interactive layers from the full-DOM probe, but ONLY if the
+    //      spec already has an element with that structural id (i.e. the
+    //      designer approved a non-interactive layer). Without this gate the
+    //      audit would emit a "new-element" verdict for every wrapper div.
+    const interactiveObserved: ObservedElement[] = initial.controls
       .filter((c) => c.labId && !c.disabled)
       .map((c) => ({
         labId: c.labId,
@@ -493,6 +499,19 @@ async function auditStory(
         role: c.role,
         text: c.text
       }));
+    const interactiveIds = new Set(interactiveObserved.map((o) => o.labId));
+    const allLayers: LayerProbe[] = (await page.evaluate(allLayersScript)).layers;
+    const specIds = new Set(spec ? spec.elements.map((e) => e.id) : []);
+    const nonInteractiveObserved: ObservedElement[] = allLayers
+      .filter((l) => !l.isInteractive && specIds.has(l.id) && !interactiveIds.has(l.id))
+      .map((l) => ({
+        labId: l.id,
+        displayName: l.displayName,
+        tag: l.tag,
+        role: l.role,
+        text: l.text
+      }));
+    const observedElements: ObservedElement[] = [...interactiveObserved, ...nonInteractiveObserved];
 
     // No spec on disk → still emit needs-spec verdict
     if (!spec) {
@@ -790,7 +809,7 @@ async function main() {
   await mkdir(opts.outDir, { recursive: true });
 
   const specStore = createSpecStore({
-    vaultDir: resolve(opts.repoRoot, "lab-memory/specs")
+    vaultDir: resolve(opts.repoRoot, "lab-memory/logic/specs")
   });
 
   const suiteMeta: MergeSuiteMeta = {
