@@ -10,7 +10,8 @@ export function createApp() {
 }
 
 if (process.argv[1] === new URL(import.meta.url).pathname) {
-  const PORT = process.env.PORT ?? 6120;
+  const PORT = Number(process.env.PORT ?? 6120);
+  if (!Number.isFinite(PORT)) throw new Error('Invalid PORT env var');
   const app = createApp();
   app.listen(PORT, () => {
     console.log(`Brain API server on http://localhost:${PORT}`);

@@ -5,7 +5,7 @@
   "engines": { "node": ">=20" },
   "scripts": {
     "start": "node server.mjs",
-    "test": "node --test tests/"
+    "test": "node --test 'tests/**/*.mjs'"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
