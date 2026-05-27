@@ -1,0 +1,41 @@
+{
+  "componentName": "Button",
+  "library": "mui",
+  "pngBase64": "REPLACE_WITH_REAL_BASE64_PNG",
+  "tokens": {
+    "colors": [
+      { "name": "Primary 500", "cssVar": "--color-primary-500", "value": "#2563eb" },
+      { "name": "Primary 600", "cssVar": "--color-primary-600", "value": "#1d4ed8" },
+      { "name": "White", "cssVar": "--color-white", "value": "#ffffff" }
+    ],
+    "typography": [
+      { "name": "Button MD", "cssVar": "--font-button-md-size", "fontSize": "14px", "fontFamily": "Inter", "fontWeight": "500" }
+    ],
+    "shadows": [],
+    "radius": [{ "name": "MD", "cssVar": "--radius-md", "value": "8px" }],
+    "gaps": [
+      { "name": "SM", "cssVar": "--gap-sm", "value": "8px" },
+      { "name": "MD", "cssVar": "--gap-md", "value": "16px" }
+    ]
+  },
+  "tokensCss": "--color-primary-500: #2563eb;\n--color-primary-600: #1d4ed8;\n--color-white: #ffffff;\n--font-button-md-size: 14px;\n--radius-md: 8px;\n--gap-sm: 8px;\n--gap-md: 16px;",
+  "styleManifest": {
+    "base": {
+      "cssVars": { "backgroundColor": "var(--color-primary-500)", "color": "var(--color-white)" },
+      "cornerRadius": "var(--radius-md)",
+      "padding": { "top": 10, "right": 24, "bottom": 10, "left": 24 },
+      "gap": "var(--gap-sm)"
+    },
+    "variantOverrides": {
+      "state=hover": { "cssVars": { "backgroundColor": "var(--color-primary-600)" } },
+      "state=disabled": { "opacity": 0.5 }
+    },
+    "slots": { "hasIconSlot": false },
+    "variantAxes": { "Size": ["sm", "md", "lg"], "state": ["Default", "hover", "disabled"] },
+    "sizeDimensions": {
+      "sm": { "height": 32, "paddingH": 16, "paddingV": 6, "gap": 6 },
+      "md": { "height": 40, "paddingH": 24, "paddingV": 10, "gap": 8 },
+      "lg": { "height": 48, "paddingH": 32, "paddingV": 12, "gap": 10 }
+    }
+  }
+}

@@ -1,11 +1,13 @@
 import express from 'express';
 import cors from 'cors';
+import { uploadFigmaLayoutHandler } from './routes/upload-figma-layout.mjs';
 
 export function createApp() {
   const app = express();
   app.use(cors());
   app.use(express.json({ limit: '50mb' }));
   app.get('/health', (_req, res) => res.json({ ok: true, service: 'brain-api-server' }));
+  app.post('/upload-figma-layout', uploadFigmaLayoutHandler);
   return app;
 }
 
