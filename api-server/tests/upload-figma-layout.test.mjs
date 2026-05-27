@@ -1,4 +1,4 @@
-import { test } from 'node:test';
+import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { createApp } from '../server.mjs';
 import { setAnthropicClient } from '../routes/upload-figma-layout.mjs';
@@ -27,6 +27,8 @@ const VALID_PAYLOAD = {
     variantAxes: { Size: ['sm', 'md', 'lg'] },
   },
 };
+
+after(() => setAnthropicClient(null));
 
 async function startServer() {
   const app = createApp();
@@ -84,6 +86,7 @@ test('handles Claude response wrapped in markdown fences', async () => {
   assert.equal(res.status, 200);
   const body = await res.json();
   assert.equal(body.generatedFiles.length, 1); // no stories when storiesSource is null
+  assert.equal(body.generatedFiles[0].content, MOCK_TSX);
 
   await stop();
 });

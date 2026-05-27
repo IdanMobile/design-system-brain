@@ -39,7 +39,7 @@ const StyleManifestSchema = z.object({
 const TokenEntrySchema = z.object({ name: z.string(), value: z.string(), cssVar: z.string() });
 
 const RequestSchema = z.object({
-  componentName: z.string().min(1),
+  componentName: z.string().min(1).regex(/^[A-Za-z][A-Za-z0-9_-]*$/, 'componentName must start with a letter and contain only letters, digits, underscores, hyphens'),
   library: z.enum(['mui', 'shadcn', 'radix', 'daisyui']),
   pngBase64: z.string().min(100),
   tokens: z.object({
@@ -91,11 +91,24 @@ export async function uploadFigmaLayoutHandler(req, res) {
     return res.status(500).json({ error: 'Claude API call failed', message: err.message });
   }
 
+  if (claudeResponse.stop_reason === 'max_tokens') {
+    return res.status(422).json({ error: 'response_truncated', message: 'Claude hit the token limit — try a simpler component or reduce manifest size' });
+  }
+
+  const firstBlock = claudeResponse.content[0];
+  if (!firstBlock || firstBlock.type !== 'text') {
+    return res.status(500).json({ error: 'Unexpected Claude response type', message: `content[0].type was ${firstBlock?.type}` });
+  }
+
   let componentSource, storiesSource;
   try {
-    ({ componentSource, storiesSource } = parseClaudeJson(claudeResponse.content[0].text));
+    ({ componentSource, storiesSource } = parseClaudeJson(firstBlock.text));
   } catch (err) {
     return res.status(500).json({ error: 'Failed to parse Claude response', message: err.message });
+  }
+
+  if (!componentSource || typeof componentSource !== 'string') {
+    return res.status(500).json({ error: 'Claude response missing componentSource', message: 'Expected { componentSource: string, storiesSource: string|null }' });
   }
 
   const generatedFiles = [
