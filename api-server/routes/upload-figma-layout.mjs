@@ -5,6 +5,7 @@ import { getLibraryConfig } from '../lib/library-config.mjs';
 
 let _client = null;
 export function setAnthropicClient(client) { _client = client; }
+// TODO: Idan I am not sure we need the ANTHROPIC_API_KEY - if it set on your side, then great. if not fix the logic for the brain
 function getClient() {
   if (_client) return _client;
   if (!process.env.ANTHROPIC_API_KEY) throw new Error('ANTHROPIC_API_KEY is not set');
