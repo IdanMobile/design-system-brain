@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-selectfield--closed",
     "componentName": "SelectField",
-    "extractedAt": "2026-05-24T20:51:49.023Z",
+    "extractedAt": "2026-05-25T19:29:15.875Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-selectfield--closed&viewMode=story",
     "viewport": {
       "x": 0,
@@ -155,6 +155,7 @@
           "font": {
             "family": "Inter",
             "stack": "Inter, Arial, sans-serif",
+            "computedStack": "Inter, Arial, sans-serif",
             "size": 16,
             "weight": 600,
             "style": "normal",
@@ -314,6 +315,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 18,
                 "weight": 400,
                 "style": "normal",
@@ -379,6 +381,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 18,
                 "weight": 400,
                 "style": "normal",

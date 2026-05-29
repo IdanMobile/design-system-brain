@@ -29,6 +29,8 @@ import {
   LIVE_RASTER_GLOBAL_TOLERANCE_PERCENT,
   LIVE_RASTER_REGION_TOLERANCE_PERCENT,
   MOCK_LARGE_FIXTURE_REGION_TOLERANCE_PERCENT,
+  MOCK_LARGE_FIXTURE_GLOBAL_TOLERANCE_PERCENT,
+  LIVE_LARGE_FIXTURE_REGION_TOLERANCE_PERCENT,
   STORYBOOK_ONLY_REGION_TOLERANCE_PERCENT
 } from "./test-tolerance.ts";
 import {
@@ -77,8 +79,8 @@ function liveTolerancesForStory(
   const entry = DEV_STORIES.find((s) => s.id === storyId);
   if (isLargeFixtureStory(storyId)) {
     return {
-      tolerance: baseTolerance,
-      regionTolerance: MOCK_LARGE_FIXTURE_REGION_TOLERANCE_PERCENT
+      tolerance: MOCK_LARGE_FIXTURE_GLOBAL_TOLERANCE_PERCENT,
+      regionTolerance: LIVE_LARGE_FIXTURE_REGION_TOLERANCE_PERCENT
     };
   }
   if (entry?.storybookOnly) {

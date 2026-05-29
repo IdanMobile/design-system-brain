@@ -1,0 +1,46 @@
+{
+  "storyId": "lab-retroterminalscreen--default",
+  "attempt": 4,
+  "jobId": "966cb478-7793-40f5-b0d2-056b936d4019",
+  "recordedAt": "2026-05-25T11:21:33.367Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 0.8643213027099284,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 2.6333697897678943,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-retroterminalscreen--default_try4-1779706465518.prompt.txt",
+    ".test-console/agent-models-cache.json",
+    "packages/pixel-test/src/render-html.ts",
+    "pixel-diffs/by-story/lab-retroterminalscreen-default/result.json",
+    "pixel-diffs/lab-retroterminalscreen-default/artifact.v2.json",
+    "pixel-diffs/report.json",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "WORSE_METRICS",
+    "verdicts": [
+      "WORSE_METRICS",
+      "SHARED_ADAPTER"
+    ],
+    "nextWorkerMode": "narrow_scope",
+    "interventionLines": [
+      "Supervisor: global diff worsened by 1.77% — revert harmful edits; do not repeat the same approach.",
+      "Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": true
+  }
+}

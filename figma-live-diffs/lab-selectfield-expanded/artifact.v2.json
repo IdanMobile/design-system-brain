@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-selectfield--expanded",
     "componentName": "SelectField",
-    "extractedAt": "2026-05-24T20:26:30.665Z",
+    "extractedAt": "2026-05-24T21:56:45.667Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-selectfield--expanded&viewMode=story",
     "viewport": {
       "x": 0,
@@ -181,7 +181,11 @@
           "tag": "div",
           "classList": [
             "lab-select-field"
-          ]
+          ],
+          "role": "combobox",
+          "dataset": {
+            "pressedManaged": "true"
+          }
         },
         "box": {
           "x": 19,
@@ -403,7 +407,8 @@
           "tag": "div",
           "classList": [
             "lab-select-menu"
-          ]
+          ],
+          "role": "listbox"
         },
         "box": {
           "x": 19,
@@ -501,7 +506,8 @@
             "name": "p",
             "source": {
               "kind": "dom",
-              "tag": "p"
+              "tag": "p",
+              "role": "option"
             },
             "box": {
               "x": 1,
@@ -572,7 +578,8 @@
             "name": "p",
             "source": {
               "kind": "dom",
-              "tag": "p"
+              "tag": "p",
+              "role": "option"
             },
             "box": {
               "x": 1,
@@ -643,7 +650,8 @@
             "name": "p",
             "source": {
               "kind": "dom",
-              "tag": "p"
+              "tag": "p",
+              "role": "option"
             },
             "box": {
               "x": 1,
@@ -714,7 +722,8 @@
             "name": "p",
             "source": {
               "kind": "dom",
-              "tag": "p"
+              "tag": "p",
+              "role": "option"
             },
             "box": {
               "x": 1,

@@ -1,0 +1,52 @@
+{
+  "storyId": "lab-navigationbars--bottom-navigation",
+  "component": "NavigationBars",
+  "status": "approved",
+  "approvedAt": "2026-05-24T23:10:21.202Z",
+  "approvedBy": "phase-7-bulk-approve",
+  "specVersion": 2,
+  "intent": "Top dark nav bar + mobile bottom tab bar in one component (switch via `mobile` prop).",
+  "props": [
+    {
+      "name": "mobile",
+      "type": "boolean",
+      "default": "true",
+      "description": "Renders the bottom tab bar instead of the top bar."
+    }
+  ],
+  "events": [
+    {
+      "name": "onHomeClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onSearchClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onCreateClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onProfileClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    }
+  ],
+  "behaviours": [
+    {
+      "id": "switch-tab",
+      "label": "Click Home/Search/Create/Profile → Sets active tab; aria-selected/className update",
+      "source": "component"
+    },
+    {
+      "id": "link-active",
+      "label": "Click Components/Tokens/Templates → Toggles aria-current='page' on the link",
+      "source": "component"
+    },
+    {
+      "id": "cta",
+      "label": "Click Get Started → state: idle → starting → started; label tracks state",
+      "source": "component"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "storyId": "lab-overlaystates--dialog",
+  "schemaVersion": 2,
+  "intent": "",
+  "status": "proposed",
+  "approvedAt": null,
+  "approvedBy": null,
+  "specVersion": 2,
+  "elements": [
+    {
+      "id": "el-cancel",
+      "selector": "[data-lab-id=\"el-cancel\"]",
+      "displayName": "Cancel",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"Cancel\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-discard",
+      "selector": "[data-lab-id=\"el-discard\"]",
+      "displayName": "Discard",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"Discard\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    }
+  ]
+}

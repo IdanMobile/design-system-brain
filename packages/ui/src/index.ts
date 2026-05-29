@@ -1,3 +1,9 @@
+// Side-effect import: walks every [data-figma-component] subtree and stamps
+// data-lab-id on every interactive descendant. See `element-ids-runtime.ts`.
+import "./element-ids-runtime";
+
+export { installElementIds } from "./element-ids-runtime";
+
 export { AnalyticsCharts } from "./components/AnalyticsCharts";
 export { Button } from "./components/Button";
 export { CalendarScheduler } from "./components/CalendarScheduler";
@@ -13,6 +19,7 @@ export { CryptoChaosDashboard } from "./components/CryptoChaosDashboard";
 export { FoodFrenzyScreen } from "./components/FoodFrenzyScreen";
 export { SpaceMissionControl } from "./components/SpaceMissionControl";
 export { RetroTerminalScreen } from "./components/RetroTerminalScreen";
+export { Screen1 } from "./components/Screen1/Screen1";
 export { MUIShowcase } from "./components/MUIShowcase";
 export { MUIWorkspaceScreen } from "./components/MUIWorkspaceScreen";
 export { NavigationBars } from "./components/NavigationBars";

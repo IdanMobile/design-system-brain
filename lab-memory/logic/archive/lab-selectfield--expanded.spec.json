@@ -1,0 +1,45 @@
+{
+  "storyId": "lab-selectfield--expanded",
+  "component": "SelectField",
+  "status": "approved",
+  "approvedAt": "2026-05-24T23:10:21.205Z",
+  "approvedBy": "phase-7-bulk-approve",
+  "specVersion": 2,
+  "intent": "Combobox-style single select. Click to open, click an option to choose.",
+  "props": [
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"Category\""
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "default": "\"Spacesuits\""
+    },
+    {
+      "name": "expanded",
+      "type": "boolean",
+      "default": "true",
+      "description": "Initial open state."
+    }
+  ],
+  "events": [
+    {
+      "name": "onSpacesuitsClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    }
+  ],
+  "behaviours": [
+    {
+      "id": "toggle",
+      "label": "Click the select field → aria-expanded flips; listbox shows/hides",
+      "source": "component"
+    },
+    {
+      "id": "pick",
+      "label": "Click an option → Sets selected value; closes menu; aria-selected updates on options",
+      "source": "component"
+    }
+  ]
+}

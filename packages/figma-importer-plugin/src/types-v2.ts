@@ -74,6 +74,8 @@ export type FillLayer =
   | {
       kind: "radial-gradient";
       shape: "ellipse" | "circle";
+      sizeX?: string;
+      sizeY?: string;
       centerX: string;
       centerY: string;
       stops: GradientStop[];
@@ -278,7 +280,7 @@ export interface LayerPaint {
   visibility?: "visible" | "hidden" | "collapse";
 }
 
-export type LayerSourceKind = "dom" | "svg" | "pseudo" | "canvas" | "video" | "synthetic";
+export type LayerSourceKind = "dom" | "svg" | "pseudo" | "canvas" | "video" | "synthetic" | "figma";
 
 export interface LayerSource {
   kind: LayerSourceKind;
@@ -318,6 +320,8 @@ export interface UniversalDocumentV2 {
     viewport: LayerRect;
     devicePixelRatio: number;
     canvasBackground?: ColorString;
+    /** Figma manifest round-trip — keep layer blur/shadows during PNG export. */
+    preserveEffects?: boolean;
   };
   root: UniversalLayer;
   diagnostics: {

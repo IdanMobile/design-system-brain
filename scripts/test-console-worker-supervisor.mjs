@@ -11,6 +11,7 @@ import { isStepPassing, loadStoryStepCellsFromDisk } from "./step-gate.mjs";
 
 export const SHARED_ADAPTER_PREFIXES = [
   "packages/figma-importer-plugin/src/code-v2.ts",
+  "packages/pixel-test/src/render-html.ts",
   "packages/pixel-test/src/scene-to-html.ts",
   "packages/contract/",
   "packages/extractor-playwright/"
@@ -24,7 +25,51 @@ export const WORKER_MODES = [
   "tier_c_required"
 ];
 
-/** @typedef {'ON_TRACK' | 'STUCK_LOOP' | 'WORSE_METRICS' | 'NO_EDIT' | 'WRONG_DIRECTION' | 'WRONG_STEP' | 'SHARED_ADAPTER' | 'REGION_ONLY_FAIL'} SupervisorVerdict */
+/** Paths that must not count as fix progress (vault, rules, prompts). */
+export const NON_PRODUCTIVE_PREFIXES = [
+  "lab-memory/",
+  ".cursor/",
+  ".agents/",
+  ".test-console/",
+  "docs/",
+  "upload_to_cloud/"
+];
+
+/** @typedef {'ON_TRACK' | 'STUCK_LOOP' | 'WORSE_METRICS' | 'NO_EDIT' | 'NO_ADAPTER_EDIT' | 'WRONG_DIRECTION' | 'WRONG_STEP' | 'SHARED_ADAPTER' | 'REGION_ONLY_FAIL'} SupervisorVerdict */
+
+/**
+ * @param {string} rel
+ * @returns {boolean}
+ */
+export function isNonProductivePath(rel) {
+  return NON_PRODUCTIVE_PREFIXES.some((p) => rel === p || rel.startsWith(p));
+}
+
+/**
+ * Files that can move visual test metrics for this step.
+ * @param {string} mode
+ * @param {string[]} filesChanged
+ * @returns {string[]}
+ */
+export function adapterFilesForMode(mode, filesChanged) {
+  return filesChanged.filter((f) => {
+    if (isNonProductivePath(f)) return false;
+    if (mode === "pixel") {
+      return (
+        f.includes("render-html") ||
+        f.includes("extract.ts") ||
+        f.startsWith("packages/contract/")
+      );
+    }
+    if (mode === "emulator" || mode === "live") {
+      return f.includes("code-v2.ts") || f.includes("extract.ts");
+    }
+    if (mode === "delivery") {
+      return f.includes("@lab/ui") || f.includes("packages/ui/");
+    }
+    return !isNonProductivePath(f);
+  });
+}
 
 /**
  * @param {string} repoRoot
@@ -103,8 +148,11 @@ export function classifyWrongFiles(suiteId, mode, filesChanged) {
   const has = (substr) => filesChanged.some((f) => f.includes(substr));
 
   if (mode === "pixel") {
-    if (has("code-v2.ts") && !has("scene-to-html") && !has("extract")) {
-      return "Supervisor: pixel step — prefer scene-to-html.ts / extract.ts; code-v2.ts is for Figma import, not schema HTML.";
+    if (has("code-v2.ts") && !has("render-html") && !has("extract")) {
+      return "Supervisor: pixel step — prefer render-html.ts / extract.ts; code-v2.ts is for Figma import, not schema HTML replay.";
+    }
+    if (has("scene-to-html") && !has("render-html") && !has("extract")) {
+      return "Supervisor: pixel golden uses render-html.ts (v2 schema), not scene-to-html.ts (mock/Figma emulator only).";
     }
   }
 
@@ -196,11 +244,29 @@ export function evaluateAttempt(input) {
     );
   }
 
+  const hotspotSame =
+    (afterTest.maxRegionPercent ?? null) != null &&
+    (beforeAttempt.maxRegionPercent ?? null) != null &&
+    Math.abs((afterTest.maxRegionPercent ?? 0) - (beforeAttempt.maxRegionPercent ?? 0)) <= 0.001;
+  const globalSame = Math.abs(afterTest.percent - beforeAttempt.percent) <= 0.001;
+
+  const adapterFiles = adapterFilesForMode(mode, filesChanged);
+  const onlyNonProductive =
+    filesChanged.length > 0 && adapterFiles.length === 0 && !pluginBuildFailed;
+
   if (filesChanged.length === 0 && agentExitCode === 0 && !pluginBuildFailed) {
     verdicts.push("NO_EDIT");
     nextWorkerMode = "investigate_first";
     interventionLines.push(
       "Supervisor: last attempt changed zero tracked files. Investigate ONLY first — open compare PNG + artifact JSON, write a short diagnosis (no code yet)."
+    );
+  } else if (onlyNonProductive && globalSame && (hotspotSame || afterTest.maxRegionPercent == null)) {
+    verdicts.push("NO_ADAPTER_EDIT");
+    nextWorkerMode = "narrow_scope";
+    interventionLines.push(
+      mode === "pixel"
+        ? `Supervisor: edits were only vault/rules/prompts — pixel needs ${SHARED_ADAPTER_PREFIXES.find((p) => p.includes("render-html")) ?? "render-html.ts"} or extract.ts. Do NOT reorganize lab-memory during fix-all.`
+        : "Supervisor: edits did not touch the adapter for this step — change renderer/extract paths named in the prompt, not docs or lab-memory."
     );
   }
 
@@ -211,12 +277,6 @@ export function evaluateAttempt(input) {
       `Supervisor: global diff worsened by ${(afterTest.percent - beforeAttempt.percent).toFixed(2)}% — revert harmful edits; do not repeat the same approach.`
     );
   }
-
-  const hotspotSame =
-    (afterTest.maxRegionPercent ?? null) != null &&
-    (beforeAttempt.maxRegionPercent ?? null) != null &&
-    Math.abs((afterTest.maxRegionPercent ?? 0) - (beforeAttempt.maxRegionPercent ?? 0)) <= 0.001;
-  const globalSame = Math.abs(afterTest.percent - beforeAttempt.percent) <= 0.001;
 
   if (attempt >= 2 && globalSame && hotspotSame) {
     verdicts.push("STUCK_LOOP");
@@ -240,7 +300,15 @@ export function evaluateAttempt(input) {
     }
   }
 
-  const wrongFileMsg = classifyWrongFiles(suiteId, mode, filesChanged);
+  if (onlyNonProductive && mode === "pixel" && !verdicts.includes("NO_ADAPTER_EDIT")) {
+    verdicts.push("WRONG_DIRECTION");
+    if (nextWorkerMode === "continue") nextWorkerMode = "narrow_scope";
+    interventionLines.push(
+      "Supervisor: pixel fix-all must edit render-html.ts or extract.ts — lab-memory/README moves do not change the diff %."
+    );
+  }
+
+  const wrongFileMsg = classifyWrongFiles(suiteId, mode, adapterFiles.length ? adapterFiles : filesChanged);
   if (wrongFileMsg) {
     verdicts.push("WRONG_DIRECTION");
     nextWorkerMode = "narrow_scope";
@@ -287,11 +355,13 @@ export function evaluateAttempt(input) {
           ? "REGION_ONLY_FAIL"
           : verdicts.includes("STUCK_LOOP")
           ? "STUCK_LOOP"
-          : verdicts.includes("WRONG_DIRECTION")
-            ? "WRONG_DIRECTION"
-            : verdicts.includes("NO_EDIT")
-              ? "NO_EDIT"
-              : verdicts.includes("SHARED_ADAPTER")
+          : verdicts.includes("NO_ADAPTER_EDIT")
+            ? "NO_ADAPTER_EDIT"
+            : verdicts.includes("WRONG_DIRECTION")
+              ? "WRONG_DIRECTION"
+              : verdicts.includes("NO_EDIT")
+                ? "NO_EDIT"
+                : verdicts.includes("SHARED_ADAPTER")
                 ? "SHARED_ADAPTER"
                 : "ON_TRACK";
 

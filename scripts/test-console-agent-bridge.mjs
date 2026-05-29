@@ -7,7 +7,26 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { skillFollowLines as preambleSkillFollowLines, SKILLS, workflowPreamble } from "./agent-workflow-preamble.mjs";
-import { recordStoryFailureInVault } from "./lab-memory-vault.mjs";
+import {
+  formatLabMemoryFixHintBlock,
+  loadLabMemoryFixHint,
+  loadLabMemoryContext,
+  formatLabMemoryContextBlock,
+  PIXEL_RENDER_HTML_PATH,
+  recordStoryFailureInVault
+} from "./lab-memory-vault.mjs";
+import {
+  buildBatchInvestigationPayload,
+  writeBatchInvestigationReport
+} from "./fix-all-batch-report.mjs";
+import {
+  buildFigmaEntryFixPromptLines,
+  figmaEntryFixMode,
+  figmaEntryRerunCommand,
+  figmaEntryStoryFromStep,
+  findFigmaEntryFailingScreens,
+  isFigmaEntryFixSuite
+} from "./figma-entry-fix.mjs";
 
 /** @type {Array<{ resolve: (msg: object) => void, timer: ReturnType<typeof setTimeout> }>} */
 const waiters = [];
@@ -33,17 +52,50 @@ export function skillFollowLines(mode = "emulator", ctx = {}) {
  */
 export function sourceVsRendererTriageLines(mode, worst) {
   const renderedLabel = mode === "pixel" ? "Rendered" : "Figma";
+  const rendererBugTarget =
+    mode === "pixel"
+      ? `${renderedLabel} missing content that Storybook has  → schema replay bug (${PIXEL_RENDER_HTML_PATH} or extract.ts) ✅`
+      : `${renderedLabel} missing content that Storybook has  → renderer bug (code-v2.ts / scene-to-html.ts) ✅`;
+  const hardLimit =
+    mode === "pixel"
+      ? `Hard limit: do NOT Read ${PIXEL_RENDER_HTML_PATH}, extract.ts, or code-v2.ts in full before completing Step 3. Use Grep for specific symbols if needed.`
+      : "Hard limit: do NOT Read code-v2.ts, extract.ts, or figma-live-test.ts in full before completing Step 3. Use Grep for specific symbols if needed.";
   return [
     "── Triage BEFORE editing renderer code ──",
     `Step 1: open the compare PNG and Storybook + ${renderedLabel} PNGs side-by-side.`,
     `Step 2: which side is wrong?`,
-    `  • ${renderedLabel} missing content that Storybook has  → renderer bug (code-v2.ts / scene-to-html.ts) ✅`,
+    `  • ${rendererBugTarget}`,
     `  • ${renderedLabel} has content that Storybook is missing  → SOURCE bug (Storybook story, component, asset path, flaky network image). DO NOT edit code-v2.ts.`,
     `  • Both look the same but pixels differ  → tolerance, anti-aliasing, font, or sub-pixel layout — usually a small fix in the component or a tolerance config.`,
     `Step 3: state your answer (one sentence) before any Read on a renderer file.`,
-    `Hard limit: do NOT Read code-v2.ts, extract.ts, or figma-live-test.ts in full before completing Step 3. Use Grep for specific symbols if needed.`,
+    hardLimit,
     ""
   ];
+}
+
+/** Map fix-all mode to vault suite id. @param {'live' | 'emulator' | 'pixel'} mode @param {string} [suiteId] */
+function vaultSuiteIdForMode(mode, suiteId) {
+  if (suiteId === "figmaLive" || suiteId === "figma" || suiteId === "pixel" || suiteId === "delivery") {
+    return suiteId;
+  }
+  if (mode === "live") return "figmaLive";
+  if (mode === "pixel") return "pixel";
+  return "figma";
+}
+
+/** @param {string} repoRoot @param {string} storyId @param {'live' | 'emulator' | 'pixel'} mode @param {string} [suiteId] */
+function labMemoryHintLines(repoRoot, storyId, mode, suiteId) {
+  if (!storyId) return [];
+  const vaultSuite = vaultSuiteIdForMode(mode, suiteId);
+  const ctx = loadLabMemoryContext(repoRoot, storyId, vaultSuite, mode);
+  return formatLabMemoryContextBlock(ctx, mode);
+}
+
+/** @param {'live' | 'emulator' | 'pixel'} mode */
+function pixelFixInstructionLine(mode) {
+  return mode === "pixel"
+    ? `Pixel (schema) — fix ${PIXEL_RENDER_HTML_PATH} (and packages/extractor-playwright/src/extract.ts only if extraction is wrong). scene-to-html.ts is mock/Figma emulator only.`
+    : null;
 }
 
 export function initAgentBridge(repoRoot) {
@@ -147,6 +199,11 @@ export function initAgentBridge(repoRoot) {
   }
 
   function findFailingStories(suiteId, suites, safeSegment) {
+    if (isFigmaEntryFixSuite(suiteId)) {
+      return findFigmaEntryFailingScreens(repoRoot, suiteId)
+        .map(({ screenId }) => figmaEntryStoryFromStep(repoRoot, screenId, suiteId))
+        .filter(Boolean);
+    }
     const cfg = suites[suiteId];
     if (!cfg) return [];
     const reportPath = join(repoRoot, cfg.dir, "report.json");
@@ -165,6 +222,12 @@ export function initAgentBridge(repoRoot) {
   }
 
   function findWorstStory(suiteId, suites, summarizeReport, safeSegment) {
+    if (isFigmaEntryFixSuite(suiteId)) {
+      const failing = findFigmaEntryFailingScreens(repoRoot, suiteId);
+      const hit = failing[0];
+      if (!hit) return null;
+      return figmaEntryStoryFromStep(repoRoot, hit.screenId, suiteId);
+    }
     const cfg = suites[suiteId];
     if (!cfg) return null;
     const reportPath = join(repoRoot, cfg.dir, "report.json");
@@ -211,6 +274,9 @@ export function initAgentBridge(repoRoot) {
   }
 
   function rerunCommand(suiteId, storyId) {
+    if (isFigmaEntryFixSuite(suiteId)) {
+      return figmaEntryRerunCommand(suiteId, storyId);
+    }
     if (suiteId === "figmaLive") {
       return `pnpm figma:live-iterate --story ${storyId}`;
     }
@@ -352,6 +418,20 @@ export function initAgentBridge(repoRoot) {
   }
 
   function buildCursorPrompt(worst, mode, extra = "") {
+    if (isFigmaEntryFixSuite(worst.suiteId ?? worst.stepId)) {
+      const stepId = worst.stepId ?? worst.suiteId;
+      const lines = buildFigmaEntryFixPromptLines(worst, stepId, extra);
+      const entryMode = figmaEntryFixMode(stepId);
+      return [
+        ...lines.slice(0, 1),
+        "",
+        ...skillFollowLines(entryMode === "live" ? "live" : "emulator", {
+          suiteId: stepId,
+          storyId: worst.storyId
+        }),
+        ...lines.slice(1)
+      ].join("\n");
+    }
     const lines = [
       mode === "live"
         ? "make fixes after live test"
@@ -369,12 +449,12 @@ export function initAgentBridge(repoRoot) {
       `${mode === "pixel" ? "Rendered" : "Figma"}: ${worst.paths.figmaPng}`,
       "",
       ...sourceVsRendererTriageLines(mode, worst),
+      ...labMemoryHintLines(repoRoot, worst.storyId, mode, worst.suiteId),
       ...skillFollowLines(mode, { suiteId: worst.suiteId, storyId: worst.storyId }),
       mode === "live"
         ? "Live phase only. Fix now; after rebuild, one-line ask to reload plugin + reply ready before re-live."
-        : mode === "pixel"
-          ? "Pixel (schema) — fix packages/pixel-test/src/scene-to-html.ts (and extract.ts only if extraction is wrong)."
-          : "Emulator first until green, then live. Fix now without asking permission."
+        : (pixelFixInstructionLine(mode) ??
+          "Emulator first until green, then live. Fix now without asking permission.")
     ];
     if (worst.storyId && worst.suiteId) {
       lines.push("", `After fix: ${rerunCommand(worst.suiteId, worst.storyId)}`);
@@ -384,6 +464,9 @@ export function initAgentBridge(repoRoot) {
   }
 
   function suiteGoldenCommand(suiteId) {
+    if (isFigmaEntryFixSuite(suiteId)) {
+      return `pnpm test:figma:screen (${suiteId} step — use per-screen --artifact from console)`;
+    }
     if (suiteId === "figmaLive") return "pnpm figma:live-iterate";
     if (suiteId === "figma") return "pnpm figma:iterate";
     if (suiteId === "pixel") return "pnpm test:pixel:golden";
@@ -395,24 +478,24 @@ export function initAgentBridge(repoRoot) {
   function buildFixAllCursorPrompt(stories, mode, suiteId) {
     const suiteLabel = stories[0]?.suiteLabel ?? suiteId;
     const renderedLabel = mode === "pixel" ? "Rendered" : "Figma";
-    const batchMode = stories.length > 1;
+    const batchEnv = process.env.FIX_ALL_BATCH === "1" || process.env.FIX_ALL_BATCH === "true";
+    const batchMode = batchEnv && stories.length > 1;
     const lines = [
       mode === "live" ? "make fixes after live test" : "run until pass",
       "",
       batchMode
         ? `Fix all BATCH — ${suiteLabel} (${stories.length} stories fail/warn)`
-        : `Fix all — ${suiteLabel} (${stories.length} stor${stories.length === 1 ? "y" : "ies"} with fail/warn)`,
+        : `Fix all SERIAL — ${suiteLabel} (${stories.length} stor${stories.length === 1 ? "y" : "ies"} fail/warn)`,
       "",
       batchMode
         ? "Harness builds investigation report → ONE agent session fixes ALL stories → re-tests each story."
-        : "Orchestrator runs up to 5 fix→test cycles per story (Terminal). Work worst-first.",
+        : "Orchestrator runs up to 5 fix→test cycles per story in separate agent tabs (worst-first). Do NOT fix all stories in one chat session.",
       "",
       ...skillFollowLines(mode, { fixAll: !batchMode, fixAllBatch: batchMode, suiteId }),
       mode === "live"
         ? "Live phase only. Fix now; after rebuild, one-line ask to reload plugin + reply ready before re-live."
-        : mode === "pixel"
-          ? "Pixel (schema) — fix packages/pixel-test/src/scene-to-html.ts (and extract.ts only if extraction is wrong)."
-          : "Emulator first until green, then live. Fix now without asking permission.",
+        : (pixelFixInstructionLine(mode) ??
+          "Emulator first until green, then live. Fix now without asking permission."),
       "",
       "Stories:"
     ];
@@ -426,6 +509,15 @@ export function initAgentBridge(repoRoot) {
         `   Storybook: ${story.paths.storybookPng}`,
         `   ${renderedLabel}: ${story.paths.figmaPng}`
       );
+      if (mode === "pixel") {
+        const hint = loadLabMemoryFixHint(repoRoot, story.storyId, story.suiteId ?? "pixel");
+        const summary = hint?.rootCause
+          ?.split("\n")
+          .map((l) => l.trim())
+          .find(Boolean)
+          ?.slice(0, 140);
+        if (summary) lines.push(`   Lab memory: ${summary}${summary.length >= 140 ? "…" : ""}`);
+      }
     });
     lines.push("", `After all fixes: ${suiteGoldenCommand(suiteId)}`);
     lines.push(
@@ -433,7 +525,7 @@ export function initAgentBridge(repoRoot) {
       batchMode
         ? "Fix ALL listed stories in one session (shared root cause). Rebuild plugin if code-v2.ts changed."
         : mode === "pixel"
-          ? "Fix scene-to-html immediately (no approval). Re-run pixel golden after all fixes."
+          ? `Fix ${PIXEL_RENDER_HTML_PATH} immediately (no approval). Re-run pixel golden after all fixes.`
           : "Fix immediately (no approval). Rebuild plugin if you changed code-v2.ts."
     );
     return lines.join("\n");
@@ -487,7 +579,9 @@ export function initAgentBridge(repoRoot) {
           "MANDATORY this attempt:",
           "  1. Read the investigation report MD (already aggregates all stories).",
           "  2. Read ≤3 region compare PNGs from the report's top failures.",
-          "  3. Use Grep on code-v2.ts to locate ONE concrete symbol — DO NOT Read code-v2.ts in full.",
+          mode === "pixel"
+            ? `  3. Use Grep on ${PIXEL_RENDER_HTML_PATH} to locate ONE concrete symbol — DO NOT Read it in full.`
+            : "  3. Use Grep on code-v2.ts to locate ONE concrete symbol — DO NOT Read code-v2.ts in full.",
           "  4. Land at least ONE code edit within 5 minutes.",
           "If you cannot diagnose with that budget, write 'BLOCKED: <one-line reason>' to the report and exit."
         );
@@ -498,7 +592,9 @@ export function initAgentBridge(repoRoot) {
     lines.push(
       "",
       "── Investigation budget (HARD LIMITS — exceed = orchestrator watchdog kills the run) ──",
-      "• READ ONCE: code-v2.ts (3016 lines), extract.ts (1408 lines), scene-to-html.ts, figma-live-test.ts. Re-reading wastes 50k+ tokens and produces no progress.",
+      mode === "pixel"
+        ? `• READ ONCE (pixel): ${PIXEL_RENDER_HTML_PATH} (~2000 lines), extract.ts (~1400 lines). scene-to-html.ts is MOCK ONLY — not used by pixel golden.`
+        : "• READ ONCE: code-v2.ts (3016 lines), extract.ts (1408 lines), scene-to-html.ts, figma-live-test.ts. Re-reading wastes 50k+ tokens and produces no progress.",
       "• After reading a big file once, use Grep/SemanticSearch to re-locate symbols — DO NOT call Read on the same path twice.",
       "• Read the investigation MD + 3-5 worst-story PNGs + 3-5 worst-story artifact.v2.json. Do not read every story's artifact — the report aggregates them.",
       "• First code edit MUST land within ~8 minutes of session start. If you cannot diagnose by then, write a 5-line BLOCKED note in the investigation MD and exit.",
@@ -525,8 +621,9 @@ export function initAgentBridge(repoRoot) {
         ? [
             "",
             "── Supervisor mode: INVESTIGATE FIRST ──",
-            "Read compare PNG, artifact JSON, and scene JSON. Write a short diagnosis before editing.",
-            "Implement only if root cause is clear."
+            "Read compare PNG + artifact JSON (≤3 region PNGs). Write diagnosis in lab-memory, then implement.",
+            "You have ~14 minutes before the harness watchdog stops a no-edit session — do not read code-v2.ts in full.",
+            "Land at least ONE targeted edit (extract.ts / render-html.ts for pixel) within 10 minutes."
           ]
         : workerMode === "narrow_scope"
           ? [
@@ -549,8 +646,33 @@ export function initAgentBridge(repoRoot) {
           ...supervisor.interventionLines
         ]
       : [];
+    /** @type {string[]} */
+    const investigationLines = [];
+    if (mode === "pixel" && attempt === 1) {
+      const payload = buildBatchInvestigationPayload([story], {
+        suiteId,
+        suiteLabel: "Pixel (schema)",
+        repoRoot,
+        tolerance: story.tolerance ?? 0.1,
+        regionTolerance: story.regionTolerance ?? 0.1
+      });
+      const reportPaths = writeBatchInvestigationReport(
+        repoRoot,
+        `story-${story.storyId.replace(/--/g, "-")}`,
+        attempt,
+        payload
+      );
+      investigationLines.push(
+        "",
+        "── Deterministic investigation brief (read this first) ──",
+        `Markdown: ${reportPaths.mdPath}`,
+        "Open compare PNG + artifact paths in the brief. Pre-extracted snippets are the only renderer reads allowed.",
+        "MANDATORY: one edit in render-html.ts or extract.ts within 5 minutes — lab-memory/docs edits do not count."
+      );
+    }
     const extra = [
       `Fix-all iteration ${attempt}/${maxTries} — THIS STORY ONLY (${story.storyId}).`,
+      ...investigationLines,
       ...(attempt > 1
         ? [
             "Prior attempt(s) on this story did not reach PASS — read the failure brief below before editing."
@@ -646,6 +768,11 @@ export function initAgentBridge(repoRoot) {
       return loadPending();
     },
     getStoryFromReport(suiteId, storyId, suites, safeSeg) {
+      if (isFigmaEntryFixSuite(suiteId)) {
+        const story = figmaEntryStoryFromStep(repoRoot, storyId, suiteId);
+        if (!story) return null;
+        return story;
+      }
       const cfg = suites[suiteId];
       if (!cfg) return null;
       const reportPath = join(repoRoot, cfg.dir, "report.json");
@@ -731,7 +858,12 @@ export function initAgentBridge(repoRoot) {
         "figma:live:golden": "figmaLive",
         "pixel:golden": "pixel",
         "delivery:golden": "delivery",
-        "logic:golden": "logic"
+        "logic:golden": "logic",
+        "figma:screen:golden": "contractFigma",
+        "figma:screen:manifest": "manifestContract",
+        "figma:screen:storybook": "storybook",
+        "figma:screen:four-way": "fourWay",
+        "figma:screen:logic": "logic"
       };
       const suiteId = testSuiteMap[actionId];
 
@@ -739,21 +871,31 @@ export function initAgentBridge(repoRoot) {
         if (job.status === "failed") {
           let worst = null;
           if (job.story) {
-            const cfg = suites[suiteId];
-            const reportPath = join(repoRoot, cfg.dir, "report.json");
-            if (existsSync(reportPath)) {
-              const raw = JSON.parse(readFileSync(reportPath, "utf8"));
-              const row = (raw.results ?? []).find((r) => r.storyId === job.story);
-              if (row) {
-                worst = storyFromReportRow(row, job.story, suiteId, suites, safeSegment);
+            worst = this.getStoryFromReport(suiteId, job.story, suites, safeSegment);
+            if (!worst) {
+              const cfg = suites[suiteId];
+              const reportPath = join(repoRoot, cfg?.dir ?? "", "report.json");
+              if (existsSync(reportPath)) {
+                const raw = JSON.parse(readFileSync(reportPath, "utf8"));
+                const row = (raw.results ?? []).find((r) => r.storyId === job.story);
+                if (row) {
+                  worst = storyFromReportRow(row, job.story, suiteId, suites, safeSegment);
+                }
               }
             }
           }
           if (!worst) {
             worst = findWorstStory(suiteId, suites, summarizeReport, safeSegment);
           }
-          const mode =
-            suiteId === "figmaLive" ? "live" : suiteId === "pixel" ? "pixel" : "emulator";
+          const mode = isFigmaEntryFixSuite(suiteId)
+            ? figmaEntryFixMode(suiteId) === "live"
+              ? "live"
+              : "figmaEntry"
+            : suiteId === "figmaLive"
+              ? "live"
+              : suiteId === "pixel"
+                ? "pixel"
+                : "emulator";
           if (worst && worst.status !== "pass") {
             vaultRecordFailure(worst, suiteId, suites, safeSegment, {
               jobId: job.id,
@@ -830,11 +972,14 @@ export function initAgentBridge(repoRoot) {
       const targetSuite = suiteId ?? "figmaLive";
       let worst = null;
       if (storyId) {
-        const reportPath = join(repoRoot, suites[targetSuite].dir, "report.json");
-        if (existsSync(reportPath)) {
-          const raw = JSON.parse(readFileSync(reportPath, "utf8"));
-          const row = (raw.results ?? []).find((r) => r.storyId === storyId);
-          if (row) worst = storyFromReportRow(row, storyId, targetSuite, suites, safeSegment);
+        worst = this.getStoryFromReport(targetSuite, storyId, suites, safeSegment);
+        if (!worst) {
+          const reportPath = join(repoRoot, suites[targetSuite]?.dir ?? "", "report.json");
+          if (existsSync(reportPath)) {
+            const raw = JSON.parse(readFileSync(reportPath, "utf8"));
+            const row = (raw.results ?? []).find((r) => r.storyId === storyId);
+            if (row) worst = storyFromReportRow(row, storyId, targetSuite, suites, safeSegment);
+          }
         }
       }
       if (!worst) {
@@ -849,8 +994,15 @@ export function initAgentBridge(repoRoot) {
           cursorPhrase: "open test console"
         });
       }
-      const mode =
-        targetSuite === "figmaLive" ? "live" : targetSuite === "pixel" ? "pixel" : "emulator";
+      const mode = isFigmaEntryFixSuite(targetSuite)
+        ? figmaEntryFixMode(targetSuite) === "live"
+          ? "live"
+          : "figmaEntry"
+        : targetSuite === "figmaLive"
+          ? "live"
+          : targetSuite === "pixel"
+            ? "pixel"
+            : "emulator";
       vaultRecordFailure(worst, targetSuite, suites, safeSegment, { source: "fix requested" });
       return pushMessage({
         type: "fix_requested",
@@ -864,8 +1016,10 @@ export function initAgentBridge(repoRoot) {
           worst,
           mode,
           mode === "pixel"
-            ? "Fix scene-to-html immediately (no approval). Re-run pixel golden after fix."
-            : "Fix immediately (no approval). Rebuild plugin if you changed code-v2.ts."
+            ? `Fix ${PIXEL_RENDER_HTML_PATH} immediately (no approval). Re-run pixel golden after fix.`
+            : isFigmaEntryFixSuite(targetSuite)
+              ? "Fix immediately (no approval). Rebuild plugin if code-v2.ts changed; rebuild Storybook after bake."
+              : "Fix immediately (no approval). Rebuild plugin if you changed code-v2.ts."
         ),
         cursorPhrase: mode === "live" ? "make fixes after live test" : "run until pass",
         ...TERMINAL_CLI
@@ -883,8 +1037,15 @@ export function initAgentBridge(repoRoot) {
           cursorPhrase: "open test console"
         });
       }
-      const mode =
-        targetSuite === "figmaLive" ? "live" : targetSuite === "pixel" ? "pixel" : "emulator";
+      const mode = isFigmaEntryFixSuite(targetSuite)
+        ? figmaEntryFixMode(targetSuite) === "live"
+          ? "live"
+          : "figmaEntry"
+        : targetSuite === "figmaLive"
+          ? "live"
+          : targetSuite === "pixel"
+            ? "pixel"
+            : "emulator";
       const worst = stories[0];
       vaultRecordFailingStories(stories, targetSuite, suites, safeSegment, {
         source: "fix all requested"

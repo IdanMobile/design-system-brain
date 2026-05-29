@@ -18,12 +18,13 @@ import type { UniversalDocumentV2 } from "@lab/contract";
 import {
   QUICK_SMOKE,
   GOLDEN_SET,
-  isDevPackageStory
+  isDevPackageStory,
+  isLargeFixtureStory
 } from "../../contract/src/stories.ts";
 import { figma, installFigmaMock, type MockFrameNode, type MockNode } from "./figma-mock.ts";
 import { sceneToBodyMarkup } from "./scene-to-html.ts";
 import { comparePngFiles, worstStatus, type CompareStatus } from "./compare-png.ts";
-import { DEFAULT_DIFF_TOLERANCE_PERCENT, DELIVERY_DEV_TOLERANCE_PERCENT } from "./test-tolerance.ts";
+import { DEFAULT_DIFF_TOLERANCE_PERCENT, DELIVERY_DEV_TOLERANCE_PERCENT, MOCK_LARGE_FIXTURE_GLOBAL_TOLERANCE_PERCENT } from "./test-tolerance.ts";
 import {
   finalizeHarnessRun,
   getDefaultConcurrency,
@@ -256,11 +257,15 @@ async function diffStory(
 
     await ctx.close();
 
+    const figmaTolerance = isLargeFixtureStory(storyId)
+      ? MOCK_LARGE_FIXTURE_GLOBAL_TOLERANCE_PERCENT
+      : opts.tolerance;
+
     const diffSbFigma = comparePngFiles(
       storybookPng,
       figmaPng,
       resolve(baseDir, "diff-storybook-figma.png"),
-      opts.tolerance
+      figmaTolerance
     );
 
     let storybookVsFigma: LegResult = {
@@ -275,7 +280,9 @@ async function diffStory(
     if (hasDev) {
       const devTolerance =
         diffSbFigma.status === "pass"
-          ? Math.max(opts.tolerance, DELIVERY_DEV_TOLERANCE_PERCENT)
+          ? isLargeFixtureStory(storyId)
+            ? figmaTolerance
+            : Math.max(opts.tolerance, DELIVERY_DEV_TOLERANCE_PERCENT)
           : opts.tolerance;
       const diffSbDev = comparePngFiles(
         storybookPng,

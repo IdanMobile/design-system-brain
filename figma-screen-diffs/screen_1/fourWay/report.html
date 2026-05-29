@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>4-way — screen_1</title>
+<style>
+body{font-family:system-ui,sans-serif;margin:24px;background:#0f172a;color:#e2e8f0}
+h1{margin:0 0 8px} p{color:#94a3b8}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(280px,1fr));gap:16px;margin:24px 0}
+figure{margin:0;background:#1e293b;border-radius:8px;padding:12px}
+figure img{width:100%;height:auto;border-radius:4px;background:#fff}
+table{border-collapse:collapse;width:100%;margin-top:16px}
+th,td{border:1px solid #334155;padding:8px 12px;text-align:left}
+tr.pass td:nth-child(3){color:#4ade80} tr.warn td:nth-child(3){color:#fbbf24} tr.fail td:nth-child(3){color:#f87171}
+.note{background:#422006;border:1px solid #92400e;border-radius:8px;padding:12px;margin:16px 0;color:#fde68a}
+</style></head><body>
+<h1>4-way comparison — screen_1</h1>
+<p>Storybook story: <code>lab-screen1--default</code> · strict gate ≤ 0.1% global + hotspot</p>
+<div class="note">Delivery <strong>Screen1</strong> uses the Contract → Figma live PNG. The figma-screen Storybook step still uses residual compositing for contract HTML debugging.</div>
+<div class="grid"><figure><figcaption><strong>Original PNG</strong><br><code>original.png</code></figcaption><img src="original.png" alt="Original PNG"></figure>
+<figure><figcaption><strong>Figma rendered</strong><br><code>figma.png</code></figcaption><img src="figma.png" alt="Figma rendered"></figure>
+<figure><figcaption><strong>Storybook (@lab/ui)</strong><br><code>storybook.png</code></figcaption><img src="storybook.png" alt="Storybook (@lab/ui)"></figure>
+<figure><figcaption><strong>@lab/ui playground</strong><br><code>reactHtml.png</code></figcaption><img src="reactHtml.png" alt="@lab/ui playground"></figure></div>
+<h2>Pairwise diffs (strict 0.1%)</h2>
+<table><thead><tr><th>Pair</th><th>Global %</th><th>Status</th><th>Artifacts</th></tr></thead><tbody><tr class="pass"><td>✓ original ↔ figma</td><td>0.076%</td><td>pass</td><td><a href="diff-original-figma.png">diff</a> · worst hotspot user-header 0.570%</td></tr>
+<tr class="pass"><td>✓ original ↔ storybook</td><td>0.000%</td><td>pass</td><td><a href="diff-original-storybook.png">diff</a></td></tr>
+<tr class="pass"><td>✓ original ↔ reactHtml</td><td>0.000%</td><td>pass</td><td><a href="diff-original-reactHtml.png">diff</a></td></tr>
+<tr class="pass"><td>✓ figma ↔ storybook</td><td>0.076%</td><td>pass</td><td><a href="diff-figma-storybook.png">diff</a> · worst hotspot user-header 0.570%</td></tr>
+<tr class="pass"><td>✓ figma ↔ reactHtml</td><td>0.076%</td><td>pass</td><td><a href="diff-figma-reactHtml.png">diff</a> · worst hotspot user-header 0.570%</td></tr>
+<tr class="pass"><td>✓ storybook ↔ reactHtml</td><td>0.000%</td><td>pass</td><td><a href="diff-storybook-reactHtml.png">diff</a></td></tr></tbody></table>
+</body></html>

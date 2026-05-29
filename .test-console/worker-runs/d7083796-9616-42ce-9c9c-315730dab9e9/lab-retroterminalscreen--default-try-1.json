@@ -1,0 +1,56 @@
+{
+  "storyId": "lab-retroterminalscreen--default",
+  "attempt": 1,
+  "jobId": "d7083796-9616-42ce-9c9c-315730dab9e9",
+  "recordedAt": "2026-05-25T14:44:28.529Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 2.2247539190667154,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 3.1899380240612465,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "agentExitCode": 143,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-retroterminalscreen--default_try1-1779720096351.prompt.txt",
+    ".test-console/child-status/d7083796-9616-42ce-9c9c-315730dab9e9-agent-lab-retroterminalscreen--default_try1-1779720096351.json",
+    "lab-memory/stories/lab-retroterminalscreen--default.md",
+    "packages/pixel-test/src/render-html.ts",
+    "pixel-diffs/by-story/lab-retroterminalscreen-default/result.json",
+    "pixel-diffs/lab-retroterminalscreen-default/artifact.v2.json",
+    "pixel-diffs/lab-retroterminalscreen-default/diff.png",
+    "pixel-diffs/lab-retroterminalscreen-default/regions/region-01-compare.png",
+    "pixel-diffs/lab-retroterminalscreen-default/regions/region-01-rendered.png",
+    "pixel-diffs/lab-retroterminalscreen-default/regions/region-01-storybook.png",
+    "pixel-diffs/lab-retroterminalscreen-default/regions/region-02-compare.png",
+    "pixel-diffs/lab-retroterminalscreen-default/regions/region-02-rendered.png",
+    "pixel-diffs/lab-retroterminalscreen-default/regions/region-02-storybook.png",
+    "pixel-diffs/lab-retroterminalscreen-default/rendered.png",
+    "pixel-diffs/report.html",
+    "pixel-diffs/report.json",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "WORSE_METRICS",
+    "verdicts": [
+      "WORSE_METRICS",
+      "SHARED_ADAPTER"
+    ],
+    "nextWorkerMode": "narrow_scope",
+    "interventionLines": [
+      "Supervisor: global diff worsened by 0.97% — revert harmful edits; do not repeat the same approach.",
+      "Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done.",
+      "Supervisor: agent CLI exited 143 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": true
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "storyId": "screen_1",
+  "schemaVersion": 2,
+  "intent": "Figma screen entry — toolbar filter and action buttons",
+  "status": "proposed",
+  "approvedAt": null,
+  "approvedBy": null,
+  "specVersion": 1,
+  "elements": [
+    {
+      "id": "el-toolbar-btn-1",
+      "selector": "[data-name=\"Buttons\"]",
+      "displayName": "Toolbar action 1",
+      "description": "Primary toolbar button (left cluster)",
+      "behaviorPreset": "click",
+      "source": "designer",
+      "status": "proposed"
+    },
+    {
+      "id": "el-toolbar-btn-2",
+      "selector": "[data-name=\"Buttons\"]",
+      "displayName": "Toolbar action 2",
+      "description": "Secondary toolbar button",
+      "behaviorPreset": "click",
+      "source": "designer",
+      "status": "proposed"
+    },
+    {
+      "id": "el-toolbar-btn-3",
+      "selector": "[data-name=\"Buttons\"]",
+      "displayName": "Toolbar action 3",
+      "description": "Tertiary toolbar button",
+      "behaviorPreset": "click",
+      "source": "designer",
+      "status": "proposed"
+    },
+    {
+      "id": "el-filter-btn",
+      "selector": "[data-name=\"Buttons\"]",
+      "displayName": "Filter",
+      "description": "Filter controls button (toolbar right)",
+      "behaviorPreset": "click",
+      "source": "designer",
+      "status": "proposed"
+    }
+  ]
+}

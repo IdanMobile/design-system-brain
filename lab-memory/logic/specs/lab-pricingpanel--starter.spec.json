@@ -1,0 +1,23 @@
+{
+  "storyId": "lab-pricingpanel--starter",
+  "schemaVersion": 2,
+  "intent": "",
+  "status": "proposed",
+  "approvedAt": null,
+  "approvedBy": null,
+  "specVersion": 2,
+  "elements": [
+    {
+      "id": "el-start-free-trial",
+      "selector": "[data-lab-id=\"el-start-free-trial\"]",
+      "displayName": "Start free trial",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"Start free trial\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    }
+  ]
+}

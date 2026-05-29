@@ -1,0 +1,68 @@
+{
+  "storyId": "lab-button--secondary",
+  "component": "Button",
+  "status": "approved",
+  "approvedAt": "2026-05-24T23:10:21.195Z",
+  "approvedBy": "phase-7-bulk-approve",
+  "specVersion": 2,
+  "intent": "Pressable action button with primary/secondary/danger/ghost variants and optional leading/trailing icons. Behaviour is provided entirely by the @lab/ui design-system baseline — the component itself is a minimal visual shell with no JS state.",
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"primary\" | \"secondary\" | \"danger\" | \"ghost\"",
+      "default": "\"secondary\"",
+      "description": "Visual style."
+    },
+    {
+      "name": "size",
+      "type": "\"sm\" | \"md\" | \"lg\"",
+      "default": "\"md\""
+    },
+    {
+      "name": "iconLeft",
+      "type": "boolean",
+      "default": "false",
+      "description": "Renders the leading plus icon."
+    },
+    {
+      "name": "iconRight",
+      "type": "boolean",
+      "default": "false",
+      "description": "Renders the trailing arrow icon."
+    },
+    {
+      "name": "children",
+      "type": "React.ReactNode",
+      "default": "\"Secondary\"",
+      "description": "Button label."
+    }
+  ],
+  "events": [
+    {
+      "name": "onSecondaryClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    }
+  ],
+  "behaviours": [
+    {
+      "id": "hover",
+      "label": "Pointer enters the button → Brightness boost + shadow lift",
+      "source": "baseline"
+    },
+    {
+      "id": "active",
+      "label": "Mousedown → Sinks 1px, dims to brightness 0.94",
+      "source": "baseline"
+    },
+    {
+      "id": "focus",
+      "label": "Tab key → Blue focus ring (:focus-visible)",
+      "source": "baseline"
+    },
+    {
+      "id": "press-toggle",
+      "label": "Click → Toggles aria-pressed (baseline runtime stamps data-pressed-source=baseline)",
+      "source": "baseline"
+    }
+  ]
+}

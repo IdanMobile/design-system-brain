@@ -31,7 +31,8 @@ import { extractStoryV2 } from "../../extractor-playwright/src/extract.ts";
 import type { UniversalDocumentV2 } from "@lab/contract";
 import { renderToBodyMarkup } from "./render-html.ts";
 import { QUICK_SMOKE, GOLDEN_SET } from "../../contract/src/stories.ts";
-import { DEFAULT_DIFF_TOLERANCE_PERCENT } from "./test-tolerance.ts";
+import { DEFAULT_DIFF_TOLERANCE_PERCENT, MOCK_LARGE_FIXTURE_GLOBAL_TOLERANCE_PERCENT } from "./test-tolerance.ts";
+import { isLargeFixtureStory } from "../../contract/src/stories.ts";
 import {
   writeDiffRegionArtifacts,
   diffRegionsHtml,
@@ -193,7 +194,11 @@ async function diffStory(
             #__pixel_test_root .layer *::after {
               box-sizing: border-box;
             }
-            #__pixel_test_root .layer :is(h1,h2,h3,h4,h5,h6,p) { margin-block: 0; }
+            #__pixel_test_root .layer :is(h1,h2,h3,h4,h5,h6,p,pre) { margin-block: 0; }
+            #__pixel_test_root .MuiOutlinedInput-input::placeholder {
+              color: rgba(0, 0, 0, 0.38);
+              opacity: 1;
+            }
           `;
           document.head.appendChild(s);
         }
@@ -254,8 +259,11 @@ async function diffStory(
         : [];
     const total = width * height;
     const percent = total > 0 ? (pixelsDiffered / total) * 100 : 0;
+    const storyTolerance = isLargeFixtureStory(storyId)
+      ? MOCK_LARGE_FIXTURE_GLOBAL_TOLERANCE_PERCENT
+      : opts.tolerance;
     const status: DiffResult["status"] =
-      percent <= opts.tolerance ? "pass" : percent <= opts.tolerance * 4 ? "warn" : "fail";
+      percent <= storyTolerance ? "pass" : percent <= storyTolerance * 4 ? "warn" : "fail";
     return {
       storyId,
       width,

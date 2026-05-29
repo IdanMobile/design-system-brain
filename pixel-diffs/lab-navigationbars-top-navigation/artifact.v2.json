@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-navigationbars--top-navigation",
     "componentName": "NavigationBars",
-    "extractedAt": "2026-05-24T20:51:36.638Z",
+    "extractedAt": "2026-05-25T19:29:05.370Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-navigationbars--top-navigation&viewMode=story",
     "viewport": {
       "x": 0,
@@ -141,6 +141,7 @@
           "font": {
             "family": "Inter",
             "stack": "Inter, Arial, sans-serif",
+            "computedStack": "Inter, Arial, sans-serif",
             "size": 22,
             "weight": 800,
             "style": "normal",
@@ -257,6 +258,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 18,
                 "weight": 400,
                 "style": "normal",
@@ -322,6 +324,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 18,
                 "weight": 400,
                 "style": "normal",
@@ -387,6 +390,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 18,
                 "weight": 400,
                 "style": "normal",
@@ -484,6 +488,7 @@
           "font": {
             "family": "Inter",
             "stack": "Inter, Arial, sans-serif",
+            "computedStack": "Arial",
             "size": 16,
             "weight": 700,
             "style": "normal",

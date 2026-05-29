@@ -14,16 +14,29 @@ import { chromium, type Browser, type BrowserContext, type Page } from "playwrig
 import { mkdir, rename } from "node:fs/promises";
 import { resolve } from "node:path";
 import { DEV_STORIES, DEV_STORY_BY_ID, QUICK_SMOKE } from "../../contract/src/stories.ts";
+import type { StorySpec } from "../../contract/src/spec-types.ts";
 import {
   classifyFinding,
   ROOT_AND_DESCENDANT_INTERACTIVE,
+  allLayersScript,
   probeScript,
   snapshotScript,
   snapshotsEqual,
   type ControlProbe,
   type InteractionFinding,
-  type DomSnapshot
+  type DomSnapshot,
+  type LayerProbe
 } from "./logic-audit-probes.ts";
+import { createSpecStore } from "./spec-store.ts";
+import { extractFromDescription } from "./spec-extract-heuristic.ts";
+import {
+  computeStoryDecision,
+  mergeElementSpec,
+  type ElementVerdictRow,
+  type ObservedElement,
+  type StoryRollupVerdict
+} from "./logic-audit-verdict.ts";
+import type { ElementSpec } from "../../contract/src/spec-types.ts";
 import {
   finalizeHarnessRun,
   persistStoryProgress,
@@ -33,14 +46,52 @@ import {
 } from "./report-portfolio.ts";
 import { assertStoryStepGate } from "./step-gate.ts";
 
+/**
+ * Spec-aware audit verdicts (see
+ * `docs/superpowers/specs/2026-05-25-element-approval-redesign-design.md`):
+ *
+ *   needs-spec     — no spec file for this story; run `pnpm specs:bootstrap-v2`
+ *   needs-approval — spec exists but at least one element is `proposed`
+ *   pass           — every element is `approved` (or spec is approved + static)
+ *   regression     — element-level regression (filled in Phase 2.4)
+ *   drift          — element-level drift (filled in Phase 2.4)
+ *   new-element    — observed an interactive element not in the spec
+ *   error          — audit harness itself errored
+ */
+export type AuditVerdict =
+  | "needs-spec"
+  | "needs-approval"
+  | "pass"
+  | "regression"
+  | "drift"
+  | "new-element"
+  | "error";
+
 interface AuditResult {
   storyId: string;
   component: string | null;
   status: "pass" | "gap" | "error";
+  verdict: AuditVerdict;
+  /** Plain-English reason for the verdict (shown in CLI and report). */
+  verdictReason: string;
+  /** Element names observed in the DOM (kept for backwards compat). */
+  observedEvents: string[];
+  /** Approved elements not observed in the DOM. */
+  missingEvents: string[];
+  /** Observed elements with no spec entry (new-element verdict). */
+  extraEvents: string[];
+  /** Per-element verdicts — drives the v2 report. */
+  perElement: ElementVerdictRow[];
+  /** Status of the spec on disk at the time of the audit. */
+  specStatus: StorySpec["status"] | "missing";
   interactiveCount: number;
   dsBuiltinCount: number;
   staticShellCount: number;
   readonlyCount: number;
+  /** Behaviours observed where the component code owns the state. */
+  nativeCount: number;
+  /** Behaviours observed where the @lab/ui design-system baseline filled in. */
+  baselineCount: number;
   findings: InteractionFinding[];
   gaps: string[];
   dsBuiltIn: string[];
@@ -267,6 +318,56 @@ function typingProbeValue(type: string): string {
   return "audit probe";
 }
 
+/* -------------------------------------------------------------------------- */
+/* Spec-aware verdict (Phase 2.4 — per-element rollup)                        */
+/* -------------------------------------------------------------------------- */
+
+function suggestionFor(o: ObservedElement): string {
+  const name = (o.displayName || o.role || o.tag || "control").toLowerCase();
+  if (o.tag === "input" || o.tag === "textarea") {
+    return `Designer types in this ${name} field`;
+  }
+  if (o.role === "tab") return `Click switches to the "${o.displayName}" tab`;
+  if (o.role === "switch") return "Toggles a setting on or off";
+  if (o.role === "checkbox") return "Toggles a checkbox";
+  if (o.tag === "a") return `Navigates to ${o.displayName}`;
+  if (o.role === "menuitem") return `Selects the "${o.displayName}" menu item`;
+  return `Click triggers the "${o.displayName}" action`;
+}
+
+function rollupToAuditVerdict(r: StoryRollupVerdict): AuditVerdict {
+  switch (r) {
+    case "pass":
+      return "pass";
+    case "needs-approval":
+      return "needs-approval";
+    case "new-element":
+      return "new-element";
+    case "drift":
+      return "drift";
+    case "regression":
+      return "regression";
+  }
+}
+
+
+
+function verdictToStoryStatus(v: AuditVerdict): "pass" | "warn" | "fail" | "error" {
+  switch (v) {
+    case "pass":
+      return "pass";
+    case "regression":
+      return "fail";
+    case "needs-spec":
+    case "needs-approval":
+    case "drift":
+    case "new-element":
+      return "warn";
+    case "error":
+      return "error";
+  }
+}
+
 async function loadStory(page: Page, storyId: string, opts: CliOpts): Promise<string | null> {
   await page.goto(`${opts.playgroundUrl}/?story=${encodeURIComponent(storyId)}`, {
     waitUntil: "networkidle",
@@ -277,11 +378,18 @@ async function loadStory(page: Page, storyId: string, opts: CliOpts): Promise<st
   return component;
 }
 
-async function auditStory(page: Page, storyId: string, opts: CliOpts): Promise<AuditResult> {
+async function auditStory(
+  page: Page,
+  storyId: string,
+  opts: CliOpts,
+  specStore: ReturnType<typeof createSpecStore>
+): Promise<AuditResult> {
   const testedAt = new Date().toISOString();
   const demo = Boolean(opts.record);
   const clickPauseMs = demo ? 900 : 200;
   const statePauseMs = demo ? 1200 : 0;
+  const spec = specStore.readSpec(storyId);
+  const specStatus: AuditResult["specStatus"] = spec ? spec.status : "missing";
 
   try {
     const component = await loadStory(page, storyId, opts);
@@ -330,7 +438,7 @@ async function auditStory(page: Page, storyId: string, opts: CliOpts): Promise<A
       const after = await readSnapshot(page);
       const changed = !snapshotsEqual(before, after);
       const outcome = changed ? "state_changed" : "no_visible_change";
-      findings.push(classifyFinding(control, outcome, component));
+      findings.push(classifyFinding(control, outcome, component, before, after));
 
       if (demo) {
         await showAuditHud(
@@ -373,18 +481,130 @@ async function auditStory(page: Page, storyId: string, opts: CliOpts): Promise<A
     const dsBuiltinCount = findings.filter((f) => f.category === "ds_builtin").length;
     const staticShellCount = findings.filter((f) => f.category === "static_shell").length;
     const readonlyCount = findings.filter((f) => f.category === "readonly").length;
+    const nativeCount = findings.filter((f) => f.source === "native").length;
+    const baselineCount = findings.filter((f) => f.source === "baseline").length;
+
+    // Build observed elements list. Two sources merge into one list:
+    //   1) Interactive controls with a `data-lab-id` (always observed).
+    //   2) Non-interactive layers from the full-DOM probe, but ONLY if the
+    //      spec already has an element with that structural id (i.e. the
+    //      designer approved a non-interactive layer). Without this gate the
+    //      audit would emit a "new-element" verdict for every wrapper div.
+    const interactiveObserved: ObservedElement[] = initial.controls
+      .filter((c) => c.labId && !c.disabled)
+      .map((c) => ({
+        labId: c.labId,
+        displayName: c.ariaLabel || c.text || c.role || c.tag,
+        tag: c.tag,
+        role: c.role,
+        text: c.text
+      }));
+    const interactiveIds = new Set(interactiveObserved.map((o) => o.labId));
+    const allLayers: LayerProbe[] = (await page.evaluate(allLayersScript)).layers;
+    const specIds = new Set(spec ? spec.elements.map((e) => e.id) : []);
+    const nonInteractiveObserved: ObservedElement[] = allLayers
+      .filter((l) => !l.isInteractive && specIds.has(l.id) && !interactiveIds.has(l.id))
+      .map((l) => ({
+        labId: l.id,
+        displayName: l.displayName,
+        tag: l.tag,
+        role: l.role,
+        text: l.text
+      }));
+    const observedElements: ObservedElement[] = [...interactiveObserved, ...nonInteractiveObserved];
+
+    // No spec on disk → still emit needs-spec verdict
+    if (!spec) {
+      return {
+        storyId,
+        component,
+        status: "gap",
+        verdict: "needs-spec",
+        verdictReason: "no spec on disk — run `pnpm specs:bootstrap-v2`",
+        observedEvents: observedElements.map((o) => o.displayName),
+        missingEvents: [],
+        extraEvents: [],
+        perElement: [],
+        specStatus,
+        interactiveCount: initial.controls.length,
+        dsBuiltinCount,
+        staticShellCount,
+        readonlyCount,
+        nativeCount,
+        baselineCount,
+        findings,
+        gaps,
+        dsBuiltIn,
+        testedAt
+      };
+    }
+
+    // Merge observed elements into spec.elements, refreshing AI-owned fields
+    // and preserving designer-edited fields (description, status, approvedAt).
+    const existingById = new Map(spec.elements.map((e) => [e.id, e]));
+    const mergedElements: ElementSpec[] = observedElements.map((obs) => {
+      const existing = existingById.get(obs.labId);
+      const desc = existing?.description ?? "";
+      const aiExtracted = desc.trim()
+        ? extractFromDescription({
+            displayName: obs.displayName,
+            description: desc,
+            tag: obs.tag,
+            role: obs.role,
+            ariaLabel: existing?.displayName ?? obs.displayName,
+            text: obs.text
+          })
+        : null;
+      const aiSuggestion = suggestionFor(obs);
+      return mergeElementSpec({ existing, observed: obs, aiSuggestion, aiExtracted });
+    });
+
+    // Compute the decision against the in-memory merged elements so that
+    // newly-discovered elements show up as "new-element" rather than
+    // immediately persisting as silent additions.
+    const decision = computeStoryDecision({
+      spec: { ...spec, elements: existingById.size === 0 ? mergedElements : spec.elements },
+      observed: observedElements
+    });
+
+    // Persist the refreshed spec back to disk. Designer edits survive; AI
+    // fields refresh; status only changes if every observed element is approved
+    // (the showcase handles the per-element approvals).
+    const refreshedSpec: StorySpec = {
+      ...spec,
+      elements: mergedElements
+    };
+    specStore.writeSpec(refreshedSpec);
+
+    const observedEvents = observedElements.map((o) => o.displayName);
+    const missing = decision.perElement.filter((r) => r.verdict === "regression").map((r) => r.displayName);
+    const extra = decision.perElement.filter((r) => r.verdict === "new-element").map((r) => r.displayName);
+    const verdict: AuditVerdict = rollupToAuditVerdict(decision.storyVerdict);
 
     const status: AuditResult["status"] =
-      staticShellCount > 0 && dsBuiltinCount === 0 ? "gap" : staticShellCount > 0 ? "gap" : "pass";
+      verdict === "pass"
+        ? "pass"
+        : verdict === "regression"
+        ? "gap"
+        : "gap";
 
     return {
       storyId,
       component,
       status,
+      verdict,
+      verdictReason: decision.storyReason,
+      observedEvents,
+      missingEvents: missing,
+      extraEvents: extra,
+      perElement: decision.perElement,
+      specStatus,
       interactiveCount: initial.controls.length,
       dsBuiltinCount,
       staticShellCount,
       readonlyCount,
+      nativeCount,
+      baselineCount,
       findings,
       gaps,
       dsBuiltIn,
@@ -395,10 +615,19 @@ async function auditStory(page: Page, storyId: string, opts: CliOpts): Promise<A
       storyId,
       component: DEV_STORY_BY_ID[storyId]?.component ?? null,
       status: "error",
+      verdict: "error",
+      verdictReason: error instanceof Error ? error.message : String(error),
+      observedEvents: [],
+      missingEvents: [],
+      extraEvents: [],
+      perElement: [],
+      specStatus,
       interactiveCount: 0,
       dsBuiltinCount: 0,
       staticShellCount: 0,
       readonlyCount: 0,
+      nativeCount: 0,
+      baselineCount: 0,
       findings: [],
       gaps: [],
       dsBuiltIn: [],
@@ -411,7 +640,7 @@ async function auditStory(page: Page, storyId: string, opts: CliOpts): Promise<A
 function toPortfolioRecord(r: AuditResult): StoryResultRecord {
   return {
     storyId: r.storyId,
-    status: r.status === "gap" ? "warn" : r.status,
+    status: verdictToStoryStatus(r.verdict),
     percent: r.staticShellCount,
     maxRegionPercent: r.dsBuiltinCount,
     error: r.error,
@@ -421,48 +650,86 @@ function toPortfolioRecord(r: AuditResult): StoryResultRecord {
     dsBuiltIn: r.dsBuiltIn,
     interactiveCount: r.interactiveCount,
     readonlyCount: r.readonlyCount,
+    nativeCount: r.nativeCount,
+    baselineCount: r.baselineCount,
     findings: r.findings,
-    demoVideo: r.demoVideo
+    demoVideo: r.demoVideo,
+    verdict: r.verdict,
+    verdictReason: r.verdictReason,
+    observedEvents: r.observedEvents,
+    missingEvents: r.missingEvents,
+    extraEvents: r.extraEvents,
+    perElement: r.perElement,
+    specStatus: r.specStatus
   } as StoryResultRecord;
 }
 
+const VERDICT_COLOR: Record<AuditVerdict, string> = {
+  pass: "#16a34a",
+  drift: "#d97706",
+  "needs-spec": "#d97706",
+  "needs-approval": "#d97706",
+  "new-element": "#d97706",
+  regression: "#dc2626",
+  error: "#dc2626"
+};
+
 function writeSuiteHtml(results: StoryResultRecord[]): string {
-  const rows = results
+  const cards = results
     .filter((r) => r.status !== "not_tested" && r.status !== "skipped")
     .map((r) => {
       const raw = r as StoryResultRecord & {
         component?: string;
-        gaps?: string[];
-        dsBuiltIn?: string[];
         interactiveCount?: number;
         demoVideo?: string;
+        verdict?: AuditVerdict;
+        verdictReason?: string;
+        perElement?: ElementVerdictRow[];
+        specStatus?: string;
       };
-      const displayStatus =
-        r.status === "warn" ? "GAP" : (r.status ?? "error").toUpperCase();
-      const color =
-        r.status === "pass" ? "#16a34a" : r.status === "warn" ? "#d97706" : "#dc2626";
-      const gapList =
-        raw.gaps && raw.gaps.length > 0
-          ? `<ul>${raw.gaps.slice(0, 8).map((g) => `<li>${escapeHtml(g)}</li>`).join("")}</ul>`
-          : "<span style='color:#64748b'>—</span>";
-      const dsList =
-        raw.dsBuiltIn && raw.dsBuiltIn.length > 0
-          ? `<ul>${raw.dsBuiltIn.slice(0, 8).map((d) => `<li>${escapeHtml(d)}</li>`).join("")}</ul>`
-          : "<span style='color:#64748b'>—</span>";
+      const verdict: AuditVerdict = raw.verdict ?? (r.status === "pass" ? "pass" : "error");
+      const color = VERDICT_COLOR[verdict] ?? "#dc2626";
+      const verdictLabel = verdict.toUpperCase();
+      const reason = escapeHtml(raw.verdictReason ?? "");
       const demoCell = raw.demoVideo
         ? `<video controls preload="metadata" width="280" src="${escapeHtml(raw.demoVideo)}"></video><br><a href="${escapeHtml(raw.demoVideo)}">Open video</a>`
-        : "<span style='color:#64748b'>—</span>";
-      return `<tr>
-        <td><code>${escapeHtml(r.storyId)}</code></td>
-        <td>${escapeHtml(raw.component ?? "—")}</td>
-        <td style="color:${color};font-weight:600">${displayStatus}</td>
-        <td>${demoCell}</td>
-        <td>${raw.interactiveCount ?? 0}</td>
-        <td>${r.maxRegionPercent ?? 0}</td>
-        <td>${r.percent ?? 0}</td>
-        <td>${dsList}</td>
-        <td>${gapList}</td>
-      </tr>`;
+        : "";
+      const elementRows = (raw.perElement ?? [])
+        .map((row) => {
+          const dot =
+            row.verdict === "pass"
+              ? "#16a34a"
+              : row.verdict === "regression"
+              ? "#dc2626"
+              : "#d97706";
+          return `<li>
+            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${dot};margin-right:6px"></span>
+            <code>${escapeHtml(row.labId)}</code>
+            <span style="color:#8b9cb3">— ${escapeHtml(row.displayName)}</span>
+            <span style="color:${dot};font-weight:600;margin-left:8px">${row.verdict}</span>
+            <span style="color:#64748b;font-size:12px;margin-left:8px">${escapeHtml(row.reason)}</span>
+          </li>`;
+        })
+        .join("");
+      const elementsBlock = elementRows
+        ? `<ul style="list-style:none;padding-left:0;margin:8px 0">${elementRows}</ul>`
+        : `<p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>`;
+      return `<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>${escapeHtml(r.storyId)}</code></h2>
+            <p style="margin:0;color:#8b9cb3">${escapeHtml(raw.component ?? "—")}
+              · ${raw.interactiveCount ?? 0} interactive element(s)
+              · spec ${escapeHtml(raw.specStatus ?? "?")}</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:${color};font-weight:700;font-size:18px">${verdictLabel}</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">${reason}</div>
+          </div>
+        </header>
+        ${elementsBlock}
+        ${demoCell ? `<div style="margin-top:8px">${demoCell}</div>` : ""}
+      </section>`;
     })
     .join("\n");
 
@@ -470,25 +737,20 @@ function writeSuiteHtml(results: StoryResultRecord[]): string {
 <html lang="en"><head><meta charset="utf-8"/><title>Logic audit</title>
 <style>
 body{font-family:system-ui,sans-serif;margin:24px;background:#0f1419;color:#e8edf4}
-table{border-collapse:collapse;width:100%;font-size:13px}
-th,td{border:1px solid #2d3a4f;padding:8px 10px;text-align:left;vertical-align:top}
-th{background:#1a2332}
-code{font-size:12px}
 h1{margin-top:0}
 p{color:#8b9cb3}
-ul{margin:4px 0;padding-left:18px}
-video{border-radius:6px;background:#000;max-width:280px}
+code{font-size:12px}
 a{color:#58a6ff}
+ul{margin:4px 0}
+li{margin:6px 0;font-size:13px}
+section h2{font-size:14px;font-weight:600}
 </style></head><body>
-<h1>Logic audit — Delivery showcase</h1>
-<p>Each row can include an <strong>interaction video</strong> (when recorded) showing every control exercised and its visible state.
-<strong>DS built-in</strong> = design-system behavior works. <strong>Gaps</strong> = inert control needing a developer props API.</p>
-<table>
-<thead><tr>
-<th>Story</th><th>Component</th><th>Status</th><th>Interaction video</th><th>Controls</th><th>DS built-in</th><th>Gaps</th><th>Working</th><th>Missing API</th>
-</tr></thead>
-<tbody>${rows}</tbody>
-</table>
+<h1>Logic audit — Delivery showcase (v2 element approval)</h1>
+<p>Each story is broken down by interactive element. Verdict colors:
+<strong style="color:#16a34a">pass</strong> — element is approved and still present.
+<strong style="color:#d97706">needs-approval / new-element / drift</strong> — designer action required in the showcase.
+<strong style="color:#dc2626">regression</strong> — an approved element disappeared from the DOM.</p>
+${cards}
 </body></html>`;
 }
 
@@ -519,10 +781,11 @@ async function runStoryWithOptionalVideo(
   browser: Browser,
   storyId: string,
   opts: CliOpts,
+  specStore: ReturnType<typeof createSpecStore>,
   sharedPage?: Page
 ): Promise<{ result: AuditResult; page?: Page }> {
   if (!opts.record) {
-    const result = await auditStory(sharedPage!, storyId, opts);
+    const result = await auditStory(sharedPage!, storyId, opts, specStore);
     return { result, page: sharedPage };
   }
 
@@ -535,7 +798,7 @@ async function runStoryWithOptionalVideo(
     recordVideo: { dir: storyDir, size: { width: 1200, height: 900 } }
   });
   const page = await context.newPage();
-  const result = await auditStory(page, storyId, opts);
+  const result = await auditStory(page, storyId, opts, specStore);
   await saveStoryVideo(page, context, storyDir);
   result.demoVideo = `by-story/${seg}/interaction.webm`;
   return { result };
@@ -544,6 +807,10 @@ async function runStoryWithOptionalVideo(
 async function main() {
   const opts = parseCli();
   await mkdir(opts.outDir, { recursive: true });
+
+  const specStore = createSpecStore({
+    vaultDir: resolve(opts.repoRoot, "lab-memory/logic/specs")
+  });
 
   const suiteMeta: MergeSuiteMeta = {
     generatedAt: new Date().toISOString(),
@@ -573,18 +840,32 @@ async function main() {
       continue;
     }
 
-    const { result } = await runStoryWithOptionalVideo(browser, storyId, opts, sharedPage);
+    const { result } = await runStoryWithOptionalVideo(browser, storyId, opts, specStore, sharedPage);
     const record = toPortfolioRecord(result);
     ranResults.push(record);
     if (result.demoVideo) videoCount += 1;
 
-    const icon = result.status === "pass" ? "✓" : result.status === "gap" ? "△" : "✗";
-    const detail =
-      result.status === "error"
-        ? result.error
-        : `${result.dsBuiltinCount} ds / ${result.staticShellCount} gap / ${result.interactiveCount} controls`;
+    const icon =
+      result.verdict === "pass"
+        ? "✓"
+        : result.verdict === "regression" || result.verdict === "error"
+        ? "✗"
+        : "△";
+    const detail = `${result.verdict.toUpperCase()} · ${result.verdictReason}`;
     const videoNote = result.demoVideo ? " 🎬" : "";
     console.log(`${icon} ${detail}${videoNote}`);
+    for (const row of result.perElement.slice(0, 8)) {
+      const bullet =
+        row.verdict === "pass"
+          ? "  ✓"
+          : row.verdict === "regression"
+          ? "  ✗"
+          : "  ◯";
+      console.log(`${bullet} ${row.labId} (${row.displayName}) — ${row.verdict}: ${row.reason}`);
+    }
+    if (result.perElement.length > 8) {
+      console.log(`  … +${result.perElement.length - 8} more`);
+    }
 
     await persistStoryProgress({
       outDir: opts.outDir,
@@ -614,7 +895,9 @@ async function main() {
   if (videoCount > 0) {
     console.log(`Videos: ${videoCount} per-story file(s) under logic-audit-diffs/by-story/*/interaction.webm`);
   }
-  const failed = ranResults.filter((r) => r.status === "error").length;
+  const failed = ranResults.filter(
+    (r) => r.status === "error" || r.status === "fail"
+  ).length;
   process.exit(failed > 0 ? 1 : 0);
 }
 

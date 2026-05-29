@@ -1,0 +1,23 @@
+{
+  "storyId": "lab-pricingpanel--pro",
+  "schemaVersion": 2,
+  "intent": "",
+  "status": "proposed",
+  "approvedAt": null,
+  "approvedBy": null,
+  "specVersion": 2,
+  "elements": [
+    {
+      "id": "el-upgrade-now",
+      "selector": "[data-lab-id=\"el-upgrade-now\"]",
+      "displayName": "Upgrade now",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"Upgrade now\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    }
+  ]
+}

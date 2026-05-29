@@ -1,0 +1,143 @@
+{
+  "storyId": "lab-meetinghomepage--default",
+  "schemaVersion": 2,
+  "intent": "",
+  "status": "proposed",
+  "approvedAt": null,
+  "approvedBy": null,
+  "specVersion": 2,
+  "elements": [
+    {
+      "id": "el-join",
+      "selector": "[data-lab-id=\"el-join\"]",
+      "displayName": "Join",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"Join\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-button",
+      "selector": "[data-lab-id=\"el-button\"]",
+      "displayName": "Upload",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"Upload\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-button-2",
+      "selector": "[data-lab-id=\"el-button-2\"]",
+      "displayName": "Search",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"Search\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-button-3",
+      "selector": "[data-lab-id=\"el-button-3\"]",
+      "displayName": "Menu",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"Menu\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-new-recording",
+      "selector": "[data-lab-id=\"el-new-recording\"]",
+      "displayName": "New Recording",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"New Recording\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-view-all",
+      "selector": "[data-lab-id=\"el-view-all\"]",
+      "displayName": "View All >",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"View All >\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-view-all-2",
+      "selector": "[data-lab-id=\"el-view-all-2\"]",
+      "displayName": "View All >",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"View All >\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-home",
+      "selector": "[data-lab-id=\"el-home\"]",
+      "displayName": "Home",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"Home\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-meetings",
+      "selector": "[data-lab-id=\"el-meetings\"]",
+      "displayName": "Meetings",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"Meetings\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-actions",
+      "selector": "[data-lab-id=\"el-actions\"]",
+      "displayName": "Actions",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"Actions\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-notifications",
+      "selector": "[data-lab-id=\"el-notifications\"]",
+      "displayName": "Notifications",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"Notifications\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    }
+  ]
+}

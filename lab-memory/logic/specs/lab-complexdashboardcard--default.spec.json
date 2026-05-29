@@ -1,0 +1,34 @@
+{
+  "storyId": "lab-complexdashboardcard--default",
+  "schemaVersion": 2,
+  "intent": "the page should accept data",
+  "status": "proposed",
+  "approvedAt": null,
+  "approvedBy": null,
+  "specVersion": 6,
+  "elements": [
+    {
+      "id": "ly-24h7d30d-1oxiz1",
+      "selector": "",
+      "displayName": "24h7d30d",
+      "description": "select an option from 24h7d30d",
+      "behaviorPreset": "select",
+      "source": "designer",
+      "aiSuggestion": "",
+      "aiExtracted": {
+        "behaviour": "On selection",
+        "devApi": [
+          {
+            "name": "onOptionFrom24h7d30dSelected",
+            "signature": "(id: string) => void"
+          }
+        ],
+        "extractedBy": "heuristic",
+        "extractedAt": "2026-05-25T13:29:26.025Z",
+        "note": "LAB_LLM_API_KEY not set — returned heuristic output"
+      },
+      "status": "approved",
+      "approvedAt": "2026-05-25T13:29:38.076Z"
+    }
+  ]
+}

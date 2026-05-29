@@ -1,0 +1,85 @@
+{
+  "status": "pass",
+  "percent": 0.07572318979631407,
+  "worstPairPercent": 0.07572318979631407,
+  "storyId": "screen_1",
+  "tolerance": 0.1,
+  "pairs": [
+    {
+      "a": "original",
+      "b": "figma",
+      "percent": 0.07572318979631407,
+      "status": "pass",
+      "diffFile": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/screen_1/fourWay/diff-original-figma.png",
+      "worstRegion": {
+        "name": "user-header",
+        "pct": 0.57
+      }
+    },
+    {
+      "a": "original",
+      "b": "storybook",
+      "percent": 0,
+      "status": "pass",
+      "diffFile": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/screen_1/fourWay/diff-original-storybook.png",
+      "worstRegion": {
+        "name": "",
+        "pct": 0
+      }
+    },
+    {
+      "a": "original",
+      "b": "reactHtml",
+      "percent": 0,
+      "status": "pass",
+      "diffFile": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/screen_1/fourWay/diff-original-reactHtml.png",
+      "worstRegion": {
+        "name": "",
+        "pct": 0
+      }
+    },
+    {
+      "a": "figma",
+      "b": "storybook",
+      "percent": 0.07572318979631407,
+      "status": "pass",
+      "diffFile": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/screen_1/fourWay/diff-figma-storybook.png",
+      "worstRegion": {
+        "name": "user-header",
+        "pct": 0.57
+      }
+    },
+    {
+      "a": "figma",
+      "b": "reactHtml",
+      "percent": 0.07572318979631407,
+      "status": "pass",
+      "diffFile": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/screen_1/fourWay/diff-figma-reactHtml.png",
+      "worstRegion": {
+        "name": "user-header",
+        "pct": 0.57
+      }
+    },
+    {
+      "a": "storybook",
+      "b": "reactHtml",
+      "percent": 0,
+      "status": "pass",
+      "diffFile": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/screen_1/fourWay/diff-storybook-reactHtml.png",
+      "worstRegion": {
+        "name": "",
+        "pct": 0
+      }
+    }
+  ],
+  "legs": {
+    "original": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/screen_1/fourWay/original.png",
+    "figma": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/screen_1/fourWay/figma.png",
+    "storybook": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/screen_1/fourWay/storybook.png",
+    "reactHtml": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/screen_1/fourWay/reactHtml.png"
+  },
+  "reportHtml": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/screen_1/fourWay/report.html",
+  "screenId": "screen_1",
+  "stepId": "fourWay",
+  "testedAt": "2026-05-26T23:03:47.486Z"
+}

@@ -17,6 +17,8 @@ body { font-family: Inter, Arial, sans-serif; background: #f5f7fb; }
   justify-content: center;
   gap: 20px;
   box-shadow: 0 8px 18px rgba(0, 109, 206, 0.24);
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
 }
 .lab-button.sm { height: 52px; padding: 0 22px; font-size: 20px; gap: 12px; border-radius: 26px; }
 .lab-button.lg { height: 92px; padding: 0 40px; font-size: 30px; gap: 22px; border-radius: 46px; }
@@ -36,6 +38,28 @@ body { font-family: Inter, Arial, sans-serif; background: #f5f7fb; }
   color: #006dce;
   border: 2px dashed #79aee8;
   box-shadow: none;
+}
+/*
+ * Interactive feedback — applied only on user interaction or controlled
+ * pressed state. The at-rest visuals stay identical to the baseline, so pixel
+ * + figma mock + figma live screenshots (taken before any interaction) are
+ * unaffected. This is the "design-system default" that gives every Button
+ * real button behaviour without per-instance wiring.
+ */
+.lab-button:hover { filter: brightness(1.05); box-shadow: 0 12px 22px rgba(0, 109, 206, 0.32); }
+.lab-button.secondary:hover { background: #d6e9ff; box-shadow: 0 6px 14px rgba(0, 109, 206, 0.18); filter: none; }
+.lab-button.danger:hover   { box-shadow: 0 12px 22px rgba(229, 62, 62, 0.34); }
+.lab-button.ghost:hover    { background: rgba(0, 109, 206, 0.06); filter: none; }
+.lab-button:active         { transform: translateY(1px) scale(0.99); filter: brightness(0.95); }
+.lab-button:focus-visible  { outline: 3px solid rgba(0, 109, 206, 0.55); outline-offset: 2px; }
+.lab-button[aria-pressed="true"] {
+  box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.25);
+  filter: brightness(0.92);
+}
+.lab-button.ghost[aria-pressed="true"] {
+  background: rgba(0, 109, 206, 0.12);
+  border-style: solid;
+  filter: none;
 }
 .lab-card {
   width: 706px;
@@ -219,7 +243,14 @@ body { font-family: Inter, Arial, sans-serif; background: #f5f7fb; }
   color: #ffffff;
   font-size: 20px;
   font-weight: 700;
+  cursor: pointer;
+  transition: filter 120ms ease, box-shadow 120ms ease, transform 120ms ease;
 }
+.lab-pricing-cta:hover         { filter: brightness(1.08); box-shadow: 0 10px 22px rgba(15, 109, 255, 0.32); }
+.lab-pricing-cta:active        { transform: translateY(1px); filter: brightness(0.92); }
+.lab-pricing-cta:focus-visible { outline: 3px solid rgba(15, 109, 255, 0.5); outline-offset: 2px; }
+.lab-pricing-cta[aria-busy="true"] { cursor: progress; filter: brightness(0.9); }
+.lab-pricing-cta:disabled          { cursor: not-allowed; opacity: 0.85; }
 .lab-pricing.pro .lab-pricing-cta {
   background: #f8fafc;
   color: #0f3d78;
@@ -272,7 +303,17 @@ body { font-family: Inter, Arial, sans-serif; background: #f5f7fb; }
   align-items: center;
   justify-content: space-between;
   font-size: 18px;
+  cursor: pointer;
+  transition: border-color 120ms ease, box-shadow 120ms ease;
 }
+.lab-select-field:hover { border-color: #99b8e6; }
+.lab-select-field:focus-visible {
+  outline: none;
+  border-color: #0f6dff;
+  box-shadow: 0 0 0 3px rgba(15, 109, 255, 0.18);
+}
+.lab-select-menu p { cursor: pointer; transition: background 100ms ease; }
+.lab-select-menu p:hover { background: #eef5ff; }
 .lab-select-chevron { color: #6c7483; }
 .lab-select-menu {
   margin-top: 10px;
@@ -310,11 +351,18 @@ body { font-family: Inter, Arial, sans-serif; background: #f5f7fb; }
   font-weight: 700;
   border-radius: 999px;
   padding: 8px 12px;
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease;
 }
-.lab-tabs-row button.active {
+.lab-tabs-row button:hover { background: #dbe7f5; }
+.lab-tabs-row button:focus-visible { outline: 2px solid rgba(15, 109, 255, 0.5); outline-offset: 2px; }
+.lab-tabs-row button.active,
+.lab-tabs-row button[aria-selected="true"] {
   background: #0f6dff;
   color: #fff;
 }
+.lab-tabs-row button.active:hover,
+.lab-tabs-row button[aria-selected="true"]:hover { background: #0a5ad6; }
 .lab-tabs-body { padding: 18px; }
 .lab-tabs-body h4 { margin: 0 0 8px; font-size: 26px; }
 .lab-tabs-body p { margin: 0; font-size: 18px; color: #5b6772; }
@@ -343,7 +391,14 @@ body { font-family: Inter, Arial, sans-serif; background: #f5f7fb; }
   color: #fff;
   font-size: 16px;
   font-weight: 700;
+  cursor: pointer;
+  transition: background 120ms ease, transform 120ms ease;
 }
+.lab-top-nav .cta:hover         { background: #0a5ad6; }
+.lab-top-nav .cta:active        { transform: translateY(1px); }
+.lab-top-nav .cta:focus-visible { outline: 2px solid rgba(255, 255, 255, 0.6); outline-offset: 2px; }
+.lab-top-nav .links a:hover { color: #fff; }
+.lab-top-nav .links a:focus-visible { outline: 2px solid rgba(255, 255, 255, 0.4); outline-offset: 2px; border-radius: 4px; }
 .lab-bottom-nav {
   width: 520px;
   height: 82px;
@@ -360,8 +415,15 @@ body { font-family: Inter, Arial, sans-serif; background: #f5f7fb; }
   color: #5f6a78;
   font-size: 17px;
   font-weight: 700;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 10px;
+  transition: background 120ms ease, color 120ms ease;
 }
-.lab-bottom-nav button.active { color: #0f6dff; }
+.lab-bottom-nav button:hover { background: rgba(15, 109, 255, 0.08); color: #0f6dff; }
+.lab-bottom-nav button:focus-visible { outline: 2px solid rgba(15, 109, 255, 0.5); outline-offset: 2px; }
+.lab-bottom-nav button.active,
+.lab-bottom-nav button[aria-selected="true"] { color: #0f6dff; }
 
 .lab-overlay-canvas {
   width: 760px;
@@ -1159,7 +1221,14 @@ body { font-family: Inter, Arial, sans-serif; background: #f5f7fb; }
   color: #ffffff;
   font-size: 18px;
   font-weight: 700;
+  cursor: pointer;
+  transition: filter 120ms ease, box-shadow 120ms ease, transform 120ms ease;
 }
+.lab-login-button:hover         { filter: brightness(1.08); box-shadow: 0 8px 18px rgba(15, 109, 255, 0.32); }
+.lab-login-button:active        { transform: translateY(1px); filter: brightness(0.95); }
+.lab-login-button:focus-visible { outline: 3px solid rgba(15, 109, 255, 0.5); outline-offset: 2px; }
+.lab-login-button[aria-busy="true"]      { filter: brightness(0.9); cursor: progress; }
+.lab-login-button:disabled               { cursor: not-allowed; opacity: 0.85; }
 
 .lab-login-socials {
   margin-top: 16px;
@@ -1176,7 +1245,13 @@ body { font-family: Inter, Arial, sans-serif; background: #f5f7fb; }
   color: #1f3b63;
   font-size: 15px;
   font-weight: 700;
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease, transform 120ms ease;
 }
+.lab-login-social-button:hover         { background: #f4f8ff; border-color: #99b8e6; }
+.lab-login-social-button:active        { transform: translateY(1px); }
+.lab-login-social-button:focus-visible { outline: 2px solid rgba(15, 109, 255, 0.45); outline-offset: 2px; }
+.lab-login-social-button[aria-pressed="true"] { background: #e8f0ff; border-color: #6c95d3; }
 
 /* Meeting home mobile screen */
 .lab-meeting-home {
@@ -1993,4 +2068,57 @@ body { font-family: Inter, Arial, sans-serif; background: #f5f7fb; }
 .lab-retro-terminal-footer .danger {
   border-color: #ff3333;
   color: #ff3333;
+}
+
+/*
+ * ─────────────────────────────────────────────────────────────────────────
+ * Design-system baseline: every interactive control inside a Figma
+ * component frame gets default button feedback (hover/active/focus/pressed)
+ * automatically. This is the "logic-audit auto-applies" layer — if a
+ * component author hasn't wired their own styles, the design system steps
+ * in so the control still feels real. Component-specific rules above
+ * override these defaults via higher specificity.
+ *
+ * These rules apply only on user interaction (`:hover`, `:active`,
+ * `:focus-visible`) or controlled state (`[aria-pressed]`, `[aria-selected]`,
+ * `[aria-expanded]`), so the at-rest pixel + figma + delivery screenshots
+ * stay identical to the baseline.
+ * ─────────────────────────────────────────────────────────────────────────
+ */
+[data-figma-component] button {
+  cursor: pointer;
+  transition: filter 120ms ease, box-shadow 120ms ease, transform 120ms ease,
+              background 120ms ease, border-color 120ms ease;
+}
+[data-figma-component] button:not(:disabled):hover {
+  filter: brightness(1.06);
+}
+[data-figma-component] button:not(:disabled):active {
+  transform: translateY(1px);
+  filter: brightness(0.94);
+}
+[data-figma-component] button:focus-visible {
+  outline: 2px solid rgba(15, 109, 255, 0.55);
+  outline-offset: 2px;
+}
+[data-figma-component] button[aria-pressed="true"] {
+  filter: brightness(0.93);
+}
+[data-figma-component] button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+  filter: none;
+  transform: none;
+}
+/* Same baseline for ARIA buttons (tabs, options, link-like controls). */
+[data-figma-component] [role="button"]:not([aria-disabled="true"]),
+[data-figma-component] [role="tab"]:not([aria-disabled="true"]),
+[data-figma-component] [role="option"]:not([aria-disabled="true"]) {
+  cursor: pointer;
+}
+[data-figma-component] [role="tab"]:focus-visible,
+[data-figma-component] [role="option"]:focus-visible,
+[data-figma-component] [role="button"]:focus-visible {
+  outline: 2px solid rgba(15, 109, 255, 0.55);
+  outline-offset: 2px;
 }

@@ -4,6 +4,9 @@
  *   Test harness  --render-export-->  relay  -->  plugin UI  -->  plugin main
  *   Test harness  <--export-result--  relay  <--  plugin UI  <--  exportAsync PNG
  *
+ * Figma import/export is serialized in a queue (one plugin job at a time).
+ * Multiple harness workers may run Storybook work in parallel.
+ *
  * Default port: 3456 (override with FIGMA_LIVE_PORT).
  */
 
@@ -15,11 +18,79 @@ const REQUEST_TIMEOUT_MS = Number(process.env.FIGMA_LIVE_TIMEOUT_MS || 600_000);
 /** @type {import('ws').WebSocket | null} */
 let pluginWs = null;
 
-/** @type {Map<string, { testWs: import('ws').WebSocket, timer: ReturnType<typeof setTimeout> }>} */
+/** @type {Set<import('ws').WebSocket>} */
+const extractionSinks = new Set();
+
+/** @type {Map<string, { testWs: import('ws').WebSocket, timer: ReturnType<typeof setTimeout>, release: () => void }>} */
 const pending = new Map();
+
+/** @type {{ testWs: import('ws').WebSocket, requestId: string, json: string, exportScale?: number }[]} */
+const pluginQueue = [];
+
+let pluginBusy = false;
 
 function send(ws, payload) {
   if (ws.readyState === 1) ws.send(JSON.stringify(payload));
+}
+
+function failExport(testWs, requestId, error) {
+  send(testWs, { type: "export-error", requestId, error });
+}
+
+function releasePluginSlot() {
+  pluginBusy = false;
+  dispatchNextExport();
+}
+
+function dispatchNextExport() {
+  if (pluginBusy || pluginQueue.length === 0) return;
+  if (!pluginWs || pluginWs.readyState !== 1) {
+    while (pluginQueue.length > 0) {
+      const job = pluginQueue.shift();
+      failExport(
+        job.testWs,
+        job.requestId,
+        "Figma plugin not connected. Open Figma Desktop, run “Universal JSON Importer Lab”, and keep the plugin window open."
+      );
+    }
+    return;
+  }
+
+  const job = pluginQueue.shift();
+  pluginBusy = true;
+
+  const timer = setTimeout(() => {
+    const entry = pending.get(job.requestId);
+    if (entry) {
+      pending.delete(job.requestId);
+      entry.release();
+    }
+    failExport(
+      job.testWs,
+      job.requestId,
+      `Timed out after ${REQUEST_TIMEOUT_MS}ms waiting for Figma export.`
+    );
+  }, REQUEST_TIMEOUT_MS);
+
+  pending.set(job.requestId, {
+    testWs: job.testWs,
+    timer,
+    release: releasePluginSlot
+  });
+
+  send(pluginWs, {
+    type: "render-export",
+    requestId: job.requestId,
+    json: job.json,
+    ...(typeof job.exportScale === "number" && job.exportScale > 0
+      ? { exportScale: job.exportScale }
+      : {})
+  });
+}
+
+function enqueueExport(testWs, requestId, json, exportScale) {
+  pluginQueue.push({ testWs, requestId, json, exportScale });
+  dispatchNextExport();
 }
 
 const wss = new WebSocketServer({ port: PORT });
@@ -37,6 +108,24 @@ wss.on("connection", (ws) => {
       pluginWs = ws;
       send(ws, { type: "registered", role: "plugin" });
       console.log("[figma-live-relay] Figma plugin connected");
+      dispatchNextExport();
+      return;
+    }
+
+    if (msg.type === "register" && msg.role === "extraction-sink") {
+      extractionSinks.add(ws);
+      send(ws, { type: "registered", role: "extraction-sink" });
+      console.log("[figma-live-relay] Extraction sink connected");
+      return;
+    }
+
+    if (msg.type === "figma-screen-extraction") {
+      // Forwarded from the plugin UI — broadcast to all connected sinks.
+      let count = 0;
+      for (const sink of extractionSinks) {
+        if (sink.readyState === 1) { send(sink, msg); count++; }
+      }
+      console.log(`[figma-live-relay] figma-screen-extraction "${msg.name}" → ${count} sink(s)`);
       return;
     }
 
@@ -44,7 +133,9 @@ wss.on("connection", (ws) => {
       send(ws, {
         type: "health",
         relay: "ok",
-        pluginConnected: pluginWs != null && pluginWs.readyState === 1
+        pluginConnected: pluginWs != null && pluginWs.readyState === 1,
+        exportQueueDepth: pluginQueue.length,
+        pluginBusy
       });
       return;
     }
@@ -59,15 +150,6 @@ wss.on("connection", (ws) => {
         });
         return;
       }
-      if (!pluginWs || pluginWs.readyState !== 1) {
-        send(ws, {
-          type: "export-error",
-          requestId,
-          error:
-            "Figma plugin not connected. Open Figma Desktop, run “Universal JSON Importer Lab”, and keep the plugin window open."
-        });
-        return;
-      }
       if (pending.has(requestId)) {
         send(ws, {
           type: "export-error",
@@ -76,21 +158,7 @@ wss.on("connection", (ws) => {
         });
         return;
       }
-      const timer = setTimeout(() => {
-        pending.delete(requestId);
-        send(ws, {
-          type: "export-error",
-          requestId,
-          error: `Timed out after ${REQUEST_TIMEOUT_MS}ms waiting for Figma export.`
-        });
-      }, REQUEST_TIMEOUT_MS);
-      pending.set(requestId, { testWs: ws, timer });
-      send(pluginWs, {
-        type: "render-export",
-        requestId,
-        json,
-        ...(typeof exportScale === "number" && exportScale > 0 ? { exportScale } : {})
-      });
+      enqueueExport(ws, requestId, json, exportScale);
       return;
     }
 
@@ -100,6 +168,7 @@ wss.on("connection", (ws) => {
       clearTimeout(entry.timer);
       pending.delete(msg.requestId);
       send(entry.testWs, msg);
+      entry.release();
       return;
     }
   });
@@ -107,13 +176,21 @@ wss.on("connection", (ws) => {
   ws.on("close", () => {
     if (ws === pluginWs) {
       pluginWs = null;
+      pluginBusy = false;
       console.log("[figma-live-relay] Figma plugin disconnected");
+      while (pluginQueue.length > 0) {
+        const job = pluginQueue.shift();
+        failExport(job.testWs, job.requestId, "Figma plugin disconnected.");
+      }
+    }
+    if (extractionSinks.delete(ws)) {
+      console.log("[figma-live-relay] Extraction sink disconnected");
     }
   });
 });
 
 wss.on("listening", () => {
-  console.log(`[figma-live-relay] Listening on ws://localhost:${PORT}`);
+  console.log(`[figma-live-relay] Listening on ws://localhost:${PORT} (export queue on)`);
 });
 
 process.on("SIGINT", () => {

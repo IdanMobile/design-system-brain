@@ -1,0 +1,44 @@
+{
+  "storyId": "lab-contentlistboard--highlighted",
+  "component": "ContentListBoard",
+  "status": "approved",
+  "approvedAt": "2026-05-24T23:10:21.198Z",
+  "approvedBy": "phase-7-bulk-approve",
+  "specVersion": 2,
+  "intent": "Kanban-style task board with breadcrumb, quick-edit input, and growable task list.",
+  "props": [
+    {
+      "name": "compact",
+      "type": "boolean",
+      "default": "false"
+    },
+    {
+      "name": "highlighted",
+      "type": "boolean",
+      "default": "true",
+      "description": "Adds gradient highlight to the card."
+    }
+  ],
+  "events": [
+    {
+      "name": "onNewTaskClicked",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    },
+    {
+      "name": "onValueChanged",
+      "trigger": "(accepted from drift sidecar — please describe in showcase)"
+    }
+  ],
+  "behaviours": [
+    {
+      "id": "new-task",
+      "label": "Click New Task → Appends a new TaskRow with status Ready, priority Medium",
+      "source": "component"
+    },
+    {
+      "id": "quick-edit",
+      "label": "Type into Quick edit → Controlled string updates",
+      "source": "component"
+    }
+  ]
+}

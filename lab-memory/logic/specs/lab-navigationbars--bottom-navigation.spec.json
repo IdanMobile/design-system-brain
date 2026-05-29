@@ -1,0 +1,59 @@
+{
+  "storyId": "lab-navigationbars--bottom-navigation",
+  "schemaVersion": 2,
+  "intent": "",
+  "status": "proposed",
+  "approvedAt": null,
+  "approvedBy": null,
+  "specVersion": 2,
+  "elements": [
+    {
+      "id": "el-home",
+      "selector": "[data-lab-id=\"el-home\"]",
+      "displayName": "Home",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click switches to the \"Home\" tab",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-search",
+      "selector": "[data-lab-id=\"el-search\"]",
+      "displayName": "Search",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click switches to the \"Search\" tab",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-create",
+      "selector": "[data-lab-id=\"el-create\"]",
+      "displayName": "Create",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click switches to the \"Create\" tab",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-profile",
+      "selector": "[data-lab-id=\"el-profile\"]",
+      "displayName": "Profile",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click switches to the \"Profile\" tab",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    }
+  ]
+}

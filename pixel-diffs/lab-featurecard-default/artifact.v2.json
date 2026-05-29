@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-featurecard--default",
     "componentName": "FeatureCard",
-    "extractedAt": "2026-05-24T20:51:23.599Z",
+    "extractedAt": "2026-05-25T19:28:52.742Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-featurecard--default&viewMode=story",
     "viewport": {
       "x": 0,
@@ -399,6 +399,7 @@
                   "font": {
                     "family": "Inter",
                     "stack": "Inter, Arial, sans-serif",
+                    "computedStack": "Inter, Arial, sans-serif",
                     "size": 31,
                     "weight": 700,
                     "style": "normal",
@@ -461,6 +462,7 @@
                   "font": {
                     "family": "Inter",
                     "stack": "Inter, Arial, sans-serif",
+                    "computedStack": "Inter, Arial, sans-serif",
                     "size": 20,
                     "weight": 400,
                     "style": "normal",
@@ -578,6 +580,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 18,
                 "weight": 400,
                 "style": "normal",
@@ -640,6 +643,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 42,
                 "weight": 700,
                 "style": "normal",

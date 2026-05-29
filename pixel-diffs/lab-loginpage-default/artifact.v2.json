@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-loginpage--default",
     "componentName": "LoginPage",
-    "extractedAt": "2026-05-24T20:51:32.831Z",
+    "extractedAt": "2026-05-25T19:28:59.450Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-loginpage--default&viewMode=story",
     "viewport": {
       "x": 0,
@@ -447,6 +447,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 36,
                 "weight": 700,
                 "style": "normal",
@@ -509,6 +510,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 18,
                 "weight": 400,
                 "style": "normal",
@@ -571,6 +573,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 14,
                 "weight": 700,
                 "style": "normal",
@@ -723,6 +726,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 14,
                 "weight": 700,
                 "style": "normal",
@@ -907,6 +911,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Arial",
                 "size": 18,
                 "weight": 700,
                 "style": "normal",
@@ -1075,6 +1080,7 @@
                   "font": {
                     "family": "Inter",
                     "stack": "Inter, Arial, sans-serif",
+                    "computedStack": "Arial",
                     "size": 15,
                     "weight": 700,
                     "style": "normal",
@@ -1192,6 +1198,7 @@
                   "font": {
                     "family": "Inter",
                     "stack": "Inter, Arial, sans-serif",
+                    "computedStack": "Arial",
                     "size": 15,
                     "weight": 700,
                     "style": "normal",

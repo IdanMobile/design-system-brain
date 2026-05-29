@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-contentlistboard--highlighted",
     "componentName": "ContentListBoard",
-    "extractedAt": "2026-05-21T19:04:09.588Z",
+    "extractedAt": "2026-05-24T21:50:51.086Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-contentlistboard--highlighted&viewMode=story",
     "viewport": {
       "x": 0,
@@ -919,7 +919,10 @@
             "name": "button",
             "source": {
               "kind": "dom",
-              "tag": "button"
+              "tag": "button",
+              "dataset": {
+                "pressedManaged": "true"
+              }
             },
             "box": {
               "x": 732.45,
@@ -1173,7 +1176,8 @@
             "name": "input",
             "source": {
               "kind": "dom",
-              "tag": "input"
+              "tag": "input",
+              "inputType": "text"
             },
             "box": {
               "x": 0,

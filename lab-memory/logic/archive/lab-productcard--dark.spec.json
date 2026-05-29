@@ -1,0 +1,28 @@
+{
+  "storyId": "lab-productcard--dark",
+  "component": "ProductCard",
+  "status": "approved",
+  "approvedAt": "2026-05-24T23:06:33.016Z",
+  "approvedBy": "phase-7-bulk-approve",
+  "specVersion": 1,
+  "intent": "Product image + title/price card. Static visual — purchase action is a slot for the parent.",
+  "props": [
+    {
+      "name": "title",
+      "type": "string",
+      "default": "\"Helmet\""
+    },
+    {
+      "name": "price",
+      "type": "string",
+      "default": "\"$120\""
+    },
+    {
+      "name": "image",
+      "type": "string",
+      "default": "\"/fixtures/product-helmet.jpg\""
+    }
+  ],
+  "events": [],
+  "behaviours": []
+}

@@ -17,7 +17,7 @@ export const SKILLS = {
 
 /** Obsidian vault — read before investigate, append after. */
 export const LAB_MEMORY_LINES = [
-  "Read lab-memory/stories/<storyId>.md if it exists (create from lab-memory/templates/story.md if missing).",
+  "Read lab-memory/visual/investigations/active/<storyId>.md (or archive/) if it exists; read linked visual/patterns first.",
   "After investigate, before code edits: append lab-memory/templates/investigation.md to the story note.",
   "Never store secrets in lab-memory/."
 ];
@@ -78,14 +78,14 @@ export function workflowPreamble(activity, ctx = {}) {
       lines.push(
         `${n}. Worker: ${SKILLS.untilPass} + ${SKILLS.investigate}.`,
         mode === "pixel"
-          ? `${n + 1}. Fix: scene-to-html.ts / extract.ts — not code-v2 unless import path.`
+          ? `${n + 1}. Fix: packages/pixel-test/src/render-html.ts (+ extract.ts if extraction wrong). scene-to-html.ts is mock-only — not pixel golden.`
           : mode === "delivery"
             ? `${n + 1}. Fix: @lab/ui + delivery path; steps 1–3 must already pass for story.`
             : `${n + 1}. Fix: code-v2.ts (mock) → plugin build if importer changed.`,
         storyId ? `${n + 2}. Tier A: pnpm test:regression -- --tier a --story ${storyId} --suite <pixel|figma|figmaLive|delivery>.` : `${n + 2}. Tier A: re-run prior steps 1..N for target story after fix.`,
         sharedFilesTouched
           ? `${n + 3}. Tier C: pnpm test:regression (full strict goldens on shared adapter change).`
-          : `${n + 3}. Tier C: pnpm test:regression if code-v2.ts, scene-to-html.ts, extract.ts, or contract changed.`,
+          : `${n + 3}. Tier C: pnpm test:regression if code-v2.ts, render-html.ts, extract.ts, or contract changed.`,
         `${n + 4}. Post-flight: verification-before-completion.`
       );
       break;
@@ -104,7 +104,7 @@ export function workflowPreamble(activity, ctx = {}) {
       lines.push(
         `${n}. Worker: ${SKILLS.investigate} FIRST on ALL listed stories — read batch investigation report + compare PNGs; append lab-memory per story.`,
         `${n + 1}. Worker: ${SKILLS.untilPass} — implement **shared fixes for every story in one session** (not one-by-one).`,
-        `${n + 2}. Prefer code-v2.ts / scene-to-html.ts / extract.ts changes that green multiple stories at once.`,
+        `${n + 2}. Prefer shared adapter edits (code-v2.ts, render-html.ts for pixel, extract.ts) that green multiple stories at once.`,
         `${n + 3}. Do NOT run golden tests yourself — harness re-tests all listed stories after plugin build.`,
         `${n + 4}. Harness sandbox gate: metrics regress → auto git restore; 2 batch regressions → FIX_ALL_SERIAL=1.`,
         `${n + 5}. Tier C if shared adapter touched — pnpm test:regression.`
@@ -145,7 +145,7 @@ export function workflowPreamble(activity, ctx = {}) {
         `${n + 2}. Sequential gates: pixel → figma mock → figma live → delivery (strict 0.1% global + hotspot).`,
         `${n + 3}. Do NOT stop for approval. Do NOT ask the human to say continue.`,
         `${n + 4}. Human-only: reload/open Figma plugin after code-v2 rebuild (one line; wait for ready if live fails).`,
-        `${n + 5}. Tier A after each story fix; Tier C (pnpm test:regression) if code-v2.ts, scene-to-html.ts, extract.ts, or contract changed.`,
+        `${n + 5}. Tier A after each story fix; Tier C (pnpm test:regression) if code-v2.ts, render-html.ts, extract.ts, or contract changed.`,
         `${n + 6}. Stop only when all portfolio stories pass all steps — verdict PHASE_COMPLETE.`
       );
       break;

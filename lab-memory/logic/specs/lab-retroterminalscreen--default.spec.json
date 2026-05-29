@@ -1,0 +1,35 @@
+{
+  "storyId": "lab-retroterminalscreen--default",
+  "schemaVersion": 2,
+  "intent": "",
+  "status": "proposed",
+  "approvedAt": null,
+  "approvedBy": null,
+  "specVersion": 2,
+  "elements": [
+    {
+      "id": "el-f1-disconnect",
+      "selector": "[data-lab-id=\"el-f1-disconnect\"]",
+      "displayName": "[F1] Disconnect",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"[F1] Disconnect\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-f12-detonate",
+      "selector": "[data-lab-id=\"el-f12-detonate\"]",
+      "displayName": "[F12] Detonate",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"[F12] Detonate\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    }
+  ]
+}

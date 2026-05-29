@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-navigationbars--bottom-navigation",
     "componentName": "NavigationBars",
-    "extractedAt": "2026-05-21T19:04:21.728Z",
+    "extractedAt": "2026-05-24T21:51:11.870Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-navigationbars--bottom-navigation&viewMode=story",
     "viewport": {
       "x": 0,
@@ -23,6 +23,7 @@
       "classList": [
         "lab-bottom-nav"
       ],
+      "role": "tablist",
       "dataset": {
         "figmaComponent": "NavigationBars"
       }
@@ -124,19 +125,23 @@
           "tag": "button",
           "classList": [
             "active"
-          ]
+          ],
+          "role": "tab",
+          "dataset": {
+            "pressedManaged": "true"
+          }
         },
         "box": {
-          "x": 33.77,
-          "y": 31,
-          "width": 59.23,
-          "height": 22
+          "x": 27.77,
+          "y": 24,
+          "width": 71.23,
+          "height": 36
         },
         "computedBox": {
-          "x": 49.77,
-          "y": 47,
-          "width": 59.23,
-          "height": 22
+          "x": 43.77,
+          "y": 40,
+          "width": 71.23,
+          "height": 36
         },
         "layout": {
           "display": "block",
@@ -146,16 +151,36 @@
             "y": "visible"
           },
           "padding": {
-            "top": 1,
-            "right": 6,
-            "bottom": 1,
-            "left": 6
+            "top": 8,
+            "right": 12,
+            "bottom": 8,
+            "left": 12
           },
           "margin": {
             "top": 0,
             "right": 0,
             "bottom": 0,
             "left": 0
+          }
+        },
+        "paint": {
+          "cornerRadii": {
+            "topLeft": {
+              "x": 10,
+              "y": 10
+            },
+            "topRight": {
+              "x": 10,
+              "y": 10
+            },
+            "bottomRight": {
+              "x": 10,
+              "y": 10
+            },
+            "bottomLeft": {
+              "x": 10,
+              "y": 10
+            }
           }
         },
         "text": {
@@ -186,19 +211,23 @@
         "name": "button",
         "source": {
           "kind": "dom",
-          "tag": "button"
+          "tag": "button",
+          "role": "tab",
+          "dataset": {
+            "pressedManaged": "true"
+          }
         },
         "box": {
-          "x": 158.56,
-          "y": 31,
-          "width": 68.7,
-          "height": 22
+          "x": 152.56,
+          "y": 24,
+          "width": 80.7,
+          "height": 36
         },
         "computedBox": {
-          "x": 174.56,
-          "y": 47,
-          "width": 68.7,
-          "height": 22
+          "x": 168.56,
+          "y": 40,
+          "width": 80.7,
+          "height": 36
         },
         "layout": {
           "display": "block",
@@ -208,16 +237,36 @@
             "y": "visible"
           },
           "padding": {
-            "top": 1,
-            "right": 6,
-            "bottom": 1,
-            "left": 6
+            "top": 8,
+            "right": 12,
+            "bottom": 8,
+            "left": 12
           },
           "margin": {
             "top": 0,
             "right": 0,
             "bottom": 0,
             "left": 0
+          }
+        },
+        "paint": {
+          "cornerRadii": {
+            "topLeft": {
+              "x": 10,
+              "y": 10
+            },
+            "topRight": {
+              "x": 10,
+              "y": 10
+            },
+            "bottomRight": {
+              "x": 10,
+              "y": 10
+            },
+            "bottomLeft": {
+              "x": 10,
+              "y": 10
+            }
           }
         },
         "text": {
@@ -248,19 +297,23 @@
         "name": "button",
         "source": {
           "kind": "dom",
-          "tag": "button"
+          "tag": "button",
+          "role": "tab",
+          "dataset": {
+            "pressedManaged": "true"
+          }
         },
         "box": {
-          "x": 292.83,
-          "y": 31,
-          "width": 64.92,
-          "height": 22
+          "x": 286.83,
+          "y": 24,
+          "width": 76.92,
+          "height": 36
         },
         "computedBox": {
-          "x": 308.83,
-          "y": 47,
-          "width": 64.92,
-          "height": 22
+          "x": 302.83,
+          "y": 40,
+          "width": 76.92,
+          "height": 36
         },
         "layout": {
           "display": "block",
@@ -270,16 +323,36 @@
             "y": "visible"
           },
           "padding": {
-            "top": 1,
-            "right": 6,
-            "bottom": 1,
-            "left": 6
+            "top": 8,
+            "right": 12,
+            "bottom": 8,
+            "left": 12
           },
           "margin": {
             "top": 0,
             "right": 0,
             "bottom": 0,
             "left": 0
+          }
+        },
+        "paint": {
+          "cornerRadii": {
+            "topLeft": {
+              "x": 10,
+              "y": 10
+            },
+            "topRight": {
+              "x": 10,
+              "y": 10
+            },
+            "bottomRight": {
+              "x": 10,
+              "y": 10
+            },
+            "bottomLeft": {
+              "x": 10,
+              "y": 10
+            }
           }
         },
         "text": {
@@ -310,19 +383,23 @@
         "name": "button",
         "source": {
           "kind": "dom",
-          "tag": "button"
+          "tag": "button",
+          "role": "tab",
+          "dataset": {
+            "pressedManaged": "true"
+          }
         },
         "box": {
-          "x": 423.3,
-          "y": 31,
-          "width": 64.91,
-          "height": 22
+          "x": 417.3,
+          "y": 24,
+          "width": 76.91,
+          "height": 36
         },
         "computedBox": {
-          "x": 439.3,
-          "y": 47,
-          "width": 64.91,
-          "height": 22
+          "x": 433.3,
+          "y": 40,
+          "width": 76.91,
+          "height": 36
         },
         "layout": {
           "display": "block",
@@ -332,16 +409,36 @@
             "y": "visible"
           },
           "padding": {
-            "top": 1,
-            "right": 6,
-            "bottom": 1,
-            "left": 6
+            "top": 8,
+            "right": 12,
+            "bottom": 8,
+            "left": 12
           },
           "margin": {
             "top": 0,
             "right": 0,
             "bottom": 0,
             "left": 0
+          }
+        },
+        "paint": {
+          "cornerRadii": {
+            "topLeft": {
+              "x": 10,
+              "y": 10
+            },
+            "topRight": {
+              "x": 10,
+              "y": 10
+            },
+            "bottomRight": {
+              "x": 10,
+              "y": 10
+            },
+            "bottomLeft": {
+              "x": 10,
+              "y": 10
+            }
           }
         },
         "text": {

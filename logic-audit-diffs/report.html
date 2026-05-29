@@ -2,550 +2,827 @@
 <html lang="en"><head><meta charset="utf-8"/><title>Logic audit</title>
 <style>
 body{font-family:system-ui,sans-serif;margin:24px;background:#0f1419;color:#e8edf4}
-table{border-collapse:collapse;width:100%;font-size:13px}
-th,td{border:1px solid #2d3a4f;padding:8px 10px;text-align:left;vertical-align:top}
-th{background:#1a2332}
-code{font-size:12px}
 h1{margin-top:0}
 p{color:#8b9cb3}
-ul{margin:4px 0;padding-left:18px}
-video{border-radius:6px;background:#000;max-width:280px}
+code{font-size:12px}
 a{color:#58a6ff}
+ul{margin:4px 0}
+li{margin:6px 0;font-size:13px}
+section h2{font-size:14px;font-weight:600}
 </style></head><body>
-<h1>Logic audit — Delivery showcase</h1>
-<p>Each row can include an <strong>interaction video</strong> (when recorded) showing every control exercised and its visible state.
-<strong>DS built-in</strong> = design-system behavior works. <strong>Gaps</strong> = inert control needing a developer props API.</p>
-<table>
-<thead><tr>
-<th>Story</th><th>Component</th><th>Status</th><th>Interaction video</th><th>Controls</th><th>DS built-in</th><th>Gaps</th><th>Working</th><th>Missing API</th>
-</tr></thead>
-<tbody><tr>
-        <td><code>lab-analyticscharts--dense</code></td>
-        <td>AnalyticsCharts</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-analyticscharts--revenue</code></td>
-        <td>AnalyticsCharts</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-analyticscharts--usage</code></td>
-        <td>AnalyticsCharts</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-button--compact</code></td>
-        <td>Button</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <td><ul><li>Compact</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-button--danger</code></td>
-        <td>Button</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <td><ul><li>Delete Item</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-button--ghost</code></td>
-        <td>Button</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <td><ul><li>Learn More</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-button--large-with-both-icons</code></td>
-        <td>Button</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <td><ul><li>Continue</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-button--primary</code></td>
-        <td>Button</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <td><ul><li>Primary</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-button--primary-with-icon</code></td>
-        <td>Button</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <td><ul><li>Primary</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-button--secondary</code></td>
-        <td>Button</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <td><ul><li>Secondary</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-calendarscheduler--compact</code></td>
-        <td>CalendarScheduler</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <td><ul><li>Create Event</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-calendarscheduler--monthly</code></td>
-        <td>CalendarScheduler</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <td><ul><li>Create Event</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-calendarscheduler--weekdays-only</code></td>
-        <td>CalendarScheduler</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <td><ul><li>Create Event</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-complexdashboardcard--default</code></td>
-        <td>ComplexDashboardCard</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-contentlistboard--compact</code></td>
-        <td>ContentListBoard</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>2</td>
-        <td>1</td>
-        <td>0</td>
-        <td><ul><li>New Task</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-contentlistboard--default</code></td>
-        <td>ContentListBoard</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>2</td>
-        <td>1</td>
-        <td>0</td>
-        <td><ul><li>New Task</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-contentlistboard--highlighted</code></td>
-        <td>ContentListBoard</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>2</td>
-        <td>1</td>
-        <td>0</td>
-        <td><ul><li>New Task</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-featurecard--default</code></td>
-        <td>FeatureCard</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-featurecard--success</code></td>
-        <td>FeatureCard</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-featurecard--warning</code></td>
-        <td>FeatureCard</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-filtersidepanel--collapsed</code></td>
-        <td>FilterSidePanel</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>6</td>
-        <td>3</td>
-        <td>0</td>
-        <td><ul><li>+ Add</li><li>Reset</li><li>Apply</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-filtersidepanel--left-panel</code></td>
-        <td>FilterSidePanel</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>6</td>
-        <td>3</td>
-        <td>0</td>
-        <td><ul><li>+ Add</li><li>Reset</li><li>Apply</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-filtersidepanel--right-panel</code></td>
-        <td>FilterSidePanel</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>6</td>
-        <td>3</td>
-        <td>0</td>
-        <td><ul><li>+ Add</li><li>Reset</li><li>Apply</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-loadingstates--card-skeleton</code></td>
-        <td>LoadingStates</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-loadingstates--list-skeleton</code></td>
-        <td>LoadingStates</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-loginpage--default</code></td>
-        <td>LoginPage</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>5</td>
-        <td>5</td>
-        <td>0</td>
-        <td><ul><li>input[email]</li><li>input[password]</li><li>Login</li><li>Connect with Google</li><li>Connect with Facebook</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-loginpage--filled-credentials</code></td>
-        <td>LoginPage</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>5</td>
-        <td>5</td>
-        <td>0</td>
-        <td><ul><li>input[email]</li><li>input[password]</li><li>Login</li><li>Connect with Google</li><li>Connect with Facebook</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-navigationbars--bottom-navigation</code></td>
-        <td>NavigationBars</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>4</td>
-        <td>4</td>
-        <td>0</td>
-        <td><ul><li>Home</li><li>Search</li><li>Create</li><li>Profile</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-navigationbars--top-navigation</code></td>
-        <td>NavigationBars</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <td><ul><li>Get Started</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-overlaystates--bottom-sheet</code></td>
-        <td>OverlayStates</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-overlaystates--dialog</code></td>
-        <td>OverlayStates</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>2</td>
-        <td>2</td>
-        <td>0</td>
-        <td><ul><li>Cancel</li><li>Discard</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-overlaystates--drawer</code></td>
-        <td>OverlayStates</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>2</td>
-        <td>2</td>
-        <td>0</td>
-        <td><ul><li>Reset</li><li>Apply</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-pricingpanel--pro</code></td>
-        <td>PricingPanel</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <td><ul><li>Upgrade now</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-pricingpanel--starter</code></td>
-        <td>PricingPanel</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <td><ul><li>Start free trial</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-productcard--alternate-image</code></td>
-        <td>ProductCard</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-productcard--compact</code></td>
-        <td>ProductCard</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-productcard--dark</code></td>
-        <td>ProductCard</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-productcard--default</code></td>
-        <td>ProductCard</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-radiogroupfield--default</code></td>
-        <td>RadioGroupField</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-radiogroupfield--disabled</code></td>
-        <td>RadioGroupField</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-radiogroupfield--pickup-selected</code></td>
-        <td>RadioGroupField</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-selectfield--closed</code></td>
-        <td>SelectField</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <td><ul><li>Spacesuits▾</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-selectfield--expanded</code></td>
-        <td>SelectField</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <td><ul><li>Spacesuits▾</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-snackbarstack--default</code></td>
-        <td>SnackbarStack</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-snackbarstack--dense</code></td>
-        <td>SnackbarStack</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-tabspanel--activity-active</code></td>
-        <td>TabsPanel</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>3</td>
-        <td>3</td>
-        <td>0</td>
-        <td><ul><li>Overview</li><li>Activity</li><li>Settings</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>lab-tabspanel--settings-active</code></td>
-        <td>TabsPanel</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>3</td>
-        <td>3</td>
-        <td>0</td>
-        <td><ul><li>Overview</li><li>Activity</li><li>Settings</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr>
-<tr>
-        <td><code>mui--showcase</code></td>
-        <td>MUIShowcase</td>
-        <td style="color:#16a34a;font-weight:600">PASS</td>
-        <td><span style='color:#64748b'>—</span></td>
-        <td>35</td>
-        <td>11</td>
-        <td>0</td>
-        <td><ul><li>Contained</li><li>Outlined</li><li>Text</li><li>Home</li><li>Components</li><li>Overview</li><li>Design</li><li>Usage</li></ul></td>
-        <td><span style='color:#64748b'>—</span></td>
-      </tr></tbody>
-</table>
+<h1>Logic audit — Delivery showcase (v2 element approval)</h1>
+<p>Each story is broken down by interactive element. Verdict colors:
+<strong style="color:#16a34a">pass</strong> — element is approved and still present.
+<strong style="color:#d97706">needs-approval / new-element / drift</strong> — designer action required in the showcase.
+<strong style="color:#dc2626">regression</strong> — an approved element disappeared from the DOM.</p>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-analyticscharts--dense</code></h2>
+            <p style="margin:0;color:#8b9cb3">AnalyticsCharts
+              · 0 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">0 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-analyticscharts--revenue</code></h2>
+            <p style="margin:0;color:#8b9cb3">AnalyticsCharts
+              · 0 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">0 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-analyticscharts--usage</code></h2>
+            <p style="margin:0;color:#8b9cb3">AnalyticsCharts
+              · 0 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">0 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-button--compact</code></h2>
+            <p style="margin:0;color:#8b9cb3">Button
+              · 1 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">1 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-button--danger</code></h2>
+            <p style="margin:0;color:#8b9cb3">Button
+              · 1 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">1 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-button--ghost</code></h2>
+            <p style="margin:0;color:#8b9cb3">Button
+              · 1 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">1 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-button--large-with-both-icons</code></h2>
+            <p style="margin:0;color:#8b9cb3">Button
+              · 1 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">1 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-button--primary</code></h2>
+            <p style="margin:0;color:#8b9cb3">Button
+              · 1 interactive element(s)
+              · spec proposed</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#d97706;font-weight:700;font-size:18px">NEEDS-APPROVAL</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">0/1 pass, 1 need approval, 0 new, 0 drift, 0 regression</div>
+          </div>
+        </header>
+        <ul style="list-style:none;padding-left:0;margin:8px 0"><li>
+            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#d97706;margin-right:6px"></span>
+            <code>el-primary</code>
+            <span style="color:#8b9cb3">— Primary</span>
+            <span style="color:#d97706;font-weight:600;margin-left:8px">needs-approval</span>
+            <span style="color:#64748b;font-size:12px;margin-left:8px">proposed — approve in showcase</span>
+          </li></ul>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-button--primary-with-icon</code></h2>
+            <p style="margin:0;color:#8b9cb3">Button
+              · 1 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">1 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-button--secondary</code></h2>
+            <p style="margin:0;color:#8b9cb3">Button
+              · 1 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">1 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-calendarscheduler--compact</code></h2>
+            <p style="margin:0;color:#8b9cb3">CalendarScheduler
+              · 1 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">1 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-calendarscheduler--monthly</code></h2>
+            <p style="margin:0;color:#8b9cb3">CalendarScheduler
+              · 1 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">1 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-calendarscheduler--weekdays-only</code></h2>
+            <p style="margin:0;color:#8b9cb3">CalendarScheduler
+              · 1 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">1 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-complexdashboardcard--default</code></h2>
+            <p style="margin:0;color:#8b9cb3">ComplexDashboardCard
+              · 0 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">0 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-contentlistboard--compact</code></h2>
+            <p style="margin:0;color:#8b9cb3">ContentListBoard
+              · 2 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">2 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-contentlistboard--default</code></h2>
+            <p style="margin:0;color:#8b9cb3">ContentListBoard
+              · 2 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">2 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-contentlistboard--highlighted</code></h2>
+            <p style="margin:0;color:#8b9cb3">ContentListBoard
+              · 2 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">2 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-featurecard--default</code></h2>
+            <p style="margin:0;color:#8b9cb3">FeatureCard
+              · 0 interactive element(s)
+              · spec proposed</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#d97706;font-weight:700;font-size:18px">NEEDS-APPROVAL</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">no interactive elements observed — approve as static</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-featurecard--success</code></h2>
+            <p style="margin:0;color:#8b9cb3">FeatureCard
+              · 0 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">0 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-featurecard--warning</code></h2>
+            <p style="margin:0;color:#8b9cb3">FeatureCard
+              · 0 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">0 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-filtersidepanel--collapsed</code></h2>
+            <p style="margin:0;color:#8b9cb3">FilterSidePanel
+              · 16 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">16 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-filtersidepanel--left-panel</code></h2>
+            <p style="margin:0;color:#8b9cb3">FilterSidePanel
+              · 16 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">16 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-filtersidepanel--right-panel</code></h2>
+            <p style="margin:0;color:#8b9cb3">FilterSidePanel
+              · 16 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">16 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-loadingstates--card-skeleton</code></h2>
+            <p style="margin:0;color:#8b9cb3">LoadingStates
+              · 0 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">0 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-loadingstates--list-skeleton</code></h2>
+            <p style="margin:0;color:#8b9cb3">LoadingStates
+              · 0 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">0 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-loginpage--default</code></h2>
+            <p style="margin:0;color:#8b9cb3">LoginPage
+              · 5 interactive element(s)
+              · spec proposed</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#d97706;font-weight:700;font-size:18px">NEW-ELEMENT</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">1/6 pass, 0 need approval, 5 new, 0 drift, 0 regression</div>
+          </div>
+        </header>
+        <ul style="list-style:none;padding-left:0;margin:8px 0"><li>
+            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#d97706;margin-right:6px"></span>
+            <code>el-input</code>
+            <span style="color:#8b9cb3">— input</span>
+            <span style="color:#d97706;font-weight:600;margin-left:8px">new-element</span>
+            <span style="color:#64748b;font-size:12px;margin-left:8px">observed but not in spec yet</span>
+          </li><li>
+            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#d97706;margin-right:6px"></span>
+            <code>el-input-2</code>
+            <span style="color:#8b9cb3">— input</span>
+            <span style="color:#d97706;font-weight:600;margin-left:8px">new-element</span>
+            <span style="color:#64748b;font-size:12px;margin-left:8px">observed but not in spec yet</span>
+          </li><li>
+            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#d97706;margin-right:6px"></span>
+            <code>el-login</code>
+            <span style="color:#8b9cb3">— Login</span>
+            <span style="color:#d97706;font-weight:600;margin-left:8px">new-element</span>
+            <span style="color:#64748b;font-size:12px;margin-left:8px">observed but not in spec yet</span>
+          </li><li>
+            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#d97706;margin-right:6px"></span>
+            <code>el-connect-with-google</code>
+            <span style="color:#8b9cb3">— Connect with Google</span>
+            <span style="color:#d97706;font-weight:600;margin-left:8px">new-element</span>
+            <span style="color:#64748b;font-size:12px;margin-left:8px">observed but not in spec yet</span>
+          </li><li>
+            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#d97706;margin-right:6px"></span>
+            <code>el-connect-with-facebook</code>
+            <span style="color:#8b9cb3">— Connect with Facebook</span>
+            <span style="color:#d97706;font-weight:600;margin-left:8px">new-element</span>
+            <span style="color:#64748b;font-size:12px;margin-left:8px">observed but not in spec yet</span>
+          </li><li>
+            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#16a34a;margin-right:6px"></span>
+            <code>ly-welcome-backsign-in-to-continue-to-y-pshd8i</code>
+            <span style="color:#8b9cb3">— Welcome backSign in to continue to y</span>
+            <span style="color:#16a34a;font-weight:600;margin-left:8px">pass</span>
+            <span style="color:#64748b;font-size:12px;margin-left:8px">approved</span>
+          </li></ul>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-loginpage--filled-credentials</code></h2>
+            <p style="margin:0;color:#8b9cb3">LoginPage
+              · 5 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">5 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-navigationbars--bottom-navigation</code></h2>
+            <p style="margin:0;color:#8b9cb3">NavigationBars
+              · 4 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">4 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-navigationbars--top-navigation</code></h2>
+            <p style="margin:0;color:#8b9cb3">NavigationBars
+              · 4 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">4 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-overlaystates--bottom-sheet</code></h2>
+            <p style="margin:0;color:#8b9cb3">OverlayStates
+              · 0 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">0 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-overlaystates--dialog</code></h2>
+            <p style="margin:0;color:#8b9cb3">OverlayStates
+              · 2 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">2 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-overlaystates--drawer</code></h2>
+            <p style="margin:0;color:#8b9cb3">OverlayStates
+              · 2 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">2 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-pricingpanel--pro</code></h2>
+            <p style="margin:0;color:#8b9cb3">PricingPanel
+              · 1 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">1 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-pricingpanel--starter</code></h2>
+            <p style="margin:0;color:#8b9cb3">PricingPanel
+              · 1 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">1 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-productcard--alternate-image</code></h2>
+            <p style="margin:0;color:#8b9cb3">ProductCard
+              · 0 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">0 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-productcard--compact</code></h2>
+            <p style="margin:0;color:#8b9cb3">ProductCard
+              · 0 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">0 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-productcard--dark</code></h2>
+            <p style="margin:0;color:#8b9cb3">ProductCard
+              · 0 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">0 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-productcard--default</code></h2>
+            <p style="margin:0;color:#8b9cb3">ProductCard
+              · 0 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">0 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-radiogroupfield--default</code></h2>
+            <p style="margin:0;color:#8b9cb3">RadioGroupField
+              · 0 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">0 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-radiogroupfield--disabled</code></h2>
+            <p style="margin:0;color:#8b9cb3">RadioGroupField
+              · 0 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">0 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-radiogroupfield--pickup-selected</code></h2>
+            <p style="margin:0;color:#8b9cb3">RadioGroupField
+              · 0 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">0 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-selectfield--closed</code></h2>
+            <p style="margin:0;color:#8b9cb3">SelectField
+              · 1 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">1 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-selectfield--expanded</code></h2>
+            <p style="margin:0;color:#8b9cb3">SelectField
+              · 1 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">1 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-snackbarstack--default</code></h2>
+            <p style="margin:0;color:#8b9cb3">SnackbarStack
+              · 0 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">0 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-snackbarstack--dense</code></h2>
+            <p style="margin:0;color:#8b9cb3">SnackbarStack
+              · 0 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">0 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-tabspanel--activity-active</code></h2>
+            <p style="margin:0;color:#8b9cb3">TabsPanel
+              · 3 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">3 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>lab-tabspanel--settings-active</code></h2>
+            <p style="margin:0;color:#8b9cb3">TabsPanel
+              · 3 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">3 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
+<section style="border:1px solid #2d3a4f;border-radius:8px;padding:16px;margin-bottom:16px;background:#101820">
+        <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <h2 style="margin:0 0 4px"><code>mui--showcase</code></h2>
+            <p style="margin:0;color:#8b9cb3">MUIShowcase
+              · 35 interactive element(s)
+              · spec approved</p>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#16a34a;font-weight:700;font-size:18px">PASS</div>
+            <div style="color:#64748b;font-size:12px;max-width:340px">34 event(s) match approved spec</div>
+          </div>
+        </header>
+        <p style="color:#64748b;margin:8px 0">No interactive elements observed.</p>
+        
+      </section>
 </body></html>

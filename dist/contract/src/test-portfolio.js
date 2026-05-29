@@ -1,7 +1,7 @@
 /**
  * Cross-suite test portfolio — story list and step definitions for reports / console.
  */
-import { DEV_STORIES } from "./stories";
+import { DEV_STORIES } from "./stories.ts";
 export const TEST_STEPS = [
     { id: "pixel", label: "Pixel (schema)", dir: "pixel-diffs", actionId: "pixel:golden" },
     { id: "figma", label: "Figma emulator", dir: "figma-diffs", actionId: "figma:golden" },

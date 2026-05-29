@@ -179,6 +179,11 @@ function solidPaint(color: string, alphaMul = 1): SolidPaint {
   return { type: "SOLID", color: toFigmaRgb(c), opacity: c.a * alphaMul };
 }
 
+/** Explicit no-fill for Figma shells — empty `fills` exports as opaque white in live PNG. */
+function transparentFill(): SolidPaint {
+  return { type: "SOLID", color: { r: 1, g: 1, b: 1 }, opacity: 0 };
+}
+
 /** SVG stroke attrs — split rgba into rgb + stroke-opacity for reliable mock/live paint. */
 function svgStrokeColorAttrs(color: string): string {
   const c = parseColor(color);
@@ -238,11 +243,57 @@ function reverseLinearStops(stops: ColorStop[]): ColorStop[] {
     .sort((a, b) => a.position - b.position);
 }
 
+type FigmaNativeGradient = {
+  type?: "GRADIENT_LINEAR" | "GRADIENT_RADIAL" | "GRADIENT_ANGULAR";
+  gradientTransform: Transform;
+  gradientStops: Array<{
+    position: number;
+    color: { r: number; g: number; b: number; a: number };
+  }>;
+  opacity?: number;
+};
+
+function figmaNativeGradientPaint(layer: FillLayer): GradientPaint | null {
+  const native = (layer as FillLayer & { figmaNative?: FigmaNativeGradient }).figmaNative;
+  if (!native?.gradientTransform || !native.gradientStops?.length) return null;
+  const gradientStops: ColorStop[] = native.gradientStops
+    .slice()
+    .sort((a, b) => a.position - b.position)
+    .map((s) => ({
+      position: Math.max(0, Math.min(1, s.position)),
+      color: {
+        r: s.color.r,
+        g: s.color.g,
+        b: s.color.b,
+        a: s.color.a,
+      },
+    }));
+  const type =
+    native.type ??
+    (layer.kind === "radial-gradient"
+      ? "GRADIENT_RADIAL"
+      : layer.kind === "conic-gradient"
+      ? "GRADIENT_ANGULAR"
+      : "GRADIENT_LINEAR");
+  const paint: GradientPaint = {
+    type,
+    gradientTransform: native.gradientTransform,
+    gradientStops,
+  };
+  if (native.opacity != null && native.opacity < 0.999) {
+    (paint as GradientPaint & { opacity?: number }).opacity = snap(native.opacity);
+  }
+  return paint;
+}
+
 function gradientPaint(
   layer: FillLayer,
   width?: number,
   height?: number
 ): GradientPaint | null {
+  const nativePaint = figmaNativeGradientPaint(layer);
+  if (nativePaint) return nativePaint;
+
   if (layer.kind === "linear-gradient") {
     const stops = toColorStops(layer.stops);
     return {
@@ -376,6 +427,16 @@ function bordersUniform(b: LayerBorders | undefined): BorderSide | null {
 
 type BorderEdge = "top" | "right" | "bottom" | "left";
 
+function countActiveBorderSides(b: LayerBorders | undefined): number {
+  if (!b) return 0;
+  let n = 0;
+  if (b.top?.width) n++;
+  if (b.right?.width) n++;
+  if (b.bottom?.width) n++;
+  if (b.left?.width) n++;
+  return n;
+}
+
 function singleEdgeBorderSide(b: LayerBorders | undefined): BorderEdge | null {
   if (!b || (b.gaps && b.gaps.length)) return null;
   const active: BorderEdge[] = [];
@@ -384,6 +445,80 @@ function singleEdgeBorderSide(b: LayerBorders | undefined): BorderEdge | null {
   if (b.bottom?.width) active.push("bottom");
   if (b.left?.width) active.push("left");
   return active.length === 1 ? active[0] : null;
+}
+
+function perCornerRadii(paint: LayerPaint): { tl: number; tr: number; br: number; bl: number } {
+  const c = paint.cornerRadii;
+  return {
+    tl: c?.topLeft?.x ?? 0,
+    tr: c?.topRight?.x ?? 0,
+    br: c?.bottomRight?.x ?? 0,
+    bl: c?.bottomLeft?.x ?? 0,
+  };
+}
+
+function clampCornerRadius(r: number, width: number, height: number): number {
+  return Math.max(0, Math.min(r, width / 2 - 1, height / 2 - 1));
+}
+
+function borderStrokeAttrs(color: string, style: string, sw: number): string {
+  let dashAttr = "";
+  if (style === "dashed") {
+    const dash = Math.max(2, Math.round(sw * 3));
+    dashAttr = ` stroke-dasharray="${dash} ${dash}"`;
+  } else if (style === "dotted") {
+    const dot = Math.max(1, Math.round(sw));
+    const gapLen = Math.max(2, Math.round(sw * 2));
+    dashAttr = ` stroke-dasharray="${dot} ${gapLen}" stroke-linecap="round"`;
+  }
+  return `fill="none" ${svgStrokeColorAttrs(color)} stroke-width="${sw}"${dashAttr}`;
+}
+
+function edgeSegmentPath(
+  edge: BorderEdge,
+  width: number,
+  height: number,
+  inset: number,
+  cr: { tl: number; tr: number; br: number; bl: number }
+): string {
+  const tl = clampCornerRadius(cr.tl, width, height);
+  const tr = clampCornerRadius(cr.tr, width, height);
+  const br = clampCornerRadius(cr.br, width, height);
+  const bl = clampCornerRadius(cr.bl, width, height);
+  if (edge === "top") return `M ${inset + tl} ${inset} L ${width - inset - tr} ${inset}`;
+  if (edge === "bottom") return `M ${inset + bl} ${height - inset} L ${width - inset - br} ${height - inset}`;
+  if (edge === "left") return `M ${inset} ${inset + tl} L ${inset} ${height - inset - bl}`;
+  return `M ${width - inset} ${inset + tr} L ${width - inset} ${height - inset - br}`;
+}
+
+/** Live: draw 1–3 border sides with per-corner radii (avoids phantom native strokes). */
+function buildActiveBorderSvg(width: number, height: number, paint: LayerPaint): string | null {
+  const b = paint.borders;
+  if (!b) return null;
+  const edges: BorderEdge[] = [];
+  if (b.top?.width) edges.push("top");
+  if (b.right?.width) edges.push("right");
+  if (b.bottom?.width) edges.push("bottom");
+  if (b.left?.width) edges.push("left");
+  if (!edges.length) return null;
+
+  const ref = b[edges[0]!]!;
+  const color = ref.color || "black";
+  const style = ref.style || "solid";
+  const sw = Math.max(...edges.map((e) => b[e]!.width || 0));
+  if (!sw) return null;
+  const uniformStyle = edges.every(
+    (e) => b[e]!.color === ref.color && b[e]!.style === ref.style
+  );
+  if (!uniformStyle) return null;
+
+  const inset = sw / 2;
+  const cr = perCornerRadii(paint);
+  const strokeAttrs = borderStrokeAttrs(color, style, sw);
+  const paths = edges
+    .map((e) => `<path d="${edgeSegmentPath(e, width, height, inset, cr)}" ${strokeAttrs} />`)
+    .join("");
+  return `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">${paths}</svg>`;
 }
 
 /** Real Figma can paint phantom side strokes on frames with per-side weights; use one SVG segment. */
@@ -396,41 +531,7 @@ function buildSingleEdgeBorderSvg(
   const b = paint.borders;
   const side = b?.[edge];
   if (!b || !side?.width) return null;
-  const corners = paint.cornerRadii;
-  const r = corners
-    ? Math.max(
-        corners.topLeft.x,
-        corners.topRight.x,
-        corners.bottomRight.x,
-        corners.bottomLeft.x
-      )
-    : 0;
-  const sw = side.width;
-  const inset = sw / 2;
-  const color = side.color || "black";
-  const style = side.style || "solid";
-  const cornerR = Math.max(0, Math.min(r, width / 2 - 1, height / 2 - 1));
-  let dashAttr = "";
-  if (style === "dashed") {
-    const dash = Math.max(2, Math.round(sw * 3));
-    dashAttr = ` stroke-dasharray="${dash} ${dash}"`;
-  } else if (style === "dotted") {
-    const dot = Math.max(1, Math.round(sw));
-    const gapLen = Math.max(2, Math.round(sw * 2));
-    dashAttr = ` stroke-dasharray="${dot} ${gapLen}" stroke-linecap="round"`;
-  }
-  const strokeAttrs = `fill="none" ${svgStrokeColorAttrs(color)} stroke-width="${sw}"${dashAttr}`;
-  let d = "";
-  if (edge === "bottom") {
-    d = `M ${inset + cornerR} ${height - inset} L ${width - inset - cornerR} ${height - inset}`;
-  } else if (edge === "top") {
-    d = `M ${inset + cornerR} ${inset} L ${width - inset - cornerR} ${inset}`;
-  } else if (edge === "left") {
-    d = `M ${inset} ${inset + cornerR} L ${inset} ${height - inset - cornerR}`;
-  } else {
-    d = `M ${width - inset} ${inset + cornerR} L ${width - inset} ${height - inset - cornerR}`;
-  }
-  return `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg"><path d="${d}" ${strokeAttrs}/></svg>`;
+  return buildActiveBorderSvg(width, height, paint);
 }
 
 function buildBorderOutlineSvg(
@@ -656,6 +757,54 @@ function liveLayoutSensitiveText(layer: UniversalLayer, parent?: UniversalLayer)
   return false;
 }
 
+/** Figma Desktop style strings vary ("SemiBold" vs "Semi Bold") — try aliases. */
+function figmaStyleAliases(style: string): string[] {
+  const out = new Set<string>([style]);
+  const pairs: Array<[RegExp, string]> = [
+    [/SemiBold/i, "Semi Bold"],
+    [/Semi Bold/i, "SemiBold"],
+    [/ExtraBold/i, "Extra Bold"],
+    [/Extra Bold/i, "ExtraBold"],
+    [/ExtraLight/i, "Extra Light"],
+    [/Extra Light/i, "ExtraLight"],
+  ];
+  for (const [re, alt] of pairs) {
+    if (re.test(style)) out.add(style.replace(re, alt));
+  }
+  return [...out];
+}
+
+function isFigmaNativeEllipse(layer: UniversalLayer): boolean {
+  return (
+    layer.source?.kind === "figma" &&
+    (layer.source.dataset as { figmaNodeType?: string } | undefined)?.figmaNodeType ===
+      "ELLIPSE"
+  );
+}
+
+/** Guing round-trip TEXT — glyph color lives on layer.text; never wrap in a chrome frame. */
+function isFigmaNativeTextLayer(layer: UniversalLayer): boolean {
+  return (
+    layer.source?.kind === "figma" &&
+    (layer.source.dataset as { figmaNodeType?: string } | undefined)?.figmaNodeType === "TEXT"
+  );
+}
+
+/**
+ * Guing manifest often marks paragraph TEXT as WIDTH_AND_HEIGHT even when the
+ * captured box is multi-line (height > ~1.3× line-height). Live auto-size both
+ * axes skips wrapping and drifts vs the reference PNG (screen_2: 15 nodes).
+ */
+function figmaNativeNeedsFixedTextBox(layer: UniversalLayer, text: LayerText): boolean {
+  if (!isFigmaNativeTextLayer(layer)) return false;
+  const resize = (layer.source?.dataset as { figmaTextAutoResize?: string } | undefined)
+    ?.figmaTextAutoResize;
+  if (resize !== "WIDTH_AND_HEIGHT") return false;
+  const lh = text.lineHeight ?? text.font.size;
+  if (!(layer.box.height > lh * 1.3)) return false;
+  return /\s/.test(text.value.trim());
+}
+
 function weightToStyle(weight: number, italic: boolean): string {
   let base: string;
   if (weight >= 900) base = "Black";
@@ -715,6 +864,29 @@ async function resolveFont(
   }
   const desired = weightToStyle(weight, italic);
   const fonts = await listFonts();
+  if (layer?.source?.kind === "figma") {
+    const ds = layer.source.dataset as {
+      figmaFontFamily?: string;
+      figmaFontStyle?: string;
+    };
+    if (ds?.figmaFontFamily && ds?.figmaFontStyle) {
+      const families = [ds.figmaFontFamily];
+      if (
+        /[\u0590-\u05FF]/.test(text.value ?? "") &&
+        ds.figmaFontFamily === "Open Sans"
+      ) {
+        families.push("Open Sans Hebrew");
+      }
+      for (const family of families) {
+        for (const style of figmaStyleAliases(ds.figmaFontStyle)) {
+          const hit = fonts.find(
+            (f) => f.fontName.family === family && f.fontName.style === style
+          );
+          if (hit) return hit.fontName;
+        }
+      }
+    }
+  }
   const candidates = familyCandidates(text.font);
 
   const styleWeight = (style: string): number => {
@@ -798,6 +970,23 @@ async function preloadFonts(root: UniversalLayer, missing: Set<string>): Promise
 
 function applyTransform(node: SceneNode, layer: UniversalLayer): void {
   if (!("relativeTransform" in node)) return;
+
+  const rt = (layer.source?.dataset as { figmaRelativeTransform?: number[][] } | undefined)
+    ?.figmaRelativeTransform;
+  if (
+    layer.source?.kind === "figma" &&
+    layer.vector &&
+    rt?.length === 2 &&
+    rt[0]?.length === 3 &&
+    rt[1]?.length === 3
+  ) {
+    node.relativeTransform = [
+      [snap(rt[0][0]), snap(rt[0][1]), snap(rt[0][2])],
+      [snap(rt[1][0]), snap(rt[1][1]), snap(rt[1][2])],
+    ];
+    return;
+  }
+
   let x = snap(layer.box.x);
   const y = snap(layer.box.y);
   if (isMuiShrunkInputLabel(layer) && isMockFigmaRuntime()) {
@@ -820,13 +1009,12 @@ function applyTransform(node: SceneNode, layer: UniversalLayer): void {
   const scaleX = Math.hypot(a, b);
   const scaleY = Math.hypot(c, d);
   if (Math.abs(scaleX - 1) < 1e-3 && Math.abs(scaleY - 1) < 1e-3 && Math.abs(a * d - b * c - 1) < 1e-3) {
-    // Pure rotation. Skip — `box` already accounts for the rotated bounds.
-    // Mock HTML replay: skip spin on CircularProgress — dashoffset already encodes
-    // the arc; extra rotation drifts vs Storybook's paused animation frame.
-    if (isMockFigmaRuntime() && "rotation" in node) {
-      const isCircularProgress = (layer.source.classList ?? []).some((c) =>
-        c.includes("MuiCircularProgress-root")
-      );
+    // Pure rotation — box is the post-rotation AABB; re-apply rotation on the node
+    // so local vector paths (ellipses, icons) match the origin PNG.
+    if ("rotation" in node) {
+      const isCircularProgress =
+        isMockFigmaRuntime() &&
+        (layer.source.classList ?? []).some((c) => c.includes("MuiCircularProgress-root"));
       if (!isCircularProgress) {
         const rotDeg = (Math.atan2(b, a) * 180) / Math.PI;
         if (Math.abs(rotDeg) > 0.01) {
@@ -906,6 +1094,22 @@ function applyBorders(
   if (!paint?.borders) return null;
   const uniform = bordersUniform(paint.borders);
   const singleEdge = singleEdgeBorderSide(paint.borders);
+  const activeCount = countActiveBorderSides(paint.borders);
+
+  // Live: partial borders (table grid, pagination) — SVG with per-corner radii.
+  if (!isMockFigmaRuntime() && activeCount >= 1 && activeCount < 4) {
+    const svg = buildActiveBorderSvg(width, height, paint);
+    if (svg) {
+      const vector = figma.createNodeFromSvg(svg);
+      vector.name = "__border";
+      vector.x = 0;
+      vector.y = 0;
+      vector.resize(Math.max(1, snap(width)), Math.max(1, snap(height)));
+      if ("fills" in vector) (vector as GeometryMixin).fills = [];
+      return vector;
+    }
+  }
+
   if (singleEdge && !isMockFigmaRuntime()) {
     const edgeSvg = buildSingleEdgeBorderSvg(width, height, paint, singleEdge);
     if (edgeSvg) {
@@ -1156,7 +1360,59 @@ function centerLabButtonVector(
   // reaffirmChildBoxPositions + clipped vector frame match Storybook; re-centering drifts live export.
 }
 
+function createFigmaNativeVectorNode(layer: UniversalLayer): VectorNode | null {
+  const native = (
+    layer.vector as LayerVector & {
+      figmaNative?: {
+        vectorPaths: Array<{ data: string; windingRule: string }>;
+        fill?: string;
+        stroke?: string;
+        strokeWeight?: number;
+        strokeAlign?: string;
+      };
+    }
+  )?.figmaNative;
+  if (layer.source?.kind !== "figma" || !native?.vectorPaths?.length) return null;
+
+  const v = figma.createVector();
+  v.vectorPaths = native.vectorPaths.map((p) => ({
+    windingRule: (p.windingRule === "EVENODD" ? "EVENODD" : "NONZERO") as "EVENODD" | "NONZERO",
+    data: p.data
+  }));
+
+  const fills: Paint[] = [];
+  if (native.fill) fills.push(solidPaint(native.fill));
+  v.fills = fills;
+
+  if (native.stroke && (native.strokeWeight ?? 0) > 0) {
+    v.strokes = [solidPaint(native.stroke)];
+    v.strokeWeight = snap(native.strokeWeight!);
+    if (native.strokeAlign && "strokeAlign" in v) {
+      v.strokeAlign = native.strokeAlign as VectorNode["strokeAlign"];
+    }
+  } else {
+    v.strokes = [];
+    v.strokeWeight = 0;
+  }
+
+  const shapeOpacity = (
+    layer.vector?.shapes?.[0]?.paint as { opacity?: number } | undefined
+  )?.opacity;
+  if (shapeOpacity != null && shapeOpacity < 0.999) {
+    v.opacity = Math.max(0, Math.min(1, snap(shapeOpacity)));
+  }
+
+  const w = Math.max(1, snap(layer.box.width));
+  const h = Math.max(1, snap(layer.box.height));
+  v.resize(w, h);
+  v.name = layer.name || "vector";
+  return v;
+}
+
 function createVectorNode(layer: UniversalLayer, parent?: UniversalLayer): SceneNode {
+  const nativeVector = createFigmaNativeVectorNode(layer);
+  if (nativeVector) return nativeVector;
+
   const v = layer.vector!;
   const w = Math.max(1, snap(layer.box.width));
   const h = Math.max(1, snap(layer.box.height));
@@ -1175,7 +1431,7 @@ function createVectorNode(layer: UniversalLayer, parent?: UniversalLayer): Scene
     const wrap = figma.createFrame();
     wrap.name = layer.name || "vector";
     wrap.resize(w, h);
-    wrap.clipsContent = true;
+    wrap.clipsContent = !isPrevNextGroupChild(parent);
     wrap.fills = [];
     wrap.layoutMode = "NONE";
     if ("rescale" in imported && imported.width > 0 && imported.height > 0) {
@@ -1292,7 +1548,12 @@ async function createTextNode(
   } else if (text.letterSpacing !== undefined && text.letterSpacing !== 0) {
     t.letterSpacing = { unit: "PIXELS", value: snap(text.letterSpacing) };
   }
-  if (labBtnLabel) {
+  const figmaNativeText = isFigmaNativeTextLayer(layer);
+  if (figmaNativeText) {
+    if (text.lineHeight !== undefined && text.lineHeight > 0) {
+      t.lineHeight = { unit: "PIXELS", value: snap(text.lineHeight) };
+    }
+  } else if (labBtnLabel) {
     const lhPx =
       text.lineHeight != null && text.lineHeight > 0
         ? snap(text.lineHeight)
@@ -1313,6 +1574,7 @@ async function createTextNode(
     }
   }
   if (
+    !figmaNativeText &&
     !labLabel &&
     !labBtnLabel &&
     !/^h[1-6]$/.test(layer.source?.tag ?? "") &&
@@ -1364,10 +1626,24 @@ async function createTextNode(
       ? "JUSTIFIED"
       : "LEFT";
   t.textAlignHorizontal = align as TextNode["textAlignHorizontal"];
+  if (text.direction === "rtl") {
+    try {
+      (t as TextNode & { textDirection?: "RTL" | "LTR" }).textDirection = "RTL";
+    } catch {
+      // older Figma builds
+    }
+  }
   t.fills = [solidPaint(text.color)];
   if (text.decoration?.lines.includes("underline")) t.textDecoration = "UNDERLINE";
   else if (text.decoration?.lines.includes("line-through")) t.textDecoration = "STRIKETHROUGH";
-  if (text.transform && text.transform !== "none") {
+  const figmaTextCase = layer.source?.dataset?.figmaTextCase;
+  if (figmaTextCase) {
+    try {
+      t.textCase = figmaTextCase as TextNode["textCase"];
+    } catch {
+      // unsupported on older Figma builds
+    }
+  } else if (text.transform && text.transform !== "none") {
     const map = {
       uppercase: "UPPER",
       lowercase: "LOWER",
@@ -1392,6 +1668,7 @@ async function createTextNode(
     // CAP_HEIGHT trim shifts glyphs vs Chromium on bold, medium, and tight DOM line boxes.
     const skipLeadingTrim =
       !isMockFigmaRuntime() ||
+      layer.source?.kind === "figma" ||
       (labLabel && !labBtnLabel) ||
       multiline ||
       blockTight ||
@@ -1423,6 +1700,47 @@ async function createTextNode(
   // Locking BOTH dimensions (the old behaviour) caused MUI floating labels
   // like "Email" to wrap into "Em / ail" because their post-transform rect
   // is narrower than the glyphs at the captured font-size.
+  const figmaResize = layer.source?.dataset?.figmaTextAutoResize;
+  if (layer.source?.kind === "figma" && figmaResize) {
+    const resizeMap: Record<string, TextNode["textAutoResize"]> = {
+      WIDTH_AND_HEIGHT: "WIDTH_AND_HEIGHT",
+      HEIGHT: "HEIGHT",
+      NONE: "NONE",
+      TRUNCATE: "TRUNCATE",
+    };
+    let mode = resizeMap[figmaResize];
+    if (mode === "WIDTH_AND_HEIGHT" && figmaNativeNeedsFixedTextBox(layer, text)) {
+      mode = "NONE";
+    }
+    if (mode) {
+      t.textAutoResize = mode;
+      if (text.verticalAlign === "middle") {
+        t.textAlignVertical = "CENTER";
+      } else if (text.verticalAlign === "bottom") {
+        t.textAlignVertical = "BOTTOM";
+      } else if (text.verticalAlign === "top") {
+        t.textAlignVertical = "TOP";
+      }
+      if (mode !== "WIDTH_AND_HEIGHT") {
+        if (
+          mode === "NONE" &&
+          text.verticalAlign === "middle" &&
+          text.lineHeight != null &&
+          text.lineHeight > layer.box.height + 0.25
+        ) {
+          t.lineHeight = {
+            unit: "PIXELS",
+            value: Math.max(1, snap(layer.box.height)),
+          };
+        }
+        t.resize(
+          Math.max(1, Math.ceil(snap(layer.box.width))),
+          Math.max(1, Math.ceil(snap(layer.box.height)))
+        );
+      }
+      return t;
+    }
+  }
   const labPillButton =
     layer.source.tag === "button" && isLabDomCenterButton(layer, parent);
   const noWrapCss =
@@ -1658,6 +1976,7 @@ function hasNotchedOutlineChild(layer: UniversalLayer): boolean {
 }
 
 function shouldApplyCornerRadii(layer: UniversalLayer, parent?: UniversalLayer): boolean {
+  if (isFigmaNativeEllipse(layer)) return false;
   if (hasNotchedOutlineChild(layer)) {
     // OutlinedInput root keeps DOM border-radius; skip only for the fieldset outline itself.
     const cl = layer.source.classList ?? [];
@@ -2157,12 +2476,16 @@ function reaffirmChildBoxPositions(
   for (const { node, layer } of built) {
     if (isLiveLabButtonBareLabel(layer, parent) && node.type === "TEXT") {
       const text = node as TextNode;
-      // Trust extractor box origin; browser already centered in the label line box.
       text.textAlignHorizontal = "CENTER";
-      // Live: HEIGHT+fixed width wraps labels and drifts vertical center vs Storybook.
       text.textAutoResize = "WIDTH_AND_HEIGHT";
       text.x = snap(layer.box.x);
       text.y = snap(layer.box.y);
+      continue;
+    }
+    if (
+      layer.source?.kind === "figma" &&
+      (layer.source.dataset as { figmaRelativeTransform?: number[][] })?.figmaRelativeTransform
+    ) {
       continue;
     }
     // layoutPositioning=ABSOLUTE only applies under auto-layout parents; on
@@ -2214,7 +2537,66 @@ function shouldRenameSpanFrameToTypography(
   return textUsesTightLineBox(layer);
 }
 
+function isFigmaFlipFrame(layer: UniversalLayer): boolean {
+  const rt = (layer.source?.dataset as { figmaRelativeTransform?: number[][] } | undefined)
+    ?.figmaRelativeTransform;
+  return Boolean(rt?.[0]?.[0] != null && rt[0][0] < -0.5);
+}
+
+function isPrevNextGroup(layer: UniversalLayer): boolean {
+  const ds = layer.source?.dataset as { name?: string; figmaNodeType?: string } | undefined;
+  return (
+    layer.name === "prev-next" ||
+    ds?.name === "prev-next" ||
+    (ds?.figmaNodeType === "GROUP" && layer.name === "prev-next")
+  );
+}
+
+function isPrevNextGroupChild(parent?: UniversalLayer): boolean {
+  return Boolean(parent && isPrevNextGroup(parent));
+}
+
+/**
+ * Guing pagination chevrons: GROUP/prev-next children often carry frame-absolute
+ * x/y inside a narrow group box — Figma clips them. Rebase to group origin.
+ */
+function normalizeAbsoluteGroupChildren(layer: UniversalLayer): void {
+  if (!layer.children?.length) return;
+  if (isPrevNextGroup(layer)) {
+    const ox = layer.box.x;
+    const oy = layer.box.y;
+    const minChildX = Math.min(...layer.children.map((c) => c.box.x));
+    const maxChildR = Math.max(...layer.children.map((c) => c.box.x + c.box.width));
+    const needsRebase =
+      minChildX + 0.5 >= ox ||
+      maxChildR > ox + layer.box.width + 0.5;
+    if (needsRebase) {
+      for (const child of layer.children) {
+        child.box = {
+          ...child.box,
+          x: snap(child.box.x - ox),
+          y: snap(child.box.y - oy)
+        };
+      }
+    }
+    let maxR = 0;
+    let maxB = 0;
+    for (const child of layer.children) {
+      maxR = Math.max(maxR, child.box.x + child.box.width);
+      maxB = Math.max(maxB, child.box.y + child.box.height);
+    }
+    layer.box = {
+      ...layer.box,
+      width: Math.max(layer.box.width, maxR),
+      height: Math.max(layer.box.height, maxB)
+    };
+  }
+  for (const child of layer.children) normalizeAbsoluteGroupChildren(child);
+}
+
 function shouldClipContent(layer: UniversalLayer, parent?: UniversalLayer): boolean {
+  if (isPrevNextGroup(layer)) return false;
+  if (isFigmaFlipFrame(layer)) return false;
   if (hasNotchedOutlineChild(layer)) return false;
   if (isMuiShrunkInputLabel(layer)) return false;
   const parentCl = parent?.source.classList ?? [];
@@ -2259,6 +2641,16 @@ function shouldClipContent(layer: UniversalLayer, parent?: UniversalLayer): bool
   return explicitClip || hasSpreadShadow || Boolean(pill) || Boolean(rounded);
 }
 
+function frameRequiresClipContent(layer: UniversalLayer): boolean {
+  if (isFigmaFlipFrame(layer)) return false;
+  return (
+    layer.layout?.overflow?.x === "hidden" ||
+    layer.layout?.overflow?.y === "hidden" ||
+    layer.layout?.overflow?.x === "clip" ||
+    layer.layout?.overflow?.y === "clip"
+  );
+}
+
 // ─────────────────────────── main builder ───────────────────────────
 
 async function buildLayer(
@@ -2274,6 +2666,17 @@ async function buildLayer(
   const isTextLeaf =
     layer.text &&
     (!layer.children || layer.children.length === 0);
+  const figmaBareText =
+    isTextLeaf &&
+    isFigmaNativeTextLayer(layer) &&
+    !layer.paint?.borders &&
+    !(layer.paint?.shadows?.length);
+
+  if (figmaBareText) {
+    const t = await createTextNode(layer, parent);
+    t.name = layer.name || "text";
+    return t;
+  }
 
   if (isTextLeaf) {
     if (isLiveLabButtonBareLabel(layer, parent)) {
@@ -2295,6 +2698,8 @@ async function buildLayer(
     node = createVectorNode(layer, parent);
   } else if (layer.image) {
     node = createImageNode(layer);
+  } else if (isFigmaNativeEllipse(layer)) {
+    node = figma.createEllipse();
   } else {
     const f = figma.createFrame();
     f.layoutMode = "NONE";
@@ -2799,7 +3204,17 @@ async function buildLayer(
         const fills = paint.fills?.length
           ? buildFills(paint, layer.box.width, layer.box.height)
           : undefined;
-        (node as any).fills = fills?.length ? clonePaints(fills) : [];
+        if (fills?.length) {
+          (node as any).fills = clonePaints(fills);
+        } else if (
+          layer.source?.kind === "figma" &&
+          node.type === "FRAME" &&
+          !isMockFigmaRuntime()
+        ) {
+          (node as any).fills = [transparentFill()];
+        } else {
+          (node as any).fills = [];
+        }
       }
     }
     if (node.type !== "TEXT" && shouldApplyCornerRadii(layer, parent)) applyCornerRadii(node, paint);
@@ -2925,7 +3340,14 @@ async function buildLayer(
   }
   if (borderOverlay && "appendChild" in node) {
     (node as ChildrenMixin).appendChild(borderOverlay);
-    if ("clipsContent" in node) (node as FrameNode).clipsContent = false;
+    // Keep clipsContent when manifest/Figma marked overflow hidden — otherwise
+    // nested layer-blur ellipses bleed into the header above (screen_1).
+    if ("clipsContent" in node && !frameRequiresClipContent(layer)) {
+      (node as FrameNode).clipsContent = false;
+    }
+  }
+  if (node.type === "FRAME" && frameRequiresClipContent(layer)) {
+    (node as FrameNode).clipsContent = true;
   }
 
   return node;
@@ -2934,6 +3356,7 @@ async function buildLayer(
 export async function renderDocumentV2(doc: UniversalDocumentV2): Promise<SceneNode> {
   // Clone tree so relay/frozen payloads are never mutated during render.
   const rootLayer = JSON.parse(JSON.stringify(doc.root)) as UniversalLayer;
+  normalizeAbsoluteGroupChildren(rootLayer);
   await preloadFonts(rootLayer, new Set());
   const root = await buildLayer(rootLayer);
   if (!root) throw new Error("Root layer produced no node");
@@ -2951,6 +3374,13 @@ export async function renderDocumentV2(doc: UniversalDocumentV2): Promise<SceneN
     canvas.fills = [solidPaint(doc.meta.canvasBackground)];
   } else {
     canvas.fills = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 } } as SolidPaint];
+  }
+  if (doc.meta.preserveEffects) {
+    try {
+      canvas.setPluginData("preserveEffects", "1");
+    } catch {
+      // older Figma builds
+    }
   }
   root.x = padding;
   root.y = padding;
@@ -3000,7 +3430,10 @@ export async function exportContentPng(
     useAbsoluteBounds: false,
     colorProfile: "SRGB"
   };
-  const stripped = stripEffectsForExport(target);
+  const preserveEffects =
+    canvas.type === "FRAME" &&
+    (canvas as FrameNode).getPluginData?.("preserveEffects") === "1";
+  const stripped = preserveEffects ? [] : stripEffectsForExport(target);
   try {
     return await target.exportAsync(settings);
   } finally {

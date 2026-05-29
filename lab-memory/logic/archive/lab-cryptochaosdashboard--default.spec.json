@@ -1,0 +1,12 @@
+{
+  "storyId": "lab-cryptochaosdashboard--default",
+  "component": "CryptoChaosDashboard",
+  "status": "approved",
+  "approvedAt": "2026-05-24T23:06:33.012Z",
+  "approvedBy": "phase-7-bulk-approve",
+  "specVersion": 1,
+  "intent": "Maximalist crypto dashboard with tickers and charts.",
+  "props": [],
+  "events": [],
+  "behaviours": []
+}

@@ -292,6 +292,10 @@ export interface LayerSource {
     ariaLabel?: string;
     dataset?: Record<string, string>;
     pseudo?: "before" | "after" | "first-line" | "placeholder" | "selection";
+    /** Native input type when source.tag is input (email, password, …). */
+    inputType?: string;
+    /** Placeholder copy for empty text inputs (not stored as value). */
+    placeholder?: string;
     refPath?: string;
 }
 export interface UniversalLayer {

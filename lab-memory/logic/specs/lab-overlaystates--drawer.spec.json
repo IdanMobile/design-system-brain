@@ -1,0 +1,35 @@
+{
+  "storyId": "lab-overlaystates--drawer",
+  "schemaVersion": 2,
+  "intent": "",
+  "status": "proposed",
+  "approvedAt": null,
+  "approvedBy": null,
+  "specVersion": 2,
+  "elements": [
+    {
+      "id": "el-reset",
+      "selector": "[data-lab-id=\"el-reset\"]",
+      "displayName": "Reset",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"Reset\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-apply",
+      "selector": "[data-lab-id=\"el-apply\"]",
+      "displayName": "Apply",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"Apply\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    }
+  ]
+}

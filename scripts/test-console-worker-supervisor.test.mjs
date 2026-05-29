@@ -7,6 +7,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
+  adapterFilesForMode,
   classifyWrongFiles,
   diffWorkspaceSnapshots,
   evaluateAttempt,
@@ -30,7 +31,7 @@ describe("classifyWrongFiles", () => {
     const msg = classifyWrongFiles("pixel", "pixel", [
       "packages/figma-importer-plugin/src/code-v2.ts"
     ]);
-    assert.ok(msg?.includes("scene-to-html"));
+    assert.ok(msg?.includes("render-html"));
   });
   it("flags ui-only on figma mock", () => {
     const msg = classifyWrongFiles("figma", "emulator", [
@@ -75,6 +76,27 @@ describe("evaluateAttempt", () => {
     });
     assert.equal(r.verdict, "WORSE_METRICS");
     assert.equal(r.nextWorkerMode, "narrow_scope");
+  });
+
+  it("detects NO_ADAPTER_EDIT when only lab-memory changed", () => {
+    const r = evaluateAttempt({
+      suiteId: "pixel",
+      mode: "pixel",
+      storyId: "lab-retroterminalscreen--default",
+      attempt: 2,
+      beforeAttempt: { status: "fail", percent: 3.19, maxRegionPercent: null },
+      afterTest: { status: "fail", percent: 3.19, maxRegionPercent: null },
+      agentExitCode: 0,
+      pluginBuildFailed: false,
+      filesChanged: ["lab-memory/Home.md", ".cursor/rules/lab-memory.mdc"],
+      priorRuns: [],
+      repoRoot: null
+    });
+    assert.equal(r.verdict, "NO_ADAPTER_EDIT");
+    assert.deepEqual(
+      adapterFilesForMode("pixel", ["lab-memory/Home.md", ".cursor/rules/lab-memory.mdc"]),
+      []
+    );
   });
 
   it("detects NO_EDIT", () => {

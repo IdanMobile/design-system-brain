@@ -20,8 +20,38 @@ const SETTINGS_PATH = join(ROOT, ".test-console", "run-settings.json");
 
 export const DEFAULT_AGENT_MODEL = "composer-2.5-fast";
 
-/** Upper bound for Run settings → parallel workers (pixel / mock / delivery). */
-export const MAX_PARALLEL_WORKERS = 20;
+/** Upper bound for Run settings → parallel workers (in-process pool / figma live workers). */
+export const MAX_PARALLEL_WORKERS = 100;
+
+/** Default cap for simultaneous Storybook loads (extract + iframe goto). */
+export const DEFAULT_STORYBOOK_PARALLEL = 12;
+
+/**
+ * @param {number} requestedWorkers
+ */
+export function storybookParallelCap(requestedWorkers) {
+  const fromEnv = Number(process.env.STORYBOOK_PARALLEL);
+  const cap =
+    Number.isFinite(fromEnv) && fromEnv > 0
+      ? Math.min(Math.round(fromEnv), MAX_PARALLEL_WORKERS)
+      : DEFAULT_STORYBOOK_PARALLEL;
+  return Math.min(clampWorkers(requestedWorkers), cap);
+}
+
+/**
+ * Env for golden harness spawns.
+ * @param {string} suiteId
+ * @param {number} requestedWorkers
+ */
+export function harnessEnvForSuite(suiteId, requestedWorkers) {
+  const workers = clampWorkers(requestedWorkers);
+  const storybook = storybookParallelCap(workers);
+  return {
+    TEST_PARALLEL: String(storybook),
+    STORYBOOK_PARALLEL: String(storybook),
+    FORCE_COLOR: "0"
+  };
+}
 
 export const DEFAULT_RUN_SETTINGS = {
   skipPass: false,
@@ -201,8 +231,9 @@ export function buildGoldenSpawnSpec(suiteId, storyIds, settings) {
     };
   }
 
-  const workers =
-    suiteId === "figmaLive" ? 1 : clampWorkers(settings.parallelWorkers);
+  const workers = clampWorkers(settings.parallelWorkers);
+  const poolProcesses =
+    suiteId === "logic" ? 1 : Math.min(workers, storybookParallelCap(workers));
 
   if (settings.processPool && storyIds.length > 1 && suiteId !== "logic") {
     return {
@@ -214,16 +245,16 @@ export function buildGoldenSpawnSpec(suiteId, storyIds, settings) {
         "--stories",
         storyIds.join(","),
         "--workers",
-        String(workers)
+        String(poolProcesses)
       ],
       tag: `golden:${suiteId}`,
-      env: { FORCE_COLOR: "0" },
+      env: harnessEnvForSuite(suiteId, workers),
       empty: false
     };
   }
 
   const storiesArg = storyIds.join(",");
-  const env = { TEST_PARALLEL: String(workers), FORCE_COLOR: "0" };
+  const env = harnessEnvForSuite(suiteId, workers);
 
   switch (suiteId) {
     case "pixel":
@@ -254,7 +285,7 @@ export function buildGoldenSpawnSpec(suiteId, storyIds, settings) {
           storiesArg
         ],
         tag: "golden:figmaLive",
-        env: { ...env, TEST_PARALLEL: "1" },
+        env,
         empty: false
       };
     case "delivery":

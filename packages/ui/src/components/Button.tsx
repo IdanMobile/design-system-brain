@@ -1,5 +1,4 @@
 import React from "react";
-import { usePressableProps } from "../hooks/usePressedState";
 
 type ButtonProps = {
   variant?: "primary" | "secondary" | "danger" | "ghost";
@@ -9,15 +8,23 @@ type ButtonProps = {
   children?: React.ReactNode;
 };
 
-export function Button({ variant = "primary", size = "md", iconLeft = false, iconRight = false, children = "Primary" }: ButtonProps) {
-  const press = usePressableProps();
+/**
+ * Minimal visual shell — no JS state. Components with real domain state
+ * (LoginPage submit flow, PricingPanel CTA loading state, etc.) manage
+ * their own pressed/loading semantics in their own component.
+ */
+export function Button({
+  variant = "primary",
+  size = "md",
+  iconLeft = false,
+  iconRight = false,
+  children = "Primary"
+}: ButtonProps) {
   return (
     <button
       className={`lab-button ${variant} ${size}`}
       data-figma-component="Button"
       type="button"
-      data-pressed-managed="true"
-      {...press}
     >
       {iconLeft && <svg data-figma-name="plusIcon" width="32" height="32" viewBox="0 0 32 32"><path d="M16 6v20M6 16h20" stroke="currentColor" strokeWidth="4" strokeLinecap="round"/></svg>}
       <span data-figma-name="label">{children}</span>

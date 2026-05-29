@@ -1,0 +1,12 @@
+{
+  "storyId": "lab-muiworkspacescreen--default",
+  "component": "MUIWorkspaceScreen",
+  "status": "approved",
+  "approvedAt": "2026-05-24T23:06:33.014Z",
+  "approvedBy": "phase-7-bulk-approve",
+  "specVersion": 1,
+  "intent": "Material UI workspace template — sidebar + content + form sections.",
+  "props": [],
+  "events": [],
+  "behaviours": []
+}

@@ -1,0 +1,11 @@
+{
+  "tag": "lab-meetinghomepage--default:try1",
+  "exitCode": 143,
+  "finishedAt": "2026-05-25T08:14:47.002Z",
+  "editCount": 0,
+  "readCount": 25,
+  "bigReadCount": 9,
+  "watchdogTripped": true,
+  "watchdogReason": "8.0m elapsed, 0 edits (reads=25, big-file reads=9). Investigation paralysis.",
+  "elapsedMs": 480098
+}

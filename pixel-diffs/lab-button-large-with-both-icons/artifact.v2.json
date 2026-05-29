@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-button--large-with-both-icons",
     "componentName": "Button",
-    "extractedAt": "2026-05-24T20:51:13.396Z",
+    "extractedAt": "2026-05-25T19:28:42.341Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-button--large-with-both-icons&viewMode=story",
     "viewport": {
       "x": 0,
@@ -26,9 +26,7 @@
         "lg"
       ],
       "dataset": {
-        "figmaComponent": "Button",
-        "pressedManaged": "true",
-        "pressed": "false"
+        "figmaComponent": "Button"
       }
     },
     "box": {
@@ -235,6 +233,7 @@
           "font": {
             "family": "Inter",
             "stack": "Inter, Arial, sans-serif",
+            "computedStack": "Arial",
             "size": 30,
             "weight": 700,
             "style": "normal",

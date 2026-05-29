@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-foodfrenzyscreen--default",
     "componentName": "FoodFrenzyScreen",
-    "extractedAt": "2026-05-24T20:51:29.551Z",
+    "extractedAt": "2026-05-25T19:30:07.815Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-foodfrenzyscreen--default&viewMode=story",
     "viewport": {
       "x": 0,
@@ -245,6 +245,7 @@
                   "font": {
                     "family": "Inter",
                     "stack": "Inter, Arial, sans-serif",
+                    "computedStack": "Inter, Arial, sans-serif",
                     "size": 12,
                     "weight": 400,
                     "style": "normal",
@@ -307,6 +308,7 @@
                   "font": {
                     "family": "Inter",
                     "stack": "Inter, Arial, sans-serif",
+                    "computedStack": "Inter, Arial, sans-serif",
                     "size": 20,
                     "weight": 700,
                     "style": "normal",
@@ -441,6 +443,44 @@
                   "font": {
                     "family": "Inter",
                     "stack": "Inter, Arial, sans-serif",
+                    "computedStack": "Arial",
+                    "size": 16,
+                    "weight": 700,
+                    "style": "normal",
+                    "variant": "normal",
+                    "featureSettings": "normal"
+                  },
+                  "color": "rgb(255, 255, 255)",
+                  "lineHeight": 17,
+                  "wordSpacing": 0,
+                  "align": "center",
+                  "verticalAlign": "baseline",
+                  "transform": "none",
+                  "whiteSpace": "normal",
+                  "overflow": "visible",
+                  "wordBreak": "normal",
+                  "direction": "ltr"
+                }
+              },
+              {
+                "id": "lay-8",
+                "name": "button-text",
+                "source": {
+                  "kind": "synthetic",
+                  "tag": "button"
+                },
+                "box": {
+                  "x": 14,
+                  "y": 16,
+                  "width": 24.45,
+                  "height": 17
+                },
+                "text": {
+                  "value": "🛒",
+                  "font": {
+                    "family": "Inter",
+                    "stack": "Inter, Arial, sans-serif",
+                    "computedStack": "Arial",
                     "size": 16,
                     "weight": 700,
                     "style": "normal",
@@ -464,7 +504,7 @@
         ]
       },
       {
-        "id": "lay-8",
+        "id": "lay-9",
         "name": "div",
         "source": {
           "kind": "dom",
@@ -551,7 +591,7 @@
         },
         "children": [
           {
-            "id": "lay-9",
+            "id": "lay-10",
             "name": "div",
             "source": {
               "kind": "dom",
@@ -602,7 +642,7 @@
             },
             "children": [
               {
-                "id": "lay-10",
+                "id": "lay-11",
                 "name": "span",
                 "source": {
                   "kind": "dom",
@@ -645,6 +685,7 @@
                   "font": {
                     "family": "Inter",
                     "stack": "Inter, Arial, sans-serif",
+                    "computedStack": "Inter, Arial, sans-serif",
                     "size": 10,
                     "weight": 700,
                     "style": "normal",
@@ -665,7 +706,7 @@
                 }
               },
               {
-                "id": "lay-11",
+                "id": "lay-12",
                 "name": "strong",
                 "source": {
                   "kind": "dom",
@@ -708,6 +749,7 @@
                   "font": {
                     "family": "Inter",
                     "stack": "Inter, Arial, sans-serif",
+                    "computedStack": "Inter, Arial, sans-serif",
                     "size": 16,
                     "weight": 700,
                     "style": "normal",
@@ -727,7 +769,7 @@
                 }
               },
               {
-                "id": "lay-12",
+                "id": "lay-13",
                 "name": "em",
                 "source": {
                   "kind": "dom",
@@ -773,6 +815,7 @@
                   "font": {
                     "family": "Inter",
                     "stack": "Inter, Arial, sans-serif",
+                    "computedStack": "Inter, Arial, sans-serif",
                     "size": 12,
                     "weight": 400,
                     "style": "normal",
@@ -794,7 +837,7 @@
             ]
           },
           {
-            "id": "lay-13",
+            "id": "lay-14",
             "name": "svg",
             "source": {
               "kind": "svg",
@@ -876,7 +919,7 @@
         ]
       },
       {
-        "id": "lay-14",
+        "id": "lay-15",
         "name": "div",
         "source": {
           "kind": "dom",
@@ -963,7 +1006,7 @@
         },
         "children": [
           {
-            "id": "lay-15",
+            "id": "lay-16",
             "name": "span",
             "source": {
               "kind": "dom",
@@ -1006,6 +1049,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 16,
                 "weight": 400,
                 "style": "normal",
@@ -1025,7 +1069,7 @@
             }
           },
           {
-            "id": "lay-16",
+            "id": "lay-17",
             "name": "input",
             "source": {
               "kind": "dom",
@@ -1071,6 +1115,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Arial",
                 "size": 14,
                 "weight": 400,
                 "style": "normal",
@@ -1091,7 +1136,7 @@
         ]
       },
       {
-        "id": "lay-17",
+        "id": "lay-18",
         "name": "div",
         "source": {
           "kind": "dom",
@@ -1142,7 +1187,7 @@
         },
         "children": [
           {
-            "id": "lay-18",
+            "id": "lay-19",
             "name": "button",
             "source": {
               "kind": "dom",
@@ -1225,6 +1270,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Arial",
                 "size": 12,
                 "weight": 600,
                 "style": "normal",
@@ -1244,7 +1290,7 @@
             }
           },
           {
-            "id": "lay-19",
+            "id": "lay-20",
             "name": "button",
             "source": {
               "kind": "dom",
@@ -1324,6 +1370,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Arial",
                 "size": 12,
                 "weight": 600,
                 "style": "normal",
@@ -1343,7 +1390,7 @@
             }
           },
           {
-            "id": "lay-20",
+            "id": "lay-21",
             "name": "button",
             "source": {
               "kind": "dom",
@@ -1423,6 +1470,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Arial",
                 "size": 12,
                 "weight": 600,
                 "style": "normal",
@@ -1442,7 +1490,7 @@
             }
           },
           {
-            "id": "lay-21",
+            "id": "lay-22",
             "name": "button",
             "source": {
               "kind": "dom",
@@ -1522,6 +1570,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Arial",
                 "size": 12,
                 "weight": 600,
                 "style": "normal",
@@ -1541,7 +1590,7 @@
             }
           },
           {
-            "id": "lay-22",
+            "id": "lay-23",
             "name": "button",
             "source": {
               "kind": "dom",
@@ -1621,6 +1670,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Arial",
                 "size": 12,
                 "weight": 600,
                 "style": "normal",
@@ -1642,7 +1692,7 @@
         ]
       },
       {
-        "id": "lay-23",
+        "id": "lay-24",
         "name": "section",
         "source": {
           "kind": "dom",
@@ -1695,7 +1745,7 @@
         },
         "children": [
           {
-            "id": "lay-24",
+            "id": "lay-25",
             "name": "div",
             "source": {
               "kind": "dom",
@@ -1746,7 +1796,7 @@
             },
             "children": [
               {
-                "id": "lay-25",
+                "id": "lay-26",
                 "name": "h2",
                 "source": {
                   "kind": "dom",
@@ -1789,6 +1839,7 @@
                   "font": {
                     "family": "Inter",
                     "stack": "Inter, Arial, sans-serif",
+                    "computedStack": "Inter, Arial, sans-serif",
                     "size": 16,
                     "weight": 700,
                     "style": "normal",
@@ -1808,7 +1859,7 @@
                 }
               },
               {
-                "id": "lay-26",
+                "id": "lay-27",
                 "name": "button",
                 "source": {
                   "kind": "dom",
@@ -1851,6 +1902,7 @@
                   "font": {
                     "family": "Inter",
                     "stack": "Inter, Arial, sans-serif",
+                    "computedStack": "Arial",
                     "size": 13,
                     "weight": 700,
                     "style": "normal",
@@ -1872,7 +1924,7 @@
             ]
           },
           {
-            "id": "lay-27",
+            "id": "lay-28",
             "name": "article",
             "source": {
               "kind": "dom",
@@ -1959,7 +2011,7 @@
             },
             "children": [
               {
-                "id": "lay-28",
+                "id": "lay-29",
                 "name": "div",
                 "source": {
                   "kind": "dom",
@@ -2040,6 +2092,7 @@
                   "font": {
                     "family": "Inter",
                     "stack": "Inter, Arial, sans-serif",
+                    "computedStack": "Inter, Arial, sans-serif",
                     "size": 32,
                     "weight": 400,
                     "style": "normal",
@@ -2059,7 +2112,7 @@
                 }
               },
               {
-                "id": "lay-29",
+                "id": "lay-30",
                 "name": "div",
                 "source": {
                   "kind": "dom",
@@ -2112,7 +2165,7 @@
                 },
                 "children": [
                   {
-                    "id": "lay-30",
+                    "id": "lay-31",
                     "name": "span",
                     "source": {
                       "kind": "dom",
@@ -2158,6 +2211,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 10,
                         "weight": 700,
                         "style": "normal",
@@ -2177,7 +2231,7 @@
                     }
                   },
                   {
-                    "id": "lay-31",
+                    "id": "lay-32",
                     "name": "h3",
                     "source": {
                       "kind": "dom",
@@ -2220,6 +2274,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 14,
                         "weight": 700,
                         "style": "normal",
@@ -2239,7 +2294,7 @@
                     }
                   },
                   {
-                    "id": "lay-32",
+                    "id": "lay-33",
                     "name": "p",
                     "source": {
                       "kind": "dom",
@@ -2282,6 +2337,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 11,
                         "weight": 400,
                         "style": "normal",
@@ -2301,7 +2357,7 @@
                     }
                   },
                   {
-                    "id": "lay-33",
+                    "id": "lay-34",
                     "name": "div",
                     "source": {
                       "kind": "dom",
@@ -2352,7 +2408,7 @@
                     },
                     "children": [
                       {
-                        "id": "lay-34",
+                        "id": "lay-35",
                         "name": "strong",
                         "source": {
                           "kind": "dom",
@@ -2395,6 +2451,7 @@
                           "font": {
                             "family": "Inter",
                             "stack": "Inter, Arial, sans-serif",
+                            "computedStack": "Inter, Arial, sans-serif",
                             "size": 16,
                             "weight": 700,
                             "style": "normal",
@@ -2414,7 +2471,7 @@
                         }
                       },
                       {
-                        "id": "lay-35",
+                        "id": "lay-36",
                         "name": "button",
                         "source": {
                           "kind": "dom",
@@ -2483,6 +2540,7 @@
                           "font": {
                             "family": "Inter",
                             "stack": "Inter, Arial, sans-serif",
+                            "computedStack": "Arial",
                             "size": 12,
                             "weight": 700,
                             "style": "normal",
@@ -2508,7 +2566,7 @@
             ]
           },
           {
-            "id": "lay-36",
+            "id": "lay-37",
             "name": "article",
             "source": {
               "kind": "dom",
@@ -2595,7 +2653,7 @@
             },
             "children": [
               {
-                "id": "lay-37",
+                "id": "lay-38",
                 "name": "div",
                 "source": {
                   "kind": "dom",
@@ -2676,6 +2734,7 @@
                   "font": {
                     "family": "Inter",
                     "stack": "Inter, Arial, sans-serif",
+                    "computedStack": "Inter, Arial, sans-serif",
                     "size": 32,
                     "weight": 400,
                     "style": "normal",
@@ -2695,7 +2754,7 @@
                 }
               },
               {
-                "id": "lay-38",
+                "id": "lay-39",
                 "name": "div",
                 "source": {
                   "kind": "dom",
@@ -2748,7 +2807,7 @@
                 },
                 "children": [
                   {
-                    "id": "lay-39",
+                    "id": "lay-40",
                     "name": "span",
                     "source": {
                       "kind": "dom",
@@ -2794,6 +2853,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 10,
                         "weight": 700,
                         "style": "normal",
@@ -2813,7 +2873,7 @@
                     }
                   },
                   {
-                    "id": "lay-40",
+                    "id": "lay-41",
                     "name": "h3",
                     "source": {
                       "kind": "dom",
@@ -2856,6 +2916,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 14,
                         "weight": 700,
                         "style": "normal",
@@ -2875,7 +2936,7 @@
                     }
                   },
                   {
-                    "id": "lay-41",
+                    "id": "lay-42",
                     "name": "p",
                     "source": {
                       "kind": "dom",
@@ -2918,6 +2979,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 11,
                         "weight": 400,
                         "style": "normal",
@@ -2937,7 +2999,7 @@
                     }
                   },
                   {
-                    "id": "lay-42",
+                    "id": "lay-43",
                     "name": "div",
                     "source": {
                       "kind": "dom",
@@ -2988,7 +3050,7 @@
                     },
                     "children": [
                       {
-                        "id": "lay-43",
+                        "id": "lay-44",
                         "name": "strong",
                         "source": {
                           "kind": "dom",
@@ -3031,6 +3093,7 @@
                           "font": {
                             "family": "Inter",
                             "stack": "Inter, Arial, sans-serif",
+                            "computedStack": "Inter, Arial, sans-serif",
                             "size": 16,
                             "weight": 700,
                             "style": "normal",
@@ -3050,7 +3113,7 @@
                         }
                       },
                       {
-                        "id": "lay-44",
+                        "id": "lay-45",
                         "name": "button",
                         "source": {
                           "kind": "dom",
@@ -3119,6 +3182,7 @@
                           "font": {
                             "family": "Inter",
                             "stack": "Inter, Arial, sans-serif",
+                            "computedStack": "Arial",
                             "size": 12,
                             "weight": 700,
                             "style": "normal",
@@ -3144,7 +3208,7 @@
             ]
           },
           {
-            "id": "lay-45",
+            "id": "lay-46",
             "name": "article",
             "source": {
               "kind": "dom",
@@ -3231,7 +3295,7 @@
             },
             "children": [
               {
-                "id": "lay-46",
+                "id": "lay-47",
                 "name": "div",
                 "source": {
                   "kind": "dom",
@@ -3312,6 +3376,7 @@
                   "font": {
                     "family": "Inter",
                     "stack": "Inter, Arial, sans-serif",
+                    "computedStack": "Inter, Arial, sans-serif",
                     "size": 32,
                     "weight": 400,
                     "style": "normal",
@@ -3331,7 +3396,7 @@
                 }
               },
               {
-                "id": "lay-47",
+                "id": "lay-48",
                 "name": "div",
                 "source": {
                   "kind": "dom",
@@ -3384,7 +3449,7 @@
                 },
                 "children": [
                   {
-                    "id": "lay-48",
+                    "id": "lay-49",
                     "name": "span",
                     "source": {
                       "kind": "dom",
@@ -3430,6 +3495,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 10,
                         "weight": 700,
                         "style": "normal",
@@ -3449,7 +3515,7 @@
                     }
                   },
                   {
-                    "id": "lay-49",
+                    "id": "lay-50",
                     "name": "h3",
                     "source": {
                       "kind": "dom",
@@ -3492,6 +3558,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 14,
                         "weight": 700,
                         "style": "normal",
@@ -3511,7 +3578,7 @@
                     }
                   },
                   {
-                    "id": "lay-50",
+                    "id": "lay-51",
                     "name": "p",
                     "source": {
                       "kind": "dom",
@@ -3554,6 +3621,7 @@
                       "font": {
                         "family": "Inter",
                         "stack": "Inter, Arial, sans-serif",
+                        "computedStack": "Inter, Arial, sans-serif",
                         "size": 11,
                         "weight": 400,
                         "style": "normal",
@@ -3573,7 +3641,7 @@
                     }
                   },
                   {
-                    "id": "lay-51",
+                    "id": "lay-52",
                     "name": "div",
                     "source": {
                       "kind": "dom",
@@ -3624,7 +3692,7 @@
                     },
                     "children": [
                       {
-                        "id": "lay-52",
+                        "id": "lay-53",
                         "name": "strong",
                         "source": {
                           "kind": "dom",
@@ -3667,6 +3735,7 @@
                           "font": {
                             "family": "Inter",
                             "stack": "Inter, Arial, sans-serif",
+                            "computedStack": "Inter, Arial, sans-serif",
                             "size": 16,
                             "weight": 700,
                             "style": "normal",
@@ -3686,7 +3755,7 @@
                         }
                       },
                       {
-                        "id": "lay-53",
+                        "id": "lay-54",
                         "name": "button",
                         "source": {
                           "kind": "dom",
@@ -3755,6 +3824,7 @@
                           "font": {
                             "family": "Inter",
                             "stack": "Inter, Arial, sans-serif",
+                            "computedStack": "Arial",
                             "size": 12,
                             "weight": 700,
                             "style": "normal",
@@ -3782,7 +3852,7 @@
         ]
       },
       {
-        "id": "lay-54",
+        "id": "lay-55",
         "name": "button",
         "source": {
           "kind": "dom",
@@ -3874,6 +3944,7 @@
           "font": {
             "family": "Inter",
             "stack": "Inter, Arial, sans-serif",
+            "computedStack": "Arial",
             "size": 16,
             "weight": 700,
             "style": "normal",

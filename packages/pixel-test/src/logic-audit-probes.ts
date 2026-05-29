@@ -15,6 +15,8 @@ export interface ControlProbe {
   disabled: boolean;
   /** Click may open a listbox / menu (native select, MUI Select, lab dropdown shell) */
   opensMenu?: boolean;
+  /** Value of `data-lab-id` stamped by @lab/ui/element-ids-runtime.ts (v2). */
+  labId: string;
 }
 
 export interface DomSnapshot {
@@ -22,6 +24,12 @@ export interface DomSnapshot {
   ariaExpanded: string[];
   ariaSelected: string[];
   ariaPressed: string[];
+  /**
+   * Captured provenance of each pressed element: "baseline" if the
+   * design-system runtime stamped it, "native" if a component controls it.
+   * Used to attribute each finding's source in the audit report.
+   */
+  pressedSources: BehaviourSource[];
   checked: string[];
   inputValues: string[];
   activeIndex: number;
@@ -30,9 +38,22 @@ export interface DomSnapshot {
 
 export type InteractionOutcome = "state_changed" | "no_visible_change" | "skipped_readonly" | "click_failed";
 
+/**
+ * Provenance of an observed behaviour:
+ *   • `native`   — the component implements the behaviour itself
+ *                  (React state, controlled inputs, real handlers, MUI built-ins).
+ *   • `baseline` — the design-system runtime (@lab/ui/behaviour-baseline.ts)
+ *                  auto-wired the behaviour because the component author left
+ *                  the control unmanaged. Audit detects by sniffing the
+ *                  `data-pressed-source="baseline"` stamp.
+ *   • `none`     — the behaviour was not observed (true gap).
+ */
+export type BehaviourSource = "native" | "baseline" | "none";
+
 export interface InteractionFinding extends ControlProbe {
   outcome: InteractionOutcome;
   category: "ds_builtin" | "static_shell" | "readonly" | "unknown";
+  source: BehaviourSource;
   note?: string;
 }
 
@@ -61,6 +82,24 @@ export const INTERACTIVE_SELECTOR = [
 
 /** Playwright + probe: root component node if interactive, plus descendants. */
 export const ROOT_AND_DESCENDANT_INTERACTIVE = `[data-figma-component]:is(${INTERACTIVE_SELECTOR}), [data-figma-component] ${INTERACTIVE_SELECTOR}`;
+
+/**
+ * A single DOM layer (interactive or static) observed under the figma-component
+ * root, with the same `ly-…` structural ID that the playground's LayerPanel
+ * uses. Lets the audit match approved non-interactive layers (e.g. a card the
+ * designer attached a "hover to show tooltip" behaviour to).
+ */
+export interface LayerProbe {
+  /** Structural ID for non-interactive layers (`ly-<slug>-<hash>`),
+   *  or the existing `data-lab-id` for interactive ones. */
+  id: string;
+  tag: string;
+  role: string;
+  displayName: string;
+  text: string;
+  isInteractive: boolean;
+  labId: string;
+}
 
 export function probeScript(): {
   component: string | null;
@@ -114,11 +153,112 @@ export function probeScript(): {
       type: el.getAttribute("type") ?? "",
       readOnly,
       disabled,
-      opensMenu: menuTrigger(el)
+      opensMenu: menuTrigger(el),
+      labId: el.getAttribute("data-lab-id") ?? ""
     });
   }
 
   return { component, controls };
+}
+
+/**
+ * Walks every descendant of `[data-figma-component]` and emits one LayerProbe
+ * per node. Structural ID is computed identically to the playground
+ * (`computeStructuralId` in element-id.ts) so the audit and the LayerPanel
+ * agree on element identity.
+ */
+export function allLayersScript(): { layers: LayerProbe[] } {
+  function slugify(s: string): string {
+    return s
+      .normalize("NFKD")
+      .replace(/[^\p{L}\p{N}\s-]/gu, "")
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .slice(0, 40);
+  }
+  function shortHash(s: string): string {
+    let h = 0x811c9dc5;
+    for (let i = 0; i < s.length; i++) {
+      h ^= s.charCodeAt(i);
+      h = (h * 0x01000193) >>> 0;
+    }
+    return h.toString(36).slice(0, 6);
+  }
+  function structuralId(tagPath: string, text: string, tag: string): string {
+    const meaningful = (text || "").trim();
+    const base = meaningful ? slugify(meaningful) : slugify(tag || "layer");
+    const hash = shortHash(`${tagPath}|${meaningful}|${tag}`);
+    return `ly-${base || "layer"}-${hash}`;
+  }
+  function ownText(el: Element): string {
+    const own = Array.from(el.childNodes)
+      .filter((n) => n.nodeType === 3)
+      .map((n) => n.textContent ?? "")
+      .join(" ")
+      .trim();
+    if (own) return own.slice(0, 36);
+    return (el.textContent ?? "").trim().slice(0, 36);
+  }
+  function elRole(el: HTMLElement): string {
+    const explicit = el.getAttribute("role");
+    if (explicit) return explicit;
+    const tag = el.tagName.toLowerCase();
+    if (tag === "button") return "button";
+    if (tag === "a" && el.hasAttribute("href")) return "link";
+    if (tag === "input") return (el as HTMLInputElement).type || "input";
+    if (tag === "select") return "combobox";
+    if (tag === "textarea") return "textbox";
+    return "";
+  }
+  function siblingIdx(el: Element): number {
+    let i = 0;
+    let p = el.previousElementSibling;
+    while (p) {
+      if (p.tagName === el.tagName) i++;
+      p = p.previousElementSibling;
+    }
+    return i;
+  }
+  function tagPath(root: Element, node: Element): string {
+    const segs: string[] = [];
+    let cur: Element | null = node;
+    while (cur && cur !== root) {
+      segs.unshift(`${cur.tagName.toLowerCase()}[${siblingIdx(cur)}]`);
+      cur = cur.parentElement;
+    }
+    return segs.join(">");
+  }
+  const SKIP = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "META", "LINK"]);
+  const INTERACTIVE =
+    'button, input, select, textarea, a[href], [role="button"], [role="link"], [role="menuitem"], [role="tab"], [role="switch"], [contenteditable=""], [contenteditable="true"], [tabindex]:not([tabindex="-1"])';
+
+  const root = document.querySelector("[data-figma-component]");
+  if (!root) return { layers: [] };
+
+  const layers: LayerProbe[] = [];
+  function walk(node: Element): void {
+    if (SKIP.has(node.tagName)) return;
+    const el = node as HTMLElement;
+    const tag = el.tagName.toLowerCase();
+    const text = ownText(el);
+    const role = elRole(el);
+    const labId = el.getAttribute("data-lab-id") ?? "";
+    const isInteractive = el.matches(INTERACTIVE);
+    const id = labId || structuralId(tagPath(root, el), text, tag);
+    layers.push({
+      id,
+      tag,
+      role,
+      displayName: text || el.getAttribute("aria-label") || `<${tag}>`,
+      text,
+      isInteractive,
+      labId,
+    });
+    for (const child of Array.from(el.children)) walk(child);
+  }
+  for (const child of Array.from(root.children)) walk(child);
+  return { layers };
 }
 
 export function snapshotScript(): DomSnapshot {
@@ -127,6 +267,7 @@ export function snapshotScript(): DomSnapshot {
     ariaExpanded: [],
     ariaSelected: [],
     ariaPressed: [],
+    pressedSources: [],
     checked: [],
     inputValues: [],
     activeIndex: -1,
@@ -138,6 +279,7 @@ export function snapshotScript(): DomSnapshot {
   const ariaExpanded: string[] = [];
   const ariaSelected: string[] = [];
   const ariaPressed: string[] = [];
+  const pressedSources: ("native" | "baseline" | "none")[] = [];
   const checked: string[] = [];
   const inputValues: string[] = [];
 
@@ -159,6 +301,12 @@ export function snapshotScript(): DomSnapshot {
     const v =
       el.getAttribute("aria-pressed") ?? el.getAttribute("data-pressed") ?? "";
     ariaPressed.push(`${v}:${(el.textContent ?? "").slice(0, 20)}`);
+    const html = el as HTMLElement;
+    const source =
+      html.getAttribute("data-pressed-source") === "baseline"
+        ? "baseline"
+        : "native";
+    pressedSources.push(source);
   });
   walk("input[type=checkbox], input[type=radio], [role=checkbox], [role=switch]", (el) => {
     const on =
@@ -214,6 +362,7 @@ export function snapshotScript(): DomSnapshot {
     ariaExpanded,
     ariaSelected,
     ariaPressed,
+    pressedSources,
     checked,
     inputValues,
     activeIndex,
@@ -225,16 +374,41 @@ export function snapshotsEqual(a: DomSnapshot, b: DomSnapshot): boolean {
   return a.digest === b.digest;
 }
 
+/**
+ * Detect the **source** of a behaviour that just occurred:
+ *   - If the after-snapshot grew a new pressedSource entry tagged "baseline",
+ *     the design-system runtime auto-wired it.
+ *   - If a press toggle happened but no baseline tag was added, the component
+ *     code owns the behaviour (native).
+ *   - Otherwise no behaviour observed.
+ */
+function diffSource(before: DomSnapshot, after: DomSnapshot): BehaviourSource {
+  const beforeBaseline = before.pressedSources.filter((s) => s === "baseline").length;
+  const afterBaseline = after.pressedSources.filter((s) => s === "baseline").length;
+  if (afterBaseline > beforeBaseline) return "baseline";
+  if (before.digest !== after.digest) return "native";
+  return "none";
+}
+
 export function classifyFinding(
   control: ControlProbe,
   outcome: InteractionOutcome,
-  component: string | null
+  component: string | null,
+  before?: DomSnapshot,
+  after?: DomSnapshot
 ): InteractionFinding {
+  const source: BehaviourSource =
+    before && after && outcome === "state_changed"
+      ? diffSource(before, after)
+      : outcome === "state_changed"
+        ? "native"
+        : "none";
+
   if (outcome === "skipped_readonly") {
-    return { ...control, outcome, category: "readonly", note: "Read-only or display-only field" };
+    return { ...control, outcome, category: "readonly", source: "none", note: "Read-only or display-only field" };
   }
   if (outcome === "click_failed") {
-    return { ...control, outcome, category: "unknown", note: "Pointer click failed or element not reachable" };
+    return { ...control, outcome, category: "unknown", source: "none", note: "Pointer click failed or element not reachable" };
   }
   if (outcome === "state_changed") {
     const isDs =
@@ -250,17 +424,25 @@ export function classifyFinding(
         ["text", "email", "password", "search", "tel", "url", "number", ""].includes(
           (control.type || "").toLowerCase()
         ));
+    const sourceNote =
+      source === "baseline"
+        ? "Wired by @lab/ui design-system baseline runtime"
+        : isDs
+          ? "Design-system widget responds to input"
+          : "Component code owns the state";
     return {
       ...control,
       outcome,
       category: "ds_builtin",
-      note: isDs ? "Design-system widget responds to input" : "UI state changed on interaction"
+      source,
+      note: sourceNote
     };
   }
   return {
     ...control,
     outcome,
     category: "static_shell",
-    note: "No visible state change — wire props/handlers in delivery package (packages/ui)"
+    source: "none",
+    note: "No visible state change — even with the design-system baseline this control did nothing"
   };
 }

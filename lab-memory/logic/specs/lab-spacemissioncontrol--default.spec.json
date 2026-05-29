@@ -1,0 +1,35 @@
+{
+  "storyId": "lab-spacemissioncontrol--default",
+  "schemaVersion": 2,
+  "intent": "",
+  "status": "proposed",
+  "approvedAt": null,
+  "approvedBy": null,
+  "specVersion": 2,
+  "elements": [
+    {
+      "id": "el-abort-burn",
+      "selector": "[data-lab-id=\"el-abort-burn\"]",
+      "displayName": "Abort Burn",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"Abort Burn\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-execute-maneuver",
+      "selector": "[data-lab-id=\"el-execute-maneuver\"]",
+      "displayName": "Execute Maneuver",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"Execute Maneuver\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    }
+  ]
+}

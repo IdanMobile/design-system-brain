@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-overlaystates--dialog",
     "componentName": "OverlayStates",
-    "extractedAt": "2026-05-24T20:51:39.550Z",
+    "extractedAt": "2026-05-25T19:29:05.935Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-overlaystates--dialog&viewMode=story",
     "viewport": {
       "x": 0,
@@ -271,6 +271,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 30,
                 "weight": 700,
                 "style": "normal",
@@ -333,6 +334,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 18,
                 "weight": 400,
                 "style": "normal",
@@ -475,6 +477,7 @@
                   "font": {
                     "family": "Inter",
                     "stack": "Inter, Arial, sans-serif",
+                    "computedStack": "Arial",
                     "size": 16,
                     "weight": 700,
                     "style": "normal",
@@ -569,6 +572,7 @@
                   "font": {
                     "family": "Inter",
                     "stack": "Inter, Arial, sans-serif",
+                    "computedStack": "Arial",
                     "size": 16,
                     "weight": 700,
                     "style": "normal",

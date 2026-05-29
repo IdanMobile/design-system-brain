@@ -1,0 +1,47 @@
+{
+  "storyId": "lab-retroterminalscreen--default",
+  "attempt": 1,
+  "jobId": "93a05c00-a260-477a-86f7-97e07270888c",
+  "recordedAt": "2026-05-25T16:22:55.399Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 3.1899380240612465,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 3.1899380240612465,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-retroterminalscreen--default_try1-1779724548429.prompt.txt",
+    ".test-console/agent-models-cache.json",
+    ".test-console/fix-all-batch-story-lab-retroterminalscreen-default-try-1.json",
+    ".test-console/fix-all-batch-story-lab-retroterminalscreen-default-try-1.md",
+    "lab-memory/.obsidian/workspace.json",
+    "pixel-diffs/by-story/lab-retroterminalscreen-default/result.json",
+    "pixel-diffs/lab-retroterminalscreen-default/artifact.v2.json",
+    "pixel-diffs/report.json",
+    "scripts/test-console-agent-bridge.mjs",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "NO_ADAPTER_EDIT",
+    "verdicts": [
+      "NO_ADAPTER_EDIT"
+    ],
+    "nextWorkerMode": "narrow_scope",
+    "interventionLines": [
+      "Supervisor: edits were only vault/rules/prompts — pixel needs packages/pixel-test/src/render-html.ts or extract.ts. Do NOT reorganize lab-memory during fix-all.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

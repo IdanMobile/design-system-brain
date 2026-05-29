@@ -17,7 +17,8 @@
     "test:delivery:all": "node --experimental-strip-types src/dev-delivery-test.ts --all",
     "test:logic:audit": "node --experimental-strip-types src/logic-audit.ts",
     "test:logic:audit:all": "node --experimental-strip-types src/logic-audit.ts --all",
-    "test:logic:audit:record": "node --experimental-strip-types src/logic-audit.ts --all --record"
+    "test:logic:audit:record": "node --experimental-strip-types src/logic-audit.ts --all --record",
+    "test:specs": "node --experimental-strip-types --test src/spec-store.test.ts"
   },
   "dependencies": {
     "@lab/contract": "workspace:*",

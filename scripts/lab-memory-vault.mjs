@@ -4,25 +4,29 @@
  */
 
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, appendFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, appendFileSync, writeFileSync, readdirSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  resolveRepoRoot,
+  labMemoryRoot,
+  patternsDir,
+  investigationsActiveDir,
+  resolveInvestigationPath,
+  investigationPath,
+  PATTERN_WIKI_PREFIX
+} from "./lab-memory-paths.mjs";
 
-const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
-
-/** @param {string} [repoRoot] */
-export function resolveRepoRoot(repoRoot) {
-  return repoRoot ? resolve(repoRoot) : resolve(SCRIPT_DIR, "..");
-}
+export { resolveRepoRoot } from "./lab-memory-paths.mjs";
 
 /** @param {string} repoRoot */
 export function labMemoryDir(repoRoot) {
-  return join(resolveRepoRoot(repoRoot), "lab-memory");
+  return labMemoryRoot(repoRoot);
 }
 
 /** @param {string} repoRoot @param {string} storyId */
 export function vaultStoryPath(repoRoot, storyId) {
-  return join(labMemoryDir(repoRoot), "stories", `${storyId}.md`);
+  return resolveInvestigationPath(repoRoot, storyId);
 }
 
 const SUITE_STEP = {
@@ -32,6 +36,59 @@ const SUITE_STEP = {
   delivery: "delivery",
   logic: "logic"
 };
+
+const CODE_V2_PATH = "packages/figma-importer-plugin/src/code-v2.ts";
+const EXTRACT_PATH = "packages/extractor-playwright/src/extract.ts";
+
+/** @param {string} text */
+export function isInfraFailure(text) {
+  if (!text || typeof text !== "string") return false;
+  const t = text.toLowerCase();
+  return (
+    t.includes("page.goto") ||
+    t.includes("timeout") && t.includes("exceeded") ||
+    t.includes("net::err") ||
+    t.includes("econnrefused") ||
+    t.includes("storybook") && t.includes("not reachable") ||
+    t.includes("cannot fetch") && t.includes("index.json")
+  );
+}
+
+/** @param {'live' | 'emulator' | 'pixel'} mode */
+export function primaryFixPathForMode(mode) {
+  if (mode === "pixel") return PIXEL_RENDER_HTML_PATH;
+  return CODE_V2_PATH;
+}
+
+/**
+ * @param {string} repoRoot
+ * @param {string} body
+ * @returns {{ id: string, title: string, summary?: string }[]}
+ */
+export function loadLinkedPatternsFromStory(repoRoot, body) {
+  const patterns = [];
+  const wiki = [
+    ...body.matchAll(/\[\[(?:visual\/)?patterns\/([^\]]+)\]\]/g)
+  ];
+  for (const m of wiki) {
+    const id = m[1].replace(/\.md$/, "");
+    if (patterns.some((p) => p.id === id)) continue;
+    patterns.push({ id, title: id });
+  }
+  const dir = patternsDir(repoRoot);
+  for (const p of patterns) {
+    const path = join(dir, `${p.id}.md`);
+    if (!existsSync(path)) continue;
+    const raw = readFileSync(path, "utf8");
+    const title = raw.match(/^# (.+)/m)?.[1] ?? p.id;
+    const summary =
+      raw.match(/## Rule\s*\n\n([\s\S]*?)(?=\n## |\n<!--|$)/)?.[1]?.trim() ||
+      raw.match(/## Symptom\s*\n\n([\s\S]*?)(?=\n## )/)?.[1]?.trim().split("\n")[0];
+    p.title = title;
+    p.summary = summary;
+  }
+  return patterns;
+}
 
 /**
  * @param {string} repoRoot
@@ -48,18 +105,19 @@ function relRepoPath(repoRoot, abs) {
  * @param {string} storyId
  */
 export function ensureStoryNote(repoRoot, storyId) {
-  const storiesDir = join(labMemoryDir(repoRoot), "stories");
-  const path = vaultStoryPath(repoRoot, storyId);
+  const path = resolveInvestigationPath(repoRoot, storyId);
   if (existsSync(path)) return path;
 
-  mkdirSync(storiesDir, { recursive: true });
+  const activeDir = investigationsActiveDir(repoRoot);
+  mkdirSync(activeDir, { recursive: true });
+  const newPath = investigationPath(repoRoot, storyId, "active");
   const templatePath = join(labMemoryDir(repoRoot), "templates", "story.md");
   let body = `# ${storyId}\n\n## Status\n\n| Step | ID | Pass |\n| --- | --- | --- |\n| 1 | pixel | |\n| 2 | figma mock | |\n| 3 | figma live | |\n| 4 | delivery | |\n\n## Timeline\n\n`;
   if (existsSync(templatePath)) {
     body = readFileSync(templatePath, "utf8").replace(/\{\{storyId\}\}/g, storyId);
   }
-  writeFileSync(path, body, "utf8");
-  return path;
+  writeFileSync(newPath, body, "utf8");
+  return newPath;
 }
 
 /**
@@ -139,9 +197,10 @@ export function appendTestInvestigation(opts) {
   const percent = metrics.percent ?? story.percent ?? 0;
   const maxRegion = metrics.maxRegionPercent ?? story.maxRegionPercent ?? null;
   const failReason = metrics.failReason ?? metrics.error ?? story.error ?? "—";
+  const infra = isInfraFailure(String(failReason));
 
   const fingerprint = [
-    suiteId,
+    infra ? "infra" : suiteId,
     status,
     percent.toFixed(3),
     maxRegion != null ? maxRegion.toFixed(3) : "na",
@@ -208,11 +267,19 @@ ${regionLines.join("\n")}
 
 ### Root cause
 
-<!-- pending — agent fills after systematic-debugging -->
+${
+  infra
+    ? "Infrastructure — Storybook/Playwright load failed (timeout or unreachable). Lower parallelism (`STORYBOOK_PARALLEL` ≤ 12), confirm `pnpm storybook:serve`, re-run golden. Do not edit renderer until a real visual fail reproduces."
+    : "<!-- pending — agent fills after systematic-debugging -->"
+}
 
 ### Recommended fix area
 
-<!-- pending — e.g. code-v2.ts -->
+${
+  infra
+    ? "<!-- infra — no adapter edit until visual failure is confirmed -->"
+    : "<!-- pending — see primary fix path for this suite in agent prompt -->"
+}
 
 ### Cached
 
@@ -256,6 +323,179 @@ export function recordStoryFailureInVault(
     story,
     resultRow
   });
+}
+
+/** v2 schema pixel replay — NOT scene-to-html.ts (mock/Figma emulator only). */
+export const PIXEL_RENDER_HTML_PATH = "packages/pixel-test/src/render-html.ts";
+
+/**
+ * Last filled root-cause block for a story/step from lab-memory (skips pending stubs).
+ * @param {string} repoRoot
+ * @param {string} storyId
+ * @param {string} [suiteId]
+ * @returns {{ rootCause: string, recommendedFixArea?: string } | null}
+ */
+export function loadLabMemoryFixHint(repoRoot, storyId, suiteId = "pixel") {
+  const path = vaultStoryPath(repoRoot, storyId);
+  if (!existsSync(path)) return null;
+
+  const step = SUITE_STEP[suiteId] ?? suiteId;
+  const body = readFileSync(path, "utf8");
+  const sections = body.split(/^## Investigation — /m).slice(1);
+
+  /** @type {{ rootCause: string, recommendedFixArea?: string } | null} */
+  let latest = null;
+
+  for (const section of sections) {
+    const header = section.split("\n")[0] ?? "";
+    if (!header.includes(` / ${step}`)) continue;
+
+    const rootMatch = section.match(/### Root cause\s*\n\n([\s\S]*?)(?=\n### |\n<!-- vault-fingerprint)/);
+    if (!rootMatch) continue;
+    const root = rootMatch[1].trim();
+    if (!root || root.includes("<!-- pending")) continue;
+
+    const fixMatch = section.match(
+      /### Recommended fix area\s*\n\n([\s\S]*?)(?=\n### |\n<!-- vault-fingerprint)/
+    );
+    const fixArea = fixMatch?.[1]?.trim() ?? "";
+    latest = {
+      rootCause: root,
+      recommendedFixArea: fixArea && !fixArea.includes("<!-- pending") ? fixArea : undefined
+    };
+  }
+
+  return latest;
+}
+
+/**
+ * @param {{ rootCause: string, recommendedFixArea?: string } | null} hint
+ * @param {'live' | 'emulator' | 'pixel'} mode
+ * @returns {string[]}
+ */
+export function formatLabMemoryFixHintBlock(hint, mode = "pixel") {
+  if (!hint) return [];
+  const primary = primaryFixPathForMode(mode);
+  const lines = [
+    "── Lab memory (prior investigation — finish this, do not re-triage from scratch) ──",
+    "Root cause (cached):",
+    ...hint.rootCause.split("\n").map((line) => (line.trim() ? `  ${line}` : "")),
+    ""
+  ];
+  if (hint.recommendedFixArea) {
+    lines.push(
+      "Recommended fix area (cached):",
+      ...hint.recommendedFixArea.split("\n").map((line) => (line.trim() ? `  ${line}` : "")),
+      ""
+    );
+  }
+  const grepHint =
+    mode === "pixel"
+      ? `Use Grep on ${primary} and ${EXTRACT_PATH} — do NOT read those files in full.`
+      : `Use Grep on ${primary} — do NOT read code-v2.ts or extract.ts in full before triage.`;
+  lines.push(`Primary fix path (${mode}): ${primary}`, grepHint, "");
+  return lines;
+}
+
+/**
+ * @param {{ id: string, title: string, summary?: string }[]} patterns
+ * @returns {string[]}
+ */
+export function formatPatternHintBlock(patterns) {
+  if (!patterns.length) return [];
+  const lines = ["── Linked patterns (apply rule before story-specific hacks) ──"];
+  for (const p of patterns) {
+    lines.push(`- [[${PATTERN_WIKI_PREFIX}/${p.id}]] — ${p.title}${p.summary ? `: ${p.summary}` : ""}`);
+  }
+  lines.push("");
+  return lines;
+}
+
+/**
+ * @param {string} repoRoot
+ * @param {string} storyId
+ * @param {string} suiteId
+ * @param {'live' | 'emulator' | 'pixel'} mode
+ */
+export function loadLabMemoryContext(repoRoot, storyId, suiteId, mode = "pixel") {
+  const path = vaultStoryPath(repoRoot, storyId);
+  const hint = loadLabMemoryFixHint(repoRoot, storyId, suiteId);
+  let patterns = [];
+  let pendingOnly = false;
+  if (existsSync(path)) {
+    const body = readFileSync(path, "utf8");
+    patterns = loadLinkedPatternsFromStory(repoRoot, body);
+    if (!hint) {
+      const hasInvestigation = body.includes("## Investigation —");
+      pendingOnly = hasInvestigation;
+    }
+  }
+  return { hint, patterns, pendingOnly, primaryPath: primaryFixPathForMode(mode) };
+}
+
+/**
+ * @param {ReturnType<typeof loadLabMemoryContext>} ctx
+ * @param {'live' | 'emulator' | 'pixel'} mode
+ * @returns {string[]}
+ */
+export function formatLabMemoryContextBlock(ctx, mode = "pixel") {
+  /** @type {string[]} */
+  const lines = [];
+  lines.push(...formatPatternHintBlock(ctx.patterns));
+  if (ctx.hint) {
+    lines.push(...formatLabMemoryFixHintBlock(ctx.hint, mode));
+  } else if (ctx.pendingOnly) {
+    lines.push(
+      "── Lab memory ──",
+      "Investigation stub exists but root cause is still pending — complete triage (compare PNG + artifact JSON) before editing adapter code.",
+      `Primary fix path (${mode}): ${ctx.primaryPath}`,
+      ""
+    );
+  }
+  return lines;
+}
+
+/**
+ * @param {object} opts
+ * @param {string} opts.repoRoot
+ * @param {string} opts.storyId
+ * @param {string} opts.suiteId
+ * @param {number} [opts.attempt]
+ * @param {string} [opts.patternSlug] — without .md
+ */
+export function appendStoryResolution(opts) {
+  const { repoRoot, storyId, suiteId, attempt, patternSlug } = opts;
+  const root = resolveRepoRoot(repoRoot);
+  const path = vaultStoryPath(root, storyId);
+  if (!existsSync(path)) return { ok: false, reason: "no story note" };
+
+  const step = SUITE_STEP[suiteId] ?? suiteId;
+  const date = new Date().toISOString();
+  const fp = `resolved|${suiteId}|${attempt ?? 0}|${date.slice(0, 10)}`;
+  const existing = readFileSync(path, "utf8");
+  if (existing.includes(`<!-- vault-fingerprint: ${fp} -->`)) {
+    return { ok: true, skipped: true };
+  }
+
+  const patternLine = patternSlug
+    ? `\nConsider documenting: \`lab-memory/visual/patterns/${patternSlug}.md\` and link \`[[${PATTERN_WIKI_PREFIX}/${patternSlug}]]\` under ## Linked patterns.\n`
+    : `\nIf the fix was a reusable rule, add or update a note under \`lab-memory/visual/patterns/\`.\n`;
+
+  const block = `
+## Resolved — ${storyId} / ${step}
+
+**Date:** ${date}  
+**Attempt:** ${attempt ?? "—"}  
+**Suite:** ${suiteId}
+
+Automated harness reports **PASS** for this story/step.
+${patternLine}
+<!-- vault-fingerprint: ${fp} -->
+`;
+
+  appendFileSync(path, block, "utf8");
+  maybeCommitVault(root, storyId);
+  return { ok: true, skipped: false };
 }
 
 /**

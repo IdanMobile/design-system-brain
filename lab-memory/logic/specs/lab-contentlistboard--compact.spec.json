@@ -1,0 +1,35 @@
+{
+  "storyId": "lab-contentlistboard--compact",
+  "schemaVersion": 2,
+  "intent": "",
+  "status": "proposed",
+  "approvedAt": null,
+  "approvedBy": null,
+  "specVersion": 2,
+  "elements": [
+    {
+      "id": "el-new-task",
+      "selector": "[data-lab-id=\"el-new-task\"]",
+      "displayName": "New Task",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Click triggers the \"New Task\" action",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    },
+    {
+      "id": "el-input",
+      "selector": "[data-lab-id=\"el-input\"]",
+      "displayName": "<input>",
+      "description": "",
+      "behaviorPreset": "click",
+      "source": "ai",
+      "aiSuggestion": "Designer types in this <input> field",
+      "aiExtracted": null,
+      "status": "proposed",
+      "approvedAt": null
+    }
+  ]
+}

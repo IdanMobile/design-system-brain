@@ -13,8 +13,7 @@ import {
   renderDocumentV2,
   type UniversalDocumentV2
 } from "./code-v2";
-
-figma.showUI(__html__, { width: 520, height: 520 });
+figma.showUI(__html__, { width: 520, height: 600 });
 
 type BatchImportItem = { name: string; json: string };
 type ParsedBatchItem = { name: string; doc: UniversalDocumentV2 };
@@ -236,5 +235,7 @@ figma.ui.onmessage = async (msg) => {
     } else {
       figma.notify(`Imported ${imported.length} files.`);
     }
+    return;
   }
+
 };

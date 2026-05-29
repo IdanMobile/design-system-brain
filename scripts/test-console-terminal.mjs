@@ -7,12 +7,9 @@ import { spawn, spawnSync } from "node:child_process";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+import { shellQuote } from "./shell-quote.mjs";
 
-/** Escape a string for use inside double quotes in a shell one-liner. */
-function shellQuote(s) {
-  return `"${String(s).replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\$/g, "\\$")}"`;
-}
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
 /** @param {number} pid */
 export function isProcessAlive(pid) {

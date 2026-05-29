@@ -1,0 +1,38 @@
+{
+  "storyId": "lab-retroterminalscreen--default",
+  "attempt": 2,
+  "jobId": "8b708980-fcda-4ebf-9f68-594d819ce593",
+  "recordedAt": "2026-05-25T09:03:48.625Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 3.2880665937537974,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 3.2880665937537974,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "agentExitCode": 143,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-retroterminalscreen--default_try2-1779699340305.prompt.txt",
+    ".test-console/child-status/8b708980-fcda-4ebf-9f68-594d819ce593-agent-lab-retroterminalscreen--default_try2-1779699340305.json"
+  ],
+  "evaluation": {
+    "verdict": "STUCK_LOOP",
+    "verdicts": [
+      "STUCK_LOOP"
+    ],
+    "nextWorkerMode": "investigate_first",
+    "interventionLines": [
+      "Supervisor: two consecutive attempts with no metric movement — switch to investigate-first.",
+      "Supervisor: agent CLI exited 143 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

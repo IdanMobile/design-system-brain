@@ -1,0 +1,75 @@
+run until pass
+
+Worst story: lab-retroterminalscreen--default (3.19% global, fail, Pixel (schema))
+Compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/regions/region-01-compare.png
+Storybook: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/storybook.png
+Rendered: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/rendered.png
+
+── Triage BEFORE editing renderer code ──
+Step 1: open the compare PNG and Storybook + Rendered PNGs side-by-side.
+Step 2: which side is wrong?
+  • Rendered missing content that Storybook has  → schema replay bug (packages/pixel-test/src/render-html.ts or extract.ts) ✅
+  • Rendered has content that Storybook is missing  → SOURCE bug (Storybook story, component, asset path, flaky network image). DO NOT edit code-v2.ts.
+  • Both look the same but pixels differ  → tolerance, anti-aliasing, font, or sub-pixel layout — usually a small fix in the component or a tolerance config.
+Step 3: state your answer (one sentence) before any Read on a renderer file.
+Hard limit: do NOT Read packages/pixel-test/src/render-html.ts, extract.ts, or code-v2.ts in full before completing Step 3. Use Grep for specific symbols if needed.
+
+── Lab memory (prior investigation — finish this, do not re-triage from scratch) ──
+Root cause (cached):
+  `layerClassNames()` whitelisted only `lab-retro-terminal-stats`, not `lab-retro-terminal-ascii` / `lab-retro-terminal` / sibling chrome classes. `textToHtml()` intentionally skips inline color on ASCII, expecting `.lab-retro-terminal-ascii { color: #22cc22 }` — without the class, glyphs inherit default black on dark bg (~7672 px in region-01). Stat `<strong>` values used nested `.text` div instead of flat inline leaf.
+
+Recommended fix area (cached):
+  `packages/pixel-test/src/render-html.ts`: whitelist retro-terminal + state classes in `layerClassNames`; add `strong` to `isInlineTextLeaf`.
+
+Primary file: packages/pixel-test/src/render-html.ts (pixel golden uses render-html.ts, NOT scene-to-html.ts).
+Use Grep on the files above — do NOT Read render-html.ts or extract.ts in full.
+
+── Automatic workflow (do not skip roles) ──
+1. Read .cursor/skills/project-orchestrator/SKILL.md — pre-flight: confirm phase + infra + verdict.
+2. Read .cursor/skills/roadmap-iteration/SKILL.md — active section: docs/ROADMAP.md (default §1.2 until live strict green).
+3. Lab memory (.cursor/rules/lab-memory.mdc): Read lab-memory/stories/<storyId>.md if it exists (create from lab-memory/templates/story.md if missing).
+4. After investigate, before code edits: append lab-memory/templates/investigation.md to the story note.
+5. Never store secrets in lab-memory/.
+6. Worker: .cursor/skills/figma-renderer-until-pass/SKILL.md + .cursor/skills/investigate-figma-mismatch/SKILL.md.
+7. Fix: packages/pixel-test/src/render-html.ts (+ extract.ts if extraction wrong). scene-to-html.ts is mock-only — not pixel golden.
+8. Tier A: pnpm test:regression -- --tier a --story lab-retroterminalscreen--default --suite <pixel|figma|figmaLive|delivery>.
+9. Tier C: pnpm test:regression if code-v2.ts, render-html.ts, extract.ts, or contract changed.
+10. Post-flight: verification-before-completion.
+Target: lab-retroterminalscreen--default (pixel).
+── End automatic workflow ──
+Read .cursor/skills/figma-renderer-until-pass/SKILL.md and .cursor/skills/investigate-figma-mismatch/SKILL.md — investigate BEFORE editing.
+Act immediately — do NOT ask approval to start fixing.
+Pixel (schema) — fix packages/pixel-test/src/render-html.ts (and packages/extractor-playwright/src/extract.ts only if extraction is wrong). scene-to-html.ts is mock/Figma emulator only.
+
+After fix: pnpm test:pixel:golden
+
+Fix-all iteration 2/5 — THIS STORY ONLY (lab-retroterminalscreen--default).
+Prior attempt(s) on this story did not reach PASS — read the failure brief below before editing.
+
+── Supervisor mode: NARROW SCOPE ──
+Prior attempt went the wrong direction — change ONLY what the supervisor names below.
+
+── Worker supervisor ──
+Verdict: WORSE_METRICS · mode: narrow_scope
+Supervisor: global diff worsened by 0.97% — revert harmful edits; do not repeat the same approach.
+Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done.
+Supervisor: agent CLI exited 143 — finish edits and verify plugin build before relying on test results.
+Do not fix other stories in this agent session.
+The harness will re-run pixel golden for this story after you finish.
+Goal: PASS on the next automated test (global + hotspot tolerance). WARN/FAIL triggers another attempt.
+Do not run the full suite golden yourself — only edit code and rebuild plugin if you changed code-v2.ts.
+
+── Previous attempt did NOT reach PASS (read before changing code) ──
+Attempt 1/5 completed without PASS.
+Metrics before that fix: fail · 2.22% global
+Metrics after automated golden test: fail · 3.19% global
+Global diff worsened by 0.97% — do not repeat the same approach.
+PASS requires global ≤ 0.1% and worst hotspot ≤ 0.1% (both must pass for Figma-style suites).
+Agent CLI exited 143 (may have stopped before finishing edits).
+Story golden test exited 1.
+Last lines from golden test:
+exit 1
+Compare PNG paths are unchanged but files were regenerated — open the compare image again.
+Worst hotspot compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/regions/region-01-compare.png
+Artifact: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/artifact.v2.json
+Scene JSON: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/scene.json

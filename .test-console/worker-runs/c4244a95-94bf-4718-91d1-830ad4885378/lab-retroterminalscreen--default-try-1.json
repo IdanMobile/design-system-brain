@@ -1,0 +1,35 @@
+{
+  "storyId": "lab-retroterminalscreen--default",
+  "attempt": 1,
+  "jobId": "c4244a95-94bf-4718-91d1-830ad4885378",
+  "recordedAt": "2026-05-25T10:31:43.777Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 2.6333697897678943,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 2.6333697897678943,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "agentExitCode": 143,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-lab-retroterminalscreen--default_try1-1779704615851.prompt.txt",
+    ".test-console/child-status/c4244a95-94bf-4718-91d1-830ad4885378-agent-lab-retroterminalscreen--default_try1-1779704615851.json"
+  ],
+  "evaluation": {
+    "verdict": "ON_TRACK",
+    "verdicts": [],
+    "nextWorkerMode": "continue",
+    "interventionLines": [
+      "Supervisor: agent CLI exited 143 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}
