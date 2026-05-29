@@ -1,0 +1,21 @@
+{
+  "name": "@brain/visual-gate",
+  "version": "0.1.0",
+  "description": "CLI: pixel-diff a Storybook story against a Figma reference PNG",
+  "type": "module",
+  "bin": {
+    "visual-gate": "./src/cli.ts"
+  },
+  "scripts": {
+    "test": "node --experimental-strip-types --test 'tests/**/*.test.mjs'"
+  },
+  "dependencies": {
+    "pixelmatch": "^6.0.0",
+    "pngjs": "^7.0.0",
+    "playwright": "^1.49.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "typescript": "^5.6.3"
+  }
+}
