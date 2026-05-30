@@ -329,6 +329,17 @@ export function recordStoryFailureInVault(
 export const PIXEL_RENDER_HTML_PATH = "packages/pixel-test/src/render-html.ts";
 
 /**
+ * True when lab-memory has a filled root-cause block for this story/step (not pending).
+ * Used by fix-all investigator gate before dispatching fixer agents.
+ * @param {string} repoRoot
+ * @param {string} storyId
+ * @param {string} [suiteId]
+ */
+export function isInvestigationComplete(repoRoot, storyId, suiteId = "pixel") {
+  return loadLabMemoryFixHint(repoRoot, storyId, suiteId) !== null;
+}
+
+/**
  * Last filled root-cause block for a story/step from lab-memory (skips pending stubs).
  * @param {string} repoRoot
  * @param {string} storyId

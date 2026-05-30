@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-retroterminalscreen--default",
     "componentName": "RetroTerminalScreen",
-    "extractedAt": "2026-05-25T19:29:15.904Z",
+    "extractedAt": "2026-05-30T10:44:29.487Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-retroterminalscreen--default&viewMode=story",
     "viewport": {
       "x": 0,
@@ -2238,7 +2238,10 @@
             "name": "button",
             "source": {
               "kind": "dom",
-              "tag": "button"
+              "tag": "button",
+              "dataset": {
+                "labId": "el-f1-disconnect"
+              }
             },
             "box": {
               "x": 0,
@@ -2330,7 +2333,10 @@
               "tag": "button",
               "classList": [
                 "danger"
-              ]
+              ],
+              "dataset": {
+                "labId": "el-f12-detonate"
+              }
             },
             "box": {
               "x": 183,

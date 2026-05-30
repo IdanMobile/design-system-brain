@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-30T04:21:08.384Z",
+  "updatedAt": "2026-05-30T10:51:53.677Z",
   "agents": [
     {
       "id": "orchestrator",
@@ -41,10 +41,16 @@
       "capabilities": [
         "pixel"
       ],
-      "status": "idle",
+      "status": "working",
       "workerNode": "local-mac",
-      "since": "2026-05-30T04:19:18.581Z",
-      "currentTask": null
+      "since": "2026-05-30T10:51:53.677Z",
+      "currentTask": {
+        "jobId": "2d9083d0-52cf-4d30-b79b-aa52b0168d7d",
+        "storyId": "lab-muiworkspacescreen--default",
+        "suiteId": "pixel",
+        "attempt": 2,
+        "phase": "fixer"
+      }
     },
     {
       "id": "mock-figma-fixer",
@@ -86,10 +92,31 @@
       "capabilities": [
         "test"
       ],
-      "status": "idle",
+      "status": "working",
       "workerNode": "local-mac",
-      "since": "2026-05-30T04:20:45.635Z",
-      "currentTask": null
+      "since": "2026-05-30T10:46:43.612Z",
+      "currentTask": {
+        "jobId": "2d9083d0-52cf-4d30-b79b-aa52b0168d7d",
+        "suiteId": "flow-golden",
+        "phase": "parallel-golden",
+        "parallelCount": 11,
+        "stories": [
+          "lab-overlaystates--bottom-sheet",
+          "lab-overlaystates--dialog",
+          "lab-overlaystates--drawer",
+          "lab-pricingpanel--pro",
+          "lab-pricingpanel--starter",
+          "lab-productcard--alternate-image",
+          "lab-productcard--compact",
+          "lab-productcard--dark",
+          "lab-productcard--default",
+          "lab-radiogroupfield--default",
+          "lab-radiogroupfield--disabled"
+        ],
+        "steps": [
+          "structural"
+        ]
+      }
     },
     {
       "id": "merge-captain",

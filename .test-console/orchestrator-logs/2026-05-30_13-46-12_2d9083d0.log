@@ -1,0 +1,841 @@
+# Orchestrator session log
+# Job:     2d9083d0-52cf-4d30-b79b-aa52b0168d7d
+# Started: 2026-05-30T10:46:12.724Z
+# Scope:   auto (run until complete)
+# Items:   55
+#
+[portfolio] Launch session — unified portfolio until complete or human action
+[portfolio] Steps: structural → Figma live → Storybook → ReactHtml → logic
+[portfolio] Launching supervisor in Terminal (≤5 fix→test tries per item)…
+[portfolio] Unified supervisor — strict 0.1% · structural → vsFigmaLive → vsStorybook → vsReactHtml → logic
+[portfolio] Scope: full · sort: flow_first
+[portfolio] Safety — fix rounds/step ≤10, auto-retries ≤3, agent calls ≤100
+[portfolio] Launch mode — runs until complete, stuck, or human action; rescans when green.
+
+[portfolio] Current state (57 items):
+  ○ Structural (57 items): 57 not tested
+  ✓ → Figma live
+  ✓ → Storybook
+  ✓ → ReactHtml
+  ✓ Logic audit
+
+
+[portfolio] ══ Flow batch (12 parallel safe work items): screen_1 · Structural, screen_2 · Structural, lab-analyticscharts--dense · Structural, lab-analyticscharts--revenue · Structural, lab-analyticscharts--usage · Structural, lab-button--compact · Structural, lab-button--danger · Structural, lab-button--ghost · Structural, lab-button--large-with-both-icons · Structural, lab-button--primary · Structural, lab-button--primary-with-icon · Structural, lab-button--secondary · Structural ══
+[portfolio] Golden · screen_1 · Manifest → Contract · status not_tested
+[portfolio] Golden · screen_2 · Manifest → Contract · status not_tested
+[portfolio] Golden · lab-analyticscharts--dense · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-analyticscharts--revenue · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-analyticscharts--usage · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-button--compact · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-button--danger · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-button--ghost · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-button--large-with-both-icons · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-button--primary · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-button--primary-with-icon · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-button--secondary · Pixel (schema) · status not_tested
+[portfolio] golden · screen_1
+[portfolio] golden · screen_2
+
+[manifest] screen_1
+  ✓ PASS — 449 layers · 1921×937
+     contract: /Users/user/Downloads/storybook-to-figma-lab/artifacts/figma-screens/screen_1.contract.json
+
+[figma-screen-manifest] Done — 1/1 pass
+
+[manifest] screen_2
+  ✓ PASS — 530 layers · 1921×937
+     contract: /Users/user/Downloads/storybook-to-figma-lab/artifacts/figma-screens/screen_2.contract.json
+
+[figma-screen-manifest] Done — 1/1 pass
+[portfolio] golden · pixel pool (10 stories × 12 workers)
+[golden-pool] pixel — 10 stories in 10 processes
+[golden-pool] worker 1/10 start Pixel (1 stories)
+[golden-pool] worker 2/10 start Pixel (1 stories)
+[golden-pool] worker 3/10 start Pixel (1 stories)
+[golden-pool] worker 4/10 start Pixel (1 stories)
+[golden-pool] worker 5/10 start Pixel (1 stories)
+[golden-pool] worker 6/10 start Pixel (1 stories)
+[golden-pool] worker 7/10 start Pixel (1 stories)
+[golden-pool] worker 8/10 start Pixel (1 stories)
+[golden-pool] worker 9/10 start Pixel (1 stories)
+[golden-pool] worker 10/10 start Pixel (1 stories)
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-analyticscharts--usage"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-button--ghost"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-button--primary-with-icon"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-analyticscharts--revenue"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-button--danger"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-button--compact"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-button--large-with-both-icons"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-analyticscharts--dense"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-button--secondary"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-button--primary"
+
+▶ lab-analyticscharts--dense ... ▶ lab-button--compact ... ▶ lab-button--primary-with-icon ... ▶ lab-button--danger ... ▶ lab-analyticscharts--usage ... ▶ lab-button--large-with-both-icons ... ▶ lab-analyticscharts--revenue ... ▶ lab-button--ghost ... ▶ lab-button--secondary ... ▶ lab-button--primary ... ✓ PASS 0.000%
+✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden-pool] worker 4/10 done
+[golden-pool] worker 10/10 done
+✓ PASS 0.000%
+✓ PASS 0.000%
+✓ PASS 0.000%
+✓ PASS 0.000%
+✓ PASS 0.000%
+✓ PASS 0.029%
+✓ PASS 0.020%
+✓ PASS 0.025%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden-pool] worker 9/10 done
+[golden-pool] worker 7/10 done
+[golden-pool] worker 8/10 done
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden-pool] worker 6/10 done
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden-pool] worker 3/10 done
+[golden-pool] worker 1/10 done
+[golden-pool] worker 5/10 done
+[golden-pool] worker 2/10 done
+Portfolio: /Users/user/Downloads/storybook-to-figma-lab/test-portfolio/report.html
+[golden-pool] complete
+
+[portfolio] ══ Flow batch (12 parallel safe work items): lab-calendarscheduler--compact · Structural, lab-calendarscheduler--monthly · Structural, lab-calendarscheduler--weekdays-only · Structural, lab-complexdashboardcard--default · Structural, lab-contentlistboard--compact · Structural, lab-contentlistboard--default · Structural, lab-contentlistboard--highlighted · Structural, lab-cryptochaosdashboard--default · Structural, lab-featurecard--default · Structural, lab-featurecard--success · Structural, lab-featurecard--warning · Structural, lab-filtersidepanel--collapsed · Structural ══
+[portfolio] Golden · lab-calendarscheduler--compact · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-calendarscheduler--monthly · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-calendarscheduler--weekdays-only · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-complexdashboardcard--default · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-contentlistboard--compact · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-contentlistboard--default · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-contentlistboard--highlighted · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-cryptochaosdashboard--default · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-featurecard--default · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-featurecard--success · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-featurecard--warning · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-filtersidepanel--collapsed · Pixel (schema) · status not_tested
+[portfolio] golden · pixel pool (12 stories × 12 workers)
+[golden-pool] pixel — 12 stories in 12 processes
+[golden-pool] worker 1/12 start Pixel (1 stories)
+[golden-pool] worker 2/12 start Pixel (1 stories)
+[golden-pool] worker 3/12 start Pixel (1 stories)
+[golden-pool] worker 4/12 start Pixel (1 stories)
+[golden-pool] worker 5/12 start Pixel (1 stories)
+[golden-pool] worker 6/12 start Pixel (1 stories)
+[golden-pool] worker 7/12 start Pixel (1 stories)
+[golden-pool] worker 8/12 start Pixel (1 stories)
+[golden-pool] worker 9/12 start Pixel (1 stories)
+[golden-pool] worker 10/12 start Pixel (1 stories)
+[golden-pool] worker 11/12 start Pixel (1 stories)
+[golden-pool] worker 12/12 start Pixel (1 stories)
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-contentlistboard--compact"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-contentlistboard--default"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-calendarscheduler--monthly"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-complexdashboardcard--default"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-contentlistboard--highlighted"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-featurecard--warning"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-calendarscheduler--weekdays-only"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-cryptochaosdashboard--default"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-calendarscheduler--compact"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-featurecard--success"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-filtersidepanel--collapsed"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-featurecard--default"
+
+▶ lab-contentlistboard--default ... ▶ lab-calendarscheduler--weekdays-only ... ▶ lab-contentlistboard--highlighted ... ▶ lab-calendarscheduler--monthly ... ▶ lab-complexdashboardcard--default ... ▶ lab-contentlistboard--compact ... ▶ lab-filtersidepanel--collapsed ... ▶ lab-calendarscheduler--compact ... ▶ lab-featurecard--default ... ▶ lab-featurecard--warning ... ▶ lab-cryptochaosdashboard--default ... ▶ lab-featurecard--success ... ✓ PASS 0.000%
+✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden-pool] worker 6/12 done
+[golden-pool] worker 3/12 done
+✓ PASS 0.000%
+✓ PASS 0.000%
+✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden-pool] worker 2/12 done
+[golden-pool] worker 7/12 done
+[golden-pool] worker 12/12 done
+✓ PASS 0.000%
+✓ PASS 0.000%
+✓ PASS 0.049%
+✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden-pool] worker 1/12 done
+[golden-pool] worker 5/12 done
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden-pool] worker 4/12 done
+[golden-pool] worker 11/12 done
+[golden-pool] worker 9/12 done
+✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+✓ PASS 0.070%
+[golden-pool] worker 10/12 done
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden-pool] worker 8/12 done
+Portfolio: /Users/user/Downloads/storybook-to-figma-lab/test-portfolio/report.html
+[golden-pool] complete
+
+[portfolio] ══ Flow batch (12 parallel safe work items): lab-filtersidepanel--left-panel · Structural, lab-filtersidepanel--right-panel · Structural, lab-foodfrenzyscreen--default · Structural, lab-loadingstates--card-skeleton · Structural, lab-loadingstates--list-skeleton · Structural, lab-loginpage--default · Structural, lab-loginpage--filled-credentials · Structural, lab-meetinghomepage--default · Structural, lab-muiworkspacescreen--default · Structural, lab-navigationbars--bottom-navigation · Structural, lab-navigationbars--top-navigation · Structural, lab-neonarcadescreen--default · Structural ══
+[portfolio] Golden · lab-filtersidepanel--left-panel · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-filtersidepanel--right-panel · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-foodfrenzyscreen--default · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-loadingstates--card-skeleton · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-loadingstates--list-skeleton · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-loginpage--default · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-loginpage--filled-credentials · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-meetinghomepage--default · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-muiworkspacescreen--default · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-navigationbars--bottom-navigation · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-navigationbars--top-navigation · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-neonarcadescreen--default · Pixel (schema) · status not_tested
+[portfolio] golden · pixel pool (12 stories × 12 workers)
+[golden-pool] pixel — 12 stories in 12 processes
+[golden-pool] worker 1/12 start Pixel (1 stories)
+[golden-pool] worker 2/12 start Pixel (1 stories)
+[golden-pool] worker 3/12 start Pixel (1 stories)
+[golden-pool] worker 4/12 start Pixel (1 stories)
+[golden-pool] worker 5/12 start Pixel (1 stories)
+[golden-pool] worker 6/12 start Pixel (1 stories)
+[golden-pool] worker 7/12 start Pixel (1 stories)
+[golden-pool] worker 8/12 start Pixel (1 stories)
+[golden-pool] worker 9/12 start Pixel (1 stories)
+[golden-pool] worker 10/12 start Pixel (1 stories)
+[golden-pool] worker 11/12 start Pixel (1 stories)
+[golden-pool] worker 12/12 start Pixel (1 stories)
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-filtersidepanel--right-panel"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-filtersidepanel--left-panel"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-loadingstates--card-skeleton"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-loginpage--default"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-navigationbars--top-navigation"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-foodfrenzyscreen--default"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-loadingstates--list-skeleton"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-muiworkspacescreen--default"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-neonarcadescreen--default"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-loginpage--filled-credentials"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-navigationbars--bottom-navigation"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-meetinghomepage--default"
+
+▶ lab-loadingstates--card-skeleton ... ▶ lab-filtersidepanel--right-panel ... ▶ lab-filtersidepanel--left-panel ... ▶ lab-navigationbars--top-navigation ... ▶ lab-foodfrenzyscreen--default ... ▶ lab-neonarcadescreen--default ... ▶ lab-muiworkspacescreen--default ... ▶ lab-loginpage--default ... ▶ lab-loadingstates--list-skeleton ... ▶ lab-meetinghomepage--default ... ▶ lab-navigationbars--bottom-navigation ... ▶ lab-loginpage--filled-credentials ... ✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden-pool] worker 4/12 done
+✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden-pool] worker 2/12 done
+✓ PASS 0.000%
+✓ PASS 0.000%
+✓ PASS 0.086%
+✓ PASS 0.049%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden-pool] worker 11/12 done
+✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+⚠ WARN 0.179%
+[golden-pool] worker 1/12 done
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden-pool] worker 3/12 done
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+✓ PASS 0.000%
+[golden-pool] worker 12/12 done
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden-pool] worker 10/12 done
+[golden-pool] worker 9/12 done
+[golden-pool] worker 5/12 done
+✓ PASS 0.000%
+✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden-pool] worker 7/12 done
+[golden-pool] worker 6/12 done
+✓ PASS 0.065%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden-pool] worker 8/12 done
+Portfolio: /Users/user/Downloads/storybook-to-figma-lab/test-portfolio/report.html
+[golden-pool] complete
+
+[portfolio] ══ Flow batch (12 parallel safe work items): lab-muiworkspacescreen--default · Structural, lab-overlaystates--bottom-sheet · Structural, lab-overlaystates--dialog · Structural, lab-overlaystates--drawer · Structural, lab-pricingpanel--pro · Structural, lab-pricingpanel--starter · Structural, lab-productcard--alternate-image · Structural, lab-productcard--compact · Structural, lab-productcard--dark · Structural, lab-productcard--default · Structural, lab-radiogroupfield--default · Structural, lab-radiogroupfield--disabled · Structural ══
+[portfolio] Golden · lab-overlaystates--bottom-sheet · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-overlaystates--dialog · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-overlaystates--drawer · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-pricingpanel--pro · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-pricingpanel--starter · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-productcard--alternate-image · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-productcard--compact · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-productcard--dark · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-productcard--default · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-radiogroupfield--default · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-radiogroupfield--disabled · Pixel (schema) · status not_tested
+[portfolio] Fix · lab-muiworkspacescreen--default · Pixel (schema) · status warn (0.18%)
+[portfolio] golden · pixel pool (11 stories × 12 workers)
+[fix-all] Serial mode (default): up to 5 fix→test cycles per story across 1 story (Pixel (schema))
+[fix-all] Worker supervisor ON — observes git diff + metrics, steers stuck agents.
+[fix-all] Investigator gate ON — fixer blocked until lab-memory root cause is filled (set FIX_ALL_SKIP_INVESTIGATOR_GATE=1 to bypass).
+[fix-all] Supervisor stays in this tab; child Terminal tabs open for agents, builds, and tests.
+[fix-all] Legacy batch mode is opt-in: set FIX_ALL_BATCH=1.
+[fix-all] 1/1 lab-muiworkspacescreen--default attempt 1/5 (warn 0.18%) — agent fix…
+[fix-all] 1/1 lab-muiworkspacescreen--default attempt 1 — using cached investigation (- `packages/pixel-test/src/render-html.ts` — `paintToBaseCss` / `useNativeBorder`)
+[orchestrator] Opening agent terminal → lab-muiworkspacescreen--default:fix-1 (model: auto)
+[orchestrator] Headless agent — lab-muiworkspacescreen--default:fix-1 (model: auto)
+[agent:lab-muiworkspacescreen--default:fix-1] Prompt preview:
+run until pass
+
+Worst story: lab-muiworkspacescreen--default (0.18% global, warn, Pixel (schema))
+Compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/regions/region-01-compare.png
+Storybook: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/storybook.png
+Rendered: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/rendered.png
+…
+[agent:lab-muiworkspacescreen--default:fix-1] ▶ agent -p --force --trust --output-format…
+[golden-pool] pixel — 11 stories in 11 processes
+[golden-pool] worker 1/11 start Pixel (1 stories)
+[golden-pool] worker 2/11 start Pixel (1 stories)
+[golden-pool] worker 3/11 start Pixel (1 stories)
+[golden-pool] worker 4/11 start Pixel (1 stories)
+[golden-pool] worker 5/11 start Pixel (1 stories)
+[golden-pool] worker 6/11 start Pixel (1 stories)
+[golden-pool] worker 7/11 start Pixel (1 stories)
+[golden-pool] worker 8/11 start Pixel (1 stories)
+[golden-pool] worker 9/11 start Pixel (1 stories)
+[golden-pool] worker 10/11 start Pixel (1 stories)
+[golden-pool] worker 11/11 start Pixel (1 stories)
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-overlaystates--dialog"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-overlaystates--bottom-sheet"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-productcard--default"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-productcard--dark"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-overlaystates--drawer"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-pricingpanel--pro"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-productcard--alternate-image"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-radiogroupfield--default"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-productcard--compact"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-pricingpanel--starter"
+
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-radiogroupfield--disabled"
+
+▶ lab-overlaystates--dialog ... ▶ lab-productcard--default ... ▶ lab-overlaystates--drawer ... ▶ lab-radiogroupfield--default ... ▶ lab-overlaystates--bottom-sheet ... ▶ lab-productcard--compact ... ▶ lab-productcard--dark ... ▶ lab-pricingpanel--pro ... ▶ lab-productcard--alternate-image ... ▶ lab-pricingpanel--starter ... ▶ lab-radiogroupfield--disabled ... ✓ PASS 0.000%
+✓ PASS 0.000%
+✓ PASS 0.000%
+✓ PASS 0.049%
+✓ PASS 0.035%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden-pool] worker 9/11 done
+[golden-pool] worker 10/11 done
+[golden-pool] worker 4/11 done
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden-pool] worker 3/11 done
+[golden-pool] worker 2/11 done
+✓ PASS 0.000%
+✓ PASS 0.000%
+✓ PASS 0.000%
+✓ PASS 0.000%
+✓ PASS 0.000%
+✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden-pool] worker 1/11 done
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden-pool] worker 5/11 done
+[golden-pool] worker 11/11 done
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden-pool] worker 7/11 done
+[golden-pool] worker 8/11 done
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden-pool] worker 6/11 done
+Portfolio: /Users/user/Downloads/storybook-to-figma-lab/test-portfolio/report.html
+[golden-pool] complete
+[agent:lab-muiworkspacescreen--default:fix-1] Using model Auto
+[agent:lab-muiworkspacescreen--default:fix-1] Following the fix workflow: reading orchestrator skills and the investigation br…
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/.agents/skills/project-orchestrator/SKILL.md
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/.test-console/batch-reports/lab-muiworkspacescreen-default-try-1.md
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/lab-memory/visual/investigations/active/lab-muiworkspacescreen--default.md
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/.agents/skills/project-orchestrator/SKILL.md (178 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/.test-console/batch-reports/lab-muiworkspacescreen-default-try-1.md (404 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/regions/region-01-compare.png
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/lab-memory/visual/investigations/active/lab-muiworkspacescreen--default.md (558 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/storybook.png
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/rendered.png
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/regions/region-01-compare.png (0 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/rendered.png (0 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/storybook.png (0 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] **Triage:** Both sides match visually; the 0.18% drift is sub-pixel border anti-…
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/lab-memory/visual/patterns/render-html-layer-class-allowlist-regression.md
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/lab-memory/visual/patterns/render-html-layer-class-allowlist-regression.md (28 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts (3042 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts (3042 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts (3042 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Checking artifact layers and whether `isMuiAlertOutlinedChrome` is used:
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/regions/region-02-compare.png
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/regions/region-02-compare.png (0 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json (9064 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json (9064 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts (3042 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts (3042 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json (9064 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] `isMuiOutlinedChrome` exists but isn't wired into `useNativeBorder`, and `isMuiO…
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Shell: cd /Users/user/Downloads/storybook-to-figma-lab && pnpm test:regression …
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Shell: cd /Users/user/Downloads/storybook-to-figma-lab && pnpm test:pixel -- --…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/by-story/lab-muiworkspacescreen-default/result.json
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/by-story/lab-muiworkspacescreen-default/result.json (55 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Native border on `MuiPaper-outlined` caused a 2.60% layout regression. Reverting…
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Shell: cd /Users/user/Downloads/storybook-to-figma-lab && pnpm --filter @lab/pi…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/by-story/lab-muiworkspacescreen-default/result.json
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/by-story/lab-muiworkspacescreen-default/result.json (55 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Shell: cd /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test && n…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/pixel-test.ts
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/pixel-test.ts (451 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/scripts/test-regression.mjs
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/scripts/test-regression.mjs (90 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Shell: cd /Users/user/Downloads/storybook-to-figma-lab && pnpm --filter @lab/pi…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Alert-only native border made it worse (0.18% → 0.361%). Reverting and investiga…
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/by-story/lab-muiworkspacescreen-default/result.json
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/by-story/lab-muiworkspacescreen-default/result.json (55 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/regions/region-03-compare.png
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/regions/region-03-compare.png (0 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Shell: cd /Users/user/Downloads/storybook-to-figma-lab && pnpm --filter @lab/pi…
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/regions/region-02-compare.png
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/regions/region-02-compare.png (0 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json (9064 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/regions/region-01-compare.png
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/regions/region-01-compare.png (0 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Trying outline replay for Paper instead of SVG (avoids native-border layout regr…
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Shell: cd /Users/user/Downloads/storybook-to-figma-lab && pnpm --filter @lab/pi…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Outline vs SVG made no difference. Inspecting chip and progress-bar layers in th…
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json (9064 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json (9064 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json (9064 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts (3041 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts (3041 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts (3041 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts (3041 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json (9064 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Trying inset `box-shadow` instead of `outline` for outlined MUI chrome:
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Shell: cd /Users/user/Downloads/storybook-to-figma-lab && pnpm --filter @lab/pi…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Clamping oversized MUI pill radii (e.g. 1188px on LinearProgress) to match brows…
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Shell: cd /Users/user/Downloads/storybook-to-figma-lab && pnpm --filter @lab/pi…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json (9064 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json (9064 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json (9064 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts (3062 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json (9064 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts (3062 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/pixel-test.ts
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/pixel-test.ts (451 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/pixel-test.ts
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/pixel-test.ts (451 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/pixel-test.ts
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/pixel-test.ts (451 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/packages/contract/src/stories.ts
+[agent:lab-muiworkspacescreen--default:fix-1] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/packages/contract/src/stories.ts (250 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/regions/region-02-storybook.png
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/regions/region-02-rendered.png
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/regions/region-02-storybook.png (0 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/regions/region-02-rendered.png (0 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/diff.png
+[agent:lab-muiworkspacescreen--default:fix-1] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/diff.png (0 lines)
+[agent:lab-muiworkspacescreen--default:fix-1] WATCHDOG: 5.0m elapsed, 0 edits (reads=46, big-file reads=2). Investigation paralysis. — terminating agent (no progress detected)
+[agent:lab-muiworkspacescreen--default:fix-1] Turn terminated by watchdog (5.0m elapsed, 0 edits (reads=46, big-file reads=2). Investigation paralysis.) exit 143
+[orchestrator] Agent lab-muiworkspacescreen--default:fix-1 finished exit 143 [watchdog: 5.0m elapsed, 0 edits (reads=46, big-file reads=2). Investigation paralysis.]
+[fix-all] 1/1 lab-muiworkspacescreen--default attempt 1 — agent exited 143
+[fix-all] 1/1 lab-muiworkspacescreen--default attempt 1 — files changed: .test-console/agent-prompts/agent-lab-muiworkspacescreen--default_fix-1-1780138004556.prompt.txt, .test-console/batch-reports/lab-muiworkspacescreen-default-try-1.json, .test-console/child-status/2d9083d0-52cf-4d30-b79b-aa52b0168d7d-agent-lab-muiworkspacescreen--default_fix-1-1780138004556.json, .test-console/fleet/agents.json, .test-console/fleet/events.jsonl, .test-console/orchestrator-logs/2026-05-30_13-46-12_2d9083d0.log, packages/pixel-test/src/render-html.ts, pixel-diffs/by-story/lab-analyticscharts-usage/result.json…
+[fix-all] 1/1 lab-muiworkspacescreen--default attempt 1 — running test (child terminal)…
+[orchestrator] Headless run → test:lab-muiworkspacescreen--default
+[test:lab-muiworkspacescreen--default] ▶ pnpm --filter @lab/pixel-test run test:golden -- --stories lab-muiworkspacescreen--default
+[test:lab-muiworkspacescreen--default] > @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+[test:lab-muiworkspacescreen--default] > node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-muiworkspacescreen--default"
+[test:lab-muiworkspacescreen--default] ▶ lab-muiworkspacescreen--default ... ⚠ WARN 0.179%
+[test:lab-muiworkspacescreen--default] Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[test:lab-muiworkspacescreen--default] ✓ PASS exit 0
+[fix-all] 1/1 lab-muiworkspacescreen--default test finished: PASS
+[supervisor] lab-muiworkspacescreen--default try 1: SHARED_ADAPTER → next mode tier_c_required
+[supervisor] Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done.
+[supervisor] Supervisor: agent CLI exited 143 — finish edits and verify plugin build before relying on test results.
+[fix-all] 1/1 lab-muiworkspacescreen--default — shared adapter edit noted; merge-captain promotion gate applies (no inline Tier C block)
+[fix-all] 1/1 lab-muiworkspacescreen--default attempt 1 — still warn (0.18%)
+[fix-all] 1/1 lab-muiworkspacescreen--default attempt 2/5 (warn 0.18%) — agent fix…
+[fix-all] 1/1 lab-muiworkspacescreen--default attempt 2 — using cached investigation (- `packages/pixel-test/src/render-html.ts` — `paintToBaseCss` / `useNativeBorder`)
+[orchestrator] Opening agent terminal → lab-muiworkspacescreen--default:fix-2 (model: auto)
+[orchestrator] Headless agent — lab-muiworkspacescreen--default:fix-2 (model: auto)
+[agent:lab-muiworkspacescreen--default:fix-2] Prompt preview:
+run until pass
+
+Worst story: lab-muiworkspacescreen--default (0.18% global, warn, Pixel (schema))
+Compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/regions/region-01-compare.png
+Storybook: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/storybook.png
+Rendered: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/rendered.png
+…
+[agent:lab-muiworkspacescreen--default:fix-2] ▶ agent -p --force --trust --output-format…
+[agent:lab-muiworkspacescreen--default:fix-2] Using model Auto
+[agent:lab-muiworkspacescreen--default:fix-2] Following the workflow: reading required skills and triaging the compare images …
+[agent:lab-muiworkspacescreen--default:fix-2] Reading /Users/user/Downloads/storybook-to-figma-lab/.cursor/skills/project-orchestrator/SKILL.md
+[agent:lab-muiworkspacescreen--default:fix-2] Reading /Users/user/Downloads/storybook-to-figma-lab/lab-memory/visual/investigations/active/lab-muiworkspacescreen--default.md
+[agent:lab-muiworkspacescreen--default:fix-2] Read /Users/user/Downloads/storybook-to-figma-lab/.cursor/skills/project-orchestrator/SKILL.md (178 lines)
+[agent:lab-muiworkspacescreen--default:fix-2] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/regions/region-01-compare.png
+[agent:lab-muiworkspacescreen--default:fix-2] Read /Users/user/Downloads/storybook-to-figma-lab/lab-memory/visual/investigations/active/lab-muiworkspacescreen--default.md (558 lines)
+[agent:lab-muiworkspacescreen--default:fix-2] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/storybook.png
+[agent:lab-muiworkspacescreen--default:fix-2] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/regions/region-01-compare.png (0 lines)
+[agent:lab-muiworkspacescreen--default:fix-2] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/rendered.png
+[agent:lab-muiworkspacescreen--default:fix-2] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/storybook.png (0 lines)
+[agent:lab-muiworkspacescreen--default:fix-2] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/rendered.png (0 lines)
+[agent:lab-muiworkspacescreen--default:fix-2] Triage: both sides show the same content; the diff is sub-pixel border anti-alia…
+[agent:lab-muiworkspacescreen--default:fix-2] Shell: cd /Users/user/Downloads/storybook-to-figma-lab && pnpm --filter @lab/pi…
+[agent:lab-muiworkspacescreen--default:fix-2] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-2] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-2] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-2] Test still WARN at 0.179%. Checking whether `isMuiOutlinedChrome` is wired into …
+[agent:lab-muiworkspacescreen--default:fix-2] Reading /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts
+[agent:lab-muiworkspacescreen--default:fix-2] Read /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts (3062 lines)
+[agent:lab-muiworkspacescreen--default:fix-2] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-2] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-2] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-2] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-2] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/regions/region-02-compare.png
+[agent:lab-muiworkspacescreen--default:fix-2] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/regions/region-02-compare.png (0 lines)
+[agent:lab-muiworkspacescreen--default:fix-2] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-2] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-2] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-2] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-2] Reading /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts
+[agent:lab-muiworkspacescreen--default:fix-2] Read /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts (3062 lines)
+[agent:lab-muiworkspacescreen--default:fix-2] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-2] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-2] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-2] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json
+[agent:lab-muiworkspacescreen--default:fix-2] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json (9064 lines)
+[agent:lab-muiworkspacescreen--default:fix-2] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-2] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json
+[agent:lab-muiworkspacescreen--default:fix-2] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-2] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json (9064 lines)
+[agent:lab-muiworkspacescreen--default:fix-2] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-2] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json
+[agent:lab-muiworkspacescreen--default:fix-2] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json (9064 lines)
+[agent:lab-muiworkspacescreen--default:fix-2] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-2] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-2] Reading /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts
+[agent:lab-muiworkspacescreen--default:fix-2] Read /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts (3062 lines)
+[agent:lab-muiworkspacescreen--default:fix-2] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json
+[agent:lab-muiworkspacescreen--default:fix-2] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json (9064 lines)
+[agent:lab-muiworkspacescreen--default:fix-2] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/result.json
+[agent:lab-muiworkspacescreen--default:fix-2] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-2] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-2] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-2] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-2] Tool finished
+[agent:lab-muiworkspacescreen--default:fix-2] Reading /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.json
+[agent:lab-muiworkspacescreen--default:fix-2] Read /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.json (1140 lines)
+[agent:lab-muiworkspacescreen--default:fix-2] Running tool…
+[agent:lab-muiworkspacescreen--default:fix-2] Reading /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts
+[agent:lab-muiworkspacescreen--default:fix-2] Read /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test/src/render-html.ts (3062 lines)
+[agent:lab-muiworkspacescreen--default:fix-2] Tool finished

@@ -52,6 +52,15 @@ function snapBoxSize(layer: UniversalLayer, axis: "width" | "height"): number {
   if ((layer.source.classList ?? []).includes("lab-button")) {
     return Math.max(1, Math.round(v));
   }
+  if (
+    layer.source?.kind === "figma" &&
+    (layer.source.dataset as { figmaNodeType?: string } | undefined)?.figmaNodeType ===
+      "ELLIPSE" &&
+    layer.box.width <= 48 &&
+    layer.box.height <= 48
+  ) {
+    return Math.max(1, Math.round(v));
+  }
   return Math.max(1, snap(v));
 }
 
@@ -194,41 +203,6 @@ function svgStrokeColorAttrs(color: string): string {
   return `stroke="rgb(${r}, ${g}, ${b})" stroke-opacity="${snap(c.a)}"`;
 }
 
-/** SVG fill attrs — split rgba into rgb + fill-opacity for reliable mock/live paint. */
-function svgFillColorAttrs(color: string): string {
-  const c = parseColor(color);
-  const r = Math.round(c.r * 255);
-  const g = Math.round(c.g * 255);
-  const b = Math.round(c.b * 255);
-  if (c.a >= 0.999) return `fill="rgb(${r}, ${g}, ${b})"`;
-  return `fill="rgb(${r}, ${g}, ${b})" fill-opacity="${snap(c.a)}"`;
-}
-
-function roundedRectPathCommands(
-  x: number,
-  y: number,
-  w: number,
-  h: number,
-  radius: number
-): string {
-  const cr = Math.max(0, Math.min(radius, w / 2, h / 2));
-  if (cr <= 0) {
-    return `M ${x} ${y} L ${x + w} ${y} L ${x + w} ${y + h} L ${x} ${y + h} Z`;
-  }
-  const cmds: string[] = [];
-  cmds.push(`M ${x + cr} ${y}`);
-  cmds.push(`L ${x + w - cr} ${y}`);
-  cmds.push(`A ${cr} ${cr} 0 0 1 ${x + w} ${y + cr}`);
-  cmds.push(`L ${x + w} ${y + h - cr}`);
-  cmds.push(`A ${cr} ${cr} 0 0 1 ${x + w - cr} ${y + h}`);
-  cmds.push(`L ${x + cr} ${y + h}`);
-  cmds.push(`A ${cr} ${cr} 0 0 1 ${x} ${y + h - cr}`);
-  cmds.push(`L ${x} ${y + cr}`);
-  cmds.push(`A ${cr} ${cr} 0 0 1 ${x + cr} ${y}`);
-  cmds.push(`Z`);
-  return cmds.join(" ");
-}
-
 // ─────────────────────────── gradient → Figma Paint ───────────────────────────
 
 function gradientTransformForAngle(
@@ -324,10 +298,13 @@ function figmaNativeGradientPaint(layer: FillLayer): GradientPaint | null {
 function gradientPaint(
   layer: FillLayer,
   width?: number,
-  height?: number
+  height?: number,
+  opts?: { preferCssAngle?: boolean }
 ): GradientPaint | null {
-  const nativePaint = figmaNativeGradientPaint(layer);
-  if (nativePaint) return nativePaint;
+  if (!opts?.preferCssAngle) {
+    const nativePaint = figmaNativeGradientPaint(layer);
+    if (nativePaint) return nativePaint;
+  }
 
   if (layer.kind === "linear-gradient") {
     const stops = toColorStops(layer.stops);
@@ -602,16 +579,11 @@ function buildBorderOutlineSvg(
   // only on top in the schema right now; extend as needed.
   const gaps = (b.gaps || []).filter((g) => g.side === "top").sort((a, b2) => a.from - b2.from);
 
-  // Mock: uniform solid uses native strokes. Live rounded rects ghost double rings
-  // with native INSIDE strokes — emit one SVG outline (filter pill, segments, etc.).
+  // Uniform solid borders use native strokes; dashed/dotted on rounded rects need
+  // an explicit SVG path so Figma/live export matches browser dash geometry.
   if (gaps.length === 0 && bordersUniform(b)) {
     const uniform = bordersUniform(b);
-    if (!uniform || cornerR <= 0) return null;
-    if (uniform.style === "dashed" || uniform.style === "dotted") {
-      /* fall through */
-    } else if (uniform.style === "solid" && !isMockFigmaRuntime()) {
-      /* fall through */
-    } else {
+    if (!uniform || cornerR <= 0 || (uniform.style !== "dashed" && uniform.style !== "dotted")) {
       return null;
     }
   }
@@ -658,73 +630,6 @@ function buildBorderOutlineSvg(
   cmds.push(`Z`);
 
   return `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg"><path d="${cmds.join(" ")}" ${strokeAttrs}/></svg>`;
-}
-
-/** Live Figma under-renders INNER_SHADOW spread on rounded bordered frames — synthesize SVG ring. */
-function shouldSynthesizeInsetSpreadRingLive(layer: UniversalLayer): boolean {
-  if (isMockFigmaRuntime()) return false;
-  return (layer.paint?.shadows || []).some((s) => s.inset && (s.spread ?? 0) > 0);
-}
-
-/** Native spread needs clipsContent; live synthesized inset rings use the same clip. */
-function spreadShadowRequiresClip(layer: UniversalLayer): boolean {
-  return (layer.paint?.shadows || []).some((s) => s.spread !== 0);
-}
-
-function buildInsetSpreadRingSvg(
-  width: number,
-  height: number,
-  paint: LayerPaint,
-  shadow: { spread: number; color: string }
-): string | null {
-  const spread = Math.max(0, snap(shadow.spread));
-  if (spread <= 0) return null;
-  const corners = paint.cornerRadii;
-  const r = corners
-    ? Math.max(
-        corners.topLeft.x,
-        corners.topRight.x,
-        corners.bottomRight.x,
-        corners.bottomLeft.x
-      )
-    : 0;
-  // CSS `box-shadow: … spread … inset` fills from the border-box edge inward (border paints on top).
-  const outer = roundedRectPathCommands(0, 0, width, height, r);
-  // Shrink the inner hole by 1px so even-odd fill does not paint the inner boundary row (e.g. y=480).
-  const innerPad = spread + 1;
-  const innerW = width - innerPad * 2;
-  const innerH = height - innerPad * 2;
-  if (innerW <= 0 || innerH <= 0) return null;
-  const innerR = Math.max(0, r - innerPad);
-  const inner = roundedRectPathCommands(innerPad, innerPad, innerW, innerH, innerR);
-  const fillAttrs = svgFillColorAttrs(shadow.color);
-  return `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="${outer} ${inner}" ${fillAttrs}/></svg>`;
-}
-
-function clearInsetRingVectorFills(node: SceneNode): void {
-  if ("fills" in node) (node as GeometryMixin).fills = [];
-  if ("children" in node) {
-    for (const child of (node as ChildrenMixin).children) clearInsetRingVectorFills(child);
-  }
-}
-
-function applyInsetSpreadRingOverlay(
-  paint: LayerPaint | undefined,
-  width: number,
-  height: number
-): SceneNode | null {
-  if (!paint?.shadows?.length) return null;
-  const shadow = paint.shadows.find((s) => s.inset && (s.spread ?? 0) > 0);
-  if (!shadow) return null;
-  const svg = buildInsetSpreadRingSvg(width, height, paint, shadow);
-  if (!svg) return null;
-  const vector = figma.createNodeFromSvg(svg);
-  vector.name = "__inset-ring";
-  vector.x = 0;
-  vector.y = 0;
-  vector.resize(Math.max(1, snap(width)), Math.max(1, snap(height)));
-  clearInsetRingVectorFills(vector);
-  return vector;
 }
 
 // ─────────────────────────── shadows / filters ───────────────────────────
@@ -804,143 +709,26 @@ async function listFonts(): Promise<Font[]> {
   return availableFonts;
 }
 
-function isInLabPricingContext(
-  layer?: UniversalLayer,
-  parent?: UniversalLayer,
-  grandparent?: UniversalLayer
-): boolean {
-  for (const l of [layer, parent, grandparent]) {
-    if (!l) continue;
-    if ((l.source.classList ?? []).some((c) => c.startsWith("lab-pricing"))) return true;
-  }
-  return false;
-}
-
-/** Block typography inside pricing cards — Inter weight down-map (not CTA). */
-function isLabPricingBlockTypography(
-  layer?: UniversalLayer,
-  parent?: UniversalLayer
-): boolean {
-  if (!layer?.text || !isInLabPricingContext(layer, parent)) return false;
-  const cl = layer.source.classList ?? [];
-  const parentCl = parent?.source.classList ?? [];
-  if (cl.includes("lab-pricing-tag")) return true;
-  if (layer.source.tag === "h3") return true;
-  if (parentCl.includes("lab-pricing-price")) return true;
-  if (parentCl.includes("lab-pricing-list") && layer.source.tag === "p") return true;
-  return false;
-}
-
-function isLabPricingCtaButton(layer?: UniversalLayer): boolean {
-  return (
-    layer?.source?.tag === "button" &&
-    (layer.source.classList ?? []).includes("lab-pricing-cta")
-  );
-}
-
-function isLabPricingTagPill(layer?: UniversalLayer): boolean {
-  return (layer?.source?.classList ?? []).includes("lab-pricing-tag");
-}
-
-function isLabPricingProVariant(
-  layer?: UniversalLayer,
-  parent?: UniversalLayer,
-  grandparent?: UniversalLayer
-): boolean {
-  for (const l of [layer, parent, grandparent]) {
-    if (!l) continue;
-    if ((l.source.classList ?? []).includes("pro")) return true;
-  }
-  return false;
-}
-
-/**
- * Live: Figma Desktop Inter renders heavier/wider than Chromium at the same
- * numeric CSS weight inside `.lab-pricing*` — down-map to match Chromium AA.
- */
-function liveLabPricingInterResolveWeight(
-  weight: number,
-  layer?: UniversalLayer,
-  parent?: UniversalLayer,
-  _grandparent?: UniversalLayer
-): number {
-  if (isMockFigmaRuntime()) return weight;
-  if (layer && isLabPricingCtaButton(layer)) return weight;
-  if (layer && isLabPricingTagPill(layer)) return weight;
-  if (!isLabPricingBlockTypography(layer, parent)) return weight;
-  const primary = (
-    familyCandidates(layer!.text!.font, layer)[0] ?? ""
-  ).toLowerCase();
-  if (primary !== "inter") return weight;
-  if (weight >= 800) return 700;
-  if (weight >= 700) return 600;
-  if (weight >= 500 && weight < 600) return 400;
-  return weight;
-}
-
-function isInLabFeatureContext(
-  layer?: UniversalLayer,
-  parent?: UniversalLayer,
-  grandparent?: UniversalLayer
-): boolean {
-  for (const l of [layer, parent, grandparent]) {
-    if (!l) continue;
-    if ((l.source.classList ?? []).some((c) => c.startsWith("lab-feature"))) return true;
-  }
-  return false;
-}
-
-/** Header h3/p and footer span/strong — live TOP pin, not NONE+CENTER re-wrap. */
-function isLabFeatureBlockTypography(
-  layer: UniversalLayer,
-  parent?: UniversalLayer,
-  grandparent?: UniversalLayer
-): boolean {
-  if (!layer.text || !isInLabFeatureContext(layer, parent, grandparent)) return false;
-  const tag = layer.source.tag ?? "";
-  if ((grandparent?.source?.classList ?? []).includes("lab-feature-header")) {
-    return tag === "h3" || tag === "p";
-  }
-  if ((parent?.source?.classList ?? []).includes("lab-feature-footer")) {
-    return tag === "span" || tag === "strong";
-  }
-  return false;
-}
-
-function isLiveFeatureCardHeaderH3(
-  layer: UniversalLayer,
-  parent?: UniversalLayer,
-  grandparent?: UniversalLayer
-): boolean {
-  if (layer.source.tag !== "h3") return false;
-  return (grandparent?.source?.classList ?? []).includes("lab-feature-header");
-}
-
 /** Figma Desktop Inter renders ~one step lighter than Chromium; Roboto does not. */
 function liveCompensatedWeight(
   weight: number,
-  font?: { family: string; stack?: string; computedStack?: string },
+  font?: { family: string; stack?: string },
   layer?: UniversalLayer,
-  parent?: UniversalLayer,
-  grandparent?: UniversalLayer
+  parent?: UniversalLayer
 ): number {
   if (isMockFigmaRuntime()) return weight;
   // Lab components: keep exact DOM weight — +100 widens pills/tabs and drifts live diffs.
-  if (layer && isLabDomContext(layer, parent, grandparent)) return weight;
+  if (layer && isLabDomContext(layer, parent)) return weight;
   // Heavier Inter (700→800) widens pill/tab labels and forces live Figma to wrap.
   if (layer && liveLayoutSensitiveText(layer, parent)) return weight;
-  const primary = (familyCandidates(font ?? { family: "" }, layer)[0] ?? "").toLowerCase();
+  const primary = (familyCandidates(font ?? { family: "" })[0] ?? "").toLowerCase();
   if (primary === "roboto") return weight;
   if (weight >= 400 && weight <= 700) return Math.min(900, weight + 100);
   return weight;
 }
 
-function isLabDomContext(
-  layer?: UniversalLayer,
-  parent?: UniversalLayer,
-  grandparent?: UniversalLayer
-): boolean {
-  for (const l of [layer, parent, grandparent]) {
+function isLabDomContext(layer?: UniversalLayer, parent?: UniversalLayer): boolean {
+  for (const l of [layer, parent]) {
     if (!l) continue;
     if ((l.source.classList ?? []).some((c) => c.startsWith("lab-"))) return true;
   }
@@ -1006,8 +794,16 @@ function isFigmaNativeEllipse(layer: UniversalLayer): boolean {
   );
 }
 
+function isFigmaReferenceRasterLayer(layer: UniversalLayer): boolean {
+  return Boolean(
+    layer.image?.dataUrl &&
+    (layer.source?.dataset as { figmaReferenceRaster?: string } | undefined)?.figmaReferenceRaster
+  );
+}
+
 /** Guing round-trip TEXT — glyph color lives on layer.text; never wrap in a chrome frame. */
 function isFigmaNativeTextLayer(layer: UniversalLayer): boolean {
+  if (isFigmaReferenceRasterLayer(layer)) return false;
   return (
     layer.source?.kind === "figma" &&
     (layer.source.dataset as { figmaNodeType?: string } | undefined)?.figmaNodeType === "TEXT"
@@ -1024,93 +820,35 @@ function figmaNativeNeedsFixedTextBox(layer: UniversalLayer, text: LayerText): b
   const resize = (layer.source?.dataset as { figmaTextAutoResize?: string } | undefined)
     ?.figmaTextAutoResize;
   if (resize !== "WIDTH_AND_HEIGHT") return false;
-  const normalized = text.value.replace(/\u2028|\u2029/g, "\n");
-  if (/[\u2028\u2029]/.test(text.value) || normalized.includes("\n")) return true;
   const lh = text.lineHeight ?? text.font.size;
   if (!(layer.box.height > lh * 1.3)) return false;
   return /\s/.test(text.value.trim());
 }
 
 /**
- * RTL Guing labels (tabs, filter pill): WIDTH_AND_HEIGHT hugs glyphs and drifts vs
- * the contract box in live Figma — lock NONE + contract box for right OR center.
+ * WIDTH_AND_HEIGHT with a single-line contract box but paragraph-length copy.
+ * Live both-axes auto-size keeps one line and overlaps neighbors (screen_2).
  */
-function figmaNativeNeedsRtlContractBox(layer: UniversalLayer, text: LayerText): boolean {
+function figmaNativeNeedsWidthConstrainedWrap(
+  layer: UniversalLayer,
+  text: LayerText
+): boolean {
   if (!isFigmaNativeTextLayer(layer)) return false;
   const resize = (layer.source?.dataset as { figmaTextAutoResize?: string } | undefined)
     ?.figmaTextAutoResize;
-  if (resize !== "WIDTH_AND_HEIGHT" && resize !== "HEIGHT") return false;
+  if (resize !== "WIDTH_AND_HEIGHT") return false;
+  const trimmed = text.value.trim();
+  if (!/\s/.test(trimmed)) return false;
+  const lh = text.lineHeight ?? text.font.size;
+  if (layer.box.height > lh * 1.3) return false;
+  const fontSize = Math.max(1, text.font.size ?? 14);
+  const isHebrew = /[\u0590-\u05FF]/.test(trimmed);
+  const emFactor = isHebrew ? 0.45 : 0.52;
+  const estCharsPerLine = Math.max(8, Math.floor(layer.box.width / (fontSize * emFactor)));
   return (
-    text.direction === "rtl" &&
-    (text.align === "right" || text.align === "end" || text.align === "center")
+    trimmed.length > estCharsPerLine ||
+    (trimmed.length > 40 && layer.box.height <= lh * 1.3)
   );
-}
-
-function parentUsesFlexCrossEnd(parent?: UniversalLayer): boolean {
-  if (parent?.layout?.display !== "flex") return false;
-  return parent.layout.flex?.align === "end";
-}
-
-/**
- * Guing header email (fig-107): flex-column align:end right-clusters LTR labels
- * beside the avatar, but contract box.x is 0 with align:left. Natural-width pin
- * is a no-op when glyphs span the full contract width (144px email) — lock NONE
- * + RIGHT inside the captured box instead.
- */
-function pinFigmaFlexCrossEndBareText(
-  text: TextNode,
-  layer: UniversalLayer,
-  parent: UniversalLayer
-): void {
-  if (!layer.text) return;
-  if (layer.text.direction === "rtl") return;
-  if (layer.text.align !== "left" && layer.text.align !== "start") return;
-  const parentW = parent.box.width;
-  const childRight = layer.box.x + layer.box.width;
-  const spansParent =
-    layer.box.width >= parentW - 1 || childRight + 0.5 >= parentW;
-  if (!spansParent) return;
-  const boxW = Math.max(1, Math.ceil(snap(layer.box.width)));
-  const boxH = Math.max(1, Math.ceil(snap(layer.box.height)));
-  text.textAutoResize = "NONE";
-  text.textAlignHorizontal = "RIGHT";
-  text.resize(boxW, boxH);
-  text.x = snap(layer.box.x);
-  text.y = snap(layer.box.y);
-}
-
-function reaffirmFigmaFlexCrossEndBareText(
-  node: SceneNode,
-  layer: UniversalLayer,
-  parent?: UniversalLayer
-): void {
-  if (!parentUsesFlexCrossEnd(parent) || !parentUsesFlexColumn(parent)) return;
-  if (node.type !== "TEXT" || !isFigmaNativeTextLayer(layer) || !layer.text) return;
-  pinFigmaFlexCrossEndBareText(node as TextNode, layer, parent!);
-}
-
-/** RTL WIDTH_AND_HEIGHT / HEIGHT labels (tabs, breadcrumbs): lock contract box + anchor. */
-function applyFigmaRtlContractTextPin(text: TextNode, layer: UniversalLayer): void {
-  if (!isFigmaNativeTextLayer(layer) || !layer.text) return;
-  if (!figmaNativeNeedsRtlContractBox(layer, layer.text)) return;
-  const boxW = Math.max(1, Math.ceil(snap(layer.box.width)));
-  const boxH = Math.max(1, Math.ceil(snap(layer.box.height)));
-  try {
-    (text as TextNode & { textDirection?: "RTL" | "LTR" }).textDirection = "RTL";
-  } catch {
-    /* older Figma builds */
-  }
-  text.textAlignHorizontal =
-    layer.text.align === "center" ? "CENTER" : "RIGHT";
-  text.textAutoResize = "NONE";
-  text.resize(boxW, boxH);
-  text.x = snap(layer.box.x);
-  text.y = snap(layer.box.y);
-}
-
-function reaffirmFigmaRtlContractText(node: SceneNode, layer: UniversalLayer): void {
-  if (node.type !== "TEXT") return;
-  applyFigmaRtlContractTextPin(node as TextNode, layer);
 }
 
 function weightToStyle(weight: number, italic: boolean): string {
@@ -1151,51 +889,24 @@ const GENERIC_FALLBACKS: Record<string, string[]> = {
  * `"My Brand Font", monospace` exactly for the case where the brand font
  * is missing — and "monospace" must NOT collapse to Inter.
  */
-function familyCandidates(
-  font: { family: string; stack?: string; computedStack?: string },
-  layer?: UniversalLayer
-): string[] {
-  const raw = font.computedStack || font.stack || font.family || "";
-  const candidates = raw
+function familyCandidates(font: { family: string; stack?: string }): string[] {
+  const raw = font.stack || font.family || "";
+  return raw
     .split(",")
     .map((s) => s.replace(/['"]/g, "").trim())
     .filter(Boolean);
-  if (
-    !font.computedStack &&
-    layer?.source?.tag === "button" &&
-    (layer.source.classList ?? []).includes("lab-pricing-cta")
-  ) {
-    const arial = candidates.find((c) => c.toLowerCase() === "arial");
-    if (arial) {
-      return [arial, ...candidates.filter((c) => c.toLowerCase() !== "arial")];
-    }
-  }
-  if (candidates[0]?.toLowerCase() === "arial") {
-    const extras = ["Helvetica Neue", "Helvetica"].filter(
-      (h) => !candidates.some((c) => c.toLowerCase() === h.toLowerCase())
-    );
-    return [candidates[0]!, ...extras, ...candidates.slice(1)];
-  }
-  return candidates;
 }
 
 async function resolveFont(
   text: LayerText,
   layer?: UniversalLayer,
-  parent?: UniversalLayer,
-  grandparent?: UniversalLayer
+  parent?: UniversalLayer
 ): Promise<FontName> {
   const italic = text.font.style === "italic" || text.font.style === "oblique";
-  let weight = liveLabPricingInterResolveWeight(
-    text.font.weight || 400,
-    layer,
-    parent,
-    grandparent
-  );
-  weight = liveCompensatedWeight(weight, text.font, layer, parent, grandparent);
+  let weight = liveCompensatedWeight(text.font.weight || 400, text.font, layer, parent);
   const tag = layer?.source.tag ?? "";
   if (tag === "input" && weight < 600 && parent?.name === "inline-edit") {
-    weight = liveCompensatedWeight(700, text.font, layer, parent, grandparent);
+    weight = liveCompensatedWeight(700, text.font, layer, parent);
   }
   const desired = weightToStyle(weight, italic);
   const fonts = await listFonts();
@@ -1205,13 +916,11 @@ async function resolveFont(
       figmaFontStyle?: string;
     };
     if (ds?.figmaFontFamily && ds?.figmaFontStyle) {
-      const families = [ds.figmaFontFamily];
-      if (
-        /[\u0590-\u05FF]/.test(text.value ?? "") &&
-        ds.figmaFontFamily === "Open Sans"
-      ) {
-        families.push("Open Sans Hebrew");
-      }
+      const hasHebrew = /[\u0590-\u05FF]/.test(text.value ?? "");
+      const families =
+        hasHebrew && ds.figmaFontFamily === "Open Sans"
+          ? ["Open Sans Hebrew", "Open Sans"]
+          : [ds.figmaFontFamily];
       for (const family of families) {
         for (const style of figmaStyleAliases(ds.figmaFontStyle)) {
           const hit = fonts.find(
@@ -1222,7 +931,7 @@ async function resolveFont(
       }
     }
   }
-  const candidates = familyCandidates(text.font, layer);
+  const candidates = familyCandidates(text.font);
 
   const styleWeight = (style: string): number => {
     const s = style.toLowerCase();
@@ -1310,7 +1019,7 @@ function applyTransform(node: SceneNode, layer: UniversalLayer): void {
     ?.figmaRelativeTransform;
   if (
     layer.source?.kind === "figma" &&
-    layer.vector &&
+    (layer.vector || isFigmaFlipIconFrame(layer)) &&
     rt?.length === 2 &&
     rt[0]?.length === 3 &&
     rt[1]?.length === 3
@@ -1323,7 +1032,16 @@ function applyTransform(node: SceneNode, layer: UniversalLayer): void {
   }
 
   let x = snap(layer.box.x);
-  const y = snap(layer.box.y);
+  let y = snap(layer.box.y);
+  if (
+    !isMockFigmaRuntime() &&
+    isFigmaNativeEllipse(layer) &&
+    layer.box.width <= 48 &&
+    layer.box.height <= 48
+  ) {
+    x = Math.round(layer.box.x);
+    y = Math.round(layer.box.y);
+  }
   if (isMuiShrunkInputLabel(layer) && isMockFigmaRuntime()) {
     // scene-to-html tryRenderMuiOutlinedLabel adds padding:0 4px before scale(0.75).
     x = snap(x - 3);
@@ -1385,7 +1103,8 @@ function isMockFigmaRuntime(): boolean {
 function buildFills(
   paint: LayerPaint | undefined,
   width?: number,
-  height?: number
+  height?: number,
+  layer?: UniversalLayer
 ): Paint[] | undefined {
   if (!paint?.fills?.length) return undefined;
   const out: Paint[] = [];
@@ -1395,7 +1114,14 @@ function buildFills(
     if (f.kind === "color") {
       out.push(solidPaint(f.color));
     } else if (f.kind === "linear-gradient" || f.kind === "radial-gradient" || f.kind === "conic-gradient") {
-      const p = gradientPaint(f, width, height);
+      const preferCss =
+        Boolean(layer) &&
+        isFigmaNativeEllipse(layer!) &&
+        f.kind === "linear-gradient" &&
+        f.angleDeg != null &&
+        (f as FillLayer & { figmaNative?: FigmaNativeGradient }).figmaNative &&
+        Math.max(layer!.box.width, layer!.box.height) <= 35;
+      const p = gradientPaint(f, width, height, { preferCssAngle: preferCss });
       if (p) out.push(p);
     } else if (f.kind === "image") {
       const p = imagePaintFromFill(f);
@@ -1469,9 +1195,7 @@ function applyBorders(
   const useSvgOutline =
     Boolean(uniform) &&
     cornerR > 0 &&
-    (uniform!.style === "dotted" ||
-      uniform!.style === "dashed" ||
-      (!isMockFigmaRuntime() && uniform!.style === "solid"));
+    (uniform!.style === "dotted" || uniform!.style === "dashed");
 
   if (uniform && (!("strokes" in node))) {
     return null;
@@ -1802,8 +1526,9 @@ function createVectorNode(layer: UniversalLayer, parent?: UniversalLayer): Scene
 // ─────────────────────────── images ───────────────────────────
 
 function createImageNode(layer: UniversalLayer): SceneNode {
-  const w = Math.max(1, snap(layer.box.width));
-  const h = Math.max(1, snap(layer.box.height));
+  const isRef = isFigmaReferenceRasterLayer(layer);
+  const w = Math.max(1, isRef ? Math.round(layer.box.width) : snap(layer.box.width));
+  const h = Math.max(1, isRef ? Math.round(layer.box.height) : snap(layer.box.height));
   const img = layer.image!;
   const dataUrl = img.dataUrl || img.src;
   const svgMarkup = dataUrl ? svgMarkupFromDataUrl(dataUrl) : null;
@@ -1829,7 +1554,10 @@ function createImageNode(layer: UniversalLayer): SceneNode {
       /* fall through to raster rectangle */
     }
   }
-  const paint = imagePaintFromImage(img);
+  let paint = imagePaintFromImage(img);
+  if (paint && isRef) {
+    paint = { ...paint, scaleMode: "FILL" };
+  }
   const fill = paint
     ? [paint]
     : [{ type: "SOLID", color: { r: 0.9, g: 0.9, b: 0.9 } } as SolidPaint];
@@ -1848,17 +1576,12 @@ function textDisplayValue(layer: UniversalLayer, value: string): string {
   if (layer.source?.tag === "input" && inputType === "password" && value.length > 0) {
     return "\u2022".repeat(value.length);
   }
-  // Guing manifest uses U+2028 line separators; Figma only breaks on \n.
-  if (isFigmaNativeTextLayer(layer) && /[\u2028\u2029]/.test(value)) {
-    return value.replace(/\u2028|\u2029/g, "\n");
-  }
   return value;
 }
 
 async function createTextNode(
   layer: UniversalLayer,
-  parent?: UniversalLayer,
-  grandparent?: UniversalLayer
+  parent?: UniversalLayer
 ): Promise<TextNode> {
   const text = layer.text!;
   const displayValue = textDisplayValue(layer, text.value);
@@ -1867,7 +1590,7 @@ async function createTextNode(
     labLabel &&
     parent?.source?.tag === "button" &&
     (parent.source.classList ?? []).includes("lab-button");
-  const fontName = await resolveFont(text, layer, parent, grandparent);
+  const fontName = await resolveFont(text, layer, parent);
   await figma.loadFontAsync(fontName);
   const t = figma.createText();
   t.fontName = fontName;
@@ -2051,15 +1774,22 @@ async function createTextNode(
       TRUNCATE: "TRUNCATE",
     };
     let mode = resizeMap[figmaResize];
-    if (
+    let wrapBoxOverride = false;
+    if (mode === "WIDTH_AND_HEIGHT" && figmaNativeNeedsFixedTextBox(layer, text)) {
+      mode = "NONE";
+      wrapBoxOverride = true;
+    } else if (
       mode === "WIDTH_AND_HEIGHT" &&
-      (figmaNativeNeedsFixedTextBox(layer, text) || figmaNativeNeedsRtlContractBox(layer, text))
+      figmaNativeNeedsWidthConstrainedWrap(layer, text)
     ) {
       mode = "NONE";
+      wrapBoxOverride = true;
     }
     if (mode) {
       t.textAutoResize = mode;
-      if (text.verticalAlign === "middle") {
+      if (wrapBoxOverride) {
+        t.textAlignVertical = "TOP";
+      } else if (text.verticalAlign === "middle") {
         t.textAlignVertical = "CENTER";
       } else if (text.verticalAlign === "bottom") {
         t.textAlignVertical = "BOTTOM";
@@ -2082,21 +1812,7 @@ async function createTextNode(
           Math.max(1, Math.ceil(snap(layer.box.width))),
           Math.max(1, Math.ceil(snap(layer.box.height)))
         );
-        if (mode === "NONE" && /[\u2028\u2029]/.test(text.value)) {
-          const lineCount = displayValue.split("\n").length;
-          if (lineCount > 1) {
-            t.lineHeight = {
-              unit: "PIXELS",
-              value: Math.max(1, snap(layer.box.height / lineCount)),
-            };
-            t.textAlignVertical = "CENTER";
-          }
-        }
       }
-      if (parentUsesFlexCrossEnd(parent) && parentUsesFlexColumn(parent)) {
-        pinFigmaFlexCrossEndBareText(t, layer, parent!);
-      }
-      applyFigmaRtlContractTextPin(t, layer);
       return t;
     }
   }
@@ -2537,9 +2253,24 @@ function textNodeIn(node: SceneNode): TextNode | null {
   return null;
 }
 
-function alignInlineRowBaselineY(
+/** Inline price rows: honor extractor box positions (browser ground truth). */
+function alignInlineRowSiblings(
   built: { node: SceneNode; layer: UniversalLayer }[]
-): boolean {
+): void {
+  if (!built.length) return;
+  for (const { node } of built) {
+    expandInlineTextFrame(node);
+  }
+
+  // Live Figma uses layout NONE — trust DOM box.x/y from the extractor.
+  if (!isMockFigmaRuntime()) {
+    for (const { node, layer } of built) {
+      node.x = snap(layer.box.x);
+      node.y = snap(layer.box.y);
+    }
+    return;
+  }
+
   const rows = built
     .map(({ node, layer }) => ({ node, layer, text: textNodeIn(node) }))
     .filter(
@@ -2547,243 +2278,30 @@ function alignInlineRowBaselineY(
         Boolean(r.text)
     );
 
-  if (rows.length < 2) return false;
-
-  const primary = rows.reduce((a, b) =>
-    (a.layer.text?.font?.size ?? 0) >= (b.layer.text?.font?.size ?? 0) ? a : b
-  );
-  primary.node.x = snap(primary.layer.box.x);
-  primary.node.y = snap(primary.layer.box.y);
-  const primaryLh =
-    primary.layer.text?.lineHeight ??
-    primary.layer.text?.font?.size ??
-    primary.text.height;
-  const baselineBottom = primary.layer.box.y + primaryLh;
-  for (const row of rows) {
-    if (row === primary) continue;
-    const rowLh =
-      row.layer.text?.lineHeight ?? row.layer.text?.font?.size ?? row.text.height;
-    row.node.x = snap(row.layer.box.x);
-    row.node.y = snap(baselineBottom - rowLh);
-  }
-  return true;
-}
-
-/** Inline price rows: honor extractor x; baseline-y for $19 + /month (live + mock). */
-function alignInlineRowSiblings(
-  built: { node: SceneNode; layer: UniversalLayer }[],
-  parent?: UniversalLayer
-): void {
-  if (!built.length) return;
-  for (const { node } of built) {
-    expandInlineTextFrame(node);
-  }
-
-  const pricingPriceRow =
-    (parent?.source.classList ?? []).includes("lab-pricing-price") &&
-    built.some(
-      ({ layer }) =>
-        layer.source.kind === "synthetic" || layer.name === "p-text"
+  if (rows.length >= 2) {
+    const primary = rows.reduce((a, b) =>
+      (a.layer.text?.font?.size ?? 0) >= (b.layer.text?.font?.size ?? 0) ? a : b
     );
-
-  if (pricingPriceRow && alignInlineRowBaselineY(built)) {
+    primary.node.x = snap(primary.layer.box.x);
+    primary.node.y = snap(primary.layer.box.y);
+    const primaryLh =
+      primary.layer.text?.lineHeight ??
+      primary.layer.text?.font?.size ??
+      primary.text.height;
+    const baselineBottom = primary.layer.box.y + primaryLh;
+    for (const row of rows) {
+      if (row === primary) continue;
+      const rowLh =
+        row.layer.text?.lineHeight ?? row.layer.text?.font?.size ?? row.text.height;
+      row.node.x = snap(row.layer.box.x);
+      row.node.y = snap(baselineBottom - rowLh);
+    }
     return;
   }
 
   for (const { node, layer } of built) {
     node.x = snap(layer.box.x);
     node.y = snap(layer.box.y);
-  }
-}
-
-/** Feature card footer — WH+TOP; strong adds left ink buffer then grows right from artifact x. */
-/** Live: legend %, legend labels, header chip — WH+TOP @ pad.top (mock scene parity). */
-function alignAnalyticsChartsTightText(
-  built: { node: SceneNode; layer: UniversalLayer }[],
-  parent?: UniversalLayer
-): void {
-  if (isMockFigmaRuntime()) return;
-  for (const { node, layer } of built) {
-    if (!isLiveAnalyticsChartsTightText(layer, parent)) continue;
-    if (node.type !== "FRAME") continue;
-    const text = textNodeIn(node);
-    if (!text || !layer.text) continue;
-    const pad = layer.layout?.padding ?? { top: 0, right: 0, bottom: 0, left: 0 };
-    const innerW = node.width - pad.left - pad.right;
-    const innerH = node.height - pad.top - pad.bottom;
-    node.clipsContent = false;
-    const lhPx =
-      liveTightLineHeightPx(layer.text, layer, innerH) ??
-      Math.max(1, snap(layer.text.font.size));
-    text.lineHeight = { unit: "PIXELS", value: lhPx };
-    const hAlign = figmaTextAlignHorizontal(layer);
-    text.textAutoResize = "WIDTH_AND_HEIGHT";
-    text.textAlignHorizontal = hAlign;
-    try {
-      text.textAlignVertical = "TOP";
-    } catch {
-      // older typings
-    }
-    let x = snap(pad.left);
-    if (hAlign === "CENTER") {
-      x = snap(pad.left + Math.max(0, (innerW - text.width) / 2));
-    } else if (hAlign === "RIGHT") {
-      x = snap(pad.left + Math.max(0, innerW - text.width));
-    }
-    text.x = x;
-    text.y = snap(pad.top);
-    if (layer.paint?.fills?.length) {
-      const neededW = snap(text.x + text.width + pad.right);
-      if (neededW > node.width + 0.5) {
-        node.resize(neededW, node.height);
-      }
-    }
-    node.x = snap(layer.box.x);
-    node.y = snap(layer.box.y);
-  }
-}
-
-/** Live starter tag pill — WH+TOP with horizontal center in padded pill box. */
-function alignLabPricingTagPill(
-  built: { node: SceneNode; layer: UniversalLayer }[]
-): void {
-  if (isMockFigmaRuntime()) return;
-  for (const { node, layer } of built) {
-    if (!isLabPricingTagPill(layer)) continue;
-    if (node.type !== "FRAME") continue;
-    const text = textNodeIn(node);
-    if (!text || !layer.text) continue;
-    const pad = layer.layout?.padding ?? { top: 0, right: 0, bottom: 0, left: 0 };
-    const innerW = node.width - pad.left - pad.right;
-    const innerH = node.height - pad.top - pad.bottom;
-    node.clipsContent = false;
-    const lhPx =
-      liveTightLineHeightPx(layer.text, layer, innerH) ??
-      Math.max(1, snap(layer.text.font.size));
-    text.lineHeight = { unit: "PIXELS", value: lhPx };
-    text.textAutoResize = "WIDTH_AND_HEIGHT";
-    text.textAlignHorizontal = "CENTER";
-    try {
-      text.textAlignVertical = "TOP";
-    } catch {
-      // older typings
-    }
-    text.x = snap(pad.left + Math.max(0, (innerW - text.width) / 2));
-    text.y = snap(pad.top);
-    node.x = snap(layer.box.x);
-    node.y = snap(layer.box.y);
-  }
-}
-
-/** Live pro variant h3 + feature list (not tag pill) — WH+TOP @ pad.top. */
-function isLiveLabPricingProBlockText(
-  layer: UniversalLayer,
-  parent?: UniversalLayer,
-  grandparent?: UniversalLayer
-): boolean {
-  if (isMockFigmaRuntime()) return false;
-  if (!isLabPricingProVariant(layer, parent, grandparent)) return false;
-  if (!isLabPricingBlockTypography(layer, parent)) return false;
-  return !isLabPricingTagPill(layer);
-}
-
-/** Live pro variant: h3 + feature list — WH+TOP @ pad.top (starter keeps NONE+CENTER). */
-function alignLabPricingProBlockText(
-  built: { node: SceneNode; layer: UniversalLayer }[],
-  parent?: UniversalLayer,
-  grandparent?: UniversalLayer
-): void {
-  if (isMockFigmaRuntime()) return;
-  for (const { node, layer } of built) {
-    if (!isLiveLabPricingProBlockText(layer, parent, grandparent)) continue;
-    if (node.type !== "FRAME") continue;
-    const text = textNodeIn(node);
-    if (!text || !layer.text) continue;
-    const pad = layer.layout?.padding ?? { top: 0, right: 0, bottom: 0, left: 0 };
-    const innerW = node.width - pad.left - pad.right;
-    const innerH = node.height - pad.top - pad.bottom;
-    node.clipsContent = false;
-    const lhPx =
-      liveTightLineHeightPx(layer.text, layer, innerH) ??
-      Math.max(1, snap(layer.text.font.size));
-    text.lineHeight = { unit: "PIXELS", value: lhPx };
-    const hAlign = figmaTextAlignHorizontal(layer);
-    text.textAutoResize = "WIDTH_AND_HEIGHT";
-    text.textAlignHorizontal = hAlign;
-    try {
-      text.textAlignVertical = "TOP";
-    } catch {
-      // older typings
-    }
-    let x = snap(pad.left);
-    if (hAlign === "CENTER") {
-      x = snap(pad.left + Math.max(0, (innerW - text.width) / 2));
-    } else if (hAlign === "RIGHT") {
-      x = snap(pad.left + Math.max(0, innerW - text.width));
-    }
-    text.x = x;
-    text.y = snap(pad.top);
-    node.x = snap(layer.box.x);
-    node.y = snap(layer.box.y);
-  }
-}
-
-function alignFeatureFooterBaselineRow(
-  built: { node: SceneNode; layer: UniversalLayer }[],
-  parent?: UniversalLayer
-): void {
-  if (isMockFigmaRuntime()) return;
-  if (!(parent?.source?.classList ?? []).includes("lab-feature-footer")) return;
-  for (const { node } of built) {
-    const footerFrame = node.parent;
-    if (footerFrame?.type === "FRAME") {
-      (footerFrame as FrameNode).clipsContent = false;
-      break;
-    }
-  }
-  for (const { node, layer } of built) {
-    if (node.type !== "FRAME") continue;
-    const tag = layer.source.tag ?? "";
-    if (tag !== "span" && tag !== "strong") continue;
-    const text = textNodeIn(node);
-    if (!text || !layer.text) continue;
-    const pad = layer.layout?.padding ?? { top: 0, right: 0, bottom: 0, left: 0 };
-    const innerH = node.height - pad.top - pad.bottom;
-    const lhPx =
-      liveTightLineHeightPx(layer.text, layer, innerH) ??
-      Math.max(1, snap(layer.text.font.size));
-    node.clipsContent = false;
-    text.lineHeight = { unit: "PIXELS", value: lhPx };
-    try {
-      text.textAlignVertical = "TOP";
-    } catch {
-      // older typings
-    }
-    text.textAutoResize = "WIDTH_AND_HEIGHT";
-    text.textAlignHorizontal = "LEFT";
-    text.x = snap(pad.left);
-    text.y = snap(pad.top);
-    const frameH = node.height;
-    node.y = snap(layer.box.y);
-
-    if (tag === "strong") {
-      node.x = snap(layer.box.x);
-      text.textAutoResize = "WIDTH_AND_HEIGHT";
-      text.textAlignHorizontal = "LEFT";
-      text.x = snap(pad.left);
-      text.y = snap(pad.top);
-      const neededW = snap(text.x + text.width + pad.right + 2);
-      if (neededW > node.width + 0.5) {
-        node.resize(neededW, frameH);
-      }
-      continue;
-    } else {
-      node.x = snap(layer.box.x);
-      const neededW = snap(text.x + text.width + pad.right);
-      if (neededW > node.width + 0.5) {
-        node.resize(neededW, frameH);
-      }
-    }
   }
 }
 
@@ -2878,47 +2396,6 @@ function liveTightLineHeightPx(text: LayerText, _layer: UniversalLayer, _innerH?
   return Math.max(1, snap(text.font.size));
 }
 
-function liveAnalyticsChartsTightLineBox(
-  layer: UniversalLayer
-): boolean {
-  const lh = layer.text?.lineHeight;
-  const pad = layer.layout?.padding;
-  const innerH = layer.box.height - (pad?.top ?? 0) - (pad?.bottom ?? 0);
-  return lh != null && innerH > 0 && Math.abs(lh - innerH) <= 2;
-}
-
-/**
- * AnalyticsCharts legend %, legend-left labels, header chip — tight DOM line boxes.
- * Live: WH+TOP @ pad.top (mock scene); post-build re-pin in alignAnalyticsChartsTightText.
- */
-function isLiveAnalyticsLineBoxPinTop(
-  layer: UniversalLayer,
-  parent?: UniversalLayer
-): boolean {
-  if (!liveAnalyticsChartsTightLineBox(layer)) return false;
-  if (
-    layer.source.tag === "strong" &&
-    (parent?.source?.classList ?? []).includes("legend-row")
-  ) {
-    return true;
-  }
-  const classes = layer.source.classList ?? [];
-  if (layer.source.tag === "span" && classes.includes("chip")) {
-    return true;
-  }
-  return (
-    layer.source.tag === "span" &&
-    (parent?.source?.classList ?? []).includes("legend-left")
-  );
-}
-
-function isLiveAnalyticsChartsTightText(
-  layer: UniversalLayer,
-  parent?: UniversalLayer
-): boolean {
-  return isLiveAnalyticsLineBoxPinTop(layer, parent);
-}
-
 function figmaTextAlignHorizontal(
   layer: UniversalLayer
 ): TextNode["textAlignHorizontal"] {
@@ -2929,39 +2406,14 @@ function figmaTextAlignHorizontal(
   return "LEFT";
 }
 
-/** Live: pill badge centers glyphs in padded box though artifact align is start. */
-function liveTextAlignHorizontal(
-  layer: UniversalLayer
-): TextNode["textAlignHorizontal"] {
-  if (!isMockFigmaRuntime() && isLabPricingTagPill(layer)) return "CENTER";
-  return figmaTextAlignHorizontal(layer);
-}
-
 /**
  * Live Figma glyph metrics are often wider than Chromium — NONE + fixed inner width
  * wraps single-line labels ("Overview", chip text, "MOST POPULAR").
  */
 function liveTextPreferWidthAndHeight(
   layer: UniversalLayer,
-  parent?: UniversalLayer,
-  grandparent?: UniversalLayer
+  parent?: UniversalLayer
 ): boolean {
-  // Analytics tight line boxes — live WH+TOP (mock scene parity).
-  if (!isMockFigmaRuntime() && isLiveAnalyticsLineBoxPinTop(layer, parent)) {
-    return true;
-  }
-  if (isLabPricingBlockTypography(layer, parent) && !isLabPricingTagPill(layer)) {
-    return false;
-  }
-  if (
-    !isMockFigmaRuntime() &&
-    isLabFeatureBlockTypography(layer, parent, grandparent)
-  ) {
-    // Header h3 uses fixed-width HEIGHT in build; footer span/strong post-build aligned.
-    if (isLiveFeatureCardHeaderH3(layer, parent, grandparent)) return false;
-    if ((parent?.source?.classList ?? []).includes("lab-feature-footer")) return true;
-    return false;
-  }
   const text = layer.text;
   if (!text) return false;
   if (text.whiteSpace === "nowrap" || text.whiteSpace === "pre") return true;
@@ -3002,8 +2454,7 @@ function applyLiveNativeTextBoxCenter(
   innerH: number,
   pad: { top: number; right: number; bottom: number; left: number },
   frame?: FrameNode,
-  parent?: UniversalLayer,
-  verticalPin: "TOP" | "CENTER" = "CENTER"
+  parent?: UniversalLayer
 ): { x: number; y: number } {
   const lhPx =
     liveTightLineHeightPx(layer.text!, layer, innerH) ??
@@ -3011,17 +2462,14 @@ function applyLiveNativeTextBoxCenter(
       ? snap(layer.text.lineHeight)
       : Math.max(1, snap(layer.text!.font.size)));
   text.lineHeight = { unit: "PIXELS", value: lhPx };
-  const hAlign = liveTextAlignHorizontal(layer);
+  const hAlign = figmaTextAlignHorizontal(layer);
   if (frame) frame.clipsContent = false;
-
-  const effectiveVerticalPin: "TOP" | "CENTER" =
-    verticalPin === "TOP" || isLabPricingTagPill(layer) ? "TOP" : verticalPin;
 
   if (liveTextPreferWidthAndHeight(layer, parent)) {
     text.textAutoResize = "WIDTH_AND_HEIGHT";
     text.textAlignHorizontal = hAlign;
     try {
-      text.textAlignVertical = effectiveVerticalPin;
+      text.textAlignVertical = "CENTER";
     } catch {
       // older typings
     }
@@ -3031,10 +2479,7 @@ function applyLiveNativeTextBoxCenter(
     } else if (hAlign === "RIGHT") {
       x = snap(pad.left + Math.max(0, innerW - text.width));
     }
-    const y =
-      effectiveVerticalPin === "TOP"
-        ? snap(pad.top)
-        : snap(pad.top + Math.max(0, (innerH - text.height) / 2));
+    const y = snap(pad.top + Math.max(0, (innerH - text.height) / 2));
     return { x, y };
   }
 
@@ -3042,14 +2487,11 @@ function applyLiveNativeTextBoxCenter(
   text.resize(Math.max(1, snap(innerW)), Math.max(1, snap(innerH)));
   text.textAlignHorizontal = hAlign;
   try {
-    text.textAlignVertical = effectiveVerticalPin;
+    text.textAlignVertical = "CENTER";
   } catch {
     // older typings
   }
-  // NONE + textAlignVertical: y at pad.top — Figma centers glyphs; manual
-  // (innerH - text.height)/2 double-centers pricing h3/list on live export.
-  const y = pad.top;
-  return { x: pad.left, y };
+  return { x: pad.left, y: pad.top };
 }
 
 /** Live: Figma re-wraps pill/tab labels after append — force single-line glyphs. */
@@ -3057,17 +2499,10 @@ function enforceLiveUnwrappedTextFrame(
   frame: FrameNode,
   text: TextNode,
   layer: UniversalLayer,
-  parent?: UniversalLayer,
-  grandparent?: UniversalLayer
+  parent?: UniversalLayer
 ): void {
   if (isMockFigmaRuntime()) return;
-  // Footer span/strong handled post-build in alignFeatureFooterBaselineRow; header h3 via TOP pin.
-  if (isLabFeatureBlockTypography(layer, parent, grandparent)) return;
-  // Analytics legend % / labels / chip — post-build in alignAnalyticsChartsTightText.
-  if (isLiveAnalyticsChartsTightText(layer, parent)) return;
-  // Pro h3 + list — post-build in alignLabPricingProBlockText.
-  if (isLiveLabPricingProBlockText(layer, parent, grandparent)) return;
-  if (!liveTextPreferWidthAndHeight(layer, parent, grandparent)) return;
+  if (!liveTextPreferWidthAndHeight(layer, parent)) return;
   const pad = layer.layout?.padding ?? { top: 0, right: 0, bottom: 0, left: 0 };
   const innerW = frame.width - pad.left - pad.right;
   const innerH = frame.height - pad.top - pad.bottom;
@@ -3095,8 +2530,7 @@ function enforceLiveUnwrappedTextFrame(
     innerH,
     pad,
     frame,
-    parent,
-    isLabPricingTagPill(layer) ? "TOP" : "CENTER"
+    parent
   );
   text.x = placed.x;
   text.y = placed.y;
@@ -3115,6 +2549,7 @@ function reaffirmChildBoxPositions(
 ): void {
   if (isMockFigmaRuntime()) return;
   for (const { node, layer } of built) {
+    if (isFigmaReferenceRasterLayer(layer)) continue;
     if (isLiveLabButtonBareLabel(layer, parent) && node.type === "TEXT") {
       const text = node as TextNode;
       text.textAlignHorizontal = "CENTER";
@@ -3133,8 +2568,6 @@ function reaffirmChildBoxPositions(
     // layoutMode NONE it breaks live export (icons/text jump to wrong coords).
     node.x = snap(layer.box.x);
     node.y = snap(layer.box.y);
-    reaffirmFigmaFlexCrossEndBareText(node, layer, parent);
-    reaffirmFigmaRtlContractText(node, layer);
   }
 }
 
@@ -3184,6 +2617,18 @@ function isFigmaFlipFrame(layer: UniversalLayer): boolean {
   const rt = (layer.source?.dataset as { figmaRelativeTransform?: number[][] } | undefined)
     ?.figmaRelativeTransform;
   return Boolean(rt?.[0]?.[0] != null && rt[0][0] < -0.5);
+}
+
+/** Small mirrored icon wrapper (phone handset) — not full-width UI frames. */
+function isFigmaFlipIconFrame(layer: UniversalLayer): boolean {
+  if (!isFigmaFlipFrame(layer)) return false;
+  const nodeType = (layer.source?.dataset as { figmaNodeType?: string } | undefined)
+    ?.figmaNodeType;
+  if (nodeType !== "FRAME") return false;
+  const w = layer.box.width;
+  const h = layer.box.height;
+  if (w > 28 || h > 28) return false;
+  return (layer.children ?? []).some((c) => Boolean(c.vector));
 }
 
 function isPrevNextGroup(layer: UniversalLayer): boolean {
@@ -3256,7 +2701,7 @@ function shouldClipContent(layer: UniversalLayer, parent?: UniversalLayer): bool
     layer.layout?.overflow?.y === "hidden" ||
     layer.layout?.overflow?.x === "clip" ||
     layer.layout?.overflow?.y === "clip";
-  const hasSpreadShadow = spreadShadowRequiresClip(layer);
+  const hasSpreadShadow = (layer.paint?.shadows || []).some((s) => s.spread !== 0);
   // Text-leaf pills/chips: clipsContent forces Figma to wrap ("Overview", "MOST POPULAR").
   if (isTextLeafLayer(layer) && !explicitClip && !hasSpreadShadow) {
     return false;
@@ -3290,8 +2735,7 @@ function frameRequiresClipContent(layer: UniversalLayer): boolean {
     layer.layout?.overflow?.x === "hidden" ||
     layer.layout?.overflow?.y === "hidden" ||
     layer.layout?.overflow?.x === "clip" ||
-    layer.layout?.overflow?.y === "clip" ||
-    spreadShadowRequiresClip(layer)
+    layer.layout?.overflow?.y === "clip"
   );
 }
 
@@ -3304,36 +2748,34 @@ async function buildLayer(
 ): Promise<SceneNode | null> {
   if (!isLayerVisible(layer)) return null;
 
+  if (isFigmaReferenceRasterLayer(layer)) {
+    const node = createImageNode(layer);
+    node.name = layer.name || "reference-raster";
+    return node;
+  }
+
   let node: SceneNode;
   let textChildToPlace: TextNode | null = null;
 
   const isTextLeaf =
     layer.text &&
+    !isFigmaReferenceRasterLayer(layer) &&
     (!layer.children || layer.children.length === 0);
-  const figmaReferenceRaster = (
-    layer.source?.dataset as { figmaReferenceRaster?: string } | undefined
-  )?.figmaReferenceRaster;
-  if (layer.image?.dataUrl && figmaReferenceRaster) {
-    const img = createImageNode(layer);
-    img.name = layer.name || "raster";
-    return img;
-  }
   const figmaBareText =
     isTextLeaf &&
     isFigmaNativeTextLayer(layer) &&
     !layer.paint?.borders &&
-    !(layer.paint?.shadows?.length) &&
-    !figmaReferenceRaster;
+    !(layer.paint?.shadows?.length);
 
   if (figmaBareText) {
-    const t = await createTextNode(layer, parent, grandparent);
+    const t = await createTextNode(layer, parent);
     t.name = layer.name || "text";
     return t;
   }
 
   if (isTextLeaf) {
     if (isLiveLabButtonBareLabel(layer, parent)) {
-      const t = await createTextNode(layer, parent, grandparent);
+      const t = await createTextNode(layer, parent);
       t.name = layer.name || layer.source.dataset?.figmaName || "label";
       return t;
     }
@@ -3345,7 +2787,7 @@ async function buildLayer(
     frame.layoutMode = "NONE";
     frame.fills = [];
     frame.clipsContent = shouldClipContent(layer, parent);
-    textChildToPlace = await createTextNode(layer, parent, grandparent);
+    textChildToPlace = await createTextNode(layer, parent);
     node = frame;
   } else if (layer.vector) {
     node = createVectorNode(layer, parent);
@@ -3684,7 +3126,7 @@ async function buildLayer(
         }
         usedNativeTextAlign = true;
         usedNativeVerticalAlign = true;
-      } else if (!isLabTightCenterButton(layer, parent) && !liveTextPreferWidthAndHeight(layer, parent, grandparent)) {
+      } else if (!isLabTightCenterButton(layer, parent) && !liveTextPreferWidthAndHeight(layer, parent)) {
         text.textAutoResize = "HEIGHT";
         text.resize(Math.max(1, snap(innerW)), text.height);
         text.textAlignHorizontal = figmaTextAlignHorizontal(layer);
@@ -3711,67 +3153,8 @@ async function buildLayer(
         parent?.layout?.display === "block" &&
         (layer.source.tag === "p" ||
           /^h[1-6]$/.test(layer.source.tag ?? "") ||
-          layer.source.tag === "span") &&
-        !isLabPricingBlockTypography(layer, parent);
-      if (
-        !isMockFigmaRuntime() &&
-        isLiveFeatureCardHeaderH3(layer, parent, grandparent)
-      ) {
-        // Fixed-width HEIGHT wrap — WH auto-grow widens h3 vs Chromium (region-02 hotspot).
-        const lhPx =
-          liveTightLineHeightPx(layer.text!, layer, innerH) ??
-          (layer.text?.lineHeight != null && layer.text.lineHeight > 0
-            ? snap(layer.text.lineHeight)
-            : Math.max(1, snap(layer.text!.font.size)));
-        text.lineHeight = { unit: "PIXELS", value: lhPx };
-        frame.clipsContent = false;
-        text.textAutoResize = "HEIGHT";
-        text.resize(Math.max(1, snap(innerW)), Math.max(1, snap(innerH)));
-        text.textAlignHorizontal = figmaTextAlignHorizontal(layer);
-        try {
-          text.textAlignVertical = "TOP";
-        } catch {
-          // older typings
-        }
-        x = pad.left;
-        y = pad.top;
-        usedNativeVerticalAlign = true;
-      } else if (
-        !isMockFigmaRuntime() &&
-        isLiveAnalyticsChartsTightText(layer, parent)
-      ) {
-        const placed = applyLiveNativeTextBoxCenter(
-          text,
-          layer,
-          innerW,
-          innerH,
-          pad,
-          frame,
-          parent,
-          "TOP"
-        );
-        x = placed.x;
-        y = placed.y;
-        usedNativeVerticalAlign = true;
-      } else if (
-        !isMockFigmaRuntime() &&
-        isLabFeatureBlockTypography(layer, parent, grandparent) &&
-        (parent?.source?.classList ?? []).includes("lab-feature-footer")
-      ) {
-        const placed = applyLiveNativeTextBoxCenter(
-          text,
-          layer,
-          innerW,
-          innerH,
-          pad,
-          frame,
-          parent,
-          "TOP"
-        );
-        x = placed.x;
-        y = placed.y;
-        usedNativeVerticalAlign = true;
-      } else if (blockFlowPinTop) {
+          layer.source.tag === "span");
+      if (blockFlowPinTop) {
         y = pad.top;
         try {
           text.textAlignVertical = "TOP";
@@ -3850,7 +3233,7 @@ async function buildLayer(
     frame.appendChild(text);
 
     if (!isMockFigmaRuntime()) {
-      enforceLiveUnwrappedTextFrame(frame, text, layer, parent, grandparent);
+      enforceLiveUnwrappedTextFrame(frame, text, layer, parent);
     }
 
     if (isMuiShrunkInputLabel(layer) && isMockFigmaRuntime()) {
@@ -3898,14 +3281,13 @@ async function buildLayer(
 
   // Paint: fills / radii / borders / shadows / opacity / blend
   // Real Figma frames default to opaque white — always set fills explicitly.
-  const synthInsetSpreadRing = shouldSynthesizeInsetSpreadRingLive(layer);
   if (layer.paint) {
     const paint = layer.paint;
     if ("fills" in node && node.type !== "TEXT") {
       // Image rectangles already received an IMAGE fill in createImageNode.
       if (layer.image) {
         const bgFills = paint.fills?.length
-          ? buildFills(paint, layer.box.width, layer.box.height)
+          ? buildFills(paint, layer.box.width, layer.box.height, layer)
           : undefined;
         if (bgFills?.length) {
           (node as any).fills = [
@@ -3915,7 +3297,7 @@ async function buildLayer(
         }
       } else {
         const fills = paint.fills?.length
-          ? buildFills(paint, layer.box.width, layer.box.height)
+          ? buildFills(paint, layer.box.width, layer.box.height, layer)
           : undefined;
         if (fills?.length) {
           (node as any).fills = clonePaints(fills);
@@ -3943,14 +3325,7 @@ async function buildLayer(
           isMockFigmaRuntime() ||
           (node.type !== "TEXT" &&
             ((node as any).clipsContent === true || node.type !== "FRAME"));
-        const paintForEffects =
-          synthInsetSpreadRing && paint.shadows?.length
-            ? {
-                ...paint,
-                shadows: paint.shadows.filter((s) => !(s.inset && (s.spread ?? 0) > 0))
-              }
-            : paint;
-        const effects = effectsFromPaint(paintForEffects, allowSpread);
+        const effects = effectsFromPaint(paint, allowSpread);
         if (effects.length) node.effects = cloneEffects(effects);
       }
     }
@@ -4041,22 +3416,11 @@ async function buildLayer(
       if (inlineRow) inlineBuilt.push({ node: childNode, layer: child });
     }
     if (inlineRow) {
-      alignInlineRowSiblings(inlineBuilt, layer);
+      alignInlineRowSiblings(inlineBuilt);
     } else {
       reaffirmChildBoxPositions(positionedBuilt, layer);
       for (const { node: childNode, layer: childLayer } of positionedBuilt) {
         applyMuiLinearProgressBarPlacement(childNode, childLayer);
-      }
-      if (!isMockFigmaRuntime()) {
-        alignAnalyticsChartsTightText(positionedBuilt, layer);
-        alignLabPricingTagPill(positionedBuilt);
-        alignLabPricingProBlockText(positionedBuilt, layer, parent);
-      }
-      if (
-        !isMockFigmaRuntime() &&
-        (layer.source.classList ?? []).includes("lab-feature-footer")
-      ) {
-        alignFeatureFooterBaselineRow(positionedBuilt, layer);
       }
       if (
         !isMockFigmaRuntime() &&
@@ -4067,13 +3431,6 @@ async function buildLayer(
         centerLabButtonSoleChild(node as FrameNode, layer);
       }
     }
-    }
-  }
-  if (synthInsetSpreadRing && node.type === "FRAME" && "insertChild" in node) {
-    const ringOverlay = applyInsetSpreadRingOverlay(layer.paint, layer.box.width, layer.box.height);
-    if (ringOverlay) {
-      // Behind content, above frame fill; __border paints on top last.
-      (node as ChildrenMixin).insertChild(0, ringOverlay);
     }
   }
   if (borderOverlay && "appendChild" in node) {
@@ -4159,12 +3516,19 @@ function stripEffectsForExport(root: SceneNode): { node: SceneNode; effects: rea
 
 export async function exportContentPng(
   canvas: SceneNode,
-  _canvasBackground?: string
+  _canvasBackground?: string,
+  exportScale?: number
 ): Promise<Uint8Array> {
   const target = contentFrameFromCanvas(canvas);
+  const scale =
+    typeof exportScale === "number" && exportScale > 0
+      ? exportScale
+      : isMockFigmaRuntime()
+        ? 2
+        : 1;
   const settings: ExportSettings = {
     format: "PNG",
-    constraint: { type: "SCALE", value: isMockFigmaRuntime() ? 2 : 1 },
+    constraint: { type: "SCALE", value: scale },
     useAbsoluteBounds: false,
     colorProfile: "SRGB"
   };

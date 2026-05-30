@@ -1,0 +1,438 @@
+# Orchestrator session log
+# Job:     8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa
+# Started: 2026-05-30T10:40:37.769Z
+# Scope:   auto (run until complete)
+# Items:   55
+#
+[portfolio] Launch session — unified portfolio until complete or human action
+[portfolio] Steps: structural → Figma live → Storybook → ReactHtml → logic
+[portfolio] Launching supervisor in Terminal (≤5 fix→test tries per item)…
+[portfolio] Unified supervisor — strict 0.1% · structural → vsFigmaLive → vsStorybook → vsReactHtml → logic
+[portfolio] Scope: failures_only · sort: step_first
+[portfolio] Safety — fix rounds/step ≤10, auto-retries ≤3, agent calls ≤100
+[portfolio] Launch mode — runs until complete, stuck, or human action; rescans when green.
+
+[portfolio] Current state (57 items):
+  ○ Structural (57 items): 54 pass, 3 fail/warn
+  ○ → Figma live (57 items): 1 pass, 10 fail/warn, 4 not tested, 42 blocked
+  ○ → Storybook (57 items): 5 pass, 1 fail/warn, 51 blocked
+  ○ → ReactHtml (57 items): 1 pass, 1 fail/warn, 3 not tested, 52 blocked
+  ✓ Logic audit
+
+
+[portfolio] ══ Next: Structural ══
+[portfolio] Structural (57 items): 54 pass, 3 fail/warn
+[portfolio] Fix round 1 · Pixel (schema) · 3 items
+[fix-all] Serial mode (default): up to 5 fix→test cycles per story across 3 stories (Pixel (schema))
+[fix-all] Worker supervisor ON — observes git diff + metrics, steers stuck agents.
+[fix-all] Investigator gate ON — fixer blocked until lab-memory root cause is filled (set FIX_ALL_SKIP_INVESTIGATOR_GATE=1 to bypass).
+[fix-all] Supervisor stays in this tab; child Terminal tabs open for agents, builds, and tests.
+[fix-all] Legacy batch mode is opt-in: set FIX_ALL_BATCH=1.
+[fix-all] 1/3 lab-retroterminalscreen--default attempt 1/5 (fail 5.49%) — agent fix…
+[fix-all] 1/3 lab-retroterminalscreen--default attempt 1 — using cached investigation (- `render-html.ts`: glow gradient stop parity (`gradientStopColor`), optional sub-pixel pre metrics; **not** root/section class allowlists — see [[visual/patterns/render-html-layer-class-allowlist-regression]].)
+[orchestrator] Opening agent terminal → lab-retroterminalscreen--default:fix-1 (model: composer-2.5-fast)
+[orchestrator] Headless agent — lab-retroterminalscreen--default:fix-1 (model: composer-2.5-fast)
+[agent:lab-retroterminalscreen--default:fix-1] Prompt preview:
+run until pass
+
+Worst story: lab-retroterminalscreen--default (5.49% global, fail, Pixel (schema))
+Compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/regions/region-01-compare.png
+Storybook: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/storybook.png
+Rendered: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/rendered.png
+…
+[agent:lab-retroterminalscreen--default:fix-1] ▶ agent -p --force --trust --output-format…
+[agent:lab-retroterminalscreen--default:fix-1] Using model Composer 2.5 Fast
+[agent:lab-retroterminalscreen--default:fix-1] stderr: S: Increase limits for faster responses You're out of usage. Switch to Auto, or ask your admin to increase your limit to continue.
+[agent:lab-retroterminalscreen--default:fix-1] Turn complete exit 1 (edits=0, reads=0, bigReads=0, elapsed=0.1m)
+[orchestrator] Agent lab-retroterminalscreen--default:fix-1 finished exit 1 (edits=0, reads=0)
+[fix-all] 1/3 lab-retroterminalscreen--default attempt 1 — agent exited 1
+[fix-all] 1/3 lab-retroterminalscreen--default attempt 1 — files changed: .test-console/agent-prompts/agent-lab-retroterminalscreen--default_fix-1-1780137640327.prompt.txt, .test-console/batch-reports/lab-retroterminalscreen-default-try-1.json, .test-console/batch-reports/lab-retroterminalscreen-default-try-1.md, .test-console/child-status/8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa-agent-lab-retroterminalscreen--default_fix-1-1780137640327.json, .test-console/fleet/agents.json, .test-console/fleet/events.jsonl, .test-console/orchestrator-logs/2026-05-30_13-40-37_8a5706f3.log
+[fix-all] 1/3 lab-retroterminalscreen--default attempt 1 — running test (child terminal)…
+[orchestrator] Headless run → test:lab-retroterminalscreen--default
+[test:lab-retroterminalscreen--default] ▶ pnpm --filter @lab/pixel-test run test:golden -- --stories lab-retroterminalscreen--default
+[test:lab-retroterminalscreen--default] > @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+[test:lab-retroterminalscreen--default] > node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-retroterminalscreen--default"
+[test:lab-retroterminalscreen--default] ▶ lab-retroterminalscreen--default ... ✗ FAIL 5.491%
+[test:lab-retroterminalscreen--default] Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[test:lab-retroterminalscreen--default] /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test:
+[test:lab-retroterminalscreen--default]  ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @lab/pixel-test@0.1.0 test:golden: `node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-retroterminalscreen--default"`
+[test:lab-retroterminalscreen--default] Exit status 1
+[test:lab-retroterminalscreen--default] ✓ FAIL exit 1
+[fix-all] 1/3 lab-retroterminalscreen--default test finished: exit 1
+[supervisor] lab-retroterminalscreen--default try 1: NO_ADAPTER_EDIT → next mode narrow_scope
+[supervisor] Supervisor: edits were only vault/rules/prompts — pixel needs packages/pixel-test/src/render-html.ts or extract.ts. Do NOT reorganize lab-memory during fix-all.
+[supervisor] Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results.
+[fix-all] 1/3 lab-retroterminalscreen--default attempt 1 — still fail (5.49%)
+[fix-all] 1/3 lab-retroterminalscreen--default attempt 2/5 (fail 5.49%) — agent fix…
+[fix-all] 1/3 lab-retroterminalscreen--default attempt 2 — using cached investigation (- `render-html.ts`: glow gradient stop parity (`gradientStopColor`), optional sub-pixel pre metrics; **not** root/section class allowlists — see [[visual/patterns/render-html-layer-class-allowlist-regression]].)
+[orchestrator] Opening agent terminal → lab-retroterminalscreen--default:fix-2 (model: composer-2.5-fast)
+[orchestrator] Headless agent — lab-retroterminalscreen--default:fix-2 (model: composer-2.5-fast)
+[agent:lab-retroterminalscreen--default:fix-2] Prompt preview:
+run until pass
+
+Worst story: lab-retroterminalscreen--default (5.49% global, fail, Pixel (schema))
+Compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/regions/region-01-compare.png
+Storybook: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/storybook.png
+Rendered: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/rendered.png
+…
+[agent:lab-retroterminalscreen--default:fix-2] ▶ agent -p --force --trust --output-format…
+[agent:lab-retroterminalscreen--default:fix-2] Using model Composer 2.5 Fast
+[agent:lab-retroterminalscreen--default:fix-2] stderr: S: Increase limits for faster responses You're out of usage. Switch to Auto, or ask your admin to increase your limit to continue.
+[agent:lab-retroterminalscreen--default:fix-2] Turn complete exit 1 (edits=0, reads=0, bigReads=0, elapsed=0.1m)
+[orchestrator] Agent lab-retroterminalscreen--default:fix-2 finished exit 1 (edits=0, reads=0)
+[fix-all] 1/3 lab-retroterminalscreen--default attempt 2 — agent exited 1
+[fix-all] 1/3 lab-retroterminalscreen--default attempt 2 — files changed: .test-console/agent-prompts/agent-lab-retroterminalscreen--default_fix-2-1780137655226.prompt.txt, .test-console/child-status/8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa-agent-lab-retroterminalscreen--default_fix-2-1780137655226.json, .test-console/fleet/agents.json, .test-console/fleet/events.jsonl, .test-console/orchestrator-logs/2026-05-30_13-40-37_8a5706f3.log
+[fix-all] 1/3 lab-retroterminalscreen--default attempt 2 — running test (child terminal)…
+[orchestrator] Headless run → test:lab-retroterminalscreen--default
+[test:lab-retroterminalscreen--default] ▶ pnpm --filter @lab/pixel-test run test:golden -- --stories lab-retroterminalscreen--default
+[test:lab-retroterminalscreen--default] > @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+[test:lab-retroterminalscreen--default] > node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-retroterminalscreen--default"
+[test:lab-retroterminalscreen--default] ▶ lab-retroterminalscreen--default ... ✗ FAIL 5.491%
+[test:lab-retroterminalscreen--default] Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[test:lab-retroterminalscreen--default] /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test:
+[test:lab-retroterminalscreen--default]  ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @lab/pixel-test@0.1.0 test:golden: `node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-retroterminalscreen--default"`
+[test:lab-retroterminalscreen--default] Exit status 1
+[test:lab-retroterminalscreen--default] ✓ FAIL exit 1
+[fix-all] 1/3 lab-retroterminalscreen--default test finished: exit 1
+[supervisor] lab-retroterminalscreen--default try 2: STUCK_LOOP → next mode narrow_scope
+[supervisor] Supervisor: edits were only vault/rules/prompts — pixel needs packages/pixel-test/src/render-html.ts or extract.ts. Do NOT reorganize lab-memory during fix-all.
+[supervisor] Supervisor: two consecutive attempts with no metric movement — switch to investigate-first.
+[supervisor] Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results.
+[fix-all] 1/3 lab-retroterminalscreen--default — early stop: 3 attempt(s) skipped (metrics flat, no render-html/extract edits). Escalate: open compare PNG + artifact, edit adapter by hand, or paste BLOCKED in lab-memory.
+[fix-all] 1/3 lab-retroterminalscreen--default — gave up after 5 attempts
+[fix-all] 2/3 lab-spacemissioncontrol--default attempt 1/5 (fail 1.89%) — agent fix…
+[fix-all] 2/3 lab-spacemissioncontrol--default attempt 1 — using cached investigation (| Priority | Area | Action |)
+[orchestrator] Opening agent terminal → lab-spacemissioncontrol--default:fix-1 (model: composer-2.5-fast)
+[orchestrator] Headless agent — lab-spacemissioncontrol--default:fix-1 (model: composer-2.5-fast)
+[agent:lab-spacemissioncontrol--default:fix-1] Prompt preview:
+run until pass
+
+Worst story: lab-spacemissioncontrol--default (1.89% global, fail, Pixel (schema))
+Compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-spacemissioncontrol-default/regions/region-01-compare.png
+Storybook: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-spacemissioncontrol-default/storybook.png
+Rendered: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-spacemissioncontrol-default/rendered.png
+…
+[agent:lab-spacemissioncontrol--default:fix-1] ▶ agent -p --force --trust --output-format…
+[agent:lab-spacemissioncontrol--default:fix-1] Using model Composer 2.5 Fast
+[agent:lab-spacemissioncontrol--default:fix-1] stderr: S: Increase limits for faster responses You're out of usage. Switch to Auto, or ask your admin to increase your limit to continue.
+[agent:lab-spacemissioncontrol--default:fix-1] Turn complete exit 1 (edits=0, reads=0, bigReads=0, elapsed=0.1m)
+[orchestrator] Agent lab-spacemissioncontrol--default:fix-1 finished exit 1 (edits=0, reads=0)
+[fix-all] 2/3 lab-spacemissioncontrol--default attempt 1 — agent exited 1
+[fix-all] 2/3 lab-spacemissioncontrol--default attempt 1 — files changed: .test-console/agent-prompts/agent-lab-spacemissioncontrol--default_fix-1-1780137668033.prompt.txt, .test-console/batch-reports/lab-spacemissioncontrol-default-try-1.json, .test-console/batch-reports/lab-spacemissioncontrol-default-try-1.md, .test-console/child-status/8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa-agent-lab-spacemissioncontrol--default_fix-1-1780137668033.json, .test-console/fleet/agents.json, .test-console/fleet/events.jsonl, .test-console/orchestrator-logs/2026-05-30_13-40-37_8a5706f3.log
+[fix-all] 2/3 lab-spacemissioncontrol--default attempt 1 — running test (child terminal)…
+[orchestrator] Headless run → test:lab-spacemissioncontrol--default
+[test:lab-spacemissioncontrol--default] ▶ pnpm --filter @lab/pixel-test run test:golden -- --stories lab-spacemissioncontrol--default
+[test:lab-spacemissioncontrol--default] > @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+[test:lab-spacemissioncontrol--default] > node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-spacemissioncontrol--default"
+[test:lab-spacemissioncontrol--default] ▶ lab-spacemissioncontrol--default ... ✗ FAIL 1.885%
+[test:lab-spacemissioncontrol--default] Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[test:lab-spacemissioncontrol--default] /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test:
+[test:lab-spacemissioncontrol--default]  ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @lab/pixel-test@0.1.0 test:golden: `node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-spacemissioncontrol--default"`
+[test:lab-spacemissioncontrol--default] Exit status 1
+[test:lab-spacemissioncontrol--default] ✓ FAIL exit 1
+[fix-all] 2/3 lab-spacemissioncontrol--default test finished: exit 1
+[supervisor] lab-spacemissioncontrol--default try 1: NO_ADAPTER_EDIT → next mode narrow_scope
+[supervisor] Supervisor: edits were only vault/rules/prompts — pixel needs packages/pixel-test/src/render-html.ts or extract.ts. Do NOT reorganize lab-memory during fix-all.
+[supervisor] Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results.
+[fix-all] 2/3 lab-spacemissioncontrol--default attempt 1 — still fail (1.89%)
+[fix-all] 2/3 lab-spacemissioncontrol--default attempt 2/5 (fail 1.89%) — agent fix…
+[fix-all] 2/3 lab-spacemissioncontrol--default attempt 2 — using cached investigation (| Priority | Area | Action |)
+[orchestrator] Opening agent terminal → lab-spacemissioncontrol--default:fix-2 (model: composer-2.5-fast)
+[orchestrator] Headless agent — lab-spacemissioncontrol--default:fix-2 (model: composer-2.5-fast)
+[agent:lab-spacemissioncontrol--default:fix-2] Prompt preview:
+run until pass
+
+Worst story: lab-spacemissioncontrol--default (1.89% global, fail, Pixel (schema))
+Compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-spacemissioncontrol-default/regions/region-01-compare.png
+Storybook: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-spacemissioncontrol-default/storybook.png
+Rendered: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-spacemissioncontrol-default/rendered.png
+…
+[agent:lab-spacemissioncontrol--default:fix-2] ▶ agent -p --force --trust --output-format…
+[agent:lab-spacemissioncontrol--default:fix-2] Using model Composer 2.5 Fast
+[agent:lab-spacemissioncontrol--default:fix-2] stderr: S: Increase limits for faster responses You're out of usage. Switch to Auto, or ask your admin to increase your limit to continue.
+[agent:lab-spacemissioncontrol--default:fix-2] Turn complete exit 1 (edits=0, reads=0, bigReads=0, elapsed=0.1m)
+[orchestrator] Agent lab-spacemissioncontrol--default:fix-2 finished exit 1 (edits=0, reads=0)
+[fix-all] 2/3 lab-spacemissioncontrol--default attempt 2 — agent exited 1
+[fix-all] 2/3 lab-spacemissioncontrol--default attempt 2 — files changed: .test-console/agent-prompts/agent-lab-spacemissioncontrol--default_fix-2-1780137680706.prompt.txt, .test-console/child-status/8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa-agent-lab-spacemissioncontrol--default_fix-2-1780137680706.json, .test-console/fleet/agents.json, .test-console/fleet/events.jsonl, .test-console/orchestrator-logs/2026-05-30_13-40-37_8a5706f3.log
+[fix-all] 2/3 lab-spacemissioncontrol--default attempt 2 — running test (child terminal)…
+[orchestrator] Headless run → test:lab-spacemissioncontrol--default
+[test:lab-spacemissioncontrol--default] ▶ pnpm --filter @lab/pixel-test run test:golden -- --stories lab-spacemissioncontrol--default
+[test:lab-spacemissioncontrol--default] > @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+[test:lab-spacemissioncontrol--default] > node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-spacemissioncontrol--default"
+[test:lab-spacemissioncontrol--default] ▶ lab-spacemissioncontrol--default ... ✗ FAIL 1.885%
+[test:lab-spacemissioncontrol--default] Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[test:lab-spacemissioncontrol--default] /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test:
+[test:lab-spacemissioncontrol--default]  ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @lab/pixel-test@0.1.0 test:golden: `node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-spacemissioncontrol--default"`
+[test:lab-spacemissioncontrol--default] Exit status 1
+[test:lab-spacemissioncontrol--default] ✓ FAIL exit 1
+[fix-all] 2/3 lab-spacemissioncontrol--default test finished: exit 1
+[supervisor] lab-spacemissioncontrol--default try 2: STUCK_LOOP → next mode narrow_scope
+[supervisor] Supervisor: edits were only vault/rules/prompts — pixel needs packages/pixel-test/src/render-html.ts or extract.ts. Do NOT reorganize lab-memory during fix-all.
+[supervisor] Supervisor: two consecutive attempts with no metric movement — switch to investigate-first.
+[supervisor] Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results.
+[fix-all] 2/3 lab-spacemissioncontrol--default — early stop: 3 attempt(s) skipped (metrics flat, no render-html/extract edits). Escalate: open compare PNG + artifact, edit adapter by hand, or paste BLOCKED in lab-memory.
+[fix-all] 2/3 lab-spacemissioncontrol--default — gave up after 5 attempts
+[fix-all] 3/3 lab-muiworkspacescreen--default attempt 1/5 (warn 0.18%) — agent fix…
+[fix-all] 3/3 lab-muiworkspacescreen--default attempt 1 — using cached investigation (- `packages/pixel-test/src/render-html.ts` — `paintToBaseCss` / `useNativeBorder`)
+[orchestrator] Opening agent terminal → lab-muiworkspacescreen--default:fix-1 (model: composer-2.5-fast)
+[orchestrator] Headless agent — lab-muiworkspacescreen--default:fix-1 (model: composer-2.5-fast)
+[agent:lab-muiworkspacescreen--default:fix-1] Prompt preview:
+run until pass
+
+Worst story: lab-muiworkspacescreen--default (0.18% global, warn, Pixel (schema))
+Compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/regions/region-01-compare.png
+Storybook: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/storybook.png
+Rendered: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/rendered.png
+…
+[agent:lab-muiworkspacescreen--default:fix-1] ▶ agent -p --force --trust --output-format…
+[agent:lab-muiworkspacescreen--default:fix-1] Using model Composer 2.5 Fast
+[agent:lab-muiworkspacescreen--default:fix-1] stderr: S: Increase limits for faster responses You're out of usage. Switch to Auto, or ask your admin to increase your limit to continue.
+[agent:lab-muiworkspacescreen--default:fix-1] Turn complete exit 1 (edits=0, reads=0, bigReads=0, elapsed=0.1m)
+[orchestrator] Agent lab-muiworkspacescreen--default:fix-1 finished exit 1 (edits=0, reads=0)
+[fix-all] 3/3 lab-muiworkspacescreen--default attempt 1 — agent exited 1
+[fix-all] 3/3 lab-muiworkspacescreen--default attempt 1 — files changed: .test-console/agent-prompts/agent-lab-muiworkspacescreen--default_fix-1-1780137692173.prompt.txt, .test-console/batch-reports/lab-muiworkspacescreen-default-try-1.json, .test-console/batch-reports/lab-muiworkspacescreen-default-try-1.md, .test-console/child-status/8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa-agent-lab-muiworkspacescreen--default_fix-1-1780137692173.json, .test-console/fleet/agents.json, .test-console/fleet/events.jsonl, .test-console/orchestrator-logs/2026-05-30_13-40-37_8a5706f3.log
+[fix-all] 3/3 lab-muiworkspacescreen--default attempt 1 — running test (child terminal)…
+[orchestrator] Headless run → test:lab-muiworkspacescreen--default
+[test:lab-muiworkspacescreen--default] ▶ pnpm --filter @lab/pixel-test run test:golden -- --stories lab-muiworkspacescreen--default
+[test:lab-muiworkspacescreen--default] > @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+[test:lab-muiworkspacescreen--default] > node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-muiworkspacescreen--default"
+[test:lab-muiworkspacescreen--default] ▶ lab-muiworkspacescreen--default ... ⚠ WARN 0.179%
+[test:lab-muiworkspacescreen--default] Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[test:lab-muiworkspacescreen--default] ✓ PASS exit 0
+[fix-all] 3/3 lab-muiworkspacescreen--default test finished: PASS
+[supervisor] lab-muiworkspacescreen--default try 1: NO_ADAPTER_EDIT → next mode narrow_scope
+[supervisor] Supervisor: edits were only vault/rules/prompts — pixel needs packages/pixel-test/src/render-html.ts or extract.ts. Do NOT reorganize lab-memory during fix-all.
+[supervisor] Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results.
+[fix-all] 3/3 lab-muiworkspacescreen--default attempt 1 — still warn (0.18%)
+[fix-all] 3/3 lab-muiworkspacescreen--default attempt 2/5 (warn 0.18%) — agent fix…
+[fix-all] 3/3 lab-muiworkspacescreen--default attempt 2 — using cached investigation (- `packages/pixel-test/src/render-html.ts` — `paintToBaseCss` / `useNativeBorder`)
+[orchestrator] Opening agent terminal → lab-muiworkspacescreen--default:fix-2 (model: composer-2.5-fast)
+[orchestrator] Headless agent — lab-muiworkspacescreen--default:fix-2 (model: composer-2.5-fast)
+[agent:lab-muiworkspacescreen--default:fix-2] Prompt preview:
+run until pass
+
+Worst story: lab-muiworkspacescreen--default (0.18% global, warn, Pixel (schema))
+Compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/regions/region-01-compare.png
+Storybook: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/storybook.png
+Rendered: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/rendered.png
+…
+[agent:lab-muiworkspacescreen--default:fix-2] ▶ agent -p --force --trust --output-format…
+[agent:lab-muiworkspacescreen--default:fix-2] Using model Composer 2.5 Fast
+[agent:lab-muiworkspacescreen--default:fix-2] stderr: S: Increase limits for faster responses You're out of usage. Switch to Auto, or ask your admin to increase your limit to continue.
+[agent:lab-muiworkspacescreen--default:fix-2] Turn complete exit 1 (edits=0, reads=0, bigReads=0, elapsed=0.1m)
+[orchestrator] Agent lab-muiworkspacescreen--default:fix-2 finished exit 1 (edits=0, reads=0)
+[fix-all] 3/3 lab-muiworkspacescreen--default attempt 2 — agent exited 1
+[fix-all] 3/3 lab-muiworkspacescreen--default attempt 2 — files changed: .test-console/agent-prompts/agent-lab-muiworkspacescreen--default_fix-2-1780137703887.prompt.txt, .test-console/child-status/8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa-agent-lab-muiworkspacescreen--default_fix-2-1780137703887.json, .test-console/fleet/agents.json, .test-console/fleet/events.jsonl, .test-console/orchestrator-logs/2026-05-30_13-40-37_8a5706f3.log
+[fix-all] 3/3 lab-muiworkspacescreen--default attempt 2 — running test (child terminal)…
+[orchestrator] Headless run → test:lab-muiworkspacescreen--default
+[test:lab-muiworkspacescreen--default] ▶ pnpm --filter @lab/pixel-test run test:golden -- --stories lab-muiworkspacescreen--default
+[test:lab-muiworkspacescreen--default] > @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+[test:lab-muiworkspacescreen--default] > node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-muiworkspacescreen--default"
+[test:lab-muiworkspacescreen--default] ▶ lab-muiworkspacescreen--default ... ⚠ WARN 0.179%
+[test:lab-muiworkspacescreen--default] Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[test:lab-muiworkspacescreen--default] ✓ PASS exit 0
+[fix-all] 3/3 lab-muiworkspacescreen--default test finished: PASS
+[supervisor] lab-muiworkspacescreen--default try 2: STUCK_LOOP → next mode narrow_scope
+[supervisor] Supervisor: edits were only vault/rules/prompts — pixel needs packages/pixel-test/src/render-html.ts or extract.ts. Do NOT reorganize lab-memory during fix-all.
+[supervisor] Supervisor: two consecutive attempts with no metric movement — switch to investigate-first.
+[supervisor] Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results.
+[fix-all] 3/3 lab-muiworkspacescreen--default — early stop: 3 attempt(s) skipped (metrics flat, no render-html/extract edits). Escalate: open compare PNG + artifact, edit adapter by hand, or paste BLOCKED in lab-memory.
+[fix-all] 3/3 lab-muiworkspacescreen--default — gave up after 5 attempts
+[fix-all] Refreshing full suite report (child terminal)…
+[golden] pixel — 3 stories (process pool)
+[orchestrator] Headless run → golden:pixel
+[golden:pixel] ▶ node scripts/test-console-golden-pool.mjs --suite pixel --stories lab-retroterminalscreen--default,lab-spacemissioncontrol--default,lab-muiworkspacescreen--default --workers 12
+[golden-pool] pixel — 3 stories in 3 processes
+[golden-pool] worker 1/3 start Pixel (1 stories)
+[golden-pool] worker 2/3 start Pixel (1 stories)
+[golden-pool] worker 3/3 start Pixel (1 stories)
+[golden:pixel] > @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+[golden:pixel] > node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-retroterminalscreen--default"
+[golden:pixel] > @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+[golden:pixel] > @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+[golden:pixel] > node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-spacemissioncontrol--default"
+[golden:pixel] > node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-muiworkspacescreen--default"
+[golden:pixel] ▶ lab-retroterminalscreen--default ... ▶ lab-spacemissioncontrol--default ... ▶ lab-muiworkspacescreen--default ... ⚠ WARN 0.179%
+[golden:pixel] Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden-pool] worker 3/3 done
+[golden:pixel] ✗ FAIL 1.885%
+[golden:pixel] Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden:pixel] /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test:
+[golden:pixel]  ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @lab/pixel-test@0.1.0 test:golden: `node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-spacemissioncontrol--default"`
+[golden:pixel] Exit status 1
+[golden:pixel] ✗ FAIL 5.491%
+[golden:pixel] stderr: Pixel worker 2 exited 1
+[golden:pixel] Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[golden:pixel] /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test:
+[golden:pixel]  ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @lab/pixel-test@0.1.0 test:golden: `node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-retroterminalscreen--default"`
+[golden:pixel] Exit status 1
+[golden:pixel] Portfolio: /Users/user/Downloads/storybook-to-figma-lab/test-portfolio/report.html
+[golden:pixel] ✓ FAIL exit 1
+
+[fix-all] Done: 0/3 pass, 3 exhausted
+[portfolio] Fix round 2 · Pixel (schema) · 3 items
+[fix-all] Serial mode (default): up to 5 fix→test cycles per story across 3 stories (Pixel (schema))
+[fix-all] Worker supervisor ON — observes git diff + metrics, steers stuck agents.
+[fix-all] Investigator gate ON — fixer blocked until lab-memory root cause is filled (set FIX_ALL_SKIP_INVESTIGATOR_GATE=1 to bypass).
+[fix-all] Supervisor stays in this tab; child Terminal tabs open for agents, builds, and tests.
+[fix-all] Legacy batch mode is opt-in: set FIX_ALL_BATCH=1.
+[fix-all] 1/3 lab-retroterminalscreen--default attempt 1/5 (fail 5.49%) — agent fix…
+[fix-all] 1/3 lab-retroterminalscreen--default attempt 1 — using cached investigation (- `render-html.ts`: glow gradient stop parity (`gradientStopColor`), optional sub-pixel pre metrics; **not** root/section class allowlists — see [[visual/patterns/render-html-layer-class-allowlist-regression]].)
+[orchestrator] Opening agent terminal → lab-retroterminalscreen--default:fix-1 (model: composer-2.5-fast)
+[orchestrator] Headless agent — lab-retroterminalscreen--default:fix-1 (model: composer-2.5-fast)
+[agent:lab-retroterminalscreen--default:fix-1] Prompt preview:
+run until pass
+
+Worst story: lab-retroterminalscreen--default (5.49% global, fail, Pixel (schema))
+Compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/regions/region-01-compare.png
+Storybook: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/storybook.png
+Rendered: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/rendered.png
+…
+[agent:lab-retroterminalscreen--default:fix-1] ▶ agent -p --force --trust --output-format…
+[agent:lab-retroterminalscreen--default:fix-1] Using model Composer 2.5 Fast
+[agent:lab-retroterminalscreen--default:fix-1] stderr: S: Increase limits for faster responses You're out of usage. Switch to Auto, or ask your admin to increase your limit to continue.
+[agent:lab-retroterminalscreen--default:fix-1] Turn complete exit 1 (edits=0, reads=0, bigReads=0, elapsed=0.1m)
+[orchestrator] Agent lab-retroterminalscreen--default:fix-1 finished exit 1 (edits=0, reads=0)
+[fix-all] 1/3 lab-retroterminalscreen--default attempt 1 — agent exited 1
+[fix-all] 1/3 lab-retroterminalscreen--default attempt 1 — files changed: .test-console/agent-prompts/agent-lab-retroterminalscreen--default_fix-1-1780137722739.prompt.txt, .test-console/batch-reports/lab-retroterminalscreen-default-try-1.json, .test-console/child-status/8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa-agent-lab-retroterminalscreen--default_fix-1-1780137722739.json, .test-console/fleet/agents.json, .test-console/fleet/events.jsonl, .test-console/orchestrator-logs/2026-05-30_13-40-37_8a5706f3.log
+[fix-all] 1/3 lab-retroterminalscreen--default attempt 1 — running test (child terminal)…
+[orchestrator] Headless run → test:lab-retroterminalscreen--default
+[test:lab-retroterminalscreen--default] ▶ pnpm --filter @lab/pixel-test run test:golden -- --stories lab-retroterminalscreen--default
+[test:lab-retroterminalscreen--default] > @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+[test:lab-retroterminalscreen--default] > node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-retroterminalscreen--default"
+[test:lab-retroterminalscreen--default] ▶ lab-retroterminalscreen--default ... ✗ FAIL 5.491%
+[test:lab-retroterminalscreen--default] Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[test:lab-retroterminalscreen--default] /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test:
+[test:lab-retroterminalscreen--default]  ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @lab/pixel-test@0.1.0 test:golden: `node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-retroterminalscreen--default"`
+[test:lab-retroterminalscreen--default] Exit status 1
+[test:lab-retroterminalscreen--default] ✓ FAIL exit 1
+[fix-all] 1/3 lab-retroterminalscreen--default test finished: exit 1
+[supervisor] lab-retroterminalscreen--default try 1: STUCK_LOOP → next mode narrow_scope
+[supervisor] Supervisor: edits were only vault/rules/prompts — pixel needs packages/pixel-test/src/render-html.ts or extract.ts. Do NOT reorganize lab-memory during fix-all.
+[supervisor] Supervisor: two consecutive attempts with no metric movement — switch to investigate-first.
+[supervisor] Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results.
+[fix-all] 1/3 lab-retroterminalscreen--default attempt 1 — still fail (5.49%)
+[fix-all] 1/3 lab-retroterminalscreen--default attempt 2/5 (fail 5.49%) — agent fix…
+[fix-all] 1/3 lab-retroterminalscreen--default attempt 2 — using cached investigation (- `render-html.ts`: glow gradient stop parity (`gradientStopColor`), optional sub-pixel pre metrics; **not** root/section class allowlists — see [[visual/patterns/render-html-layer-class-allowlist-regression]].)
+[orchestrator] Opening agent terminal → lab-retroterminalscreen--default:fix-2 (model: composer-2.5-fast)
+[orchestrator] Headless agent — lab-retroterminalscreen--default:fix-2 (model: composer-2.5-fast)
+[agent:lab-retroterminalscreen--default:fix-2] Prompt preview:
+run until pass
+
+Worst story: lab-retroterminalscreen--default (5.49% global, fail, Pixel (schema))
+Compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/regions/region-01-compare.png
+Storybook: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/storybook.png
+Rendered: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/rendered.png
+…
+[agent:lab-retroterminalscreen--default:fix-2] ▶ agent -p --force --trust --output-format…
+[agent:lab-retroterminalscreen--default:fix-2] Using model Composer 2.5 Fast
+[agent:lab-retroterminalscreen--default:fix-2] stderr: S: Increase limits for faster responses You're out of usage. Switch to Auto, or ask your admin to increase your limit to continue.
+[agent:lab-retroterminalscreen--default:fix-2] Turn complete exit 1 (edits=0, reads=0, bigReads=0, elapsed=0.1m)
+[orchestrator] Agent lab-retroterminalscreen--default:fix-2 finished exit 1 (edits=0, reads=0)
+[fix-all] 1/3 lab-retroterminalscreen--default attempt 2 — agent exited 1
+[fix-all] 1/3 lab-retroterminalscreen--default attempt 2 — files changed: .test-console/agent-prompts/agent-lab-retroterminalscreen--default_fix-2-1780137733971.prompt.txt, .test-console/child-status/8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa-agent-lab-retroterminalscreen--default_fix-2-1780137733971.json, .test-console/fleet/agents.json, .test-console/fleet/events.jsonl, .test-console/orchestrator-logs/2026-05-30_13-40-37_8a5706f3.log
+[fix-all] 1/3 lab-retroterminalscreen--default attempt 2 — running test (child terminal)…
+[orchestrator] Headless run → test:lab-retroterminalscreen--default
+[test:lab-retroterminalscreen--default] ▶ pnpm --filter @lab/pixel-test run test:golden -- --stories lab-retroterminalscreen--default
+[test:lab-retroterminalscreen--default] > @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+[test:lab-retroterminalscreen--default] > node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-retroterminalscreen--default"
+[test:lab-retroterminalscreen--default] ▶ lab-retroterminalscreen--default ... ✗ FAIL 5.491%
+[test:lab-retroterminalscreen--default] Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[test:lab-retroterminalscreen--default] /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test:
+[test:lab-retroterminalscreen--default]  ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @lab/pixel-test@0.1.0 test:golden: `node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-retroterminalscreen--default"`
+[test:lab-retroterminalscreen--default] Exit status 1
+[test:lab-retroterminalscreen--default] ✓ FAIL exit 1
+[fix-all] 1/3 lab-retroterminalscreen--default test finished: exit 1
+[supervisor] lab-retroterminalscreen--default try 2: STUCK_LOOP → next mode narrow_scope
+[supervisor] Supervisor: edits were only vault/rules/prompts — pixel needs packages/pixel-test/src/render-html.ts or extract.ts. Do NOT reorganize lab-memory during fix-all.
+[supervisor] Supervisor: two consecutive attempts with no metric movement — switch to investigate-first.
+[supervisor] Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results.
+[fix-all] 1/3 lab-retroterminalscreen--default — early stop: 3 attempt(s) skipped (metrics flat, no render-html/extract edits). Escalate: open compare PNG + artifact, edit adapter by hand, or paste BLOCKED in lab-memory.
+[fix-all] 1/3 lab-retroterminalscreen--default — gave up after 5 attempts
+[fix-all] 2/3 lab-spacemissioncontrol--default attempt 1/5 (fail 1.89%) — agent fix…
+[fix-all] 2/3 lab-spacemissioncontrol--default attempt 1 — using cached investigation (| Priority | Area | Action |)
+[orchestrator] Opening agent terminal → lab-spacemissioncontrol--default:fix-1 (model: composer-2.5-fast)
+[orchestrator] Headless agent — lab-spacemissioncontrol--default:fix-1 (model: composer-2.5-fast)
+[agent:lab-spacemissioncontrol--default:fix-1] Prompt preview:
+run until pass
+
+Worst story: lab-spacemissioncontrol--default (1.89% global, fail, Pixel (schema))
+Compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-spacemissioncontrol-default/regions/region-01-compare.png
+Storybook: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-spacemissioncontrol-default/storybook.png
+Rendered: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-spacemissioncontrol-default/rendered.png
+…
+[agent:lab-spacemissioncontrol--default:fix-1] ▶ agent -p --force --trust --output-format…
+[agent:lab-spacemissioncontrol--default:fix-1] Using model Composer 2.5 Fast
+[agent:lab-spacemissioncontrol--default:fix-1] stderr: S: Increase limits for faster responses You're out of usage. Switch to Auto, or ask your admin to increase your limit to continue.
+[agent:lab-spacemissioncontrol--default:fix-1] Turn complete exit 1 (edits=0, reads=0, bigReads=0, elapsed=0.1m)
+[orchestrator] Agent lab-spacemissioncontrol--default:fix-1 finished exit 1 (edits=0, reads=0)
+[fix-all] 2/3 lab-spacemissioncontrol--default attempt 1 — agent exited 1
+[fix-all] 2/3 lab-spacemissioncontrol--default attempt 1 — files changed: .test-console/agent-prompts/agent-lab-spacemissioncontrol--default_fix-1-1780137749210.prompt.txt, .test-console/batch-reports/lab-spacemissioncontrol-default-try-1.json, .test-console/child-status/8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa-agent-lab-spacemissioncontrol--default_fix-1-1780137749210.json, .test-console/fleet/agents.json, .test-console/fleet/events.jsonl, .test-console/orchestrator-logs/2026-05-30_13-40-37_8a5706f3.log, scripts/test-console-server.mjs
+[fix-all] 2/3 lab-spacemissioncontrol--default attempt 1 — running test (child terminal)…
+[orchestrator] Headless run → test:lab-spacemissioncontrol--default
+[test:lab-spacemissioncontrol--default] ▶ pnpm --filter @lab/pixel-test run test:golden -- --stories lab-spacemissioncontrol--default
+[test:lab-spacemissioncontrol--default] > @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+[test:lab-spacemissioncontrol--default] > node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-spacemissioncontrol--default"
+[test:lab-spacemissioncontrol--default] ▶ lab-spacemissioncontrol--default ... ✗ FAIL 1.885%
+[test:lab-spacemissioncontrol--default] Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[test:lab-spacemissioncontrol--default] /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test:
+[test:lab-spacemissioncontrol--default]  ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @lab/pixel-test@0.1.0 test:golden: `node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-spacemissioncontrol--default"`
+[test:lab-spacemissioncontrol--default] Exit status 1
+[test:lab-spacemissioncontrol--default] ✓ FAIL exit 1
+[fix-all] 2/3 lab-spacemissioncontrol--default test finished: exit 1
+[supervisor] lab-spacemissioncontrol--default try 1: STUCK_LOOP → next mode narrow_scope
+[supervisor] Supervisor: edits were only vault/rules/prompts — pixel needs packages/pixel-test/src/render-html.ts or extract.ts. Do NOT reorganize lab-memory during fix-all.
+[supervisor] Supervisor: two consecutive attempts with no metric movement — switch to investigate-first.
+[supervisor] Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results.
+[fix-all] 2/3 lab-spacemissioncontrol--default attempt 1 — still fail (1.89%)
+[fix-all] 2/3 lab-spacemissioncontrol--default attempt 2/5 (fail 1.89%) — agent fix…
+[fix-all] 2/3 lab-spacemissioncontrol--default attempt 2 — using cached investigation (| Priority | Area | Action |)
+[orchestrator] Opening agent terminal → lab-spacemissioncontrol--default:fix-2 (model: composer-2.5-fast)
+[orchestrator] Headless agent — lab-spacemissioncontrol--default:fix-2 (model: composer-2.5-fast)
+[agent:lab-spacemissioncontrol--default:fix-2] Prompt preview:
+run until pass
+
+Worst story: lab-spacemissioncontrol--default (1.89% global, fail, Pixel (schema))
+Compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-spacemissioncontrol-default/regions/region-01-compare.png
+Storybook: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-spacemissioncontrol-default/storybook.png
+Rendered: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-spacemissioncontrol-default/rendered.png
+…
+[agent:lab-spacemissioncontrol--default:fix-2] ▶ agent -p --force --trust --output-format…
+[agent:lab-spacemissioncontrol--default:fix-2] Using model Composer 2.5 Fast
+[agent:lab-spacemissioncontrol--default:fix-2] stderr: S: Increase limits for faster responses You're out of usage. Switch to Auto, or ask your admin to increase your limit to continue.
+[agent:lab-spacemissioncontrol--default:fix-2] Turn complete exit 1 (edits=0, reads=0, bigReads=0, elapsed=0.1m)
+[orchestrator] Agent lab-spacemissioncontrol--default:fix-2 finished exit 1 (edits=0, reads=0)
+[fix-all] 2/3 lab-spacemissioncontrol--default attempt 2 — agent exited 1
+[fix-all] 2/3 lab-spacemissioncontrol--default attempt 2 — files changed: .test-console/agent-prompts/agent-lab-spacemissioncontrol--default_fix-2-1780137762301.prompt.txt, .test-console/child-status/8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa-agent-lab-spacemissioncontrol--default_fix-2-1780137762301.json, .test-console/fleet/agents.json, .test-console/fleet/events.jsonl, .test-console/orchestrator-logs/2026-05-30_13-40-37_8a5706f3.log, packages/test-console/src/fleet-console.css, scripts/test-console-server.mjs
+[fix-all] 2/3 lab-spacemissioncontrol--default attempt 2 — running test (child terminal)…
+[orchestrator] Headless run → test:lab-spacemissioncontrol--default
+[test:lab-spacemissioncontrol--default] ▶ pnpm --filter @lab/pixel-test run test:golden -- --stories lab-spacemissioncontrol--default
+[test:lab-spacemissioncontrol--default] > @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+[test:lab-spacemissioncontrol--default] > node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-spacemissioncontrol--default"
+[test:lab-spacemissioncontrol--default] ▶ lab-spacemissioncontrol--default ... ✗ FAIL 1.885%
+[test:lab-spacemissioncontrol--default] Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[test:lab-spacemissioncontrol--default] /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test:
+[test:lab-spacemissioncontrol--default]  ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @lab/pixel-test@0.1.0 test:golden: `node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-spacemissioncontrol--default"`
+[test:lab-spacemissioncontrol--default] Exit status 1
+[test:lab-spacemissioncontrol--default] ✓ FAIL exit 1
+[fix-all] 2/3 lab-spacemissioncontrol--default test finished: exit 1
+[supervisor] lab-spacemissioncontrol--default try 2: STUCK_LOOP → next mode narrow_scope
+[supervisor] Supervisor: edits were only vault/rules/prompts — pixel needs packages/pixel-test/src/render-html.ts or extract.ts. Do NOT reorganize lab-memory during fix-all.
+[supervisor] Supervisor: two consecutive attempts with no metric movement — switch to investigate-first.
+[supervisor] Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results.
+[fix-all] 2/3 lab-spacemissioncontrol--default — early stop: 3 attempt(s) skipped (metrics flat, no render-html/extract edits). Escalate: open compare PNG + artifact, edit adapter by hand, or paste BLOCKED in lab-memory.
+[fix-all] 2/3 lab-spacemissioncontrol--default — gave up after 5 attempts
+[fix-all] 3/3 lab-muiworkspacescreen--default attempt 1/5 (warn 0.18%) — agent fix…
+[fix-all] 3/3 lab-muiworkspacescreen--default attempt 1 — using cached investigation (- `packages/pixel-test/src/render-html.ts` — `paintToBaseCss` / `useNativeBorder`)
+[orchestrator] Opening agent terminal → lab-muiworkspacescreen--default:fix-1 (model: composer-2.5-fast)
+[orchestrator] Headless agent — lab-muiworkspacescreen--default:fix-1 (model: composer-2.5-fast)
+[agent:lab-muiworkspacescreen--default:fix-1] Prompt preview:
+run until pass
+
+Worst story: lab-muiworkspacescreen--default (0.18% global, warn, Pixel (schema))
+Compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/regions/region-01-compare.png
+Storybook: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/storybook.png
+Rendered: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/rendered.png
+…
+[agent:lab-muiworkspacescreen--default:fix-1] ▶ agent -p --force --trust --output-format…
+[agent:lab-muiworkspacescreen--default:fix-1] Using model Composer 2.5 Fast

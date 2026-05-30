@@ -1,0 +1,26 @@
+{
+  "jobId": "8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa",
+  "storyId": "lab-muiworkspacescreen--default",
+  "phase": "fixer",
+  "attempt": 2,
+  "recordedAt": "2026-05-30T10:43:16.166Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "status": "failed",
+  "agentExitCode": 1,
+  "filesChanged": [
+    ".test-console/agent-prompts/agent-lab-muiworkspacescreen--default_fix-2-1780137788786.prompt.txt",
+    ".test-console/child-status/7d76976a-724b-44a4-9c92-4c6b13189856-agent-lab-retroterminalscreen--default_fix-1-1780137787025.json",
+    ".test-console/child-status/8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa-agent-lab-muiworkspacescreen--default_fix-2-1780137788786.json",
+    ".test-console/fleet/agents.json",
+    ".test-console/fleet/events.jsonl",
+    ".test-console/job-results/7d76976a-724b-44a4-9c92-4c6b13189856/lab-retroterminalscreen--default-fixer-try-1.json",
+    ".test-console/orchestrator-logs/2026-05-30_13-43-03_7d76976a.log",
+    ".test-console/orchestrator-state.json"
+  ],
+  "workerMode": "narrow_scope",
+  "usageBlocked": false,
+  "watchdogTripped": false,
+  "watchdogReason": null,
+  "editCount": 0
+}

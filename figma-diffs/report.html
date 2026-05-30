@@ -33,10 +33,10 @@ code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; }
 The recorded scene tree is then serialized to HTML/SVG and screenshotted. Mismatches here mean a bug in the renderer.</p>
 <div class="summary">
   <div>Total: <strong>15</strong></div>
-  <div style="color:#16a34a">Pass: <strong>12</strong></div>
+  <div style="color:#16a34a">Pass: <strong>13</strong></div>
   <div style="color:#d97706">Warn: <strong>0</strong></div>
   <div style="color:#dc2626">Fail: <strong>0</strong></div>
-  <div style="color:#7c3aed">Error: <strong>3</strong></div>
+  <div style="color:#7c3aed">Error: <strong>2</strong></div>
 </div>
 <p class="summary-hint">Counts of stories by outcome. <strong>Pass</strong> = within tolerance; <strong>Warn</strong> = slightly over; <strong>Fail</strong> = too much diff; <strong>Error</strong> = test could not run.</p>
 <div class="legend">
@@ -71,9 +71,9 @@ The recorded scene tree is then serialized to HTML/SVG and screenshotted. Mismat
   <tbody>
       <tr>
         <td><code>lab-analyticscharts--dense</code></td>
-        <td style="color:#7c3aed;font-weight:600">ERROR</td>
-        <td><span class="metric-primary">0.0% match</span></td>
-        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0% of 0</span></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span></td>
+        <td><span class="metric-primary">0 pixels differ</span><span class="metric-sub">0.00% of 302K · 738×409px</span></td>
         <td>
           <a target="_blank" href="lab-analyticscharts-dense/storybook.png">storybook</a> ·
           <a target="_blank" href="lab-analyticscharts-dense/rendered.png">rendered</a> ·
@@ -81,10 +81,7 @@ The recorded scene tree is then serialized to HTML/SVG and screenshotted. Mismat
           <a target="_blank" href="lab-analyticscharts-dense/scene.json">scene</a>
           
         </td>
-        <td><small style="color:#dc2626">page.goto: Timeout 30000ms exceeded.
-Call log:
-  - navigating to "http://127.0.0.1:6107/iframe.html?id=lab-analyticscharts--dense&viewMode=story", waiting until "networkidle"
-</small></td>
+        <td></td>
       </tr>
       <tr>
         <td><code>lab-analyticscharts--revenue</code></td>

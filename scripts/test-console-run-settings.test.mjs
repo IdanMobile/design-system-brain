@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
   DEFAULT_AGENT_MODEL,
+  DEFAULT_RUN_SETTINGS,
   DEFAULT_STORYBOOK_PARALLEL,
   MAX_PARALLEL_WORKERS,
   normalizeRunSettings,
@@ -46,6 +47,18 @@ describe("parallelWorkers", () => {
     const s = normalizeRunSettings({ parallelWorkers: 150 });
     assert.equal(s.parallelWorkers, MAX_PARALLEL_WORKERS);
     assert.equal(MAX_PARALLEL_WORKERS, 100);
+  });
+});
+
+describe("orchestrator sort", () => {
+  it("defaults to flow_first for per-item portfolio scheduling", () => {
+    assert.equal(DEFAULT_RUN_SETTINGS.sortBy, "flow_first");
+    assert.equal(normalizeRunSettings({}).sortBy, "flow_first");
+  });
+
+  it("accepts flow_first for per-item scheduling", () => {
+    const s = normalizeRunSettings({ sortBy: "flow_first" });
+    assert.equal(s.sortBy, "flow_first");
   });
 });
 

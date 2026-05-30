@@ -1,12 +1,12 @@
 /**
  * Figma-as-entry fix loop — per-step failing screens, paths, golden commands, agent prompts.
- * Used by test-console-server, agent-bridge, and fix-all-iterate.
  */
 
 import { join } from "node:path";
 import {
   FIGMA_ENTRY_STEPS,
   FIGMA_ENTRY_STEP_ORDER,
+  ORIGINAL_PARITY_LEG_IDS,
   recommendFigmaEntryAction
 } from "./figma-entry-portfolio-config.mjs";
 import {
@@ -14,8 +14,9 @@ import {
   readScreenStepResult,
   FIGMA_SCREEN_DIFFS_DIR
 } from "./figma-screen-portfolio.mjs";
+import { fixPromptFromTestReport, loadTestReport, figmaScreenTestReportPath } from "./test-report-build.mjs";
 
-export { FIGMA_ENTRY_STEP_ORDER };
+export { FIGMA_ENTRY_STEP_ORDER, ORIGINAL_PARITY_LEG_IDS };
 
 export function isFigmaEntryFixSuite(suiteId) {
   return FIGMA_ENTRY_STEP_ORDER.includes(suiteId);
@@ -49,12 +50,8 @@ function screenManifestPath(repoRoot, screenId) {
   return hit?.manifestPath ?? null;
 }
 
-function screenDiffDir(repoRoot, screenId) {
-  return join(repoRoot, FIGMA_SCREEN_DIFFS_DIR, screenId);
-}
-
-function stepSubdir(repoRoot, screenId, stepId) {
-  return join(repoRoot, FIGMA_SCREEN_DIFFS_DIR, screenId, stepId);
+function parityDir(repoRoot, screenId) {
+  return join(repoRoot, FIGMA_SCREEN_DIFFS_DIR, screenId, "originalParity");
 }
 
 /**
@@ -67,50 +64,38 @@ export function figmaEntryStoryFromStep(repoRoot, screenId, stepId) {
   if (!meta) return null;
   const rec = readScreenStepResult(repoRoot, screenId, stepId);
   const status = rec?.status ?? "not_tested";
-  const diffBase = screenDiffDir(repoRoot, screenId);
-  const stepBase = stepSubdir(repoRoot, screenId, stepId);
+  const parityBase = parityDir(repoRoot, screenId);
 
   /** @type {Record<string, string | null>} */
   const paths = {
-    reportHtml: null,
-    comparePng: null,
-    storybookPng: null,
-    figmaPng: null,
-    diffPng: null,
-    artifactPath: null,
+    reportHtml: rec?.reportHtml ?? join(parityBase, "report.html"),
+    comparePng: rec?.diffPng ?? null,
+    storybookPng: rec?.targetPng ?? join(parityBase, "storybook.png"),
+    figmaPng: join(parityBase, "figmaLive.png"),
+    diffPng: rec?.diffPng ?? null,
+    artifactPath: rec?.contractPath ?? join(repoRoot, "artifacts/figma-screens", `${screenId}.contract.json`),
     manifestPath: screenManifestPath(repoRoot, screenId),
-    contractPath: join(repoRoot, "artifacts/figma-screens", `${screenId}.contract.json`),
-    referencePng: join(repoRoot, "artifacts/figma-screens", `${screenId}.png`)
+    contractPath: rec?.contractPath ?? join(repoRoot, "artifacts/figma-screens", `${screenId}.contract.json`),
+    referencePng: rec?.originalPng ?? join(repoRoot, "artifacts/figma-screens", `${screenId}.png`),
+    testReportPath:
+      rec?.testReportPath ?? figmaScreenTestReportPath(repoRoot, screenId, stepId)
   };
 
   if (stepId === "manifestContract") {
-    paths.comparePng = rec?.diffPng ?? join(diffBase, "manifestContract", "diff.png");
+    paths.comparePng = rec?.diffPng ?? join(parityBase, "manifestContract", "diff.png");
     paths.artifactPath = paths.manifestPath;
     paths.contractPath = rec?.contractPath ?? paths.contractPath;
-  } else if (stepId === "contractFigma") {
-    paths.comparePng = rec?.diffPng ?? join(diffBase, "diff.png");
-    paths.storybookPng = rec?.referencePng ?? join(diffBase, "reference.png");
-    paths.figmaPng = rec?.renderedPng ?? rec?.figmaPng ?? join(diffBase, "rendered.png");
+  } else if (ORIGINAL_PARITY_LEG_IDS.includes(stepId)) {
+    const legFile =
+      stepId === "vsFigmaLive"
+        ? "figmaLive"
+        : stepId === "vsStorybook"
+          ? "storybook"
+          : "reactHtml";
+    paths.comparePng = rec?.diffPng ?? join(parityBase, `diff-original-${legFile}.png`);
+    paths.storybookPng = join(parityBase, "storybook.png");
+    paths.figmaPng = join(parityBase, "figmaLive.png");
     paths.diffPng = paths.comparePng;
-    paths.artifactPath = paths.contractPath;
-    paths.reportHtml = join(diffBase, "report.html");
-  } else if (stepId === "storybook") {
-    paths.comparePng = rec?.diffPng ?? join(diffBase, "storybook", "diff.png");
-    paths.storybookPng = rec?.renderedPng ?? join(diffBase, "storybook", "rendered.png");
-    paths.figmaPng = rec?.referencePng ?? join(diffBase, "storybook", "reference.png");
-    paths.diffPng = paths.comparePng;
-    paths.artifactPath = paths.contractPath;
-  } else if (stepId === "fourWay") {
-    const worstPair =
-      rec?.pairs?.find((p) => p.status !== "pass") ??
-      rec?.pairs?.find((p) => p.a === "original" && p.b === "figma") ??
-      rec?.pairs?.[0];
-    paths.comparePng = worstPair?.diffFile ?? join(stepBase, "diff-original-figma.png");
-    paths.storybookPng = rec?.legs?.storybook ?? rec?.legs?.original ?? join(stepBase, "storybook.png");
-    paths.figmaPng = rec?.legs?.figma ?? join(stepBase, "figma.png");
-    paths.diffPng = paths.comparePng;
-    paths.reportHtml = rec?.reportHtml ?? join(stepBase, "report.html");
-    paths.artifactPath = paths.contractPath;
   } else if (stepId === "logic") {
     paths.reportHtml = rec?.specPath ?? join(repoRoot, "lab-memory/logic/specs", `${screenId}.spec.json`);
     paths.artifactPath = paths.reportHtml;
@@ -120,14 +105,14 @@ export function figmaEntryStoryFromStep(repoRoot, screenId, stepId) {
     storyId: screenId,
     screenId,
     status,
-    percent: rec?.percent ?? rec?.worstPairPercent ?? 0,
-    maxRegionPercent: rec?.worstRegion?.pct ?? rec?.regions?.[0]?.pct ?? null,
+    percent: rec?.percent ?? 0,
+    maxRegionPercent: rec?.worstRegion?.pct ?? rec?.maxRegionPercent ?? null,
     error: rec?.error ?? null,
     suiteId: stepId,
     suiteLabel: meta.label,
     stepId,
     tolerance: rec?.tolerance ?? 0.1,
-    regionTolerance: rec?.regionTolerance ?? 0.1,
+    regionTolerance: rec?.tolerance ?? 0.1,
     paths,
     actionHint: recommendFigmaEntryAction(stepId, status, {
       percent: rec?.percent,
@@ -155,15 +140,25 @@ export function figmaEntryGoldenSpawn(stepId, screenId, repoRoot) {
   const artifactArg = ["--artifact", manifestPath];
   switch (stepId) {
     case "manifestContract":
-      return { bin: "node", args: ["scripts/figma-screen-manifest-test.mjs", ...artifactArg], tag: `figmaEntry:${stepId}:${screenId}` };
-    case "contractFigma":
-      return { bin: "node", args: ["scripts/figma-screen-test.mjs", ...artifactArg], tag: `figmaEntry:${stepId}:${screenId}` };
-    case "storybook":
-      return { bin: "node", args: ["scripts/figma-screen-storybook-test.mjs", ...artifactArg], tag: `figmaEntry:${stepId}:${screenId}` };
-    case "fourWay":
-      return { bin: "node", args: ["scripts/figma-screen-four-way-test.mjs", ...artifactArg], tag: `figmaEntry:${stepId}:${screenId}` };
+      return {
+        bin: "node",
+        args: ["scripts/figma-screen-manifest-test.mjs", ...artifactArg],
+        tag: `figmaEntry:${stepId}:${screenId}`
+      };
+    case "vsFigmaLive":
+    case "vsStorybook":
+    case "vsReactHtml":
+      return {
+        bin: "node",
+        args: ["scripts/original-parity-test.mjs", ...artifactArg],
+        tag: `figmaEntry:parity:${screenId}`
+      };
     case "logic":
-      return { bin: "node", args: ["scripts/figma-screen-logic-test.mjs", ...artifactArg], tag: `figmaEntry:${stepId}:${screenId}` };
+      return {
+        bin: "node",
+        args: ["scripts/figma-screen-logic-test.mjs", ...artifactArg],
+        tag: `figmaEntry:${stepId}:${screenId}`
+      };
     default:
       return null;
   }
@@ -175,37 +170,33 @@ export function figmaEntryGoldenActionId(stepId) {
 }
 
 export function figmaEntryFixMode(stepId) {
-  if (stepId === "contractFigma") return "live";
+  if (stepId === "vsFigmaLive") return "live";
   if (stepId === "manifestContract") return "adapter";
   if (stepId === "logic") return "logic";
   return "figmaEntry";
 }
 
 export function figmaEntryNeedsPluginBuild(stepId) {
-  return stepId === "contractFigma" || stepId === "storybook" || stepId === "fourWay";
+  return stepId === "vsFigmaLive" || ORIGINAL_PARITY_LEG_IDS.includes(stepId);
 }
 
 export function figmaEntryNeedsRelay(stepId) {
-  return stepId === "contractFigma";
+  return stepId === "vsFigmaLive" || ORIGINAL_PARITY_LEG_IDS.includes(stepId);
 }
 
 export function figmaEntryRerunCommand(stepId, screenId) {
-  const meta = figmaEntryStepMeta(stepId);
-  if (!meta) return "re-run from test console Figma tab";
   const manifest = `artifacts/figma-screens/${screenId}.manifest.json`;
   switch (stepId) {
     case "manifestContract":
       return `pnpm test:figma:screen:manifest -- --artifact ${manifest}`;
-    case "contractFigma":
-      return `pnpm test:figma:screen -- --artifact ${manifest}`;
-    case "storybook":
-      return `pnpm test:figma:screen:storybook -- --artifact ${manifest}`;
-    case "fourWay":
-      return `pnpm test:figma:screen:four-way -- --artifact ${manifest}`;
+    case "vsFigmaLive":
+    case "vsStorybook":
+    case "vsReactHtml":
+      return `pnpm test:figma:screen:parity -- --artifact ${manifest}`;
     case "logic":
       return `pnpm test:figma:screen:logic -- --artifact ${manifest}`;
     default:
-      return `pnpm test:figma:screen -- --artifact ${manifest}`;
+      return `pnpm test:figma:screen:parity -- --artifact ${manifest}`;
   }
 }
 
@@ -214,6 +205,10 @@ export function figmaEntryRerunCommand(stepId, screenId) {
  * @param {string} stepId
  */
 export function buildFigmaEntryFixPromptLines(story, stepId, extra = "") {
+  const report = loadTestReport(story.paths?.testReportPath);
+  if (report) {
+    return fixPromptFromTestReport(report, extra).split("\n");
+  }
   const mode = figmaEntryFixMode(stepId);
   const lines = [
     mode === "live" ? "make fixes after live test" : "run until pass",
@@ -230,7 +225,7 @@ export function buildFigmaEntryFixPromptLines(story, stepId, extra = "") {
 
   if (story.paths.comparePng) lines.push(`Compare / diff: ${story.paths.comparePng}`);
   if (story.paths.referencePng) lines.push(`Original Guing PNG: ${story.paths.referencePng}`);
-  if (story.paths.storybookPng) lines.push(`Reference leg: ${story.paths.storybookPng}`);
+  if (story.paths.storybookPng) lines.push(`Storybook leg: ${story.paths.storybookPng}`);
   if (story.paths.figmaPng) lines.push(`Figma leg: ${story.paths.figmaPng}`);
   if (story.paths.manifestPath) lines.push(`Manifest: ${story.paths.manifestPath}`);
   if (story.paths.contractPath) lines.push(`Contract: ${story.paths.contractPath}`);
@@ -241,12 +236,12 @@ export function buildFigmaEntryFixPromptLines(story, stepId, extra = "") {
     "── Fix area by step ──",
     stepId === "manifestContract"
       ? "Fix scripts/figma-manifest-to-contract.mjs — GROUP child rebase, skip TEXT in shell fills, preserve figmaRelativeTransform."
-      : stepId === "contractFigma"
-        ? "Fix packages/figma-importer-plugin/src/code-v2.ts + adapter (figma-manifest-to-contract.mjs). Live export only."
-        : stepId === "storybook"
-          ? "Fix contract render-html / scripts/bake-figma-screen-ui.mjs / packages/ui Screen component. Delivery Storybook uses ORIGINAL Guing PNG — rebuild storybook after bake."
-          : stepId === "fourWay"
-            ? "Triage four-way report — fix the failing leg (original↔figma usually = live importer; original↔storybook = bake + storybook rebuild)."
+      : stepId === "vsFigmaLive"
+        ? "Fix packages/figma-importer-plugin/src/code-v2.ts + adapter. Original → Figma live leg only."
+        : stepId === "vsStorybook"
+          ? "Fix scripts/bake-figma-screen-ui.mjs / packages/ui Screen component. Original → Storybook leg."
+          : stepId === "vsReactHtml"
+            ? "Fix @lab/ui playground delivery component. Original → ReactHtml leg."
             : stepId === "logic"
               ? "Write lab-memory/logic/specs/<screenId>.spec.json from logic audit gaps."
               : "Fix figma entry pipeline.",

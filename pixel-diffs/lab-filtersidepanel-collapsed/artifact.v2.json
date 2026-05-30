@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-filtersidepanel--collapsed",
     "componentName": "FilterSidePanel",
-    "extractedAt": "2026-05-25T19:28:56.112Z",
+    "extractedAt": "2026-05-30T10:46:30.144Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-filtersidepanel--collapsed&viewMode=story",
     "viewport": {
       "x": 0,
@@ -540,7 +540,8 @@
                   "tag": "span",
                   "role": "button",
                   "dataset": {
-                    "pressedManaged": "true"
+                    "pressedManaged": "true",
+                    "labId": "el-dashboard"
                   }
                 },
                 "box": {
@@ -633,7 +634,8 @@
                   "tag": "span",
                   "role": "button",
                   "dataset": {
-                    "pressedManaged": "true"
+                    "pressedManaged": "true",
+                    "labId": "el-billing"
                   }
                 },
                 "box": {
@@ -726,7 +728,8 @@
                   "tag": "span",
                   "role": "button",
                   "dataset": {
-                    "pressedManaged": "true"
+                    "pressedManaged": "true",
+                    "labId": "el-mobile"
                   }
                 },
                 "box": {
@@ -819,7 +822,8 @@
                   "tag": "span",
                   "role": "button",
                   "dataset": {
-                    "pressedManaged": "true"
+                    "pressedManaged": "true",
+                    "labId": "el-design-system"
                   }
                 },
                 "box": {
@@ -911,7 +915,8 @@
                   "kind": "dom",
                   "tag": "button",
                   "dataset": {
-                    "pressedManaged": "true"
+                    "pressedManaged": "true",
+                    "labId": "el-add"
                   }
                 },
                 "box": {
@@ -1799,7 +1804,8 @@
                   "role": "button",
                   "dataset": {
                     "pressedManaged": "true",
-                    "active": "false"
+                    "active": "false",
+                    "labId": "el-button"
                   }
                 },
                 "box": {
@@ -1902,7 +1908,8 @@
                   "role": "button",
                   "dataset": {
                     "pressedManaged": "true",
-                    "active": "false"
+                    "active": "false",
+                    "labId": "el-button-2"
                   }
                 },
                 "box": {
@@ -2005,7 +2012,8 @@
                   "role": "button",
                   "dataset": {
                     "pressedManaged": "true",
-                    "active": "false"
+                    "active": "false",
+                    "labId": "el-button-3"
                   }
                 },
                 "box": {
@@ -2108,7 +2116,8 @@
                   "role": "button",
                   "dataset": {
                     "pressedManaged": "true",
-                    "active": "false"
+                    "active": "false",
+                    "labId": "el-button-4"
                   }
                 },
                 "box": {
@@ -2211,7 +2220,8 @@
                   "role": "button",
                   "dataset": {
                     "pressedManaged": "true",
-                    "active": "false"
+                    "active": "false",
+                    "labId": "el-button-5"
                   }
                 },
                 "box": {
@@ -2314,7 +2324,8 @@
                   "role": "button",
                   "dataset": {
                     "pressedManaged": "true",
-                    "active": "false"
+                    "active": "false",
+                    "labId": "el-button-6"
                   }
                 },
                 "box": {
@@ -2582,7 +2593,10 @@
                 "source": {
                   "kind": "dom",
                   "tag": "input",
-                  "inputType": "text"
+                  "inputType": "text",
+                  "dataset": {
+                    "labId": "el-input"
+                  }
                 },
                 "box": {
                   "x": 0,
@@ -2806,7 +2820,10 @@
                 "source": {
                   "kind": "dom",
                   "tag": "input",
-                  "inputType": "text"
+                  "inputType": "text",
+                  "dataset": {
+                    "labId": "el-input-2"
+                  }
                 },
                 "box": {
                   "x": 0,
@@ -3031,7 +3048,10 @@
                 "source": {
                   "kind": "dom",
                   "tag": "input",
-                  "inputType": "text"
+                  "inputType": "text",
+                  "dataset": {
+                    "labId": "el-input-3"
+                  }
                 },
                 "box": {
                   "x": 0,
@@ -3198,7 +3218,8 @@
                 "ghost"
               ],
               "dataset": {
-                "pressedManaged": "true"
+                "pressedManaged": "true",
+                "labId": "el-reset"
               }
             },
             "box": {
@@ -3293,7 +3314,8 @@
                 "primary"
               ],
               "dataset": {
-                "pressedManaged": "true"
+                "pressedManaged": "true",
+                "labId": "el-apply"
               }
             },
             "box": {

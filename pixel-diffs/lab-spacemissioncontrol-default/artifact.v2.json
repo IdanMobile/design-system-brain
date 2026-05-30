@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-spacemissioncontrol--default",
     "componentName": "SpaceMissionControl",
-    "extractedAt": "2026-05-25T19:29:19.427Z",
+    "extractedAt": "2026-05-30T10:44:29.446Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-spacemissioncontrol--default&viewMode=story",
     "viewport": {
       "x": 0,
@@ -3126,7 +3126,10 @@
             "name": "button",
             "source": {
               "kind": "dom",
-              "tag": "button"
+              "tag": "button",
+              "dataset": {
+                "labId": "el-abort-burn"
+              }
             },
             "box": {
               "x": 0,
@@ -3236,7 +3239,10 @@
               "tag": "button",
               "classList": [
                 "primary"
-              ]
+              ],
+              "dataset": {
+                "labId": "el-execute-maneuver"
+              }
             },
             "box": {
               "x": 183,

@@ -111,36 +111,6 @@
   margin-bottom: 12px;
 }
 
-.fleet-orchestrator-card {
-  position: relative;
-  padding: 24px 28px;
-  border-radius: 20px;
-  background: linear-gradient(145deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.85) 100%);
-  border: 1px solid rgba(56, 189, 248, 0.25);
-  box-shadow:
-    0 0 40px rgba(56, 189, 248, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(16px);
-}
-
-.fleet-orchestrator-card::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: 21px;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(56, 189, 248, 0.5), rgba(168, 85, 247, 0.3), transparent 60%);
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-}
-
 .fleet-orchestrator-top {
   display: flex;
   flex-wrap: wrap;
@@ -410,6 +380,36 @@
   gap: 6px;
   margin-top: auto;
   padding-top: 8px;
+}
+
+.fleet-agent-runtime {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 0.68rem;
+  color: #8da2bc;
+}
+
+.fleet-agent-runtime strong {
+  color: #cbd5e1;
+  font-size: 0.78rem;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+
+.fleet-agent-runtime em {
+  margin-left: 4px;
+  color: #64748b;
+  font-size: 0.62rem;
+  font-style: normal;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.fleet-agent-card.working .fleet-agent-runtime strong {
+  color: #bbf7d0;
 }
 
 .fleet-agent-task {
@@ -720,7 +720,7 @@
 
 .fleet-role-summary {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 10px;
   margin-bottom: 14px;
 }

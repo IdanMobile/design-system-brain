@@ -27,7 +27,7 @@
 
 These are the most likely sites to edit for the failure patterns above. Use Grep on the file if you need a different symbol — never `Read` `code-v2.ts`, `scene-to-html.ts`, or `extract.ts` in full.
 
-### `buildLayer` — `packages/figma-importer-plugin/src/code-v2.ts` (lines 2787–2827 of 3598)
+### `buildLayer` — `packages/figma-importer-plugin/src/code-v2.ts` (lines 2743–2783 of 3551)
 
 ```ts
 
@@ -41,8 +41,6 @@ async function buildLayer(
   if (isFigmaReferenceRasterLayer(layer)) {
     const node = createImageNode(layer);
     node.name = layer.name || "reference-raster";
-    node.x = snap(layer.box.x);
-    node.y = snap(layer.box.y);
     return node;
   }
 
@@ -62,7 +60,6 @@ async function buildLayer(
   if (figmaBareText) {
     const t = await createTextNode(layer, parent);
     t.name = layer.name || "text";
-    applyTransform(t, layer);
     return t;
   }
 
@@ -71,9 +68,12 @@ async function buildLayer(
       const t = await createTextNode(layer, parent);
       t.name = layer.name || layer.source.dataset?.figmaName || "label";
       return t;
+    }
+    // Text leaf. The DOM element may also carry a background, border, shadow,
+    // padding (think MUI buttons, chips, badges, table rows). A Figma TextNode
 ```
 
-### `applyTransform` — `packages/figma-importer-plugin/src/code-v2.ts` (lines 1007–1047 of 3598)
+### `applyTransform` — `packages/figma-importer-plugin/src/code-v2.ts` (lines 1014–1054 of 3551)
 
 ```ts
 
@@ -84,7 +84,7 @@ function applyTransform(node: SceneNode, layer: UniversalLayer): void {
     ?.figmaRelativeTransform;
   if (
     layer.source?.kind === "figma" &&
-    layer.vector &&
+    (layer.vector || isFigmaFlipIconFrame(layer)) &&
     rt?.length === 2 &&
     rt[0]?.length === 3 &&
     rt[1]?.length === 3
@@ -97,7 +97,16 @@ function applyTransform(node: SceneNode, layer: UniversalLayer): void {
   }
 
   let x = snap(layer.box.x);
-  const y = snap(layer.box.y);
+  let y = snap(layer.box.y);
+  if (
+    !isMockFigmaRuntime() &&
+    isFigmaNativeEllipse(layer) &&
+    layer.box.width <= 48 &&
+    layer.box.height <= 48
+  ) {
+    x = Math.round(layer.box.x);
+    y = Math.round(layer.box.y);
+  }
   if (isMuiShrunkInputLabel(layer) && isMockFigmaRuntime()) {
     // scene-to-html tryRenderMuiOutlinedLabel adds padding:0 4px before scale(0.75).
     x = snap(x - 3);
@@ -108,18 +117,9 @@ function applyTransform(node: SceneNode, layer: UniversalLayer): void {
     node.y = y;
     return;
   }
-  // The CSS matrix already lives inside the post-transform box coordinates.
-  // Since `box` is the POST-transform bounding rect, we don't reapply the CSS
-  // matrix on top. We DO honor rotation extracted from the matrix so vector
-  // sub-trees keep their orientation hint, but only when the rotation is
-  // meaningful AND the box is unchanged in size by the transform.
-  const a = t[0], b = t[1], c = t[2], d = t[3];
-  // Skip pure-translate or near-identity matrices (already in box).
-  const scaleX = Math.hypot(a, b);
-  const scaleY = Math.hypot(c, d);
 ```
 
-### `applyBorders` — `packages/figma-importer-plugin/src/code-v2.ts` (lines 1131–1171 of 3598)
+### `applyBorders` — `packages/figma-importer-plugin/src/code-v2.ts` (lines 1147–1187 of 3551)
 
 ```ts
 
@@ -165,7 +165,7 @@ function applyBorders(
   const cornerR = paint.cornerRadii
 ```
 
-### `applyCornerRadii` — `packages/figma-importer-plugin/src/code-v2.ts` (lines 1119–1159 of 3598)
+### `applyCornerRadii` — `packages/figma-importer-plugin/src/code-v2.ts` (lines 1135–1175 of 3551)
 
 ```ts
 
@@ -211,7 +211,7 @@ function applyBorders(
     const edgeSvg = buildSingleEdgeBorderSvg(width, height, paint, singleEdge);
 ```
 
-### `clampNodeWidthToParent` — `packages/figma-importer-plugin/src/code-v2.ts` (lines 58–98 of 3598)
+### `clampNodeWidthToParent` — `packages/figma-importer-plugin/src/code-v2.ts` (lines 67–107 of 3551)
 
 ```ts
 /** Extractor can report child widths wider than the parent box (grid overflow). Clamp for Figma. */
@@ -257,7 +257,7 @@ function parseColor(raw: string): RGBA {
     return { r: 0, g: 0, b: 0, a: 0 };
 ```
 
-### `snap` — `packages/figma-importer-plugin/src/code-v2.ts` (lines 43–83 of 3598)
+### `snap` — `packages/figma-importer-plugin/src/code-v2.ts` (lines 43–83 of 3551)
 
 ```ts
 
@@ -272,6 +272,15 @@ function snapBoxSize(layer: UniversalLayer, axis: "width" | "height"): number {
   if ((layer.source.classList ?? []).includes("lab-button")) {
     return Math.max(1, Math.round(v));
   }
+  if (
+    layer.source?.kind === "figma" &&
+    (layer.source.dataset as { figmaNodeType?: string } | undefined)?.figmaNodeType ===
+      "ELLIPSE" &&
+    layer.box.width <= 48 &&
+    layer.box.height <= 48
+  ) {
+    return Math.max(1, Math.round(v));
+  }
   return Math.max(1, snap(v));
 }
 
@@ -292,24 +301,24 @@ function clampNodeWidthToParent(
       | TextNode
       | undefined;
     if (text && text.width > maxW + 0.5) {
-      // Pill tabs / lab buttons — never narrow text to parent width (wraps "Overview").
-      if (layer.source.tag === "button" && isLabDomCenterButton(layer, parent)) return;
-      if (text.textAutoResize === "HEIGHT") {
-        text.resize(maxW, text.height);
-      } else if (text.textAutoResize === "NONE") {
-        text.resize(maxW, text.height);
-      }
-    }
-  }
 ```
 
-### `snapBoxSize` — `packages/figma-importer-plugin/src/code-v2.ts` (lines 49–89 of 3598)
+### `snapBoxSize` — `packages/figma-importer-plugin/src/code-v2.ts` (lines 49–89 of 3551)
 
 ```ts
 /** Match Playwright element screenshot bounds (integer getBoundingClientRect). */
 function snapBoxSize(layer: UniversalLayer, axis: "width" | "height"): number {
   const v = axis === "width" ? layer.box.width : layer.box.height;
   if ((layer.source.classList ?? []).includes("lab-button")) {
+    return Math.max(1, Math.round(v));
+  }
+  if (
+    layer.source?.kind === "figma" &&
+    (layer.source.dataset as { figmaNodeType?: string } | undefined)?.figmaNodeType ===
+      "ELLIPSE" &&
+    layer.box.width <= 48 &&
+    layer.box.height <= 48
+  ) {
     return Math.max(1, Math.round(v));
   }
   return Math.max(1, snap(v));
@@ -338,18 +347,9 @@ function clampNodeWidthToParent(
         text.resize(maxW, text.height);
       } else if (text.textAutoResize === "NONE") {
         text.resize(maxW, text.height);
-      }
-    }
-  }
-}
-
-// ─────────────────────────── color parsing ───────────────────────────
-
-interface RGBA {
-  r: number;
 ```
 
-### `snap` — `packages/pixel-test/src/render-html.ts` (lines 21–61 of 2918)
+### `snap` — `packages/pixel-test/src/render-html.ts` (lines 21–61 of 3042)
 
 ```ts
 
@@ -384,15 +384,15 @@ function px(v: number): string {
   return `${snap(v)}px`;
 }
 
-function radialGradientShapeCss(layer: {
-  shape: "ellipse" | "circle";
-  sizeX?: string;
-  sizeY?: string;
-}): string {
-  if (layer.shape === "ellipse" && layer.sizeX && layer.sizeY) {
-    return `ellipse ${layer.sizeX} ${layer.sizeY}`;
-  }
-  return layer.shape;
+/** Safe inside style="…" (double-quoted HTML attributes). */
+function cssFontFamily(stackOrFamily: string): string {
+  return stackOrFamily.replace(/"([^"]+)"/g, "'$1'");
+}
+
+function hasSchemaBorder(b: LayerBorders | undefined): boolean {
+  if (!b) return false;
+  return [b.top, b.right, b.bottom, b.left].some((s) => (s?.width ?? 0) > 0);
+}
 ```
 
 ## Agent instructions

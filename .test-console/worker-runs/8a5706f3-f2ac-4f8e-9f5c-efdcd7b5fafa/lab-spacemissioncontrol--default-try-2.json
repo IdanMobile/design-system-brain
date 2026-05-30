@@ -1,0 +1,45 @@
+{
+  "storyId": "lab-spacemissioncontrol--default",
+  "attempt": 2,
+  "jobId": "8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa",
+  "recordedAt": "2026-05-30T10:42:54.369Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 1.8854052740308664,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 1.8854052740308664,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-prompts/agent-lab-spacemissioncontrol--default_fix-2-1780137762301.prompt.txt",
+    ".test-console/child-status/8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa-agent-lab-spacemissioncontrol--default_fix-2-1780137762301.json",
+    ".test-console/fleet/agents.json",
+    ".test-console/fleet/events.jsonl",
+    ".test-console/orchestrator-logs/2026-05-30_13-40-37_8a5706f3.log",
+    "packages/test-console/src/fleet-console.css",
+    "scripts/test-console-server.mjs"
+  ],
+  "evaluation": {
+    "verdict": "STUCK_LOOP",
+    "verdicts": [
+      "NO_ADAPTER_EDIT",
+      "STUCK_LOOP"
+    ],
+    "nextWorkerMode": "narrow_scope",
+    "interventionLines": [
+      "Supervisor: edits were only vault/rules/prompts — pixel needs packages/pixel-test/src/render-html.ts or extract.ts. Do NOT reorganize lab-memory during fix-all.",
+      "Supervisor: two consecutive attempts with no metric movement — switch to investigate-first.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

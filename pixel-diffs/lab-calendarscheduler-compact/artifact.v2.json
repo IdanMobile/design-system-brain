@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-calendarscheduler--compact",
     "componentName": "CalendarScheduler",
-    "extractedAt": "2026-05-25T19:28:45.793Z",
+    "extractedAt": "2026-05-30T10:46:30.248Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-calendarscheduler--compact&viewMode=story",
     "viewport": {
       "x": 0,
@@ -490,7 +490,8 @@
                   "kind": "dom",
                   "tag": "button",
                   "dataset": {
-                    "pressedManaged": "true"
+                    "pressedManaged": "true",
+                    "labId": "el-create-event"
                   }
                 },
                 "box": {

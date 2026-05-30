@@ -1,0 +1,49 @@
+{
+  "storyId": "lab-muiworkspacescreen--default",
+  "attempt": 2,
+  "jobId": "7d76976a-724b-44a4-9c92-4c6b13189856",
+  "recordedAt": "2026-05-30T10:44:26.285Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "beforeAttempt": {
+    "status": "warn",
+    "percent": 0.1786540775710451,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "afterTest": {
+    "status": "warn",
+    "percent": 0.1786540775710451,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-prompts/agent-lab-muiworkspacescreen--default_fix-2-1780137854133.prompt.txt",
+    ".test-console/child-status/7d76976a-724b-44a4-9c92-4c6b13189856-agent-lab-muiworkspacescreen--default_fix-2-1780137854133.json",
+    ".test-console/fleet/agents.json",
+    ".test-console/fleet/events.jsonl",
+    ".test-console/orchestrator-auto.json",
+    ".test-console/orchestrator-logs/2026-05-30_13-44-11_7379374c.log",
+    ".test-console/orchestrator-state.json",
+    ".test-console/runs/7379374c-d397-4130-ae0e-2f2fe6dd7a02/kill",
+    "packages/test-console/src/App.tsx",
+    "packages/test-console/src/OrchestratorLaunchDialog.tsx",
+    "packages/test-console/src/types.ts"
+  ],
+  "evaluation": {
+    "verdict": "STUCK_LOOP",
+    "verdicts": [
+      "NO_ADAPTER_EDIT",
+      "STUCK_LOOP"
+    ],
+    "nextWorkerMode": "narrow_scope",
+    "interventionLines": [
+      "Supervisor: edits were only vault/rules/prompts — pixel needs packages/pixel-test/src/render-html.ts or extract.ts. Do NOT reorganize lab-memory during fix-all.",
+      "Supervisor: two consecutive attempts with no metric movement — switch to investigate-first.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

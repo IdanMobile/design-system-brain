@@ -1,11 +1,20 @@
 {
-  "updatedAt": "2026-05-30T04:21:12.141Z",
-  "phase": "portfolio",
-  "jobId": "c8375ced-3e62-4aaf-8e68-1834b784ac66",
-  "humanAction": "max_rounds_exceeded",
-  "humanTitle": "Safety limit reached",
-  "humanMessage": "Orchestrator hit the max fix-round or agent-call cap for this Launch session. Review logs, adjust limits, or fix remaining items manually.",
-  "exitReason": "HUMAN_ACTION",
-  "verdict": "BLOCKED",
-  "finished": true
+  "updatedAt": "2026-05-30T10:51:53.480Z",
+  "phase": "fix-all",
+  "suiteId": "pixel",
+  "suiteLabel": "Pixel (schema)",
+  "jobId": "2d9083d0-52cf-4d30-b79b-aa52b0168d7d",
+  "storyId": "lab-muiworkspacescreen--default",
+  "storyIndex": 1,
+  "storyTotal": 1,
+  "attempt": 2,
+  "maxAttempts": 5,
+  "verdict": "SHARED_ADAPTER",
+  "nextWorkerMode": "tier_c_required",
+  "metrics": {
+    "status": "warn",
+    "percent": 0.1786540775710451,
+    "maxRegionPercent": null,
+    "error": null
+  }
 }

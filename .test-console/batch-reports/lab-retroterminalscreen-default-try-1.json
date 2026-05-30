@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-30T01:50:42.146Z",
+  "generatedAt": "2026-05-30T10:44:13.476Z",
   "suiteId": "pixel",
   "suiteLabel": "Pixel (schema)",
   "tolerance": 0.1,
@@ -18,7 +18,7 @@
       "index": 1,
       "storyId": "lab-retroterminalscreen--default",
       "status": "fail",
-      "globalPercent": 2.257564710171345,
+      "globalPercent": 5.490946652084093,
       "maxRegionPercent": null,
       "globalOk": false,
       "regionOk": true,
@@ -36,70 +36,70 @@
     {
       "file": "packages/figma-importer-plugin/src/code-v2.ts",
       "fileLabel": "code-v2.ts (renderer)",
-      "totalFileLines": 3674,
+      "totalFileLines": 3551,
       "symbol": "buildLayer",
-      "startLine": 2847,
-      "endLine": 2887,
-      "code": "\nasync function buildLayer(\n  layer: UniversalLayer,\n  parent?: UniversalLayer,\n  grandparent?: UniversalLayer,\n  labRoot?: UniversalLayer\n): Promise<SceneNode | null> {\n  if (!isLayerVisible(layer)) return null;\n\n  const effectiveLabRoot = resolveLabRoot(layer, labRoot);\n\n  let node: SceneNode;\n  let textChildToPlace: TextNode | null = null;\n\n  const isTextLeaf =\n    layer.text &&\n    (!layer.children || layer.children.length === 0);\n  const figmaBareText =\n    isTextLeaf &&\n    isFigmaNativeTextLayer(layer) &&\n    !layer.paint?.borders &&\n    !(layer.paint?.shadows?.length);\n\n  if (figmaBareText) {\n    const t = await createTextNode(layer, parent, effectiveLabRoot);\n    t.name = layer.name || \"text\";\n    return t;\n  }\n\n  if (isTextLeaf) {\n    if (isLiveLabButtonBareLabel(layer, parent)) {\n      const t = await createTextNode(layer, parent, effectiveLabRoot);\n      t.name = layer.name || layer.source.dataset?.figmaName || \"label\";\n      return t;\n    }\n    // Text leaf. The DOM element may also carry a background, border, shadow,\n    // padding (think MUI buttons, chips, badges, table rows). A Figma TextNode\n    // has none of those, so we ALWAYS build a frame container and place a\n    // TextNode child inside it. The container holds the layer's paint.\n    const frame = figma.createFrame();\n    frame.layoutMode = \"NONE\";"
+      "startLine": 2743,
+      "endLine": 2783,
+      "code": "\nasync function buildLayer(\n  layer: UniversalLayer,\n  parent?: UniversalLayer,\n  grandparent?: UniversalLayer\n): Promise<SceneNode | null> {\n  if (!isLayerVisible(layer)) return null;\n\n  if (isFigmaReferenceRasterLayer(layer)) {\n    const node = createImageNode(layer);\n    node.name = layer.name || \"reference-raster\";\n    return node;\n  }\n\n  let node: SceneNode;\n  let textChildToPlace: TextNode | null = null;\n\n  const isTextLeaf =\n    layer.text &&\n    !isFigmaReferenceRasterLayer(layer) &&\n    (!layer.children || layer.children.length === 0);\n  const figmaBareText =\n    isTextLeaf &&\n    isFigmaNativeTextLayer(layer) &&\n    !layer.paint?.borders &&\n    !(layer.paint?.shadows?.length);\n\n  if (figmaBareText) {\n    const t = await createTextNode(layer, parent);\n    t.name = layer.name || \"text\";\n    return t;\n  }\n\n  if (isTextLeaf) {\n    if (isLiveLabButtonBareLabel(layer, parent)) {\n      const t = await createTextNode(layer, parent);\n      t.name = layer.name || layer.source.dataset?.figmaName || \"label\";\n      return t;\n    }\n    // Text leaf. The DOM element may also carry a background, border, shadow,\n    // padding (think MUI buttons, chips, badges, table rows). A Figma TextNode"
     },
     {
       "file": "packages/figma-importer-plugin/src/code-v2.ts",
       "fileLabel": "code-v2.ts (renderer)",
-      "totalFileLines": 3674,
+      "totalFileLines": 3551,
       "symbol": "applyTransform",
-      "startLine": 1057,
-      "endLine": 1097,
-      "code": "\nfunction applyTransform(node: SceneNode, layer: UniversalLayer): void {\n  if (!(\"relativeTransform\" in node)) return;\n\n  const rt = (layer.source?.dataset as { figmaRelativeTransform?: number[][] } | undefined)\n    ?.figmaRelativeTransform;\n  if (\n    layer.source?.kind === \"figma\" &&\n    layer.vector &&\n    rt?.length === 2 &&\n    rt[0]?.length === 3 &&\n    rt[1]?.length === 3\n  ) {\n    node.relativeTransform = [\n      [snap(rt[0][0]), snap(rt[0][1]), snap(rt[0][2])],\n      [snap(rt[1][0]), snap(rt[1][1]), snap(rt[1][2])],\n    ];\n    return;\n  }\n\n  let x = snap(layer.box.x);\n  const y = snap(layer.box.y);\n  if (isMuiShrunkInputLabel(layer) && isMockFigmaRuntime()) {\n    // scene-to-html tryRenderMuiOutlinedLabel adds padding:0 4px before scale(0.75).\n    x = snap(x - 3);\n  }\n  const t = layer.transform?.matrix;\n  if (!t || isIdentity(t)) {\n    node.x = x;\n    node.y = y;\n    return;\n  }\n  // The CSS matrix already lives inside the post-transform box coordinates.\n  // Since `box` is the POST-transform bounding rect, we don't reapply the CSS\n  // matrix on top. We DO honor rotation extracted from the matrix so vector\n  // sub-trees keep their orientation hint, but only when the rotation is\n  // meaningful AND the box is unchanged in size by the transform.\n  const a = t[0], b = t[1], c = t[2], d = t[3];\n  // Skip pure-translate or near-identity matrices (already in box).\n  const scaleX = Math.hypot(a, b);\n  const scaleY = Math.hypot(c, d);"
+      "startLine": 1014,
+      "endLine": 1054,
+      "code": "\nfunction applyTransform(node: SceneNode, layer: UniversalLayer): void {\n  if (!(\"relativeTransform\" in node)) return;\n\n  const rt = (layer.source?.dataset as { figmaRelativeTransform?: number[][] } | undefined)\n    ?.figmaRelativeTransform;\n  if (\n    layer.source?.kind === \"figma\" &&\n    (layer.vector || isFigmaFlipIconFrame(layer)) &&\n    rt?.length === 2 &&\n    rt[0]?.length === 3 &&\n    rt[1]?.length === 3\n  ) {\n    node.relativeTransform = [\n      [snap(rt[0][0]), snap(rt[0][1]), snap(rt[0][2])],\n      [snap(rt[1][0]), snap(rt[1][1]), snap(rt[1][2])],\n    ];\n    return;\n  }\n\n  let x = snap(layer.box.x);\n  let y = snap(layer.box.y);\n  if (\n    !isMockFigmaRuntime() &&\n    isFigmaNativeEllipse(layer) &&\n    layer.box.width <= 48 &&\n    layer.box.height <= 48\n  ) {\n    x = Math.round(layer.box.x);\n    y = Math.round(layer.box.y);\n  }\n  if (isMuiShrunkInputLabel(layer) && isMockFigmaRuntime()) {\n    // scene-to-html tryRenderMuiOutlinedLabel adds padding:0 4px before scale(0.75).\n    x = snap(x - 3);\n  }\n  const t = layer.transform?.matrix;\n  if (!t || isIdentity(t)) {\n    node.x = x;\n    node.y = y;\n    return;\n  }"
     },
     {
       "file": "packages/figma-importer-plugin/src/code-v2.ts",
       "fileLabel": "code-v2.ts (renderer)",
-      "totalFileLines": 3674,
+      "totalFileLines": 3551,
       "symbol": "applyBorders",
-      "startLine": 1173,
-      "endLine": 1213,
+      "startLine": 1147,
+      "endLine": 1187,
       "code": "\nfunction applyBorders(\n  node: SceneNode,\n  paint: LayerPaint | undefined,\n  width: number,\n  height: number,\n  layer?: UniversalLayer\n): SceneNode | null {\n  if (!paint?.borders) return null;\n  const uniform = bordersUniform(paint.borders);\n  const singleEdge = singleEdgeBorderSide(paint.borders);\n  const activeCount = countActiveBorderSides(paint.borders);\n\n  // Live: partial borders (table grid, pagination) — SVG with per-corner radii.\n  if (!isMockFigmaRuntime() && activeCount >= 1 && activeCount < 4) {\n    const svg = buildActiveBorderSvg(width, height, paint);\n    if (svg) {\n      const vector = figma.createNodeFromSvg(svg);\n      vector.name = \"__border\";\n      vector.x = 0;\n      vector.y = 0;\n      vector.resize(Math.max(1, snap(width)), Math.max(1, snap(height)));\n      if (\"fills\" in vector) (vector as GeometryMixin).fills = [];\n      return vector;\n    }\n  }\n\n  if (singleEdge && !isMockFigmaRuntime()) {\n    const edgeSvg = buildSingleEdgeBorderSvg(width, height, paint, singleEdge);\n    if (edgeSvg) {\n      const vector = figma.createNodeFromSvg(edgeSvg);\n      vector.name = \"__border\";\n      vector.x = 0;\n      vector.y = 0;\n      vector.resize(Math.max(1, snap(width)), Math.max(1, snap(height)));\n      if (\"fills\" in vector) (vector as GeometryMixin).fills = [];\n      return vector;\n    }\n  }\n  const sides = paint.borders;\n  const cornerR = paint.cornerRadii"
     },
     {
       "file": "packages/figma-importer-plugin/src/code-v2.ts",
       "fileLabel": "code-v2.ts (renderer)",
-      "totalFileLines": 3674,
+      "totalFileLines": 3551,
       "symbol": "applyCornerRadii",
-      "startLine": 1161,
-      "endLine": 1201,
+      "startLine": 1135,
+      "endLine": 1175,
       "code": "\nfunction applyCornerRadii(node: SceneNode, paint: LayerPaint | undefined): void {\n  if (!paint?.cornerRadii) return;\n  if (!(\"topLeftRadius\" in node)) return;\n  const c = paint.cornerRadii;\n  node.topLeftRadius = snap(c.topLeft.x);\n  node.topRightRadius = snap(c.topRight.x);\n  node.bottomRightRadius = snap(c.bottomRight.x);\n  node.bottomLeftRadius = snap(c.bottomLeft.x);\n}\n\n// ─────────────────────────── borders ───────────────────────────\n\nfunction applyBorders(\n  node: SceneNode,\n  paint: LayerPaint | undefined,\n  width: number,\n  height: number,\n  layer?: UniversalLayer\n): SceneNode | null {\n  if (!paint?.borders) return null;\n  const uniform = bordersUniform(paint.borders);\n  const singleEdge = singleEdgeBorderSide(paint.borders);\n  const activeCount = countActiveBorderSides(paint.borders);\n\n  // Live: partial borders (table grid, pagination) — SVG with per-corner radii.\n  if (!isMockFigmaRuntime() && activeCount >= 1 && activeCount < 4) {\n    const svg = buildActiveBorderSvg(width, height, paint);\n    if (svg) {\n      const vector = figma.createNodeFromSvg(svg);\n      vector.name = \"__border\";\n      vector.x = 0;\n      vector.y = 0;\n      vector.resize(Math.max(1, snap(width)), Math.max(1, snap(height)));\n      if (\"fills\" in vector) (vector as GeometryMixin).fills = [];\n      return vector;\n    }\n  }\n\n  if (singleEdge && !isMockFigmaRuntime()) {\n    const edgeSvg = buildSingleEdgeBorderSvg(width, height, paint, singleEdge);"
     },
     {
       "file": "packages/figma-importer-plugin/src/code-v2.ts",
       "fileLabel": "code-v2.ts (renderer)",
-      "totalFileLines": 3674,
+      "totalFileLines": 3551,
       "symbol": "clampNodeWidthToParent",
-      "startLine": 58,
-      "endLine": 98,
+      "startLine": 67,
+      "endLine": 107,
       "code": "/** Extractor can report child widths wider than the parent box (grid overflow). Clamp for Figma. */\nfunction clampNodeWidthToParent(\n  node: SceneNode,\n  layer: UniversalLayer,\n  parent?: UniversalLayer\n): void {\n  if (!parent || !(\"resize\" in node) || node.type === \"TEXT\") return;\n  const pos = layer.layout?.position;\n  if (pos === \"absolute\" || pos === \"fixed\") return;\n  const maxW = Math.max(1, snap(parent.box.width - layer.box.x));\n  if (node.width <= maxW + 0.5) return;\n  node.resize(maxW, node.height);\n  if (node.type === \"FRAME\") {\n    const text = (node as FrameNode).children.find((c) => c.type === \"TEXT\") as\n      | TextNode\n      | undefined;\n    if (text && text.width > maxW + 0.5) {\n      // Pill tabs / lab buttons — never narrow text to parent width (wraps \"Overview\").\n      if (layer.source.tag === \"button\" && isLabDomCenterButton(layer, parent)) return;\n      if (text.textAutoResize === \"HEIGHT\") {\n        text.resize(maxW, text.height);\n      } else if (text.textAutoResize === \"NONE\") {\n        text.resize(maxW, text.height);\n      }\n    }\n  }\n}\n\n// ─────────────────────────── color parsing ───────────────────────────\n\ninterface RGBA {\n  r: number;\n  g: number;\n  b: number;\n  a: number;\n}\n\nfunction parseColor(raw: string): RGBA {\n  const trimmed = raw.trim();\n  if (!trimmed || trimmed === \"transparent\" || trimmed === \"none\")\n    return { r: 0, g: 0, b: 0, a: 0 };"
     },
     {
       "file": "packages/figma-importer-plugin/src/code-v2.ts",
       "fileLabel": "code-v2.ts (renderer)",
-      "totalFileLines": 3674,
+      "totalFileLines": 3551,
       "symbol": "snap",
       "startLine": 43,
       "endLine": 83,
-      "code": "\nfunction snap(v: number): number {\n  return Math.round(v * 100) / 100;\n}\n\n/** Match Playwright element screenshot bounds (integer getBoundingClientRect). */\n/** Match Playwright element screenshot bounds (integer getBoundingClientRect). */\nfunction snapBoxSize(layer: UniversalLayer, axis: \"width\" | \"height\"): number {\n  const v = axis === \"width\" ? layer.box.width : layer.box.height;\n  if ((layer.source.classList ?? []).includes(\"lab-button\")) {\n    return Math.max(1, Math.round(v));\n  }\n  return Math.max(1, snap(v));\n}\n\n/** Extractor can report child widths wider than the parent box (grid overflow). Clamp for Figma. */\nfunction clampNodeWidthToParent(\n  node: SceneNode,\n  layer: UniversalLayer,\n  parent?: UniversalLayer\n): void {\n  if (!parent || !(\"resize\" in node) || node.type === \"TEXT\") return;\n  const pos = layer.layout?.position;\n  if (pos === \"absolute\" || pos === \"fixed\") return;\n  const maxW = Math.max(1, snap(parent.box.width - layer.box.x));\n  if (node.width <= maxW + 0.5) return;\n  node.resize(maxW, node.height);\n  if (node.type === \"FRAME\") {\n    const text = (node as FrameNode).children.find((c) => c.type === \"TEXT\") as\n      | TextNode\n      | undefined;\n    if (text && text.width > maxW + 0.5) {\n      // Pill tabs / lab buttons — never narrow text to parent width (wraps \"Overview\").\n      if (layer.source.tag === \"button\" && isLabDomCenterButton(layer, parent)) return;\n      if (text.textAutoResize === \"HEIGHT\") {\n        text.resize(maxW, text.height);\n      } else if (text.textAutoResize === \"NONE\") {\n        text.resize(maxW, text.height);\n      }\n    }\n  }"
+      "code": "\nfunction snap(v: number): number {\n  return Math.round(v * 100) / 100;\n}\n\n/** Match Playwright element screenshot bounds (integer getBoundingClientRect). */\n/** Match Playwright element screenshot bounds (integer getBoundingClientRect). */\nfunction snapBoxSize(layer: UniversalLayer, axis: \"width\" | \"height\"): number {\n  const v = axis === \"width\" ? layer.box.width : layer.box.height;\n  if ((layer.source.classList ?? []).includes(\"lab-button\")) {\n    return Math.max(1, Math.round(v));\n  }\n  if (\n    layer.source?.kind === \"figma\" &&\n    (layer.source.dataset as { figmaNodeType?: string } | undefined)?.figmaNodeType ===\n      \"ELLIPSE\" &&\n    layer.box.width <= 48 &&\n    layer.box.height <= 48\n  ) {\n    return Math.max(1, Math.round(v));\n  }\n  return Math.max(1, snap(v));\n}\n\n/** Extractor can report child widths wider than the parent box (grid overflow). Clamp for Figma. */\nfunction clampNodeWidthToParent(\n  node: SceneNode,\n  layer: UniversalLayer,\n  parent?: UniversalLayer\n): void {\n  if (!parent || !(\"resize\" in node) || node.type === \"TEXT\") return;\n  const pos = layer.layout?.position;\n  if (pos === \"absolute\" || pos === \"fixed\") return;\n  const maxW = Math.max(1, snap(parent.box.width - layer.box.x));\n  if (node.width <= maxW + 0.5) return;\n  node.resize(maxW, node.height);\n  if (node.type === \"FRAME\") {\n    const text = (node as FrameNode).children.find((c) => c.type === \"TEXT\") as\n      | TextNode\n      | undefined;\n    if (text && text.width > maxW + 0.5) {"
     },
     {
       "file": "packages/figma-importer-plugin/src/code-v2.ts",
       "fileLabel": "code-v2.ts (renderer)",
-      "totalFileLines": 3674,
+      "totalFileLines": 3551,
       "symbol": "snapBoxSize",
       "startLine": 49,
       "endLine": 89,
-      "code": "/** Match Playwright element screenshot bounds (integer getBoundingClientRect). */\nfunction snapBoxSize(layer: UniversalLayer, axis: \"width\" | \"height\"): number {\n  const v = axis === \"width\" ? layer.box.width : layer.box.height;\n  if ((layer.source.classList ?? []).includes(\"lab-button\")) {\n    return Math.max(1, Math.round(v));\n  }\n  return Math.max(1, snap(v));\n}\n\n/** Extractor can report child widths wider than the parent box (grid overflow). Clamp for Figma. */\nfunction clampNodeWidthToParent(\n  node: SceneNode,\n  layer: UniversalLayer,\n  parent?: UniversalLayer\n): void {\n  if (!parent || !(\"resize\" in node) || node.type === \"TEXT\") return;\n  const pos = layer.layout?.position;\n  if (pos === \"absolute\" || pos === \"fixed\") return;\n  const maxW = Math.max(1, snap(parent.box.width - layer.box.x));\n  if (node.width <= maxW + 0.5) return;\n  node.resize(maxW, node.height);\n  if (node.type === \"FRAME\") {\n    const text = (node as FrameNode).children.find((c) => c.type === \"TEXT\") as\n      | TextNode\n      | undefined;\n    if (text && text.width > maxW + 0.5) {\n      // Pill tabs / lab buttons — never narrow text to parent width (wraps \"Overview\").\n      if (layer.source.tag === \"button\" && isLabDomCenterButton(layer, parent)) return;\n      if (text.textAutoResize === \"HEIGHT\") {\n        text.resize(maxW, text.height);\n      } else if (text.textAutoResize === \"NONE\") {\n        text.resize(maxW, text.height);\n      }\n    }\n  }\n}\n\n// ─────────────────────────── color parsing ───────────────────────────\n\ninterface RGBA {\n  r: number;"
+      "code": "/** Match Playwright element screenshot bounds (integer getBoundingClientRect). */\nfunction snapBoxSize(layer: UniversalLayer, axis: \"width\" | \"height\"): number {\n  const v = axis === \"width\" ? layer.box.width : layer.box.height;\n  if ((layer.source.classList ?? []).includes(\"lab-button\")) {\n    return Math.max(1, Math.round(v));\n  }\n  if (\n    layer.source?.kind === \"figma\" &&\n    (layer.source.dataset as { figmaNodeType?: string } | undefined)?.figmaNodeType ===\n      \"ELLIPSE\" &&\n    layer.box.width <= 48 &&\n    layer.box.height <= 48\n  ) {\n    return Math.max(1, Math.round(v));\n  }\n  return Math.max(1, snap(v));\n}\n\n/** Extractor can report child widths wider than the parent box (grid overflow). Clamp for Figma. */\nfunction clampNodeWidthToParent(\n  node: SceneNode,\n  layer: UniversalLayer,\n  parent?: UniversalLayer\n): void {\n  if (!parent || !(\"resize\" in node) || node.type === \"TEXT\") return;\n  const pos = layer.layout?.position;\n  if (pos === \"absolute\" || pos === \"fixed\") return;\n  const maxW = Math.max(1, snap(parent.box.width - layer.box.x));\n  if (node.width <= maxW + 0.5) return;\n  node.resize(maxW, node.height);\n  if (node.type === \"FRAME\") {\n    const text = (node as FrameNode).children.find((c) => c.type === \"TEXT\") as\n      | TextNode\n      | undefined;\n    if (text && text.width > maxW + 0.5) {\n      // Pill tabs / lab buttons — never narrow text to parent width (wraps \"Overview\").\n      if (layer.source.tag === \"button\" && isLabDomCenterButton(layer, parent)) return;\n      if (text.textAutoResize === \"HEIGHT\") {\n        text.resize(maxW, text.height);\n      } else if (text.textAutoResize === \"NONE\") {\n        text.resize(maxW, text.height);"
     },
     {
       "file": "packages/pixel-test/src/render-html.ts",
       "fileLabel": "render-html.ts (pixel schema replay)",
-      "totalFileLines": 3136,
+      "totalFileLines": 3042,
       "symbol": "snap",
       "startLine": 21,
       "endLine": 61,

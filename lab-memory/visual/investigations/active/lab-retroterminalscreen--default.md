@@ -1206,3 +1206,95 @@ false — automated test record at 2026-05-25T16:50:02.381Z
 - [[visual/patterns/render-html-computed-font-stack]]
 - [[visual/patterns/render-html-layer-class-allowlist-regression]]
 - [[visual/patterns/render-html-pre-whitespace]]
+
+## Investigation — lab-retroterminalscreen--default / pixel
+
+**Job ID:** 8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa  
+**Date:** 2026-05-30T10:40:40.173Z  
+**Source:** fix-all pre-agent (automated)
+**Fix attempt:** 1
+
+
+### Metrics
+
+| Field | Value |
+| --- | --- |
+| Status | fail |
+| Global diff | 5.49% |
+| Worst hotspot | n/a |
+| Fail reason | — |
+
+### Compare regions
+
+| Region | Issue | Path |
+| --- | --- | --- |
+| region-01 | diff region | `pixel-diffs/lab-retroterminalscreen-default/regions/regions/region-01-compare.png` |
+| region-02 | diff region | `pixel-diffs/lab-retroterminalscreen-default/regions/regions/region-02-compare.png` |
+
+### Artifacts
+
+- Compare: `pixel-diffs/lab-retroterminalscreen-default/regions/region-01-compare.png`
+- Storybook PNG: `pixel-diffs/lab-retroterminalscreen-default/storybook.png`
+- Figma PNG: `pixel-diffs/lab-retroterminalscreen-default/rendered.png`
+- Artifact JSON: `pixel-diffs/lab-retroterminalscreen-default/artifact.v2.json`
+- Scene JSON: `pixel-diffs/lab-retroterminalscreen-default/scene.json`
+
+### Root cause
+
+<!-- pending — agent fills after systematic-debugging -->
+
+### Recommended fix area
+
+<!-- pending — see primary fix path for this suite in agent prompt -->
+
+### Cached
+
+false — automated test record at 2026-05-30T10:40:40.173Z
+
+<!-- vault-fingerprint: pixel|fail|5.491|na|1|fix-all pre-agent -->
+
+## Investigation — lab-retroterminalscreen--default / pixel
+
+**Job ID:** 8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa  
+**Date:** 2026-05-30T10:40:55.069Z  
+**Source:** fix-all pre-agent (automated)
+**Fix attempt:** 2
+
+
+### Metrics
+
+| Field | Value |
+| --- | --- |
+| Status | fail |
+| Global diff | 5.49% |
+| Worst hotspot | n/a |
+| Fail reason | — |
+
+### Compare regions
+
+| Region | Issue | Path |
+| --- | --- | --- |
+| region-01 | diff region | `pixel-diffs/lab-retroterminalscreen-default/regions/regions/region-01-compare.png` |
+| region-02 | diff region | `pixel-diffs/lab-retroterminalscreen-default/regions/regions/region-02-compare.png` |
+
+### Artifacts
+
+- Compare: `pixel-diffs/lab-retroterminalscreen-default/regions/region-01-compare.png`
+- Storybook PNG: `pixel-diffs/lab-retroterminalscreen-default/storybook.png`
+- Figma PNG: `pixel-diffs/lab-retroterminalscreen-default/rendered.png`
+- Artifact JSON: `pixel-diffs/lab-retroterminalscreen-default/artifact.v2.json`
+- Scene JSON: `pixel-diffs/lab-retroterminalscreen-default/scene.json`
+
+### Root cause
+
+<!-- pending — agent fills after systematic-debugging -->
+
+### Recommended fix area
+
+<!-- pending — see primary fix path for this suite in agent prompt -->
+
+### Cached
+
+false — automated test record at 2026-05-30T10:40:55.069Z
+
+<!-- vault-fingerprint: pixel|fail|5.491|na|2|fix-all pre-agent -->

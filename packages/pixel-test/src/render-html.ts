@@ -354,17 +354,37 @@ function buildUniformRoundedBorderSvg(
   return `<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;left:0;top:0;width:${width}px;height:${height}px;pointer-events:none;z-index:1" viewBox="0 0 ${width} ${height}"><path d="${d}" fill="none" stroke="${uniform.color}" stroke-width="${sw}"/></svg>`;
 }
 
-function cornerRadiusToCss(paint: LayerPaint | undefined): string[] {
+function cornerRadiusToCss(
+  paint: LayerPaint | undefined,
+  box?: { width: number; height: number }
+): string[] {
   if (!paint?.cornerRadii) return [];
   const c = paint.cornerRadii;
-  const tl = snap(c.topLeft.x);
-  const tr = snap(c.topRight.x);
-  const br = snap(c.bottomRight.x);
-  const bl = snap(c.bottomLeft.x);
-  const tly = snap(c.topLeft.y);
-  const try_ = snap(c.topRight.y);
-  const bry = snap(c.bottomRight.y);
-  const bly = snap(c.bottomLeft.y);
+  let tl = snap(c.topLeft.x);
+  let tr = snap(c.topRight.x);
+  let br = snap(c.bottomRight.x);
+  let bl = snap(c.bottomLeft.x);
+  let tly = snap(c.topLeft.y);
+  let try_ = snap(c.topRight.y);
+  let bry = snap(c.bottomRight.y);
+  let bly = snap(c.bottomLeft.y);
+  // MUI pill tracks (LinearProgress) report theme-scale radii (e.g. 1188px) —
+  // clamp to half the box so replay uses the same effective radius as the browser.
+  if (box) {
+    const maxR = snap(Math.min(box.width, box.height) / 2);
+    if (
+      maxR > 0 &&
+      tl > maxR &&
+      tl === tr &&
+      tr === br &&
+      br === bl &&
+      tly === try_ &&
+      try_ === bry &&
+      bry === bly
+    ) {
+      tl = tr = br = bl = tly = try_ = bry = bly = maxR;
+    }
+  }
   // Uniform pill/circle — use the same shorthand the DOM uses so dashed
   // borders tessellate identically in pixel diffs (40px / 40px ≠ 40px).
   if (tl === tr && tr === br && br === bl && tly === try_ && try_ === bry && bry === bly && tl === tly) {
@@ -1895,7 +1915,7 @@ function paintToBaseCss(layer: UniversalLayer, ctx: RenderCtx = {}): string[] {
       !hasLayerClass(layer, "lab-meeting-home-join") &&
       !hasLayerClass(layer, "lab-meeting-home-icon-btn")
     ) {
-      props.push(...cornerRadiusToCss(paint));
+      props.push(...cornerRadiusToCss(paint, layer.box));
     }
     const shadowCss = shadowsToCss(paint);
     if (borderShadows.length) {

@@ -1,70 +1,36 @@
 #!/usr/bin/env node
 /**
- * Refresh .cursor/agent-context.auto.md — snapshot for agents (session hook + after tests).
+ * Refresh .cursor/agent-context.auto.md — unified portfolio snapshot.
  */
 
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { UNIFIED_STEP_ORDER } from "./build-unified-portfolio.mjs";
+import { loadUnifiedPortfolio, summarizeUnifiedStep, effectiveOrchestratorFilters } from "./unified-orchestrator-work.mjs";
+import { loadRunSettings } from "./test-console-run-settings.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, ".cursor/agent-context.auto.md");
 
-function readJson(path) {
-  if (!existsSync(path)) return null;
-  try {
-    return JSON.parse(readFileSync(path, "utf8"));
-  } catch {
-    return null;
+function activePhase(portfolio) {
+  const settings = loadRunSettings();
+  const filters = effectiveOrchestratorFilters(settings);
+  for (const stepId of ["vsFigmaLive", "vsStorybook", "vsReactHtml", "structural"]) {
+    const s = summarizeUnifiedStep(portfolio, stepId, filters);
+    if (s.failing.length > 0) {
+      return `ROADMAP §1.2 — unified ${stepId} (${s.failing.length} fail/warn)`;
+    }
   }
-}
-
-function summarizeFromPortfolio(portfolio, stepId) {
-  if (!portfolio?.rows?.length) return null;
-  const counts = { pass: 0, warn: 0, fail: 0, error: 0, not_tested: 0, skipped: 0 };
-  for (const row of portfolio.rows) {
-    const s = row.cells?.[stepId]?.status ?? "not_tested";
-    counts[s] = (counts[s] ?? 0) + 1;
-  }
-  return { total: portfolio.rows.length, ...counts };
-}
-
-function summarizeSuite(dir) {
-  const report = readJson(join(ROOT, dir, "report.json"));
-  if (!report?.results) return null;
-  const counts = { pass: 0, warn: 0, fail: 0, error: 0 };
-  for (const r of report.results) {
-    const s = r.status ?? "error";
-    counts[s] = (counts[s] ?? 0) + 1;
-  }
-  return { total: report.results.length, ...counts };
-}
-
-function activePhase(live, mock) {
-  if (live && (live.fail > 0 || live.error > 0 || live.warn > 0)) return "ROADMAP §1.2 (live Figma golden)";
-  if (mock && (mock.fail > 0 || mock.warn > 0)) return "ROADMAP §1.2 mock or §1.3";
-  return "ROADMAP §1.2+ or Phase 1 validation";
+  return "ROADMAP §1.2+ unified portfolio validation";
 }
 
 function main() {
-  const portfolio = readJson(join(ROOT, "test-portfolio/portfolio.json"));
-  const live = portfolio
-    ? summarizeFromPortfolio(portfolio, "figmaLive")
-    : summarizeSuite("figma-live-diffs");
-  const mock = portfolio
-    ? summarizeFromPortfolio(portfolio, "figma")
-    : summarizeSuite("figma-diffs");
-  const pixel = portfolio
-    ? summarizeFromPortfolio(portfolio, "pixel")
-    : summarizeSuite("pixel-diffs");
-  const delivery = portfolio
-    ? summarizeFromPortfolio(portfolio, "delivery")
-    : summarizeSuite("delivery-diffs");
-  const logic = portfolio
-    ? summarizeFromPortfolio(portfolio, "logic")
-    : summarizeSuite("logic-audit-diffs");
+  const portfolio = loadUnifiedPortfolio(ROOT);
+  const settings = loadRunSettings();
+  const filters = effectiveOrchestratorFilters(settings);
+  const phase = activePhase(portfolio);
 
-  const phase = activePhase(live, mock);
   const lines = [
     "# Agent context (auto-generated)",
     "",
@@ -75,39 +41,33 @@ function main() {
     "## Active phase",
     phase,
     "",
-    "## Suite summary",
+    "## Unified portfolio",
     "",
-    "| Suite | Pass | Warn | Fail | Error | Total |",
+    `Items: ${portfolio.storyCount ?? portfolio.rows?.length ?? 0} · tolerance ${portfolio.tolerance ?? 0.1}%`,
+    "",
+    "| Step | Pass | Warn | Fail | Error | Not tested |",
     "| --- | ---: | ---: | ---: | ---: | ---: |"
   ];
 
-  for (const [name, s] of [
-    ["pixel", pixel],
-    ["figma mock", mock],
-    ["figma live", live],
-    ["delivery", delivery],
-    ["logic audit", logic]
-  ]) {
-    if (!s) {
-      lines.push(`| ${name} | — | — | — | — | — |`);
-      continue;
+  for (const stepId of UNIFIED_STEP_ORDER) {
+    const s = summarizeUnifiedStep(portfolio, stepId, {
+      skipPass: false,
+      onlyNotTested: false,
+      applyToOrchestrator: true
+    });
+    const counts = { pass: 0, warn: 0, fail: 0, error: 0, not_tested: 0 };
+    for (const row of portfolio.rows ?? []) {
+      const st = row.cells?.[stepId]?.status ?? "not_tested";
+      counts[st] = (counts[st] ?? 0) + 1;
     }
+    const label =
+      stepId === "structural"
+        ? "Structural"
+        : stepId === "logic"
+          ? "Logic audit"
+          : stepId;
     lines.push(
-      `| ${name} | ${s.pass ?? 0} | ${s.warn ?? 0} | ${s.fail ?? 0} | ${s.error ?? 0} | ${s.total} |`
-    );
-  }
-
-  if (portfolio?.rows?.length) {
-    lines.push("", `Portfolio stories: ${portfolio.rows.length}.`);
-  }
-
-  const supervisor = readJson(join(ROOT, ".test-console/orchestrator-state.json"));
-  if (supervisor?.storyId && !supervisor.finished) {
-    lines.push(
-      "",
-      "## Worker supervisor",
-      "",
-      `Active: ${supervisor.suiteLabel ?? supervisor.suiteId ?? "—"} · ${supervisor.storyId ?? "—"} try ${supervisor.attempt ?? "?"}/${supervisor.maxAttempts ?? "?"} · ${supervisor.verdict ?? "ON_TRACK"} → ${supervisor.nextWorkerMode ?? "continue"}`
+      `| ${label} | ${counts.pass} | ${counts.warn} | ${counts.fail} | ${counts.error} | ${counts.not_tested} |`
     );
   }
 
@@ -117,9 +77,8 @@ function main() {
     "",
     "| Activity | Skills |",
     "| --- | --- |",
-    "| Fix (console / run until pass) | agent runs all pnpm; human only Figma plugin UI → orchestrator → investigate → until-pass → Tier A/C → verification |",
+    "| Fix (console / run until pass) | orchestrator → investigate → until-pass → Tier A/C → verification |",
     "| Test only | run test → on fail switch to fix workflow → portfolio refresh |",
-    "| Edit code-v2 / scene-to-html / contract | pnpm test:regression (Tier C) after edit |",
     "| Status / what's next | orchestrator orient only |",
     "",
     "## North star",
@@ -130,8 +89,8 @@ function main() {
   );
 
   mkdirSync(join(ROOT, ".cursor"), { recursive: true });
-  writeFileSync(OUT, lines.join("\n") + "\n");
-  console.log(`Wrote ${OUT}`);
+  writeFileSync(OUT, `${lines.join("\n")}\n`);
+  console.log(`Orchestrator context → ${OUT}`);
 }
 
 main();

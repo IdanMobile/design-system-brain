@@ -1,14 +1,14 @@
 {
-  "skipPass": true,
+  "skipPass": false,
   "onlyNotTested": false,
   "parallelWorkers": 12,
   "processPool": true,
   "applyToOrchestrator": false,
   "agentCli": "cursor",
-  "agentModel": "composer-2.5-fast",
+  "agentModel": "auto",
   "devAgentCli": "cursor",
   "devAgentModel": "composer-2.5-fast",
-  "scope": "failures_only",
+  "scope": "full",
   "singleStepId": null,
   "sortBy": "flow_first",
   "maxFixRoundsPerStep": 10,
@@ -16,5 +16,5 @@
   "maxAgentCallsPerLaunch": 100,
   "launchAutoMode": true,
   "headlessAgents": true,
-  "updatedAt": "2026-05-30T09:33:59.917Z"
+  "updatedAt": "2026-05-30T10:46:12.035Z"
 }

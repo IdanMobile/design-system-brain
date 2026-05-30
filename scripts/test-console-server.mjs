@@ -8,7 +8,15 @@
 
 import { createServer } from "node:http";
 import { spawn, spawnSync } from "node:child_process";
-import { createReadStream, existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import {
+  appendFileSync,
+  createReadStream,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  statSync,
+  writeFileSync
+} from "node:fs";
 import { extname, join, resolve, sep } from "node:path";
 import { randomUUID } from "node:crypto";
 import { fileURLToPath } from "node:url";
@@ -31,6 +39,7 @@ import {
   setOrchestratorAuto
 } from "./test-console-orchestrator-auto.mjs";
 import { loadOrchestratorState, writeOrchestratorState } from "./test-console-worker-supervisor.mjs";
+import { buildFleetState } from "./test-console-fleet.mjs";
 import {
   loadRunSettings,
   setRunSettings,
@@ -38,7 +47,6 @@ import {
   MAX_PARALLEL_WORKERS
 } from "./test-console-run-settings.mjs";
 import { loadAgentModelOptions } from "./test-console-agent-models.mjs";
-import { buildFleetState } from "./test-console-fleet.mjs";
 import { SERVICE_TERMINAL } from "./test-console-services.mjs";
 import {
   ACTION_META,
@@ -66,23 +74,70 @@ import {
   hasGitRepository
 } from "./developer-proposal.mjs";
 import { clearDeveloperActivity } from "./developer-activity.mjs";
-import {
-  buildFigmaScreenPortfolioState,
+import { buildFigmaScreenPortfolioState,
   discoverFigmaScreens,
   readScreenResult
 } from "./figma-screen-portfolio.mjs";
+import { invalidateAllTests } from "./invalidate-all-tests.mjs";
+import { buildUnifiedPortfolioState } from "./build-unified-portfolio.mjs";
 import {
   FIGMA_ENTRY_STEP_ORDER,
   figmaEntryGoldenActionId,
   isFigmaEntryFixSuite
 } from "./figma-entry-fix.mjs";
 import { FIGMA_ENTRY_STEPS } from "./figma-entry-portfolio-config.mjs";
+import {
+  tcDir,
+  runDir,
+  runPromptPath,
+  runKillPath,
+  orchestratorLogsDir
+} from "./test-console-paths.mjs";
 
 const __dirname = resolve(fileURLToPath(import.meta.url), "..");
 const REPO = resolve(__dirname, "..");
 const UI_ROOT = resolve(REPO, "packages/test-console/dist");
 const PORT = Number(process.env.TEST_CONSOLE_PORT ?? (process.argv.includes("--api-only") ? 6111 : 6110));
 const API_ONLY = process.argv.includes("--api-only");
+
+// ─── Orchestrator session log files ──────────────────────────────────────────
+const ORCH_LOGS_DIR = orchestratorLogsDir(REPO);
+
+/**
+ * Build a log file path keyed to the launch time.
+ * Pattern: .test-console/orchestrator-logs/2026-05-29_20-04-26_<short-id>.log
+ * @param {string} jobId
+ * @returns {string}
+ */
+function orchestratorLogPath(jobId) {
+  const now = new Date();
+  const ts = [
+    now.getFullYear(),
+    String(now.getMonth() + 1).padStart(2, "0"),
+    String(now.getDate()).padStart(2, "0")
+  ].join("-") + "_" + [
+    String(now.getHours()).padStart(2, "0"),
+    String(now.getMinutes()).padStart(2, "0"),
+    String(now.getSeconds()).padStart(2, "0")
+  ].join("-");
+  const short = String(jobId).slice(0, 8);
+  return join(ORCH_LOGS_DIR, `${ts}_${short}.log`);
+}
+
+/**
+ * Append one or more log lines to the job's session file (no-op if not an orchestrator job).
+ * @param {{ logFile?: string }} job
+ * @param {string} text
+ */
+function appendToJobLogFile(job, text) {
+  if (!job.logFile) return;
+  try {
+    appendFileSync(job.logFile, text, "utf8");
+  } catch {
+    /* best-effort: disk full / permission issues should not crash the server */
+  }
+}
+// ─────────────────────────────────────────────────────────────────────────────
 
 const MIME = {
   ".html": "text/html; charset=utf-8",
@@ -255,7 +310,8 @@ function serializeJob(j, { includeLogs = false } = {}) {
     finalizing: Boolean(j.finalizing),
     exitCode: j.exitCode,
     startedAt: j.startedAt,
-    endedAt: j.endedAt
+    endedAt: j.endedAt,
+    logFile: j.logFile ?? null
   };
   if (j.storyIds?.length) {
     base.storyIds = j.storyIds;
@@ -280,7 +336,7 @@ function findFixAllOrchestratorPid(jobId) {
 }
 
 function parseFixAllStoryIdsFromPrompt(jobId) {
-  const promptPath = join(REPO, ".test-console", `fix-all-${jobId}.prompt.txt`);
+  const promptPath = runPromptPath(REPO, jobId);
   if (!existsSync(promptPath)) return [];
   const text = readFileSync(promptPath, "utf8");
   const storiesIdx = text.indexOf("Stories:");
@@ -294,7 +350,7 @@ function parseFixAllStoryIdsFromPrompt(jobId) {
 }
 
 function fixAllJobStartedAt(jobId) {
-  const promptPath = join(REPO, ".test-console", `fix-all-${jobId}.prompt.txt`);
+  const promptPath = runPromptPath(REPO, jobId);
   if (existsSync(promptPath)) {
     try {
       const st = statSync(promptPath);
@@ -418,14 +474,12 @@ function dismissOrchestratorSupervisor(jobId, { killed = false } = {}) {
       nextWorkerMode: "stopped"
     });
   }
-  for (const name of [`fix-all-${jobId}.kill`, `portfolio-orchestrator-${jobId}.kill`]) {
-    const flag = join(REPO, ".test-console", name);
-    try {
-      if (!existsSync(join(REPO, ".test-console"))) mkdirSync(join(REPO, ".test-console"), { recursive: true });
-      writeFileSync(flag, "");
-    } catch {
-      /* ok */
-    }
+  const killFlagPath = runKillPath(REPO, jobId);
+  try {
+    mkdirSync(runDir(REPO, jobId), { recursive: true });
+    writeFileSync(killFlagPath, "");
+  } catch {
+    /* ok */
   }
 }
 
@@ -489,7 +543,11 @@ function reconcileStaleJobs() {
       });
       dismissOrchestratorSupervisor(job.id, { killed: true });
       if (wasPortfolio && loadOrchestratorAuto().enabled) {
-        setTimeout(() => ensureAutoOrchestratorRunning(true), 3000);
+        recordAutoEnd(job);
+        // Only schedule re-launch if auto is still enabled after the rapid-crash check.
+        if (loadOrchestratorAuto().enabled) {
+          setTimeout(() => ensureAutoOrchestratorRunning(true), 3000);
+        }
       }
     }
   }
@@ -638,7 +696,14 @@ const ACTIONS = Object.fromEntries(
       command: ["pnpm", "test:figma:screen:storybook"]
     },
     "figma:screen:four-way": {
-      command: ["pnpm", "test:figma:screen:four-way"]
+      command: ["pnpm", "test:figma:screen:parity"]
+    },
+    "figma:screen:parity": {
+      command: ["pnpm", "test:figma:screen:parity"],
+      needsRelay: true
+    },
+    "parity:storybook": {
+      command: ["pnpm", "test:parity:storybook"]
     },
     "figma:screen:logic": {
       command: ["node", "scripts/figma-screen-logic-test.mjs"]
@@ -994,9 +1059,8 @@ function runFixOneOrAllAction(suiteId, singleStoryId, { openTerminal = true } = 
   }
 
   if (entry?.cursorPrompt) {
-    const promptDir = join(REPO, ".test-console");
-    if (!existsSync(promptDir)) mkdirSync(promptDir, { recursive: true });
-    writeFileSync(join(promptDir, `fix-all-${id}.prompt.txt`), entry.cursorPrompt, "utf8");
+    mkdirSync(runDir(REPO, id), { recursive: true });
+    writeFileSync(runPromptPath(REPO, id), entry.cursorPrompt, "utf8");
   }
 
   job.logs.push(
@@ -1064,13 +1128,19 @@ function runPortfolioOrchestratorAction({ autoMode = false } = {}) {
   const autoEnabled = autoMode || loadOrchestratorAuto().enabled;
   const entry = agent.requestPortfolioOrchestrator(storyIds.length);
   const id = randomUUID();
+  const itemCount =
+    JSON.parse(
+      existsSync(join(REPO, "test-portfolio", "portfolio.json"))
+        ? readFileSync(join(REPO, "test-portfolio", "portfolio.json"), "utf8")
+        : "{}"
+    )?.storyCount ?? storyIds.length;
   const job = {
     id,
     action: "portfolio-orchestrator",
     story: null,
     label: autoEnabled
-      ? `Orchestrator · AUTO (${storyIds.length} stories)`
-      : `Orchestrator · golden path ALL (${storyIds.length} stories)`,
+      ? `Orchestrator · Launch (${itemCount} items)`
+      : `Orchestrator · one-shot (${itemCount} items)`,
     status: "running",
     storyIds,
     autoMode: autoEnabled,
@@ -1079,19 +1149,42 @@ function runPortfolioOrchestratorAction({ autoMode = false } = {}) {
         ? [`[portfolio] Stopped ${stoppedRuns.length} suite test run(s)\n`]
         : []),
       autoEnabled
-        ? `[portfolio] AUTO mode — supervisor stays alive and rescans for work\n`
-        : `[portfolio] Golden path ALL — pixel → figma → live → delivery (${storyIds.length} stories)\n`,
-      `[portfolio] Launching orchestrator in Terminal (≤${MAX_TRIES_PER_STORY} fix→test tries per story per step)…\n`
+        ? `[portfolio] Launch session — unified portfolio until complete or human action\n`
+        : `[portfolio] One-shot — unified portfolio\n`,
+      `[portfolio] Steps: structural → Figma live → Storybook → ReactHtml → logic\n`,
+      `[portfolio] Launching supervisor in Terminal (≤${MAX_TRIES_PER_STORY} fix→test tries per item)…\n`
     ],
     exitCode: null,
     startedAt: new Date().toISOString(),
-    agentMessageId: entry.id
+    agentMessageId: entry.id,
+    logFile: null
   };
+
+  // Create session log file immediately so the path is recorded before any logs arrive.
+  try {
+    mkdirSync(ORCH_LOGS_DIR, { recursive: true });
+    const logFile = orchestratorLogPath(id);
+    const header = [
+      "# Orchestrator session log",
+      `# Job:     ${id}`,
+      `# Started: ${job.startedAt}`,
+      `# Scope:   ${autoEnabled ? "auto (run until complete)" : "one-shot"}`,
+      `# Items:   ${itemCount}`,
+      "#",
+      ""
+    ].join("\n");
+    writeFileSync(logFile, header, "utf8");
+    job.logFile = logFile;
+    // Mirror initial log lines into the file.
+    for (const line of job.logs) appendToJobLogFile(job, line);
+  } catch {
+    /* non-fatal — log file is best-effort */
+  }
+
   jobs.set(id, job);
 
-  const promptDir = join(REPO, ".test-console");
-  if (!existsSync(promptDir)) mkdirSync(promptDir, { recursive: true });
-  writeFileSync(join(promptDir, `portfolio-orchestrator-${id}.prompt.txt`), entry.cursorPrompt, "utf8");
+  mkdirSync(runDir(REPO, id), { recursive: true });
+  writeFileSync(runPromptPath(REPO, id), entry.cursorPrompt, "utf8");
 
   openTerminalRunPortfolioOrchestrator(id);
   return { jobId: id, entry };
@@ -1117,6 +1210,44 @@ function portfolioOrchestratorRunning() {
 let lastAutoEnsureAt = 0;
 let orchestratorEnsureLock = false;
 
+/**
+ * Rapid-crash guard — if the orchestrator exits within RAPID_CRASH_MS of
+ * starting, we count it as a crash.  After RAPID_CRASH_MAX consecutive
+ * rapid crashes we disable auto-mode and require the user to re-enable it
+ * manually (prevents infinite Terminal-spawning loops).
+ */
+const RAPID_CRASH_MS = 30_000;   // sessions shorter than this are "rapid"
+const RAPID_CRASH_MAX = 3;       // disable auto after this many in a row
+const MIN_RELAUNCH_MS = 15_000;  // hard floor between any auto-relaunches
+let rapidCrashStreak = 0;
+let lastAutoLaunchAt = 0;        // wall-clock of the most recent auto-launch
+
+function recordAutoLaunch() {
+  lastAutoLaunchAt = Date.now();
+}
+
+function recordAutoEnd(job) {
+  if (!job?.startedAt) return;
+  const livedMs = Date.now() - new Date(job.startedAt).getTime();
+  if (livedMs < RAPID_CRASH_MS) {
+    rapidCrashStreak += 1;
+    console.warn(
+      `[test-console] AUTO watchdog — rapid crash #${rapidCrashStreak} ` +
+        `(session lived ${Math.round(livedMs / 1000)}s < ${RAPID_CRASH_MS / 1000}s)`
+    );
+    if (rapidCrashStreak >= RAPID_CRASH_MAX) {
+      console.warn(
+        `[test-console] AUTO watchdog — ${RAPID_CRASH_MAX} rapid crashes in a row; ` +
+          `disabling auto-mode to prevent infinite loop. Re-enable from the test console.`
+      );
+      setOrchestratorAuto(false);
+      rapidCrashStreak = 0;
+    }
+  } else {
+    rapidCrashStreak = 0;
+  }
+}
+
 /** Restart supervisor Terminal when AUTO is on but nothing is running (server restart, closed tab, crash). */
 function ensureAutoOrchestratorRunning(force = false) {
   if (!loadOrchestratorAuto().enabled) return null;
@@ -1128,6 +1259,9 @@ function ensureAutoOrchestratorRunning(force = false) {
   if (orchestratorEnsureLock) return null;
 
   const now = Date.now();
+  // Hard floor between relaunches — applies even when force=true so a rapid
+  // crash loop triggered from reconcileStaleJobs cannot spin faster than this.
+  if (now - lastAutoLaunchAt < MIN_RELAUNCH_MS) return null;
   if (!force && now - lastAutoEnsureAt < 20_000) return null;
 
   orchestratorEnsureLock = true;
@@ -1137,6 +1271,7 @@ function ensureAutoOrchestratorRunning(force = false) {
     if (again) return again;
 
     lastAutoEnsureAt = now;
+    recordAutoLaunch();
     const { jobId } = runPortfolioOrchestratorAction({ autoMode: true });
     console.log(`[test-console] AUTO watchdog — started orchestrator ${jobId}`);
     return jobId;
@@ -1244,6 +1379,43 @@ async function handleApi(req, res, url) {
   }
 
   if (url.pathname === "/api/portfolio" && req.method === "GET") {
+    const portfolioPath = join(REPO, "test-portfolio", "portfolio.json");
+    let payload;
+    if (existsSync(portfolioPath)) {
+      try {
+        payload = JSON.parse(readFileSync(portfolioPath, "utf8"));
+      } catch {
+        payload = null;
+      }
+    }
+    if (!payload?.rows?.length || payload.source !== "unified") {
+      payload = buildUnifiedPortfolioState(REPO, portfolioStoryIds(), isStorybookOnlyStory);
+    }
+    json(res, 200, payload);
+    return true;
+  }
+
+  if (url.pathname === "/api/portfolio/invalidate" && req.method === "POST") {
+    const running = [...jobs.values()].some(
+      (j) => j.status === "running" || j.finalizing
+    );
+    if (running) {
+      json(res, 409, { ok: false, error: "Stop running tests before invalidating results." });
+      return true;
+    }
+    try {
+      const result = invalidateAllTests(REPO);
+      json(res, 200, { ok: true, ...result });
+    } catch (e) {
+      json(res, 500, {
+        ok: false,
+        error: e instanceof Error ? e.message : String(e)
+      });
+    }
+    return true;
+  }
+
+  if (url.pathname === "/api/portfolio-legacy" && req.method === "GET") {
     const portfolioPath = join(REPO, "test-portfolio", "portfolio.json");
     const storyIds = portfolioStoryIds();
     const stepIds = TEST_STEPS.map((s) => s.id);
@@ -1607,6 +1779,51 @@ async function handleApi(req, res, url) {
     return true;
   }
 
+  if (url.pathname === "/api/orchestrator/launch" && req.method === "POST") {
+    let body = "";
+    for await (const chunk of req) body += chunk;
+    let parsed;
+    try {
+      parsed = JSON.parse(body || "{}");
+    } catch {
+      json(res, 400, { error: "Invalid JSON" });
+      return true;
+    }
+    try {
+      if (parsed.invalidateAll) {
+        invalidateAllTests(REPO);
+      }
+      const settings = parsed.settings ? setRunSettings(parsed.settings) : loadRunSettings();
+      if (settings.launchAutoMode !== false) {
+        setOrchestratorAuto(true);
+      }
+      writeOrchestratorState(REPO, {
+        phase: "portfolio",
+        finished: false,
+        verdict: "ON_TRACK",
+        humanAction: null,
+        humanMessage: null,
+        humanTitle: null
+      });
+      const { jobId, entry } = runPortfolioOrchestratorAction({
+        autoMode: settings.launchAutoMode !== false
+      });
+      json(res, 200, {
+        ok: true,
+        jobId,
+        settings,
+        autoMode: settings.launchAutoMode !== false,
+        invalidated: Boolean(parsed.invalidateAll)
+      });
+    } catch (e) {
+      json(res, 500, {
+        ok: false,
+        error: e instanceof Error ? e.message : String(e)
+      });
+    }
+    return true;
+  }
+
   if (url.pathname === "/api/orchestrator/auto" && req.method === "POST") {
     let body = "";
     for await (const chunk of req) body += chunk;
@@ -1819,8 +2036,10 @@ async function handleApi(req, res, url) {
       return true;
     }
     if (parsed.text) {
-      job.logs.push(String(parsed.text));
+      const text = String(parsed.text);
+      job.logs.push(text);
       if (job.logs.length > 500) job.logs = job.logs.slice(-500);
+      appendToJobLogFile(job, text);
     }
     json(res, 200, { ok: true });
     return true;
@@ -1851,6 +2070,19 @@ async function handleApi(req, res, url) {
         ? `[portfolio] Supervisor exited (${job.status}, exit ${job.exitCode})\n`
         : `[fix-all] Cursor agent ${job.status} (exit ${job.exitCode}) — re-run suite golden to refresh reports\n`;
     job.logs.push(finishNote);
+    appendToJobLogFile(job, finishNote);
+    if (job.logFile) {
+      const footer = [
+        "",
+        "# ─────────────────────────────",
+        `# Finished: ${job.endedAt}`,
+        `# Status:   ${job.status}`,
+        `# ExitCode: ${job.exitCode}`,
+        `# Log file: ${job.logFile}`,
+        ""
+      ].join("\n");
+      appendToJobLogFile(job, footer);
+    }
     if (job.agentMessageId) {
       agent.ackMessages([job.agentMessageId], false);
     }
@@ -1861,7 +2093,9 @@ async function handleApi(req, res, url) {
       job.status !== "killed" &&
       parsed.exitCode !== 0
     ) {
-      job.logs.push("[portfolio] AUTO ON — restarting supervisor in 3s…\n");
+      const autoNote = "[portfolio] AUTO ON — restarting supervisor in 3s…\n";
+      job.logs.push(autoNote);
+      appendToJobLogFile(job, autoNote);
       setTimeout(() => {
         if (loadOrchestratorAuto().enabled) {
           ensureAutoOrchestratorRunning(true);
@@ -1932,17 +2166,9 @@ async function handleApi(req, res, url) {
       job.child.kill("SIGTERM");
       job.logs.push("[test-console] Cancelled by user\n");
     } else if (String(job.action).startsWith("fix-all:") || job.action === "portfolio-orchestrator") {
-      const killFlag = join(
-        REPO,
-        ".test-console",
-        job.action === "portfolio-orchestrator"
-          ? `portfolio-orchestrator-${job.id}.kill`
-          : `fix-all-${job.id}.kill`
-      );
+      const killFlag = runKillPath(REPO, job.id);
       try {
-        if (!existsSync(join(REPO, ".test-console"))) {
-          mkdirSync(join(REPO, ".test-console"), { recursive: true });
-        }
+        mkdirSync(runDir(REPO, job.id), { recursive: true });
         writeFileSync(killFlag, "");
       } catch {
         /* ok */

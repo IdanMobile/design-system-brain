@@ -35,11 +35,19 @@ import {
   diffWorkspaceSnapshots,
   evaluateAttempt,
   adapterFilesForMode,
+  investigatorGateAllowsFixer,
   loadPriorWorkerRuns,
   snapshotWorkspace,
   writeOrchestratorState,
+  writeStructuredJobResult,
   writeWorkerRun
 } from "./test-console-worker-supervisor.mjs";
+import {
+  emitFleetEvent,
+  ensureFleetAgents,
+  fixerAgentIdForSuite,
+  updateAgentStatus
+} from "./lab-worker-supervisor.mjs";
 import {
   buildBatchInvestigationPayload,
   writeBatchInvestigationReport
@@ -58,6 +66,7 @@ import {
 } from "./sandbox-worktree.mjs";
 import {
   appendStoryResolution,
+  isInvestigationComplete,
   loadLabMemoryFixHint,
   recordStoryFailureInVault
 } from "./lab-memory-vault.mjs";
@@ -69,6 +78,7 @@ import {
   readFigmaEntryStoryStatus
 } from "./figma-entry-fix.mjs";
 import { FIGMA_ENTRY_STEPS } from "./figma-entry-portfolio-config.mjs";
+import { reviewSandboxPromotion } from "./merge-captain.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const CURSOR_USAGE_FLAG = join(ROOT, ".test-console", "cursor-usage-blocked.flag");
@@ -145,6 +155,48 @@ export const SUITES = {
 };
 
 const agent = initAgentBridge(ROOT);
+
+function runMergeCaptainReview({ jobId, storyId = null, suiteId, mode, filesChanged, promotion, verification, attempt = null }) {
+  const currentTask = {
+    jobId,
+    storyId,
+    suiteId,
+    attempt,
+    phase: "review",
+    filesChanged: filesChanged.slice(0, 12)
+  };
+  updateAgentStatus(ROOT, "merge-captain", {
+    status: "working",
+    currentTask
+  });
+  emitFleetEvent(ROOT, "orchestrator.assign", {
+    agentId: "merge-captain",
+    ...currentTask
+  });
+
+  const review = reviewSandboxPromotion({
+    suiteId,
+    mode,
+    filesChanged,
+    promotion,
+    verification
+  });
+
+  updateAgentStatus(ROOT, "merge-captain", {
+    status: review.decision === "approve" ? "idle" : "failed",
+    currentTask: null
+  });
+  emitFleetEvent(ROOT, "agent.complete", {
+    agentId: "merge-captain",
+    ...currentTask,
+    decision: review.decision,
+    requiresHuman: review.requiresHuman,
+    sharedAdapter: review.sharedAdapter,
+    reasons: review.reasons
+  });
+
+  return review;
+}
 
 function safeSegment(id) {
   return id.replace(/[<>:"/\\|?*]/g, "-").replace(/-+/g, "-");
@@ -359,7 +411,6 @@ export function runFullSuiteGolden(suiteId, appendLog, parentJobId, killFlagPath
         args: spec.args,
         appendLog,
         killFlagPath,
-        openTerminal: true,
         env: spec.env
       }).then((code) => ({ status: code, stdout: "", stderr: "" }))
     );
@@ -386,8 +437,7 @@ async function runStoryTestManaged(suiteId, storyId, parentJobId, appendLog, kil
       bin: spec.bin,
       args: spec.args,
       appendLog,
-      killFlagPath,
-      openTerminal: true
+      killFlagPath
     });
   }
   switch (suiteId) {
@@ -399,7 +449,6 @@ async function runStoryTestManaged(suiteId, storyId, parentJobId, appendLog, kil
         args: ["--filter", "@lab/pixel-test", "run", "test:golden", "--", "--stories", storyId],
         appendLog,
         killFlagPath,
-        openTerminal: true
       });
     case "figma":
       return runManagedCommand({
@@ -409,7 +458,6 @@ async function runStoryTestManaged(suiteId, storyId, parentJobId, appendLog, kil
         args: ["scripts/figma-iterate.mjs", "--story", storyId, "--allow-test-errors"],
         appendLog,
         killFlagPath,
-        openTerminal: true
       });
     case "figmaLive":
       return runManagedCommand({
@@ -419,7 +467,6 @@ async function runStoryTestManaged(suiteId, storyId, parentJobId, appendLog, kil
         args: ["scripts/figma-live-iterate.mjs", "--story", storyId, "--strict"],
         appendLog,
         killFlagPath,
-        openTerminal: true
       });
     case "delivery":
       return runManagedCommand({
@@ -437,7 +484,6 @@ async function runStoryTestManaged(suiteId, storyId, parentJobId, appendLog, kil
         ],
         appendLog,
         killFlagPath,
-        openTerminal: true
       });
     default:
       return 1;
@@ -452,7 +498,6 @@ async function runPluginBuildManaged(parentJobId, appendLog, killFlagPath) {
     args: ["--filter", "@lab/figma-importer-plugin", "build"],
     appendLog,
     killFlagPath,
-    openTerminal: true
   });
 }
 
@@ -469,8 +514,7 @@ function makeTierCCommandRunner(parentJobId, appendLog, killFlagPath) {
       bin: spec.bin,
       args: spec.args,
       appendLog,
-      killFlagPath,
-      openTerminal: true
+      killFlagPath
     });
 }
 
@@ -522,7 +566,7 @@ async function runFixAllBatch(jobId, { killFlagPath, suiteId, storyIds, cfg, app
     `[fix-all] BATCH mode — ${remaining.length} stories · up to ${MAX_BATCH_TRIES} investigate→fix→retest rounds\n` +
       `[fix-all] Investigation report written before each agent session.\n` +
       `[fix-all] Sandbox gate ON — metrics regress → auto git restore.\n` +
-      (useWorktree ? `[fix-all] FIX_ALL_SANDBOX=worktree — agent edits in isolated worktree.\n` : "") +
+      (useWorktree ? `[fix-all] Sandbox worktree ON (default) — agent edits isolated; set FIX_ALL_SANDBOX=main to disable.\n` : "") +
       `[fix-all] Legacy batch mode — serial is now the default; set FIX_ALL_BATCH=1 to opt back into batch.\n`
   );
 
@@ -740,6 +784,22 @@ async function runFixAllBatch(jobId, { killFlagPath, suiteId, storyIds, cfg, app
 
     const afterMetrics = captureSuiteMetrics(ROOT, suiteId, remaining, readStoryStatus);
     const promotion = evaluatePromotion(baseline, afterMetrics);
+    const mergeReview =
+      filesChanged.length && !promotion.discard
+        ? runMergeCaptainReview({
+            jobId,
+            suiteId,
+            attempt: batchAttempt,
+            mode: cfg.mode,
+            filesChanged,
+            promotion,
+            verification: {
+              tierAOk: true,
+              tierBOk: true,
+              tierCOk: !touchedSharedAdapter(filesChanged)
+            }
+          })
+        : null;
 
     if (filesChanged.length && promotion.discard) {
       batchRegressionStreak += 1;
@@ -764,15 +824,33 @@ async function runFixAllBatch(jobId, { killFlagPath, suiteId, storyIds, cfg, app
         );
         break;
       }
+    } else if (filesChanged.length && mergeReview?.decision !== "approve") {
+      const restored = gitRestorePaths(ROOT, filesChanged);
+      if (mergeReview?.sharedAdapter) suggestSerial = true;
+      await appendLog(
+        `[merge-captain] HOLD batch ${batchAttempt} — ${mergeReview?.reasons.join(" ") ?? "review did not approve"}\n` +
+          `[sandbox] git restore ${restored.restored.length} file(s)` +
+          (restored.ok ? "" : ` (warn: ${restored.stderr})`) +
+          "\n"
+      );
+      if (cfg.needsPluginBuild && restored.restored.length) {
+        await appendLog(`[sandbox] rebuilding plugin after merge-captain hold…\n`);
+        await runPluginBuildManaged(jobId, appendLog, killFlagPath);
+      }
+      if (!existsSync(killFlagPath)) {
+        await appendLog(`[merge-captain] refreshing batch metrics after restore…\n`);
+        await runFullSuiteGolden(suiteId, appendLog, jobId, killFlagPath, { storyIds: remaining });
+      }
     } else if (filesChanged.length && promotion.promote) {
       batchRegressionStreak = 0;
       await appendLog(
-        `[sandbox] PROMOTE batch ${batchAttempt} — ${promotion.passAfter}/${remaining.length} pass in batch` +
+        `[merge-captain] APPROVE batch ${batchAttempt} — ${mergeReview?.reasons.join(" ") ?? "promotion criteria satisfied"}\n` +
+          `[sandbox] PROMOTE batch ${batchAttempt} — ${promotion.passAfter}/${remaining.length} pass in batch` +
           (promotion.improved.length ? ` · improved: ${promotion.improved.map((x) => x.storyId).slice(0, 5).join(", ")}` : "") +
           "\n"
       );
     } else if (filesChanged.length) {
-      await appendLog(`[sandbox] NEUTRAL batch ${batchAttempt} — no net improvement; keeping edits\n`);
+      await appendLog(`[merge-captain] HOLD batch ${batchAttempt} — no net improvement; edits restored or awaiting serial retry\n`);
     }
 
     const stillFailing = remaining.filter((id) => {
@@ -924,10 +1002,12 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
     }
   }
 
+  ensureFleetAgents(ROOT);
   await appendLog(
     fixAllSerialMode(storyIds)
       ? `[fix-all] Serial mode (default): up to ${MAX_TRIES_PER_STORY} fix→test cycles per story across ${storyIds.length} stor${storyIds.length === 1 ? "y" : "ies"} (${cfg.label})\n` +
           `[fix-all] Worker supervisor ON — observes git diff + metrics, steers stuck agents.\n` +
+          `[fix-all] Investigator gate ON — fixer blocked until lab-memory root cause is filled (set FIX_ALL_SKIP_INVESTIGATOR_GATE=1 to bypass).\n` +
           `[fix-all] Supervisor stays in this tab; child Terminal tabs open for agents, builds, and tests.\n` +
           `[fix-all] Legacy batch mode is opt-in: set FIX_ALL_BATCH=1.\n`
       : `[fix-all] Legacy BATCH mode (FIX_ALL_BATCH=1): ${storyIds.length} stories — investigate report → one fixer session → re-test all (${cfg.label})\n` +
@@ -1080,7 +1160,144 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
         : null;
       const workerMode = supervisorForPrompt?.nextWorkerMode ?? "continue";
 
-      const gitBefore = snapshotWorkspace(ROOT);
+      const useWorktreeSerial = sandboxWorktreeEnabled();
+      /** @type {{ path: string, branch: string, jobId: string } | null} */
+      let serialSandbox = null;
+      let activeRoot = ROOT;
+      if (useWorktreeSerial) {
+        const created = createSandboxWorktree(ROOT, `${jobId}-${storyId}-t${attempt}`);
+        if (created.ok) {
+          serialSandbox = created;
+          activeRoot = created.path;
+          await appendLog(`[sandbox] serial worktree ${activeRoot}\n`);
+        }
+      }
+
+      const gitBefore = snapshotWorkspace(activeRoot);
+
+      const gate = investigatorGateAllowsFixer(ROOT, storyId, suiteId);
+      if (!gate.allowed) {
+        await appendLog(
+          `${prefix} attempt ${attempt} — INVESTIGATOR phase (fixer blocked: ${gate.reason})…\n`
+        );
+        updateAgentStatus(ROOT, "investigator", {
+          status: "working",
+          currentTask: { jobId, storyId, suiteId, attempt, phase: "investigator" }
+        });
+        emitFleetEvent(ROOT, "orchestrator.assign", {
+          agentId: "investigator",
+          jobId,
+          storyId,
+          suiteId,
+          attempt,
+          phase: "investigator"
+        });
+
+        const invPrompt = agent.buildInvestigatorOnlyPrompt(
+          storyMeta,
+          cfg.mode,
+          suiteId,
+          attempt,
+          MAX_TRIES_PER_STORY
+        );
+        const invAgent = normalizeAgentResult(
+          await runManagedAgent({
+            parentJobId: jobId,
+            tag: `${storyId}:investigate-${attempt}`,
+            prompt: invPrompt,
+            appendLog,
+            killFlagPath,
+            investigateFirst: true,
+            fixMode: cfg.mode,
+            workspaceRoot: activeRoot !== ROOT ? activeRoot : undefined
+          })
+        );
+
+        const invComplete = isInvestigationComplete(ROOT, storyId, suiteId);
+        writeStructuredJobResult(ROOT, jobId, storyId, "investigator", attempt, {
+          suiteId,
+          mode: cfg.mode,
+          status: invComplete ? "completed" : "incomplete",
+          investigationComplete: invComplete,
+          gateReason: gate.reason,
+          agentExitCode: invAgent.exitCode ?? 1,
+          usageBlocked: Boolean(invAgent.usageBlocked),
+          watchdogTripped: Boolean(invAgent.watchdogTripped),
+          watchdogReason: invAgent.watchdogReason ?? null
+        });
+        updateAgentStatus(ROOT, "investigator", {
+          status: invComplete ? "idle" : "failed",
+          currentTask: null
+        });
+        emitFleetEvent(ROOT, "agent.complete", {
+          agentId: "investigator",
+          jobId,
+          storyId,
+          suiteId,
+          attempt,
+          status: invComplete ? "completed" : "incomplete",
+          investigationComplete: invComplete
+        });
+
+        if (invAgent.usageBlocked) {
+          if (serialSandbox) teardownSandbox(serialSandbox, ROOT);
+          markCursorUsageBlocked();
+          await appendLog(
+            "[fix-all] BLOCKED — Cursor CLI out of usage during investigator. Stopping serial fix-all.\n"
+          );
+          return {
+            exitCode: 2,
+            passed: false,
+            summary: "blocked: cursor_usage",
+            blocked: true,
+            blockedReason: "cursor_usage_limit"
+          };
+        }
+        if (existsSync(killFlagPath)) break;
+
+        if (!invComplete) {
+          if (attempt >= 2) {
+            await appendLog(
+              `${prefix} — investigator vault still incomplete after attempt ${attempt - 1}; dispatching fixer anyway\n`
+            );
+          } else {
+            await appendLog(
+              `${prefix} — investigator incomplete (root cause still pending); fixer skipped this attempt\n`
+            );
+            lastAttemptOutcome = {
+              attempt,
+              beforeAttempt,
+              afterTest: beforeAttempt,
+              agentExitCode: invAgent.exitCode ?? 0,
+              pluginBuildFailed: false,
+              testTail: "investigator-only (no test)",
+              testExitCode: null
+            };
+            continue;
+          }
+        } else {
+          await appendLog(`${prefix} — investigation complete; dispatching fixer…\n`);
+        }
+      } else if (gate.reason === "cached_investigation") {
+        const hint = loadLabMemoryFixHint(ROOT, storyId, suiteId);
+        await appendLog(
+          `${prefix} attempt ${attempt} — using cached investigation (${hint?.recommendedFixArea?.split("\n")[0] ?? "lab-memory"})\n`
+        );
+      }
+
+      const fixerAgentId = fixerAgentIdForSuite(suiteId);
+      updateAgentStatus(ROOT, fixerAgentId, {
+        status: "working",
+        currentTask: { jobId, storyId, suiteId, attempt, phase: "fixer" }
+      });
+      emitFleetEvent(ROOT, "orchestrator.assign", {
+        agentId: fixerAgentId,
+        jobId,
+        storyId,
+        suiteId,
+        attempt,
+        phase: "fixer"
+      });
 
       const prompt = agent.buildFixAllStoryPrompt(
         storyMeta,
@@ -1094,15 +1311,17 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
       const storyAgent = normalizeAgentResult(
         await runManagedAgent({
           parentJobId: jobId,
-          tag: `${storyId}:try${attempt}`,
+          tag: `${storyId}:fix-${attempt}`,
           prompt,
           appendLog,
           killFlagPath,
           investigateFirst: workerMode === "investigate_first",
-          fixMode: cfg.mode
+          fixMode: cfg.mode,
+          workspaceRoot: activeRoot !== ROOT ? activeRoot : undefined
         })
       );
       if (storyAgent.usageBlocked) {
+        if (serialSandbox) teardownSandbox(serialSandbox, ROOT);
         markCursorUsageBlocked();
         await appendLog(
           "[fix-all] BLOCKED — Cursor CLI out of usage. Stopping serial fix-all. " +
@@ -1119,8 +1338,43 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
       const agentCode = storyAgent.exitCode;
       if (existsSync(killFlagPath)) break;
 
-      const gitAfter = snapshotWorkspace(ROOT);
-      const filesChanged = diffWorkspaceSnapshots(gitBefore, gitAfter);
+      const gitAfter = snapshotWorkspace(activeRoot);
+      let filesChanged = diffWorkspaceSnapshots(gitBefore, gitAfter);
+
+      writeStructuredJobResult(ROOT, jobId, storyId, "fixer", attempt, {
+        suiteId,
+        mode: cfg.mode,
+        status: agentCode === 0 ? "completed" : "failed",
+        agentExitCode: agentCode ?? 1,
+        filesChanged,
+        workerMode,
+        usageBlocked: Boolean(storyAgent.usageBlocked),
+        watchdogTripped: Boolean(storyAgent.watchdogTripped),
+        watchdogReason: storyAgent.watchdogReason ?? null,
+        editCount: storyAgent.editCount ?? 0
+      });
+      updateAgentStatus(ROOT, fixerAgentId, { status: "idle", currentTask: null });
+      emitFleetEvent(ROOT, "agent.complete", {
+        agentId: fixerAgentId,
+        jobId,
+        storyId,
+        suiteId,
+        attempt,
+        phase: "fixer",
+        agentExitCode: agentCode ?? 1,
+        filesChanged: filesChanged.slice(0, 12)
+      });
+
+      if (serialSandbox && filesChanged.length) {
+        const promoted = promoteSandboxFiles(ROOT, serialSandbox.path, filesChanged);
+        await appendLog(`[sandbox] promoted ${promoted.length} file(s) to main for test\n`);
+        filesChanged = promoted;
+        teardownSandbox(serialSandbox, ROOT);
+        serialSandbox = null;
+      } else if (serialSandbox) {
+        teardownSandbox(serialSandbox, ROOT);
+        serialSandbox = null;
+      }
 
       if (agentCode !== 0) {
         await appendLog(`${prefix} attempt ${attempt} — agent exited ${agentCode}\n`);
@@ -1213,6 +1467,16 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
       );
       for (const line of evaluation.interventionLines) {
         await appendLog(`[supervisor] ${line}\n`);
+      }
+
+      // SHARED_ADAPTER: merge-captain owns promotion; no inline Tier C blocking the pipeline.
+      if (
+        evaluation.nextWorkerMode === "tier_c_required" &&
+        !existsSync(killFlagPath)
+      ) {
+        await appendLog(
+          `${prefix} — shared adapter edit noted; merge-captain promotion gate applies (no inline Tier C block)\n`
+        );
       }
 
       const adapterEdits = adapterFilesForMode(cfg.mode, filesChanged);
@@ -1332,14 +1596,47 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
       }
 
       if (regressionOk && storyTierCRequired && !existsSync(killFlagPath)) {
-        regressionOk = await runTierC({
-          repoRoot: ROOT,
+        await appendLog(
+          `${prefix} — shared adapter touched; merge-captain owns promotion (full Tier C not blocking pipeline)\n`
+        );
+      }
+
+      if (regressionOk && storyFilesChanged.length && !existsSync(killFlagPath)) {
+        const mergeReview = runMergeCaptainReview({
+          jobId,
+          storyId,
           suiteId,
-          runCommand: makeTierCCommandRunner(jobId, appendLog, killFlagPath),
-          appendLog
+          mode: cfg.mode,
+          filesChanged: storyFilesChanged,
+          attempt: null,
+          promotion: {
+            promote: true,
+            discard: false,
+            worse: [],
+            improved: [{ storyId }]
+          },
+          verification: {
+            tierAOk: true,
+            tierBOk: !tierBRequired || regressionOk,
+            tierCOk: true
+          }
         });
-        if (!regressionOk) {
-          await appendLog(`${prefix} — Tier C failed; treat as not done for portfolio\n`);
+        await appendLog(
+          `[merge-captain] ${mergeReview.decision.toUpperCase()} ${storyId} — ${mergeReview.reasons.join(" ")}\n`
+        );
+        if (mergeReview.decision !== "approve") {
+          const restored = gitRestorePaths(ROOT, storyFilesChanged);
+          await appendLog(
+            `[sandbox] DISCARD ${storyId} — merge-captain did not approve; git restore ${restored.restored.length} file(s)` +
+              (restored.ok ? "\n" : ` (warn: ${restored.stderr})\n`)
+          );
+          if (cfg.needsPluginBuild && restored.restored.length) {
+            await runPluginBuildManaged(jobId, appendLog, killFlagPath);
+          }
+          if (!existsSync(killFlagPath)) {
+            await runStoryTestManaged(suiteId, storyId, jobId, appendLog, killFlagPath);
+          }
+          regressionOk = false;
         }
       }
 

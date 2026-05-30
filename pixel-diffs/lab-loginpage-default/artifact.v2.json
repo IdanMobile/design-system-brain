@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-loginpage--default",
     "componentName": "LoginPage",
-    "extractedAt": "2026-05-25T19:28:59.450Z",
+    "extractedAt": "2026-05-30T10:46:39.469Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-loginpage--default&viewMode=story",
     "viewport": {
       "x": 0,
@@ -599,7 +599,10 @@
               "kind": "dom",
               "tag": "input",
               "id": "lab-login-email",
-              "inputType": "email"
+              "inputType": "email",
+              "dataset": {
+                "labId": "el-input"
+              }
             },
             "box": {
               "x": 25,
@@ -752,7 +755,10 @@
               "kind": "dom",
               "tag": "input",
               "id": "lab-login-password",
-              "inputType": "password"
+              "inputType": "password",
+              "dataset": {
+                "labId": "el-input-2"
+              }
             },
             "box": {
               "x": 25,
@@ -845,7 +851,8 @@
                 "lab-login-button"
               ],
               "dataset": {
-                "pressedManaged": "true"
+                "pressedManaged": "true",
+                "labId": "el-login"
               }
             },
             "box": {
@@ -992,7 +999,8 @@
                   ],
                   "dataset": {
                     "pressedManaged": "true",
-                    "state": "idle"
+                    "state": "idle",
+                    "labId": "el-connect-with-google"
                   }
                 },
                 "box": {
@@ -1110,7 +1118,8 @@
                   ],
                   "dataset": {
                     "pressedManaged": "true",
-                    "state": "idle"
+                    "state": "idle",
+                    "labId": "el-connect-with-facebook"
                   }
                 },
                 "box": {

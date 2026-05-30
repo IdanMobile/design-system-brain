@@ -376,6 +376,18 @@ header p {
   overflow-y: auto;
 }
 
+.orchestrator-log-file-badge {
+  flex: 1 1 100%;
+  padding-left: 22px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.74rem;
+  color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: default;
+}
+
 .orchestrator-live-wait {
   margin: 0;
   font-size: 0.82rem;
@@ -1308,7 +1320,7 @@ button.action.recommended-action {
   color: var(--muted);
 }
 
-/* ── Top-level page nav (Tests · Agent Console · Developer Agent) ── */
+/* ── Top-level page nav (Tests vs Developer Agent) ── */
 .top-page-nav {
   display: flex;
   gap: 0;
@@ -1343,6 +1355,33 @@ button.action.recommended-action {
   color: var(--text);
   border-bottom-color: var(--accent);
   background: rgba(59, 130, 246, 0.06);
+}
+
+.top-page-tab-live {
+  color: #86efac;
+}
+
+.top-page-tab-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-left: 6px;
+  border-radius: 50%;
+  background: var(--pass);
+  vertical-align: middle;
+  animation: fleet-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes fleet-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.85);
+  }
 }
 
 .developer-page {
@@ -1404,6 +1443,26 @@ button.action.recommended-action {
 
 .portfolio-card-header h2 {
   margin: 0;
+}
+
+.portfolio-invalidate-btn {
+  font: inherit;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #7f1d1d;
+  background: rgba(127, 29, 29, 0.15);
+  color: #fecaca;
+  cursor: pointer;
+}
+
+.portfolio-invalidate-btn:hover:not(:disabled) {
+  background: rgba(127, 29, 29, 0.28);
+}
+
+.portfolio-invalidate-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 .portfolio-list-tabs {

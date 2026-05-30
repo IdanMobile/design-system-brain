@@ -1,0 +1,24 @@
+{
+  "jobId": "8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa",
+  "storyId": "lab-retroterminalscreen--default",
+  "phase": "fixer",
+  "attempt": 1,
+  "recordedAt": "2026-05-30T10:42:08.906Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "status": "failed",
+  "agentExitCode": 1,
+  "filesChanged": [
+    ".test-console/agent-prompts/agent-lab-retroterminalscreen--default_fix-1-1780137722739.prompt.txt",
+    ".test-console/batch-reports/lab-retroterminalscreen-default-try-1.json",
+    ".test-console/child-status/8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa-agent-lab-retroterminalscreen--default_fix-1-1780137722739.json",
+    ".test-console/fleet/agents.json",
+    ".test-console/fleet/events.jsonl",
+    ".test-console/orchestrator-logs/2026-05-30_13-40-37_8a5706f3.log"
+  ],
+  "workerMode": "continue",
+  "usageBlocked": false,
+  "watchdogTripped": false,
+  "watchdogReason": null,
+  "editCount": 0
+}

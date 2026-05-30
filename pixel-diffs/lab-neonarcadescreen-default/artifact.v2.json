@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-neonarcadescreen--default",
     "componentName": "NeonArcadeScreen",
-    "extractedAt": "2026-05-25T19:29:05.577Z",
+    "extractedAt": "2026-05-30T10:46:39.067Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-neonarcadescreen--default&viewMode=story",
     "viewport": {
       "x": 0,
@@ -944,7 +944,10 @@
               "tag": "button",
               "classList": [
                 "lab-neon-arcade-powerup"
-              ]
+              ],
+              "dataset": {
+                "labId": "el-shieldready"
+              }
             },
             "box": {
               "x": 0,
@@ -1171,7 +1174,10 @@
               "tag": "button",
               "classList": [
                 "lab-neon-arcade-powerup"
-              ]
+              ],
+              "dataset": {
+                "labId": "el-rapidready"
+              }
             },
             "box": {
               "x": 91.5,
@@ -1398,7 +1404,10 @@
               "tag": "button",
               "classList": [
                 "lab-neon-arcade-powerup"
-              ]
+              ],
+              "dataset": {
+                "labId": "el-bombready"
+              }
             },
             "box": {
               "x": 183,
@@ -1625,7 +1634,10 @@
               "tag": "button",
               "classList": [
                 "lab-neon-arcade-powerup"
-              ]
+              ],
+              "dataset": {
+                "labId": "el-ghostready"
+              }
             },
             "box": {
               "x": 274.5,
@@ -3197,7 +3209,10 @@
           "tag": "button",
           "classList": [
             "lab-neon-arcade-play"
-          ]
+          ],
+          "dataset": {
+            "labId": "el-insert-coin-play-again"
+          }
         },
         "box": {
           "x": 16,

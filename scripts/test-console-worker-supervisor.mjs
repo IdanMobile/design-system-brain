@@ -7,7 +7,11 @@ import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { isInvestigationComplete } from "./lab-memory-vault.mjs";
 import { isStepPassing, loadStoryStepCellsFromDisk } from "./step-gate.mjs";
+
+/** @typedef {'investigator' | 'fixer' | 'verify'} JobPhase */
+export const JOB_PHASES = ["investigator", "fixer", "verify"];
 
 export const SHARED_ADAPTER_PREFIXES = [
   "packages/figma-importer-plugin/src/code-v2.ts",
@@ -22,7 +26,8 @@ export const WORKER_MODES = [
   "investigate_first",
   "narrow_scope",
   "wrong_step",
-  "tier_c_required"
+  "tier_c_required",
+  "orchestrator_review"
 ];
 
 /** Paths that must not count as fix progress (vault, rules, prompts). */
@@ -300,6 +305,23 @@ export function evaluateAttempt(input) {
     }
   }
 
+  const ineffectiveVerdicts = new Set([
+    "STUCK_LOOP",
+    "NO_ADAPTER_EDIT",
+    "NO_EDIT",
+    "WRONG_DIRECTION",
+    "WORSE_METRICS"
+  ]);
+  const ineffectivePriorCount = priorRuns.filter((run) =>
+    ineffectiveVerdicts.has(run.evaluation?.verdict ?? run.verdict)
+  ).length;
+  if (attempt >= 3 && ineffectivePriorCount >= 2 && afterTest.status !== "pass") {
+    nextWorkerMode = "orchestrator_review";
+    interventionLines.push(
+      "Supervisor: ORCHESTRATOR REVIEW required — repeated fixer attempts did not resolve this item. Stop retrying the same prompt; summarize failed hypotheses, compare artifacts, and update the next fixer instruction before another code-edit attempt."
+    );
+  }
+
   if (onlyNonProductive && mode === "pixel" && !verdicts.includes("NO_ADAPTER_EDIT")) {
     verdicts.push("WRONG_DIRECTION");
     if (nextWorkerMode === "continue") nextWorkerMode = "narrow_scope";
@@ -471,6 +493,85 @@ export function formatSupervisorIntervention(supervisor) {
  * @param {string} workerMode
  * @returns {string[]}
  */
+/**
+ * @param {string} repoRoot
+ * @param {string} jobId
+ * @param {string} storyId
+ * @param {JobPhase} phase
+ * @param {number} attempt
+ */
+export function structuredJobResultPath(repoRoot, jobId, storyId, phase, attempt) {
+  const dir = join(repoRoot, ".test-console", "job-results", jobId);
+  const safeStory = storyId.replace(/[<>:"/\\|?*]/g, "-");
+  return join(dir, `${safeStory}-${phase}-try-${attempt}.json`);
+}
+
+/**
+ * Persist structured agent job outcome (investigator / fixer / verify).
+ * @param {string} repoRoot
+ * @param {string} jobId
+ * @param {string} storyId
+ * @param {JobPhase} phase
+ * @param {number} attempt
+ * @param {object} payload
+ */
+export function writeStructuredJobResult(repoRoot, jobId, storyId, phase, attempt, payload) {
+  const path = structuredJobResultPath(repoRoot, jobId, storyId, phase, attempt);
+  mkdirSync(join(repoRoot, ".test-console", "job-results", jobId), { recursive: true });
+  const body = {
+    jobId,
+    storyId,
+    phase,
+    attempt,
+    recordedAt: new Date().toISOString(),
+    ...payload
+  };
+  writeFileSync(path, JSON.stringify(body, null, 2));
+  return path;
+}
+
+/**
+ * @param {string} repoRoot
+ * @param {string} jobId
+ * @param {string} storyId
+ * @returns {object[]}
+ */
+export function loadStructuredJobResults(repoRoot, jobId, storyId) {
+  const dir = join(repoRoot, ".test-console", "job-results", jobId);
+  if (!existsSync(dir)) return [];
+  const safeStory = storyId.replace(/[<>:"/\\|?*]/g, "-");
+  const prefix = `${safeStory}-`;
+  return readdirSync(dir)
+    .filter((f) => f.startsWith(prefix) && f.endsWith(".json"))
+    .sort()
+    .map((f) => {
+      try {
+        return JSON.parse(readFileSync(join(dir, f), "utf8"));
+      } catch {
+        return null;
+      }
+    })
+    .filter(Boolean);
+}
+
+/**
+ * Hard gate: no fixer until investigator complete (cached lab-memory or fresh diagnosis).
+ * @param {string} repoRoot
+ * @param {string} storyId
+ * @param {string} suiteId
+ * @param {{ skipGate?: boolean }} [options]
+ * @returns {{ allowed: boolean, reason: string }}
+ */
+export function investigatorGateAllowsFixer(repoRoot, storyId, suiteId, options = {}) {
+  if (options.skipGate || process.env.FIX_ALL_SKIP_INVESTIGATOR_GATE === "1") {
+    return { allowed: true, reason: "gate_skipped" };
+  }
+  if (isInvestigationComplete(repoRoot, storyId, suiteId)) {
+    return { allowed: true, reason: "cached_investigation" };
+  }
+  return { allowed: false, reason: "investigator_required" };
+}
+
 export function workerModeInstructions(workerMode) {
   switch (workerMode) {
     case "investigate_first":
@@ -500,7 +601,79 @@ export function workerModeInstructions(workerMode) {
         "── Supervisor mode: TIER C AFTER PASS ──",
         "Shared adapter was touched. After this story passes, run Tier C strict goldens before moving on."
       ];
+    case "orchestrator_review":
+      return [
+        "",
+        "── Supervisor mode: ORCHESTRATOR REVIEW ──",
+        "Do not keep patching blindly. Summarize failed attempts, exact files changed, unchanged metrics, and the next concrete hypothesis.",
+        "Update the investigation note / worker prompt with the corrected fix area before another fixer edits code."
+      ];
     default:
       return [];
   }
+}
+
+const PARKED_STORIES_PATH = ".test-console/parked-stories.json";
+
+export function parkedStoryKey(storyId, suiteId) {
+  return `${storyId}|${suiteId}`;
+}
+
+export function loadParkedStories(repoRoot) {
+  const path = join(repoRoot, PARKED_STORIES_PATH);
+  if (!existsSync(path)) return { updatedAt: null, items: [] };
+  try {
+    const raw = JSON.parse(readFileSync(path, "utf8"));
+    return { updatedAt: raw.updatedAt ?? null, items: raw.items ?? [] };
+  } catch {
+    return { updatedAt: null, items: [] };
+  }
+}
+
+export function isStoryParked(repoRoot, storyId, suiteId) {
+  const key = parkedStoryKey(storyId, suiteId);
+  return loadParkedStories(repoRoot).items.some((i) => i.key === key);
+}
+
+export function parkExhaustedStory(repoRoot, storyId, suiteId, meta = {}) {
+  const path = join(repoRoot, PARKED_STORIES_PATH);
+  mkdirSync(join(repoRoot, ".test-console"), { recursive: true });
+  const data = loadParkedStories(repoRoot);
+  const key = parkedStoryKey(storyId, suiteId);
+  const items = data.items.filter((i) => i.key !== key);
+  items.push({
+    key,
+    storyId,
+    suiteId,
+    parkedAt: new Date().toISOString(),
+    reason: meta.reason ?? "exhausted",
+    metrics: meta.metrics ?? null
+  });
+  writeFileSync(path, JSON.stringify({ updatedAt: new Date().toISOString(), items }, null, 2));
+}
+
+export function clearParkedStory(repoRoot, storyId, suiteId) {
+  const path = join(repoRoot, PARKED_STORIES_PATH);
+  if (!existsSync(path)) return;
+  const data = loadParkedStories(repoRoot);
+  const key = parkedStoryKey(storyId, suiteId);
+  const items = data.items.filter((i) => i.key !== key);
+  writeFileSync(path, JSON.stringify({ updatedAt: new Date().toISOString(), items }, null, 2));
+}
+
+export function filterOutParkedStories(repoRoot, storyIds, suiteId) {
+  return storyIds.filter((id) => !isStoryParked(repoRoot, id, suiteId));
+}
+
+/** Suites that edit shared code-v2.ts — must fix serially. */
+export function suiteUsesSharedImporter(suiteId) {
+  return (
+    suiteId === "figmaLive" ||
+    suiteId === "figma" ||
+    suiteId === "delivery" ||
+    suiteId === "vsFigmaLive" ||
+    suiteId === "contractFigma" ||
+    suiteId === "vsStorybook" ||
+    suiteId === "vsReactHtml"
+  );
 }

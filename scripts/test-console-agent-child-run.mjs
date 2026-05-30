@@ -69,6 +69,17 @@ function writeStatus(statusPath, payload) {
 
 const { parent, tag, status, promptFile, model, cmd } = parseArgs(process.argv);
 
+function failEarly(exitCode, message) {
+  console.error(`[agent:${tag}] ${message}`);
+  writeStatus(status, {
+    tag,
+    exitCode,
+    error: message,
+    finishedAt: new Date().toISOString()
+  });
+  process.exit(exitCode);
+}
+
 /** @type {string} */
 let agentBin;
 /** @type {string[]} */
@@ -79,10 +90,7 @@ if (promptFile) {
   try {
     prompt = readFileSync(promptFile, "utf8");
   } catch (e) {
-    console.error(
-      `[agent:${tag}] Could not read --prompt-file: ${e instanceof Error ? e.message : e}`
-    );
-    process.exit(2);
+    failEarly(2, `Could not read --prompt-file: ${e instanceof Error ? e.message : e}`);
   }
   const agentModel = model ?? resolveAgentModel(loadRunSettings());
   ({ bin: agentBin, args: agentArgs } = cursorAgentInvocation(prompt, {
@@ -93,9 +101,10 @@ if (promptFile) {
   agentBin = cmd[0];
   agentArgs = cmd.slice(1);
 } else {
-  console.error("Usage: test-console-agent-child-run.mjs --prompt-file <path> [--model <id>]");
-  console.error("   or: test-console-agent-child-run.mjs -- ... agent args");
-  process.exit(2);
+  failEarly(
+    2,
+    "Usage: test-console-agent-child-run.mjs --prompt-file <path> [--model <id>] or -- ... agent args"
+  );
 }
 
 if (parent) {
@@ -128,10 +137,12 @@ let exitCode = 1;
 
 const startedAt = Date.now();
 let editCount = 0;
-let bigReadCount = 0;
+let bigReadCount = 0;   // unique large files read (repeated reads don't count)
 let readCount = 0;
 let watchdogTripped = false;
 let watchdogReason = "";
+/** Track unique large files seen so repeated reads of the same file don't drain the cap. */
+const bigReadSeen = new Set();
 
 const ENV_INT = (key, fallback) => {
   const raw = process.env[key];
@@ -145,7 +156,7 @@ const INVESTIGATE_FIRST_MODE = process.env.AGENT_WATCHDOG_INVESTIGATE_MODE === "
 const DEADLINE_FIRST_EDIT_MS = INVESTIGATE_FIRST_MODE
   ? ENV_INT("AGENT_WATCHDOG_FIRST_EDIT_MS", 14 * 60_000)
   : ENV_INT("AGENT_WATCHDOG_FIRST_EDIT_MS", 8 * 60_000);
-const DEADLINE_MAX_BIG_READS = ENV_INT("AGENT_WATCHDOG_MAX_BIG_READS", 20);
+const DEADLINE_MAX_BIG_READS = ENV_INT("AGENT_WATCHDOG_MAX_BIG_READS", 8);
 const DEADLINE_TOTAL_MS = ENV_INT("AGENT_WATCHDOG_TOTAL_MS", 25 * 60_000);
 const BIG_READ_LINE_THRESHOLD = 800;
 const WATCHDOG_DISABLED = process.env.AGENT_WATCHDOG_DISABLED === "1";
@@ -188,7 +199,7 @@ const checkWatchdog = () => {
   }
   if (editCount === 0 && bigReadCount >= DEADLINE_MAX_BIG_READS) {
     tripWatchdog(
-      `${bigReadCount} big-file reads (≥${BIG_READ_LINE_THRESHOLD} lines each) with 0 edits — redundant context loading.`
+      `${bigReadCount} unique large files read (≥${BIG_READ_LINE_THRESHOLD} lines each) with 0 edits — investigation paralysis.`
     );
   }
 };
@@ -212,7 +223,16 @@ const flush = async (chunk, isErr) => {
         const readMatch = READ_RE.exec(label);
         if (readMatch) {
           readCount += 1;
-          if (Number(readMatch[1]) >= BIG_READ_LINE_THRESHOLD) bigReadCount += 1;
+          if (Number(readMatch[1]) >= BIG_READ_LINE_THRESHOLD) {
+            // Extract the file path from "Read <path> (<n> lines)" — strip the suffix
+            const filePart = label.slice(5, label.lastIndexOf(" ("));
+            if (!bigReadSeen.has(filePart)) {
+              bigReadSeen.add(filePart);
+              bigReadCount += 1;
+            }
+            // Repeated reads of the same large file are tracked in readCount but
+            // do not burn the unique-file cap — they still count toward time budget.
+          }
         }
       }
       await append(parent, tag, `${label}\n`);

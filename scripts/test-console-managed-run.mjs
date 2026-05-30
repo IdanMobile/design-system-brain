@@ -20,16 +20,22 @@ import {
   figmaEntryGoldenSpawn,
   isFigmaEntryFixSuite
 } from "./figma-entry-fix.mjs";
+import {
+  childStatusDir,
+  childStatusPath,
+  agentPromptsDir,
+  agentPromptPath
+} from "./test-console-paths.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const STATUS_DIR = join(ROOT, ".test-console", "child-status");
+const STATUS_DIR = childStatusDir(ROOT);
 
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
 function statusPath(parentJobId, runId) {
-  return join(STATUS_DIR, `${parentJobId}-${runId}.json`);
+  return childStatusPath(ROOT, parentJobId, runId);
 }
 
 /**
@@ -78,11 +84,15 @@ export async function runManagedCommand({
   args,
   appendLog,
   killFlagPath,
-  openTerminal: openTerm = true,
+  openTerminal: openTermOverride,
   env: extraEnv,
   cwd
 }) {
   const workdir = cwd ?? ROOT;
+  const settings = loadRunSettings();
+  const openTerm =
+    openTermOverride ??
+    (!settings.headlessAgents && process.env.TEST_CONSOLE_HEADLESS_AGENTS !== "1");
   mkdirSync(STATUS_DIR, { recursive: true });
   const runId = `${tag.replace(/[^a-zA-Z0-9._-]+/g, "_")}-${Date.now()}`;
   const statusFile = statusPath(parentJobId, runId);
@@ -117,12 +127,56 @@ export async function runManagedCommand({
     .join(" ");
   const runner = envPrefix ? `${envPrefix} ${runnerBody}` : runnerBody;
 
-  await log(parentJobId, appendLog, "orchestrator", `Opening terminal → ${tag}\n`);
+  await log(
+    parentJobId,
+    appendLog,
+    "orchestrator",
+    openTerm ? `Opening terminal → ${tag}\n` : `Headless run → ${tag}\n`
+  );
 
   if (openTerm) {
-    openTerminal(runner, workdir, {
-      tabTitle: `${tag} · ${String(parentJobId).slice(0, 8)}`
+    const tabTitle = `${tag} · ${String(parentJobId).slice(0, 8)}`;
+    const opened = openTerminal(runner, workdir, {
+      tabTitle,
+      keepOpen: false,
+      focus: true
     });
+    if (opened) {
+      await log(
+        parentJobId,
+        appendLog,
+        "orchestrator",
+        `Terminal.app tab opened — "${tabTitle}" (not the Cursor integrated terminal)\n`
+      );
+    } else {
+      await log(
+        parentJobId,
+        appendLog,
+        "orchestrator",
+        `Terminal tab unavailable — running ${tag} inline (synchronous fallback)\n`
+      );
+      spawnSync(
+        "node",
+        [
+          "scripts/test-console-child-run.mjs",
+          "--parent",
+          parentJobId,
+          "--tag",
+          tag,
+          "--status",
+          statusFile,
+          "--",
+          bin,
+          ...args
+        ],
+        { cwd: workdir, stdio: "inherit", env: childEnv }
+      );
+      if (existsSync(statusFile)) {
+        const s = JSON.parse(readFileSync(statusFile, "utf8"));
+        return s.exitCode ?? 1;
+      }
+      return 1;
+    }
   } else {
     const r = spawnSync(
       "node",
@@ -222,7 +276,7 @@ export function goldenCommandForSuite(suiteId, options = {}) {
         bin: "node",
         args: ["scripts/figma-live-iterate.mjs"],
         tag: "golden:figmaLive",
-        env: { TEST_PARALLEL: "1" }
+        env: { TEST_PARALLEL: String(settings.parallelWorkers) }
       };
     case "delivery":
       return {
@@ -249,27 +303,36 @@ export async function runManagedAgent({
   killFlagPath,
   workspaceRoot,
   investigateFirst = false,
-  /** @type {'pixel' | 'emulator' | 'live' | undefined} */ fixMode
+  /** @type {'pixel' | 'emulator' | 'live' | undefined} */ fixMode,
+  openTerminal: openTermOverride
 }) {
   const workdir = workspaceRoot ?? ROOT;
+  const settings = loadRunSettings();
+  const openTerm =
+    openTermOverride ??
+    (!settings.headlessAgents && process.env.TEST_CONSOLE_HEADLESS_AGENTS !== "1");
   mkdirSync(STATUS_DIR, { recursive: true });
   const runId = `agent-${tag.replace(/[^a-zA-Z0-9._-]+/g, "_")}-${Date.now()}`;
   const statusFile = statusPath(parentJobId, runId);
-  mkdirSync(join(workdir, ".test-console"), { recursive: true });
-  const promptFile = join(workdir, ".test-console", `${runId}.prompt.txt`);
+  mkdirSync(agentPromptsDir(workdir), { recursive: true });
+  const promptFile = agentPromptPath(workdir, runId);
   writeFileSync(promptFile, prompt, "utf8");
 
   if (existsSync(statusFile)) unlinkSync(statusFile);
 
-  const agentModel = resolveAgentModel(loadRunSettings());
+  const agentModel = resolveAgentModel(settings);
   /** Pixel fix-all: shorter budgets — adapter edits must land quickly. */
-  const pixelWatchdog =
-    fixMode === "pixel"
-      ? `AGENT_WATCHDOG_FIRST_EDIT_MS=${investigateFirst ? 6 * 60_000 : 5 * 60_000} AGENT_WATCHDOG_TOTAL_MS=${18 * 60_000} `
-      : "";
-  const envPrefix = `${investigateFirst ? "AGENT_WATCHDOG_INVESTIGATE_MODE=1 " : ""}${pixelWatchdog}`;
-  const agentRunner = [
-    `${envPrefix}node`,
+  const agentEnvParts = [];
+  if (investigateFirst) agentEnvParts.push("AGENT_WATCHDOG_INVESTIGATE_MODE=1");
+  if (fixMode === "pixel") {
+    agentEnvParts.push(
+      `AGENT_WATCHDOG_FIRST_EDIT_MS=${investigateFirst ? 6 * 60_000 : 5 * 60_000}`
+    );
+    agentEnvParts.push(`AGENT_WATCHDOG_TOTAL_MS=${18 * 60_000}`);
+  }
+  const envPrefix = agentEnvParts.join(" ");
+  const agentRunnerBody = [
+    "node",
     "scripts/test-console-agent-child-run.mjs",
     "--parent",
     parentJobId,
@@ -284,16 +347,72 @@ export async function runManagedAgent({
   ]
     .map((p) => (/\s/.test(p) ? shellQuote(p) : p))
     .join(" ");
+  const agentRunner = envPrefix ? `${envPrefix} ${agentRunnerBody}` : agentRunnerBody;
 
+  const tabTitle = `Agent ${tag} · ${String(parentJobId).slice(0, 8)}`;
   await log(
     parentJobId,
     appendLog,
     "orchestrator",
     `Opening agent terminal → ${tag} (model: ${agentModel})${workdir !== ROOT ? " [sandbox]" : ""}\n`
   );
-  openTerminal(agentRunner, workdir, {
-    tabTitle: `Agent ${tag} · ${String(parentJobId).slice(0, 8)}`
-  });
+  const opened = openTerm
+    ? openTerminal(agentRunner, workdir, {
+        tabTitle,
+        keepOpen: false,
+        focus: true
+      })
+    : false;
+  if (opened) {
+    await log(
+      parentJobId,
+      appendLog,
+      "orchestrator",
+      `Terminal.app tab opened — "${tabTitle}" (not the Cursor integrated terminal)\n`
+    );
+  } else {
+    await log(
+      parentJobId,
+      appendLog,
+      "orchestrator",
+      openTerm
+        ? `Terminal tab unavailable — running agent headless in background (output not streamed; status file written on completion)\n`
+        : `Headless agent — ${tag} (model: ${agentModel})\n`
+    );
+    spawn(
+      "node",
+      [
+        "scripts/test-console-agent-child-run.mjs",
+        "--parent",
+        parentJobId,
+        "--tag",
+        tag,
+        "--status",
+        statusFile,
+        "--prompt-file",
+        promptFile,
+        "--model",
+        agentModel
+      ],
+      {
+        cwd: workdir,
+        env: {
+          ...process.env,
+          FORCE_COLOR: "0",
+          ...(workdir !== ROOT ? { TEST_CONSOLE_CWD: workdir } : {}),
+          ...(investigateFirst ? { AGENT_WATCHDOG_INVESTIGATE_MODE: "1" } : {}),
+          ...(fixMode === "pixel"
+            ? {
+                AGENT_WATCHDOG_FIRST_EDIT_MS: String(investigateFirst ? 6 * 60_000 : 5 * 60_000),
+                AGENT_WATCHDOG_TOTAL_MS: String(18 * 60_000)
+              }
+            : {})
+        },
+        detached: true,
+        stdio: "ignore"
+      }
+    ).unref();
+  }
 
   const totalBudgetMs = Math.max(
     60_000,

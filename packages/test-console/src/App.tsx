@@ -3,6 +3,7 @@ import { attachJobStream, killJob, type JobProgress } from "./job-stream";
 import { jobRuntimeLabel } from "./format-elapsed";
 import { DeveloperConsolePage } from "./DeveloperConsolePage";
 import { FleetConsolePage } from "./FleetConsolePage";
+import { OrchestratorLaunchDialog } from "./OrchestratorLaunchDialog";
 import { SERVICES, type ServiceKey } from "./services";
 import type {
   ActionDef,
@@ -17,36 +18,36 @@ import type {
 declare const __TEST_CONSOLE_SERVER_VERSION__: number;
 const EXPECTED_SERVER_VERSION: number = __TEST_CONSOLE_SERVER_VERSION__;
 
-type AppPage = "tests" | "agents" | "developer";
+type AppPage = "tests" | "developer" | "fleet";
 
 function pageFromHash(): AppPage {
-  const hash = window.location.hash;
-  if (hash === "#developer") return "developer";
-  if (hash === "#agents" || hash === "#fleet") return "agents";
+  const h = window.location.hash;
+  if (h === "#developer") return "developer";
+  if (h === "#fleet" || h === "#agents") return "fleet";
   return "tests";
 }
 
 function syncHash(page: AppPage) {
   const next =
-    page === "developer" ? "#developer" : page === "agents" ? "#agents" : "#tests";
+    page === "developer" ? "#developer" : page === "fleet" ? "#fleet" : "#tests";
   if (window.location.hash !== next) window.location.hash = next;
 }
 
-const SUITE_SUMMARY_ORDER = ["pixel", "figma", "figmaLive", "delivery", "logic"] as const;
+const UNIFIED_STEP_ORDER = [
+  "structural",
+  "vsFigmaLive",
+  "vsStorybook",
+  "vsReactHtml",
+  "logic"
+] as const;
 
-type PortfolioListSource = "storybook" | "figma";
+const UNIFIED_COMPARE = new Set(["vsFigmaLive", "vsStorybook", "vsReactHtml"]);
 
-const PORTFOLIO_LIST_TABS: { id: PortfolioListSource; label: string }[] = [
-  { id: "storybook", label: "Storybook" },
-  { id: "figma", label: "Figma" }
-];
-
-/** Storybook-only suites on the Figma tab (same columns, N/A for entry point). */
 const FIGMA_ENTRY_STEP_ORDER = [
   "manifestContract",
-  "contractFigma",
-  "storybook",
-  "fourWay",
+  "vsFigmaLive",
+  "vsStorybook",
+  "vsReactHtml",
   "logic"
 ] as const;
 
@@ -55,15 +56,30 @@ const FIGMA_ENTRY_RUN_ACTION: Record<
   string | null
 > = {
   manifestContract: "figma:screen:manifest",
-  contractFigma: "figma:screen:golden",
-  storybook: "figma:screen:storybook",
-  fourWay: "figma:screen:four-way",
+  vsFigmaLive: "figma:screen:parity",
+  vsStorybook: "figma:screen:parity",
+  vsReactHtml: "figma:screen:parity",
   logic: "figma:screen:logic"
 };
 
-const FIGMA_ENTRY_COMPARE = new Set(["contractFigma", "storybook", "fourWay"]);
+/** Storybook ingress — legacy suite mapping until storybook-parity harness lands. */
+const STORYBOOK_FIX_ORDER = ["pixel", "figmaLive", "delivery", "logic"] as const;
 
-const SUITE_RUN_ACTION: Record<(typeof SUITE_SUMMARY_ORDER)[number], string> = {
+const STORYBOOK_RUN_ACTION: Record<(typeof STORYBOOK_FIX_ORDER)[number], string> = {
+  pixel: "pixel:golden",
+  figmaLive: "figma:live:golden",
+  delivery: "delivery:golden",
+  logic: "logic:golden"
+};
+
+const UNIFIED_TO_STORYBOOK_FIX: Partial<Record<(typeof UNIFIED_STEP_ORDER)[number], string>> = {
+  structural: "pixel",
+  vsFigmaLive: "figmaLive",
+  vsReactHtml: "delivery",
+  logic: "logic"
+};
+
+const SUITE_RUN_ACTION: Record<string, string> = {
   pixel: "pixel:golden",
   figma: "figma:golden",
   figmaLive: "figma:live:golden",
@@ -72,12 +88,20 @@ const SUITE_RUN_ACTION: Record<(typeof SUITE_SUMMARY_ORDER)[number], string> = {
 };
 
 const DEFAULT_RUN_SETTINGS: RunSettings = {
-  skipPass: false,
+  skipPass: true,
   onlyNotTested: false,
   parallelWorkers: 20,
   processPool: false,
   applyToOrchestrator: true,
-  agentModel: "composer-2.5-fast"
+  agentModel: "composer-2.5-fast",
+  agentCli: "cursor",
+  scope: "failures_only",
+  singleStepId: null,
+  sortBy: "flow_first",
+  maxFixRoundsPerStep: 10,
+  maxAutoRetriesWhenStuck: 3,
+  maxAgentCallsPerLaunch: 100,
+  launchAutoMode: true
 };
 
 function fixAllActionId(suiteId: string): string {
@@ -93,12 +117,9 @@ function isFixableStatus(status: string | undefined): boolean {
 function formatFixApiError(
   action: "Fix all" | "Fix story",
   err: string,
-  source: PortfolioListSource
+  _source?: string
 ): string {
-  const staleFigmaEntry =
-    source === "figma" &&
-    (err.includes("No failing or warn stories") || err.includes("No report row for"));
-  if (staleFigmaEntry) {
+  if (err.includes("No failing or warn stories") || err.includes("No report row for")) {
     return `${action} failed — test console server is outdated. Run \`pnpm test:console:restart\`, refresh this page, then retry.`;
   }
   if (err === "run until pass") {
@@ -117,65 +138,55 @@ function fixSuiteForRow(row: PortfolioRow): string | null {
   return null;
 }
 
-function runActionForSource(source: PortfolioListSource, suiteId: string): string | null {
-  if (source === "figma") {
+function fixSuiteForUnifiedRow(row: PortfolioRow): string | null {
+  const order =
+    row.entryPoint === "figma"
+      ? [...FIGMA_ENTRY_STEP_ORDER]
+      : [...UNIFIED_STEP_ORDER];
+  for (const stepId of order) {
+    const c = row.cells[stepId];
+    if (!c || c.canRun === false) continue;
+    if (isFixableStatus(c.status)) return stepId;
+    if (c.status === "not_tested") return stepId;
+  }
+  return null;
+}
+
+function runActionForRow(row: PortfolioRow, suiteId: string): string | null {
+  if (row.entryPoint === "figma") {
+    if (suiteId === "structural") return "figma:screen:manifest";
+    if (suiteId === "logic") return "figma:screen:logic";
+    if (suiteId.startsWith("vs")) return "figma:screen:parity";
     return FIGMA_ENTRY_RUN_ACTION[suiteId as (typeof FIGMA_ENTRY_STEP_ORDER)[number]] ?? null;
   }
-  return SUITE_RUN_ACTION[suiteId as keyof typeof SUITE_RUN_ACTION] ?? null;
-}
-
-function reportForSource(
-  source: PortfolioListSource,
-  suiteId: string,
-  reports: ConsoleState["reports"] | undefined
-) {
-  if (source === "figma") {
-    if (suiteId === "contractFigma") {
-      return reports?.find((r) => r.suiteId === "figmaScreen") ?? null;
-    }
-    return null;
-  }
-  return reports?.find((r) => r.suiteId === suiteId) ?? null;
-}
-
-function fixSuiteForSourceRow(source: PortfolioListSource, row: PortfolioRow): string | null {
-  if (source === "figma") {
-    for (const stepId of FIGMA_ENTRY_STEP_ORDER) {
-      const c = row.cells[stepId];
-      if (!c || c.canRun === false) continue;
-      if (isFixableStatus(c.status)) return stepId;
-      if (c.status === "not_tested") return stepId;
-    }
-    return null;
-  }
-  return fixSuiteForRow(row);
+  const legacy = UNIFIED_TO_STORYBOOK_FIX[suiteId as (typeof UNIFIED_STEP_ORDER)[number]];
+  if (!legacy) return null;
+  return STORYBOOK_RUN_ACTION[legacy as keyof typeof STORYBOOK_RUN_ACTION] ?? null;
 }
 
 function suiteLabelForFix(suiteId: string): string {
   const labels: Record<string, string> = {
-    pixel: "Pixel",
-    figma: "Figma mock",
-    figmaLive: "Figma live",
-    delivery: "Delivery",
+    structural: "Structural",
+    vsFigmaLive: "→ Figma live",
+    vsStorybook: "→ Storybook",
+    vsReactHtml: "→ ReactHtml",
     manifestContract: "Manifest → Contract",
-    contractFigma: "Contract → Figma",
-    storybook: "Storybook",
-    fourWay: "4-way (strict)",
-    logic: "Logic audit"
+    logic: "Logic audit",
+    pixel: "Pixel",
+    figmaLive: "Figma live",
+    delivery: "Delivery"
   };
   return labels[suiteId] ?? suiteId;
 }
 
-/** Pixel is schema parity (0% = no crop); compare PNGs only on diffs — skip the column. */
-const STEPS_WITH_COMPARE = new Set(["figma", "figmaLive", "delivery", "logic"]);
-
-function stepHasCompare(stepId: string, source: PortfolioListSource): boolean {
-  if (source === "figma") return FIGMA_ENTRY_COMPARE.has(stepId);
-  return STEPS_WITH_COMPARE.has(stepId);
+function stepHasCompare(stepId: string): boolean {
+  return UNIFIED_COMPARE.has(stepId);
 }
 
-function pctColumnLabel(stepId: string, source: PortfolioListSource): string {
-  if (source === "figma" && stepId === "manifestContract") return "Layers";
+function pctColumnLabel(stepId: string, row?: PortfolioRow): string {
+  if (stepId === "structural") {
+    return row?.entryPoint === "figma" ? "Layers" : "Extract";
+  }
   if (stepId === "logic") return "Gaps";
   return "Diff %";
 }
@@ -194,10 +205,9 @@ type StepSummaryStats = {
   htmlUrl?: string | null;
 };
 
-function figmaStepSummaryStats(
+function unifiedStepSummaryStats(
   portfolio: PortfolioState | null,
-  stepId: string,
-  report?: ConsoleState["reports"][number] | null
+  stepId: string
 ): StepSummaryStats | null {
   if (!portfolio?.rows.length) return null;
   const counts = { pass: 0, warn: 0, fail: 0, error: 0, not_tested: 0, skipped: 0 };
@@ -210,55 +220,23 @@ function figmaStepSummaryStats(
     else if (s === "skipped") counts.skipped++;
     else counts.not_tested++;
   }
-  const fourWayReport =
-    stepId === "fourWay"
-      ? portfolio.rows.find((r) => r.cells.fourWay?.compareUrl)?.cells.fourWay?.compareUrl ?? null
+  const compareUrl =
+    stepId === "vsFigmaLive"
+      ? portfolio.rows.find((r) => r.cells.vsFigmaLive?.compareUrl)?.cells.vsFigmaLive?.compareUrl ??
+        null
       : null;
   return {
     total: portfolio.rows.length,
     counts,
     generatedAt: portfolio.generatedAt,
-    htmlUrl:
-      stepId === "contractFigma"
-        ? report?.htmlUrl ?? portfolio.htmlUrl
-        : stepId === "fourWay"
-          ? fourWayReport
-          : null
+    htmlUrl: compareUrl ?? portfolio.htmlUrl
   };
 }
 
-function suiteSummaryStats(
-  source: PortfolioListSource,
-  suiteId: string,
-  portfolio: PortfolioState | null,
-  report: ConsoleState["reports"][number] | null | undefined
-): StepSummaryStats | null {
-  if (source === "figma") {
-    return figmaStepSummaryStats(portfolio, suiteId, report);
-  }
-  if (!report?.total) return null;
-  return {
-    total: report.total,
-    counts: {
-      pass: report.counts?.pass ?? 0,
-      warn: report.counts?.warn ?? 0,
-      fail: report.counts?.fail ?? 0,
-      error: report.counts?.error ?? 0,
-      not_tested: report.counts?.not_tested ?? 0,
-      skipped: 0
-    },
-    generatedAt: report.generatedAt,
-    htmlUrl: report.htmlUrl
-  };
-}
-
-function stepColSpan(stepId: string, source: PortfolioListSource = "storybook"): number {
-  if (source === "figma") {
-    if (stepId === "manifestContract" || stepId === "logic") return 2;
-    if (FIGMA_ENTRY_COMPARE.has(stepId)) return 3;
-    return 2;
-  }
-  return STEPS_WITH_COMPARE.has(stepId) ? 3 : 2;
+function stepColSpan(stepId: string): number {
+  if (stepId === "structural" || stepId === "logic") return 2;
+  if (UNIFIED_COMPARE.has(stepId)) return 3;
+  return 2;
 }
 
 async function fetchState(): Promise<ConsoleState> {
@@ -311,6 +289,7 @@ type RunningJobEntry = {
   endedAt?: string;
   status?: string;
   progress?: JobProgress;
+  logFile?: string | null;
 };
 
 function shortStoryId(id: string): string {
@@ -460,7 +439,8 @@ function syncRunningFromServer(
       label: j.label || runningJobLabel(j.action, storyId, actions),
       startedAt: j.startedAt,
       endedAt: j.endedAt,
-      status: j.status
+      status: j.status,
+      logFile: j.logFile ?? null
     };
   }
   return next;
@@ -582,8 +562,6 @@ export function App() {
   const [state, setState] = useState<ConsoleState | null>(null);
   const [actions, setActions] = useState<ActionDef[]>([]);
   const [portfolio, setPortfolio] = useState<PortfolioState | null>(null);
-  const [figmaPortfolio, setFigmaPortfolio] = useState<PortfolioState | null>(null);
-  const [portfolioListTab, setPortfolioListTab] = useState<PortfolioListSource>("storybook");
   const [runningJobs, setRunningJobs] = useState<Record<string, RunningJobEntry>>({});
   const [runningSuiteActions, setRunningSuiteActions] = useState<ReadonlySet<string>>(
     () => new Set()
@@ -596,7 +574,9 @@ export function App() {
     () => new Set()
   );
   const [portfolioOrchestratorFinished, setPortfolioOrchestratorFinished] = useState(false);
-  const [runSettingsOpen, setRunSettingsOpen] = useState(true);
+  const [invalidatingPortfolio, setInvalidatingPortfolio] = useState(false);
+  const [launchDialogOpen, setLaunchDialogOpen] = useState(false);
+  const [orchestratorLaunching, setOrchestratorLaunching] = useState(false);
   const [activePage, setActivePage] = useState<AppPage>(() => pageFromHash());
   const [runClock, setRunClock] = useState(() => Date.now());
   const orchestratorAuto = state?.orchestratorAuto ?? false;
@@ -611,6 +591,7 @@ export function App() {
   );
   const supervisorActive =
     workerSupervisor && !workerSupervisor.finished && workerSupervisor.storyId;
+  const fleetLive = orchestratorRunning || supervisorFixAllActive || Boolean(supervisorActive);
   const ensureAutoRef = useRef(0);
   const PORTFOLIO_ORCHESTRATOR_ACTION = "portfolio-orchestrator";
   const runSettings = state?.runSettings ?? DEFAULT_RUN_SETTINGS;
@@ -643,13 +624,10 @@ export function App() {
       setApiError(null);
       const p = await fetchPortfolio();
       setPortfolio(p);
-      const fs = await fetchFigmaScreens();
-      setFigmaPortfolio(fs);
     } catch {
       setApiError("Cannot reach test console API. Start: pnpm test:console");
       setState(null);
       setPortfolio(null);
-      setFigmaPortfolio(null);
     }
   }, [actions]);
 
@@ -860,7 +838,7 @@ export function App() {
       }
       if (!res.ok) {
         const err = data.error ?? text ?? res.statusText;
-        setApiError(formatFixApiError("Fix all", err, portfolioListTab));
+        setApiError(formatFixApiError("Fix all", err));
         return;
       }
       if (!data.jobId) {
@@ -913,7 +891,7 @@ export function App() {
         }
       }
       if (!res.ok) {
-        setApiError(formatFixApiError("Fix story", data.error ?? text ?? res.statusText, portfolioListTab));
+        setApiError(formatFixApiError("Fix story", data.error ?? text ?? res.statusText));
         return;
       }
       if (!data.jobId) {
@@ -937,58 +915,74 @@ export function App() {
     }
   };
 
-  const queuePortfolioOrchestrator = async () => {
+  const invalidateAllTests = async () => {
+    if (
+      !window.confirm(
+        "Clear all stored test results? Every row returns to not tested. PNG artifacts are kept."
+      )
+    ) {
+      return;
+    }
+    setInvalidatingPortfolio(true);
+    setApiError(null);
+    try {
+      const res = await fetch("/api/portfolio/invalidate", { method: "POST" });
+      const data = (await res.json()) as { ok?: boolean; error?: string; removedCount?: number };
+      if (!res.ok || !data.ok) {
+        setApiError(data.error ?? "Failed to invalidate test results");
+        return;
+      }
+      await refresh();
+    } catch (e) {
+      setApiError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setInvalidatingPortfolio(false);
+    }
+  };
+
+  const launchOrchestrator = async (settings: RunSettings, options: { invalidateAll: boolean }) => {
     setApiError(null);
     setPortfolioOrchestratorFinished(false);
+    setOrchestratorLaunching(true);
     if (orchestratorRunning) {
-      setApiError("Portfolio orchestrator is already running");
+      setApiError("Orchestrator is already running");
+      setOrchestratorLaunching(false);
       return;
     }
     try {
-      const res = await fetch("/api/agent/request-fix", {
+      const res = await fetch("/api/orchestrator/launch", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ portfolioOrchestrator: true })
+        body: JSON.stringify({ settings, invalidateAll: options.invalidateAll })
       });
-      const text = await res.text();
-      let data: {
-        error?: string;
-        terminalDispatched?: boolean;
-        jobId?: string;
-        label?: string;
-      } = {};
-      try {
-        data = JSON.parse(text) as typeof data;
-      } catch {
-        if (!res.ok) {
-          setApiError(`Orchestrator failed: ${text || res.statusText}`);
-          return;
-        }
-      }
-      if (!res.ok) {
-        setApiError(`Orchestrator failed: ${data.error ?? text ?? res.statusText}`);
+      const data = (await res.json()) as { ok?: boolean; error?: string; jobId?: string };
+      if (!res.ok || !data.ok) {
+        setApiError(data.error ?? "Launch failed");
+        setOrchestratorLaunching(false);
         return;
       }
-      if (!data.jobId) {
-        setApiError("Orchestrator did not return a job id");
-        return;
+      if (data.jobId) {
+        setRunningJobs((prev) => ({
+          ...prev,
+          [data.jobId!]: {
+            jobId: data.jobId!,
+            actionId: PORTFOLIO_ORCHESTRATOR_ACTION,
+            label: "Orchestrator · unified portfolio",
+            startedAt: new Date().toISOString(),
+            status: "running"
+          }
+        }));
       }
-      const entry: RunningJobEntry = {
-        jobId: data.jobId,
-        actionId: PORTFOLIO_ORCHESTRATOR_ACTION,
-        label: data.label ?? "Orchestrator · golden path ALL",
-        startedAt: new Date().toISOString(),
-        status: "running"
-      };
-      setRunningJobs((prev) => ({ ...prev, [data.jobId!]: entry }));
-      if (!data.terminalDispatched) {
-        setApiError(
-          "Terminal did not open — run: pnpm test:console:cursor run-portfolio-orchestrator <jobId>"
-        );
-      }
+      await refresh();
     } catch (e) {
       setApiError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setOrchestratorLaunching(false);
     }
+  };
+
+  const queuePortfolioOrchestrator = async () => {
+    setLaunchDialogOpen(true);
   };
 
   const startServiceInTerminal = async (serviceKey: ServiceKey) => {
@@ -1188,23 +1182,24 @@ export function App() {
     }
   };
 
-  const activePortfolio =
-    portfolioListTab === "storybook" ? portfolio : figmaPortfolio;
-  const activePortfolioSource: PortfolioListSource = portfolioListTab;
+  const activePortfolio = portfolio;
   const serverVersionMismatch =
     state?.serverVersion != null && state.serverVersion !== EXPECTED_SERVER_VERSION;
 
-  const handleRowFix = (fixSuite: string, storyId: string) => {
-    if (activePortfolioSource === "figma") {
-      const status = activePortfolio?.rows.find((r) => r.storyId === storyId)?.cells[fixSuite]
-        ?.status;
-      if (status === "not_tested") {
-        const action = runActionForSource("figma", fixSuite);
-        if (action) void run(action, storyId, false);
-        return;
-      }
+  const handleRowFix = (fixSuite: string, storyId: string, entryPoint?: string) => {
+    const row = activePortfolio?.rows.find((r) => r.storyId === storyId);
+    if (row?.entryPoint === "figma" && row.cells[fixSuite]?.status === "not_tested") {
+      const action = runActionForRow(row, fixSuite);
+      if (action) void run(action, storyId, false);
+      return;
     }
-    void queueFixOneForCursor(fixSuite, storyId);
+    const legacySuite =
+      row?.entryPoint === "storybook"
+        ? UNIFIED_TO_STORYBOOK_FIX[fixSuite as (typeof UNIFIED_STEP_ORDER)[number]]
+        : fixSuite === "structural"
+          ? "manifestContract"
+          : fixSuite;
+    if (legacySuite) void queueFixOneForCursor(legacySuite, storyId);
   };
 
   return (
@@ -1219,10 +1214,13 @@ export function App() {
         </button>
         <button
           type="button"
-          className={`top-page-tab${activePage === "agents" ? " top-page-tab-active" : ""}`}
-          onClick={() => goToPage("agents")}
+          className={`top-page-tab${activePage === "fleet" ? " top-page-tab-active" : ""}${fleetLive && activePage !== "fleet" ? " top-page-tab-live" : ""}`}
+          onClick={() => goToPage("fleet")}
         >
           Agent Console
+          {fleetLive && activePage !== "fleet" ? (
+            <span className="top-page-tab-dot" title="Agents active" />
+          ) : null}
         </button>
         <button
           type="button"
@@ -1233,10 +1231,10 @@ export function App() {
         </button>
       </nav>
 
-      {activePage === "developer" ? (
-        <DeveloperConsolePage />
-      ) : activePage === "agents" ? (
+      {activePage === "fleet" ? (
         <FleetConsolePage />
+      ) : activePage === "developer" ? (
+        <DeveloperConsolePage />
       ) : (
         <>
       <header>
@@ -1252,70 +1250,58 @@ export function App() {
           <div className="header-orchestrator">
             <button
               type="button"
-              className={`orchestrator-auto-btn${orchestratorAuto ? " orchestrator-auto-btn-on" : ""}`}
-              title={
-                orchestratorAuto
-                  ? "Auto ON — supervisor stays alive and rescans for work. Click to turn off."
-                  : "Auto mode — keep supervisor alive; continuously scan and fix portfolio"
-              }
-              onClick={() => void toggleOrchestratorAuto()}
-            >
-              {orchestratorAuto ? "Auto ON" : "Auto"}
-            </button>
-            <button
-              type="button"
-              className={`orchestrator-btn${isPortfolioOrchestratorRunning ? " orchestrator-btn-active" : ""}${portfolioOrchestratorFinished ? " orchestrator-btn-done" : ""}`}
-              disabled={
-                (isPortfolioOrchestratorRunning && !portfolioOrchestratorFinished) ||
-                (portfolioOrchestratorFinished && !isPortfolioOrchestratorRunning)
-              }
+              className={`orchestrator-btn${isPortfolioOrchestratorRunning || orchestratorLaunching ? " orchestrator-btn-active" : ""}${portfolioOrchestratorFinished ? " orchestrator-btn-done" : ""}`}
+              disabled={(isPortfolioOrchestratorRunning && !portfolioOrchestratorFinished) || orchestratorLaunching}
               title={
                 isPortfolioOrchestratorRunning
-                  ? portfolioOrchestratorJob()?.progress?.logTail ??
-                    "Orchestrator running in Terminal — pixel → figma → live → delivery"
-                  : `Run golden path for ALL portfolio stories until strict 0.1% green (opens Terminal + ${runSettings.agentCli === "gemini" ? "Gemini" : "Cursor"} CLI)`
+                  ? portfolioOrchestratorJob()?.progress?.logTail ?? "Orchestrator running in Terminal"
+                  : "Open orchestrator — configure scope, agent, and launch"
               }
               onClick={() => void queuePortfolioOrchestrator()}
             >
-              {isPortfolioOrchestratorRunning
-                ? (() => {
-                    const activity = orchestratorActivityView(
-                      portfolioOrchestratorJob()?.progress,
-                      workerSupervisor
-                    );
-                    return activity.detail
-                      ? `${activity.title} — ${activity.detail.length > 36 ? `${activity.detail.slice(0, 36)}…` : activity.detail}`
-                      : activity.title;
-                  })()
-                : portfolioOrchestratorFinished
-                  ? "PHASE_COMPLETE"
-                  : "Orchestrator · golden ALL"}
+              {orchestratorLaunching && !isPortfolioOrchestratorRunning
+                ? "Launching…"
+                : isPortfolioOrchestratorRunning
+                  ? (() => {
+                      const activity = orchestratorActivityView(
+                        portfolioOrchestratorJob()?.progress,
+                        workerSupervisor
+                      );
+                      return activity.detail
+                        ? `${activity.title} — ${activity.detail.length > 32 ? `${activity.detail.slice(0, 32)}…` : activity.detail}`
+                        : activity.title;
+                    })()
+                  : portfolioOrchestratorFinished
+                    ? "PHASE_COMPLETE"
+                    : "Orchestrator"}
             </button>
             {isPortfolioOrchestratorRunning && portfolioOrchestratorJob() ? (
               <button
                 type="button"
                 className="suite-summary-cancel"
-                title="Stop portfolio orchestrator"
+                title="Stop orchestrator and turn off Auto"
                 onClick={() => void cancelPortfolioOrchestrator()}
               >
-                Cancel
+                Stop
               </button>
             ) : null}
           </div>
         </div>
-        {orchestratorAuto && (
-          <div
-            className={`orchestrator-auto-banner${orchestratorAutoStale ? " orchestrator-auto-banner-stale" : ""}`}
-            aria-live="polite"
-          >
+        {orchestratorAuto && isPortfolioOrchestratorRunning && (
+          <div className="orchestrator-auto-banner" aria-live="polite">
             <span className="orchestrator-auto-dot" aria-hidden />
-            {orchestratorAutoStale
-              ? "Auto ON — supervisor not running; restarting Terminal…"
-              : isPortfolioOrchestratorRunning
-                ? "Automatic mode — supervisor active, scanning portfolio for work"
-                : "Automatic mode — supervisor starting…"}
+            Launch session active — supervisor runs until complete, stuck, or human action
           </div>
         )}
+        {workerSupervisor?.humanMessage && workerSupervisor.finished ? (
+          <div className="orchestrator-human-banner" role="alert">
+            <strong>{workerSupervisor.humanTitle ?? "Orchestrator paused"}</strong>
+            <p>{workerSupervisor.humanMessage}</p>
+            <button type="button" className="pill-start" onClick={() => setLaunchDialogOpen(true)}>
+              Re-launch
+            </button>
+          </div>
+        ) : null}
         {supervisorActive && (
           <div className="worker-supervisor-banner" aria-live="polite">
             <span className="orchestrator-auto-dot" aria-hidden />
@@ -1334,6 +1320,7 @@ export function App() {
                 portfolioOrchestratorJob()?.progress,
                 workerSupervisor
               );
+              const logFile = portfolioOrchestratorJob()?.logFile;
               return (
                 <>
                   <div className="orchestrator-live-header">
@@ -1344,6 +1331,14 @@ export function App() {
                     ) : null}
                     {activity.detail ? (
                       <span className="orchestrator-live-phase">{activity.detail}</span>
+                    ) : null}
+                    {logFile ? (
+                      <span
+                        className="orchestrator-log-file-badge"
+                        title={logFile}
+                      >
+                        📄 {logFile.split("/").pop()}
+                      </span>
                     ) : null}
                   </div>
                   {portfolioOrchestratorJob()?.progress?.logTail ? (
@@ -1381,142 +1376,16 @@ export function App() {
         </div>
       )}
 
-      <section className="card run-settings-card">
-        <div className="run-settings-header">
-          <div>
-            <h2>Run &amp; agent options</h2>
-            <p className="run-settings-blurb">
-              Golden toggles apply to <strong>Test all</strong> and orchestrator goldens.
-              <strong> Fix agent model</strong> applies to Fix all, single-story fix, and portfolio
-              auto-fix (batch mode when 2+ stories fail). Figma live stays serial.
-            </p>
-          </div>
-          <button
-            type="button"
-            className="run-settings-toggle"
-            aria-expanded={runSettingsOpen}
-            onClick={() => setRunSettingsOpen((v) => !v)}
-          >
-            {runSettingsOpen ? "Hide" : "Show"}
-          </button>
-        </div>
-        {runSettingsOpen ? (
-          <div className="run-settings-grid">
-            <label className="run-settings-option">
-              <input
-                type="checkbox"
-                checked={runSettings.skipPass}
-                onChange={(e) => void patchRunSettings({ skipPass: e.target.checked })}
-              />
-              <span>
-                <strong>Skip passing stories</strong>
-                <small>Do not re-run stories already PASS or skipped</small>
-              </span>
-            </label>
-            <label className="run-settings-option">
-              <input
-                type="checkbox"
-                checked={runSettings.onlyNotTested}
-                onChange={(e) => void patchRunSettings({ onlyNotTested: e.target.checked })}
-              />
-              <span>
-                <strong>Only not-tested</strong>
-                <small>Stricter — run stories with no result yet (ignores fail/warn)</small>
-              </span>
-            </label>
-            <label className="run-settings-option">
-              <input
-                type="checkbox"
-                checked={runSettings.processPool}
-                onChange={(e) => void patchRunSettings({ processPool: e.target.checked })}
-              />
-              <span>
-                <strong>Process pool</strong>
-                <small>Separate Node process per chunk (safer for figma mock at high parallelism)</small>
-              </span>
-            </label>
-            <label className="run-settings-option">
-              <input
-                type="checkbox"
-                checked={runSettings.applyToOrchestrator}
-                onChange={(e) => void patchRunSettings({ applyToOrchestrator: e.target.checked })}
-              />
-              <span>
-                <strong>Apply to orchestrator golden</strong>
-                <small>Supervisor uses the filters above when running suite goldens</small>
-              </span>
-            </label>
-            <label className="run-settings-option run-settings-cli">
-              <span>
-                <strong>Agent CLI</strong>
-                <small>Choose the CLI tool to run fix agents (Cursor CLI vs Gemini CLI)</small>
-              </span>
-              <select
-                value={runSettings.agentCli ?? "cursor"}
-                onChange={(e) => void patchRunSettings({ agentCli: e.target.value })}
-              >
-                <option value="cursor">Cursor CLI</option>
-                <option value="gemini">Gemini CLI</option>
-              </select>
-            </label>
-            <label className="run-settings-option run-settings-model">
-              <span>
-                <strong>Fix agent model</strong>
-                <small>
-                  {runSettings.agentCli === "gemini"
-                    ? "Gemini CLI model for fix agents"
-                    : "Cursor CLI model for fix agents (override with TEST_CONSOLE_AGENT_MODEL)"}
-                </small>
-              </span>
-              <select
-                value={runSettings.agentModel ?? (runSettings.agentCli === "gemini" ? "gemini-2.5-flash" : "composer-2.5-fast")}
-                onChange={(e) => void patchRunSettings({ agentModel: e.target.value })}
-              >
-                {fixAgentModelOptions.map((opt) => (
-                  <option key={opt.id} value={opt.id}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
-              {runSettings.agentCli === "gemini" ? (
-                <small className="run-settings-model-hint">
-                  {fixAgentModelOptions.length} models configured for Gemini CLI
-                </small>
-              ) : fixAgentModelOptions.length <= 3 ? (
-                <small className="run-settings-model-hint">
-                  Showing fallback list — restart test console to load all models from Cursor CLI.
-                </small>
-              ) : (
-                <small className="run-settings-model-hint">
-                  {fixAgentModelOptions.length} models from Cursor CLI (`agent --list-models`)
-                </small>
-              )}
-            </label>
-            <label className="run-settings-option run-settings-workers">
-              <span>
-                <strong>Parallel workers</strong>
-                <small>
-                  {runSettings.processPool
-                    ? "Process count (in-process pool uses TEST_PARALLEL when off)"
-                    : "In-process story pool (TEST_PARALLEL)"}
-                  {" · "}
-                  Storybook capped (STORYBOOK_PARALLEL); Figma export queued on relay
-                </small>
-              </span>
-              <input
-                type="range"
-                min={1}
-                max={maxParallelWorkers}
-                value={Math.min(runSettings.parallelWorkers, maxParallelWorkers)}
-                onChange={(e) =>
-                  void patchRunSettings({ parallelWorkers: Number(e.target.value) })
-                }
-              />
-              <output>{runSettings.parallelWorkers}</output>
-            </label>
-          </div>
-        ) : null}
-      </section>
+      <OrchestratorLaunchDialog
+        open={launchDialogOpen}
+        onClose={() => setLaunchDialogOpen(false)}
+        initialSettings={runSettings}
+        portfolio={portfolio}
+        agentModelOptions={fixAgentModelOptions}
+        maxParallelWorkers={maxParallelWorkers}
+        orchestratorRunning={isPortfolioOrchestratorRunning}
+        onLaunch={launchOrchestrator}
+      />
 
       <div className="grid">
         <div className="col-main">
@@ -1575,35 +1444,26 @@ export function App() {
           <section className="card" style={{ marginTop: 16 }}>
             <div className="portfolio-card-header">
               <h2>Test portfolio</h2>
-              <div className="console-tabs portfolio-list-tabs" role="tablist" aria-label="Portfolio source">
-                {PORTFOLIO_LIST_TABS.map((tab) => (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    role="tab"
-                    aria-selected={portfolioListTab === tab.id}
-                    className={`console-tab${portfolioListTab === tab.id ? " console-tab-active" : ""}`}
-                    onClick={() => setPortfolioListTab(tab.id)}
-                  >
-                    {tab.label}
-                  </button>
-                ))}
-              </div>
+              <button
+                type="button"
+                className="portfolio-invalidate-btn"
+                disabled={
+                  invalidatingPortfolio ||
+                  isPortfolioOrchestratorRunning ||
+                  Object.keys(runningJobs).length > 0
+                }
+                title="Remove all result.json files — every item returns to not tested"
+                onClick={() => void invalidateAllTests()}
+              >
+                {invalidatingPortfolio ? "Invalidating…" : "Invalidate all tests"}
+              </button>
             </div>
             <p style={{ marginTop: 0, color: "var(--muted)" }}>
-              {activePortfolioSource === "storybook" ? (
-                <>
-                  Storybook stories — pixel → Figma mock → Figma live → delivery → logic. Per-story
-                  results under <code>*/by-story/&lt;story&gt;/result.json</code>.
-                </>
-              ) : (
-                <>
-                  Figma Guing manifests — sequential:{" "}
-                  <strong>Manifest → Contract</strong> → <strong>Contract → Figma</strong> →{" "}
-                  <strong>Storybook</strong> → <strong>4-way (strict)</strong> →{" "}
-                  <strong>Logic</strong> (no Delivery 3-way on this track).
-                </>
-              )}
+              Unified original-parity gates — every visual step compares against{" "}
+              <strong>Original</strong> only (≤ 0.1% <code>PIXEL_PERFECT_TOLERANCE</code>):{" "}
+              <strong>→ Figma live</strong> · <strong>→ Storybook</strong> ·{" "}
+              <strong>→ ReactHtml</strong>. EntryPoint column shows Figma (Guing) vs Storybook
+              ingress.
             </p>
             {activePortfolio?.htmlUrl && (
               <p style={{ marginTop: 0 }}>
@@ -1613,45 +1473,37 @@ export function App() {
                 {activePortfolio.generatedAt && (
                   <span style={{ color: "var(--muted)", marginLeft: 12 }}>
                     {new Date(activePortfolio.generatedAt).toLocaleString()} ·{" "}
-                    {activePortfolio.storyCount}{" "}
-                    {activePortfolioSource === "figma" ? "screens" : "stories"}
+                    {activePortfolio.storyCount} items
                   </span>
                 )}
               </p>
             )}
-            {(activePortfolioSource === "storybook"
-              ? state?.reports && state.reports.length > 0
-              : activePortfolio && activePortfolio.rows.length > 0) && (
+            {activePortfolio && activePortfolio.rows.length > 0 && (
               <div className="suite-summary-col">
-                {(activePortfolioSource === "storybook"
-                  ? SUITE_SUMMARY_ORDER
-                  : FIGMA_ENTRY_STEP_ORDER
-                ).map((suiteId) => {
-                  const r = reportForSource(activePortfolioSource, suiteId, state?.reports);
+                {(activePortfolio.stepIds ?? UNIFIED_STEP_ORDER).map((suiteId) => {
                   const stepDef = activePortfolio?.steps.find((s) => s.id === suiteId);
                   const stepLabel = stepDef?.label ?? suiteId;
-                  const stepStats = suiteSummaryStats(
-                    activePortfolioSource,
-                    suiteId,
-                    activePortfolio,
-                    r
-                  );
-                  const actionId = runActionForSource(activePortfolioSource, suiteId);
-                  if (activePortfolioSource === "figma" && !actionId) {
+                  const stepStats = unifiedStepSummaryStats(activePortfolio, suiteId);
+                  const actionId =
+                    stepDef?.actionId ??
+                    (suiteId === "structural"
+                      ? null
+                      : suiteId.startsWith("vs")
+                        ? "figma:screen:parity"
+                        : "logic:golden");
+                  if (!actionId) {
                     return (
                       <div key={suiteId} className="suite-summary suite-summary-na">
                         <strong className="suite-summary-label">{stepLabel}</strong>
-                        <span className="suite-summary-empty">Coming soon</span>
+                        <span className="suite-summary-empty">Per entry point</span>
                       </div>
                     );
                   }
-                  if (!actionId) return null;
                   const failed =
                     (stepStats?.counts.fail ?? 0) + (stepStats?.counts.error ?? 0);
                   const fixAllCount =
                     suiteId === "logic" ? failed : failed + (stepStats?.counts.warn ?? 0);
                   const orchestratorRunningSuite =
-                    activePortfolioSource === "storybook" &&
                     isPortfolioOrchestratorRunning &&
                     workerSupervisor &&
                     !workerSupervisor.finished &&
@@ -1672,8 +1524,7 @@ export function App() {
                     (orchestratorRunningSuite && workerSupervisor.phase === "portfolio");
                   const fixAllJob =
                     suiteFixAllJob(suiteId) ??
-                    (activePortfolioSource === "storybook" &&
-                    orchestratorRunningSuite &&
+                    (orchestratorRunningSuite &&
                     (workerSupervisor?.phase === "fix-all" ||
                       workerSupervisor?.phase === "fix-all-batch")
                       ? portfolioOrchestratorJob()
@@ -1681,9 +1532,10 @@ export function App() {
                   const fixAllRunning = fixAllJob != null;
                   const fixAllFinished = fixAllFinishedSuites.has(suiteId);
                   const needsRelay =
-                    actionId === "figma:live:golden" || actionId === "figma:screen:golden";
-                  const fixAllNeedsRelay =
-                    activePortfolioSource === "figma" && suiteId === "contractFigma";
+                    actionId === "figma:live:golden" ||
+                    actionId === "figma:screen:parity" ||
+                    actionId === "figma:screen:golden";
+                  const fixAllNeedsRelay = suiteId.startsWith("vs");
                   const runDisabled =
                     suiteRunning ||
                     fixAllRunning ||
@@ -1696,8 +1548,7 @@ export function App() {
                     (fixAllNeedsRelay && !state?.relay.pluginConnected);
                   const suiteBusy = suiteRunning || fixAllRunning || isPortfolioOrchestratorRunning;
                   const runDisabledWithOrchestrator =
-                    runDisabled ||
-                    (activePortfolioSource === "storybook" && isPortfolioOrchestratorRunning);
+                    runDisabled || isPortfolioOrchestratorRunning;
                   const runtime = resolveSuiteRuntime(
                     fixAllJob,
                     activeJob,
@@ -1709,12 +1560,10 @@ export function App() {
                     runClock,
                     fixAllFinished || suiteFinalizing
                   );
-                  const itemCount =
-                    activePortfolio?.storyCount ??
-                    (activePortfolioSource === "figma" ? "screens" : "stories");
+                  const itemCount = activePortfolio?.storyCount ?? "items";
                   return (
                     <div
-                      key={`${activePortfolioSource}-${suiteId}`}
+                      key={`unified-${suiteId}`}
                       className={`suite-summary${suiteBusy ? " suite-summary-busy" : ""}${fixAllRunning ? " suite-summary-fixing" : ""}`}
                     >
                       <strong className="suite-summary-label">{stepLabel}</strong>
@@ -1789,7 +1638,7 @@ export function App() {
                               ? "Start Figma relay and connect the plugin first"
                               : suiteRunning && activeJob?.progress?.logTail
                                 ? activeJob.progress.logTail
-                                : `Run ${stepLabel} for all ${itemCount} ${activePortfolioSource === "figma" ? "screens" : "stories"}`
+                                : `Run ${stepLabel} for all ${itemCount} items`
                           }
                           onClick={() => void run(actionId, undefined, true)}
                         >
@@ -1807,8 +1656,7 @@ export function App() {
                             Cancel
                           </button>
                         ) : null}
-                        {activePortfolioSource === "storybook" ||
-                        activePortfolioSource === "figma" ? (
+                        {activePortfolio ? (
                           <>
                             <button
                               type="button"
@@ -1816,10 +1664,10 @@ export function App() {
                               disabled={fixAllDisabled && !fixAllFinished}
                               title={
                                 fixAllCount === 0
-                                  ? `No fail or warn ${activePortfolioSource === "figma" ? "screens" : "stories"} in this step`
+                                  ? "No fail or warn items in this step"
                                   : fixAllRunning && fixAllJob?.progress?.logTail
                                     ? fixAllJob.progress.logTail
-                                    : `Fix all ${fixAllCount} fail/warn ${activePortfolioSource === "figma" ? "screen" : "stor"}${fixAllCount === 1 ? "" : activePortfolioSource === "figma" ? "s" : "ies"} — up to 5 fix→test tries each (Terminal)`
+                                    : `Fix all ${fixAllCount} fail/warn item${fixAllCount === 1 ? "" : "s"} — up to 5 fix→test tries each (Terminal)`
                               }
                               onClick={() => void queueFixAllForCursor(suiteId)}
                             >
@@ -1854,12 +1702,15 @@ export function App() {
                   <thead>
                     <tr>
                       <th rowSpan={2} className="story-col">
-                        {activePortfolio.itemLabel ?? "Story"}
+                        {activePortfolio.entryPointLabel ?? "EntryPoint"}
+                      </th>
+                      <th rowSpan={2} className="story-col">
+                        {activePortfolio.itemLabel ?? "Item"}
                       </th>
                       {activePortfolio.steps.map((s, stepIndex) => (
                         <th
                           key={s.id}
-                          colSpan={stepColSpan(s.id, activePortfolioSource)}
+                          colSpan={stepColSpan(s.id)}
                           className={stepIndex > 0 ? "step-group-start" : undefined}
                         >
                           {s.label}
@@ -1876,10 +1727,10 @@ export function App() {
                             Status
                           </th>,
                           <th key={`${s.id}-pct`} className="subhead">
-                            {pctColumnLabel(s.id, activePortfolioSource)}
+                            {pctColumnLabel(s.id)}
                           </th>
                         ];
-                        if (stepHasCompare(s.id, activePortfolioSource)) {
+                        if (stepHasCompare(s.id)) {
                           cols.push(
                             <th key={`${s.id}-cmp`} className="subhead">
                               Compare
@@ -1892,46 +1743,47 @@ export function App() {
                   </thead>
                   <tbody>
                     {activePortfolio.rows.map((row) => {
-                      const fixSuite = fixSuiteForSourceRow(activePortfolioSource, row);
+                      const fixSuite = fixSuiteForUnifiedRow(row);
                       const fixSuiteBusy =
                         fixSuite != null ? suiteFixAllJob(fixSuite) != null : false;
                       const storyFixActive =
                         fixSuite != null &&
                         (storyFixJob(fixSuite, row.storyId) != null ||
-                          (activePortfolioSource === "storybook" &&
-                            workerSupervisor?.storyId === row.storyId &&
+                          (workerSupervisor?.storyId === row.storyId &&
                             !workerSupervisor.finished &&
                             workerSupervisor.suiteId === fixSuite));
                       const screenRunActive =
-                        activePortfolioSource === "figma" &&
+                        row.entryPoint === "figma" &&
                         fixSuite != null &&
                         Object.values(runningJobs).some(
                           (j) =>
-                            j.actionId === runActionForSource("figma", fixSuite) &&
+                            j.actionId === runActionForRow(row, fixSuite) &&
                             j.storyId === row.storyId
                         );
                       const fixOneDisabled =
                         fixSuite == null ||
                         fixSuiteBusy ||
-                        (activePortfolioSource === "storybook" &&
-                          isPortfolioOrchestratorRunning) ||
-                        (fixSuite === "figmaLive" && !state?.relay.pluginConnected) ||
-                        (fixSuite === "contractFigma" && !state?.relay.pluginConnected);
+                        isPortfolioOrchestratorRunning ||
+                        ((fixSuite === "vsFigmaLive" || fixSuite === "figmaLive") &&
+                          !state?.relay.pluginConnected);
                       const fixOneTitle =
                         fixSuite == null
                           ? "All pipeline steps pass or not yet tested"
                           : fixSuiteBusy && !storyFixActive
                             ? `${suiteLabelForFix(fixSuite)} fix already running — wait or cancel`
-                            : (fixSuite === "figmaLive" || fixSuite === "contractFigma") &&
+                            : (fixSuite === "vsFigmaLive" || fixSuite === "figmaLive") &&
                                 !state?.relay.pluginConnected
                               ? "Connect Figma relay and plugin first"
-                              : activePortfolioSource === "figma" &&
+                              : row.entryPoint === "figma" &&
                                   row.cells[fixSuite]?.status === "not_tested"
                                 ? `Run ${activePortfolio?.steps.find((s) => s.id === fixSuite)?.label ?? fixSuite}`
                                 : `Fix until PASS · ${suiteLabelForFix(fixSuite)} · up to 5 tries`;
                       const rowActionActive = storyFixActive || screenRunActive;
                       return (
-                        <tr key={row.storyId} className="portfolio-row">
+                        <tr key={`${row.entryPoint}-${row.storyId}`} className="portfolio-row">
+                          <td className="story-col">
+                            <span className="badge muted">{row.entryPoint ?? "storybook"}</span>
+                          </td>
                           <td className="story-col">
                             <div className="story-col-inner">
                               {fixSuite ? (
@@ -1940,12 +1792,14 @@ export function App() {
                                   className={`story-fix-btn${rowActionActive ? " story-fix-btn-active" : ""}`}
                                   disabled={fixOneDisabled && !rowActionActive}
                                   title={fixOneTitle}
-                                  onClick={() => void handleRowFix(fixSuite, row.storyId)}
+                                  onClick={() =>
+                                    void handleRowFix(fixSuite, row.storyId, row.entryPoint)
+                                  }
                                 >
                                   {rowActionActive
                                     ? "Running…"
-                                    : activePortfolioSource === "figma" &&
-                                        row.cells[fixSuite!]?.status === "not_tested"
+                                    : row.entryPoint === "figma" &&
+                                        row.cells[fixSuite]?.status === "not_tested"
                                       ? "Run"
                                       : "Fix"}
                                 </button>
@@ -1978,8 +1832,8 @@ export function App() {
                                 c?.percent == null
                                   ? "—"
                                   : step.id === "logic" ||
-                                      (step.id === "manifestContract" &&
-                                        activePortfolioSource === "figma")
+                                      (step.id === "structural" &&
+                                        row.entryPoint === "figma")
                                     ? String(Math.round(c.percent))
                                     : c.maxRegionPercent != null &&
                                         c.maxRegionPercent > 0.1 &&
@@ -1988,7 +1842,7 @@ export function App() {
                                       : `${c.percent.toFixed(2)}%`}
                               </td>
                             ];
-                            if (stepHasCompare(step.id, activePortfolioSource)) {
+                            if (stepHasCompare(step.id)) {
                               cols.push(
                                 <td key={`${row.storyId}-${step.id}-cmp`}>
                                   <div className="artifacts-cell">
@@ -1999,6 +1853,14 @@ export function App() {
                                     ) : (
                                       <span className="muted-artifacts">—</span>
                                     )}
+                                    {c?.testReportUrl && c.status !== "pass" && c.status !== "not_tested" ? (
+                                      <>
+                                        {" · "}
+                                        <a href={c.testReportUrl} target="_blank" rel="noreferrer">
+                                          report
+                                        </a>
+                                      </>
+                                    ) : null}
                                   </div>
                                 </td>
                               );
@@ -2013,17 +1875,8 @@ export function App() {
               </div>
             ) : (
               <p style={{ color: "var(--muted)" }}>
-                {activePortfolioSource === "storybook" ? (
-                  <>
-                    No portfolio yet. Run a test suite or{" "}
-                    <code>pnpm test:portfolio:refresh</code> after Storybook index exists.
-                  </>
-                ) : (
-                  <>
-                    No screens discovered. Export from the Guing plugin into{" "}
-                    <code>artifacts/figma-screens/*.manifest.json</code> (+ matching PNG).
-                  </>
-                )}
+                No portfolio yet. Run{" "}
+                <code>pnpm test:portfolio:refresh</code> or a parity test suite.
               </p>
             )}
           </section>

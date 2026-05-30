@@ -4,6 +4,7 @@
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { runDir, runBatchBasePath, batchReportsDir, storyBatchBasePath } from "./test-console-paths.mjs";
 
 const KNOWN_RENDERER_FILES = [
   { repoPath: "packages/figma-importer-plugin/src/code-v2.ts", label: "code-v2.ts (renderer)" },
@@ -299,9 +300,27 @@ export function formatBatchInvestigationMarkdown(payload) {
  * @param {object} payload
  */
 export function writeBatchInvestigationReport(repoRoot, jobId, batchAttempt, payload) {
-  const dir = join(repoRoot, ".test-console");
-  mkdirSync(dir, { recursive: true });
-  const base = join(dir, `fix-all-batch-${jobId}-try-${batchAttempt}`);
+  mkdirSync(runDir(repoRoot, jobId), { recursive: true });
+  const base = runBatchBasePath(repoRoot, jobId, batchAttempt);
+  const jsonPath = `${base}.json`;
+  const mdPath = `${base}.md`;
+  writeFileSync(jsonPath, JSON.stringify(payload, null, 2));
+  writeFileSync(mdPath, formatBatchInvestigationMarkdown(payload));
+  return { jsonPath, mdPath };
+}
+
+/**
+ * Write a per-story investigation report into batch-reports/<storyId>-try-<N>.
+ * Used by the agent bridge when dispatching single-story fix prompts.
+ * @param {string} repoRoot
+ * @param {string} storyId
+ * @param {number} tryN
+ * @param {object} payload
+ */
+export function writeStoryBatchReport(repoRoot, storyId, tryN, payload) {
+  mkdirSync(batchReportsDir(repoRoot), { recursive: true });
+  const slug = storyId.replace(/--/g, "-");
+  const base = storyBatchBasePath(repoRoot, slug, tryN);
   const jsonPath = `${base}.json`;
   const mdPath = `${base}.md`;
   writeFileSync(jsonPath, JSON.stringify(payload, null, 2));

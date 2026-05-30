@@ -17,7 +17,10 @@ import {
   updateAgentStatus,
   fixerAgentIdForSuite,
   loadFleetAgents,
-  buildFleetAgentView
+  buildFleetAgentView,
+  computeAgentActivity24h,
+  computeAgentRuntimeMs24h,
+  formatRuntimeMs
 } from "./lab-worker-supervisor.mjs";
 import { appendTestInvestigation } from "./lab-memory-vault.mjs";
 
@@ -157,6 +160,46 @@ describe("lab-worker-supervisor fleet", () => {
     assert.equal(duplicates.length, 1);
     assert.equal(duplicates[0].storyId, "screen_1");
     assert.deepEqual(duplicates[0].agentIds.sort(), ["investigator", "live-figma-fixer"]);
+  });
+
+  it("sums agent runtime within the last 24 hours from assign/complete pairs", () => {
+    const now = Date.parse("2026-05-30T12:00:00.000Z");
+    const events = [
+      {
+        type: "orchestrator.assign",
+        at: "2026-05-30T11:00:00.000Z",
+        agentId: "investigator",
+        jobId: "job-a",
+        storyId: "screen_1",
+        suiteId: "vsFigmaLive",
+        attempt: 1
+      },
+      {
+        type: "agent.complete",
+        at: "2026-05-30T11:10:00.000Z",
+        agentId: "investigator",
+        jobId: "job-a",
+        storyId: "screen_1",
+        suiteId: "vsFigmaLive",
+        attempt: 1
+      },
+      {
+        type: "orchestrator.assign",
+        at: "2026-05-30T11:30:00.000Z",
+        agentId: "investigator",
+        jobId: "job-b",
+        storyId: "screen_2",
+        suiteId: "vsFigmaLive",
+        attempt: 1
+      }
+    ];
+
+    const { runtimeMs, launchCount } = computeAgentActivity24h(events, now);
+
+    assert.equal(runtimeMs.get("investigator"), 10 * 60 * 1000 + 30 * 60 * 1000);
+    assert.equal(formatRuntimeMs(runtimeMs.get("investigator")), "40m");
+    assert.equal(launchCount.get("investigator"), 2);
+    assert.equal(computeAgentRuntimeMs24h(events, now).get("investigator"), runtimeMs.get("investigator"));
   });
 
   it("aggregates active workers into one roster row and dedupes stale repeated tasks", () => {

@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "meta": {
     "componentName": "Frame 2147225681",
-    "extractedAt": "2026-05-27T09:27:50.668Z",
+    "extractedAt": "2026-05-30T10:46:14.690Z",
     "viewport": {
       "x": 0,
       "y": 0,
@@ -4371,10 +4371,7 @@
                                     "figmaNodeType": "TEXT",
                                     "figmaTextAutoResize": "WIDTH_AND_HEIGHT",
                                     "figmaFontFamily": "Open Sans",
-                                    "figmaFontStyle": "SemiBold",
-                                    "figmaReferenceRaster": "text",
-                                    "figmaReferenceAbsX": "109",
-                                    "figmaReferenceAbsY": "16"
+                                    "figmaFontStyle": "SemiBold"
                                   }
                                 },
                                 "box": {
@@ -4383,6 +4380,21 @@
                                   "width": 70,
                                   "height": 11
                                 },
+                                "text": {
+                                  "value": "שם משתמש:",
+                                  "font": {
+                                    "family": "Open Sans",
+                                    "size": 12,
+                                    "weight": 600,
+                                    "style": "normal"
+                                  },
+                                  "color": "#7c88a6",
+                                  "align": "right",
+                                  "verticalAlign": "top",
+                                  "letterSpacing": 0.5,
+                                  "lineHeight": 10.8,
+                                  "direction": "rtl"
+                                },
                                 "layout": {
                                   "display": "block",
                                   "position": "absolute",
@@ -4390,10 +4402,6 @@
                                     "x": "visible",
                                     "y": "visible"
                                   }
-                                },
-                                "image": {
-                                  "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEYAAAALCAYAAADC6Ps2AAADLElEQVR4Ae3BsWsbZxjA4Z9FTt/5jO40+LBjC19I7Bh5kDXEdhYrS1wotFPGduna/6djoYOhQ2kWFzqoHewMwa2hrQQWiMpwQpIVn4a7E7rq0xVcv6UCQxVoQ0Y/z1yS6Gvu/EuGOzNluDNThjszZbgz0z1mqB7X8AqLPH60QrPVoz8Iqext4XcDauc+Hx88IYoTTk7PqextUWv4hPGIZTfPTnmdqZ9//Z1+EDJlKoNS0WPJzSOarR79QUhlb4soTjg5PeeDyjZKGRxVz9gtr7Pk5qke1/AKi4wnKX4nwFQGu+UNHNtillrDx+8ETJnKYLe8gWNbiOpxDa+wyONHK9QaPlpP2Clv4HcDmq1LDiolMtyI4oSj6hlapwi/d4XfDRDNix7tzgBxFYS0uwHCsS3anQFffPU9Yz3BVAbVk994dXrOlFIG9YbPHLDsOmid8uXXP+J3AkQ0HFFv+IhwOKLe8BFjnVJv+IwnKX+bu+bohzNq5z5526LZuuTw5TFv0+4EtLsBXsFl2XVoti45fHnMVPOix5tBiGh3AtqdAaLdCWh3A0SGG/1BSL3h0x+ECMe20DpF/DGZkLctxFinOLkFbtspr3NQ2eagsk2p6NG8uGSqVPQQa4VFdsobfHTwBBENRwilskRxghjrFKGUQRSPEHl7AWEqA1MZfPqiwv7eFs+flYjihGiY8DZOboFS0WOnvMHzZyWiOCEaJgjHtojiBBHGCbZtIcY6RWUNRIYbmw9X+PyzD/FWXcR8NovWKeLqKmat4CKiOOG28WTCkusw5dgWYz3hv1LKQGid0mz1WFt1EeNJinByFiKKE5zcAlOmMvg/TGVwW962EFqnvBmELLl5RDgcMa8MRIZ/5HMWU45t0R+EHH57AnPXeKsuIowTllyHKa1TzGyWd5XPWYij6hn1hs9ueR1xFYQ4tsVUGCfMK4P3RSkDvxvwzXevMZXB5sMVhB7/iW1biHvMYCoDrVM2y/cpFR+glEEUJ7S7AftPi4goThDKNHhXpsoiHNvikxcVvFUX8dMvLbyCy222bfG+mMpA65TN8n1KxQcoZRDFCe1uwP7TIuIv2qNYdUD8fHYAAAAASUVORK5CYII=",
-                                  "mode": "fill"
                                 }
                               },
                               {

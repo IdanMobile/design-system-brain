@@ -11,6 +11,8 @@ import {
   classifyWrongFiles,
   diffWorkspaceSnapshots,
   evaluateAttempt,
+  investigatorGateAllowsFixer,
+  workerModeInstructions,
   touchedSharedAdapter
 } from "./test-console-worker-supervisor.mjs";
 
@@ -117,5 +119,48 @@ describe("evaluateAttempt", () => {
       filesChanged: ["packages/figma-importer-plugin/src/code-v2.ts"]
     });
     assert.ok(r.tierCRequired);
+  });
+
+  it("escalates to orchestrator review after repeated ineffective attempts", () => {
+    const r = evaluateAttempt({
+      ...base,
+      attempt: 3,
+      afterTest: { status: "fail", percent: 0.5, maxRegionPercent: 1.2 },
+      priorRuns: [
+        { evaluation: { verdict: "STUCK_LOOP" }, afterTest: { percent: 0.5, maxRegionPercent: 1.2 } },
+        { evaluation: { verdict: "NO_ADAPTER_EDIT" }, afterTest: { percent: 0.5, maxRegionPercent: 1.2 } }
+      ]
+    });
+
+    assert.equal(r.nextWorkerMode, "orchestrator_review");
+    assert.match(r.interventionLines.join("\n"), /orchestrator review/i);
+  });
+
+  it("investigator gate blocks without lab-memory", () => {
+    const gate = investigatorGateAllowsFixer("/tmp/nonexistent-repo", "lab-x--default", "pixel", {
+      skipGate: false
+    });
+    assert.equal(gate.allowed, false);
+    assert.equal(gate.reason, "investigator_required");
+  });
+
+  it("investigator gate skips when env set", () => {
+    const prev = process.env.FIX_ALL_SKIP_INVESTIGATOR_GATE;
+    process.env.FIX_ALL_SKIP_INVESTIGATOR_GATE = "1";
+    try {
+      const gate = investigatorGateAllowsFixer("/tmp", "lab-x--default", "pixel");
+      assert.equal(gate.allowed, true);
+      assert.equal(gate.reason, "gate_skipped");
+    } finally {
+      if (prev === undefined) delete process.env.FIX_ALL_SKIP_INVESTIGATOR_GATE;
+      else process.env.FIX_ALL_SKIP_INVESTIGATOR_GATE = prev;
+    }
+  });
+});
+
+describe("workerModeInstructions", () => {
+  it("explains orchestrator review mode", () => {
+    const lines = workerModeInstructions("orchestrator_review");
+    assert.ok(lines.join("\n").includes("ORCHESTRATOR REVIEW"));
   });
 });

@@ -17,7 +17,8 @@ import {
 } from "./lab-memory-vault.mjs";
 import {
   buildBatchInvestigationPayload,
-  writeBatchInvestigationReport
+  writeBatchInvestigationReport,
+  writeStoryBatchReport
 } from "./fix-all-batch-report.mjs";
 import {
   buildFigmaEntryFixPromptLines,
@@ -27,6 +28,11 @@ import {
   findFigmaEntryFailingScreens,
   isFigmaEntryFixSuite
 } from "./figma-entry-fix.mjs";
+import {
+  fixPromptFromTestReport,
+  loadTestReport,
+  figmaScreenTestReportPath
+} from "./test-report-build.mjs";
 
 /** @type {Array<{ resolve: (msg: object) => void, timer: ReturnType<typeof setTimeout> }>} */
 const waiters = [];
@@ -345,7 +351,10 @@ export function initAgentBridge(repoRoot) {
         sceneJsonPath: row.sceneJsonPath ?? join(repoRoot, relBase, "scene.json"),
         worstRegionCompare: worstRegion?.compare
           ? join(repoRoot, relBase, worstRegion.compare)
-          : join(repoRoot, relBase, compareRel)
+          : join(repoRoot, relBase, compareRel),
+        testReportPath:
+          row.testReportPath ??
+          join(repoRoot, cfg.dir, "by-story", safeSegment(storyId), "test-report.json")
       }
     };
   }
@@ -417,7 +426,41 @@ export function initAgentBridge(repoRoot) {
     return lines;
   }
 
+  function resolveStoryTestReport(story, suiteId) {
+    const explicit = story.paths?.testReportPath ?? story.testReportPath;
+    if (explicit) return loadTestReport(explicit);
+    if (isFigmaEntryFixSuite(suiteId ?? story.stepId ?? story.suiteId)) {
+      const stepId = story.stepId ?? story.suiteId;
+      const p = figmaScreenTestReportPath(repoRoot, story.storyId, stepId);
+      return loadTestReport(p);
+    }
+    const cfg = { pixel: "pixel-diffs", figma: "figma-diffs", figmaLive: "figma-live-diffs", delivery: "delivery-diffs" }[
+      suiteId
+    ];
+    if (cfg) {
+      const seg = story.storyId.replace(/[<>:"/\\|?*]/g, "-");
+      return loadTestReport(join(repoRoot, cfg, "by-story", seg, "test-report.json"));
+    }
+    return null;
+  }
+
   function buildCursorPrompt(worst, mode, extra = "") {
+    const report = resolveStoryTestReport(worst, worst.suiteId ?? worst.stepId);
+    if (report) {
+      const entryMode =
+        report.failedTest?.testId === "vsFigmaLive" || report.failedTest?.testId === "figmaLive"
+          ? "live"
+          : mode;
+      return [
+        fixPromptFromTestReport(report, extra),
+        "",
+        ...skillFollowLines(entryMode === "live" ? "live" : mode === "pixel" ? "pixel" : "emulator", {
+          suiteId: worst.suiteId ?? worst.stepId,
+          storyId: worst.storyId
+        }),
+        ...labMemoryHintLines(repoRoot, worst.storyId, mode, worst.suiteId)
+      ].join("\n");
+    }
     if (isFigmaEntryFixSuite(worst.suiteId ?? worst.stepId)) {
       const stepId = worst.stepId ?? worst.suiteId;
       const lines = buildFigmaEntryFixPromptLines(worst, stepId, extra);
@@ -637,7 +680,26 @@ export function initAgentBridge(repoRoot) {
                 "── Supervisor mode: WRONG STEP ──",
                 "Fix the earliest failing pipeline step for this story; do not optimize later steps yet."
               ]
-            : [];
+            : workerMode === "tier_c_required"
+              ? [
+                  "",
+                  "── Supervisor mode: TIER C VERIFICATION ──",
+                  "A shared adapter (render-html.ts / extract.ts) was already edited in a prior attempt.",
+                  "DO NOT re-read render-html.ts or re-investigate the issue.",
+                  "ONLY run: pnpm --filter @lab/pixel-test test:golden -- --stories " +
+                    (story?.storyId ?? "<storyId>"),
+                  "If the test exits 0 (PASS or WARN acceptable), write a one-line note in lab-memory and stop.",
+                  "If it fails, make ONE targeted fix to render-html.ts based on what was already changed — do not read the whole file."
+                ]
+              : workerMode === "orchestrator_review"
+                ? [
+                    "",
+                    "── Supervisor mode: ORCHESTRATOR REVIEW ──",
+                    "Previous fixer attempts failed to move the item. Do NOT repeat the same patch loop.",
+                    "First write a concise failure analysis: failed hypotheses, files changed, unchanged metrics, and the next concrete fix area.",
+                    "Only edit code if that analysis names one specific code path and one expected metric movement."
+                  ]
+              : [];
     const supervisorLines = supervisor?.interventionLines?.length
       ? [
           "",
@@ -656,9 +718,9 @@ export function initAgentBridge(repoRoot) {
         tolerance: story.tolerance ?? 0.1,
         regionTolerance: story.regionTolerance ?? 0.1
       });
-      const reportPaths = writeBatchInvestigationReport(
+      const reportPaths = writeStoryBatchReport(
         repoRoot,
-        `story-${story.storyId.replace(/--/g, "-")}`,
+        story.storyId,
         attempt,
         payload
       );
@@ -685,6 +747,26 @@ export function initAgentBridge(repoRoot) {
       "Goal: PASS on the next automated test (global + hotspot tolerance). WARN/FAIL triggers another attempt.",
       "Do not run the full suite golden yourself — only edit code and rebuild plugin if you changed code-v2.ts.",
       ...formatFixAllRetryContext(retry, maxTries, story)
+    ].join("\n");
+    return buildCursorPrompt(story, mode, extra);
+  }
+
+  function buildInvestigatorOnlyPrompt(story, mode, suiteId, attempt, maxTries) {
+    const vaultSuite = vaultSuiteIdForMode(mode, suiteId);
+    const extra = [
+      `Investigation-only — ${story.storyId} (attempt ${attempt}/${maxTries}).`,
+      "",
+      "## HARD GATE: fixer blocked until this pass completes",
+      "Do NOT edit adapter code (render-html.ts, extract.ts, code-v2.ts, @lab/ui) in this session.",
+      "Read compare PNG, artifact JSON, and linked lab-memory patterns.",
+      "Append to lab-memory with ### Root cause and ### Recommended fix area filled (remove <!-- pending).",
+      "The harness dispatches a separate fixer agent only after investigation is complete.",
+      ...sourceVsRendererTriageLines(mode, story),
+      ...labMemoryHintLines(repoRoot, story.storyId, mode, suiteId),
+      "",
+      `Read ${SKILL_INVESTIGATE} — diagnose ONLY (systematic-debugging before any edit).`,
+      `Read ${SKILLS.labMemoryRule}`,
+      "After diagnosis: append lab-memory/templates/investigation.md sections to the story note."
     ].join("\n");
     return buildCursorPrompt(story, mode, extra);
   }
@@ -786,6 +868,7 @@ export function initAgentBridge(repoRoot) {
       return story;
     },
     buildFixAllStoryPrompt,
+    buildInvestigatorOnlyPrompt,
     buildFixAllBatchPrompt,
     buildAgentContext(suites, summarizeReport, safeSegment) {
       const unread = loadInbox().filter((m) => !m.read);
@@ -859,10 +942,10 @@ export function initAgentBridge(repoRoot) {
         "pixel:golden": "pixel",
         "delivery:golden": "delivery",
         "logic:golden": "logic",
-        "figma:screen:golden": "contractFigma",
+        "figma:screen:parity": "vsFigmaLive",
+        "figma:screen:golden": "vsFigmaLive",
         "figma:screen:manifest": "manifestContract",
-        "figma:screen:storybook": "storybook",
-        "figma:screen:four-way": "fourWay",
+        "figma:screen:four-way": "vsFigmaLive",
         "figma:screen:logic": "logic"
       };
       const suiteId = testSuiteMap[actionId];

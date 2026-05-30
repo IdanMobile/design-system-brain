@@ -1,0 +1,29 @@
+{
+  "jobId": "7d76976a-724b-44a4-9c92-4c6b13189856",
+  "storyId": "lab-muiworkspacescreen--default",
+  "phase": "fixer",
+  "attempt": 2,
+  "recordedAt": "2026-05-30T10:44:20.755Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "status": "failed",
+  "agentExitCode": 1,
+  "filesChanged": [
+    ".test-console/agent-prompts/agent-lab-muiworkspacescreen--default_fix-2-1780137854133.prompt.txt",
+    ".test-console/child-status/7d76976a-724b-44a4-9c92-4c6b13189856-agent-lab-muiworkspacescreen--default_fix-2-1780137854133.json",
+    ".test-console/fleet/agents.json",
+    ".test-console/fleet/events.jsonl",
+    ".test-console/orchestrator-auto.json",
+    ".test-console/orchestrator-logs/2026-05-30_13-44-11_7379374c.log",
+    ".test-console/orchestrator-state.json",
+    ".test-console/runs/7379374c-d397-4130-ae0e-2f2fe6dd7a02/kill",
+    "packages/test-console/src/App.tsx",
+    "packages/test-console/src/OrchestratorLaunchDialog.tsx",
+    "packages/test-console/src/types.ts"
+  ],
+  "workerMode": "narrow_scope",
+  "usageBlocked": false,
+  "watchdogTripped": false,
+  "watchdogReason": null,
+  "editCount": 0
+}

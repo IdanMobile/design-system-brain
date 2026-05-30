@@ -40,8 +40,9 @@ export interface PortfolioStep {
   id: string;
   label: string;
   dir: string;
-  actionId: string;
+  actionId?: string | null;
   serialOnly?: boolean;
+  needsRelay?: boolean;
 }
 
 export interface PortfolioCell {
@@ -51,6 +52,7 @@ export interface PortfolioCell {
   testedAt?: string | null;
   action: string;
   compareUrl?: string | null;
+  testReportUrl?: string | null;
   canRun?: boolean;
   blockedBy?: string | null;
   blockedReason?: string | null;
@@ -58,6 +60,7 @@ export interface PortfolioCell {
 
 export interface PortfolioRow {
   storyId: string;
+  entryPoint?: "figma" | "storybook";
   storybookOnly?: boolean;
   cells: Record<string, PortfolioCell>;
 }
@@ -69,9 +72,10 @@ export interface PortfolioState {
   stepIds: string[];
   rows: PortfolioRow[];
   htmlUrl?: string;
-  /** storybook (default) or figma manifest entry point */
-  source?: "storybook" | "figma";
-  /** First column header — Story vs Screen */
+  /** @deprecated use entryPoint on rows */
+  source?: "storybook" | "figma" | "unified";
+  entryPointLabel?: string;
+  /** First column header — Item id */
   itemLabel?: string;
 }
 
@@ -121,6 +125,7 @@ export interface JobInfo {
   exitCode: number | null;
   startedAt: string;
   endedAt?: string;
+  logFile?: string | null;
 }
 
 export interface AgentMessage {
@@ -155,6 +160,10 @@ export interface WorkerSupervisorState {
   tierCRequired?: boolean;
   finished?: boolean;
   summary?: string;
+  exitReason?: "COMPLETE" | "HUMAN_ACTION" | "STUCK" | string;
+  humanAction?: string | null;
+  humanTitle?: string | null;
+  humanMessage?: string | null;
   metrics?: { status?: string; percent?: number; maxRegionPercent?: number | null };
 }
 
@@ -180,7 +189,10 @@ export interface ConsoleState {
   jobs: JobInfo[];
 }
 
-/** Run-all speed toggles + fix-agent model. Fix-all uses batch mode for 2+ stories. */
+/** Run-all speed toggles + orchestrator launch options. */
+export type OrchestratorScope = "full" | "failures_only" | "fresh_only" | "single_step";
+export type OrchestratorSort = "step_first" | "worst_first" | "flow_first";
+
 export interface RunSettings {
   skipPass: boolean;
   onlyNotTested: boolean;
@@ -191,6 +203,13 @@ export interface RunSettings {
   agentCli?: string;
   devAgentModel?: string;
   devAgentCli?: string;
+  scope?: OrchestratorScope;
+  singleStepId?: string | null;
+  sortBy?: OrchestratorSort;
+  maxFixRoundsPerStep?: number;
+  maxAutoRetriesWhenStuck?: number;
+  maxAgentCallsPerLaunch?: number;
+  launchAutoMode?: boolean;
 }
 
 export interface AgentModelOption {
@@ -321,12 +340,12 @@ export interface ArchitectureConsoleState {
   agentModelOptions?: AgentModelOption[];
 }
 
-export interface FleetTask {
+export interface FleetAgentTask {
   jobId?: string;
   storyId?: string;
   suiteId?: string;
   attempt?: number;
-  phase?: string;
+  phase?: "investigator" | "fixer" | "verify" | string;
   parallelCount?: number;
   stories?: string[];
   steps?: string[];
@@ -335,55 +354,68 @@ export interface FleetTask {
 export interface FleetAgent {
   id: string;
   baseAgentId?: string;
-  purpose?: string;
-  capabilities?: string[];
-  status?: string;
-  workerNode?: string;
-  since?: string;
-  currentTask?: FleetTask | null;
-  activeTasks?: FleetTask[];
+  purpose: string;
+  capabilities: string[];
+  status: "idle" | "working" | "failed" | string;
+  workerNode: string;
+  since: string;
+  currentTask: FleetAgentTask | null;
   workerCount?: number;
-  cli?: string;
+  activeTasks?: FleetAgentTask[];
+  runCount?: number;
+  runtimeMs24h?: number;
+  runtimeLabel24h?: string;
+  launches24h?: number;
   model?: string;
+  cli?: string;
 }
 
 export interface FleetEvent {
   type: string;
-  at?: string;
+  at: string;
+  nodeId?: string;
   agentId?: string;
+  jobId?: string;
   storyId?: string;
   suiteId?: string;
   attempt?: number;
   phase?: string;
+  parallelCount?: number;
+  stories?: string[];
+  steps?: string[];
   status?: string;
-  jobId?: string;
+  investigationComplete?: boolean;
+}
+
+export interface FleetSupervisorState {
+  pid?: number;
+  nodeId?: string;
+  lastHeartbeat?: string;
+  orchestratorPhase?: string | null;
+  orchestratorVerdict?: string | null;
+  orchestratorJobId?: string | null;
+  startedAt?: string;
 }
 
 export interface FleetState {
   generatedAt?: string;
-  orchestratorRunning?: boolean;
+  updatedAt?: string;
+  supervisor: FleetSupervisorState | null;
+  orchestrator: WorkerSupervisorState | null;
   orchestratorAuto?: boolean;
-  runSettings?: RunSettings;
-  orchestrator?: WorkerSupervisorState | null;
-  supervisor?: {
-    lastHeartbeat?: string;
-    orchestratorPhase?: string | null;
-    orchestratorVerdict?: string | null;
-    orchestratorJobId?: string | null;
-  } | null;
-  agents?: FleetAgent[];
-  recentEvents?: FleetEvent[];
-  stats?: {
-    routes?: number;
-    completes?: number;
-    working?: number;
-    waiting?: number;
+  orchestratorRunning?: boolean;
+  agents: FleetAgent[];
+  recentEvents: FleetEvent[];
+  runSettings: {
+    agentModel: string;
+    agentCli: string;
+    parallelWorkers?: number;
   };
-  runningJobs?: Array<{
-    id: string;
-    label?: string;
-    status?: string;
-    action?: string;
-    story?: string | null;
-  }>;
+  runningJobs: JobInfo[];
+  stats: {
+    routes: number;
+    completes: number;
+    working: number;
+    waiting: number;
+  };
 }

@@ -1,0 +1,23 @@
+{
+  "jobId": "7d76976a-724b-44a4-9c92-4c6b13189856",
+  "storyId": "lab-spacemissioncontrol--default",
+  "phase": "fixer",
+  "attempt": 2,
+  "recordedAt": "2026-05-30T10:43:57.297Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "status": "failed",
+  "agentExitCode": 1,
+  "filesChanged": [
+    ".test-console/agent-prompts/agent-lab-spacemissioncontrol--default_fix-2-1780137829491.prompt.txt",
+    ".test-console/child-status/7d76976a-724b-44a4-9c92-4c6b13189856-agent-lab-spacemissioncontrol--default_fix-2-1780137829491.json",
+    ".test-console/fleet/agents.json",
+    ".test-console/fleet/events.jsonl",
+    ".test-console/orchestrator-logs/2026-05-30_13-43-03_7d76976a.log"
+  ],
+  "workerMode": "narrow_scope",
+  "usageBlocked": false,
+  "watchdogTripped": false,
+  "watchdogReason": null,
+  "editCount": 0
+}

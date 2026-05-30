@@ -1,0 +1,43 @@
+# Orchestrator session log
+# Job:     7379374c-d397-4130-ae0e-2f2fe6dd7a02
+# Started: 2026-05-30T10:44:11.386Z
+# Scope:   auto (run until complete)
+# Items:   55
+#
+[portfolio] Launch session — unified portfolio until complete or human action
+[portfolio] Steps: structural → Figma live → Storybook → ReactHtml → logic
+[portfolio] Launching supervisor in Terminal (≤5 fix→test tries per item)…
+[portfolio] Unified supervisor — strict 0.1% · structural → vsFigmaLive → vsStorybook → vsReactHtml → logic
+[portfolio] Scope: failures_only · sort: step_first
+[portfolio] Safety — fix rounds/step ≤10, auto-retries ≤3, agent calls ≤100
+[portfolio] Launch mode — runs until complete, stuck, or human action; rescans when green.
+
+[portfolio] Current state (57 items):
+  ○ Structural (57 items): 54 pass, 3 fail/warn
+  ○ → Figma live (57 items): 1 pass, 10 fail/warn, 4 not tested, 42 blocked
+  ○ → Storybook (57 items): 5 pass, 1 fail/warn, 51 blocked
+  ○ → ReactHtml (57 items): 1 pass, 1 fail/warn, 3 not tested, 52 blocked
+  ✓ Logic audit
+
+
+[portfolio] ══ Next: Structural ══
+[portfolio] Structural (57 items): 54 pass, 3 fail/warn
+[portfolio] Fix round 1 · Pixel (schema) · 3 items
+[fix-all] Serial mode (default): up to 5 fix→test cycles per story across 3 stories (Pixel (schema))
+[fix-all] Worker supervisor ON — observes git diff + metrics, steers stuck agents.
+[fix-all] Investigator gate ON — fixer blocked until lab-memory root cause is filled (set FIX_ALL_SKIP_INVESTIGATOR_GATE=1 to bypass).
+[fix-all] Supervisor stays in this tab; child Terminal tabs open for agents, builds, and tests.
+[fix-all] Legacy batch mode is opt-in: set FIX_ALL_BATCH=1.
+[fix-all] 1/3 lab-retroterminalscreen--default attempt 1/5 (fail 5.49%) — agent fix…
+[fix-all] 1/3 lab-retroterminalscreen--default attempt 1 — using cached investigation (- `render-html.ts`: glow gradient stop parity (`gradientStopColor`), optional sub-pixel pre metrics; **not** root/section class allowlists — see [[visual/patterns/render-html-layer-class-allowlist-regression]].)
+[orchestrator] Opening agent terminal → lab-retroterminalscreen--default:fix-1 (model: composer-2.5-fast)
+[orchestrator] Headless agent — lab-retroterminalscreen--default:fix-1 (model: composer-2.5-fast)
+[agent:lab-retroterminalscreen--default:fix-1] Prompt preview:
+run until pass
+
+Worst story: lab-retroterminalscreen--default (5.49% global, fail, Pixel (schema))
+Compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/regions/region-01-compare.png
+Storybook: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/storybook.png
+Rendered: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/rendered.png
+…
+[agent:lab-retroterminalscreen--default:fix-1] ▶ agent -p --force --trust --output-format…

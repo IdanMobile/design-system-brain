@@ -99,15 +99,36 @@ export const ACTION_META = {
     phase: "test",
     order: 12.7
   },
-  "figma:screen:four-way": {
-    label: "4-way (strict)",
+  "figma:screen:parity": {
+    label: "Original parity",
     description:
-      "Original PNG · Figma live · Storybook @lab/ui · honest React HTML — strict 0.1%",
-    whenHint: "Step 4 — catches Storybook↔Figma gaps the residual Storybook step hides",
-    when: "After Storybook step",
-    output: "figma-screen-diffs/*/fourWay/report.html",
+      "Original → Figma live · Storybook · ReactHtml — strict PIXEL_PERFECT_TOLERANCE (0.1%)",
+    whenHint: "After Manifest → Contract — three legs vs Guing PNG only",
+    when: "Figma entry visual gate",
+    output: "figma-screen-diffs/*/originalParity/report.html",
     phase: "test",
-    order: 12.8
+    order: 12.5,
+    needsRelay: true
+  },
+  "parity:storybook": {
+    label: "Storybook original parity",
+    description: "Golden storybook.png → Figma live · Storybook · ReactHtml",
+    whenHint: "After pixel golden — storybook entry visual legs",
+    when: "Storybook entry visual gate",
+    output: "storybook-parity-diffs/by-story/*/",
+    phase: "test",
+    order: 12.55,
+    needsRelay: false
+  },
+  "figma:screen:four-way": {
+    label: "Original parity (alias)",
+    description: "Alias for figma:screen:parity",
+    whenHint: "Deprecated — use figma:screen:parity",
+    when: "Figma entry visual gate",
+    output: "figma-screen-diffs/*/originalParity/report.html",
+    phase: "test",
+    order: 12.8,
+    needsRelay: true
   },
   "figma:screen:logic": {
     label: "Logic audit",

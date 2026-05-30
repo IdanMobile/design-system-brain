@@ -10,23 +10,23 @@
       "actionId": "figma:screen:manifest"
     },
     {
-      "id": "contractFigma",
-      "label": "Contract → Figma",
+      "id": "vsFigmaLive",
+      "label": "→ Figma live",
       "dir": "figma-screen-diffs",
-      "actionId": "figma:screen:golden",
+      "actionId": "figma:screen:parity",
       "needsRelay": true
     },
     {
-      "id": "storybook",
-      "label": "Storybook",
+      "id": "vsStorybook",
+      "label": "→ Storybook",
       "dir": "figma-screen-diffs",
-      "actionId": "figma:screen:storybook"
+      "actionId": "figma:screen:parity"
     },
     {
-      "id": "fourWay",
-      "label": "4-way (strict)",
+      "id": "vsReactHtml",
+      "label": "→ ReactHtml",
       "dir": "figma-screen-diffs",
-      "actionId": "figma:screen:four-way"
+      "actionId": "figma:screen:parity"
     },
     {
       "id": "logic",
@@ -37,9 +37,9 @@
   ],
   "stepIds": [
     "manifestContract",
-    "contractFigma",
-    "storybook",
-    "fourWay",
+    "vsFigmaLive",
+    "vsStorybook",
+    "vsReactHtml",
     "logic"
   ],
   "screens": [

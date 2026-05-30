@@ -22,6 +22,7 @@ import { runPortfolioGolden } from "./test-console-portfolio-orchestrator.mjs";
 import { loadOrchestratorAuto } from "./test-console-orchestrator-auto.mjs";
 import { skillFollowLines } from "./test-console-agent-bridge.mjs";
 import { api } from "./test-console-api.mjs";
+import { runKillPath } from "./test-console-paths.mjs";
 import {
   ROOT,
   hasCursorAgent,
@@ -332,7 +333,7 @@ export function openTerminalRunFixAll(jobId) {
   if (forceSerial) envParts.push("FIX_ALL_SERIAL=1");
   const prefix = envParts.length ? `${envParts.join(" ")} ` : "";
   openTerminal(`${prefix}node scripts/test-console-cursor.mjs run-fix-all ${jobId}`, ROOT, {
-    keepOpen: true,
+    keepOpen: false,
     tabTitle: `Fix all · ${jobId.slice(0, 8)}`
   });
 }
@@ -340,13 +341,13 @@ export function openTerminalRunFixAll(jobId) {
 /** Portfolio golden-path orchestrator — persistent supervisor tab. */
 export function openTerminalRunPortfolioOrchestrator(jobId) {
   openTerminal(`node scripts/test-console-cursor.mjs run-portfolio-orchestrator ${jobId}`, ROOT, {
-    keepOpen: true,
+    keepOpen: false,
     tabTitle: `Orchestrator · ${jobId.slice(0, 8)}`
   });
 }
 
 function fixAllKillFlagPath(jobId) {
-  return resolve(ROOT, ".test-console", `fix-all-${jobId}.kill`);
+  return runKillPath(ROOT, jobId);
 }
 
 export { fixAllKillFlagPath };
@@ -433,7 +434,7 @@ export async function runFixAllJob(jobId) {
 }
 
 function portfolioKillFlagPath(jobId) {
-  return resolve(ROOT, ".test-console", `portfolio-orchestrator-${jobId}.kill`);
+  return runKillPath(ROOT, jobId);
 }
 
 /**
@@ -530,7 +531,8 @@ export async function watchJobTerminal(jobId) {
   }
   const action = initial?.action ? String(initial.action) : "";
   if (action.startsWith("fix-all:")) {
-    const promptPath = resolve(ROOT, ".test-console", `fix-all-${jobId}.prompt.txt`);
+    const { runPromptPath } = await import("./test-console-paths.mjs");
+    const promptPath = runPromptPath(ROOT, jobId);
     const logs = String(initial?.logs ?? "");
     if (existsSync(promptPath)) {
       console.log("[cursor] Fix-all: running agent in this terminal (run-fix-all)…\n");

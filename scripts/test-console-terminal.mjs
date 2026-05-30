@@ -141,7 +141,8 @@ export function killOrchestratorJobProcesses(job, opts = {}) {
  * @param {string} command One shell command line (already safe for the target shell).
  * @param {string} [cwd]
  * @param {{ keepOpen?: boolean, tabTitle?: string, focus?: boolean }} [options]
- *   keepOpen — leave the shell running after the command (orchestrator tabs)
+ *   keepOpen — leave the shell running after the command (long-running services)
+ * @returns {boolean} false when the OS terminal could not be opened
  */
 export function openTerminal(command, cwd = ROOT, { keepOpen = false, tabTitle, focus } = {}) {
   const platform = process.platform;
@@ -160,8 +161,20 @@ export function openTerminal(command, cwd = ROOT, { keepOpen = false, tabTitle, 
     ]
       .filter(Boolean)
       .join("\n");
-    spawn("osascript", ["-e", script], { detached: true, stdio: "ignore" }).unref();
-    return;
+    const result = spawnSync("osascript", ["-e", script], { encoding: "utf8", timeout: 5_000 });
+    if (result.status !== 0) {
+      const detail = (result.stderr || result.stdout || "").trim();
+      console.warn(
+        "[terminal] Could not open Terminal.app tab:",
+        detail || `exit ${result.status ?? "unknown"}`
+      );
+      console.warn(
+        "[terminal] Grant Automation for Terminal in System Settings → Privacy & Security, or run manually:",
+        line
+      );
+      return false;
+    }
+    return true;
   }
 
   if (platform === "win32") {
@@ -170,7 +183,7 @@ export function openTerminal(command, cwd = ROOT, { keepOpen = false, tabTitle, 
       detached: true,
       stdio: "ignore"
     }).unref();
-    return;
+    return true;
   }
 
   const bashLine = keepOpen ? `${line}; exec bash` : line;
@@ -181,10 +194,11 @@ export function openTerminal(command, cwd = ROOT, { keepOpen = false, tabTitle, 
   ]) {
     try {
       spawn(bin, args, { detached: true, stdio: "ignore" }).unref();
-      return;
+      return true;
     } catch {
       /* try next */
     }
   }
   console.warn("[terminal] No graphical terminal found — run manually:", command);
+  return false;
 }

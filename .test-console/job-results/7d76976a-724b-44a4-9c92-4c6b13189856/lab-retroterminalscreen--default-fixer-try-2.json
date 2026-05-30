@@ -1,0 +1,32 @@
+{
+  "jobId": "7d76976a-724b-44a4-9c92-4c6b13189856",
+  "storyId": "lab-retroterminalscreen--default",
+  "phase": "fixer",
+  "attempt": 2,
+  "recordedAt": "2026-05-30T10:43:32.366Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "status": "failed",
+  "agentExitCode": 1,
+  "filesChanged": [
+    ".test-console/agent-prompts/agent-lab-retroterminalscreen--default_fix-2-1780137802033.prompt.txt",
+    ".test-console/child-status/7d76976a-724b-44a4-9c92-4c6b13189856-agent-lab-retroterminalscreen--default_fix-2-1780137802033.json",
+    ".test-console/child-status/8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa-test_lab-muiworkspacescreen--default-1780137796174.json",
+    ".test-console/fleet/agents.json",
+    ".test-console/fleet/events.jsonl",
+    ".test-console/orchestrator-logs/2026-05-30_13-43-03_7d76976a.log",
+    ".test-console/worker-runs/8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa/lab-muiworkspacescreen--default-try-2.json",
+    "pixel-diffs/by-story/lab-muiworkspacescreen-default/result.json",
+    "pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json",
+    "pixel-diffs/lab-retroterminalscreen-default/artifact.v2.json",
+    "pixel-diffs/lab-spacemissioncontrol-default/artifact.v2.json",
+    "pixel-diffs/report.json",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "workerMode": "narrow_scope",
+  "usageBlocked": false,
+  "watchdogTripped": false,
+  "watchdogReason": null,
+  "editCount": 0
+}

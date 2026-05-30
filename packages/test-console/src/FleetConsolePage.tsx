@@ -59,6 +59,13 @@ const AGENT_UI: Record<
     icon: "VR",
     short: "VER",
     flowOrder: 6
+  },
+  "merge-captain": {
+    title: "Merge Captain",
+    subtitle: "Sandbox review before promotion",
+    icon: "MC",
+    short: "MRG",
+    flowOrder: 7
   }
 };
 
@@ -138,6 +145,16 @@ function AgentCard({ agent }: { agent: FleetAgent }) {
           {agent.model?.split("/").pop() ?? "—"}
         </span>
       </div>
+      <div
+        className="fleet-agent-runtime"
+        title="Worker launches and active time (24hrs)"
+      >
+        <strong>{agent.runtimeLabel24h ?? "0s"}</strong>
+        <span>
+          · {agent.launches24h ?? 0} launch{(agent.launches24h ?? 0) === 1 ? "" : "es"}
+        </span>
+        <em>24hrs</em>
+      </div>
       {activeTasks.slice(0, 3).map((activeTask, index) => (
         <div className="fleet-agent-task" key={`${activeTask.storyId ?? "task"}-${activeTask.suiteId ?? ""}-${activeTask.attempt ?? index}`}>
           {activeTask.phase ? <strong>{activeTask.phase}</strong> : null}
@@ -193,7 +210,8 @@ function RoleSummary({ agents }: { agents: FleetAgent[] }) {
     { label: "Investigators", match: (a: FleetAgent) => agentBaseId(a) === "investigator" },
     { label: "Fixers", match: (a: FleetAgent) => agentBaseId(a).includes("fixer") },
     { label: "Infra", match: (a: FleetAgent) => agentBaseId(a) === "infra" },
-    { label: "Verifiers", match: (a: FleetAgent) => agentBaseId(a) === "verifier" }
+    { label: "Verifiers", match: (a: FleetAgent) => agentBaseId(a) === "verifier" },
+    { label: "Review", match: (a: FleetAgent) => agentBaseId(a) === "merge-captain" }
   ];
 
   return (

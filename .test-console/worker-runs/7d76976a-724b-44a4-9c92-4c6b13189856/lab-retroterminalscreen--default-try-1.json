@@ -1,0 +1,50 @@
+{
+  "storyId": "lab-retroterminalscreen--default",
+  "attempt": 1,
+  "jobId": "7d76976a-724b-44a4-9c92-4c6b13189856",
+  "recordedAt": "2026-05-30T10:43:21.675Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 5.490946652084093,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 5.490946652084093,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-prompts/agent-lab-muiworkspacescreen--default_fix-2-1780137788786.prompt.txt",
+    ".test-console/agent-prompts/agent-lab-retroterminalscreen--default_fix-1-1780137787025.prompt.txt",
+    ".test-console/batch-reports/lab-retroterminalscreen-default-try-1.json",
+    ".test-console/child-status/7d76976a-724b-44a4-9c92-4c6b13189856-agent-lab-retroterminalscreen--default_fix-1-1780137787025.json",
+    ".test-console/child-status/8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa-test_lab-muiworkspacescreen--default-1780137781656.json",
+    ".test-console/fleet/agents.json",
+    ".test-console/fleet/events.jsonl",
+    ".test-console/orchestrator-logs/2026-05-30_13-43-03_7d76976a.log",
+    ".test-console/orchestrator-state.json",
+    ".test-console/worker-runs/8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa/lab-muiworkspacescreen--default-try-1.json",
+    "pixel-diffs/by-story/lab-muiworkspacescreen-default/result.json",
+    "pixel-diffs/report.json",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "NO_ADAPTER_EDIT",
+    "verdicts": [
+      "NO_ADAPTER_EDIT"
+    ],
+    "nextWorkerMode": "narrow_scope",
+    "interventionLines": [
+      "Supervisor: edits were only vault/rules/prompts — pixel needs packages/pixel-test/src/render-html.ts or extract.ts. Do NOT reorganize lab-memory during fix-all.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

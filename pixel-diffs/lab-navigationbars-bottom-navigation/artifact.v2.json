@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-navigationbars--bottom-navigation",
     "componentName": "NavigationBars",
-    "extractedAt": "2026-05-25T19:29:02.726Z",
+    "extractedAt": "2026-05-30T10:46:39.668Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-navigationbars--bottom-navigation&viewMode=story",
     "viewport": {
       "x": 0,
@@ -128,7 +128,8 @@
           ],
           "role": "tab",
           "dataset": {
-            "pressedManaged": "true"
+            "pressedManaged": "true",
+            "labId": "el-home"
           }
         },
         "box": {
@@ -215,7 +216,8 @@
           "tag": "button",
           "role": "tab",
           "dataset": {
-            "pressedManaged": "true"
+            "pressedManaged": "true",
+            "labId": "el-search"
           }
         },
         "box": {
@@ -302,7 +304,8 @@
           "tag": "button",
           "role": "tab",
           "dataset": {
-            "pressedManaged": "true"
+            "pressedManaged": "true",
+            "labId": "el-create"
           }
         },
         "box": {
@@ -389,7 +392,8 @@
           "tag": "button",
           "role": "tab",
           "dataset": {
-            "pressedManaged": "true"
+            "pressedManaged": "true",
+            "labId": "el-profile"
           }
         },
         "box": {

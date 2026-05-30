@@ -8,6 +8,7 @@ export const SKILLS = {
   roadmap: ".cursor/skills/roadmap-iteration/SKILL.md",
   untilPass: ".cursor/skills/figma-renderer-until-pass/SKILL.md",
   investigate: ".cursor/skills/investigate-figma-mismatch/SKILL.md",
+  fixerReport: ".agents/skills/fixer-from-test-report/SKILL.md",
   architect: ".cursor/skills/code-architect-investigator/SKILL.md",
   developerAgent: ".cursor/skills/developer-agent/SKILL.md",
   console: ".cursor/skills/listen-to-test-console/SKILL.md",
@@ -94,8 +95,9 @@ export function workflowPreamble(activity, ctx = {}) {
       let n = appendLabMemorySteps(lines, 3);
       lines.push(
         `${n}. Worker: ${SKILLS.untilPass} + ${SKILLS.investigate} — ONE story per agent run (serial mode).`,
-        `${n + 1}. Harness rebuilds/tests after you; do not run full suite yourself.`,
-        `${n + 2}. Post-flight per story: Tier A; after shared edit → Tier C before next story.`
+        `${n + 1}. Read test-report.json + ${SKILLS.fixerReport} — fix only allowlisted files; sandbox worktree default.`,
+        `${n + 2}. Harness rebuilds/tests after you; do not run full suite yourself.`,
+        `${n + 3}. Post-flight per story: Tier A; after shared edit → Tier C before next story.`
       );
       break;
     }
@@ -106,7 +108,7 @@ export function workflowPreamble(activity, ctx = {}) {
         `${n + 1}. Worker: ${SKILLS.untilPass} — implement **shared fixes for every story in one session** (not one-by-one).`,
         `${n + 2}. Prefer shared adapter edits (code-v2.ts, render-html.ts for pixel, extract.ts) that green multiple stories at once.`,
         `${n + 3}. Do NOT run golden tests yourself — harness re-tests all listed stories after plugin build.`,
-        `${n + 4}. Harness sandbox gate: metrics regress → auto git restore; 2 batch regressions → FIX_ALL_SERIAL=1.`,
+        `${n + 4}. Harness sandbox gate: worktree by default; metrics regress or neutral → auto discard; 2 batch regressions → FIX_ALL_SERIAL=1.`,
         `${n + 5}. Tier C if shared adapter touched — pnpm test:regression.`
       );
       break;

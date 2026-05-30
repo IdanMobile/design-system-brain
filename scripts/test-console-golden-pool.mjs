@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 /**
  * Process-level golden pool — one Node process per story chunk (isolated figma mock).
- * Used when Run settings → "Process pool" is ON.
+ * Figma **live** is different: one harness, N in-process workers. Storybook extract,
+ * screenshot, and diff run in parallel; only inject→Figma→PNG waits on the relay queue.
  *
- *   node scripts/test-console-golden-pool.mjs --suite figma --stories a,b,c --workers 4
+ *   node scripts/test-console-golden-pool.mjs --suite figmaLive --stories a,b,c --workers 12
  */
 
 import { spawn } from "node:child_process";
@@ -41,6 +42,36 @@ function chunkStories(ids, workers) {
     chunks[i % n].push(ids[i]);
   }
   return chunks.filter((c) => c.length > 0);
+}
+
+/**
+ * @param {string} suite
+ * @param {string[]} stories
+ * @param {number} workers
+ */
+export function planGoldenPool(suite, stories, workers) {
+  const harnessEnv = harnessEnvForSuite(suite, workers);
+  if (suite === "figmaLive") {
+    const inProcess = Number(harnessEnv.TEST_PARALLEL);
+    return {
+      suite,
+      mode: "figma-live-single-harness",
+      storyCount: stories.length,
+      processCount: 1,
+      inProcessParallel: inProcess,
+      chunks: [stories]
+    };
+  }
+  const effectiveWorkers = Math.min(workers, storybookParallelCap(workers));
+  const chunks = chunkStories(stories, effectiveWorkers);
+  return {
+    suite,
+    mode: "multi-process",
+    storyCount: stories.length,
+    processCount: chunks.length,
+    inProcessParallel: 1,
+    chunks
+  };
 }
 
 function commandForChunk(suite, storiesCsv) {
@@ -102,20 +133,27 @@ function commandForChunk(suite, storiesCsv) {
   }
 }
 
-function runChunk(spec, index, total, suite, harnessEnv) {
+function runChunk(spec, index, total, suite, harnessEnv, { relayQueueOnly = false } = {}) {
   return new Promise((resolveJob, reject) => {
     const [bin, ...args] = spec.cmd;
+    const storyCount = args[args.length - 1].split(",").length;
     console.log(
-      `[golden-pool] worker ${index + 1}/${total} start ${spec.label} (${args[args.length - 1].split(",").length} stories)`
+      relayQueueOnly
+        ? `[golden-pool] figma live harness — ${storyCount} stories · ${harnessEnv.TEST_PARALLEL} in-process workers (relay queues Figma export only)`
+        : `[golden-pool] worker ${index + 1}/${total} start ${spec.label} (${storyCount} stories)`
     );
+    const childEnv = {
+      ...process.env,
+      ...harnessEnv
+    };
+    if (!relayQueueOnly) {
+      /** Mock/pixel/delivery: one story lane per process; parallelism is across processes. */
+      childEnv.TEST_PARALLEL = "1";
+      childEnv.STORYBOOK_PARALLEL = "1";
+    }
     const child = spawn(bin, args, {
       cwd: ROOT,
-      env: {
-        ...process.env,
-        ...harnessEnv,
-        /** One story per chunk process; parallelism is across processes. */
-        TEST_PARALLEL: "1"
-      },
+      env: childEnv,
       stdio: "inherit"
     });
     child.on("close", (code) => {
@@ -145,43 +183,59 @@ function mergePortfolio() {
   });
 }
 
-const { suite, stories, workers } = parseArgs(process.argv);
+async function main() {
+  const { suite, stories, workers } = parseArgs(process.argv);
 
-if (!suite || !stories.length) {
-  console.error(
-    "Usage: test-console-golden-pool.mjs --suite pixel|figma|figmaLive|delivery --stories id1,id2 --workers 4"
-  );
-  process.exit(2);
-}
-
-const effectiveWorkers =
-  suite === "figmaLive" ? workers : Math.min(workers, storybookParallelCap(workers));
-const harnessEnv = harnessEnvForSuite(suite, workers);
-const chunks = chunkStories(stories, effectiveWorkers);
-const specs = chunks
-  .map((chunk) => commandForChunk(suite, chunk.join(",")))
-  .filter(Boolean);
-
-if (!specs.length) {
-  console.error(`[golden-pool] Unknown suite: ${suite}`);
-  process.exit(2);
-}
-
-console.log(
-  `[golden-pool] ${suite} — ${stories.length} stories in ${specs.length} process${specs.length === 1 ? "" : "es"}`
-);
-
-try {
-  await Promise.all(specs.map((spec, i) => runChunk(spec, i, specs.length, suite, harnessEnv)));
-  await mergePortfolio();
-  console.log("[golden-pool] complete");
-  process.exit(0);
-} catch (e) {
-  console.error(e instanceof Error ? e.message : e);
-  try {
-    await mergePortfolio();
-  } catch {
-    /* partial results still useful */
+  if (!suite || !stories.length) {
+    console.error(
+      "Usage: test-console-golden-pool.mjs --suite pixel|figma|figmaLive|delivery --stories id1,id2 --workers 4"
+    );
+    process.exit(2);
   }
-  process.exit(1);
+
+  const plan = planGoldenPool(suite, stories, workers);
+  const harnessEnv = harnessEnvForSuite(suite, workers);
+  const specs = plan.chunks
+    .map((chunk) => commandForChunk(suite, chunk.join(",")))
+    .filter(Boolean);
+
+  if (!specs.length) {
+    console.error(`[golden-pool] Unknown suite: ${suite}`);
+    process.exit(2);
+  }
+
+  console.log(
+    plan.mode === "figma-live-single-harness"
+      ? `[golden-pool] ${suite} — ${plan.storyCount} stories · 1 harness × ${plan.inProcessParallel} workers (export queued on relay)`
+      : `[golden-pool] ${suite} — ${plan.storyCount} stories in ${plan.processCount} process${plan.processCount === 1 ? "" : "es"}`
+  );
+
+  try {
+    await Promise.all(
+      specs.map((spec, i) =>
+        runChunk(spec, i, specs.length, suite, harnessEnv, {
+          relayQueueOnly: plan.mode === "figma-live-single-harness"
+        })
+      )
+    );
+    await mergePortfolio();
+    console.log("[golden-pool] complete");
+    process.exit(0);
+  } catch (e) {
+    console.error(e instanceof Error ? e.message : e);
+    try {
+      await mergePortfolio();
+    } catch {
+      /* partial results still useful */
+    }
+    process.exit(1);
+  }
+}
+
+const isMain =
+  process.argv[1] &&
+  resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+
+if (isMain) {
+  main();
 }

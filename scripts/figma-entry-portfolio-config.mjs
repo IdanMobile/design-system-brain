@@ -1,16 +1,17 @@
 /**
- * Figma-as-entry-point pipeline — sequential steps (inverse of Storybook ingress).
+ * Figma-as-entry pipeline — sequential steps.
  *
- *   Manifest → Contract → Figma live → Storybook → 4-way → Logic
- *   (No Delivery 3-way — that track is Storybook-centric only.)
- *   4-way: original PNG · Figma live · Storybook @lab/ui · honest React HTML (strict 0.1%).
+ *   Manifest → Contract → Original parity (3 legs vs Guing PNG) → Logic
+ *
+ * Original parity compares ONLY against the reference PNG:
+ *   Original → Figma live · Original → Storybook · Original → ReactHtml
  */
 
 export const FIGMA_ENTRY_STEP_ORDER = [
   "manifestContract",
-  "contractFigma",
-  "storybook",
-  "fourWay",
+  "vsFigmaLive",
+  "vsStorybook",
+  "vsReactHtml",
   "logic"
 ];
 
@@ -22,23 +23,23 @@ export const FIGMA_ENTRY_STEPS = [
     actionId: "figma:screen:manifest"
   },
   {
-    id: "contractFigma",
-    label: "Contract → Figma",
+    id: "vsFigmaLive",
+    label: "→ Figma live",
     dir: "figma-screen-diffs",
-    actionId: "figma:screen:golden",
+    actionId: "figma:screen:parity",
     needsRelay: true
   },
   {
-    id: "storybook",
-    label: "Storybook",
+    id: "vsStorybook",
+    label: "→ Storybook",
     dir: "figma-screen-diffs",
-    actionId: "figma:screen:storybook"
+    actionId: "figma:screen:parity"
   },
   {
-    id: "fourWay",
-    label: "4-way (strict)",
+    id: "vsReactHtml",
+    label: "→ ReactHtml",
     dir: "figma-screen-diffs",
-    actionId: "figma:screen:four-way"
+    actionId: "figma:screen:parity"
   },
   {
     id: "logic",
@@ -48,11 +49,41 @@ export const FIGMA_ENTRY_STEPS = [
   }
 ];
 
+/** All three visual legs run in one parity harness invocation. */
+export const ORIGINAL_PARITY_LEG_IDS = ["vsFigmaLive", "vsStorybook", "vsReactHtml"];
+
 export function isFigmaEntryStepPassing(status) {
   return status === "pass" || status === "skipped";
 }
 
 export function canRunFigmaEntryStep(stepId, cells) {
+  if (ORIGINAL_PARITY_LEG_IDS.includes(stepId)) {
+    const manifestStatus = cells.manifestContract?.status ?? "not_tested";
+    if (!isFigmaEntryStepPassing(manifestStatus)) {
+      return {
+        ok: false,
+        blockedBy: "manifestContract",
+        reason: `Blocked — Manifest → Contract is ${manifestStatus} (required before original parity)`,
+        priorStatus: manifestStatus
+      };
+    }
+    return { ok: true };
+  }
+  if (stepId === "logic") {
+    for (const legId of ORIGINAL_PARITY_LEG_IDS) {
+      const legStatus = cells[legId]?.status ?? "not_tested";
+      if (!isFigmaEntryStepPassing(legStatus)) {
+        const legLabel = FIGMA_ENTRY_STEPS.find((s) => s.id === legId)?.label ?? legId;
+        return {
+          ok: false,
+          blockedBy: legId,
+          reason: `Blocked — ${legLabel} is ${legStatus} (required before Logic audit)`,
+          priorStatus: legStatus
+        };
+      }
+    }
+    return { ok: true };
+  }
   const idx = FIGMA_ENTRY_STEP_ORDER.indexOf(stepId);
   if (idx < 0) return { ok: false, blockedBy: stepId, reason: "Unknown step" };
   for (let i = 0; i < idx; i += 1) {
@@ -88,9 +119,9 @@ export function recommendFigmaEntryAction(stepId, status, detail = {}) {
   }
   if (status === "fail") {
     if (stepId === "manifestContract") return "Fix adapter — manifestToContract";
-    if (stepId === "contractFigma") return "Fix importer — re-run Contract → Figma live";
-    if (stepId === "storybook") return "Fix contract render-html / Storybook fixture";
-    if (stepId === "fourWay") return "Fix Storybook↔Figma gap — see fourWay/report.html (residual step hides this)";
+    if (stepId === "vsFigmaLive") return "Fix importer — contract → Figma live (code-v2.ts)";
+    if (stepId === "vsStorybook") return "Fix Storybook bake / @lab/ui Screen fixture";
+    if (stepId === "vsReactHtml") return "Fix @lab/ui playground delivery component";
     if (stepId === "logic") return "Fix logic audit harness";
     return "Fix pipeline";
   }

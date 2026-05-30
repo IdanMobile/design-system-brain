@@ -25,7 +25,7 @@ const DEFAULT_DRAFT: RunSettings = {
   agentCli: "cursor",
   scope: "failures_only",
   singleStepId: null,
-  sortBy: "step_first",
+  sortBy: "flow_first",
   maxFixRoundsPerStep: 10,
   maxAutoRetriesWhenStuck: 3,
   maxAgentCallsPerLaunch: 100,
@@ -68,14 +68,15 @@ export function OrchestratorLaunchDialog({
 }: Props) {
   const [draft, setDraft] = useState<RunSettings>({ ...DEFAULT_DRAFT, ...initialSettings });
   const [invalidateAll, setInvalidateAll] = useState(false);
+  const [busy, setBusy] = useState(false);
   const [showAdvanced, setShowAdvanced] = useState(false);
   const wasOpenRef = useRef(false);
 
-  // Seed draft only when the dialog opens — not on every parent poll of runSettings.
   useEffect(() => {
     if (open && !wasOpenRef.current) {
       setDraft({ ...DEFAULT_DRAFT, ...initialSettings });
       setInvalidateAll(false);
+      setBusy(false);
       setShowAdvanced(false);
     }
     wasOpenRef.current = open;
@@ -94,9 +95,14 @@ export function OrchestratorLaunchDialog({
   const patch = (partial: Partial<RunSettings>) =>
     setDraft((prev) => ({ ...prev, ...partial }));
 
-  const handleLaunch = () => {
-    onClose();
-    void onLaunch(draft, { invalidateAll });
+  const handleLaunch = async () => {
+    setBusy(true);
+    try {
+      await onLaunch(draft, { invalidateAll });
+      onClose();
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
@@ -110,7 +116,7 @@ export function OrchestratorLaunchDialog({
       >
         <header className="orch-launch-header">
           <div>
-            <h2 id="orch-launch-title">Orchestrator</h2>
+            <h2 id="orch-launch-title">Launch orchestrator</h2>
             <p className="orch-launch-sub">
               Automated test → fix → rebuild over the unified portfolio until all PASS, a safety
               limit, or a human action is required.
@@ -167,49 +173,13 @@ export function OrchestratorLaunchDialog({
           <label className="orch-launch-field">
             Work order
             <select
-              value={draft.sortBy ?? "step_first"}
+              value={draft.sortBy ?? "flow_first"}
               onChange={(e) => patch({ sortBy: e.target.value as OrchestratorSort })}
             >
+              <option value="flow_first">Per-item flow (advance each story)</option>
               <option value="step_first">Pipeline order (Structural first)</option>
               <option value="worst_first">Worst diff % first</option>
             </select>
-          </label>
-        </div>
-
-        <div className="orch-launch-section">
-          <h3>Speed</h3>
-          <label className="run-settings-option">
-            <input
-              type="checkbox"
-              checked={draft.processPool}
-              onChange={(e) => patch({ processPool: e.target.checked })}
-            />
-            <span>
-              <strong>Process pool</strong>
-              <small>Separate Node process per chunk (safer at high parallelism)</small>
-            </span>
-          </label>
-          <label className="orch-launch-field orch-launch-workers">
-            <span className="orch-launch-workers-label">
-              <strong>Parallel workers</strong>
-              <small>
-                {draft.processPool
-                  ? "Process count for golden runs"
-                  : "In-process pool (TEST_PARALLEL)"}
-                {" · "}
-                Storybook capped; Figma live serial on relay
-              </small>
-            </span>
-            <div className="orch-launch-workers-row">
-              <input
-                type="range"
-                min={1}
-                max={maxParallelWorkers}
-                value={Math.min(draft.parallelWorkers, maxParallelWorkers)}
-                onChange={(e) => patch({ parallelWorkers: Number(e.target.value) })}
-              />
-              <output>{draft.parallelWorkers}</output>
-            </div>
           </label>
         </div>
 
@@ -252,10 +222,32 @@ export function OrchestratorLaunchDialog({
             className="orch-launch-advanced-toggle"
             onClick={() => setShowAdvanced((v) => !v)}
           >
-            {showAdvanced ? "Hide" : "Show"} safety limits
+            {showAdvanced ? "Hide" : "Show"} speed &amp; safety limits
           </button>
           {showAdvanced ? (
             <div className="orch-launch-advanced">
+              <label className="run-settings-option">
+                <input
+                  type="checkbox"
+                  checked={draft.processPool}
+                  onChange={(e) => patch({ processPool: e.target.checked })}
+                />
+                <span>
+                  <strong>Process pool</strong>
+                  <small>Separate Node process per chunk</small>
+                </span>
+              </label>
+              <label className="orch-launch-field">
+                Parallel workers
+                <input
+                  type="range"
+                  min={1}
+                  max={maxParallelWorkers}
+                  value={Math.min(draft.parallelWorkers, maxParallelWorkers)}
+                  onChange={(e) => patch({ parallelWorkers: Number(e.target.value) })}
+                />
+                <output>{draft.parallelWorkers}</output>
+              </label>
               <label className="orch-launch-field">
                 Max fix rounds per step
                 <input
@@ -303,21 +295,21 @@ export function OrchestratorLaunchDialog({
         </label>
 
         <footer className="orch-launch-footer">
-          <button type="button" className="orch-launch-cancel" onClick={onClose}>
+          <button type="button" className="orch-launch-cancel" onClick={onClose} disabled={busy}>
             Cancel
           </button>
           <button
             type="button"
             className="orch-launch-go"
-            disabled={orchestratorRunning}
+            disabled={busy || orchestratorRunning}
             title={
               orchestratorRunning
                 ? "Orchestrator already running"
                 : "Save settings, start supervisor in Terminal"
             }
-            onClick={handleLaunch}
+            onClick={() => void handleLaunch()}
           >
-            Launch
+            {busy ? "Launching…" : "Launch"}
           </button>
         </footer>
       </div>

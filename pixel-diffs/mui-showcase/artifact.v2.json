@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "mui--showcase",
     "componentName": "MUIShowcase",
-    "extractedAt": "2026-05-30T03:50:52.082Z",
+    "extractedAt": "2026-05-30T10:48:44.117Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=mui--showcase&viewMode=story",
     "viewport": {
       "x": 0,
@@ -13695,16 +13695,16 @@
                                   "role": "progressbar"
                                 },
                                 "box": {
-                                  "x": -4.28,
-                                  "y": -4.28,
-                                  "width": 30.56,
-                                  "height": 30.56
+                                  "x": -3.48,
+                                  "y": -3.48,
+                                  "width": 28.97,
+                                  "height": 28.97
                                 },
                                 "computedBox": {
-                                  "x": 36.72,
-                                  "y": 1546.85,
-                                  "width": 30.56,
-                                  "height": 30.56
+                                  "x": 37.52,
+                                  "y": 1547.64,
+                                  "width": 28.97,
+                                  "height": 28.97
                                 },
                                 "layout": {
                                   "display": "block",
@@ -13728,10 +13728,10 @@
                                 },
                                 "transform": {
                                   "matrix": [
-                                    -0.561757,
-                                    0.827303,
-                                    -0.827303,
-                                    -0.561757,
+                                    -0.400259,
+                                    0.916402,
+                                    -0.916402,
+                                    -0.400259,
                                     0,
                                     0
                                   ],
@@ -13755,14 +13755,14 @@
                                     "box": {
                                       "x": 0,
                                       "y": 0,
-                                      "width": 30.56,
-                                      "height": 30.56
+                                      "width": 28.97,
+                                      "height": 28.97
                                     },
                                     "computedBox": {
-                                      "x": 36.72,
-                                      "y": 1546.85,
-                                      "width": 30.56,
-                                      "height": 30.56
+                                      "x": 37.52,
+                                      "y": 1547.64,
+                                      "width": 28.97,
+                                      "height": 28.97
                                     },
                                     "layout": {
                                       "display": "block",
@@ -13800,10 +13800,10 @@
                                             "stroke": "rgb(25, 118, 210)",
                                             "strokeWidth": 3.6,
                                             "dashArray": [
-                                              80.1575,
+                                              71.9311,
                                               200
                                             ],
-                                            "dashOffset": -11.9936
+                                            "dashOffset": -10.7471
                                           }
                                         }
                                       ],

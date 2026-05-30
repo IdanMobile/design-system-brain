@@ -112,3 +112,97 @@ Automated harness reports **PASS** for this story/step.
 If the fix was a reusable rule, add or update a note under `lab-memory/visual/patterns/`.
 
 <!-- vault-fingerprint: resolved|pixel|1|2026-05-29 -->
+
+## Investigation — lab-spacemissioncontrol--default / pixel
+
+**Job ID:** 8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa  
+**Date:** 2026-05-30T10:41:07.889Z  
+**Source:** fix-all pre-agent (automated)
+**Fix attempt:** 1
+
+
+### Metrics
+
+| Field | Value |
+| --- | --- |
+| Status | fail |
+| Global diff | 1.89% |
+| Worst hotspot | n/a |
+| Fail reason | — |
+
+### Compare regions
+
+| Region | Issue | Path |
+| --- | --- | --- |
+| region-01 | diff region | `pixel-diffs/lab-spacemissioncontrol-default/regions/regions/region-01-compare.png` |
+| region-02 | diff region | `pixel-diffs/lab-spacemissioncontrol-default/regions/regions/region-02-compare.png` |
+| region-03 | diff region | `pixel-diffs/lab-spacemissioncontrol-default/regions/regions/region-03-compare.png` |
+
+### Artifacts
+
+- Compare: `pixel-diffs/lab-spacemissioncontrol-default/regions/region-01-compare.png`
+- Storybook PNG: `pixel-diffs/lab-spacemissioncontrol-default/storybook.png`
+- Figma PNG: `pixel-diffs/lab-spacemissioncontrol-default/rendered.png`
+- Artifact JSON: `pixel-diffs/lab-spacemissioncontrol-default/artifact.v2.json`
+- Scene JSON: `pixel-diffs/lab-spacemissioncontrol-default/scene.json`
+
+### Root cause
+
+<!-- pending — agent fills after systematic-debugging -->
+
+### Recommended fix area
+
+<!-- pending — see primary fix path for this suite in agent prompt -->
+
+### Cached
+
+false — automated test record at 2026-05-30T10:41:07.889Z
+
+<!-- vault-fingerprint: pixel|fail|1.885|na|1|fix-all pre-agent -->
+
+## Investigation — lab-spacemissioncontrol--default / pixel
+
+**Job ID:** 8a5706f3-f2ac-4f8e-9f5c-efdcd7b5fafa  
+**Date:** 2026-05-30T10:41:20.524Z  
+**Source:** fix-all pre-agent (automated)
+**Fix attempt:** 2
+
+
+### Metrics
+
+| Field | Value |
+| --- | --- |
+| Status | fail |
+| Global diff | 1.89% |
+| Worst hotspot | n/a |
+| Fail reason | — |
+
+### Compare regions
+
+| Region | Issue | Path |
+| --- | --- | --- |
+| region-01 | diff region | `pixel-diffs/lab-spacemissioncontrol-default/regions/regions/region-01-compare.png` |
+| region-02 | diff region | `pixel-diffs/lab-spacemissioncontrol-default/regions/regions/region-02-compare.png` |
+| region-03 | diff region | `pixel-diffs/lab-spacemissioncontrol-default/regions/regions/region-03-compare.png` |
+
+### Artifacts
+
+- Compare: `pixel-diffs/lab-spacemissioncontrol-default/regions/region-01-compare.png`
+- Storybook PNG: `pixel-diffs/lab-spacemissioncontrol-default/storybook.png`
+- Figma PNG: `pixel-diffs/lab-spacemissioncontrol-default/rendered.png`
+- Artifact JSON: `pixel-diffs/lab-spacemissioncontrol-default/artifact.v2.json`
+- Scene JSON: `pixel-diffs/lab-spacemissioncontrol-default/scene.json`
+
+### Root cause
+
+<!-- pending — agent fills after systematic-debugging -->
+
+### Recommended fix area
+
+<!-- pending — see primary fix path for this suite in agent prompt -->
+
+### Cached
+
+false — automated test record at 2026-05-30T10:41:20.524Z
+
+<!-- vault-fingerprint: pixel|fail|1.885|na|2|fix-all pre-agent -->

@@ -9,13 +9,25 @@ import { fileURLToPath } from "node:url";
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const SETTINGS_PATH = join(ROOT, ".test-console", "run-settings.json");
 
+/** @typedef {'full'|'failures_only'|'fresh_only'|'single_step'} OrchestratorScope */
+/** @typedef {'step_first'|'worst_first'|'flow_first'} OrchestratorSort */
+
 /** @typedef {{
  *   skipPass: boolean,
  *   onlyNotTested: boolean,
  *   parallelWorkers: number,
  *   processPool: boolean,
  *   applyToOrchestrator: boolean,
- *   agentModel: string
+ *   agentModel: string,
+ *   agentCli: string,
+ *   scope: OrchestratorScope,
+ *   singleStepId: string | null,
+ *   sortBy: OrchestratorSort,
+ *   maxFixRoundsPerStep: number,
+ *   maxAutoRetriesWhenStuck: number,
+ *   maxAgentCallsPerLaunch: number,
+ *   launchAutoMode: boolean,
+ *   headlessAgents: boolean
  * }} RunSettings */
 
 export const DEFAULT_AGENT_MODEL = "composer-2.5-fast";
@@ -54,7 +66,7 @@ export function harnessEnvForSuite(suiteId, requestedWorkers) {
 }
 
 export const DEFAULT_RUN_SETTINGS = {
-  skipPass: false,
+  skipPass: true,
   onlyNotTested: false,
   parallelWorkers: 20,
   processPool: false,
@@ -62,7 +74,15 @@ export const DEFAULT_RUN_SETTINGS = {
   agentModel: DEFAULT_AGENT_MODEL,
   agentCli: "cursor",
   devAgentModel: DEFAULT_AGENT_MODEL,
-  devAgentCli: "cursor"
+  devAgentCli: "cursor",
+  scope: "failures_only",
+  singleStepId: null,
+  sortBy: "flow_first",
+  maxFixRoundsPerStep: 10,
+  maxAutoRetriesWhenStuck: 3,
+  maxAgentCallsPerLaunch: 100,
+  launchAutoMode: true,
+  headlessAgents: true
 };
 
 export const ACTION_SUITE = {
@@ -112,20 +132,68 @@ export function resolveDevAgentModel(settings) {
   return normalizeAgentModel(settings?.devAgentModel, settings?.devAgentCli);
 }
 
+const VALID_SCOPES = new Set(["full", "failures_only", "fresh_only", "single_step"]);
+const VALID_SORT = new Set(["step_first", "worst_first", "flow_first"]);
+
+function clampInt(n, min, max, fallback) {
+  const v = Number(n);
+  if (!Number.isFinite(v)) return fallback;
+  return Math.min(max, Math.max(min, Math.round(v)));
+}
+
+/** Apply scope → legacy skipPass / onlyNotTested for Test all + golden subset. */
+export function scopeToLegacyFilters(scope) {
+  if (scope === "fresh_only") return { skipPass: false, onlyNotTested: true };
+  if (scope === "full") return { skipPass: false, onlyNotTested: false };
+  if (scope === "failures_only") return { skipPass: true, onlyNotTested: false };
+  return null;
+}
+
 /** @returns {RunSettings} */
 export function normalizeRunSettings(raw = {}) {
   const agentCli = String(raw.agentCli ?? "cursor").trim();
   const devAgentCli = String(raw.devAgentCli ?? "cursor").trim();
+  const scope = VALID_SCOPES.has(raw.scope) ? raw.scope : DEFAULT_RUN_SETTINGS.scope;
+  const legacyFromScope = scopeToLegacyFilters(scope);
   return {
-    skipPass: Boolean(raw.skipPass),
-    onlyNotTested: Boolean(raw.onlyNotTested),
+    skipPass: legacyFromScope?.skipPass ?? Boolean(raw.skipPass),
+    onlyNotTested: legacyFromScope?.onlyNotTested ?? Boolean(raw.onlyNotTested),
     parallelWorkers: clampWorkers(raw.parallelWorkers ?? DEFAULT_RUN_SETTINGS.parallelWorkers),
     processPool: Boolean(raw.processPool),
     applyToOrchestrator: raw.applyToOrchestrator !== false,
     agentCli,
     agentModel: normalizeAgentModel(raw.agentModel, agentCli),
     devAgentCli,
-    devAgentModel: normalizeAgentModel(raw.devAgentModel, devAgentCli)
+    devAgentModel: normalizeAgentModel(raw.devAgentModel, devAgentCli),
+    scope,
+    singleStepId:
+      typeof raw.singleStepId === "string" && raw.singleStepId.trim()
+        ? raw.singleStepId.trim()
+        : null,
+    sortBy: VALID_SORT.has(raw.sortBy) ? raw.sortBy : DEFAULT_RUN_SETTINGS.sortBy,
+    maxFixRoundsPerStep: clampInt(
+      raw.maxFixRoundsPerStep,
+      1,
+      50,
+      DEFAULT_RUN_SETTINGS.maxFixRoundsPerStep
+    ),
+    maxAutoRetriesWhenStuck: clampInt(
+      raw.maxAutoRetriesWhenStuck,
+      0,
+      20,
+      DEFAULT_RUN_SETTINGS.maxAutoRetriesWhenStuck
+    ),
+    maxAgentCallsPerLaunch: clampInt(
+      raw.maxAgentCallsPerLaunch,
+      10,
+      500,
+      DEFAULT_RUN_SETTINGS.maxAgentCallsPerLaunch
+    ),
+    launchAutoMode: raw.launchAutoMode !== false,
+    headlessAgents:
+      raw.headlessAgents !== undefined
+        ? Boolean(raw.headlessAgents)
+        : clampWorkers(raw.parallelWorkers ?? DEFAULT_RUN_SETTINGS.parallelWorkers) > 1
   };
 }
 
