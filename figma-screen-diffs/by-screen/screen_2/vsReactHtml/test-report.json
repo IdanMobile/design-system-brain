@@ -1,0 +1,202 @@
+{
+  "schemaVersion": "1.0",
+  "itemId": "screen_2",
+  "entryPoint": "figma",
+  "failedTest": {
+    "testId": "vsReactHtml",
+    "label": "Original → ReactHtml",
+    "compare": {
+      "reference": "original",
+      "target": "reactHtml"
+    },
+    "primaryFixer": "code-creator",
+    "fixerChain": [
+      "manifest-to-contract",
+      "code-creator"
+    ],
+    "allowlist": [
+      "scripts/bake-figma-screen-ui.mjs",
+      "packages/ui/**",
+      "packages/developer-playground/**"
+    ],
+    "forbidden": [
+      "Using reference PNG as UI background to pass parity",
+      "artifacts/figma-screens/*.png as component assets",
+      "packages/figma-importer-plugin/**"
+    ],
+    "regressionScope": "tier-a",
+    "verifyCommand": "pnpm test:figma:screen:parity -- --artifact /Users/user/Downloads/storybook-to-figma-lab/artifacts/figma-screens/screen_2.manifest.json"
+  },
+  "tolerance": 0.1,
+  "global": {
+    "percent": 5.437625036319909,
+    "maxRegionPercent": 11.971428571428572,
+    "status": "fail",
+    "pixelsDiffered": 97876,
+    "pixelsTotal": 1799977
+  },
+  "images": {
+    "original": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/screen_2/originalParity/original.png",
+    "target": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/screen_2/originalParity/reactHtml.png",
+    "diff": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/screen_2/originalParity/diff-original-reactHtml.png",
+    "reportHtml": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/screen_2/originalParity/report.html"
+  },
+  "mismatches": [
+    {
+      "id": "region-01",
+      "bbox": {
+        "x": 60,
+        "y": 865,
+        "width": 400,
+        "height": 35
+      },
+      "wrongPixels": 1671,
+      "percentInRegion": 11.935714285714285,
+      "images": {
+        "originalCrop": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-01-original.png",
+        "targetCrop": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-01-target.png",
+        "diffCrop": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-01-diff.png",
+        "compareSideBySide": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-01-compare.png"
+      },
+      "evidence": {
+        "message": "Hotspot band: pagination-footer"
+      },
+      "suspectedFixer": "code-creator",
+      "fixPrompt": "Failed test: vsReactHtml (Original → ReactHtml)\nPrimary fixer: code-creator\nFixer chain (upstream if contract wrong): manifest-to-contract → code-creator\n── Ground rules ──\n• Fix the general algorithm — NOT per-item pixel hacks.\n• Screenshots are for investigation only — do NOT change UI/code to match PNGs.\n• Do NOT embed reference PNGs as assets to pass parity.\n── Allowlisted files ──\n• scripts/bake-figma-screen-ui.mjs\n• packages/ui/**\n• packages/developer-playground/**\n── Forbidden ──\n• Using reference PNG as UI background to pass parity\n• artifacts/figma-screens/*.png as component assets\n• packages/figma-importer-plugin/**\n── Mismatch region-01 ──\nRegion: (60, 865) 400×35px\nWrong pixels: 1671 (11.936% in region)\nEvidence: Hotspot band: pagination-footer\nCompare crop: /Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-01-compare.png\nVerify: pnpm test:figma:screen:parity -- --artifact /Users/user/Downloads/storybook-to-figma-lab/artifacts/figma-screens/screen_2.manifest.json\nRegression scope: tier-a\nItem: screen_2"
+    },
+    {
+      "id": "region-02",
+      "bbox": {
+        "x": 20,
+        "y": 8,
+        "width": 200,
+        "height": 50
+      },
+      "wrongPixels": 953,
+      "percentInRegion": 9.53,
+      "images": {
+        "originalCrop": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-02-original.png",
+        "targetCrop": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-02-target.png",
+        "diffCrop": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-02-diff.png",
+        "compareSideBySide": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-02-compare.png"
+      },
+      "evidence": {
+        "message": "Hotspot band: user-header"
+      },
+      "suspectedFixer": "code-creator",
+      "fixPrompt": "Failed test: vsReactHtml (Original → ReactHtml)\nPrimary fixer: code-creator\nFixer chain (upstream if contract wrong): manifest-to-contract → code-creator\n── Ground rules ──\n• Fix the general algorithm — NOT per-item pixel hacks.\n• Screenshots are for investigation only — do NOT change UI/code to match PNGs.\n• Do NOT embed reference PNGs as assets to pass parity.\n── Allowlisted files ──\n• scripts/bake-figma-screen-ui.mjs\n• packages/ui/**\n• packages/developer-playground/**\n── Forbidden ──\n• Using reference PNG as UI background to pass parity\n• artifacts/figma-screens/*.png as component assets\n• packages/figma-importer-plugin/**\n── Mismatch region-02 ──\nRegion: (20, 8) 200×50px\nWrong pixels: 953 (9.530% in region)\nEvidence: Hotspot band: user-header\nCompare crop: /Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-02-compare.png\nVerify: pnpm test:figma:screen:parity -- --artifact /Users/user/Downloads/storybook-to-figma-lab/artifacts/figma-screens/screen_2.manifest.json\nRegression scope: tier-a\nItem: screen_2"
+    },
+    {
+      "id": "region-03",
+      "bbox": {
+        "x": 1100,
+        "y": 785,
+        "width": 150,
+        "height": 45
+      },
+      "wrongPixels": 388,
+      "percentInRegion": 5.7481481481481485,
+      "images": {
+        "originalCrop": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-03-original.png",
+        "targetCrop": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-03-target.png",
+        "diffCrop": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-03-diff.png",
+        "compareSideBySide": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-03-compare.png"
+      },
+      "evidence": {
+        "message": "Hotspot band: phone-row"
+      },
+      "suspectedFixer": "code-creator",
+      "fixPrompt": "Failed test: vsReactHtml (Original → ReactHtml)\nPrimary fixer: code-creator\nFixer chain (upstream if contract wrong): manifest-to-contract → code-creator\n── Ground rules ──\n• Fix the general algorithm — NOT per-item pixel hacks.\n• Screenshots are for investigation only — do NOT change UI/code to match PNGs.\n• Do NOT embed reference PNGs as assets to pass parity.\n── Allowlisted files ──\n• scripts/bake-figma-screen-ui.mjs\n• packages/ui/**\n• packages/developer-playground/**\n── Forbidden ──\n• Using reference PNG as UI background to pass parity\n• artifacts/figma-screens/*.png as component assets\n• packages/figma-importer-plugin/**\n── Mismatch region-03 ──\nRegion: (1100, 785) 150×45px\nWrong pixels: 388 (5.748% in region)\nEvidence: Hotspot band: phone-row\nCompare crop: /Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-03-compare.png\nVerify: pnpm test:figma:screen:parity -- --artifact /Users/user/Downloads/storybook-to-figma-lab/artifacts/figma-screens/screen_2.manifest.json\nRegression scope: tier-a\nItem: screen_2"
+    },
+    {
+      "id": "region-04",
+      "bbox": {
+        "x": 1300,
+        "y": 75,
+        "width": 400,
+        "height": 30
+      },
+      "wrongPixels": 415,
+      "percentInRegion": 3.4583333333333335,
+      "images": {
+        "originalCrop": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-04-original.png",
+        "targetCrop": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-04-target.png",
+        "diffCrop": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-04-diff.png",
+        "compareSideBySide": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-04-compare.png"
+      },
+      "evidence": {
+        "message": "Hotspot band: breadcrumbs"
+      },
+      "suspectedFixer": "code-creator",
+      "fixPrompt": "Failed test: vsReactHtml (Original → ReactHtml)\nPrimary fixer: code-creator\nFixer chain (upstream if contract wrong): manifest-to-contract → code-creator\n── Ground rules ──\n• Fix the general algorithm — NOT per-item pixel hacks.\n• Screenshots are for investigation only — do NOT change UI/code to match PNGs.\n• Do NOT embed reference PNGs as assets to pass parity.\n── Allowlisted files ──\n• scripts/bake-figma-screen-ui.mjs\n• packages/ui/**\n• packages/developer-playground/**\n── Forbidden ──\n• Using reference PNG as UI background to pass parity\n• artifacts/figma-screens/*.png as component assets\n• packages/figma-importer-plugin/**\n── Mismatch region-04 ──\nRegion: (1300, 75) 400×30px\nWrong pixels: 415 (3.458% in region)\nEvidence: Hotspot band: breadcrumbs\nCompare crop: /Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-04-compare.png\nVerify: pnpm test:figma:screen:parity -- --artifact /Users/user/Downloads/storybook-to-figma-lab/artifacts/figma-screens/screen_2.manifest.json\nRegression scope: tier-a\nItem: screen_2"
+    },
+    {
+      "id": "region-05",
+      "bbox": {
+        "x": 0,
+        "y": 63,
+        "width": 233,
+        "height": 137
+      },
+      "wrongPixels": 1098,
+      "percentInRegion": 3.439741862723599,
+      "images": {
+        "originalCrop": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-05-original.png",
+        "targetCrop": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-05-target.png",
+        "diffCrop": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-05-diff.png",
+        "compareSideBySide": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-05-compare.png"
+      },
+      "evidence": {
+        "message": "Hotspot band: sidebar"
+      },
+      "suspectedFixer": "code-creator",
+      "fixPrompt": "Failed test: vsReactHtml (Original → ReactHtml)\nPrimary fixer: code-creator\nFixer chain (upstream if contract wrong): manifest-to-contract → code-creator\n── Ground rules ──\n• Fix the general algorithm — NOT per-item pixel hacks.\n• Screenshots are for investigation only — do NOT change UI/code to match PNGs.\n• Do NOT embed reference PNGs as assets to pass parity.\n── Allowlisted files ──\n• scripts/bake-figma-screen-ui.mjs\n• packages/ui/**\n• packages/developer-playground/**\n── Forbidden ──\n• Using reference PNG as UI background to pass parity\n• artifacts/figma-screens/*.png as component assets\n• packages/figma-importer-plugin/**\n── Mismatch region-05 ──\nRegion: (0, 63) 233×137px\nWrong pixels: 1098 (3.440% in region)\nEvidence: Hotspot band: sidebar\nCompare crop: /Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-05-compare.png\nVerify: pnpm test:figma:screen:parity -- --artifact /Users/user/Downloads/storybook-to-figma-lab/artifacts/figma-screens/screen_2.manifest.json\nRegression scope: tier-a\nItem: screen_2"
+    },
+    {
+      "id": "region-06",
+      "bbox": {
+        "x": 1240,
+        "y": 185,
+        "width": 90,
+        "height": 40
+      },
+      "wrongPixels": 100,
+      "percentInRegion": 2.7777777777777777,
+      "images": {
+        "originalCrop": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-06-original.png",
+        "targetCrop": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-06-target.png",
+        "diffCrop": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-06-diff.png",
+        "compareSideBySide": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-06-compare.png"
+      },
+      "evidence": {
+        "message": "Hotspot band: filter-button"
+      },
+      "suspectedFixer": "code-creator",
+      "fixPrompt": "Failed test: vsReactHtml (Original → ReactHtml)\nPrimary fixer: code-creator\nFixer chain (upstream if contract wrong): manifest-to-contract → code-creator\n── Ground rules ──\n• Fix the general algorithm — NOT per-item pixel hacks.\n• Screenshots are for investigation only — do NOT change UI/code to match PNGs.\n• Do NOT embed reference PNGs as assets to pass parity.\n── Allowlisted files ──\n• scripts/bake-figma-screen-ui.mjs\n• packages/ui/**\n• packages/developer-playground/**\n── Forbidden ──\n• Using reference PNG as UI background to pass parity\n• artifacts/figma-screens/*.png as component assets\n• packages/figma-importer-plugin/**\n── Mismatch region-06 ──\nRegion: (1240, 185) 90×40px\nWrong pixels: 100 (2.778% in region)\nEvidence: Hotspot band: filter-button\nCompare crop: /Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-06-compare.png\nVerify: pnpm test:figma:screen:parity -- --artifact /Users/user/Downloads/storybook-to-figma-lab/artifacts/figma-screens/screen_2.manifest.json\nRegression scope: tier-a\nItem: screen_2"
+    },
+    {
+      "id": "region-07",
+      "bbox": {
+        "x": 233,
+        "y": 150,
+        "width": 500,
+        "height": 55
+      },
+      "wrongPixels": 114,
+      "percentInRegion": 0.4145454545454545,
+      "images": {
+        "originalCrop": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-07-original.png",
+        "targetCrop": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-07-target.png",
+        "diffCrop": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-07-diff.png",
+        "compareSideBySide": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-07-compare.png"
+      },
+      "evidence": {
+        "message": "Hotspot band: toolbar-left"
+      },
+      "suspectedFixer": "code-creator",
+      "fixPrompt": "Failed test: vsReactHtml (Original → ReactHtml)\nPrimary fixer: code-creator\nFixer chain (upstream if contract wrong): manifest-to-contract → code-creator\n── Ground rules ──\n• Fix the general algorithm — NOT per-item pixel hacks.\n• Screenshots are for investigation only — do NOT change UI/code to match PNGs.\n• Do NOT embed reference PNGs as assets to pass parity.\n── Allowlisted files ──\n• scripts/bake-figma-screen-ui.mjs\n• packages/ui/**\n• packages/developer-playground/**\n── Forbidden ──\n• Using reference PNG as UI background to pass parity\n• artifacts/figma-screens/*.png as component assets\n• packages/figma-importer-plugin/**\n── Mismatch region-07 ──\nRegion: (233, 150) 500×55px\nWrong pixels: 114 (0.415% in region)\nEvidence: Hotspot band: toolbar-left\nCompare crop: /Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/regions/region-07-compare.png\nVerify: pnpm test:figma:screen:parity -- --artifact /Users/user/Downloads/storybook-to-figma-lab/artifacts/figma-screens/screen_2.manifest.json\nRegression scope: tier-a\nItem: screen_2"
+    }
+  ],
+  "testedAt": "2026-05-29T23:38:35.174Z",
+  "testReportPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/test-report.json"
+}

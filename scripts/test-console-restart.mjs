@@ -7,6 +7,7 @@ import { spawn } from "node:child_process";
 import { existsSync, readFileSync, unlinkSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { killListenersOnPort, waitForPortDown } from "./test-console-port.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const PORT = Number(process.env.TEST_CONSOLE_PORT ?? 6110);
@@ -31,6 +32,7 @@ function stopServer() {
       /* already dead */
     }
   }
+  killListenersOnPort(PORT);
   try {
     unlinkSync(PID_FILE);
   } catch {
@@ -38,25 +40,25 @@ function stopServer() {
   }
 }
 
-async function portDown(deadlineMs = 8000) {
-  const deadline = Date.now() + deadlineMs;
-  while (Date.now() < deadline) {
-    try {
-      await fetch(`http://127.0.0.1:${PORT}/api/state`, {
-        signal: AbortSignal.timeout(800)
-      });
-      await new Promise((r) => setTimeout(r, 200));
-    } catch {
-      return true;
-    }
+async function ensurePortDown() {
+  let down = await waitForPortDown(PORT, 8000);
+  if (down) return true;
+  killListenersOnPort(PORT, "SIGKILL");
+  down = await waitForPortDown(PORT, 4000);
+  if (!down) {
+    console.error(
+      `[test-console] Port ${PORT} still in use — free it manually: lsof -ti :${PORT} | xargs kill`
+    );
   }
-  return false;
+  return down;
 }
 
 async function main() {
   console.log("[test-console] Stopping server…");
   stopServer();
-  await portDown();
+  if (!(await ensurePortDown())) {
+    process.exit(1);
+  }
   const child = spawn("node", ["scripts/test-console-start.mjs"], {
     cwd: ROOT,
     stdio: "inherit",

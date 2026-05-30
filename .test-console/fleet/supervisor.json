@@ -1,0 +1,9 @@
+{
+  "pid": 47126,
+  "nodeId": "local-mac",
+  "lastHeartbeat": "2026-05-29T18:42:22.956Z",
+  "orchestratorPhase": "portfolio",
+  "orchestratorVerdict": "CANCELLED",
+  "orchestratorJobId": "ad254bb9-bc0f-4853-acde-b445880d8862",
+  "startedAt": "2026-05-29T18:31:59.259Z"
+}

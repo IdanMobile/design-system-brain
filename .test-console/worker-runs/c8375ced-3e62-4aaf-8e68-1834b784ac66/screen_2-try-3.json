@@ -1,0 +1,46 @@
+{
+  "storyId": "screen_2",
+  "attempt": 3,
+  "jobId": "c8375ced-3e62-4aaf-8e68-1834b784ac66",
+  "recordedAt": "2026-05-30T03:54:21.403Z",
+  "suiteId": "vsFigmaLive",
+  "mode": "figmaEntry",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 2.1030268720100316,
+    "maxRegionPercent": 8.47,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 2.1030268720100316,
+    "maxRegionPercent": 8.47,
+    "error": null
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-prompts/agent-screen_1_fix-5-1780113246956.prompt.txt",
+    ".test-console/agent-prompts/agent-screen_2_fix-3-1780113246325.prompt.txt",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-agent-screen_2_fix-3-1780113246325.json",
+    ".test-console/fleet/agents.json",
+    ".test-console/fleet/events.jsonl",
+    ".test-console/orchestrator-logs/2026-05-30_01-51-36_c8375ced.log",
+    ".test-console/orchestrator-state.json"
+  ],
+  "evaluation": {
+    "verdict": "STUCK_LOOP",
+    "verdicts": [
+      "NO_ADAPTER_EDIT",
+      "STUCK_LOOP"
+    ],
+    "nextWorkerMode": "orchestrator_review",
+    "interventionLines": [
+      "Supervisor: edits did not touch the adapter for this step — change renderer/extract paths named in the prompt, not docs or lab-memory.",
+      "Supervisor: metrics unchanged across attempts — stop guessing; use investigate-figma-mismatch on compare PNG + artifact before editing.",
+      "Supervisor: ORCHESTRATOR REVIEW required — repeated fixer attempts did not resolve this item. Stop retrying the same prompt; summarize failed hypotheses, compare artifacts, and update the next fixer instruction before another code-edit attempt.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

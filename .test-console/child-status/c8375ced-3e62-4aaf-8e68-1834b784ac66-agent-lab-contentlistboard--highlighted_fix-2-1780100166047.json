@@ -1,0 +1,11 @@
+{
+  "tag": "lab-contentlistboard--highlighted:fix-2",
+  "exitCode": 143,
+  "finishedAt": "2026-05-30T00:21:04.767Z",
+  "editCount": 0,
+  "readCount": 33,
+  "bigReadCount": 20,
+  "watchdogTripped": true,
+  "watchdogReason": "20 big-file reads (≥800 lines each) with 0 edits — redundant context loading.",
+  "elapsedMs": 290559
+}

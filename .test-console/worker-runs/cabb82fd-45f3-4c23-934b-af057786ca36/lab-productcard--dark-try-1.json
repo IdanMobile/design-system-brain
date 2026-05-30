@@ -1,0 +1,43 @@
+{
+  "storyId": "lab-productcard--dark",
+  "attempt": 1,
+  "jobId": "cabb82fd-45f3-4c23-934b-af057786ca36",
+  "recordedAt": "2026-05-29T22:40:32.749Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "not_tested",
+    "percent": 0,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "afterTest": {
+    "status": "not_tested",
+    "percent": 0,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "agentExitCode": 0,
+  "pluginBuildFailed": true,
+  "filesChanged": [
+    "figma-diffs/by-story/lab-productcard-dark/result.json",
+    "figma-diffs/lab-productcard-dark/artifact.v2.json",
+    "figma-diffs/lab-productcard-dark/rendered.png",
+    "figma-diffs/lab-productcard-dark/storybook.png",
+    "figma-diffs/report.html",
+    "figma-diffs/report.json",
+    "lab-memory/visual/investigations/active/lab-productcard--dark.md",
+    "packages/pixel-test/src/figma-live-test.ts",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "ON_TRACK",
+    "verdicts": [],
+    "nextWorkerMode": "continue",
+    "interventionLines": [
+      "Supervisor: plugin build failed — fix compile errors before renderer tweaks."
+    ],
+    "tierCRequired": false
+  }
+}

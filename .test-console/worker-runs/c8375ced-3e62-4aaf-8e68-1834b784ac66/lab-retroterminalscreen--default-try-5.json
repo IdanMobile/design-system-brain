@@ -1,0 +1,67 @@
+{
+  "storyId": "lab-retroterminalscreen--default",
+  "attempt": 5,
+  "jobId": "c8375ced-3e62-4aaf-8e68-1834b784ac66",
+  "recordedAt": "2026-05-29T23:59:37.661Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 2.257564710171345,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 2.257564710171345,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "agentExitCode": 143,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-prompts/agent-lab-retroterminalscreen--default_fix-5-1780099091467.prompt.txt",
+    ".test-console/agent-prompts/agent-screen_2_fix-5-1780099163063.prompt.txt",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-agent-lab-foodfrenzyscreen--default_fix-4-1780099052469.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-agent-lab-retroterminalscreen--default_fix-5-1780099091467.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-agent-screen_2_fix-4-1780098923343.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-figmaEntry_parity_screen_2-1780099162615.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-plugin_build-1780099160516.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-test_lab-foodfrenzyscreen--default-1780099138236.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-test_lab-foodfrenzyscreen--default-1780099143331.json",
+    ".test-console/fleet/agents.json",
+    ".test-console/fleet/events.jsonl",
+    ".test-console/job-results/c8375ced-3e62-4aaf-8e68-1834b784ac66/lab-foodfrenzyscreen--default-fixer-try-4.json",
+    ".test-console/job-results/c8375ced-3e62-4aaf-8e68-1834b784ac66/screen_2-fixer-try-4.json",
+    ".test-console/orchestrator-logs/2026-05-30_01-51-36_c8375ced.log",
+    ".test-console/orchestrator-state.json",
+    ".test-console/worker-runs/c8375ced-3e62-4aaf-8e68-1834b784ac66/lab-foodfrenzyscreen--default-try-4.json",
+    ".test-console/worker-runs/c8375ced-3e62-4aaf-8e68-1834b784ac66/screen_2-try-4.json",
+    "lab-memory/visual/investigations/active/screen_2.md",
+    "packages/figma-importer-plugin/src/code-v2.ts",
+    "pixel-diffs/by-story/lab-foodfrenzyscreen-default/result.json",
+    "pixel-diffs/lab-foodfrenzyscreen-default/artifact.v2.json",
+    "pixel-diffs/report.json",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "STUCK_LOOP",
+    "verdicts": [
+      "NO_ADAPTER_EDIT",
+      "STUCK_LOOP",
+      "WRONG_DIRECTION",
+      "SHARED_ADAPTER"
+    ],
+    "nextWorkerMode": "narrow_scope",
+    "interventionLines": [
+      "Supervisor: edits were only vault/rules/prompts — pixel needs packages/pixel-test/src/render-html.ts or extract.ts. Do NOT reorganize lab-memory during fix-all.",
+      "Supervisor: two consecutive attempts with no metric movement — switch to investigate-first.",
+      "Supervisor: ORCHESTRATOR REVIEW required — repeated fixer attempts did not resolve this item. Stop retrying the same prompt; summarize failed hypotheses, compare artifacts, and update the next fixer instruction before another code-edit attempt.",
+      "Supervisor: pixel step — prefer render-html.ts / extract.ts; code-v2.ts is for Figma import, not schema HTML replay.",
+      "Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done.",
+      "Supervisor: agent CLI exited 143 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": true
+  }
+}

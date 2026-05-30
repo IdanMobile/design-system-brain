@@ -14,15 +14,123 @@ code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; }
 <h1>Figma LIVE — pixel-diff report</h1>
 <p>Storybook vs <strong>real Figma Desktop</strong> PNG exports (<code>exportAsync</code> through the development plugin). Unlike <code>test:figma</code>, this does not use the browser mock.</p>
 <div class="summary">
-  <div>Total: <strong>0</strong></div>
-  <div style="color:#16a34a">Pass: <strong>0</strong></div>
-  <div style="color:#d97706">Warn: <strong>0</strong></div>
-  <div style="color:#dc2626">Fail: <strong>0</strong></div>
+  <div>Total: <strong>9</strong></div>
+  <div style="color:#16a34a">Pass: <strong>3</strong></div>
+  <div style="color:#d97706">Warn: <strong>3</strong></div>
+  <div style="color:#dc2626">Fail: <strong>3</strong></div>
   <div style="color:#7c3aed">Error: <strong>0</strong></div>
 </div>
 <table>
   <thead><tr><th>Story</th><th>Status</th><th>Match</th><th>Artifacts</th><th>Note</th></tr></thead>
-  <tbody></tbody>
+  <tbody>
+      <tr id="story-lab-analyticscharts-revenue">
+        <td><code>lab-analyticscharts--revenue</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td><span class="metric-primary">99.87% match</span><span class="metric-sub">worst area: 98.8% match</span><span class="metric-sub">≤1.5% global · ≤1% hotspot</span><span class="metric-sub" style="color:#d97706">hotspot</span></td>
+        <td>
+          <a target="_blank" href="lab-analyticscharts-revenue/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-analyticscharts-revenue/figma.png">figma live</a> ·
+          <a target="_blank" href="lab-analyticscharts-revenue/diff.png">diff</a>
+           · <a href="#story-lab-analyticscharts-revenue">5 hotspots</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr id="story-lab-analyticscharts-usage">
+        <td><code>lab-analyticscharts--usage</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td><span class="metric-primary">99.88% match</span><span class="metric-sub">worst area: 98.9% match</span><span class="metric-sub">≤1.5% global · ≤1% hotspot</span><span class="metric-sub" style="color:#d97706">hotspot</span></td>
+        <td>
+          <a target="_blank" href="lab-analyticscharts-usage/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-analyticscharts-usage/figma.png">figma live</a> ·
+          <a target="_blank" href="lab-analyticscharts-usage/diff.png">diff</a>
+           · <a href="#story-lab-analyticscharts-usage">5 hotspots</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr id="story-lab-contentlistboard-highlighted">
+        <td><code>lab-contentlistboard--highlighted</code></td>
+        <td style="color:#dc2626;font-weight:600">FAIL</td>
+        <td><span class="metric-primary">99.55% match</span><span class="metric-sub">worst area: 98.9% match</span><span class="metric-sub">≤1.5% global · ≤1% hotspot</span><span class="metric-sub" style="color:#dc2626">hotspot</span></td>
+        <td>
+          <a target="_blank" href="lab-contentlistboard-highlighted/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-contentlistboard-highlighted/figma.png">figma live</a> ·
+          <a target="_blank" href="lab-contentlistboard-highlighted/diff.png">diff</a>
+           · <a href="#story-lab-contentlistboard-highlighted">7 hotspots</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr id="story-lab-featurecard-default">
+        <td><code>lab-featurecard--default</code></td>
+        <td style="color:#d97706;font-weight:600">WARN</td>
+        <td><span class="metric-primary">99.71% match</span><span class="metric-sub">worst area: 98.1% match</span><span class="metric-sub">≤1.5% global · ≤1% hotspot</span><span class="metric-sub" style="color:#d97706">hotspot</span></td>
+        <td>
+          <a target="_blank" href="lab-featurecard-default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-featurecard-default/figma.png">figma live</a> ·
+          <a target="_blank" href="lab-featurecard-default/diff.png">diff</a>
+           · <a href="#story-lab-featurecard-default">3 hotspots</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr id="story-lab-loadingstates-card-skeleton">
+        <td><code>lab-loadingstates--card-skeleton</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">100.000% match</span><span class="metric-sub">≤1.5% global · ≤1% hotspot</span></td>
+        <td>
+          <a target="_blank" href="lab-loadingstates-card-skeleton/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-loadingstates-card-skeleton/figma.png">figma live</a> ·
+          <a target="_blank" href="lab-loadingstates-card-skeleton/diff.png">diff</a>
+          
+        </td>
+        <td></td>
+      </tr>
+      <tr id="story-lab-pricingpanel-pro">
+        <td><code>lab-pricingpanel--pro</code></td>
+        <td style="color:#dc2626;font-weight:600">FAIL</td>
+        <td><span class="metric-primary">97.9% match</span><span class="metric-sub">worst area: 95.9% match</span><span class="metric-sub">≤1.5% global · ≤0.1% hotspot</span><span class="metric-sub" style="color:#dc2626">global+hotspot</span></td>
+        <td>
+          <a target="_blank" href="lab-pricingpanel-pro/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-pricingpanel-pro/figma.png">figma live</a> ·
+          <a target="_blank" href="lab-pricingpanel-pro/diff.png">diff</a>
+           · <a href="#story-lab-pricingpanel-pro">1 hotspots</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr id="story-lab-pricingpanel-starter">
+        <td><code>lab-pricingpanel--starter</code></td>
+        <td style="color:#dc2626;font-weight:600">FAIL</td>
+        <td><span class="metric-primary">98.8% match</span><span class="metric-sub">worst area: 96.4% match</span><span class="metric-sub">≤1.5% global · ≤1% hotspot</span><span class="metric-sub" style="color:#dc2626">hotspot</span></td>
+        <td>
+          <a target="_blank" href="lab-pricingpanel-starter/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-pricingpanel-starter/figma.png">figma live</a> ·
+          <a target="_blank" href="lab-pricingpanel-starter/diff.png">diff</a>
+           · <a href="#story-lab-pricingpanel-starter">2 hotspots</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr id="story-lab-productcard-dark">
+        <td><code>lab-productcard--dark</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">99.92% match</span><span class="metric-sub">worst area: 99.29% match</span><span class="metric-sub">≤1.5% global · ≤1% hotspot</span></td>
+        <td>
+          <a target="_blank" href="lab-productcard-dark/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-productcard-dark/figma.png">figma live</a> ·
+          <a target="_blank" href="lab-productcard-dark/diff.png">diff</a>
+           · <a href="#story-lab-productcard-dark">4 hotspots</a>
+        </td>
+        <td></td>
+      </tr>
+      <tr id="story-lab-productcard-default">
+        <td><code>lab-productcard--default</code></td>
+        <td style="color:#16a34a;font-weight:600">PASS</td>
+        <td><span class="metric-primary">99.93% match</span><span class="metric-sub">worst area: 99.39% match</span><span class="metric-sub">≤1.5% global · ≤1% hotspot</span></td>
+        <td>
+          <a target="_blank" href="lab-productcard-default/storybook.png">storybook</a> ·
+          <a target="_blank" href="lab-productcard-default/figma.png">figma live</a> ·
+          <a target="_blank" href="lab-productcard-default/diff.png">diff</a>
+           · <a href="#story-lab-productcard-default">3 hotspots</a>
+        </td>
+        <td></td>
+      </tr></tbody>
 </table>
 <p style="font-size:12px;color:#6b7280">Default strict base: 0.1% global · 0.1% hotspot. Live raster bump (when mock strict): ≤1.5% global · ≤1% hotspot. Export scale: 1× (FIGMA_LIVE_EXPORT_SCALE).</p>
 </body></html>

@@ -1,0 +1,19 @@
+{
+  "jobId": "e8d39c19-2b90-4fe1-ba0a-7642fc5796d9",
+  "storyId": "lab-retroterminalscreen--default",
+  "phase": "fixer",
+  "attempt": 3,
+  "recordedAt": "2026-05-29T20:39:31.209Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "status": "failed",
+  "agentExitCode": 143,
+  "filesChanged": [
+    ".test-console/agent-prompts/agent-lab-retroterminalscreen--default_fix-3-1780087129497.prompt.txt"
+  ],
+  "workerMode": "investigate_first",
+  "usageBlocked": false,
+  "watchdogTripped": true,
+  "watchdogReason": "20 big-file reads (≥800 lines each) with 0 edits — redundant context loading.",
+  "editCount": 0
+}

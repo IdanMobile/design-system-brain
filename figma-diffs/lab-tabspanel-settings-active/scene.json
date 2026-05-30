@@ -168,7 +168,7 @@
                   "opacity": 1,
                   "characters": "Overview",
                   "fontName": {
-                    "family": "Inter",
+                    "family": "Arial",
                     "style": "Bold"
                   },
                   "fontSize": 15,
@@ -247,7 +247,7 @@
                   "opacity": 1,
                   "characters": "Activity",
                   "fontName": {
-                    "family": "Inter",
+                    "family": "Arial",
                     "style": "Bold"
                   },
                   "fontSize": 15,
@@ -326,7 +326,7 @@
                   "opacity": 1,
                   "characters": "Settings",
                   "fontName": {
-                    "family": "Inter",
+                    "family": "Arial",
                     "style": "Bold"
                   },
                   "fontSize": 15,

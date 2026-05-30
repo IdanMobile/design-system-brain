@@ -171,7 +171,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": false,
+                  "clipsContent": true,
                   "svgSource": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 20 20\"><path d=\"M4 10h12M10 4v12\" stroke=\"rgb(0, 109, 206)\" stroke-width=\"2.4\" stroke-linecap=\"round\" fill=\"rgb(0, 0, 0)\" /></svg>",
                   "children": []
                 }

@@ -698,7 +698,7 @@
               "opacity": 1,
               "characters": "Upgrade now",
               "fontName": {
-                "family": "Inter",
+                "family": "Arial",
                 "style": "Bold"
               },
               "fontSize": 20,

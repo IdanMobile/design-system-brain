@@ -1,0 +1,11 @@
+{
+  "tag": "lab-meetinghomepage--default:fix-2",
+  "exitCode": 143,
+  "finishedAt": "2026-05-29T23:48:59.649Z",
+  "editCount": 0,
+  "readCount": 38,
+  "bigReadCount": 21,
+  "watchdogTripped": true,
+  "watchdogReason": "20 big-file reads (≥800 lines each) with 0 edits — redundant context loading.",
+  "elapsedMs": 152920
+}

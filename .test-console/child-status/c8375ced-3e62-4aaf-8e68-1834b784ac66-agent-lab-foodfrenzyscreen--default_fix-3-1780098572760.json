@@ -1,0 +1,11 @@
+{
+  "tag": "lab-foodfrenzyscreen--default:fix-3",
+  "exitCode": 143,
+  "finishedAt": "2026-05-29T23:52:19.091Z",
+  "editCount": 0,
+  "readCount": 34,
+  "bigReadCount": 20,
+  "watchdogTripped": true,
+  "watchdogReason": "20 big-file reads (≥800 lines each) with 0 edits — redundant context loading.",
+  "elapsedMs": 165758
+}

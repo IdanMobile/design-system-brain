@@ -1,0 +1,107 @@
+{
+  "updatedAt": "2026-05-30T04:21:08.384Z",
+  "agents": [
+    {
+      "id": "orchestrator",
+      "purpose": "Schedule, gate, assign",
+      "capabilities": [
+        "rules"
+      ],
+      "status": "idle",
+      "workerNode": "local-mac",
+      "since": "2026-05-30T04:21:08.384Z",
+      "currentTask": null
+    },
+    {
+      "id": "infra",
+      "purpose": "Storybook, relay, plugin build",
+      "capabilities": [
+        "infra",
+        "macos"
+      ],
+      "status": "idle",
+      "workerNode": "local-mac",
+      "since": "2026-05-29T21:06:42.098Z",
+      "currentTask": null
+    },
+    {
+      "id": "investigator",
+      "purpose": "Diagnose before edit",
+      "capabilities": [
+        "read-only"
+      ],
+      "status": "idle",
+      "workerNode": "local-mac",
+      "since": "2026-05-30T03:39:59.455Z",
+      "currentTask": null
+    },
+    {
+      "id": "pixel-fixer",
+      "purpose": "Pixel step 1",
+      "capabilities": [
+        "pixel"
+      ],
+      "status": "idle",
+      "workerNode": "local-mac",
+      "since": "2026-05-30T04:19:18.581Z",
+      "currentTask": null
+    },
+    {
+      "id": "mock-figma-fixer",
+      "purpose": "Figma mock step 2",
+      "capabilities": [
+        "figma-mock"
+      ],
+      "status": "idle",
+      "workerNode": "local-mac",
+      "since": "2026-05-29T21:06:42.098Z",
+      "currentTask": null
+    },
+    {
+      "id": "live-figma-fixer",
+      "purpose": "Figma live step 3",
+      "capabilities": [
+        "figma-live",
+        "macos"
+      ],
+      "status": "idle",
+      "workerNode": "local-mac",
+      "since": "2026-05-30T04:19:30.700Z",
+      "currentTask": null
+    },
+    {
+      "id": "delivery-fixer",
+      "purpose": "Delivery step 4",
+      "capabilities": [
+        "delivery"
+      ],
+      "status": "idle",
+      "workerNode": "local-mac",
+      "since": "2026-05-29T21:06:42.098Z",
+      "currentTask": null
+    },
+    {
+      "id": "verifier",
+      "purpose": "Tier A/B/C regression",
+      "capabilities": [
+        "test"
+      ],
+      "status": "idle",
+      "workerNode": "local-mac",
+      "since": "2026-05-30T04:20:45.635Z",
+      "currentTask": null
+    },
+    {
+      "id": "merge-captain",
+      "purpose": "Review sandbox code changes before promotion",
+      "capabilities": [
+        "review",
+        "merge-gate"
+      ],
+      "status": "idle",
+      "workerNode": "local-mac",
+      "since": "2026-05-30T02:29:22.025Z",
+      "currentTask": null
+    }
+  ]
+}

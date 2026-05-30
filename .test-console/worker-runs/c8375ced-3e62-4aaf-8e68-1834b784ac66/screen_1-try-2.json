@@ -1,0 +1,48 @@
+{
+  "storyId": "screen_1",
+  "attempt": 2,
+  "jobId": "c8375ced-3e62-4aaf-8e68-1834b784ac66",
+  "recordedAt": "2026-05-30T04:21:10.741Z",
+  "suiteId": "vsFigmaLive",
+  "mode": "figmaEntry",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 0.3098372923654025,
+    "maxRegionPercent": 12.333333333333334,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 0.3098372923654025,
+    "maxRegionPercent": 12.333333333333334,
+    "error": null
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-prompts/agent-screen_1_fix-2-1780114859848.prompt.txt",
+    ".test-console/agent-prompts/agent-screen_2_fix-2-1780114859849.prompt.txt",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-agent-screen_1_fix-2-1780114859848.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-agent-screen_2_fix-2-1780114859849.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-plugin_build-1780114866194.json",
+    ".test-console/fleet/agents.json",
+    ".test-console/fleet/events.jsonl",
+    ".test-console/job-results/c8375ced-3e62-4aaf-8e68-1834b784ac66/screen_2-fixer-try-2.json",
+    ".test-console/orchestrator-logs/2026-05-30_01-51-36_c8375ced.log",
+    ".test-console/orchestrator-state.json"
+  ],
+  "evaluation": {
+    "verdict": "STUCK_LOOP",
+    "verdicts": [
+      "NO_ADAPTER_EDIT",
+      "STUCK_LOOP"
+    ],
+    "nextWorkerMode": "narrow_scope",
+    "interventionLines": [
+      "Supervisor: edits did not touch the adapter for this step — change renderer/extract paths named in the prompt, not docs or lab-memory.",
+      "Supervisor: metrics unchanged across attempts — stop guessing; use investigate-figma-mismatch on compare PNG + artifact before editing.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

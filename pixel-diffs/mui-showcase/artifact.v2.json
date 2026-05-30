@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "mui--showcase",
     "componentName": "MUIShowcase",
-    "extractedAt": "2026-05-25T19:29:22.306Z",
+    "extractedAt": "2026-05-30T03:50:52.082Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=mui--showcase&viewMode=story",
     "viewport": {
       "x": 0,
@@ -470,7 +470,8 @@
                             "css-iafu2n"
                           ],
                           "dataset": {
-                            "pressedManaged": "true"
+                            "pressedManaged": "true",
+                            "labId": "el-contained"
                           }
                         },
                         "box": {
@@ -611,7 +612,8 @@
                             "css-1bf9p9p"
                           ],
                           "dataset": {
-                            "pressedManaged": "true"
+                            "pressedManaged": "true",
+                            "labId": "el-outlined"
                           }
                         },
                         "box": {
@@ -742,7 +744,8 @@
                             "css-1c69r7k"
                           ],
                           "dataset": {
-                            "pressedManaged": "true"
+                            "pressedManaged": "true",
+                            "labId": "el-text"
                           }
                         },
                         "box": {
@@ -1967,7 +1970,10 @@
                                         "MuiLink-root",
                                         "MuiLink-underlineHover",
                                         "css-34zh2v"
-                                      ]
+                                      ],
+                                      "dataset": {
+                                        "labId": "el-home"
+                                      }
                                     },
                                     "box": {
                                       "x": 0,
@@ -2159,7 +2165,10 @@
                                         "MuiLink-root",
                                         "MuiLink-underlineHover",
                                         "css-34zh2v"
-                                      ]
+                                      ],
+                                      "dataset": {
+                                        "labId": "el-components"
+                                      }
                                     },
                                     "box": {
                                       "x": 0,
@@ -2637,7 +2646,10 @@
                                             "Mui-selected",
                                             "css-6p016c"
                                           ],
-                                          "role": "tab"
+                                          "role": "tab",
+                                          "dataset": {
+                                            "labId": "el-overview"
+                                          }
                                         },
                                         "box": {
                                           "x": 0,
@@ -2723,7 +2735,10 @@
                                             "MuiTab-textColorPrimary",
                                             "css-6p016c"
                                           ],
-                                          "role": "tab"
+                                          "role": "tab",
+                                          "dataset": {
+                                            "labId": "el-design"
+                                          }
                                         },
                                         "box": {
                                           "x": 110.42,
@@ -2809,7 +2824,10 @@
                                             "MuiTab-textColorPrimary",
                                             "css-6p016c"
                                           ],
-                                          "role": "tab"
+                                          "role": "tab",
+                                          "dataset": {
+                                            "labId": "el-usage"
+                                          }
                                         },
                                         "box": {
                                           "x": 200.42,
@@ -3447,7 +3465,10 @@
                                         "MuiOutlinedInput-input",
                                         "css-15v65ck"
                                       ],
-                                      "inputType": "text"
+                                      "inputType": "text",
+                                      "dataset": {
+                                        "labId": "el-input"
+                                      }
                                     },
                                     "box": {
                                       "x": 0,
@@ -3870,7 +3891,10 @@
                                         "MuiOutlinedInput-input",
                                         "css-uxvpzc"
                                       ],
-                                      "role": "combobox"
+                                      "role": "combobox",
+                                      "dataset": {
+                                        "labId": "el-designer"
+                                      }
                                     },
                                     "box": {
                                       "x": 0,
@@ -10381,7 +10405,10 @@
                                                 "MuiPaginationItem-previousNext",
                                                 "css-1t8kkt0"
                                               ],
-                                              "ariaLabel": "Go to previous page"
+                                              "ariaLabel": "Go to previous page",
+                                              "dataset": {
+                                                "labId": "el-button"
+                                              }
                                             },
                                             "box": {
                                               "x": 3,
@@ -10579,7 +10606,10 @@
                                                 "MuiPaginationItem-page",
                                                 "css-1t8kkt0"
                                               ],
-                                              "ariaLabel": "page 1"
+                                              "ariaLabel": "page 1",
+                                              "dataset": {
+                                                "labId": "el-1"
+                                              }
                                             },
                                             "box": {
                                               "x": 3,
@@ -10736,7 +10766,10 @@
                                                 "MuiPaginationItem-page",
                                                 "css-1t8kkt0"
                                               ],
-                                              "ariaLabel": "Go to page 2"
+                                              "ariaLabel": "Go to page 2",
+                                              "dataset": {
+                                                "labId": "el-2"
+                                              }
                                             },
                                             "box": {
                                               "x": 3,
@@ -10887,7 +10920,10 @@
                                                 "MuiPaginationItem-page",
                                                 "css-1t8kkt0"
                                               ],
-                                              "ariaLabel": "Go to page 3"
+                                              "ariaLabel": "Go to page 3",
+                                              "dataset": {
+                                                "labId": "el-3"
+                                              }
                                             },
                                             "box": {
                                               "x": 3,
@@ -11038,7 +11074,10 @@
                                                 "MuiPaginationItem-page",
                                                 "css-1t8kkt0"
                                               ],
-                                              "ariaLabel": "Go to page 4"
+                                              "ariaLabel": "Go to page 4",
+                                              "dataset": {
+                                                "labId": "el-4"
+                                              }
                                             },
                                             "box": {
                                               "x": 3,
@@ -11189,7 +11228,10 @@
                                                 "MuiPaginationItem-page",
                                                 "css-1t8kkt0"
                                               ],
-                                              "ariaLabel": "Go to page 5"
+                                              "ariaLabel": "Go to page 5",
+                                              "dataset": {
+                                                "labId": "el-5"
+                                              }
                                             },
                                             "box": {
                                               "x": 3,
@@ -11475,7 +11517,10 @@
                                                 "MuiPaginationItem-page",
                                                 "css-1t8kkt0"
                                               ],
-                                              "ariaLabel": "Go to page 8"
+                                              "ariaLabel": "Go to page 8",
+                                              "dataset": {
+                                                "labId": "el-8"
+                                              }
                                             },
                                             "box": {
                                               "x": 3,
@@ -11626,7 +11671,10 @@
                                                 "MuiPaginationItem-previousNext",
                                                 "css-1t8kkt0"
                                               ],
-                                              "ariaLabel": "Go to next page"
+                                              "ariaLabel": "Go to next page",
+                                              "dataset": {
+                                                "labId": "el-button-2"
+                                              }
                                             },
                                             "box": {
                                               "x": 3,
@@ -13647,16 +13695,16 @@
                                   "role": "progressbar"
                                 },
                                 "box": {
-                                  "x": -3.86,
-                                  "y": -3.86,
-                                  "width": 29.73,
-                                  "height": 29.73
+                                  "x": -4.28,
+                                  "y": -4.28,
+                                  "width": 30.56,
+                                  "height": 30.56
                                 },
                                 "computedBox": {
-                                  "x": 37.14,
-                                  "y": 1547.26,
-                                  "width": 29.73,
-                                  "height": 29.73
+                                  "x": 36.72,
+                                  "y": 1546.85,
+                                  "width": 30.56,
+                                  "height": 30.56
                                 },
                                 "layout": {
                                   "display": "block",
@@ -13680,10 +13728,10 @@
                                 },
                                 "transform": {
                                   "matrix": [
-                                    -0.466962,
-                                    0.884278,
-                                    -0.884278,
-                                    -0.466962,
+                                    -0.561757,
+                                    0.827303,
+                                    -0.827303,
+                                    -0.561757,
                                     0,
                                     0
                                   ],
@@ -13707,14 +13755,14 @@
                                     "box": {
                                       "x": 0,
                                       "y": 0,
-                                      "width": 29.73,
-                                      "height": 29.73
+                                      "width": 30.56,
+                                      "height": 30.56
                                     },
                                     "computedBox": {
-                                      "x": 37.14,
-                                      "y": 1547.26,
-                                      "width": 29.73,
-                                      "height": 29.73
+                                      "x": 36.72,
+                                      "y": 1546.85,
+                                      "width": 30.56,
+                                      "height": 30.56
                                     },
                                     "layout": {
                                       "display": "block",
@@ -13752,10 +13800,10 @@
                                             "stroke": "rgb(25, 118, 210)",
                                             "strokeWidth": 3.6,
                                             "dashArray": [
-                                              75.3716,
+                                              80.1575,
                                               200
                                             ],
-                                            "dashOffset": -11.2684
+                                            "dashOffset": -11.9936
                                           }
                                         }
                                       ],
@@ -13967,7 +14015,8 @@
                             "css-rulspo"
                           ],
                           "dataset": {
-                            "pressedManaged": "true"
+                            "pressedManaged": "true",
+                            "labId": "el-view-details"
                           }
                         },
                         "box": {
@@ -14076,7 +14125,8 @@
                             "css-271wgt"
                           ],
                           "dataset": {
-                            "pressedManaged": "true"
+                            "pressedManaged": "true",
+                            "labId": "el-continue"
                           }
                         },
                         "box": {

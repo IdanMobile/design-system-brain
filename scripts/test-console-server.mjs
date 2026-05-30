@@ -38,6 +38,7 @@ import {
   MAX_PARALLEL_WORKERS
 } from "./test-console-run-settings.mjs";
 import { loadAgentModelOptions } from "./test-console-agent-models.mjs";
+import { buildFleetState } from "./test-console-fleet.mjs";
 import { SERVICE_TERMINAL } from "./test-console-services.mjs";
 import {
   ACTION_META,
@@ -1198,6 +1199,18 @@ async function handleApi(req, res, url) {
       maxParallelWorkers: MAX_PARALLEL_WORKERS,
       agentModelOptions: loadAgentModelOptions()
     });
+    return true;
+  }
+
+  if (url.pathname === "/api/fleet" && req.method === "GET") {
+    json(
+      res,
+      200,
+      buildFleetState(REPO, {
+        jobs: jobsForState(),
+        orchestratorRunning: portfolioOrchestratorRunning()
+      })
+    );
     return true;
   }
 

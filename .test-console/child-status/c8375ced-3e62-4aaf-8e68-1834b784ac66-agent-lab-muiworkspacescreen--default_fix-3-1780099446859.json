@@ -1,0 +1,11 @@
+{
+  "tag": "lab-muiworkspacescreen--default:fix-3",
+  "exitCode": 143,
+  "finishedAt": "2026-05-30T00:10:07.549Z",
+  "editCount": 0,
+  "readCount": 28,
+  "bigReadCount": 17,
+  "watchdogTripped": true,
+  "watchdogReason": "6.0m elapsed, 0 edits (reads=28, big-file reads=17). Investigate-first budget exceeded — land a targeted edit or write BLOCKED in lab-memory.",
+  "elapsedMs": 360071
+}

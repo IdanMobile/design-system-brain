@@ -376,3 +376,227 @@ false — automated test record at 2026-05-25T09:19:51.191Z
 false — automated test record at 2026-05-25T14:41:34.025Z
 
 <!-- vault-fingerprint: pixel|warn|0.300|na|0|fix all requested -->
+
+## Investigation — lab-meetinghomepage--default / pixel
+
+**Job ID:** c8375ced-3e62-4aaf-8e68-1834b784ac66  
+**Date:** 2026-05-30T02:12:42.968Z  
+**Source:** fix-all pre-agent (automated)
+**Fix attempt:** 1
+
+
+### Metrics
+
+| Field | Value |
+| --- | --- |
+| Status | warn |
+| Global diff | 0.32% |
+| Worst hotspot | n/a |
+| Fail reason | — |
+
+### Compare regions
+
+| Region | Issue | Path |
+| --- | --- | --- |
+| region-01 | diff region | `pixel-diffs/lab-meetinghomepage-default/regions/regions/region-01-compare.png` |
+| region-02 | diff region | `pixel-diffs/lab-meetinghomepage-default/regions/regions/region-02-compare.png` |
+| region-03 | diff region | `pixel-diffs/lab-meetinghomepage-default/regions/regions/region-03-compare.png` |
+| region-04 | diff region | `pixel-diffs/lab-meetinghomepage-default/regions/regions/region-04-compare.png` |
+
+### Artifacts
+
+- Compare: `pixel-diffs/lab-meetinghomepage-default/regions/region-01-compare.png`
+- Storybook PNG: `pixel-diffs/lab-meetinghomepage-default/storybook.png`
+- Figma PNG: `pixel-diffs/lab-meetinghomepage-default/rendered.png`
+- Artifact JSON: `pixel-diffs/lab-meetinghomepage-default/artifact.v2.json`
+- Scene JSON: `pixel-diffs/lab-meetinghomepage-default/scene.json`
+
+### Root cause
+
+<!-- pending — agent fills after systematic-debugging -->
+
+### Recommended fix area
+
+<!-- pending — see primary fix path for this suite in agent prompt -->
+
+### Cached
+
+false — automated test record at 2026-05-30T02:12:42.968Z
+
+<!-- vault-fingerprint: pixel|warn|0.321|na|1|fix-all pre-agent -->
+
+## Investigation — lab-meetinghomepage--default / pixel
+
+**Job ID:** c8375ced-3e62-4aaf-8e68-1834b784ac66  
+**Date:** 2026-05-30T02:13:17.427Z  
+**Source:** fix-all pre-agent (automated)
+**Fix attempt:** 2
+
+
+### Metrics
+
+| Field | Value |
+| --- | --- |
+| Status | warn |
+| Global diff | 0.32% |
+| Worst hotspot | n/a |
+| Fail reason | — |
+
+### Compare regions
+
+| Region | Issue | Path |
+| --- | --- | --- |
+| region-01 | diff region | `pixel-diffs/lab-meetinghomepage-default/regions/regions/region-01-compare.png` |
+| region-02 | diff region | `pixel-diffs/lab-meetinghomepage-default/regions/regions/region-02-compare.png` |
+| region-03 | diff region | `pixel-diffs/lab-meetinghomepage-default/regions/regions/region-03-compare.png` |
+| region-04 | diff region | `pixel-diffs/lab-meetinghomepage-default/regions/regions/region-04-compare.png` |
+
+### Artifacts
+
+- Compare: `pixel-diffs/lab-meetinghomepage-default/regions/region-01-compare.png`
+- Storybook PNG: `pixel-diffs/lab-meetinghomepage-default/storybook.png`
+- Figma PNG: `pixel-diffs/lab-meetinghomepage-default/rendered.png`
+- Artifact JSON: `pixel-diffs/lab-meetinghomepage-default/artifact.v2.json`
+- Scene JSON: `pixel-diffs/lab-meetinghomepage-default/scene.json`
+
+### Root cause
+
+<!-- pending — agent fills after systematic-debugging -->
+
+### Recommended fix area
+
+<!-- pending — see primary fix path for this suite in agent prompt -->
+
+### Cached
+
+false — automated test record at 2026-05-30T02:13:17.427Z
+
+<!-- vault-fingerprint: pixel|warn|0.321|na|2|fix-all pre-agent -->
+
+## Investigation — lab-meetinghomepage--default / pixel
+
+**Job ID:** c8375ced-3e62-4aaf-8e68-1834b784ac66  
+**Date:** 2026-05-30T02:17:53.227Z  
+**Source:** fix-all pre-agent (automated)
+**Fix attempt:** 2
+
+
+### Metrics
+
+| Field | Value |
+| --- | --- |
+| Status | warn |
+| Global diff | 0.32% |
+| Worst hotspot | n/a |
+| Fail reason | — |
+
+### Compare regions
+
+| Region | Issue | Path |
+| --- | --- | --- |
+| region-01 | diff region | `pixel-diffs/lab-meetinghomepage-default/regions/regions/region-01-compare.png` |
+| region-02 | diff region | `pixel-diffs/lab-meetinghomepage-default/regions/regions/region-02-compare.png` |
+| region-03 | diff region | `pixel-diffs/lab-meetinghomepage-default/regions/regions/region-03-compare.png` |
+| region-04 | diff region | `pixel-diffs/lab-meetinghomepage-default/regions/regions/region-04-compare.png` |
+
+### Artifacts
+
+- Compare: `pixel-diffs/lab-meetinghomepage-default/regions/region-01-compare.png`
+- Storybook PNG: `pixel-diffs/lab-meetinghomepage-default/storybook.png`
+- Figma PNG: `pixel-diffs/lab-meetinghomepage-default/rendered.png`
+- Artifact JSON: `pixel-diffs/lab-meetinghomepage-default/artifact.v2.json`
+- Scene JSON: `pixel-diffs/lab-meetinghomepage-default/scene.json`
+
+### Root cause
+
+<!-- pending — agent fills after systematic-debugging -->
+
+### Recommended fix area
+
+<!-- pending — see primary fix path for this suite in agent prompt -->
+
+### Cached
+
+false — automated test record at 2026-05-30T02:17:53.227Z
+
+<!-- vault-fingerprint: pixel|warn|0.319|na|2|fix-all pre-agent -->
+
+## Investigation — lab-meetinghomepage--default / pixel
+
+**Job ID:** c8375ced-3e62-4aaf-8e68-1834b784ac66  
+**Date:** 2026-05-30T02:25:27.380Z  
+**Source:** fix-all pre-agent (automated)
+**Fix attempt:** 3
+
+
+### Metrics
+
+| Field | Value |
+| --- | --- |
+| Status | warn |
+| Global diff | 0.32% |
+| Worst hotspot | n/a |
+| Fail reason | — |
+
+### Compare regions
+
+| Region | Issue | Path |
+| --- | --- | --- |
+| region-01 | diff region | `pixel-diffs/lab-meetinghomepage-default/regions/regions/region-01-compare.png` |
+| region-02 | diff region | `pixel-diffs/lab-meetinghomepage-default/regions/regions/region-02-compare.png` |
+| region-03 | diff region | `pixel-diffs/lab-meetinghomepage-default/regions/regions/region-03-compare.png` |
+| region-04 | diff region | `pixel-diffs/lab-meetinghomepage-default/regions/regions/region-04-compare.png` |
+
+### Artifacts
+
+- Compare: `pixel-diffs/lab-meetinghomepage-default/regions/region-01-compare.png`
+- Storybook PNG: `pixel-diffs/lab-meetinghomepage-default/storybook.png`
+- Figma PNG: `pixel-diffs/lab-meetinghomepage-default/rendered.png`
+- Artifact JSON: `pixel-diffs/lab-meetinghomepage-default/artifact.v2.json`
+- Scene JSON: `pixel-diffs/lab-meetinghomepage-default/scene.json`
+
+### Root cause
+
+<!-- pending — agent fills after systematic-debugging -->
+
+### Recommended fix area
+
+<!-- pending — see primary fix path for this suite in agent prompt -->
+
+### Cached
+
+false — automated test record at 2026-05-30T02:25:27.380Z
+
+<!-- vault-fingerprint: pixel|warn|0.319|na|3|fix-all pre-agent -->
+
+## Investigation — 2026-05-30 (attempt 3 fix)
+
+**Root cause:** Meeting-home flex rows (`earlier-top`, `earlier-bottom`, `section-head`, `live-row`) used absolute child layout so `flex: 1` on card h3 had no effect; missing `font-family` on `tryRenderMeetingCardH3` caused sub-pixel title/Shared misalignment.
+
+**Fix:** `usesFlexFlowLayout` includes meeting-home row classes; `tryRenderMeetingCardH3` emits `font-family`, `min-width: 0`, and nowrap overflow for earlier titles.
+
+**Result:** pixel golden PASS 0.065% (2026-05-30).
+
+## Resolved — lab-meetinghomepage--default / pixel
+
+**Date:** 2026-05-30T02:28:20.204Z  
+**Attempt:** 3  
+**Suite:** pixel
+
+Automated harness reports **PASS** for this story/step.
+
+If the fix was a reusable rule, add or update a note under `lab-memory/visual/patterns/`.
+
+<!-- vault-fingerprint: resolved|pixel|3|2026-05-30 -->
+
+## Resolved — lab-meetinghomepage--default / pixel
+
+**Date:** 2026-05-30T02:28:51.523Z  
+**Attempt:** 2  
+**Suite:** pixel
+
+Automated harness reports **PASS** for this story/step.
+
+If the fix was a reusable rule, add or update a note under `lab-memory/visual/patterns/`.
+
+<!-- vault-fingerprint: resolved|pixel|2|2026-05-30 -->

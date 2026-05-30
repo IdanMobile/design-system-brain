@@ -1,0 +1,51 @@
+{
+  "storyId": "lab-analyticscharts--revenue",
+  "attempt": 1,
+  "jobId": "cabb82fd-45f3-4c23-934b-af057786ca36",
+  "recordedAt": "2026-05-29T22:28:17.177Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 0.13108326066761272,
+    "maxRegionPercent": 1.1614304812834224,
+    "error": null
+  },
+  "afterTest": {
+    "status": "warn",
+    "percent": 0.13108326066761272,
+    "maxRegionPercent": 1.1614304812834224,
+    "error": null
+  },
+  "agentExitCode": 143,
+  "pluginBuildFailed": true,
+  "filesChanged": [
+    "figma-diffs/by-story/lab-analyticscharts-revenue/result.json",
+    "figma-diffs/lab-analyticscharts-revenue/artifact.v2.json",
+    "figma-diffs/lab-analyticscharts-revenue/scene.json",
+    "figma-diffs/report.html",
+    "figma-diffs/report.json",
+    "figma-live-diffs/by-story/lab-analyticscharts-revenue/result.json",
+    "figma-live-diffs/lab-analyticscharts-revenue/artifact.v2.json",
+    "figma-live-diffs/report.html",
+    "figma-live-diffs/report.json",
+    "lab-memory/visual/investigations/active/lab-analyticscharts--revenue.md",
+    "packages/figma-importer-plugin/dist/code.js",
+    "packages/figma-importer-plugin/src/code-v2.ts",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "SHARED_ADAPTER",
+    "verdicts": [
+      "SHARED_ADAPTER"
+    ],
+    "nextWorkerMode": "tier_c_required",
+    "interventionLines": [
+      "Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done.",
+      "Supervisor: agent CLI exited 143 — finish edits and verify plugin build before relying on test results.",
+      "Supervisor: plugin build failed — fix compile errors before renderer tweaks."
+    ],
+    "tierCRequired": true
+  }
+}

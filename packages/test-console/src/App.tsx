@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { attachJobStream, killJob, type JobProgress } from "./job-stream";
 import { jobRuntimeLabel } from "./format-elapsed";
 import { DeveloperConsolePage } from "./DeveloperConsolePage";
+import { FleetConsolePage } from "./FleetConsolePage";
 import { SERVICES, type ServiceKey } from "./services";
 import type {
   ActionDef,
@@ -16,14 +17,18 @@ import type {
 declare const __TEST_CONSOLE_SERVER_VERSION__: number;
 const EXPECTED_SERVER_VERSION: number = __TEST_CONSOLE_SERVER_VERSION__;
 
-type AppPage = "tests" | "developer";
+type AppPage = "tests" | "agents" | "developer";
 
 function pageFromHash(): AppPage {
-  return window.location.hash === "#developer" ? "developer" : "tests";
+  const hash = window.location.hash;
+  if (hash === "#developer") return "developer";
+  if (hash === "#agents" || hash === "#fleet") return "agents";
+  return "tests";
 }
 
 function syncHash(page: AppPage) {
-  const next = page === "developer" ? "#developer" : "#tests";
+  const next =
+    page === "developer" ? "#developer" : page === "agents" ? "#agents" : "#tests";
   if (window.location.hash !== next) window.location.hash = next;
 }
 
@@ -1214,6 +1219,13 @@ export function App() {
         </button>
         <button
           type="button"
+          className={`top-page-tab${activePage === "agents" ? " top-page-tab-active" : ""}`}
+          onClick={() => goToPage("agents")}
+        >
+          Agent Console
+        </button>
+        <button
+          type="button"
           className={`top-page-tab${activePage === "developer" ? " top-page-tab-active" : ""}`}
           onClick={() => goToPage("developer")}
         >
@@ -1223,6 +1235,8 @@ export function App() {
 
       {activePage === "developer" ? (
         <DeveloperConsolePage />
+      ) : activePage === "agents" ? (
+        <FleetConsolePage />
       ) : (
         <>
       <header>

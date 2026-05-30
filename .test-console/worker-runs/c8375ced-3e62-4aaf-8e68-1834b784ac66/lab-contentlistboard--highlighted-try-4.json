@@ -1,0 +1,48 @@
+{
+  "storyId": "lab-contentlistboard--highlighted",
+  "attempt": 4,
+  "jobId": "c8375ced-3e62-4aaf-8e68-1834b784ac66",
+  "recordedAt": "2026-05-30T04:04:48.781Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 0.44656494101560795,
+    "maxRegionPercent": 1.0985571656599167,
+    "error": null
+  },
+  "afterTest": {
+    "status": "error",
+    "percent": 100,
+    "maxRegionPercent": null,
+    "error": "Export timed out after 600000ms"
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-prompts/agent-lab-contentlistboard--highlighted_fix-4-1780113275082.prompt.txt",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-agent-lab-contentlistboard--highlighted_fix-4-1780113275082.json",
+    ".test-console/fleet/agents.json",
+    ".test-console/fleet/events.jsonl",
+    ".test-console/orchestrator-logs/2026-05-30_01-51-36_c8375ced.log",
+    "pixel-diffs/by-story/lab-pricingpanel-pro/result.json",
+    "pixel-diffs/by-story/lab-pricingpanel-starter/result.json",
+    "pixel-diffs/lab-pricingpanel-starter/artifact.v2.json",
+    "pixel-diffs/report.json",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "WORSE_METRICS",
+    "verdicts": [
+      "WORSE_METRICS"
+    ],
+    "nextWorkerMode": "orchestrator_review",
+    "interventionLines": [
+      "Supervisor: global diff worsened by 99.55% — revert harmful edits; do not repeat the same approach.",
+      "Supervisor: ORCHESTRATOR REVIEW required — repeated fixer attempts did not resolve this item. Stop retrying the same prompt; summarize failed hypotheses, compare artifacts, and update the next fixer instruction before another code-edit attempt.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

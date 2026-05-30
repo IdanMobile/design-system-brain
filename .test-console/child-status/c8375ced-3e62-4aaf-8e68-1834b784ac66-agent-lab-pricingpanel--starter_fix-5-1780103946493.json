@@ -1,0 +1,11 @@
+{
+  "tag": "lab-pricingpanel--starter:fix-5",
+  "exitCode": 143,
+  "finishedAt": "2026-05-30T01:27:07.499Z",
+  "editCount": 0,
+  "readCount": 26,
+  "bigReadCount": 17,
+  "watchdogTripped": true,
+  "watchdogReason": "8.0m elapsed, 0 edits (reads=26, big-file reads=17). Investigation paralysis.",
+  "elapsedMs": 480168
+}

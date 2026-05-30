@@ -140,6 +140,32 @@
     if (c.a >= 0.999) return `stroke="rgb(${r}, ${g}, ${b})"`;
     return `stroke="rgb(${r}, ${g}, ${b})" stroke-opacity="${snap(c.a)}"`;
   }
+  function svgFillColorAttrs(color) {
+    const c = parseColor(color);
+    const r = Math.round(c.r * 255);
+    const g = Math.round(c.g * 255);
+    const b = Math.round(c.b * 255);
+    if (c.a >= 0.999) return `fill="rgb(${r}, ${g}, ${b})"`;
+    return `fill="rgb(${r}, ${g}, ${b})" fill-opacity="${snap(c.a)}"`;
+  }
+  function roundedRectPathCommands(x, y, w, h, radius) {
+    const cr = Math.max(0, Math.min(radius, w / 2, h / 2));
+    if (cr <= 0) {
+      return `M ${x} ${y} L ${x + w} ${y} L ${x + w} ${y + h} L ${x} ${y + h} Z`;
+    }
+    const cmds = [];
+    cmds.push(`M ${x + cr} ${y}`);
+    cmds.push(`L ${x + w - cr} ${y}`);
+    cmds.push(`A ${cr} ${cr} 0 0 1 ${x + w} ${y + cr}`);
+    cmds.push(`L ${x + w} ${y + h - cr}`);
+    cmds.push(`A ${cr} ${cr} 0 0 1 ${x + w - cr} ${y + h}`);
+    cmds.push(`L ${x + cr} ${y + h}`);
+    cmds.push(`A ${cr} ${cr} 0 0 1 ${x} ${y + h - cr}`);
+    cmds.push(`L ${x} ${y + cr}`);
+    cmds.push(`A ${cr} ${cr} 0 0 1 ${x + cr} ${y}`);
+    cmds.push(`Z`);
+    return cmds.join(" ");
+  }
   function gradientTransformForAngle(angleDeg, width, height) {
     const rad = (angleDeg - 90) * Math.PI / 180;
     let dx = Math.cos(rad);
@@ -407,7 +433,10 @@
     const gaps = (b.gaps || []).filter((g) => g.side === "top").sort((a, b2) => a.from - b2.from);
     if (gaps.length === 0 && bordersUniform(b)) {
       const uniform = bordersUniform(b);
-      if (!uniform || cornerR <= 0 || uniform.style !== "dashed" && uniform.style !== "dotted") {
+      if (!uniform || cornerR <= 0) return null;
+      if (uniform.style === "dashed" || uniform.style === "dotted") {
+      } else if (uniform.style === "solid" && !isMockFigmaRuntime()) {
+      } else {
         return null;
       }
     }
@@ -446,6 +475,62 @@
     cmds.push(`A ${cornerR} ${cornerR} 0 0 1 ${inset} ${height - inset - cornerR}`);
     cmds.push(`Z`);
     return `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg"><path d="${cmds.join(" ")}" ${strokeAttrs}/></svg>`;
+  }
+  function shouldSynthesizeInsetSpreadRingLive(layer) {
+    var _a;
+    if (isMockFigmaRuntime()) return false;
+    return (((_a = layer.paint) == null ? void 0 : _a.shadows) || []).some((s) => {
+      var _a2;
+      return s.inset && ((_a2 = s.spread) != null ? _a2 : 0) > 0;
+    });
+  }
+  function spreadShadowRequiresClip(layer) {
+    var _a;
+    return (((_a = layer.paint) == null ? void 0 : _a.shadows) || []).some((s) => s.spread !== 0);
+  }
+  function buildInsetSpreadRingSvg(width, height, paint, shadow) {
+    const spread = Math.max(0, snap(shadow.spread));
+    if (spread <= 0) return null;
+    const corners = paint.cornerRadii;
+    const r = corners ? Math.max(
+      corners.topLeft.x,
+      corners.topRight.x,
+      corners.bottomRight.x,
+      corners.bottomLeft.x
+    ) : 0;
+    const outer = roundedRectPathCommands(0, 0, width, height, r);
+    const innerPad = spread + 1;
+    const innerW = width - innerPad * 2;
+    const innerH = height - innerPad * 2;
+    if (innerW <= 0 || innerH <= 0) return null;
+    const innerR = Math.max(0, r - innerPad);
+    const inner = roundedRectPathCommands(innerPad, innerPad, innerW, innerH, innerR);
+    const fillAttrs = svgFillColorAttrs(shadow.color);
+    return `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="${outer} ${inner}" ${fillAttrs}/></svg>`;
+  }
+  function clearInsetRingVectorFills(node) {
+    if ("fills" in node) node.fills = [];
+    if ("children" in node) {
+      for (const child of node.children) clearInsetRingVectorFills(child);
+    }
+  }
+  function applyInsetSpreadRingOverlay(paint, width, height) {
+    var _a;
+    if (!((_a = paint == null ? void 0 : paint.shadows) == null ? void 0 : _a.length)) return null;
+    const shadow = paint.shadows.find((s) => {
+      var _a2;
+      return s.inset && ((_a2 = s.spread) != null ? _a2 : 0) > 0;
+    });
+    if (!shadow) return null;
+    const svg = buildInsetSpreadRingSvg(width, height, paint, shadow);
+    if (!svg) return null;
+    const vector = figma.createNodeFromSvg(svg);
+    vector.name = "__inset-ring";
+    vector.x = 0;
+    vector.y = 0;
+    vector.resize(Math.max(1, snap(width)), Math.max(1, snap(height)));
+    clearInsetRingVectorFills(vector);
+    return vector;
   }
   function effectsFromPaint(paint, allowSpread) {
     const out = [];
@@ -504,19 +589,92 @@
     availableFonts != null ? availableFonts : availableFonts = figma.listAvailableFontsAsync();
     return availableFonts;
   }
-  function liveCompensatedWeight(weight, font, layer, parent) {
+  function isInLabPricingContext(layer, parent, grandparent) {
+    var _a;
+    for (const l of [layer, parent, grandparent]) {
+      if (!l) continue;
+      if (((_a = l.source.classList) != null ? _a : []).some((c) => c.startsWith("lab-pricing"))) return true;
+    }
+    return false;
+  }
+  function isLabPricingBlockTypography(layer, parent) {
+    var _a, _b;
+    if (!(layer == null ? void 0 : layer.text) || !isInLabPricingContext(layer, parent)) return false;
+    const cl = (_a = layer.source.classList) != null ? _a : [];
+    const parentCl = (_b = parent == null ? void 0 : parent.source.classList) != null ? _b : [];
+    if (cl.includes("lab-pricing-tag")) return true;
+    if (layer.source.tag === "h3") return true;
+    if (parentCl.includes("lab-pricing-price")) return true;
+    if (parentCl.includes("lab-pricing-list") && layer.source.tag === "p") return true;
+    return false;
+  }
+  function isLabPricingCtaButton(layer) {
+    var _a, _b;
+    return ((_a = layer == null ? void 0 : layer.source) == null ? void 0 : _a.tag) === "button" && ((_b = layer.source.classList) != null ? _b : []).includes("lab-pricing-cta");
+  }
+  function isLabPricingTagPill(layer) {
+    var _a, _b;
+    return ((_b = (_a = layer == null ? void 0 : layer.source) == null ? void 0 : _a.classList) != null ? _b : []).includes("lab-pricing-tag");
+  }
+  function isLabPricingProVariant(layer, parent, grandparent) {
+    var _a;
+    for (const l of [layer, parent, grandparent]) {
+      if (!l) continue;
+      if (((_a = l.source.classList) != null ? _a : []).includes("pro")) return true;
+    }
+    return false;
+  }
+  function liveLabPricingInterResolveWeight(weight, layer, parent, _grandparent) {
     var _a;
     if (isMockFigmaRuntime()) return weight;
-    if (layer && isLabDomContext(layer, parent)) return weight;
+    if (layer && isLabPricingCtaButton(layer)) return weight;
+    if (layer && isLabPricingTagPill(layer)) return weight;
+    if (!isLabPricingBlockTypography(layer, parent)) return weight;
+    const primary = ((_a = familyCandidates(layer.text.font, layer)[0]) != null ? _a : "").toLowerCase();
+    if (primary !== "inter") return weight;
+    if (weight >= 800) return 700;
+    if (weight >= 700) return 600;
+    if (weight >= 500 && weight < 600) return 400;
+    return weight;
+  }
+  function isInLabFeatureContext(layer, parent, grandparent) {
+    var _a;
+    for (const l of [layer, parent, grandparent]) {
+      if (!l) continue;
+      if (((_a = l.source.classList) != null ? _a : []).some((c) => c.startsWith("lab-feature"))) return true;
+    }
+    return false;
+  }
+  function isLabFeatureBlockTypography(layer, parent, grandparent) {
+    var _a, _b, _c, _d, _e;
+    if (!layer.text || !isInLabFeatureContext(layer, parent, grandparent)) return false;
+    const tag = (_a = layer.source.tag) != null ? _a : "";
+    if (((_c = (_b = grandparent == null ? void 0 : grandparent.source) == null ? void 0 : _b.classList) != null ? _c : []).includes("lab-feature-header")) {
+      return tag === "h3" || tag === "p";
+    }
+    if (((_e = (_d = parent == null ? void 0 : parent.source) == null ? void 0 : _d.classList) != null ? _e : []).includes("lab-feature-footer")) {
+      return tag === "span" || tag === "strong";
+    }
+    return false;
+  }
+  function isLiveFeatureCardHeaderH3(layer, parent, grandparent) {
+    var _a, _b;
+    if (layer.source.tag !== "h3") return false;
+    return ((_b = (_a = grandparent == null ? void 0 : grandparent.source) == null ? void 0 : _a.classList) != null ? _b : []).includes("lab-feature-header");
+  }
+  function liveCompensatedWeight(weight, font, layer, parent, grandparent) {
+    var _a;
+    if (isMockFigmaRuntime()) return weight;
+    if (layer && isLabDomContext(layer, parent, grandparent)) return weight;
     if (layer && liveLayoutSensitiveText(layer, parent)) return weight;
-    const primary = ((_a = familyCandidates(font != null ? font : { family: "" })[0]) != null ? _a : "").toLowerCase();
+    const primary = ((_a = familyCandidates(font != null ? font : { family: "" }, layer)[0]) != null ? _a : "").toLowerCase();
     if (primary === "roboto") return weight;
     if (weight >= 400 && weight <= 700) return Math.min(900, weight + 100);
     return weight;
   }
-  function isLabDomContext(layer, parent) {
+  function isLabDomContext(layer, parent, grandparent) {
     var _a;
-    for (const l of [layer, parent]) {
+    for (const l of [layer, parent, grandparent]) {
       if (!l) continue;
       if (((_a = l.source.classList) != null ? _a : []).some((c) => c.startsWith("lab-"))) return true;
     }
@@ -575,9 +733,63 @@
     if (!isFigmaNativeTextLayer(layer)) return false;
     const resize = (_b = (_a = layer.source) == null ? void 0 : _a.dataset) == null ? void 0 : _b.figmaTextAutoResize;
     if (resize !== "WIDTH_AND_HEIGHT") return false;
+    const normalized = text.value.replace(/\u2028|\u2029/g, "\n");
+    if (/[\u2028\u2029]/.test(text.value) || normalized.includes("\n")) return true;
     const lh = (_c = text.lineHeight) != null ? _c : text.font.size;
     if (!(layer.box.height > lh * 1.3)) return false;
     return /\s/.test(text.value.trim());
+  }
+  function figmaNativeNeedsRtlContractBox(layer, text) {
+    var _a, _b;
+    if (!isFigmaNativeTextLayer(layer)) return false;
+    const resize = (_b = (_a = layer.source) == null ? void 0 : _a.dataset) == null ? void 0 : _b.figmaTextAutoResize;
+    if (resize !== "WIDTH_AND_HEIGHT" && resize !== "HEIGHT") return false;
+    return text.direction === "rtl" && (text.align === "right" || text.align === "end" || text.align === "center");
+  }
+  function parentUsesFlexCrossEnd(parent) {
+    var _a, _b;
+    if (((_a = parent == null ? void 0 : parent.layout) == null ? void 0 : _a.display) !== "flex") return false;
+    return ((_b = parent.layout.flex) == null ? void 0 : _b.align) === "end";
+  }
+  function pinFigmaFlexCrossEndBareText(text, layer, parent) {
+    if (!layer.text) return;
+    if (layer.text.direction === "rtl") return;
+    if (layer.text.align !== "left" && layer.text.align !== "start") return;
+    const parentW = parent.box.width;
+    const childRight = layer.box.x + layer.box.width;
+    const spansParent = layer.box.width >= parentW - 1 || childRight + 0.5 >= parentW;
+    if (!spansParent) return;
+    const boxW = Math.max(1, Math.ceil(snap(layer.box.width)));
+    const boxH = Math.max(1, Math.ceil(snap(layer.box.height)));
+    text.textAutoResize = "NONE";
+    text.textAlignHorizontal = "RIGHT";
+    text.resize(boxW, boxH);
+    text.x = snap(layer.box.x);
+    text.y = snap(layer.box.y);
+  }
+  function reaffirmFigmaFlexCrossEndBareText(node, layer, parent) {
+    if (!parentUsesFlexCrossEnd(parent) || !parentUsesFlexColumn(parent)) return;
+    if (node.type !== "TEXT" || !isFigmaNativeTextLayer(layer) || !layer.text) return;
+    pinFigmaFlexCrossEndBareText(node, layer, parent);
+  }
+  function applyFigmaRtlContractTextPin(text, layer) {
+    if (!isFigmaNativeTextLayer(layer) || !layer.text) return;
+    if (!figmaNativeNeedsRtlContractBox(layer, layer.text)) return;
+    const boxW = Math.max(1, Math.ceil(snap(layer.box.width)));
+    const boxH = Math.max(1, Math.ceil(snap(layer.box.height)));
+    try {
+      text.textDirection = "RTL";
+    } catch (e) {
+    }
+    text.textAlignHorizontal = layer.text.align === "center" ? "CENTER" : "RIGHT";
+    text.textAutoResize = "NONE";
+    text.resize(boxW, boxH);
+    text.x = snap(layer.box.x);
+    text.y = snap(layer.box.y);
+  }
+  function reaffirmFigmaRtlContractText(node, layer) {
+    if (node.type !== "TEXT") return;
+    applyFigmaRtlContractTextPin(node, layer);
   }
   function weightToStyle(weight, italic) {
     let base;
@@ -603,17 +815,37 @@
     cursive: ["Pacifico", "Dancing Script", "Inter"],
     fantasy: ["Impact", "Arial Black", "Inter"]
   };
-  function familyCandidates(font) {
-    const raw = font.stack || font.family || "";
-    return raw.split(",").map((s) => s.replace(/['"]/g, "").trim()).filter(Boolean);
+  function familyCandidates(font, layer) {
+    var _a, _b, _c;
+    const raw = font.computedStack || font.stack || font.family || "";
+    const candidates = raw.split(",").map((s) => s.replace(/['"]/g, "").trim()).filter(Boolean);
+    if (!font.computedStack && ((_a = layer == null ? void 0 : layer.source) == null ? void 0 : _a.tag) === "button" && ((_b = layer.source.classList) != null ? _b : []).includes("lab-pricing-cta")) {
+      const arial = candidates.find((c) => c.toLowerCase() === "arial");
+      if (arial) {
+        return [arial, ...candidates.filter((c) => c.toLowerCase() !== "arial")];
+      }
+    }
+    if (((_c = candidates[0]) == null ? void 0 : _c.toLowerCase()) === "arial") {
+      const extras = ["Helvetica Neue", "Helvetica"].filter(
+        (h) => !candidates.some((c) => c.toLowerCase() === h.toLowerCase())
+      );
+      return [candidates[0], ...extras, ...candidates.slice(1)];
+    }
+    return candidates;
   }
-  async function resolveFont(text, layer, parent) {
+  async function resolveFont(text, layer, parent, grandparent) {
     var _a, _b, _c;
     const italic = text.font.style === "italic" || text.font.style === "oblique";
-    let weight = liveCompensatedWeight(text.font.weight || 400, text.font, layer, parent);
+    let weight = liveLabPricingInterResolveWeight(
+      text.font.weight || 400,
+      layer,
+      parent,
+      grandparent
+    );
+    weight = liveCompensatedWeight(weight, text.font, layer, parent, grandparent);
     const tag = (_a = layer == null ? void 0 : layer.source.tag) != null ? _a : "";
     if (tag === "input" && weight < 600 && (parent == null ? void 0 : parent.name) === "inline-edit") {
-      weight = liveCompensatedWeight(700, text.font, layer, parent);
+      weight = liveCompensatedWeight(700, text.font, layer, parent, grandparent);
     }
     const desired = weightToStyle(weight, italic);
     const fonts = await listFonts();
@@ -634,7 +866,7 @@
         }
       }
     }
-    const candidates = familyCandidates(text.font);
+    const candidates = familyCandidates(text.font, layer);
     const styleWeight = (style) => {
       const s = style.toLowerCase();
       if (s.includes("thin")) return 100;
@@ -814,7 +1046,7 @@
       paint.cornerRadii.bottomRight.x,
       paint.cornerRadii.bottomLeft.x
     ) : 0;
-    const useSvgOutline = Boolean(uniform) && cornerR > 0 && (uniform.style === "dotted" || uniform.style === "dashed");
+    const useSvgOutline = Boolean(uniform) && cornerR > 0 && (uniform.style === "dotted" || uniform.style === "dashed" || !isMockFigmaRuntime() && uniform.style === "solid");
     if (uniform && !("strokes" in node)) {
       return null;
     }
@@ -1109,15 +1341,18 @@
     if (((_a = layer.source) == null ? void 0 : _a.tag) === "input" && inputType === "password" && value.length > 0) {
       return "\u2022".repeat(value.length);
     }
+    if (isFigmaNativeTextLayer(layer) && /[\u2028\u2029]/.test(value)) {
+      return value.replace(/\u2028|\u2029/g, "\n");
+    }
     return value;
   }
-  async function createTextNode(layer, parent) {
+  async function createTextNode(layer, parent, grandparent) {
     var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D;
     const text = layer.text;
     const displayValue = textDisplayValue(layer, text.value);
     const labLabel = isLabButtonLabelSpan(layer, parent);
     const labBtnLabel = labLabel && ((_a = parent == null ? void 0 : parent.source) == null ? void 0 : _a.tag) === "button" && ((_b = parent.source.classList) != null ? _b : []).includes("lab-button");
-    const fontName = await resolveFont(text, layer, parent);
+    const fontName = await resolveFont(text, layer, parent, grandparent);
     await figma.loadFontAsync(fontName);
     const t = figma.createText();
     t.fontName = fontName;
@@ -1227,7 +1462,7 @@
         TRUNCATE: "TRUNCATE"
       };
       let mode = resizeMap[figmaResize];
-      if (mode === "WIDTH_AND_HEIGHT" && figmaNativeNeedsFixedTextBox(layer, text)) {
+      if (mode === "WIDTH_AND_HEIGHT" && (figmaNativeNeedsFixedTextBox(layer, text) || figmaNativeNeedsRtlContractBox(layer, text))) {
         mode = "NONE";
       }
       if (mode) {
@@ -1250,7 +1485,21 @@
             Math.max(1, Math.ceil(snap(layer.box.width))),
             Math.max(1, Math.ceil(snap(layer.box.height)))
           );
+          if (mode === "NONE" && /[\u2028\u2029]/.test(text.value)) {
+            const lineCount = displayValue.split("\n").length;
+            if (lineCount > 1) {
+              t.lineHeight = {
+                unit: "PIXELS",
+                value: Math.max(1, snap(layer.box.height / lineCount))
+              };
+              t.textAlignVertical = "CENTER";
+            }
+          }
         }
+        if (parentUsesFlexCrossEnd(parent) && parentUsesFlexColumn(parent)) {
+          pinFigmaFlexCrossEndBareText(t, layer, parent);
+        }
+        applyFigmaRtlContractTextPin(t, layer);
         return t;
       }
     }
@@ -1560,44 +1809,201 @@
     }
     return null;
   }
-  function alignInlineRowSiblings(built) {
+  function alignInlineRowBaselineY(built) {
     var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
+    const rows = built.map(({ node, layer }) => ({ node, layer, text: textNodeIn(node) })).filter(
+      (r) => Boolean(r.text)
+    );
+    if (rows.length < 2) return false;
+    const primary = rows.reduce(
+      (a, b) => {
+        var _a2, _b2, _c2, _d2, _e2, _f2;
+        return ((_c2 = (_b2 = (_a2 = a.layer.text) == null ? void 0 : _a2.font) == null ? void 0 : _b2.size) != null ? _c2 : 0) >= ((_f2 = (_e2 = (_d2 = b.layer.text) == null ? void 0 : _d2.font) == null ? void 0 : _e2.size) != null ? _f2 : 0) ? a : b;
+      }
+    );
+    primary.node.x = snap(primary.layer.box.x);
+    primary.node.y = snap(primary.layer.box.y);
+    const primaryLh = (_e = (_d = (_a = primary.layer.text) == null ? void 0 : _a.lineHeight) != null ? _d : (_c = (_b = primary.layer.text) == null ? void 0 : _b.font) == null ? void 0 : _c.size) != null ? _e : primary.text.height;
+    const baselineBottom = primary.layer.box.y + primaryLh;
+    for (const row of rows) {
+      if (row === primary) continue;
+      const rowLh = (_j = (_i = (_f = row.layer.text) == null ? void 0 : _f.lineHeight) != null ? _i : (_h = (_g = row.layer.text) == null ? void 0 : _g.font) == null ? void 0 : _h.size) != null ? _j : row.text.height;
+      row.node.x = snap(row.layer.box.x);
+      row.node.y = snap(baselineBottom - rowLh);
+    }
+    return true;
+  }
+  function alignInlineRowSiblings(built, parent) {
+    var _a;
     if (!built.length) return;
     for (const { node } of built) {
       expandInlineTextFrame(node);
     }
-    if (!isMockFigmaRuntime()) {
-      for (const { node, layer } of built) {
-        node.x = snap(layer.box.x);
-        node.y = snap(layer.box.y);
-      }
-      return;
-    }
-    const rows = built.map(({ node, layer }) => ({ node, layer, text: textNodeIn(node) })).filter(
-      (r) => Boolean(r.text)
+    const pricingPriceRow = ((_a = parent == null ? void 0 : parent.source.classList) != null ? _a : []).includes("lab-pricing-price") && built.some(
+      ({ layer }) => layer.source.kind === "synthetic" || layer.name === "p-text"
     );
-    if (rows.length >= 2) {
-      const primary = rows.reduce(
-        (a, b) => {
-          var _a2, _b2, _c2, _d2, _e2, _f2;
-          return ((_c2 = (_b2 = (_a2 = a.layer.text) == null ? void 0 : _a2.font) == null ? void 0 : _b2.size) != null ? _c2 : 0) >= ((_f2 = (_e2 = (_d2 = b.layer.text) == null ? void 0 : _d2.font) == null ? void 0 : _e2.size) != null ? _f2 : 0) ? a : b;
-        }
-      );
-      primary.node.x = snap(primary.layer.box.x);
-      primary.node.y = snap(primary.layer.box.y);
-      const primaryLh = (_e = (_d = (_a = primary.layer.text) == null ? void 0 : _a.lineHeight) != null ? _d : (_c = (_b = primary.layer.text) == null ? void 0 : _b.font) == null ? void 0 : _c.size) != null ? _e : primary.text.height;
-      const baselineBottom = primary.layer.box.y + primaryLh;
-      for (const row of rows) {
-        if (row === primary) continue;
-        const rowLh = (_j = (_i = (_f = row.layer.text) == null ? void 0 : _f.lineHeight) != null ? _i : (_h = (_g = row.layer.text) == null ? void 0 : _g.font) == null ? void 0 : _h.size) != null ? _j : row.text.height;
-        row.node.x = snap(row.layer.box.x);
-        row.node.y = snap(baselineBottom - rowLh);
-      }
+    if (pricingPriceRow && alignInlineRowBaselineY(built)) {
       return;
     }
     for (const { node, layer } of built) {
       node.x = snap(layer.box.x);
       node.y = snap(layer.box.y);
+    }
+  }
+  function alignAnalyticsChartsTightText(built, parent) {
+    var _a, _b, _c, _d, _e;
+    if (isMockFigmaRuntime()) return;
+    for (const { node, layer } of built) {
+      if (!isLiveAnalyticsChartsTightText(layer, parent)) continue;
+      if (node.type !== "FRAME") continue;
+      const text = textNodeIn(node);
+      if (!text || !layer.text) continue;
+      const pad = (_b = (_a = layer.layout) == null ? void 0 : _a.padding) != null ? _b : { top: 0, right: 0, bottom: 0, left: 0 };
+      const innerW = node.width - pad.left - pad.right;
+      const innerH = node.height - pad.top - pad.bottom;
+      node.clipsContent = false;
+      const lhPx = (_c = liveTightLineHeightPx(layer.text, layer, innerH)) != null ? _c : Math.max(1, snap(layer.text.font.size));
+      text.lineHeight = { unit: "PIXELS", value: lhPx };
+      const hAlign = figmaTextAlignHorizontal(layer);
+      text.textAutoResize = "WIDTH_AND_HEIGHT";
+      text.textAlignHorizontal = hAlign;
+      try {
+        text.textAlignVertical = "TOP";
+      } catch (e) {
+      }
+      let x = snap(pad.left);
+      if (hAlign === "CENTER") {
+        x = snap(pad.left + Math.max(0, (innerW - text.width) / 2));
+      } else if (hAlign === "RIGHT") {
+        x = snap(pad.left + Math.max(0, innerW - text.width));
+      }
+      text.x = x;
+      text.y = snap(pad.top);
+      if ((_e = (_d = layer.paint) == null ? void 0 : _d.fills) == null ? void 0 : _e.length) {
+        const neededW = snap(text.x + text.width + pad.right);
+        if (neededW > node.width + 0.5) {
+          node.resize(neededW, node.height);
+        }
+      }
+      node.x = snap(layer.box.x);
+      node.y = snap(layer.box.y);
+    }
+  }
+  function alignLabPricingTagPill(built) {
+    var _a, _b, _c;
+    if (isMockFigmaRuntime()) return;
+    for (const { node, layer } of built) {
+      if (!isLabPricingTagPill(layer)) continue;
+      if (node.type !== "FRAME") continue;
+      const text = textNodeIn(node);
+      if (!text || !layer.text) continue;
+      const pad = (_b = (_a = layer.layout) == null ? void 0 : _a.padding) != null ? _b : { top: 0, right: 0, bottom: 0, left: 0 };
+      const innerW = node.width - pad.left - pad.right;
+      const innerH = node.height - pad.top - pad.bottom;
+      node.clipsContent = false;
+      const lhPx = (_c = liveTightLineHeightPx(layer.text, layer, innerH)) != null ? _c : Math.max(1, snap(layer.text.font.size));
+      text.lineHeight = { unit: "PIXELS", value: lhPx };
+      text.textAutoResize = "WIDTH_AND_HEIGHT";
+      text.textAlignHorizontal = "CENTER";
+      try {
+        text.textAlignVertical = "TOP";
+      } catch (e) {
+      }
+      text.x = snap(pad.left + Math.max(0, (innerW - text.width) / 2));
+      text.y = snap(pad.top);
+      node.x = snap(layer.box.x);
+      node.y = snap(layer.box.y);
+    }
+  }
+  function isLiveLabPricingProBlockText(layer, parent, grandparent) {
+    if (isMockFigmaRuntime()) return false;
+    if (!isLabPricingProVariant(layer, parent, grandparent)) return false;
+    if (!isLabPricingBlockTypography(layer, parent)) return false;
+    return !isLabPricingTagPill(layer);
+  }
+  function alignLabPricingProBlockText(built, parent, grandparent) {
+    var _a, _b, _c;
+    if (isMockFigmaRuntime()) return;
+    for (const { node, layer } of built) {
+      if (!isLiveLabPricingProBlockText(layer, parent, grandparent)) continue;
+      if (node.type !== "FRAME") continue;
+      const text = textNodeIn(node);
+      if (!text || !layer.text) continue;
+      const pad = (_b = (_a = layer.layout) == null ? void 0 : _a.padding) != null ? _b : { top: 0, right: 0, bottom: 0, left: 0 };
+      const innerW = node.width - pad.left - pad.right;
+      const innerH = node.height - pad.top - pad.bottom;
+      node.clipsContent = false;
+      const lhPx = (_c = liveTightLineHeightPx(layer.text, layer, innerH)) != null ? _c : Math.max(1, snap(layer.text.font.size));
+      text.lineHeight = { unit: "PIXELS", value: lhPx };
+      const hAlign = figmaTextAlignHorizontal(layer);
+      text.textAutoResize = "WIDTH_AND_HEIGHT";
+      text.textAlignHorizontal = hAlign;
+      try {
+        text.textAlignVertical = "TOP";
+      } catch (e) {
+      }
+      let x = snap(pad.left);
+      if (hAlign === "CENTER") {
+        x = snap(pad.left + Math.max(0, (innerW - text.width) / 2));
+      } else if (hAlign === "RIGHT") {
+        x = snap(pad.left + Math.max(0, innerW - text.width));
+      }
+      text.x = x;
+      text.y = snap(pad.top);
+      node.x = snap(layer.box.x);
+      node.y = snap(layer.box.y);
+    }
+  }
+  function alignFeatureFooterBaselineRow(built, parent) {
+    var _a, _b, _c, _d, _e, _f;
+    if (isMockFigmaRuntime()) return;
+    if (!((_b = (_a = parent == null ? void 0 : parent.source) == null ? void 0 : _a.classList) != null ? _b : []).includes("lab-feature-footer")) return;
+    for (const { node } of built) {
+      const footerFrame = node.parent;
+      if ((footerFrame == null ? void 0 : footerFrame.type) === "FRAME") {
+        footerFrame.clipsContent = false;
+        break;
+      }
+    }
+    for (const { node, layer } of built) {
+      if (node.type !== "FRAME") continue;
+      const tag = (_c = layer.source.tag) != null ? _c : "";
+      if (tag !== "span" && tag !== "strong") continue;
+      const text = textNodeIn(node);
+      if (!text || !layer.text) continue;
+      const pad = (_e = (_d = layer.layout) == null ? void 0 : _d.padding) != null ? _e : { top: 0, right: 0, bottom: 0, left: 0 };
+      const innerH = node.height - pad.top - pad.bottom;
+      const lhPx = (_f = liveTightLineHeightPx(layer.text, layer, innerH)) != null ? _f : Math.max(1, snap(layer.text.font.size));
+      node.clipsContent = false;
+      text.lineHeight = { unit: "PIXELS", value: lhPx };
+      try {
+        text.textAlignVertical = "TOP";
+      } catch (e) {
+      }
+      text.textAutoResize = "WIDTH_AND_HEIGHT";
+      text.textAlignHorizontal = "LEFT";
+      text.x = snap(pad.left);
+      text.y = snap(pad.top);
+      const frameH = node.height;
+      node.y = snap(layer.box.y);
+      if (tag === "strong") {
+        node.x = snap(layer.box.x);
+        text.textAutoResize = "WIDTH_AND_HEIGHT";
+        text.textAlignHorizontal = "LEFT";
+        text.x = snap(pad.left);
+        text.y = snap(pad.top);
+        const neededW = snap(text.x + text.width + pad.right + 2);
+        if (neededW > node.width + 0.5) {
+          node.resize(neededW, frameH);
+        }
+        continue;
+      } else {
+        node.x = snap(layer.box.x);
+        const neededW = snap(text.x + text.width + pad.right);
+        if (neededW > node.width + 0.5) {
+          node.resize(neededW, frameH);
+        }
+      }
     }
   }
   function isRadioIndicatorLayer(layer) {
@@ -1637,6 +2043,28 @@
     if (domLh != null && domLh > 0) return snap(domLh);
     return Math.max(1, snap(text.font.size));
   }
+  function liveAnalyticsChartsTightLineBox(layer) {
+    var _a, _b, _c, _d;
+    const lh = (_a = layer.text) == null ? void 0 : _a.lineHeight;
+    const pad = (_b = layer.layout) == null ? void 0 : _b.padding;
+    const innerH = layer.box.height - ((_c = pad == null ? void 0 : pad.top) != null ? _c : 0) - ((_d = pad == null ? void 0 : pad.bottom) != null ? _d : 0);
+    return lh != null && innerH > 0 && Math.abs(lh - innerH) <= 2;
+  }
+  function isLiveAnalyticsLineBoxPinTop(layer, parent) {
+    var _a, _b, _c, _d, _e;
+    if (!liveAnalyticsChartsTightLineBox(layer)) return false;
+    if (layer.source.tag === "strong" && ((_b = (_a = parent == null ? void 0 : parent.source) == null ? void 0 : _a.classList) != null ? _b : []).includes("legend-row")) {
+      return true;
+    }
+    const classes = (_c = layer.source.classList) != null ? _c : [];
+    if (layer.source.tag === "span" && classes.includes("chip")) {
+      return true;
+    }
+    return layer.source.tag === "span" && ((_e = (_d = parent == null ? void 0 : parent.source) == null ? void 0 : _d.classList) != null ? _e : []).includes("legend-left");
+  }
+  function isLiveAnalyticsChartsTightText(layer, parent) {
+    return isLiveAnalyticsLineBoxPinTop(layer, parent);
+  }
   function figmaTextAlignHorizontal(layer) {
     var _a;
     const align = (_a = layer.text) == null ? void 0 : _a.align;
@@ -1645,39 +2073,55 @@
     if (align === "justify") return "JUSTIFIED";
     return "LEFT";
   }
-  function liveTextPreferWidthAndHeight(layer, parent) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i;
+  function liveTextAlignHorizontal(layer) {
+    if (!isMockFigmaRuntime() && isLabPricingTagPill(layer)) return "CENTER";
+    return figmaTextAlignHorizontal(layer);
+  }
+  function liveTextPreferWidthAndHeight(layer, parent, grandparent) {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k;
+    if (!isMockFigmaRuntime() && isLiveAnalyticsLineBoxPinTop(layer, parent)) {
+      return true;
+    }
+    if (isLabPricingBlockTypography(layer, parent) && !isLabPricingTagPill(layer)) {
+      return false;
+    }
+    if (!isMockFigmaRuntime() && isLabFeatureBlockTypography(layer, parent, grandparent)) {
+      if (isLiveFeatureCardHeaderH3(layer, parent, grandparent)) return false;
+      if (((_b = (_a = parent == null ? void 0 : parent.source) == null ? void 0 : _a.classList) != null ? _b : []).includes("lab-feature-footer")) return true;
+      return false;
+    }
     const text = layer.text;
     if (!text) return false;
     if (text.whiteSpace === "nowrap" || text.whiteSpace === "pre") return true;
     if (isLabTightCenterButton(layer, parent)) return true;
-    if (((_a = layer.source.classList) != null ? _a : []).some((c) => c.includes("MuiChip-label"))) return true;
-    const pillR = (_b = layer.paint) == null ? void 0 : _b.cornerRadii;
+    if (((_c = layer.source.classList) != null ? _c : []).some((c) => c.includes("MuiChip-label"))) return true;
+    const pillR = (_d = layer.paint) == null ? void 0 : _d.cornerRadii;
     const maxPillR = pillR ? Math.max(pillR.topLeft.x, pillR.topRight.x, pillR.bottomRight.x, pillR.bottomLeft.x) : 0;
     if (isTextLeafLayer(layer) && maxPillR >= 100) return true;
-    if (isLabButtonLabelSpan(layer, parent) && ((_d = (_c = parent == null ? void 0 : parent.source) == null ? void 0 : _c.classList) != null ? _d : []).includes("lab-button")) {
+    if (isLabButtonLabelSpan(layer, parent) && ((_f = (_e = parent == null ? void 0 : parent.source) == null ? void 0 : _e.classList) != null ? _f : []).includes("lab-button")) {
       return true;
     }
-    const pad = (_e = layer.layout) == null ? void 0 : _e.padding;
-    const innerH = layer.box.height - ((_f = pad == null ? void 0 : pad.top) != null ? _f : 0) - ((_g = pad == null ? void 0 : pad.bottom) != null ? _g : 0);
+    const pad = (_g = layer.layout) == null ? void 0 : _g.padding;
+    const innerH = layer.box.height - ((_h = pad == null ? void 0 : pad.top) != null ? _h : 0) - ((_i = pad == null ? void 0 : pad.bottom) != null ? _i : 0);
     const lh = text.lineHeight;
     const singleLine = lh != null && innerH > 0 && Math.abs(lh - innerH) <= 2 && !text.value.includes("\n");
     if (singleLine) return true;
     if (!/\s/.test(text.value.trim())) return true;
-    if (isTextLeafLayer(layer) && ((_i = (_h = layer.paint) == null ? void 0 : _h.fills) == null ? void 0 : _i.length)) return true;
+    if (isTextLeafLayer(layer) && ((_k = (_j = layer.paint) == null ? void 0 : _j.fills) == null ? void 0 : _k.length)) return true;
     return false;
   }
-  function applyLiveNativeTextBoxCenter(text, layer, innerW, innerH, pad, frame, parent) {
+  function applyLiveNativeTextBoxCenter(text, layer, innerW, innerH, pad, frame, parent, verticalPin = "CENTER") {
     var _a, _b;
     const lhPx = (_b = liveTightLineHeightPx(layer.text, layer, innerH)) != null ? _b : ((_a = layer.text) == null ? void 0 : _a.lineHeight) != null && layer.text.lineHeight > 0 ? snap(layer.text.lineHeight) : Math.max(1, snap(layer.text.font.size));
     text.lineHeight = { unit: "PIXELS", value: lhPx };
-    const hAlign = figmaTextAlignHorizontal(layer);
+    const hAlign = liveTextAlignHorizontal(layer);
     if (frame) frame.clipsContent = false;
+    const effectiveVerticalPin = verticalPin === "TOP" || isLabPricingTagPill(layer) ? "TOP" : verticalPin;
     if (liveTextPreferWidthAndHeight(layer, parent)) {
       text.textAutoResize = "WIDTH_AND_HEIGHT";
       text.textAlignHorizontal = hAlign;
       try {
-        text.textAlignVertical = "CENTER";
+        text.textAlignVertical = effectiveVerticalPin;
       } catch (e) {
       }
       let x = pad.left;
@@ -1686,22 +2130,26 @@
       } else if (hAlign === "RIGHT") {
         x = snap(pad.left + Math.max(0, innerW - text.width));
       }
-      const y = snap(pad.top + Math.max(0, (innerH - text.height) / 2));
-      return { x, y };
+      const y2 = effectiveVerticalPin === "TOP" ? snap(pad.top) : snap(pad.top + Math.max(0, (innerH - text.height) / 2));
+      return { x, y: y2 };
     }
     text.textAutoResize = "NONE";
     text.resize(Math.max(1, snap(innerW)), Math.max(1, snap(innerH)));
     text.textAlignHorizontal = hAlign;
     try {
-      text.textAlignVertical = "CENTER";
+      text.textAlignVertical = effectiveVerticalPin;
     } catch (e) {
     }
-    return { x: pad.left, y: pad.top };
+    const y = pad.top;
+    return { x: pad.left, y };
   }
-  function enforceLiveUnwrappedTextFrame(frame, text, layer, parent) {
+  function enforceLiveUnwrappedTextFrame(frame, text, layer, parent, grandparent) {
     var _a, _b, _c, _d, _e, _f, _g;
     if (isMockFigmaRuntime()) return;
-    if (!liveTextPreferWidthAndHeight(layer, parent)) return;
+    if (isLabFeatureBlockTypography(layer, parent, grandparent)) return;
+    if (isLiveAnalyticsChartsTightText(layer, parent)) return;
+    if (isLiveLabPricingProBlockText(layer, parent, grandparent)) return;
+    if (!liveTextPreferWidthAndHeight(layer, parent, grandparent)) return;
     const pad = (_b = (_a = layer.layout) == null ? void 0 : _a.padding) != null ? _b : { top: 0, right: 0, bottom: 0, left: 0 };
     const innerW = frame.width - pad.left - pad.right;
     const innerH = frame.height - pad.top - pad.bottom;
@@ -1723,7 +2171,8 @@
       innerH,
       pad,
       frame,
-      parent
+      parent,
+      isLabPricingTagPill(layer) ? "TOP" : "CENTER"
     );
     text.x = placed.x;
     text.y = placed.y;
@@ -1751,6 +2200,8 @@
       }
       node.x = snap(layer.box.x);
       node.y = snap(layer.box.y);
+      reaffirmFigmaFlexCrossEndBareText(node, layer, parent);
+      reaffirmFigmaRtlContractText(node, layer);
     }
   }
   function shouldRenameSpanFrameToTypography(layer, parent) {
@@ -1824,7 +2275,7 @@
     for (const child of layer.children) normalizeAbsoluteGroupChildren(child);
   }
   function shouldClipContent(layer, parent) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n;
     if (isPrevNextGroup(layer)) return false;
     if (isFigmaFlipFrame(layer)) return false;
     if (hasNotchedOutlineChild(layer)) return false;
@@ -1838,16 +2289,16 @@
       if (!needsClip) return false;
     }
     const explicitClip = ((_e = (_d = layer.layout) == null ? void 0 : _d.overflow) == null ? void 0 : _e.x) === "hidden" || ((_g = (_f = layer.layout) == null ? void 0 : _f.overflow) == null ? void 0 : _g.y) === "hidden" || ((_i = (_h = layer.layout) == null ? void 0 : _h.overflow) == null ? void 0 : _i.x) === "clip" || ((_k = (_j = layer.layout) == null ? void 0 : _j.overflow) == null ? void 0 : _k.y) === "clip";
-    const hasSpreadShadow = (((_l = layer.paint) == null ? void 0 : _l.shadows) || []).some((s) => s.spread !== 0);
+    const hasSpreadShadow = spreadShadowRequiresClip(layer);
     if (isTextLeafLayer(layer) && !explicitClip && !hasSpreadShadow) {
       return false;
     }
-    const c = (_m = layer.paint) == null ? void 0 : _m.cornerRadii;
+    const c = (_l = layer.paint) == null ? void 0 : _l.cornerRadii;
     const w = Math.round(layer.box.width);
     const h = Math.round(layer.box.height);
     const maxR = c ? Math.max(c.topLeft.x, c.topRight.x, c.bottomRight.x, c.bottomLeft.x) : 0;
     const circleAvatar = w > 0 && w === h && maxR >= w / 2 - 1;
-    const hasFill = Boolean((_o = (_n = layer.paint) == null ? void 0 : _n.fills) == null ? void 0 : _o.length);
+    const hasFill = Boolean((_n = (_m = layer.paint) == null ? void 0 : _m.fills) == null ? void 0 : _n.length);
     if (circleAvatar && hasFill) return false;
     const pill = c && maxR >= 100;
     const rounded = c && !circleAvatar && layer.box.width < 400 && layer.box.height < 400 && (c.topLeft.x > 0 || c.topRight.x > 0 || c.bottomRight.x > 0 || c.bottomLeft.x > 0);
@@ -1856,31 +2307,37 @@
   function frameRequiresClipContent(layer) {
     var _a, _b, _c, _d, _e, _f, _g, _h;
     if (isFigmaFlipFrame(layer)) return false;
-    return ((_b = (_a = layer.layout) == null ? void 0 : _a.overflow) == null ? void 0 : _b.x) === "hidden" || ((_d = (_c = layer.layout) == null ? void 0 : _c.overflow) == null ? void 0 : _d.y) === "hidden" || ((_f = (_e = layer.layout) == null ? void 0 : _e.overflow) == null ? void 0 : _f.x) === "clip" || ((_h = (_g = layer.layout) == null ? void 0 : _g.overflow) == null ? void 0 : _h.y) === "clip";
+    return ((_b = (_a = layer.layout) == null ? void 0 : _a.overflow) == null ? void 0 : _b.x) === "hidden" || ((_d = (_c = layer.layout) == null ? void 0 : _c.overflow) == null ? void 0 : _d.y) === "hidden" || ((_f = (_e = layer.layout) == null ? void 0 : _e.overflow) == null ? void 0 : _f.x) === "clip" || ((_h = (_g = layer.layout) == null ? void 0 : _g.overflow) == null ? void 0 : _h.y) === "clip" || spreadShadowRequiresClip(layer);
   }
   async function buildLayer(layer, parent, grandparent) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D, _E, _F, _G, _H, _I, _J, _K, _L, _M, _N, _O, _P, _Q, _R, _S, _T, _U, _V, _W, _X, _Y, _Z, __, _$, _aa, _ba, _ca, _da, _ea, _fa, _ga, _ha, _ia, _ja, _ka, _la, _ma, _na, _oa, _pa, _qa, _ra, _sa, _ta;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D, _E, _F, _G, _H, _I, _J, _K, _L, _M, _N, _O, _P, _Q, _R, _S, _T, _U, _V, _W, _X, _Y, _Z, __, _$, _aa, _ba, _ca, _da, _ea, _fa, _ga, _ha, _ia, _ja, _ka, _la, _ma, _na, _oa, _pa, _qa, _ra, _sa, _ta, _ua, _va, _wa, _xa, _ya, _za, _Aa, _Ba, _Ca;
     if (!isLayerVisible(layer)) return null;
     let node;
     let textChildToPlace = null;
     const isTextLeaf = layer.text && (!layer.children || layer.children.length === 0);
-    const figmaBareText = isTextLeaf && isFigmaNativeTextLayer(layer) && !((_a = layer.paint) == null ? void 0 : _a.borders) && !((_c = (_b = layer.paint) == null ? void 0 : _b.shadows) == null ? void 0 : _c.length);
+    const figmaReferenceRaster = (_b = (_a = layer.source) == null ? void 0 : _a.dataset) == null ? void 0 : _b.figmaReferenceRaster;
+    if (((_c = layer.image) == null ? void 0 : _c.dataUrl) && figmaReferenceRaster) {
+      const img = createImageNode(layer);
+      img.name = layer.name || "raster";
+      return img;
+    }
+    const figmaBareText = isTextLeaf && isFigmaNativeTextLayer(layer) && !((_d = layer.paint) == null ? void 0 : _d.borders) && !((_f = (_e = layer.paint) == null ? void 0 : _e.shadows) == null ? void 0 : _f.length) && !figmaReferenceRaster;
     if (figmaBareText) {
-      const t = await createTextNode(layer, parent);
+      const t = await createTextNode(layer, parent, grandparent);
       t.name = layer.name || "text";
       return t;
     }
     if (isTextLeaf) {
       if (isLiveLabButtonBareLabel(layer, parent)) {
-        const t = await createTextNode(layer, parent);
-        t.name = layer.name || ((_d = layer.source.dataset) == null ? void 0 : _d.figmaName) || "label";
+        const t = await createTextNode(layer, parent, grandparent);
+        t.name = layer.name || ((_g = layer.source.dataset) == null ? void 0 : _g.figmaName) || "label";
         return t;
       }
       const frame = figma.createFrame();
       frame.layoutMode = "NONE";
       frame.fills = [];
       frame.clipsContent = shouldClipContent(layer, parent);
-      textChildToPlace = await createTextNode(layer, parent);
+      textChildToPlace = await createTextNode(layer, parent, grandparent);
       node = frame;
     } else if (layer.vector) {
       node = createVectorNode(layer, parent);
@@ -1899,32 +2356,32 @@
     if (isMuiOutlinedValueField(layer, parent) && isMockFigmaRuntime()) {
       node.name = layer.source.tag === "input" ? "outlined-value" : "outlined-select-value";
     }
-    if (isMockFigmaRuntime() && isMuiCompactCenterButton(layer) && !((_f = (_e = layer.paint) == null ? void 0 : _e.fills) == null ? void 0 : _f.length)) {
+    if (isMockFigmaRuntime() && isMuiCompactCenterButton(layer) && !((_i = (_h = layer.paint) == null ? void 0 : _h.fills) == null ? void 0 : _i.length)) {
       node.name = "mui-action-btn";
     }
-    if (((_g = layer.source) == null ? void 0 : _g.tag) === "input") {
+    if (((_j = layer.source) == null ? void 0 : _j.tag) === "input") {
       const inputType = layer.source.inputType;
       const src = {
         tag: "input",
         inputType: inputType || "text"
       };
-      if ((_h = layer.text) == null ? void 0 : _h.value) {
+      if ((_k = layer.text) == null ? void 0 : _k.value) {
         src.value = layer.text.value;
       }
-      if ((_j = (_i = layer.text) == null ? void 0 : _i.font) == null ? void 0 : _j.stack) {
+      if ((_m = (_l = layer.text) == null ? void 0 : _l.font) == null ? void 0 : _m.stack) {
         src.fontStack = layer.text.font.stack;
       }
       if (isMockFigmaRuntime() && !isMuiOutlinedValueField(layer, parent)) {
         node.source = src;
       }
     }
-    if (node.type === "FRAME" && "fills" in node && !((_l = (_k = layer.paint) == null ? void 0 : _k.fills) == null ? void 0 : _l.length)) {
+    if (node.type === "FRAME" && "fills" in node && !((_o = (_n = layer.paint) == null ? void 0 : _n.fills) == null ? void 0 : _o.length)) {
       node.fills = [];
     }
     if ("resize" in node && node.type !== "TEXT") {
       const w = snapBoxSize(layer, "width");
       let h = snapBoxSize(layer, "height");
-      if (((_m = layer.source) == null ? void 0 : _m.tag) === "input" && ((_o = (_n = parent == null ? void 0 : parent.source) == null ? void 0 : _n.classList) == null ? void 0 : _o.includes("lab-login-card")) && Math.round(layer.box.height) === 52) {
+      if (((_p = layer.source) == null ? void 0 : _p.tag) === "input" && ((_r = (_q = parent == null ? void 0 : parent.source) == null ? void 0 : _q.classList) == null ? void 0 : _r.includes("lab-login-card")) && Math.round(layer.box.height) === 52) {
         h = 50;
       }
       node.resize(w, h);
@@ -1939,14 +2396,14 @@
         const fw = Math.max(1, snap(layer.box.width));
         const fh = Math.max(1, snap(layer.box.height));
         frame.resize(fw, fh);
-        frame.name = layer.name || ((_p = layer.source.dataset) == null ? void 0 : _p.figmaName) || "label";
-        const labBtn = ((_r = (_q = parent == null ? void 0 : parent.source) == null ? void 0 : _q.classList) != null ? _r : []).includes("lab-button");
+        frame.name = layer.name || ((_s = layer.source.dataset) == null ? void 0 : _s.figmaName) || "label";
+        const labBtn = ((_u = (_t = parent == null ? void 0 : parent.source) == null ? void 0 : _t.classList) != null ? _u : []).includes("lab-button");
         if (labBtn) {
           if (!isMockFigmaRuntime()) {
             frame.appendChild(text);
             enforceLiveUnwrappedTextFrame(frame, text, layer, parent);
           } else {
-            const lhPx = (_s = liveTightLineHeightPx(layer.text, layer, fh)) != null ? _s : Math.max(1, snap(layer.text.font.size));
+            const lhPx = (_v = liveTightLineHeightPx(layer.text, layer, fh)) != null ? _v : Math.max(1, snap(layer.text.font.size));
             text.lineHeight = { unit: "PIXELS", value: lhPx };
             text.textAutoResize = "WIDTH_AND_HEIGHT";
             text.textAlignHorizontal = "CENTER";
@@ -1957,7 +2414,7 @@
             frame.appendChild(text);
           }
         } else {
-          const lh = (_t = layer.text) == null ? void 0 : _t.lineHeight;
+          const lh = (_w = layer.text) == null ? void 0 : _w.lineHeight;
           if (lh != null && lh > 0) {
             text.lineHeight = { unit: "PIXELS", value: snap(lh) };
           }
@@ -1966,7 +2423,7 @@
           const tw = text.width;
           const th = text.height;
           let tx = 0;
-          if (((_u = layer.text) == null ? void 0 : _u.align) === "center" && fw > tw + 0.5) {
+          if (((_x = layer.text) == null ? void 0 : _x.align) === "center" && fw > tw + 0.5) {
             tx = (fw - tw) / 2;
           }
           text.x = snap(Math.max(0, tx));
@@ -1975,7 +2432,7 @@
           frame.appendChild(text);
         }
       } else {
-        const matrix = (_v = layer.transform) == null ? void 0 : _v.matrix;
+        const matrix = (_y = layer.transform) == null ? void 0 : _y.matrix;
         const skipScaleBake = isMuiShrunkInputLabel(layer) && isMockFigmaRuntime();
         if (matrix && !skipScaleBake) {
           const sx = Math.hypot(matrix[0], matrix[1]);
@@ -2012,15 +2469,15 @@
         }
         const fw = frame.width;
         const fh = frame.height;
-        const pad = (_x = (_w = layer.layout) == null ? void 0 : _w.padding) != null ? _x : { top: 0, right: 0, bottom: 0, left: 0 };
-        const justify = (_A = (_z = (_y = layer.layout) == null ? void 0 : _y.flex) == null ? void 0 : _z.justify) != null ? _A : "normal";
-        const align = (_D = (_C = (_B = layer.layout) == null ? void 0 : _B.flex) == null ? void 0 : _C.align) != null ? _D : "normal";
+        const pad = (_A = (_z = layer.layout) == null ? void 0 : _z.padding) != null ? _A : { top: 0, right: 0, bottom: 0, left: 0 };
+        const justify = (_D = (_C = (_B = layer.layout) == null ? void 0 : _B.flex) == null ? void 0 : _C.justify) != null ? _D : "normal";
+        const align = (_G = (_F = (_E = layer.layout) == null ? void 0 : _E.flex) == null ? void 0 : _F.align) != null ? _G : "normal";
         const innerW = fw - pad.left - pad.right;
         const innerH = fh - pad.top - pad.bottom;
         clampMockTextToDomBox(text, innerW, innerH, layer, parent);
         const tw = text.width;
         const th = text.height;
-        const textAlign = (_E = layer.text) == null ? void 0 : _E.align;
+        const textAlign = (_H = layer.text) == null ? void 0 : _H.align;
         let x = pad.left;
         let y = pad.top;
         let usedNativeTextAlign = false;
@@ -2048,12 +2505,12 @@
             text.textAlignVertical = "CENTER";
           } catch (e) {
           }
-        } else if (!isMockFigmaRuntime() && ((_F = layer.source) == null ? void 0 : _F.tag) === "input") {
-          const b = (_G = layer.paint) == null ? void 0 : _G.borders;
-          const borderL = (_I = (_H = b == null ? void 0 : b.left) == null ? void 0 : _H.width) != null ? _I : 0;
-          const borderR = (_K = (_J = b == null ? void 0 : b.right) == null ? void 0 : _J.width) != null ? _K : 0;
-          const borderT = (_M = (_L = b == null ? void 0 : b.top) == null ? void 0 : _L.width) != null ? _M : 0;
-          const borderB = (_O = (_N = b == null ? void 0 : b.bottom) == null ? void 0 : _N.width) != null ? _O : 0;
+        } else if (!isMockFigmaRuntime() && ((_I = layer.source) == null ? void 0 : _I.tag) === "input") {
+          const b = (_J = layer.paint) == null ? void 0 : _J.borders;
+          const borderL = (_L = (_K = b == null ? void 0 : b.left) == null ? void 0 : _K.width) != null ? _L : 0;
+          const borderR = (_N = (_M = b == null ? void 0 : b.right) == null ? void 0 : _M.width) != null ? _N : 0;
+          const borderT = (_P = (_O = b == null ? void 0 : b.top) == null ? void 0 : _O.width) != null ? _P : 0;
+          const borderB = (_R = (_Q = b == null ? void 0 : b.bottom) == null ? void 0 : _Q.width) != null ? _R : 0;
           const contentW = Math.max(1, snap(innerW - borderL - borderR));
           const contentH = Math.max(1, snap(innerH - borderT - borderB));
           text.textAutoResize = "NONE";
@@ -2073,7 +2530,7 @@
         const wideBlockButton = blockButtonCenter && !isLabDomCenterButton(layer, parent) && (innerW > tw + 12 && innerH > 40);
         if (tableCell && (textAlign === "right" || textAlign === "end" || textAlign === "center") || isMuiPaginationItemButton(layer) || blockButtonCenter || (textAlign === "center" || textAlign === "right" || textAlign === "end") && innerW > tw + 2) {
           if (wideBlockButton) {
-            const btnLh = (_P = layer.text) == null ? void 0 : _P.lineHeight;
+            const btnLh = (_S = layer.text) == null ? void 0 : _S.lineHeight;
             if (btnLh != null && btnLh > 0) {
               text.lineHeight = { unit: "PIXELS", value: snap(btnLh) };
             }
@@ -2091,7 +2548,7 @@
                 x = placed.x;
                 y = placed.y;
               } else {
-                const lhPx = (_Q = liveTightLineHeightPx(layer.text, layer, innerH)) != null ? _Q : Math.max(1, snap(layer.text.font.size));
+                const lhPx = (_T = liveTightLineHeightPx(layer.text, layer, innerH)) != null ? _T : Math.max(1, snap(layer.text.font.size));
                 text.lineHeight = { unit: "PIXELS", value: lhPx };
                 text.textAutoResize = "WIDTH_AND_HEIGHT";
                 text.textAlignHorizontal = "CENTER";
@@ -2116,7 +2573,7 @@
             usedNativeTextAlign = true;
             usedNativeVerticalAlign = true;
           } else if (isMuiPaginationItemButton(layer)) {
-            const fs = (_T = (_S = (_R = layer.text) == null ? void 0 : _R.font) == null ? void 0 : _S.size) != null ? _T : 14;
+            const fs = (_W = (_V = (_U = layer.text) == null ? void 0 : _U.font) == null ? void 0 : _V.size) != null ? _W : 14;
             text.lineHeight = { unit: "PIXELS", value: Math.max(1, snap(fs)) };
             text.textAutoResize = "WIDTH_AND_HEIGHT";
             text.textAlignHorizontal = "CENTER";
@@ -2139,7 +2596,7 @@
                 x = placed.x;
                 y = placed.y;
               } else {
-                const lhPx = (_U = liveTightLineHeightPx(layer.text, layer, innerH)) != null ? _U : Math.max(1, snap(layer.text.font.size));
+                const lhPx = (_X = liveTightLineHeightPx(layer.text, layer, innerH)) != null ? _X : Math.max(1, snap(layer.text.font.size));
                 text.lineHeight = { unit: "PIXELS", value: lhPx };
                 text.textAutoResize = "WIDTH_AND_HEIGHT";
                 text.textAlignHorizontal = "CENTER";
@@ -2152,7 +2609,7 @@
                 x = placed.x;
                 y = placed.y;
               } else {
-                const btnLh = (_V = layer.text) == null ? void 0 : _V.lineHeight;
+                const btnLh = (_Y = layer.text) == null ? void 0 : _Y.lineHeight;
                 if (btnLh != null && btnLh > 0) {
                   text.lineHeight = { unit: "PIXELS", value: snap(btnLh) };
                 }
@@ -2164,7 +2621,7 @@
             }
             usedNativeTextAlign = true;
             usedNativeVerticalAlign = true;
-          } else if (!isLabTightCenterButton(layer, parent) && !liveTextPreferWidthAndHeight(layer, parent)) {
+          } else if (!isLabTightCenterButton(layer, parent) && !liveTextPreferWidthAndHeight(layer, parent, grandparent)) {
             text.textAutoResize = "HEIGHT";
             text.resize(Math.max(1, snap(innerW)), text.height);
             text.textAlignHorizontal = figmaTextAlignHorizontal(layer);
@@ -2177,8 +2634,50 @@
           x = fw - tw - pad.right;
         }
         if (!usedNativeVerticalAlign) {
-          const blockFlowPinTop = !isMockFigmaRuntime() && ((_W = parent == null ? void 0 : parent.layout) == null ? void 0 : _W.display) === "block" && (layer.source.tag === "p" || /^h[1-6]$/.test((_X = layer.source.tag) != null ? _X : "") || layer.source.tag === "span");
-          if (blockFlowPinTop) {
+          const blockFlowPinTop = !isMockFigmaRuntime() && ((_Z = parent == null ? void 0 : parent.layout) == null ? void 0 : _Z.display) === "block" && (layer.source.tag === "p" || /^h[1-6]$/.test((__ = layer.source.tag) != null ? __ : "") || layer.source.tag === "span") && !isLabPricingBlockTypography(layer, parent);
+          if (!isMockFigmaRuntime() && isLiveFeatureCardHeaderH3(layer, parent, grandparent)) {
+            const lhPx = (_aa = liveTightLineHeightPx(layer.text, layer, innerH)) != null ? _aa : ((_$ = layer.text) == null ? void 0 : _$.lineHeight) != null && layer.text.lineHeight > 0 ? snap(layer.text.lineHeight) : Math.max(1, snap(layer.text.font.size));
+            text.lineHeight = { unit: "PIXELS", value: lhPx };
+            frame.clipsContent = false;
+            text.textAutoResize = "HEIGHT";
+            text.resize(Math.max(1, snap(innerW)), Math.max(1, snap(innerH)));
+            text.textAlignHorizontal = figmaTextAlignHorizontal(layer);
+            try {
+              text.textAlignVertical = "TOP";
+            } catch (e) {
+            }
+            x = pad.left;
+            y = pad.top;
+            usedNativeVerticalAlign = true;
+          } else if (!isMockFigmaRuntime() && isLiveAnalyticsChartsTightText(layer, parent)) {
+            const placed = applyLiveNativeTextBoxCenter(
+              text,
+              layer,
+              innerW,
+              innerH,
+              pad,
+              frame,
+              parent,
+              "TOP"
+            );
+            x = placed.x;
+            y = placed.y;
+            usedNativeVerticalAlign = true;
+          } else if (!isMockFigmaRuntime() && isLabFeatureBlockTypography(layer, parent, grandparent) && ((_ca = (_ba = parent == null ? void 0 : parent.source) == null ? void 0 : _ba.classList) != null ? _ca : []).includes("lab-feature-footer")) {
+            const placed = applyLiveNativeTextBoxCenter(
+              text,
+              layer,
+              innerW,
+              innerH,
+              pad,
+              frame,
+              parent,
+              "TOP"
+            );
+            x = placed.x;
+            y = placed.y;
+            usedNativeVerticalAlign = true;
+          } else if (blockFlowPinTop) {
             y = pad.top;
             try {
               text.textAlignVertical = "TOP";
@@ -2204,10 +2703,10 @@
             }
           } else if (isMuiShrunkInputLabel(layer)) {
             y = pad.top + Math.max(0, (innerH - th) / 2);
-          } else if (((_Y = layer.source) == null ? void 0 : _Y.tag) === "input") {
-            const b = (_Z = layer.paint) == null ? void 0 : _Z.borders;
-            const borderTop = (_$ = (__ = b == null ? void 0 : b.top) == null ? void 0 : __.width) != null ? _$ : 0;
-            const borderBottom = (_ba = (_aa = b == null ? void 0 : b.bottom) == null ? void 0 : _aa.width) != null ? _ba : 0;
+          } else if (((_da = layer.source) == null ? void 0 : _da.tag) === "input") {
+            const b = (_ea = layer.paint) == null ? void 0 : _ea.borders;
+            const borderTop = (_ga = (_fa = b == null ? void 0 : b.top) == null ? void 0 : _fa.width) != null ? _ga : 0;
+            const borderBottom = (_ia = (_ha = b == null ? void 0 : b.bottom) == null ? void 0 : _ha.width) != null ? _ia : 0;
             const contentInnerH = innerH - borderTop - borderBottom;
             y = pad.top + borderTop + Math.max(0, (contentInnerH - th) / 2);
             try {
@@ -2248,7 +2747,7 @@
         }
         frame.appendChild(text);
         if (!isMockFigmaRuntime()) {
-          enforceLiveUnwrappedTextFrame(frame, text, layer, parent);
+          enforceLiveUnwrappedTextFrame(frame, text, layer, parent, grandparent);
         }
         if (isMuiShrunkInputLabel(layer) && isMockFigmaRuntime()) {
           const neededH = Math.max(frame.height, text.y + text.height);
@@ -2256,28 +2755,29 @@
             frame.resize(frame.width, snap(neededH));
           }
         }
-        if (!isMockFigmaRuntime() && /^h[1-6]$/.test((_ca = layer.source.tag) != null ? _ca : "") && text.textAutoResize === "HEIGHT") {
+        if (!isMockFigmaRuntime() && /^h[1-6]$/.test((_ja = layer.source.tag) != null ? _ja : "") && text.textAutoResize === "HEIGHT") {
           const neededH = snap(text.y + text.height + pad.bottom);
           const domH = snap(layer.box.height);
           if (neededH > frame.height + 0.5 || domH > frame.height + 0.5) {
             frame.resize(frame.width, Math.max(domH, neededH));
           }
         }
-        if (textFramePinsToTop(layer, parent) && !((_ea = (_da = layer.paint) == null ? void 0 : _da.fills) == null ? void 0 : _ea.length) && layer.box.width <= snap(text.width) + 2) {
+        if (textFramePinsToTop(layer, parent) && !((_la = (_ka = layer.paint) == null ? void 0 : _ka.fills) == null ? void 0 : _la.length) && layer.box.width <= snap(text.width) + 2) {
           frame.resize(
             Math.max(1, snap(text.width)),
             Math.max(1, snap(text.height))
           );
-        } else if (textFramePinsToTop(layer, parent) && !((_ga = (_fa = layer.paint) == null ? void 0 : _fa.fills) == null ? void 0 : _ga.length) && (/^h[1-6]$/.test((_ha = layer.source.tag) != null ? _ha : "") || preserveDomLineBoxHeight(layer, parent))) {
+        } else if (textFramePinsToTop(layer, parent) && !((_na = (_ma = layer.paint) == null ? void 0 : _ma.fills) == null ? void 0 : _na.length) && (/^h[1-6]$/.test((_oa = layer.source.tag) != null ? _oa : "") || preserveDomLineBoxHeight(layer, parent))) {
           frame.resize(fw, Math.max(1, snap(layer.box.height)));
         }
       }
     }
+    const synthInsetSpreadRing = shouldSynthesizeInsetSpreadRingLive(layer);
     if (layer.paint) {
       const paint = layer.paint;
       if ("fills" in node && node.type !== "TEXT") {
         if (layer.image) {
-          const bgFills = ((_ia = paint.fills) == null ? void 0 : _ia.length) ? buildFills(paint, layer.box.width, layer.box.height) : void 0;
+          const bgFills = ((_pa = paint.fills) == null ? void 0 : _pa.length) ? buildFills(paint, layer.box.width, layer.box.height) : void 0;
           if (bgFills == null ? void 0 : bgFills.length) {
             node.fills = [
               ...clonePaints(bgFills),
@@ -2285,10 +2785,10 @@
             ];
           }
         } else {
-          const fills = ((_ja = paint.fills) == null ? void 0 : _ja.length) ? buildFills(paint, layer.box.width, layer.box.height) : void 0;
+          const fills = ((_qa = paint.fills) == null ? void 0 : _qa.length) ? buildFills(paint, layer.box.width, layer.box.height) : void 0;
           if (fills == null ? void 0 : fills.length) {
             node.fills = clonePaints(fills);
-          } else if (((_ka = layer.source) == null ? void 0 : _ka.kind) === "figma" && node.type === "FRAME" && !isMockFigmaRuntime()) {
+          } else if (((_ra = layer.source) == null ? void 0 : _ra.kind) === "figma" && node.type === "FRAME" && !isMockFigmaRuntime()) {
             node.fills = [transparentFill()];
           } else {
             node.fills = [];
@@ -2297,10 +2797,16 @@
       }
       if (node.type !== "TEXT" && shouldApplyCornerRadii(layer, parent)) applyCornerRadii(node, paint);
       if ("effects" in node) {
-        const skipMockContainedButtonShadow = isMockFigmaRuntime() && layer.source.tag === "button" && Boolean((_ma = (_la = layer.paint) == null ? void 0 : _la.fills) == null ? void 0 : _ma.length);
+        const skipMockContainedButtonShadow = isMockFigmaRuntime() && layer.source.tag === "button" && Boolean((_ta = (_sa = layer.paint) == null ? void 0 : _sa.fills) == null ? void 0 : _ta.length);
         if (!skipMockContainedButtonShadow) {
           const allowSpread = isMockFigmaRuntime() || node.type !== "TEXT" && (node.clipsContent === true || node.type !== "FRAME");
-          const effects = effectsFromPaint(paint, allowSpread);
+          const paintForEffects = synthInsetSpreadRing && ((_ua = paint.shadows) == null ? void 0 : _ua.length) ? __spreadProps(__spreadValues({}, paint), {
+            shadows: paint.shadows.filter((s) => {
+              var _a2;
+              return !(s.inset && ((_a2 = s.spread) != null ? _a2 : 0) > 0);
+            })
+          }) : paint;
+          const effects = effectsFromPaint(paintForEffects, allowSpread);
           if (effects.length) node.effects = cloneEffects(effects);
         }
       }
@@ -2320,9 +2826,9 @@
     if (layer.children && "appendChild" in node) {
       if (shouldUseLabButtonAutoLayout(layer) && node.type === "FRAME") {
         const frame = node;
-        const pad = (_oa = (_na = layer.layout) == null ? void 0 : _na.padding) != null ? _oa : { top: 0, right: 0, bottom: 0, left: 0 };
-        const flex = (_pa = layer.layout) == null ? void 0 : _pa.flex;
-        const gap = (_ra = (_qa = flex == null ? void 0 : flex.columnGap) != null ? _qa : flex == null ? void 0 : flex.rowGap) != null ? _ra : 0;
+        const pad = (_wa = (_va = layer.layout) == null ? void 0 : _va.padding) != null ? _wa : { top: 0, right: 0, bottom: 0, left: 0 };
+        const flex = (_xa = layer.layout) == null ? void 0 : _xa.flex;
+        const gap = (_za = (_ya = flex == null ? void 0 : flex.columnGap) != null ? _ya : flex == null ? void 0 : flex.rowGap) != null ? _za : 0;
         const btnW = snapBoxSize(layer, "width");
         const btnH = snapBoxSize(layer, "height");
         frame.layoutMode = "HORIZONTAL";
@@ -2335,7 +2841,7 @@
         frame.paddingRight = snap(pad.right);
         frame.paddingTop = snap(pad.top);
         frame.paddingBottom = snap(pad.bottom);
-        const kids = (_sa = layer.children) != null ? _sa : [];
+        const kids = (_Aa = layer.children) != null ? _Aa : [];
         const childLayers = [...kids].sort((a, b) => a.box.x - b.box.x);
         for (const child of childLayers) {
           const childNode = await buildLayer(child, layer, parent);
@@ -2376,16 +2882,30 @@
           if (inlineRow) inlineBuilt.push({ node: childNode, layer: child });
         }
         if (inlineRow) {
-          alignInlineRowSiblings(inlineBuilt);
+          alignInlineRowSiblings(inlineBuilt, layer);
         } else {
           reaffirmChildBoxPositions(positionedBuilt, layer);
           for (const { node: childNode, layer: childLayer } of positionedBuilt) {
             applyMuiLinearProgressBarPlacement(childNode, childLayer);
           }
-          if (!isMockFigmaRuntime() && node.type === "FRAME" && ((_ta = layer.source.classList) != null ? _ta : []).includes("lab-button") && !shouldUseLabButtonAutoLayout(layer)) {
+          if (!isMockFigmaRuntime()) {
+            alignAnalyticsChartsTightText(positionedBuilt, layer);
+            alignLabPricingTagPill(positionedBuilt);
+            alignLabPricingProBlockText(positionedBuilt, layer, parent);
+          }
+          if (!isMockFigmaRuntime() && ((_Ba = layer.source.classList) != null ? _Ba : []).includes("lab-feature-footer")) {
+            alignFeatureFooterBaselineRow(positionedBuilt, layer);
+          }
+          if (!isMockFigmaRuntime() && node.type === "FRAME" && ((_Ca = layer.source.classList) != null ? _Ca : []).includes("lab-button") && !shouldUseLabButtonAutoLayout(layer)) {
             centerLabButtonSoleChild(node, layer);
           }
         }
+      }
+    }
+    if (synthInsetSpreadRing && node.type === "FRAME" && "insertChild" in node) {
+      const ringOverlay = applyInsetSpreadRingOverlay(layer.paint, layer.box.width, layer.box.height);
+      if (ringOverlay) {
+        node.insertChild(0, ringOverlay);
       }
     }
     if (borderOverlay && "appendChild" in node) {

@@ -1,0 +1,37 @@
+{
+  "storyId": "lab-muiworkspacescreen--default",
+  "attempt": 1,
+  "jobId": "887d8b6f-2b4d-44e1-8d34-db9feb7b92ef",
+  "recordedAt": "2026-05-29T22:03:18.453Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "beforeAttempt": {
+    "status": "warn",
+    "percent": 0.1786540775710451,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "afterTest": {
+    "status": "warn",
+    "percent": 0.1786540775710451,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "agentExitCode": 143,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    "packages/pixel-test/src/render-html.ts"
+  ],
+  "evaluation": {
+    "verdict": "SHARED_ADAPTER",
+    "verdicts": [
+      "SHARED_ADAPTER"
+    ],
+    "nextWorkerMode": "tier_c_required",
+    "interventionLines": [
+      "Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done.",
+      "Supervisor: agent CLI exited 143 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": true
+  }
+}

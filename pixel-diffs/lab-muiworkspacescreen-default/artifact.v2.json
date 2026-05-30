@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-muiworkspacescreen--default",
     "componentName": "MUIWorkspaceScreen",
-    "extractedAt": "2026-05-25T19:29:02.462Z",
+    "extractedAt": "2026-05-30T04:19:59.822Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-muiworkspacescreen--default&viewMode=story",
     "viewport": {
       "x": 0,
@@ -546,7 +546,10 @@
                     "MuiIconButton-sizeSmall",
                     "css-xz9haa"
                   ],
-                  "ariaLabel": "Notifications"
+                  "ariaLabel": "Notifications",
+                  "dataset": {
+                    "labId": "el-3"
+                  }
                 },
                 "box": {
                   "x": 332,
@@ -1138,7 +1141,10 @@
                             "css-15v65ck"
                           ],
                           "inputType": "text",
-                          "placeholder": "Search projects, stories..."
+                          "placeholder": "Search projects, stories...",
+                          "dataset": {
+                            "labId": "el-input"
+                          }
                         },
                         "box": {
                           "x": 0,
@@ -2513,7 +2519,10 @@
                             "MuiButton-sizeSmall",
                             "MuiButton-colorPrimary",
                             "css-skwq4i"
-                          ]
+                          ],
+                          "dataset": {
+                            "labId": "el-view-all"
+                          }
                         },
                         "box": {
                           "x": 108.08,
@@ -3654,7 +3663,10 @@
                                     "MuiButton-sizeSmall",
                                     "MuiButton-colorPrimary",
                                     "css-skwq4i"
-                                  ]
+                                  ],
+                                  "dataset": {
+                                    "labId": "el-details"
+                                  }
                                 },
                                 "box": {
                                   "x": 8,
@@ -3760,7 +3772,10 @@
                                     "MuiButton-sizeSmall",
                                     "MuiButton-colorPrimary",
                                     "css-1yndc9e"
-                                  ]
+                                  ],
+                                  "dataset": {
+                                    "labId": "el-open"
+                                  }
                                 },
                                 "box": {
                                   "x": 81.83,
@@ -4883,7 +4898,10 @@
                                     "MuiButton-sizeSmall",
                                     "MuiButton-colorPrimary",
                                     "css-skwq4i"
-                                  ]
+                                  ],
+                                  "dataset": {
+                                    "labId": "el-details-2"
+                                  }
                                 },
                                 "box": {
                                   "x": 8,
@@ -4989,7 +5007,10 @@
                                     "MuiButton-sizeSmall",
                                     "MuiButton-colorPrimary",
                                     "css-1yndc9e"
-                                  ]
+                                  ],
+                                  "dataset": {
+                                    "labId": "el-open-2"
+                                  }
                                 },
                                 "box": {
                                   "x": 81.83,
@@ -6112,7 +6133,10 @@
                                     "MuiButton-sizeSmall",
                                     "MuiButton-colorPrimary",
                                     "css-skwq4i"
-                                  ]
+                                  ],
+                                  "dataset": {
+                                    "labId": "el-details-3"
+                                  }
                                 },
                                 "box": {
                                   "x": 8,
@@ -6218,7 +6242,10 @@
                                     "MuiButton-sizeSmall",
                                     "MuiButton-colorPrimary",
                                     "css-1yndc9e"
-                                  ]
+                                  ],
+                                  "dataset": {
+                                    "labId": "el-open-3"
+                                  }
                                 },
                                 "box": {
                                   "x": 81.83,
@@ -8052,7 +8079,10 @@
                 "MuiBottomNavigationAction-root",
                 "Mui-selected",
                 "css-qjej1n"
-              ]
+              ],
+              "dataset": {
+                "labId": "el-home"
+              }
             },
             "box": {
               "x": 0,
@@ -8249,7 +8279,10 @@
                 "MuiButtonBase-root",
                 "MuiBottomNavigationAction-root",
                 "css-qjej1n"
-              ]
+              ],
+              "dataset": {
+                "labId": "el-projects"
+              }
             },
             "box": {
               "x": 97.5,
@@ -8445,7 +8478,10 @@
                 "MuiButtonBase-root",
                 "MuiBottomNavigationAction-root",
                 "css-qjej1n"
-              ]
+              ],
+              "dataset": {
+                "labId": "el-alerts"
+              }
             },
             "box": {
               "x": 195,
@@ -8641,7 +8677,10 @@
                 "MuiButtonBase-root",
                 "MuiBottomNavigationAction-root",
                 "css-qjej1n"
-              ]
+              ],
+              "dataset": {
+                "labId": "el-profile"
+              }
             },
             "box": {
               "x": 292.5,
@@ -8843,7 +8882,10 @@
             "MuiFab-secondary",
             "css-5ez1m4"
           ],
-          "ariaLabel": "Add project"
+          "ariaLabel": "Add project",
+          "dataset": {
+            "labId": "el-button"
+          }
         },
         "box": {
           "x": 326,

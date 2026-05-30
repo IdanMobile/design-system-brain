@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-productcard--default",
     "componentName": "ProductCard",
-    "extractedAt": "2026-05-25T12:40:00.264Z",
+    "extractedAt": "2026-05-30T02:27:56.855Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-productcard--default&viewMode=story",
     "viewport": {
       "x": 0,
@@ -268,6 +268,7 @@
                   "font": {
                     "family": "Roboto Mono",
                     "stack": "\"Roboto Mono\", monospace",
+                    "computedStack": "\"Roboto Mono\", monospace",
                     "size": 40,
                     "weight": 400,
                     "style": "normal",
@@ -332,6 +333,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 26,
                 "weight": 400,
                 "style": "normal",

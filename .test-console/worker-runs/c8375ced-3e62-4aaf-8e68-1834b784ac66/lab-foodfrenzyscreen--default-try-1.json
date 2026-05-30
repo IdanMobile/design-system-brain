@@ -1,0 +1,72 @@
+{
+  "storyId": "lab-foodfrenzyscreen--default",
+  "attempt": 1,
+  "jobId": "c8375ced-3e62-4aaf-8e68-1834b784ac66",
+  "recordedAt": "2026-05-30T02:14:17.124Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "beforeAttempt": {
+    "status": "warn",
+    "percent": 0.18471260177421314,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "afterTest": {
+    "status": "warn",
+    "percent": 0.18471260177421314,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-prompts/agent-lab-analyticscharts--revenue_fix-1-1780107220781.prompt.txt",
+    ".test-console/agent-prompts/agent-lab-analyticscharts--usage_fix-1-1780107220782.prompt.txt",
+    ".test-console/agent-prompts/agent-lab-featurecard--default_investigate-1-1780107220784.prompt.txt",
+    ".test-console/agent-prompts/agent-lab-foodfrenzyscreen--default_fix-1-1780107220770.prompt.txt",
+    ".test-console/agent-prompts/agent-lab-meetinghomepage--default_fix-1-1780107220773.prompt.txt",
+    ".test-console/agent-prompts/agent-lab-muiworkspacescreen--default_fix-1-1780107220778.prompt.txt",
+    ".test-console/agent-prompts/agent-lab-pricingpanel--pro_fix-1-1780107227675.prompt.txt",
+    ".test-console/agent-prompts/agent-lab-pricingpanel--starter_fix-1-1780107227668.prompt.txt",
+    ".test-console/agent-prompts/agent-screen_1_investigate-1-1780107220759.prompt.txt",
+    ".test-console/agent-prompts/agent-screen_2_investigate-1-1780107220765.prompt.txt",
+    ".test-console/batch-reports/lab-foodfrenzyscreen-default-try-1.json",
+    ".test-console/batch-reports/lab-foodfrenzyscreen-default-try-1.md",
+    ".test-console/batch-reports/lab-meetinghomepage-default-try-1.json",
+    ".test-console/batch-reports/lab-meetinghomepage-default-try-1.md",
+    ".test-console/batch-reports/lab-muiworkspacescreen-default-try-1.json",
+    ".test-console/batch-reports/lab-muiworkspacescreen-default-try-1.md",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-agent-lab-foodfrenzyscreen--default_fix-1-1780107220770.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-agent-lab-pricingpanel--pro_fix-1-1780107227675.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-agent-screen_2_investigate-1-1780107220765.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-test_lab-contentlistboard--highlighted-1780107220783.json",
+    ".test-console/fleet/agents.json",
+    ".test-console/fleet/events.jsonl",
+    ".test-console/job-results/c8375ced-3e62-4aaf-8e68-1834b784ac66/lab-pricingpanel--pro-fixer-try-1.json",
+    ".test-console/orchestrator-logs/2026-05-30_01-51-36_c8375ced.log",
+    ".test-console/orchestrator-state.json",
+    "figma-live-diffs/by-story/lab-contentlistboard-highlighted/result.json",
+    "figma-live-diffs/lab-contentlistboard-highlighted/artifact.v2.json",
+    "figma-live-diffs/lab-contentlistboard-highlighted/figma.png",
+    "figma-live-diffs/lab-contentlistboard-highlighted/regions/region-05-compare.png",
+    "figma-live-diffs/lab-contentlistboard-highlighted/regions/region-05-rendered.png",
+    "figma-live-diffs/report.json",
+    "lab-memory/visual/investigations/active/lab-pricingpanel--pro.md",
+    "storybook-parity-diffs/by-story/lab-loadingstates-card-skeleton/vsFigmaLive/result.json",
+    "storybook-parity-diffs/by-story/lab-loadingstates-card-skeleton/vsStorybook/result.json",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "NO_ADAPTER_EDIT",
+    "verdicts": [
+      "NO_ADAPTER_EDIT"
+    ],
+    "nextWorkerMode": "narrow_scope",
+    "interventionLines": [
+      "Supervisor: edits were only vault/rules/prompts — pixel needs packages/pixel-test/src/render-html.ts or extract.ts. Do NOT reorganize lab-memory during fix-all.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

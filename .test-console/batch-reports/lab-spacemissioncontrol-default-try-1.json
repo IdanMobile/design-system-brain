@@ -1,0 +1,109 @@
+{
+  "generatedAt": "2026-05-29T23:48:34.968Z",
+  "suiteId": "pixel",
+  "suiteLabel": "Pixel (schema)",
+  "tolerance": 0.1,
+  "regionTolerance": 0.1,
+  "storyCount": 1,
+  "families": {
+    "lab-spacemissioncontrol--": [
+      "lab-spacemissioncontrol--default"
+    ]
+  },
+  "hints": [
+    "All `@lab` stories — likely shared code-v2.ts or scene-to-html.ts path."
+  ],
+  "stories": [
+    {
+      "index": 1,
+      "storyId": "lab-spacemissioncontrol--default",
+      "status": "fail",
+      "globalPercent": 1.8854052740308664,
+      "maxRegionPercent": null,
+      "globalOk": false,
+      "regionOk": true,
+      "failReason": "global_over",
+      "comparePng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-spacemissioncontrol-default/regions/region-01-compare.png",
+      "worstRegionCompare": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-spacemissioncontrol-default/regions/region-01-compare.png",
+      "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-spacemissioncontrol-default/storybook.png",
+      "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-spacemissioncontrol-default/rendered.png",
+      "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-spacemissioncontrol-default/artifact.v2.json",
+      "sceneJsonPath": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-spacemissioncontrol-default/scene.json",
+      "error": null
+    }
+  ],
+  "suspectSnippets": [
+    {
+      "file": "packages/figma-importer-plugin/src/code-v2.ts",
+      "fileLabel": "code-v2.ts (renderer)",
+      "totalFileLines": 3598,
+      "symbol": "buildLayer",
+      "startLine": 2787,
+      "endLine": 2827,
+      "code": "\nasync function buildLayer(\n  layer: UniversalLayer,\n  parent?: UniversalLayer,\n  grandparent?: UniversalLayer\n): Promise<SceneNode | null> {\n  if (!isLayerVisible(layer)) return null;\n\n  if (isFigmaReferenceRasterLayer(layer)) {\n    const node = createImageNode(layer);\n    node.name = layer.name || \"reference-raster\";\n    node.x = snap(layer.box.x);\n    node.y = snap(layer.box.y);\n    return node;\n  }\n\n  let node: SceneNode;\n  let textChildToPlace: TextNode | null = null;\n\n  const isTextLeaf =\n    layer.text &&\n    !isFigmaReferenceRasterLayer(layer) &&\n    (!layer.children || layer.children.length === 0);\n  const figmaBareText =\n    isTextLeaf &&\n    isFigmaNativeTextLayer(layer) &&\n    !layer.paint?.borders &&\n    !(layer.paint?.shadows?.length);\n\n  if (figmaBareText) {\n    const t = await createTextNode(layer, parent);\n    t.name = layer.name || \"text\";\n    applyTransform(t, layer);\n    return t;\n  }\n\n  if (isTextLeaf) {\n    if (isLiveLabButtonBareLabel(layer, parent)) {\n      const t = await createTextNode(layer, parent);\n      t.name = layer.name || layer.source.dataset?.figmaName || \"label\";\n      return t;"
+    },
+    {
+      "file": "packages/figma-importer-plugin/src/code-v2.ts",
+      "fileLabel": "code-v2.ts (renderer)",
+      "totalFileLines": 3598,
+      "symbol": "applyTransform",
+      "startLine": 1007,
+      "endLine": 1047,
+      "code": "\nfunction applyTransform(node: SceneNode, layer: UniversalLayer): void {\n  if (!(\"relativeTransform\" in node)) return;\n\n  const rt = (layer.source?.dataset as { figmaRelativeTransform?: number[][] } | undefined)\n    ?.figmaRelativeTransform;\n  if (\n    layer.source?.kind === \"figma\" &&\n    layer.vector &&\n    rt?.length === 2 &&\n    rt[0]?.length === 3 &&\n    rt[1]?.length === 3\n  ) {\n    node.relativeTransform = [\n      [snap(rt[0][0]), snap(rt[0][1]), snap(rt[0][2])],\n      [snap(rt[1][0]), snap(rt[1][1]), snap(rt[1][2])],\n    ];\n    return;\n  }\n\n  let x = snap(layer.box.x);\n  const y = snap(layer.box.y);\n  if (isMuiShrunkInputLabel(layer) && isMockFigmaRuntime()) {\n    // scene-to-html tryRenderMuiOutlinedLabel adds padding:0 4px before scale(0.75).\n    x = snap(x - 3);\n  }\n  const t = layer.transform?.matrix;\n  if (!t || isIdentity(t)) {\n    node.x = x;\n    node.y = y;\n    return;\n  }\n  // The CSS matrix already lives inside the post-transform box coordinates.\n  // Since `box` is the POST-transform bounding rect, we don't reapply the CSS\n  // matrix on top. We DO honor rotation extracted from the matrix so vector\n  // sub-trees keep their orientation hint, but only when the rotation is\n  // meaningful AND the box is unchanged in size by the transform.\n  const a = t[0], b = t[1], c = t[2], d = t[3];\n  // Skip pure-translate or near-identity matrices (already in box).\n  const scaleX = Math.hypot(a, b);\n  const scaleY = Math.hypot(c, d);"
+    },
+    {
+      "file": "packages/figma-importer-plugin/src/code-v2.ts",
+      "fileLabel": "code-v2.ts (renderer)",
+      "totalFileLines": 3598,
+      "symbol": "applyBorders",
+      "startLine": 1131,
+      "endLine": 1171,
+      "code": "\nfunction applyBorders(\n  node: SceneNode,\n  paint: LayerPaint | undefined,\n  width: number,\n  height: number,\n  layer?: UniversalLayer\n): SceneNode | null {\n  if (!paint?.borders) return null;\n  const uniform = bordersUniform(paint.borders);\n  const singleEdge = singleEdgeBorderSide(paint.borders);\n  const activeCount = countActiveBorderSides(paint.borders);\n\n  // Live: partial borders (table grid, pagination) — SVG with per-corner radii.\n  if (!isMockFigmaRuntime() && activeCount >= 1 && activeCount < 4) {\n    const svg = buildActiveBorderSvg(width, height, paint);\n    if (svg) {\n      const vector = figma.createNodeFromSvg(svg);\n      vector.name = \"__border\";\n      vector.x = 0;\n      vector.y = 0;\n      vector.resize(Math.max(1, snap(width)), Math.max(1, snap(height)));\n      if (\"fills\" in vector) (vector as GeometryMixin).fills = [];\n      return vector;\n    }\n  }\n\n  if (singleEdge && !isMockFigmaRuntime()) {\n    const edgeSvg = buildSingleEdgeBorderSvg(width, height, paint, singleEdge);\n    if (edgeSvg) {\n      const vector = figma.createNodeFromSvg(edgeSvg);\n      vector.name = \"__border\";\n      vector.x = 0;\n      vector.y = 0;\n      vector.resize(Math.max(1, snap(width)), Math.max(1, snap(height)));\n      if (\"fills\" in vector) (vector as GeometryMixin).fills = [];\n      return vector;\n    }\n  }\n  const sides = paint.borders;\n  const cornerR = paint.cornerRadii"
+    },
+    {
+      "file": "packages/figma-importer-plugin/src/code-v2.ts",
+      "fileLabel": "code-v2.ts (renderer)",
+      "totalFileLines": 3598,
+      "symbol": "applyCornerRadii",
+      "startLine": 1119,
+      "endLine": 1159,
+      "code": "\nfunction applyCornerRadii(node: SceneNode, paint: LayerPaint | undefined): void {\n  if (!paint?.cornerRadii) return;\n  if (!(\"topLeftRadius\" in node)) return;\n  const c = paint.cornerRadii;\n  node.topLeftRadius = snap(c.topLeft.x);\n  node.topRightRadius = snap(c.topRight.x);\n  node.bottomRightRadius = snap(c.bottomRight.x);\n  node.bottomLeftRadius = snap(c.bottomLeft.x);\n}\n\n// ─────────────────────────── borders ───────────────────────────\n\nfunction applyBorders(\n  node: SceneNode,\n  paint: LayerPaint | undefined,\n  width: number,\n  height: number,\n  layer?: UniversalLayer\n): SceneNode | null {\n  if (!paint?.borders) return null;\n  const uniform = bordersUniform(paint.borders);\n  const singleEdge = singleEdgeBorderSide(paint.borders);\n  const activeCount = countActiveBorderSides(paint.borders);\n\n  // Live: partial borders (table grid, pagination) — SVG with per-corner radii.\n  if (!isMockFigmaRuntime() && activeCount >= 1 && activeCount < 4) {\n    const svg = buildActiveBorderSvg(width, height, paint);\n    if (svg) {\n      const vector = figma.createNodeFromSvg(svg);\n      vector.name = \"__border\";\n      vector.x = 0;\n      vector.y = 0;\n      vector.resize(Math.max(1, snap(width)), Math.max(1, snap(height)));\n      if (\"fills\" in vector) (vector as GeometryMixin).fills = [];\n      return vector;\n    }\n  }\n\n  if (singleEdge && !isMockFigmaRuntime()) {\n    const edgeSvg = buildSingleEdgeBorderSvg(width, height, paint, singleEdge);"
+    },
+    {
+      "file": "packages/figma-importer-plugin/src/code-v2.ts",
+      "fileLabel": "code-v2.ts (renderer)",
+      "totalFileLines": 3598,
+      "symbol": "clampNodeWidthToParent",
+      "startLine": 58,
+      "endLine": 98,
+      "code": "/** Extractor can report child widths wider than the parent box (grid overflow). Clamp for Figma. */\nfunction clampNodeWidthToParent(\n  node: SceneNode,\n  layer: UniversalLayer,\n  parent?: UniversalLayer\n): void {\n  if (!parent || !(\"resize\" in node) || node.type === \"TEXT\") return;\n  const pos = layer.layout?.position;\n  if (pos === \"absolute\" || pos === \"fixed\") return;\n  const maxW = Math.max(1, snap(parent.box.width - layer.box.x));\n  if (node.width <= maxW + 0.5) return;\n  node.resize(maxW, node.height);\n  if (node.type === \"FRAME\") {\n    const text = (node as FrameNode).children.find((c) => c.type === \"TEXT\") as\n      | TextNode\n      | undefined;\n    if (text && text.width > maxW + 0.5) {\n      // Pill tabs / lab buttons — never narrow text to parent width (wraps \"Overview\").\n      if (layer.source.tag === \"button\" && isLabDomCenterButton(layer, parent)) return;\n      if (text.textAutoResize === \"HEIGHT\") {\n        text.resize(maxW, text.height);\n      } else if (text.textAutoResize === \"NONE\") {\n        text.resize(maxW, text.height);\n      }\n    }\n  }\n}\n\n// ─────────────────────────── color parsing ───────────────────────────\n\ninterface RGBA {\n  r: number;\n  g: number;\n  b: number;\n  a: number;\n}\n\nfunction parseColor(raw: string): RGBA {\n  const trimmed = raw.trim();\n  if (!trimmed || trimmed === \"transparent\" || trimmed === \"none\")\n    return { r: 0, g: 0, b: 0, a: 0 };"
+    },
+    {
+      "file": "packages/figma-importer-plugin/src/code-v2.ts",
+      "fileLabel": "code-v2.ts (renderer)",
+      "totalFileLines": 3598,
+      "symbol": "snap",
+      "startLine": 43,
+      "endLine": 83,
+      "code": "\nfunction snap(v: number): number {\n  return Math.round(v * 100) / 100;\n}\n\n/** Match Playwright element screenshot bounds (integer getBoundingClientRect). */\n/** Match Playwright element screenshot bounds (integer getBoundingClientRect). */\nfunction snapBoxSize(layer: UniversalLayer, axis: \"width\" | \"height\"): number {\n  const v = axis === \"width\" ? layer.box.width : layer.box.height;\n  if ((layer.source.classList ?? []).includes(\"lab-button\")) {\n    return Math.max(1, Math.round(v));\n  }\n  return Math.max(1, snap(v));\n}\n\n/** Extractor can report child widths wider than the parent box (grid overflow). Clamp for Figma. */\nfunction clampNodeWidthToParent(\n  node: SceneNode,\n  layer: UniversalLayer,\n  parent?: UniversalLayer\n): void {\n  if (!parent || !(\"resize\" in node) || node.type === \"TEXT\") return;\n  const pos = layer.layout?.position;\n  if (pos === \"absolute\" || pos === \"fixed\") return;\n  const maxW = Math.max(1, snap(parent.box.width - layer.box.x));\n  if (node.width <= maxW + 0.5) return;\n  node.resize(maxW, node.height);\n  if (node.type === \"FRAME\") {\n    const text = (node as FrameNode).children.find((c) => c.type === \"TEXT\") as\n      | TextNode\n      | undefined;\n    if (text && text.width > maxW + 0.5) {\n      // Pill tabs / lab buttons — never narrow text to parent width (wraps \"Overview\").\n      if (layer.source.tag === \"button\" && isLabDomCenterButton(layer, parent)) return;\n      if (text.textAutoResize === \"HEIGHT\") {\n        text.resize(maxW, text.height);\n      } else if (text.textAutoResize === \"NONE\") {\n        text.resize(maxW, text.height);\n      }\n    }\n  }"
+    },
+    {
+      "file": "packages/figma-importer-plugin/src/code-v2.ts",
+      "fileLabel": "code-v2.ts (renderer)",
+      "totalFileLines": 3598,
+      "symbol": "snapBoxSize",
+      "startLine": 49,
+      "endLine": 89,
+      "code": "/** Match Playwright element screenshot bounds (integer getBoundingClientRect). */\nfunction snapBoxSize(layer: UniversalLayer, axis: \"width\" | \"height\"): number {\n  const v = axis === \"width\" ? layer.box.width : layer.box.height;\n  if ((layer.source.classList ?? []).includes(\"lab-button\")) {\n    return Math.max(1, Math.round(v));\n  }\n  return Math.max(1, snap(v));\n}\n\n/** Extractor can report child widths wider than the parent box (grid overflow). Clamp for Figma. */\nfunction clampNodeWidthToParent(\n  node: SceneNode,\n  layer: UniversalLayer,\n  parent?: UniversalLayer\n): void {\n  if (!parent || !(\"resize\" in node) || node.type === \"TEXT\") return;\n  const pos = layer.layout?.position;\n  if (pos === \"absolute\" || pos === \"fixed\") return;\n  const maxW = Math.max(1, snap(parent.box.width - layer.box.x));\n  if (node.width <= maxW + 0.5) return;\n  node.resize(maxW, node.height);\n  if (node.type === \"FRAME\") {\n    const text = (node as FrameNode).children.find((c) => c.type === \"TEXT\") as\n      | TextNode\n      | undefined;\n    if (text && text.width > maxW + 0.5) {\n      // Pill tabs / lab buttons — never narrow text to parent width (wraps \"Overview\").\n      if (layer.source.tag === \"button\" && isLabDomCenterButton(layer, parent)) return;\n      if (text.textAutoResize === \"HEIGHT\") {\n        text.resize(maxW, text.height);\n      } else if (text.textAutoResize === \"NONE\") {\n        text.resize(maxW, text.height);\n      }\n    }\n  }\n}\n\n// ─────────────────────────── color parsing ───────────────────────────\n\ninterface RGBA {\n  r: number;"
+    },
+    {
+      "file": "packages/pixel-test/src/render-html.ts",
+      "fileLabel": "render-html.ts (pixel schema replay)",
+      "totalFileLines": 2918,
+      "symbol": "snap",
+      "startLine": 21,
+      "endLine": 61,
+      "code": "\nfunction snap(v: number): number {\n  return Math.round(v * 100) / 100;\n}\n\nfunction escapeHtml(raw: string): string {\n  return raw\n    .replace(/&/g, \"&amp;\")\n    .replace(/</g, \"&lt;\")\n    .replace(/>/g, \"&gt;\")\n    .replace(/\"/g, \"&quot;\");\n}\n\nfunction escapeAttr(raw: string): string {\n  return raw.replace(/\"/g, \"&quot;\").replace(/&/g, \"&amp;\");\n}\n\n/** Bake layer opacity into 6-digit hex for reliable SVG compositing. */\nfunction hexWithOpacity(color: string, opacity: number): string {\n  const trimmed = color.trim();\n  const m = trimmed.match(/^#([0-9a-f]{6})([0-9a-f]{2})?$/i);\n  if (!m || opacity >= 0.999) return trimmed;\n  const a = Math.round(Math.max(0, Math.min(1, opacity)) * 255)\n    .toString(16)\n    .padStart(2, \"0\");\n  return `#${m[1]}${a}`;\n}\n\nfunction px(v: number): string {\n  return `${snap(v)}px`;\n}\n\nfunction radialGradientShapeCss(layer: {\n  shape: \"ellipse\" | \"circle\";\n  sizeX?: string;\n  sizeY?: string;\n}): string {\n  if (layer.shape === \"ellipse\" && layer.sizeX && layer.sizeY) {\n    return `ellipse ${layer.sizeX} ${layer.sizeY}`;\n  }\n  return layer.shape;"
+    }
+  ]
+}

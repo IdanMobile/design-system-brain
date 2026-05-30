@@ -1,0 +1,78 @@
+make fixes after live test
+
+Worst story: lab-analyticscharts--revenue (0.13% global, warn, Figma live) · worst hotspot 1.16%
+Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-analyticscharts-revenue/regions/region-01-compare.png
+Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-analyticscharts-revenue/storybook.png
+Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-analyticscharts-revenue/figma.png
+
+── Triage BEFORE editing renderer code ──
+Step 1: open the compare PNG and Storybook + Figma PNGs side-by-side.
+Step 2: which side is wrong?
+  • Figma missing content that Storybook has  → renderer bug (code-v2.ts / scene-to-html.ts) ✅
+  • Figma has content that Storybook is missing  → SOURCE bug (Storybook story, component, asset path, flaky network image). DO NOT edit code-v2.ts.
+  • Both look the same but pixels differ  → tolerance, anti-aliasing, font, or sub-pixel layout — usually a small fix in the component or a tolerance config.
+Step 3: state your answer (one sentence) before any Read on a renderer file.
+Hard limit: do NOT Read code-v2.ts, extract.ts, or figma-live-test.ts in full before completing Step 3. Use Grep for specific symbols if needed.
+
+── Linked patterns (apply rule before story-specific hacks) ──
+- [[visual/patterns/render-html-computed-font-stack]] — render-html: use computed font stack: Text renders with authored `"Roboto Mono", monospace` while Storybook computed face is `monospace` (common on `<pre>`) — box art misaligns, ~2%+ pixel drift on screen stories.
+
+── Lab memory (prior investigation — finish this, do not re-triage from scratch) ──
+Root cause (cached):
+  Attempt 2 `correctLegendRowTrailingStrongOverflow` (overflow pin + 1px ink slack x-shift) **regressed** region-01 from 1.04% → 1.99%. Reverted all attempt-2 edits (strong in `isBlockTypoTightLineBox`, `liveTightGlyphMockTopPin`, overflow/slack pin). Stable issue: legend `<strong>` % WIDTH_AND_HEIGHT + LEFT leaves ~1px trailing ink past contract — importer bug, not source.
+
+Primary fix path (live): packages/figma-importer-plugin/src/code-v2.ts
+Use Grep on packages/figma-importer-plugin/src/code-v2.ts — do NOT read code-v2.ts or extract.ts in full before triage.
+
+── Automatic workflow (do not skip roles) ──
+1. Read .cursor/skills/project-orchestrator/SKILL.md — pre-flight: confirm phase + infra + verdict.
+2. Read .cursor/skills/roadmap-iteration/SKILL.md — active section: docs/ROADMAP.md (default §1.2 until live strict green).
+3. Lab memory (.cursor/rules/lab-memory.mdc): Read lab-memory/visual/investigations/active/<storyId>.md (or archive/) if it exists; read linked visual/patterns first.
+4. After investigate, before code edits: append lab-memory/templates/investigation.md to the story note.
+5. Never store secrets in lab-memory/.
+6. Worker: .cursor/skills/figma-renderer-until-pass/SKILL.md + .cursor/skills/investigate-figma-mismatch/SKILL.md — systematic-debugging BEFORE edits.
+7. Fix: code-v2.ts → plugin build → YOU run live test (pnpm infra:ensure first). Ask human ready ONLY if bridge/export fails.
+8. Regression Tier A: re-run pixel + mock + live for this story (pnpm test:regression -- --tier a --story … --suite figmaLive).
+9. Tier C: pnpm test:regression only if you touched shared adapter files.
+10. Post-flight: verification-before-completion — paste command exit codes.
+Target: lab-analyticscharts--revenue (figmaLive).
+── End automatic workflow ──
+Read .cursor/skills/figma-renderer-until-pass/SKILL.md and .cursor/skills/investigate-figma-mismatch/SKILL.md — investigate BEFORE editing.
+Act immediately — do NOT ask approval to start fixing.
+Live phase only. Fix now; after rebuild, one-line ask to reload plugin + reply ready before re-live.
+
+After fix: pnpm figma:live-iterate --story lab-analyticscharts--revenue
+
+Fix-all iteration 2/5 — THIS STORY ONLY (lab-analyticscharts--revenue).
+Prior attempt(s) on this story did not reach PASS — read the failure brief below before editing.
+
+── Supervisor mode: TIER C VERIFICATION ──
+A shared adapter (render-html.ts / extract.ts) was already edited in a prior attempt.
+DO NOT re-read render-html.ts or re-investigate the issue.
+ONLY run: pnpm --filter @lab/pixel-test test:golden -- --stories lab-analyticscharts--revenue
+If the test exits 0 (PASS or WARN acceptable), write a one-line note in lab-memory and stop.
+If it fails, make ONE targeted fix to render-html.ts based on what was already changed — do not read the whole file.
+
+── Worker supervisor ──
+Verdict: SHARED_ADAPTER · mode: tier_c_required
+Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done.
+Supervisor: agent CLI exited 143 — finish edits and verify plugin build before relying on test results.
+Do not fix other stories in this agent session.
+The harness will rebuild the plugin, then re-run live golden for this story.
+Goal: PASS on the next automated test (global + hotspot tolerance). WARN/FAIL triggers another attempt.
+Do not run the full suite golden yourself — only edit code and rebuild plugin if you changed code-v2.ts.
+
+── Previous attempt did NOT reach PASS (read before changing code) ──
+Attempt 1/5 completed without PASS.
+Metrics before that fix: warn · 0.13% global · worst hotspot 1.16%
+Metrics after automated golden test: warn · 0.13% global · worst hotspot 1.16%
+Global diff barely moved — last change likely missed the root cause; use investigate skill on compare PNG + artifact JSON.
+PASS requires global ≤ 0.1% and worst hotspot ≤ 0.1% (both must pass for Figma-style suites).
+Agent CLI exited 143 (may have stopped before finishing edits).
+Story golden test exited 1.
+Last lines from golden test:
+exit 1
+Compare PNG paths are unchanged but files were regenerated — open the compare image again.
+Worst hotspot compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-analyticscharts-revenue/regions/region-01-compare.png
+Artifact: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-analyticscharts-revenue/artifact.v2.json
+Scene JSON: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-analyticscharts-revenue/scene.json

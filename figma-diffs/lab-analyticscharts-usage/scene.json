@@ -456,7 +456,7 @@
                     0
                   ],
                   "effects": [],
-                  "clipsContent": false,
+                  "clipsContent": true,
                   "svgSource": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"170\" height=\"170\" viewBox=\"0 0 120 120\"><circle cx=\"60\" cy=\"60\" r=\"45\" fill=\"none\" stroke=\"rgb(226, 232, 240)\" stroke-width=\"24\" /><circle cx=\"60\" cy=\"60\" r=\"45\" fill=\"none\" stroke=\"rgb(20, 184, 166)\" stroke-width=\"24\" stroke-linecap=\"butt\" stroke-dasharray=\"101.78760197630929 282.7433388230814\" stroke-dashoffset=\"0\" transform=\"rotate(-90 60 60)\" /><circle cx=\"60\" cy=\"60\" r=\"45\" fill=\"none\" stroke=\"rgb(45, 212, 191)\" stroke-width=\"24\" stroke-linecap=\"butt\" stroke-dasharray=\"62.20353454107791 282.7433388230814\" stroke-dashoffset=\"-101.78760197630929\" transform=\"rotate(-90 60 60)\" /><circle cx=\"60\" cy=\"60\" r=\"45\" fill=\"none\" stroke=\"rgb(15, 118, 110)\" stroke-width=\"24\" stroke-linecap=\"butt\" stroke-dasharray=\"87.65043503515523 282.7433388230814\" stroke-dashoffset=\"-163.9911365173872\" transform=\"rotate(-90 60 60)\" /><circle cx=\"60\" cy=\"60\" r=\"45\" fill=\"none\" stroke=\"rgb(148, 163, 184)\" stroke-width=\"24\" stroke-linecap=\"butt\" stroke-dasharray=\"31.101767270538954 282.7433388230814\" stroke-dashoffset=\"-251.64157155254244\" transform=\"rotate(-90 60 60)\" /></svg>",
                   "children": []
                 },

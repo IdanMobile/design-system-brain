@@ -1,0 +1,55 @@
+run until pass
+
+Fix all BATCH — Pixel (schema) (5 stories fail/warn)
+
+Harness builds investigation report → ONE agent session fixes ALL stories → re-tests each story.
+
+── Automatic workflow (do not skip roles) ──
+1. Read .cursor/skills/project-orchestrator/SKILL.md — pre-flight: confirm phase + infra + verdict.
+2. Read .cursor/skills/roadmap-iteration/SKILL.md — active section: docs/ROADMAP.md (default §1.2 until live strict green).
+3. Lab memory (.cursor/rules/lab-memory.mdc): Read lab-memory/stories/<storyId>.md if it exists (create from lab-memory/templates/story.md if missing).
+4. After investigate, before code edits: append lab-memory/templates/investigation.md to the story note.
+5. Never store secrets in lab-memory/.
+6. Worker: .cursor/skills/investigate-figma-mismatch/SKILL.md FIRST on ALL listed stories — read batch investigation report + compare PNGs; append lab-memory per story.
+7. Worker: .cursor/skills/figma-renderer-until-pass/SKILL.md — implement **shared fixes for every story in one session** (not one-by-one).
+8. Prefer shared adapter edits (code-v2.ts, render-html.ts for pixel, extract.ts) that green multiple stories at once.
+9. Do NOT run golden tests yourself — harness re-tests all listed stories after plugin build.
+10. Harness sandbox gate: metrics regress → auto git restore; 2 batch regressions → FIX_ALL_SERIAL=1.
+11. Tier C if shared adapter touched — pnpm test:regression.
+── End automatic workflow ──
+Read .cursor/skills/figma-renderer-until-pass/SKILL.md and .cursor/skills/investigate-figma-mismatch/SKILL.md — investigate BEFORE editing.
+Act immediately — do NOT ask approval to start fixing.
+Pixel (schema) — fix packages/pixel-test/src/render-html.ts (and packages/extractor-playwright/src/extract.ts only if extraction is wrong). scene-to-html.ts is mock/Figma emulator only.
+
+Stories:
+
+1. lab-retroterminalscreen--default (2.63% global, fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/storybook.png
+   Rendered: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/rendered.png
+   Lab memory: Two bugs in `render-html.ts`:
+
+2. lab-foodfrenzyscreen--default (1.39% global, fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-foodfrenzyscreen-default/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-foodfrenzyscreen-default/storybook.png
+   Rendered: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-foodfrenzyscreen-default/rendered.png
+
+3. lab-neonarcadescreen--default (0.88% global, fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-neonarcadescreen-default/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-neonarcadescreen-default/storybook.png
+   Rendered: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-neonarcadescreen-default/rendered.png
+
+4. lab-meetinghomepage--default (0.64% global, fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-meetinghomepage-default/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-meetinghomepage-default/storybook.png
+   Rendered: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-meetinghomepage-default/rendered.png
+   Lab memory: Radial gradient **ellipse size** (`120% 60%`, `80% 40%`) was dropped from schema/render — fixed in `extract.ts` + `render-html.ts` (2026-05-…
+
+5. lab-muiworkspacescreen--default (0.29% global, warn)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/storybook.png
+   Rendered: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-muiworkspacescreen-default/rendered.png
+
+After all fixes: pnpm test:pixel:golden
+
+Fix ALL listed stories in one session (shared root cause). Rebuild plugin if code-v2.ts changed.

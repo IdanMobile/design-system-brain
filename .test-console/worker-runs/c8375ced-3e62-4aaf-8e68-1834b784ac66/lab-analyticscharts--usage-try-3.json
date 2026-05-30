@@ -1,0 +1,65 @@
+{
+  "storyId": "lab-analyticscharts--usage",
+  "attempt": 3,
+  "jobId": "c8375ced-3e62-4aaf-8e68-1834b784ac66",
+  "recordedAt": "2026-05-30T04:06:23.999Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "warn",
+    "percent": 0.1225343523632032,
+    "maxRegionPercent": 1.1196524064171123,
+    "error": null
+  },
+  "afterTest": {
+    "status": "warn",
+    "percent": 0.1225343523632032,
+    "maxRegionPercent": 1.1196524064171123,
+    "error": null
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-prompts/agent-lab-analyticscharts--usage_fix-3-1780113935394.prompt.txt",
+    ".test-console/agent-prompts/agent-lab-pricingpanel--pro_fix-4-1780113935709.prompt.txt",
+    ".test-console/agent-prompts/agent-lab-pricingpanel--starter_fix-4-1780113935705.prompt.txt",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-agent-lab-analyticscharts--revenue_fix-4-1780113934534.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-agent-lab-analyticscharts--usage_fix-3-1780113935394.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-agent-lab-contentlistboard--highlighted_fix-5-1780113934261.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-agent-lab-featurecard--default_fix-3-1780113934808.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-agent-lab-pricingpanel--starter_fix-4-1780113935705.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-figmaEntry_parity_screen_1-1780113941924.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-plugin_build-1780113942954.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-plugin_build-1780113942955.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-test_lab-muiworkspacescreen--default-1780113935699.json",
+    ".test-console/fleet/agents.json",
+    ".test-console/fleet/events.jsonl",
+    ".test-console/job-results/c8375ced-3e62-4aaf-8e68-1834b784ac66/lab-analyticscharts--revenue-fixer-try-4.json",
+    ".test-console/job-results/c8375ced-3e62-4aaf-8e68-1834b784ac66/lab-contentlistboard--highlighted-fixer-try-5.json",
+    ".test-console/job-results/c8375ced-3e62-4aaf-8e68-1834b784ac66/lab-featurecard--default-fixer-try-3.json",
+    ".test-console/orchestrator-logs/2026-05-30_01-51-36_c8375ced.log",
+    ".test-console/orchestrator-state.json",
+    "lab-memory/visual/investigations/active/lab-pricingpanel--pro.md",
+    "lab-memory/visual/investigations/active/lab-pricingpanel--starter.md",
+    "pixel-diffs/by-story/lab-muiworkspacescreen-default/result.json",
+    "pixel-diffs/lab-muiworkspacescreen-default/artifact.v2.json",
+    "pixel-diffs/report.json",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "STUCK_LOOP",
+    "verdicts": [
+      "NO_ADAPTER_EDIT",
+      "STUCK_LOOP"
+    ],
+    "nextWorkerMode": "orchestrator_review",
+    "interventionLines": [
+      "Supervisor: edits did not touch the adapter for this step — change renderer/extract paths named in the prompt, not docs or lab-memory.",
+      "Supervisor: metrics unchanged across attempts — stop guessing; use investigate-figma-mismatch on compare PNG + artifact before editing.",
+      "Supervisor: ORCHESTRATOR REVIEW required — repeated fixer attempts did not resolve this item. Stop retrying the same prompt; summarize failed hypotheses, compare artifacts, and update the next fixer instruction before another code-edit attempt.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

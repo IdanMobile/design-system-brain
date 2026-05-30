@@ -1,0 +1,159 @@
+{
+  "generatedAt": "2026-05-24T14:43:28.438Z",
+  "suiteId": "figmaLive",
+  "suiteLabel": "Figma live",
+  "tolerance": 0.1,
+  "regionTolerance": 0.1,
+  "storyCount": 4,
+  "families": {
+    "lab-productcard--": [
+      "lab-productcard--default",
+      "lab-productcard--dark"
+    ],
+    "lab-calendarscheduler--": [
+      "lab-calendarscheduler--compact"
+    ],
+    "lab-featurecard--": [
+      "lab-featurecard--default"
+    ]
+  },
+  "hints": [
+    "2 stories in family `lab-productcard--*` — prefer ONE shared fix (renderer/extract), not 2 separate edits.",
+    "All `@lab` stories — likely shared code-v2.ts or scene-to-html.ts path."
+  ],
+  "stories": [
+    {
+      "index": 1,
+      "storyId": "lab-productcard--default",
+      "status": "fail",
+      "globalPercent": 18.78364191639626,
+      "maxRegionPercent": 49.352669610598156,
+      "globalOk": false,
+      "regionOk": false,
+      "failReason": "global_and_hotspot",
+      "comparePng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-default/regions/region-01-compare.png",
+      "worstRegionCompare": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-default/regions/region-01-compare.png",
+      "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-default/storybook.png",
+      "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-default/figma.png",
+      "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-default/artifact.v2.json",
+      "sceneJsonPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-default/scene.json",
+      "error": null
+    },
+    {
+      "index": 2,
+      "storyId": "lab-productcard--dark",
+      "status": "fail",
+      "globalPercent": 10.559982821149076,
+      "maxRegionPercent": 24.915479624954923,
+      "globalOk": false,
+      "regionOk": false,
+      "failReason": "global_and_hotspot",
+      "comparePng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-dark/regions/region-01-compare.png",
+      "worstRegionCompare": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-dark/regions/region-01-compare.png",
+      "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-dark/storybook.png",
+      "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-dark/figma.png",
+      "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-dark/artifact.v2.json",
+      "sceneJsonPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-dark/scene.json",
+      "error": null
+    },
+    {
+      "index": 3,
+      "storyId": "lab-calendarscheduler--compact",
+      "status": "fail",
+      "globalPercent": 0.9987873563638222,
+      "maxRegionPercent": 3.9479483891649307,
+      "globalOk": false,
+      "regionOk": false,
+      "failReason": "global_and_hotspot",
+      "comparePng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/regions/region-01-compare.png",
+      "worstRegionCompare": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/regions/region-01-compare.png",
+      "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/storybook.png",
+      "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/figma.png",
+      "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/artifact.v2.json",
+      "sceneJsonPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/scene.json",
+      "error": null
+    },
+    {
+      "index": 4,
+      "storyId": "lab-featurecard--default",
+      "status": "fail",
+      "globalPercent": 0.7779437391087877,
+      "maxRegionPercent": 3.623499142367067,
+      "globalOk": false,
+      "regionOk": false,
+      "failReason": "global_and_hotspot",
+      "comparePng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-default/regions/region-01-compare.png",
+      "worstRegionCompare": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-default/regions/region-01-compare.png",
+      "storybookPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-default/storybook.png",
+      "renderedPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-default/figma.png",
+      "artifactPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-default/artifact.v2.json",
+      "sceneJsonPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-default/scene.json",
+      "error": null
+    }
+  ],
+  "suspectSnippets": [
+    {
+      "file": "packages/figma-importer-plugin/src/code-v2.ts",
+      "fileLabel": "code-v2.ts (renderer)",
+      "totalFileLines": 3016,
+      "symbol": "buildLayer",
+      "startLine": 2263,
+      "endLine": 2303,
+      "code": "\nasync function buildLayer(\n  layer: UniversalLayer,\n  parent?: UniversalLayer,\n  grandparent?: UniversalLayer\n): Promise<SceneNode | null> {\n  if (!isLayerVisible(layer)) return null;\n\n  let node: SceneNode;\n  let textChildToPlace: TextNode | null = null;\n\n  const isTextLeaf =\n    layer.text &&\n    (!layer.children || layer.children.length === 0);\n\n  if (isTextLeaf) {\n    if (isLiveLabButtonBareLabel(layer, parent)) {\n      const t = await createTextNode(layer, parent);\n      t.name = layer.name || layer.source.dataset?.figmaName || \"label\";\n      return t;\n    }\n    // Text leaf. The DOM element may also carry a background, border, shadow,\n    // padding (think MUI buttons, chips, badges, table rows). A Figma TextNode\n    // has none of those, so we ALWAYS build a frame container and place a\n    // TextNode child inside it. The container holds the layer's paint.\n    const frame = figma.createFrame();\n    frame.layoutMode = \"NONE\";\n    frame.fills = [];\n    frame.clipsContent = shouldClipContent(layer, parent);\n    textChildToPlace = await createTextNode(layer, parent);\n    node = frame;\n  } else if (layer.vector) {\n    node = createVectorNode(layer, parent);\n  } else if (layer.image) {\n    node = createImageNode(layer);\n  } else {\n    const f = figma.createFrame();\n    f.layoutMode = \"NONE\";\n    f.fills = [];\n    // Figma rejects shadow `spread` on frames where clipsContent is false.\n    // Honour the original DOM overflow when set, otherwise default to true"
+    },
+    {
+      "file": "packages/figma-importer-plugin/src/code-v2.ts",
+      "fileLabel": "code-v2.ts (renderer)",
+      "totalFileLines": 3016,
+      "symbol": "applyTransform",
+      "startLine": 798,
+      "endLine": 838,
+      "code": "\nfunction applyTransform(node: SceneNode, layer: UniversalLayer): void {\n  if (!(\"relativeTransform\" in node)) return;\n  let x = snap(layer.box.x);\n  const y = snap(layer.box.y);\n  if (isMuiShrunkInputLabel(layer) && isMockFigmaRuntime()) {\n    // scene-to-html tryRenderMuiOutlinedLabel adds padding:0 4px before scale(0.75).\n    x = snap(x - 3);\n  }\n  const t = layer.transform?.matrix;\n  if (!t || isIdentity(t)) {\n    node.x = x;\n    node.y = y;\n    return;\n  }\n  // The CSS matrix already lives inside the post-transform box coordinates.\n  // Since `box` is the POST-transform bounding rect, we don't reapply the CSS\n  // matrix on top. We DO honor rotation extracted from the matrix so vector\n  // sub-trees keep their orientation hint, but only when the rotation is\n  // meaningful AND the box is unchanged in size by the transform.\n  const a = t[0], b = t[1], c = t[2], d = t[3];\n  // Skip pure-translate or near-identity matrices (already in box).\n  const scaleX = Math.hypot(a, b);\n  const scaleY = Math.hypot(c, d);\n  if (Math.abs(scaleX - 1) < 1e-3 && Math.abs(scaleY - 1) < 1e-3 && Math.abs(a * d - b * c - 1) < 1e-3) {\n    // Pure rotation. Skip — `box` already accounts for the rotated bounds.\n    // Mock HTML replay: skip spin on CircularProgress — dashoffset already encodes\n    // the arc; extra rotation drifts vs Storybook's paused animation frame.\n    if (isMockFigmaRuntime() && \"rotation\" in node) {\n      const isCircularProgress = (layer.source.classList ?? []).some((c) =>\n        c.includes(\"MuiCircularProgress-root\")\n      );\n      if (!isCircularProgress) {\n        const rotDeg = (Math.atan2(b, a) * 180) / Math.PI;\n        if (Math.abs(rotDeg) > 0.01) {\n          (node as any).rotation = snap(rotDeg);\n        }\n      }\n    }\n    node.x = x;\n    node.y = y;"
+    },
+    {
+      "file": "packages/figma-importer-plugin/src/code-v2.ts",
+      "fileLabel": "code-v2.ts (renderer)",
+      "totalFileLines": 3016,
+      "symbol": "applyBorders",
+      "startLine": 898,
+      "endLine": 938,
+      "code": "\nfunction applyBorders(\n  node: SceneNode,\n  paint: LayerPaint | undefined,\n  width: number,\n  height: number,\n  layer?: UniversalLayer\n): SceneNode | null {\n  if (!paint?.borders) return null;\n  const uniform = bordersUniform(paint.borders);\n  const singleEdge = singleEdgeBorderSide(paint.borders);\n  if (singleEdge && !isMockFigmaRuntime()) {\n    const edgeSvg = buildSingleEdgeBorderSvg(width, height, paint, singleEdge);\n    if (edgeSvg) {\n      const vector = figma.createNodeFromSvg(edgeSvg);\n      vector.name = \"__border\";\n      vector.x = 0;\n      vector.y = 0;\n      vector.resize(Math.max(1, snap(width)), Math.max(1, snap(height)));\n      if (\"fills\" in vector) (vector as GeometryMixin).fills = [];\n      return vector;\n    }\n  }\n  const sides = paint.borders;\n  const cornerR = paint.cornerRadii\n    ? Math.max(\n        paint.cornerRadii.topLeft.x,\n        paint.cornerRadii.topRight.x,\n        paint.cornerRadii.bottomRight.x,\n        paint.cornerRadii.bottomLeft.x\n      )\n    : 0;\n  const useSvgOutline =\n    Boolean(uniform) &&\n    cornerR > 0 &&\n    (uniform!.style === \"dotted\" || uniform!.style === \"dashed\");\n\n  if (uniform && (!(\"strokes\" in node))) {\n    return null;\n  }\n"
+    },
+    {
+      "file": "packages/figma-importer-plugin/src/code-v2.ts",
+      "fileLabel": "code-v2.ts (renderer)",
+      "totalFileLines": 3016,
+      "symbol": "applyCornerRadii",
+      "startLine": 886,
+      "endLine": 926,
+      "code": "\nfunction applyCornerRadii(node: SceneNode, paint: LayerPaint | undefined): void {\n  if (!paint?.cornerRadii) return;\n  if (!(\"topLeftRadius\" in node)) return;\n  const c = paint.cornerRadii;\n  node.topLeftRadius = snap(c.topLeft.x);\n  node.topRightRadius = snap(c.topRight.x);\n  node.bottomRightRadius = snap(c.bottomRight.x);\n  node.bottomLeftRadius = snap(c.bottomLeft.x);\n}\n\n// ─────────────────────────── borders ───────────────────────────\n\nfunction applyBorders(\n  node: SceneNode,\n  paint: LayerPaint | undefined,\n  width: number,\n  height: number,\n  layer?: UniversalLayer\n): SceneNode | null {\n  if (!paint?.borders) return null;\n  const uniform = bordersUniform(paint.borders);\n  const singleEdge = singleEdgeBorderSide(paint.borders);\n  if (singleEdge && !isMockFigmaRuntime()) {\n    const edgeSvg = buildSingleEdgeBorderSvg(width, height, paint, singleEdge);\n    if (edgeSvg) {\n      const vector = figma.createNodeFromSvg(edgeSvg);\n      vector.name = \"__border\";\n      vector.x = 0;\n      vector.y = 0;\n      vector.resize(Math.max(1, snap(width)), Math.max(1, snap(height)));\n      if (\"fills\" in vector) (vector as GeometryMixin).fills = [];\n      return vector;\n    }\n  }\n  const sides = paint.borders;\n  const cornerR = paint.cornerRadii\n    ? Math.max(\n        paint.cornerRadii.topLeft.x,\n        paint.cornerRadii.topRight.x,\n        paint.cornerRadii.bottomRight.x,"
+    },
+    {
+      "file": "packages/figma-importer-plugin/src/code-v2.ts",
+      "fileLabel": "code-v2.ts (renderer)",
+      "totalFileLines": 3016,
+      "symbol": "clampNodeWidthToParent",
+      "startLine": 58,
+      "endLine": 98,
+      "code": "/** Extractor can report child widths wider than the parent box (grid overflow). Clamp for Figma. */\nfunction clampNodeWidthToParent(\n  node: SceneNode,\n  layer: UniversalLayer,\n  parent?: UniversalLayer\n): void {\n  if (!parent || !(\"resize\" in node) || node.type === \"TEXT\") return;\n  const pos = layer.layout?.position;\n  if (pos === \"absolute\" || pos === \"fixed\") return;\n  const maxW = Math.max(1, snap(parent.box.width - layer.box.x));\n  if (node.width <= maxW + 0.5) return;\n  node.resize(maxW, node.height);\n  if (node.type === \"FRAME\") {\n    const text = (node as FrameNode).children.find((c) => c.type === \"TEXT\") as\n      | TextNode\n      | undefined;\n    if (text && text.width > maxW + 0.5) {\n      // Pill tabs / lab buttons — never narrow text to parent width (wraps \"Overview\").\n      if (layer.source.tag === \"button\" && isLabDomCenterButton(layer, parent)) return;\n      if (text.textAutoResize === \"HEIGHT\") {\n        text.resize(maxW, text.height);\n      } else if (text.textAutoResize === \"NONE\") {\n        text.resize(maxW, text.height);\n      }\n    }\n  }\n}\n\n// ─────────────────────────── color parsing ───────────────────────────\n\ninterface RGBA {\n  r: number;\n  g: number;\n  b: number;\n  a: number;\n}\n\nfunction parseColor(raw: string): RGBA {\n  const trimmed = raw.trim();\n  if (!trimmed || trimmed === \"transparent\" || trimmed === \"none\")\n    return { r: 0, g: 0, b: 0, a: 0 };"
+    },
+    {
+      "file": "packages/figma-importer-plugin/src/code-v2.ts",
+      "fileLabel": "code-v2.ts (renderer)",
+      "totalFileLines": 3016,
+      "symbol": "snap",
+      "startLine": 43,
+      "endLine": 83,
+      "code": "\nfunction snap(v: number): number {\n  return Math.round(v * 100) / 100;\n}\n\n/** Match Playwright element screenshot bounds (integer getBoundingClientRect). */\n/** Match Playwright element screenshot bounds (integer getBoundingClientRect). */\nfunction snapBoxSize(layer: UniversalLayer, axis: \"width\" | \"height\"): number {\n  const v = axis === \"width\" ? layer.box.width : layer.box.height;\n  if ((layer.source.classList ?? []).includes(\"lab-button\")) {\n    return Math.max(1, Math.round(v));\n  }\n  return Math.max(1, snap(v));\n}\n\n/** Extractor can report child widths wider than the parent box (grid overflow). Clamp for Figma. */\nfunction clampNodeWidthToParent(\n  node: SceneNode,\n  layer: UniversalLayer,\n  parent?: UniversalLayer\n): void {\n  if (!parent || !(\"resize\" in node) || node.type === \"TEXT\") return;\n  const pos = layer.layout?.position;\n  if (pos === \"absolute\" || pos === \"fixed\") return;\n  const maxW = Math.max(1, snap(parent.box.width - layer.box.x));\n  if (node.width <= maxW + 0.5) return;\n  node.resize(maxW, node.height);\n  if (node.type === \"FRAME\") {\n    const text = (node as FrameNode).children.find((c) => c.type === \"TEXT\") as\n      | TextNode\n      | undefined;\n    if (text && text.width > maxW + 0.5) {\n      // Pill tabs / lab buttons — never narrow text to parent width (wraps \"Overview\").\n      if (layer.source.tag === \"button\" && isLabDomCenterButton(layer, parent)) return;\n      if (text.textAutoResize === \"HEIGHT\") {\n        text.resize(maxW, text.height);\n      } else if (text.textAutoResize === \"NONE\") {\n        text.resize(maxW, text.height);\n      }\n    }\n  }"
+    },
+    {
+      "file": "packages/extractor-playwright/src/extract.ts",
+      "fileLabel": "extract.ts (playwright extractor)",
+      "totalFileLines": 1408,
+      "symbol": "snap",
+      "startLine": 85,
+      "endLine": 125,
+      "code": "      };\n      const snap = (n: number) => Math.round(n * 100) / 100;\n      let counter = 0;\n      const nextId = () => `lay-${++counter}`;\n\n      // ────────────────────────── CSS parsers ──────────────────────────\n\n      function splitTopLevel(value: string): string[] {\n        const out: string[] = [];\n        let depth = 0;\n        let current = \"\";\n        for (let i = 0; i < value.length; i += 1) {\n          const ch = value[i];\n          if (ch === \"(\") depth += 1;\n          else if (ch === \")\") depth -= 1;\n          else if (ch === \",\" && depth === 0) {\n            out.push(current.trim());\n            current = \"\";\n            continue;\n          }\n          current += ch;\n        }\n        if (current.trim()) out.push(current.trim());\n        return out;\n      }\n\n      function parseShadowLayer(raw: string): {\n        offsetX: number;\n        offsetY: number;\n        blur: number;\n        spread: number;\n        color: string;\n        inset: boolean;\n      } | null {\n        const trimmed = raw.trim();\n        if (!trimmed || trimmed === \"none\") return null;\n        const inset = /\\binset\\b/i.test(trimmed);\n        const colorMatch = trimmed.match(\n          /(rgba?\\([^)]+\\)|hsla?\\([^)]+\\)|#[0-9a-fA-F]{3,8}|[a-zA-Z]+)/\n        );\n        let color = \"rgba(0,0,0,0.25)\";"
+    }
+  ]
+}

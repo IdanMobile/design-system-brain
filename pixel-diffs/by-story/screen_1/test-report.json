@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "1.0",
+  "itemId": "screen_1",
+  "entryPoint": "storybook",
+  "failedTest": {
+    "testId": "pixel",
+    "label": "Pixel (Storybook vs rendered HTML)",
+    "compare": {
+      "reference": "storybook",
+      "target": "renderedHtml"
+    },
+    "primaryFixer": "contract-to-storybook",
+    "fixerChain": [
+      "storybook-to-contract",
+      "contract-to-storybook"
+    ],
+    "allowlist": [
+      "packages/pixel-test/src/render-html.ts",
+      "packages/storybook-lab/**"
+    ],
+    "forbidden": [
+      "packages/figma-importer-plugin/**",
+      "packages/extractor-playwright/**",
+      "scripts/bake-figma-screen-ui.mjs",
+      "packages/ui/src/components/Screen*/**",
+      "artifacts/**/*.png"
+    ],
+    "regressionScope": "tier-a",
+    "verifyCommand": "pnpm test:pixel:golden -- --story screen_1"
+  },
+  "tolerance": 0.1,
+  "global": {
+    "percent": 100,
+    "maxRegionPercent": null,
+    "status": "error",
+    "pixelsDiffered": 0,
+    "pixelsTotal": 0
+  },
+  "images": {
+    "original": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/screen_1/storybook.png",
+    "target": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/screen_1/rendered.png",
+    "diff": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/screen_1/diff.png"
+  },
+  "mismatches": [
+    {
+      "id": "global",
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "wrongPixels": 0,
+      "percentInRegion": 100,
+      "images": {
+        "compareSideBySide": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/screen_1/diff.png",
+        "originalCrop": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/screen_1/storybook.png",
+        "targetCrop": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/screen_1/rendered.png"
+      },
+      "evidence": {
+        "message": "page.evaluate: Error: No [data-figma-component] root found\n    at eval (eval at evaluate (:302:30), <anonymous>:1313:26)\n    at UtilityScript.evaluate (<anonymous>:304:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)"
+      },
+      "suspectedFixer": "contract-to-storybook",
+      "fixPrompt": "Failed test: pixel (Pixel (Storybook vs rendered HTML))\nPrimary fixer: contract-to-storybook\nFixer chain (upstream if contract wrong): storybook-to-contract → contract-to-storybook\n── Ground rules ──\n• Fix the general algorithm — NOT per-item pixel hacks.\n• Screenshots are for investigation only — do NOT change UI/code to match PNGs.\n• Do NOT embed reference PNGs as assets to pass parity.\n── Allowlisted files ──\n• packages/pixel-test/src/render-html.ts\n• packages/storybook-lab/**\n── Forbidden ──\n• packages/figma-importer-plugin/**\n• packages/extractor-playwright/**\n• scripts/bake-figma-screen-ui.mjs\n• packages/ui/src/components/Screen*/**\n• artifacts/**/*.png\n── Mismatch global ──\nRegion: (0, 0) 0×0px\nWrong pixels: 0 (100.000% in region)\nEvidence: page.evaluate: Error: No [data-figma-component] root found\n    at eval (eval at evaluate (:302:30), <anonymous>:1313:26)\n    at UtilityScript.evaluate (<anonymous>:304:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\nCompare crop: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/screen_1/diff.png\nVerify: pnpm test:pixel:golden -- --story screen_1\nRegression scope: tier-a\nItem: screen_1"
+    }
+  ],
+  "testedAt": "2026-05-29T23:31:57.289Z",
+  "testReportPath": "/Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/by-story/screen_1/test-report.json"
+}

@@ -9,6 +9,7 @@ import { existsSync, readFileSync, writeFileSync, mkdirSync, unlinkSync } from "
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { TEST_CONSOLE_SERVER_VERSION } from "./test-console-version.mjs";
+import { killListenersOnPort, waitForPortDown } from "./test-console-port.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const PORT = Number(process.env.TEST_CONSOLE_PORT ?? 6110);
@@ -28,7 +29,8 @@ async function fetchState() {
 }
 
 async function apiUp() {
-  return (await fetchState()) != null;
+  const state = await fetchState();
+  return state?.serverVersion === TEST_CONSOLE_SERVER_VERSION;
 }
 
 function stopServer() {
@@ -40,6 +42,7 @@ function stopServer() {
       /* already dead */
     }
   }
+  killListenersOnPort(PORT);
   try {
     unlinkSync(PID_FILE);
   } catch {
@@ -86,9 +89,9 @@ async function main() {
       `[test-console] Stale server (v${remoteVersion}, need v${TEST_CONSOLE_SERVER_VERSION}) — restarting…`
     );
     stopServer();
-    const deadline = Date.now() + 10_000;
-    while (Date.now() < deadline && (await fetchState())) {
-      await new Promise((r) => setTimeout(r, 300));
+    if (!(await waitForPortDown(PORT, 10_000))) {
+      killListenersOnPort(PORT, "SIGKILL");
+      await waitForPortDown(PORT, 4000);
     }
   }
 

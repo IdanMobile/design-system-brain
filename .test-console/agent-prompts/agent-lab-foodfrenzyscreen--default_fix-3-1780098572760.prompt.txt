@@ -1,0 +1,86 @@
+run until pass
+
+Worst story: lab-foodfrenzyscreen--default (0.18% global, warn, Pixel (schema))
+Compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-foodfrenzyscreen-default/regions/region-01-compare.png
+Storybook: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-foodfrenzyscreen-default/storybook.png
+Rendered: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-foodfrenzyscreen-default/rendered.png
+
+── Triage BEFORE editing renderer code ──
+Step 1: open the compare PNG and Storybook + Rendered PNGs side-by-side.
+Step 2: which side is wrong?
+  • Rendered missing content that Storybook has  → schema replay bug (packages/pixel-test/src/render-html.ts or extract.ts) ✅
+  • Rendered has content that Storybook is missing  → SOURCE bug (Storybook story, component, asset path, flaky network image). DO NOT edit code-v2.ts.
+  • Both look the same but pixels differ  → tolerance, anti-aliasing, font, or sub-pixel layout — usually a small fix in the component or a tolerance config.
+Step 3: state your answer (one sentence) before any Read on a renderer file.
+Hard limit: do NOT Read packages/pixel-test/src/render-html.ts, extract.ts, or code-v2.ts in full before completing Step 3. Use Grep for specific symbols if needed.
+
+── Linked patterns (apply rule before story-specific hacks) ──
+- [[visual/patterns/...]] — ...
+- [[visual/patterns/render-html-layer-class-allowlist-regression]] — render-html: layer-class allowlist regressions: - **Do not** add root shell classes (`lab-retro-terminal`, `lab-meeting-home-earlier-card` + skip fill) without a flex/absolute audit.
+- **Do not** replay `css-*` Emotion hashes — they bind to Storybook DOM order; replay body markup does not match.
+- **Safe:** leaf/theme classes already paired with `usesStorybookCssPaintShell()` (glow, promo, checkout) or nodes with **no** conflicting inline padding/border in artifact.
+- **Prefer:** fix inline gradient/font/border in `paintToBaseCss` / `textToHtml` over broad class allowlists on flex parents.
+
+── Lab memory (prior investigation — finish this, do not re-triage from scratch) ──
+Root cause (cached):
+  - Promo uses `usesStorybookCssPaintShell` (OK). Search/deal-card CSS shell + `lab-food-frenzy-categories|search|deal-card` classes **neutral** (~0.558% unchanged).
+  - Category chips: `computedStack: Arial` on `Inter` stack — Inter override **regressed** to 0.887%.
+  - Remaining drift likely deal-card flex children (art emoji), promo/search shadow AA, not missing parent class on categories (flex already inline).
+
+Recommended fix area (cached):
+  - `render-html.ts`: per-node border-radius/shadow on deal cards without parent flex class replay; promo gradient angle 135° parity.
+  - See [[visual/patterns/render-html-layer-class-allowlist-regression]].
+
+Primary fix path (pixel): packages/pixel-test/src/render-html.ts
+Use Grep on packages/pixel-test/src/render-html.ts and packages/extractor-playwright/src/extract.ts — do NOT read those files in full.
+
+── Automatic workflow (do not skip roles) ──
+1. Read .cursor/skills/project-orchestrator/SKILL.md — pre-flight: confirm phase + infra + verdict.
+2. Read .cursor/skills/roadmap-iteration/SKILL.md — active section: docs/ROADMAP.md (default §1.2 until live strict green).
+3. Lab memory (.cursor/rules/lab-memory.mdc): Read lab-memory/visual/investigations/active/<storyId>.md (or archive/) if it exists; read linked visual/patterns first.
+4. After investigate, before code edits: append lab-memory/templates/investigation.md to the story note.
+5. Never store secrets in lab-memory/.
+6. Worker: .cursor/skills/figma-renderer-until-pass/SKILL.md + .cursor/skills/investigate-figma-mismatch/SKILL.md.
+7. Fix: packages/pixel-test/src/render-html.ts (+ extract.ts if extraction wrong). scene-to-html.ts is mock-only — not pixel golden.
+8. Tier A: pnpm test:regression -- --tier a --story lab-foodfrenzyscreen--default --suite <pixel|figma|figmaLive|delivery>.
+9. Tier C: pnpm test:regression if code-v2.ts, render-html.ts, extract.ts, or contract changed.
+10. Post-flight: verification-before-completion.
+Target: lab-foodfrenzyscreen--default (pixel).
+── End automatic workflow ──
+Read .cursor/skills/figma-renderer-until-pass/SKILL.md and .cursor/skills/investigate-figma-mismatch/SKILL.md — investigate BEFORE editing.
+Act immediately — do NOT ask approval to start fixing.
+Pixel (schema) — fix packages/pixel-test/src/render-html.ts (and packages/extractor-playwright/src/extract.ts only if extraction is wrong). scene-to-html.ts is mock/Figma emulator only.
+
+After fix: pnpm test:pixel:golden
+
+Fix-all iteration 3/5 — THIS STORY ONLY (lab-foodfrenzyscreen--default).
+Prior attempt(s) on this story did not reach PASS — read the failure brief below before editing.
+
+── Supervisor mode: INVESTIGATE FIRST ──
+Read compare PNG + artifact JSON (≤3 region PNGs). Write diagnosis in lab-memory, then implement.
+You have ~14 minutes before the harness watchdog stops a no-edit session — do not read code-v2.ts in full.
+Land at least ONE targeted edit (extract.ts / render-html.ts for pixel) within 10 minutes.
+
+── Worker supervisor ──
+Verdict: STUCK_LOOP · mode: investigate_first
+Supervisor: two consecutive attempts with no metric movement — switch to investigate-first.
+Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done.
+Supervisor: agent CLI exited 143 — finish edits and verify plugin build before relying on test results.
+Do not fix other stories in this agent session.
+The harness will re-run pixel golden for this story after you finish.
+Goal: PASS on the next automated test (global + hotspot tolerance). WARN/FAIL triggers another attempt.
+Do not run the full suite golden yourself — only edit code and rebuild plugin if you changed code-v2.ts.
+
+── Previous attempt did NOT reach PASS (read before changing code) ──
+Attempt 2/5 completed without PASS.
+Metrics before that fix: warn · 0.18% global
+Metrics after automated golden test: warn · 0.18% global
+Global diff barely moved — last change likely missed the root cause; use investigate skill on compare PNG + artifact JSON.
+PASS requires global ≤ 0.1% and worst hotspot ≤ 0.1% (both must pass for Figma-style suites).
+Agent CLI exited 143 (may have stopped before finishing edits).
+Last lines from golden test:
+PASS
+Compare PNG paths are unchanged but files were regenerated — open the compare image again.
+Worst hotspot compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-foodfrenzyscreen-default/regions/region-01-compare.png
+Artifact: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-foodfrenzyscreen-default/artifact.v2.json
+Scene JSON: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-foodfrenzyscreen-default/scene.json

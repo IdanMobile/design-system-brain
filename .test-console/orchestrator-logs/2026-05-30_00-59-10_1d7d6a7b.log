@@ -1,0 +1,431 @@
+# Orchestrator session log
+# Job:     1d7d6a7b-fbe1-4a67-8d92-b05bf3824c7c
+# Started: 2026-05-29T21:59:10.918Z
+# Scope:   auto (run until complete)
+# Items:   57
+#
+[portfolio] Launch session — unified portfolio until complete or human action
+[portfolio] Steps: structural → Figma live → Storybook → ReactHtml → logic
+[portfolio] Launching supervisor in Terminal (≤5 fix→test tries per item)…
+[portfolio] Unified supervisor — strict 0.1% · structural → vsFigmaLive → vsStorybook → vsReactHtml → logic
+[portfolio] Scope: fresh_only · sort: flow_first
+[portfolio] Safety — fix rounds/step ≤10, auto-retries ≤3, agent calls ≤100
+[portfolio] Launch mode — runs until complete, stuck, or human action; rescans when green.
+
+[portfolio] Current state (57 items):
+  ○ Structural (57 items): 57 not tested
+  ✓ → Figma live
+  ✓ → Storybook
+  ✓ → ReactHtml
+  ✓ Logic audit
+
+
+[portfolio] ══ Flow batch (8 parallel safe work items): screen_1 · Structural, screen_2 · Structural, lab-analyticscharts--dense · Structural, lab-analyticscharts--revenue · Structural, lab-analyticscharts--usage · Structural, lab-button--compact · Structural, lab-button--danger · Structural, lab-button--ghost · Structural ══
+[portfolio] Golden · screen_1 · Manifest → Contract · status not_tested
+[portfolio] Golden · screen_2 · Manifest → Contract · status not_tested
+[portfolio] Golden · lab-analyticscharts--dense · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-analyticscharts--revenue · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-analyticscharts--usage · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-button--compact · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-button--danger · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-button--ghost · Pixel (schema) · status not_tested
+[portfolio] golden · screen_1
+file:///Users/user/Downloads/storybook-to-figma-lab/scripts/figma-manifest-to-contract.mjs:19
+import { pruneManifestAgainstReference, readPng, inferReferencePngScaleFromViewport } from "./figma-screen-reference-align.mjs";
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: The requested module './figma-screen-reference-align.mjs' does not provide an export named 'inferReferencePngScaleFromViewport'
+    at #asyncInstantiate (node:internal/modules/esm/module_job:319:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:422:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:639:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v25.8.1
+[portfolio] golden · pixel (1)
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-analyticscharts--revenue"
+
+▶ lab-analyticscharts--revenue ... ✓ PASS 0.025%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[portfolio] golden · pixel (1)
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-analyticscharts--usage"
+
+▶ lab-analyticscharts--usage ... ✓ PASS 0.020%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-analyticscharts--dense"
+
+▶ lab-analyticscharts--dense ... ✓ PASS 0.029%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[portfolio] golden · pixel (1)
+file:///Users/user/Downloads/storybook-to-figma-lab/scripts/figma-manifest-to-contract.mjs:19
+import { pruneManifestAgainstReference, readPng, inferReferencePngScaleFromViewport } from "./figma-screen-reference-align.mjs";
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: The requested module './figma-screen-reference-align.mjs' does not provide an export named 'inferReferencePngScaleFromViewport'
+    at #asyncInstantiate (node:internal/modules/esm/module_job:319:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:422:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:639:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v25.8.1
+[portfolio] golden · screen_2
+[portfolio] golden · pixel (1)
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-button--ghost"
+
+▶ lab-button--ghost ... ✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+[portfolio] ══ Flow batch (8 parallel safe work items): screen_1 · Structural, screen_2 · Structural, lab-button--large-with-both-icons · Structural, lab-button--primary · Structural, lab-button--primary-with-icon · Structural, lab-button--secondary · Structural, lab-calendarscheduler--compact · Structural, lab-calendarscheduler--monthly · Structural ══
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-button--danger"
+
+▶ lab-button--danger ... ✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[portfolio] golden · pixel (1)
+[portfolio] golden · pixel (1)
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-button--compact"
+
+▶ lab-button--compact ... ✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[portfolio] Golden · screen_1 · Manifest → Contract · status not_tested
+[portfolio] Golden · screen_2 · Manifest → Contract · status not_tested
+[portfolio] Golden · lab-button--large-with-both-icons · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-button--primary · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-button--primary-with-icon · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-button--secondary · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-calendarscheduler--compact · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-calendarscheduler--monthly · Pixel (schema) · status not_tested
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-button--primary-with-icon"
+
+▶ lab-button--primary-with-icon ... ✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[portfolio] golden · pixel (1)
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-button--primary"
+
+▶ lab-button--primary ... ✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[portfolio] golden · pixel (1)
+file:///Users/user/Downloads/storybook-to-figma-lab/scripts/figma-manifest-to-contract.mjs:19
+import { pruneManifestAgainstReference, readPng, inferReferencePngScaleFromViewport } from "./figma-screen-reference-align.mjs";
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: The requested module './figma-screen-reference-align.mjs' does not provide an export named 'inferReferencePngScaleFromViewport'
+    at #asyncInstantiate (node:internal/modules/esm/module_job:319:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:422:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:639:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v25.8.1
+[portfolio] golden · screen_2
+file:///Users/user/Downloads/storybook-to-figma-lab/scripts/figma-manifest-to-contract.mjs:19
+import { pruneManifestAgainstReference, readPng, inferReferencePngScaleFromViewport } from "./figma-screen-reference-align.mjs";
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: The requested module './figma-screen-reference-align.mjs' does not provide an export named 'inferReferencePngScaleFromViewport'
+    at #asyncInstantiate (node:internal/modules/esm/module_job:319:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:422:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:639:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v25.8.1
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-button--large-with-both-icons"
+
+▶ lab-button--large-with-both-icons ... ✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[portfolio] golden · pixel (1)
+[portfolio] golden · screen_1
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-calendarscheduler--compact"
+
+▶ lab-calendarscheduler--compact ... ✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[portfolio] golden · pixel (1)
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-button--secondary"
+
+▶ lab-button--secondary ... ✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[portfolio] golden · pixel (1)
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-calendarscheduler--monthly"
+
+▶ lab-calendarscheduler--monthly ... ✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+[portfolio] ══ Flow batch (8 parallel safe work items): screen_1 · Structural, screen_2 · Structural, lab-calendarscheduler--weekdays-only · Structural, lab-complexdashboardcard--default · Structural, lab-contentlistboard--compact · Structural, lab-contentlistboard--default · Structural, lab-contentlistboard--highlighted · Structural, lab-cryptochaosdashboard--default · Structural ══
+[portfolio] golden · pixel (1)
+[portfolio] Golden · screen_1 · Manifest → Contract · status not_tested
+[portfolio] Golden · screen_2 · Manifest → Contract · status not_tested
+[portfolio] Golden · lab-calendarscheduler--weekdays-only · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-complexdashboardcard--default · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-contentlistboard--compact · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-contentlistboard--default · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-contentlistboard--highlighted · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-cryptochaosdashboard--default · Pixel (schema) · status not_tested
+[portfolio] golden · pixel (1)
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-calendarscheduler--weekdays-only"
+
+▶ lab-calendarscheduler--weekdays-only ... ✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[portfolio] golden · pixel (1)
+file:///Users/user/Downloads/storybook-to-figma-lab/scripts/figma-manifest-to-contract.mjs:19
+import { pruneManifestAgainstReference, readPng, inferReferencePngScaleFromViewport } from "./figma-screen-reference-align.mjs";
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: The requested module './figma-screen-reference-align.mjs' does not provide an export named 'inferReferencePngScaleFromViewport'
+    at #asyncInstantiate (node:internal/modules/esm/module_job:319:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:422:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:639:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v25.8.1
+[portfolio] golden · screen_2
+file:///Users/user/Downloads/storybook-to-figma-lab/scripts/figma-manifest-to-contract.mjs:19
+import { pruneManifestAgainstReference, readPng, inferReferencePngScaleFromViewport } from "./figma-screen-reference-align.mjs";
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: The requested module './figma-screen-reference-align.mjs' does not provide an export named 'inferReferencePngScaleFromViewport'
+    at #asyncInstantiate (node:internal/modules/esm/module_job:319:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:422:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:639:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v25.8.1
+[portfolio] golden · screen_1
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-contentlistboard--compact"
+
+▶ lab-contentlistboard--compact ... ✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[portfolio] golden · pixel (1)
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-contentlistboard--default"
+
+▶ lab-contentlistboard--default ... ✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[portfolio] golden · pixel (1)
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-contentlistboard--highlighted"
+
+▶ lab-contentlistboard--highlighted ... ✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-complexdashboardcard--default"
+
+▶ lab-complexdashboardcard--default ... ✓ PASS 0.049%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[portfolio] golden · pixel (1)
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-cryptochaosdashboard--default"
+
+▶ lab-cryptochaosdashboard--default ... ✓ PASS 0.070%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+[portfolio] ══ Flow batch (8 parallel safe work items): screen_1 · Structural, screen_2 · Structural, lab-featurecard--default · Structural, lab-featurecard--success · Structural, lab-featurecard--warning · Structural, lab-filtersidepanel--collapsed · Structural, lab-filtersidepanel--left-panel · Structural, lab-filtersidepanel--right-panel · Structural ══
+[portfolio] golden · pixel (1)
+[portfolio] Golden · screen_1 · Manifest → Contract · status not_tested
+[portfolio] Golden · screen_2 · Manifest → Contract · status not_tested
+[portfolio] Golden · lab-featurecard--default · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-featurecard--success · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-featurecard--warning · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-filtersidepanel--collapsed · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-filtersidepanel--left-panel · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-filtersidepanel--right-panel · Pixel (schema) · status not_tested
+[portfolio] golden · pixel (1)
+file:///Users/user/Downloads/storybook-to-figma-lab/scripts/figma-manifest-to-contract.mjs:19
+import { pruneManifestAgainstReference, readPng, inferReferencePngScaleFromViewport } from "./figma-screen-reference-align.mjs";
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: The requested module './figma-screen-reference-align.mjs' does not provide an export named 'inferReferencePngScaleFromViewport'
+    at #asyncInstantiate (node:internal/modules/esm/module_job:319:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:422:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:639:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v25.8.1
+[portfolio] golden · screen_2
+file:///Users/user/Downloads/storybook-to-figma-lab/scripts/figma-manifest-to-contract.mjs:19
+import { pruneManifestAgainstReference, readPng, inferReferencePngScaleFromViewport } from "./figma-screen-reference-align.mjs";
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: The requested module './figma-screen-reference-align.mjs' does not provide an export named 'inferReferencePngScaleFromViewport'
+    at #asyncInstantiate (node:internal/modules/esm/module_job:319:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:422:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:639:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v25.8.1
+[portfolio] golden · screen_1
+[portfolio] golden · pixel (1)
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-featurecard--default"
+
+▶ lab-featurecard--default ... ✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-featurecard--warning"
+
+▶ lab-featurecard--warning ... ✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[portfolio] golden · pixel (1)
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-featurecard--success"
+
+▶ lab-featurecard--success ... ✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-filtersidepanel--left-panel"
+
+▶ lab-filtersidepanel--left-panel ... ✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[portfolio] golden · pixel (1)
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-filtersidepanel--right-panel"
+
+▶ lab-filtersidepanel--right-panel ... ✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+[portfolio] ══ Flow batch (8 parallel safe work items): screen_1 · Structural, screen_2 · Structural, lab-foodfrenzyscreen--default · Structural, lab-loadingstates--card-skeleton · Structural, lab-loadingstates--list-skeleton · Structural, lab-loginpage--default · Structural, lab-loginpage--filled-credentials · Structural, lab-meetinghomepage--default · Structural ══
+[portfolio] golden · pixel (1)
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-filtersidepanel--collapsed"
+
+▶ lab-filtersidepanel--collapsed ... ✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[portfolio] golden · pixel (1)
+[portfolio] Golden · screen_1 · Manifest → Contract · status not_tested
+[portfolio] Golden · screen_2 · Manifest → Contract · status not_tested
+[portfolio] Golden · lab-foodfrenzyscreen--default · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-loadingstates--card-skeleton · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-loadingstates--list-skeleton · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-loginpage--default · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-loginpage--filled-credentials · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-meetinghomepage--default · Pixel (schema) · status not_tested
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-loadingstates--card-skeleton"
+
+▶ lab-loadingstates--card-skeleton ... ✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[portfolio] golden · pixel (1)
+[portfolio] golden · pixel (1)
+file:///Users/user/Downloads/storybook-to-figma-lab/scripts/figma-manifest-to-contract.mjs:19
+import { pruneManifestAgainstReference, readPng, inferReferencePngScaleFromViewport } from "./figma-screen-reference-align.mjs";
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: The requested module './figma-screen-reference-align.mjs' does not provide an export named 'inferReferencePngScaleFromViewport'
+    at #asyncInstantiate (node:internal/modules/esm/module_job:319:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:422:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:639:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v25.8.1
+[portfolio] golden · screen_2
+file:///Users/user/Downloads/storybook-to-figma-lab/scripts/figma-manifest-to-contract.mjs:19
+import { pruneManifestAgainstReference, readPng, inferReferencePngScaleFromViewport } from "./figma-screen-reference-align.mjs";
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: The requested module './figma-screen-reference-align.mjs' does not provide an export named 'inferReferencePngScaleFromViewport'
+    at #asyncInstantiate (node:internal/modules/esm/module_job:319:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:422:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:639:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v25.8.1
+[portfolio] golden · screen_1
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-foodfrenzyscreen--default"
+
+▶ lab-foodfrenzyscreen--default ... ⚠ WARN 0.185%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-loginpage--filled-credentials"
+
+▶ lab-loginpage--filled-credentials ... ✓ PASS 0.080%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[portfolio] golden · pixel (1)
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-loadingstates--list-skeleton"
+
+▶ lab-loadingstates--list-skeleton ... ✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[portfolio] golden · pixel (1)
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-loginpage--default"
+
+▶ lab-loginpage--default ... ✓ PASS 0.000%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+[portfolio] golden · pixel (1)
+
+> @lab/pixel-test@0.1.0 test:golden /Users/user/Downloads/storybook-to-figma-lab/packages/pixel-test
+> node --experimental-strip-types src/pixel-test.ts --golden "--" "--stories" "lab-meetinghomepage--default"
+
+▶ lab-meetinghomepage--default ... ⚠ WARN 0.321%
+
+Report: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/report.html
+
+[portfolio] ══ Flow batch (8 parallel safe work items): screen_1 · Structural, screen_2 · Structural, lab-foodfrenzyscreen--default · Structural, lab-meetinghomepage--default · Structural, lab-muiworkspacescreen--default · Structural, lab-navigationbars--bottom-navigation · Structural, lab-navigationbars--top-navigation · Structural, lab-neonarcadescreen--default · Structural ══
+[portfolio] golden · pixel (1)
+[portfolio] Golden · screen_1 · Manifest → Contract · status not_tested
+[portfolio] Golden · screen_2 · Manifest → Contract · status not_tested
+[portfolio] Fix · lab-foodfrenzyscreen--default · Pixel (schema) · status warn (0.18%)
+[portfolio] Fix · lab-meetinghomepage--default · Pixel (schema) · status warn (0.32%)
+[portfolio] Golden · lab-muiworkspacescreen--default · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-navigationbars--bottom-navigation · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-navigationbars--top-navigation · Pixel (schema) · status not_tested
+[portfolio] Golden · lab-neonarcadescreen--default · Pixel (schema) · status not_tested

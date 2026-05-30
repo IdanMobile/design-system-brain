@@ -1,0 +1,11 @@
+{
+  "tag": "screen_2:fix-5",
+  "exitCode": 143,
+  "finishedAt": "2026-05-29T23:15:53.200Z",
+  "editCount": 0,
+  "readCount": 62,
+  "bigReadCount": 5,
+  "watchdogTripped": true,
+  "watchdogReason": "8.0m elapsed, 0 edits (reads=62, big-file reads=5). Investigation paralysis.",
+  "elapsedMs": 480106
+}

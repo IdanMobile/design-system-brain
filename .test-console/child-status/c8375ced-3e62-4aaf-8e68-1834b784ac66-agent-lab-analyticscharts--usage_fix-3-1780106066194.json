@@ -1,0 +1,11 @@
+{
+  "tag": "lab-analyticscharts--usage:fix-3",
+  "exitCode": 143,
+  "finishedAt": "2026-05-30T01:56:09.863Z",
+  "editCount": 0,
+  "readCount": 27,
+  "bigReadCount": 20,
+  "watchdogTripped": true,
+  "watchdogReason": "20 big-file reads (≥800 lines each) with 0 edits — redundant context loading.",
+  "elapsedMs": 102952
+}

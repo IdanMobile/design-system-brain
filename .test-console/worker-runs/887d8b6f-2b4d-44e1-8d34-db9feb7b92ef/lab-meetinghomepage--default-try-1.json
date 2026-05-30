@@ -1,0 +1,36 @@
+{
+  "storyId": "lab-meetinghomepage--default",
+  "attempt": 1,
+  "jobId": "887d8b6f-2b4d-44e1-8d34-db9feb7b92ef",
+  "recordedAt": "2026-05-29T22:03:25.242Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "beforeAttempt": {
+    "status": "warn",
+    "percent": 0.3208166241341597,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "afterTest": {
+    "status": "warn",
+    "percent": 0.3192976060274638,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "agentExitCode": 0,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    "lab-memory/visual/investigations/active/lab-foodfrenzyscreen--default.md"
+  ],
+  "evaluation": {
+    "verdict": "WRONG_DIRECTION",
+    "verdicts": [
+      "WRONG_DIRECTION"
+    ],
+    "nextWorkerMode": "narrow_scope",
+    "interventionLines": [
+      "Supervisor: pixel fix-all must edit render-html.ts or extract.ts — lab-memory/README moves do not change the diff %."
+    ],
+    "tierCRequired": false
+  }
+}

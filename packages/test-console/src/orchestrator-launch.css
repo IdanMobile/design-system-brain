@@ -1,0 +1,231 @@
+
+/* ── Orchestrator launch dialog ── */
+.orch-launch-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.62);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.orch-launch-dialog {
+  width: min(560px, 100%);
+  max-height: min(90vh, 820px);
+  overflow: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px 22px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
+}
+
+.orch-launch-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.orch-launch-header h2 {
+  margin: 0 0 6px;
+  font-size: 1.15rem;
+}
+
+.orch-launch-sub,
+.orch-launch-meta,
+.orch-launch-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.orch-launch-meta {
+  margin: 12px 0 16px;
+}
+
+.orch-launch-close {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.orch-launch-section {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.orch-launch-section h3 {
+  margin: 0 0 10px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.orch-launch-scope-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.orch-launch-radio {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.orch-launch-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: 0.88rem;
+}
+
+.orch-launch-field select,
+.orch-launch-field input[type="number"] {
+  font: inherit;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: inherit;
+}
+
+.orch-launch-workers-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.orch-launch-workers-label small {
+  color: var(--muted);
+  font-weight: normal;
+  line-height: 1.35;
+}
+
+.orch-launch-workers-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.orch-launch-workers-row input[type="range"] {
+  flex: 1;
+  min-width: 0;
+}
+
+.orch-launch-workers-row output {
+  min-width: 2ch;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.orch-launch-section .run-settings-option {
+  margin-bottom: 10px;
+}
+
+.orch-launch-advanced-toggle {
+  font: inherit;
+  font-size: 0.84rem;
+  color: var(--accent);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.orch-launch-advanced {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.orch-launch-invalidate {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-top: 18px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--warn) 35%, var(--border));
+  background: color-mix(in srgb, var(--warn) 8%, var(--surface));
+  cursor: pointer;
+}
+
+.orch-launch-invalidate small {
+  display: block;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.orch-launch-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.orch-launch-cancel {
+  font: inherit;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: inherit;
+  cursor: pointer;
+}
+
+.orch-launch-go {
+  font: inherit;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--accent) 50%, var(--border));
+  background: color-mix(in srgb, var(--accent) 22%, var(--surface));
+  color: inherit;
+  cursor: pointer;
+}
+
+.orch-launch-go:disabled,
+.orch-launch-cancel:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.orchestrator-human-banner {
+  margin-top: 12px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--warn) 45%, var(--border));
+  background: color-mix(in srgb, var(--warn) 10%, var(--surface));
+}
+
+.orchestrator-human-banner strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.orchestrator-human-banner p {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}

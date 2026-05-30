@@ -1,0 +1,33 @@
+{
+  "jobId": "cabb82fd-45f3-4c23-934b-af057786ca36",
+  "storyId": "lab-analyticscharts--revenue",
+  "phase": "fixer",
+  "attempt": 2,
+  "recordedAt": "2026-05-29T22:33:05.804Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "status": "completed",
+  "agentExitCode": 0,
+  "filesChanged": [
+    ".test-console/agent-prompts/agent-lab-analyticscharts--revenue_fix-2-1780093822138.prompt.txt",
+    ".test-console/agent-prompts/agent-lab-analyticscharts--revenue_investigate-2-1780093700392.prompt.txt",
+    "figma-diffs/by-story/lab-analyticscharts-revenue/result.json",
+    "figma-diffs/lab-analyticscharts-revenue/artifact.v2.json",
+    "figma-diffs/lab-analyticscharts-revenue/scene.json",
+    "figma-diffs/report.html",
+    "figma-diffs/report.json",
+    "lab-memory/visual/investigations/active/lab-analyticscharts--revenue.md",
+    "packages/figma-importer-plugin/dist/code.js",
+    "packages/figma-importer-plugin/src/code-v2.ts",
+    "pixel-diffs/by-story/lab-analyticscharts-revenue/result.json",
+    "pixel-diffs/lab-analyticscharts-revenue/artifact.v2.json",
+    "pixel-diffs/report.json",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "workerMode": "tier_c_required",
+  "usageBlocked": false,
+  "watchdogTripped": false,
+  "watchdogReason": null,
+  "editCount": 0
+}

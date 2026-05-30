@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-meetinghomepage--default",
     "componentName": "MeetingHomePage",
-    "extractedAt": "2026-05-25T19:29:02.576Z",
+    "extractedAt": "2026-05-30T02:29:33.000Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-meetinghomepage--default&viewMode=story",
     "viewport": {
       "x": 0,
@@ -830,7 +830,10 @@
                   "tag": "button",
                   "classList": [
                     "lab-meeting-home-join"
-                  ]
+                  ],
+                  "dataset": {
+                    "labId": "el-join"
+                  }
                 },
                 "box": {
                   "x": 0,
@@ -1029,7 +1032,10 @@
                   "classList": [
                     "lab-meeting-home-icon-btn"
                   ],
-                  "ariaLabel": "Upload"
+                  "ariaLabel": "Upload",
+                  "dataset": {
+                    "labId": "el-button"
+                  }
                 },
                 "box": {
                   "x": 80.73,
@@ -1191,7 +1197,10 @@
                   "classList": [
                     "lab-meeting-home-icon-btn"
                   ],
-                  "ariaLabel": "Search"
+                  "ariaLabel": "Search",
+                  "dataset": {
+                    "labId": "el-button-2"
+                  }
                 },
                 "box": {
                   "x": 122.73,
@@ -1351,7 +1360,10 @@
                   "classList": [
                     "lab-meeting-home-icon-btn"
                   ],
-                  "ariaLabel": "Menu"
+                  "ariaLabel": "Menu",
+                  "dataset": {
+                    "labId": "el-button-3"
+                  }
                 },
                 "box": {
                   "x": 164.73,
@@ -1576,7 +1588,10 @@
               "tag": "button",
               "classList": [
                 "lab-meeting-home-record-btn"
-              ]
+              ],
+              "dataset": {
+                "labId": "el-new-recording"
+              }
             },
             "box": {
               "x": 16,
@@ -2019,7 +2034,10 @@
                       "tag": "button",
                       "classList": [
                         "lab-meeting-home-view-all"
-                      ]
+                      ],
+                      "dataset": {
+                        "labId": "el-view-all"
+                      }
                     },
                     "box": {
                       "x": 301.5,
@@ -2846,7 +2864,10 @@
                       "tag": "button",
                       "classList": [
                         "lab-meeting-home-view-all"
-                      ]
+                      ],
+                      "dataset": {
+                        "labId": "el-view-all-2"
+                      }
                     },
                     "box": {
                       "x": 301.5,
@@ -5337,7 +5358,10 @@
               "tag": "button",
               "classList": [
                 "active"
-              ]
+              ],
+              "dataset": {
+                "labId": "el-home"
+              }
             },
             "box": {
               "x": 29.75,
@@ -5525,7 +5549,10 @@
             "name": "button",
             "source": {
               "kind": "dom",
-              "tag": "button"
+              "tag": "button",
+              "dataset": {
+                "labId": "el-meetings"
+              }
             },
             "box": {
               "x": 121.25,
@@ -5740,7 +5767,10 @@
             "name": "button",
             "source": {
               "kind": "dom",
-              "tag": "button"
+              "tag": "button",
+              "dataset": {
+                "labId": "el-actions"
+              }
             },
             "box": {
               "x": 212.75,
@@ -5942,7 +5972,10 @@
             "name": "button",
             "source": {
               "kind": "dom",
-              "tag": "button"
+              "tag": "button",
+              "dataset": {
+                "labId": "el-notifications"
+              }
             },
             "box": {
               "x": 304.25,

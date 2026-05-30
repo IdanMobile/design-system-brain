@@ -1,0 +1,47 @@
+{
+  "storyId": "screen_2",
+  "attempt": 1,
+  "jobId": "c8375ced-3e62-4aaf-8e68-1834b784ac66",
+  "recordedAt": "2026-05-30T04:20:59.294Z",
+  "suiteId": "vsFigmaLive",
+  "mode": "figmaEntry",
+  "beforeAttempt": {
+    "status": "fail",
+    "percent": 2.1030268720100316,
+    "maxRegionPercent": 8.47,
+    "error": null
+  },
+  "afterTest": {
+    "status": "fail",
+    "percent": 2.1030268720100316,
+    "maxRegionPercent": 8.47,
+    "error": null
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-prompts/agent-screen_1_fix-1-1780114847326.prompt.txt",
+    ".test-console/agent-prompts/agent-screen_2_fix-1-1780114847327.prompt.txt",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-agent-screen_1_fix-1-1780114847326.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-agent-screen_2_fix-1-1780114847327.json",
+    ".test-console/fleet/agents.json",
+    ".test-console/fleet/events.jsonl",
+    ".test-console/job-results/c8375ced-3e62-4aaf-8e68-1834b784ac66/screen_1-fixer-try-1.json",
+    ".test-console/orchestrator-logs/2026-05-30_01-51-36_c8375ced.log",
+    ".test-console/orchestrator-state.json"
+  ],
+  "evaluation": {
+    "verdict": "STUCK_LOOP",
+    "verdicts": [
+      "NO_ADAPTER_EDIT",
+      "STUCK_LOOP"
+    ],
+    "nextWorkerMode": "narrow_scope",
+    "interventionLines": [
+      "Supervisor: edits did not touch the adapter for this step — change renderer/extract paths named in the prompt, not docs or lab-memory.",
+      "Supervisor: two consecutive attempts with no metric movement — switch to investigate-first.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

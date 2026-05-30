@@ -1,0 +1,37 @@
+{
+  "storyId": "lab-foodfrenzyscreen--default",
+  "attempt": 1,
+  "jobId": "887d8b6f-2b4d-44e1-8d34-db9feb7b92ef",
+  "recordedAt": "2026-05-29T22:05:00.865Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "beforeAttempt": {
+    "status": "warn",
+    "percent": 0.18471260177421314,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "afterTest": {
+    "status": "warn",
+    "percent": 0.18471260177421314,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "agentExitCode": 143,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    "lab-memory/visual/investigations/active/lab-foodfrenzyscreen--default.md"
+  ],
+  "evaluation": {
+    "verdict": "NO_ADAPTER_EDIT",
+    "verdicts": [
+      "NO_ADAPTER_EDIT"
+    ],
+    "nextWorkerMode": "narrow_scope",
+    "interventionLines": [
+      "Supervisor: edits were only vault/rules/prompts — pixel needs packages/pixel-test/src/render-html.ts or extract.ts. Do NOT reorganize lab-memory during fix-all.",
+      "Supervisor: agent CLI exited 143 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

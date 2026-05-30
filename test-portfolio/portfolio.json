@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-27T10:31:04.857Z",
+  "generatedAt": "2026-05-30T04:21:12.098Z",
   "storyCount": 55,
   "steps": [
     {
@@ -157,7 +157,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0.025361761303081598,
-          "testedAt": "2026-05-25T19:29:24.589Z",
+          "testedAt": "2026-05-30T03:51:46.581Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -166,32 +166,35 @@
         },
         "figma": {
           "stepId": "figma",
-          "status": "not_tested",
-          "testedAt": null,
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-30T03:55:23.049Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
-          "action": "Run Figma emulator",
+          "action": "—",
           "compareUrl": null
         },
         "figmaLive": {
           "stepId": "figmaLive",
-          "status": "not_tested",
-          "testedAt": null,
-          "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Figma live)",
-          "action": "Blocked — Figma emulator is not_tested (required before Figma live)",
-          "compareUrl": null
+          "status": "warn",
+          "percent": 0.13108326066761272,
+          "maxRegionPercent": 1.1614304812834224,
+          "testedAt": "2026-05-30T04:20:40.515Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Tighten live export (0.13%)",
+          "compareUrl": "figma-live-diffs/lab-analyticscharts-revenue/regions/region-01-compare.png"
         },
         "delivery": {
           "stepId": "delivery",
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
-          "action": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is warn (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is warn (required before Delivery (3-way))",
           "compareUrl": null
         },
         "logic": {
@@ -199,9 +202,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Logic audit)",
-          "action": "Blocked — Figma emulator is not_tested (required before Logic audit)",
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is warn (required before Logic audit)",
+          "action": "Blocked — Figma live is warn (required before Logic audit)",
           "compareUrl": null
         }
       }
@@ -214,7 +217,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0.020232416320435882,
-          "testedAt": "2026-05-25T19:29:24.589Z",
+          "testedAt": "2026-05-30T03:51:46.566Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -223,32 +226,35 @@
         },
         "figma": {
           "stepId": "figma",
-          "status": "not_tested",
-          "testedAt": null,
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-30T02:28:06.385Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
-          "action": "Run Figma emulator",
+          "action": "—",
           "compareUrl": null
         },
         "figmaLive": {
           "stepId": "figmaLive",
-          "status": "not_tested",
-          "testedAt": null,
-          "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Figma live)",
-          "action": "Blocked — Figma emulator is not_tested (required before Figma live)",
-          "compareUrl": null
+          "status": "warn",
+          "percent": 0.1225343523632032,
+          "maxRegionPercent": 1.1196524064171123,
+          "testedAt": "2026-05-30T04:20:20.915Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Tighten live export (0.12%)",
+          "compareUrl": "figma-live-diffs/lab-analyticscharts-usage/regions/region-01-compare.png"
         },
         "delivery": {
           "stepId": "delivery",
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
-          "action": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is warn (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is warn (required before Delivery (3-way))",
           "compareUrl": null
         },
         "logic": {
@@ -256,9 +262,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Logic audit)",
-          "action": "Blocked — Figma emulator is not_tested (required before Logic audit)",
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is warn (required before Logic audit)",
+          "action": "Blocked — Figma live is warn (required before Logic audit)",
           "compareUrl": null
         }
       }
@@ -1013,7 +1019,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-25T19:29:24.592Z",
+          "testedAt": "2026-05-30T03:51:03.183Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -1022,33 +1028,35 @@
         },
         "figma": {
           "stepId": "figma",
-          "status": "error",
-          "percent": 100,
-          "testedAt": "2026-05-25T13:39:30.992Z",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-30T02:28:06.388Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
-          "action": "Investigate: page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"http://127.0.0",
+          "action": "—",
           "compareUrl": null
         },
         "figmaLive": {
           "stepId": "figmaLive",
-          "status": "not_tested",
-          "testedAt": null,
-          "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is error (required before Figma live)",
-          "action": "Blocked — Figma emulator is error (required before Figma live)",
-          "compareUrl": null
+          "status": "fail",
+          "percent": 0.44656494101560795,
+          "maxRegionPercent": 1.0985571656599167,
+          "testedAt": "2026-05-30T04:20:35.270Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-contentlistboard-highlighted/regions/region-01-compare.png"
         },
         "delivery": {
           "stepId": "delivery",
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is error (required before Delivery (3-way))",
-          "action": "Blocked — Figma emulator is error (required before Delivery (3-way))",
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
           "compareUrl": null
         },
         "logic": {
@@ -1056,9 +1064,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is error (required before Logic audit)",
-          "action": "Blocked — Figma emulator is error (required before Logic audit)",
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
           "compareUrl": null
         }
       }
@@ -1128,7 +1136,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-25T19:29:24.593Z",
+          "testedAt": "2026-05-30T03:51:03.184Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -1137,32 +1145,35 @@
         },
         "figma": {
           "stepId": "figma",
-          "status": "not_tested",
-          "testedAt": null,
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-30T03:48:05.960Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
-          "action": "Run Figma emulator",
+          "action": "—",
           "compareUrl": null
         },
         "figmaLive": {
           "stepId": "figmaLive",
-          "status": "not_tested",
-          "testedAt": null,
-          "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Figma live)",
-          "action": "Blocked — Figma emulator is not_tested (required before Figma live)",
-          "compareUrl": null
+          "status": "warn",
+          "percent": 0.2853258267746692,
+          "maxRegionPercent": 1.8952234206471494,
+          "testedAt": "2026-05-30T04:20:29.126Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Tighten live export (0.29%)",
+          "compareUrl": "figma-live-diffs/lab-featurecard-default/regions/region-01-compare.png"
         },
         "delivery": {
           "stepId": "delivery",
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
-          "action": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is warn (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is warn (required before Delivery (3-way))",
           "compareUrl": null
         },
         "logic": {
@@ -1170,9 +1181,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Logic audit)",
-          "action": "Blocked — Figma emulator is not_tested (required before Logic audit)",
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is warn (required before Logic audit)",
+          "action": "Blocked — Figma live is warn (required before Logic audit)",
           "compareUrl": null
         }
       }
@@ -1468,71 +1479,14 @@
       "cells": {
         "pixel": {
           "stepId": "pixel",
-          "status": "warn",
-          "percent": 0.18471260177421314,
-          "testedAt": "2026-05-25T19:30:10.046Z",
-          "canRun": true,
-          "blockedBy": null,
-          "blockedReason": null,
-          "action": "Polish to strict pass (0.18%)",
-          "compareUrl": "pixel-diffs/lab-foodfrenzyscreen-default/regions/region-01-compare.png"
-        },
-        "figma": {
-          "stepId": "figma",
-          "status": "not_tested",
-          "testedAt": null,
-          "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is warn (required before Figma emulator)",
-          "action": "Blocked — Pixel (schema) is warn (required before Figma emulator)",
-          "compareUrl": null
-        },
-        "figmaLive": {
-          "stepId": "figmaLive",
-          "status": "not_tested",
-          "testedAt": null,
-          "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is warn (required before Figma live)",
-          "action": "Blocked — Pixel (schema) is warn (required before Figma live)",
-          "compareUrl": null
-        },
-        "delivery": {
-          "stepId": "delivery",
-          "status": "not_tested",
-          "testedAt": null,
-          "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is warn (required before Delivery (3-way))",
-          "action": "Blocked — Pixel (schema) is warn (required before Delivery (3-way))",
-          "compareUrl": null
-        },
-        "logic": {
-          "stepId": "logic",
-          "status": "not_tested",
-          "testedAt": null,
-          "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is warn (required before Logic audit)",
-          "action": "Blocked — Pixel (schema) is warn (required before Logic audit)",
-          "compareUrl": null
-        }
-      }
-    },
-    {
-      "storyId": "lab-loadingstates--card-skeleton",
-      "storybookOnly": false,
-      "cells": {
-        "pixel": {
-          "stepId": "pixel",
           "status": "pass",
-          "percent": 0,
-          "testedAt": "2026-05-25T19:29:24.594Z",
+          "percent": 0.04860857941426661,
+          "testedAt": "2026-05-30T02:25:27.037Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
           "action": "—",
-          "compareUrl": null
+          "compareUrl": "pixel-diffs/lab-foodfrenzyscreen-default/regions/region-01-compare.png"
         },
         "figma": {
           "stepId": "figma",
@@ -1572,6 +1526,65 @@
           "blockedBy": "figma",
           "blockedReason": "Blocked — Figma emulator is not_tested (required before Logic audit)",
           "action": "Blocked — Figma emulator is not_tested (required before Logic audit)",
+          "compareUrl": null
+        }
+      }
+    },
+    {
+      "storyId": "lab-loadingstates--card-skeleton",
+      "storybookOnly": false,
+      "cells": {
+        "pixel": {
+          "stepId": "pixel",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-30T03:51:03.184Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figma": {
+          "stepId": "figma",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-30T02:28:06.389Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "figmaLive": {
+          "stepId": "figmaLive",
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-30T00:01:42.760Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": null
+        },
+        "delivery": {
+          "stepId": "delivery",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Delivery (3-way)",
+          "compareUrl": null
+        },
+        "logic": {
+          "stepId": "logic",
+          "status": "not_tested",
+          "testedAt": null,
+          "canRun": false,
+          "blockedBy": "delivery",
+          "blockedReason": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "action": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
           "compareUrl": null
         }
       }
@@ -1753,23 +1766,23 @@
       "cells": {
         "pixel": {
           "stepId": "pixel",
-          "status": "warn",
-          "percent": 0.3208166241341597,
-          "testedAt": "2026-05-25T19:29:24.595Z",
+          "status": "pass",
+          "percent": 0.06501397496658161,
+          "testedAt": "2026-05-30T02:29:35.728Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
-          "action": "Polish to strict pass (0.32%)",
+          "action": "—",
           "compareUrl": "pixel-diffs/lab-meetinghomepage-default/regions/region-01-compare.png"
         },
         "figma": {
           "stepId": "figma",
           "status": "not_tested",
           "testedAt": null,
-          "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is warn (required before Figma emulator)",
-          "action": "Blocked — Pixel (schema) is warn (required before Figma emulator)",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Figma emulator",
           "compareUrl": null
         },
         "figmaLive": {
@@ -1777,9 +1790,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is warn (required before Figma live)",
-          "action": "Blocked — Pixel (schema) is warn (required before Figma live)",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Figma live)",
+          "action": "Blocked — Figma emulator is not_tested (required before Figma live)",
           "compareUrl": null
         },
         "delivery": {
@@ -1787,9 +1800,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is warn (required before Delivery (3-way))",
-          "action": "Blocked — Pixel (schema) is warn (required before Delivery (3-way))",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
+          "action": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
           "compareUrl": null
         },
         "logic": {
@@ -1797,9 +1810,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is warn (required before Logic audit)",
-          "action": "Blocked — Pixel (schema) is warn (required before Logic audit)",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Logic audit)",
+          "action": "Blocked — Figma emulator is not_tested (required before Logic audit)",
           "compareUrl": null
         }
       }
@@ -1812,7 +1825,7 @@
           "stepId": "pixel",
           "status": "warn",
           "percent": 0.1786540775710451,
-          "testedAt": "2026-05-25T19:29:24.595Z",
+          "testedAt": "2026-05-30T04:20:01.997Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -2220,32 +2233,35 @@
         },
         "figma": {
           "stepId": "figma",
-          "status": "not_tested",
-          "testedAt": null,
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-30T03:40:38.822Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
-          "action": "Run Figma emulator",
+          "action": "—",
           "compareUrl": null
         },
         "figmaLive": {
           "stepId": "figmaLive",
-          "status": "not_tested",
-          "testedAt": null,
-          "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Figma live)",
-          "action": "Blocked — Figma emulator is not_tested (required before Figma live)",
-          "compareUrl": null
+          "status": "fail",
+          "percent": 2.0753756047873697,
+          "maxRegionPercent": 4.121689998313375,
+          "testedAt": "2026-05-30T04:20:45.298Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-pricingpanel-pro/regions/region-01-compare.png"
         },
         "delivery": {
           "stepId": "delivery",
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
-          "action": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
           "compareUrl": null
         },
         "logic": {
@@ -2253,9 +2269,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Logic audit)",
-          "action": "Blocked — Figma emulator is not_tested (required before Logic audit)",
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
           "compareUrl": null
         }
       }
@@ -2277,32 +2293,35 @@
         },
         "figma": {
           "stepId": "figma",
-          "status": "not_tested",
-          "testedAt": null,
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-30T03:39:03.172Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
-          "action": "Run Figma emulator",
+          "action": "—",
           "compareUrl": null
         },
         "figmaLive": {
           "stepId": "figmaLive",
-          "status": "not_tested",
-          "testedAt": null,
-          "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Figma live)",
-          "action": "Blocked — Figma emulator is not_tested (required before Figma live)",
-          "compareUrl": null
+          "status": "fail",
+          "percent": 1.1522045373310066,
+          "maxRegionPercent": 3.5576923076923075,
+          "testedAt": "2026-05-30T04:20:25.311Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix renderer — reload plugin, re-run live",
+          "compareUrl": "figma-live-diffs/lab-pricingpanel-starter/regions/region-01-compare.png"
         },
         "delivery": {
           "stepId": "delivery",
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
-          "action": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is fail (required before Delivery (3-way))",
           "compareUrl": null
         },
         "logic": {
@@ -2310,9 +2329,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Logic audit)",
-          "action": "Blocked — Figma emulator is not_tested (required before Logic audit)",
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is fail (required before Logic audit)",
+          "action": "Blocked — Figma live is fail (required before Logic audit)",
           "compareUrl": null
         }
       }
@@ -2440,7 +2459,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-25T19:29:24.596Z",
+          "testedAt": "2026-05-30T03:51:03.179Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -2449,32 +2468,35 @@
         },
         "figma": {
           "stepId": "figma",
-          "status": "not_tested",
-          "testedAt": null,
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-30T02:28:06.385Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
-          "action": "Run Figma emulator",
+          "action": "—",
           "compareUrl": null
         },
         "figmaLive": {
           "stepId": "figmaLive",
-          "status": "not_tested",
-          "testedAt": null,
-          "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Figma live)",
-          "action": "Blocked — Figma emulator is not_tested (required before Figma live)",
-          "compareUrl": null
+          "status": "pass",
+          "percent": 0.08040656613857607,
+          "maxRegionPercent": 0.7073209718670077,
+          "testedAt": "2026-05-30T04:18:10.496Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "figma-live-diffs/lab-productcard-dark/regions/region-01-compare.png"
         },
         "delivery": {
           "stepId": "delivery",
           "status": "not_tested",
           "testedAt": null,
-          "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
-          "action": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Delivery (3-way)",
           "compareUrl": null
         },
         "logic": {
@@ -2482,9 +2504,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Logic audit)",
-          "action": "Blocked — Figma emulator is not_tested (required before Logic audit)",
+          "blockedBy": "delivery",
+          "blockedReason": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "action": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
           "compareUrl": null
         }
       }
@@ -2497,7 +2519,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-25T19:29:24.596Z",
+          "testedAt": "2026-05-30T03:51:03.174Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -2506,32 +2528,35 @@
         },
         "figma": {
           "stepId": "figma",
-          "status": "not_tested",
-          "testedAt": null,
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-30T02:28:06.385Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
-          "action": "Run Figma emulator",
+          "action": "—",
           "compareUrl": null
         },
         "figmaLive": {
           "stepId": "figmaLive",
-          "status": "not_tested",
-          "testedAt": null,
-          "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Figma live)",
-          "action": "Blocked — Figma emulator is not_tested (required before Figma live)",
-          "compareUrl": null
+          "status": "pass",
+          "percent": 0.07157854552395496,
+          "maxRegionPercent": 0.6053498985801217,
+          "testedAt": "2026-05-30T04:18:06.532Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "figma-live-diffs/lab-productcard-default/regions/region-01-compare.png"
         },
         "delivery": {
           "stepId": "delivery",
           "status": "not_tested",
           "testedAt": null,
-          "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
-          "action": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Delivery (3-way)",
           "compareUrl": null
         },
         "logic": {
@@ -2539,9 +2564,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Logic audit)",
-          "action": "Blocked — Figma emulator is not_tested (required before Logic audit)",
+          "blockedBy": "delivery",
+          "blockedReason": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
+          "action": "Blocked — Delivery (3-way) is not_tested (required before Logic audit)",
           "compareUrl": null
         }
       }
@@ -2896,7 +2921,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-25T19:29:24.598Z",
+          "testedAt": "2026-05-30T03:51:03.182Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -2905,22 +2930,23 @@
         },
         "figma": {
           "stepId": "figma",
-          "status": "not_tested",
-          "testedAt": null,
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-30T02:28:06.388Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
-          "action": "Run Figma emulator",
+          "action": "—",
           "compareUrl": null
         },
         "figmaLive": {
           "stepId": "figmaLive",
           "status": "not_tested",
           "testedAt": null,
-          "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Figma live)",
-          "action": "Blocked — Figma emulator is not_tested (required before Figma live)",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Figma live",
           "compareUrl": null
         },
         "delivery": {
@@ -2928,9 +2954,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
-          "action": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is not_tested (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is not_tested (required before Delivery (3-way))",
           "compareUrl": null
         },
         "logic": {
@@ -2938,9 +2964,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Logic audit)",
-          "action": "Blocked — Figma emulator is not_tested (required before Logic audit)",
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is not_tested (required before Logic audit)",
+          "action": "Blocked — Figma live is not_tested (required before Logic audit)",
           "compareUrl": null
         }
       }
@@ -3124,7 +3150,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-25T19:29:24.598Z",
+          "testedAt": "2026-05-30T03:51:03.182Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -3133,22 +3159,23 @@
         },
         "figma": {
           "stepId": "figma",
-          "status": "not_tested",
-          "testedAt": null,
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-30T02:28:06.388Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
-          "action": "Run Figma emulator",
+          "action": "—",
           "compareUrl": null
         },
         "figmaLive": {
           "stepId": "figmaLive",
           "status": "not_tested",
           "testedAt": null,
-          "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Figma live)",
-          "action": "Blocked — Figma emulator is not_tested (required before Figma live)",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Figma live",
           "compareUrl": null
         },
         "delivery": {
@@ -3156,9 +3183,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
-          "action": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is not_tested (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is not_tested (required before Delivery (3-way))",
           "compareUrl": null
         },
         "logic": {
@@ -3166,9 +3193,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Logic audit)",
-          "action": "Blocked — Figma emulator is not_tested (required before Logic audit)",
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is not_tested (required before Logic audit)",
+          "action": "Blocked — Figma live is not_tested (required before Logic audit)",
           "compareUrl": null
         }
       }
@@ -3180,8 +3207,8 @@
         "pixel": {
           "stepId": "pixel",
           "status": "pass",
-          "percent": 0.07589820359281438,
-          "testedAt": "2026-05-25T19:29:24.598Z",
+          "percent": 0.07614770459081836,
+          "testedAt": "2026-05-30T03:51:03.155Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -3190,22 +3217,24 @@
         },
         "figma": {
           "stepId": "figma",
-          "status": "not_tested",
-          "testedAt": null,
+          "status": "pass",
+          "percent": 0.052794411177644704,
+          "maxRegionPercent": 1.0150255754475703,
+          "testedAt": "2026-05-30T02:28:06.379Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
-          "action": "Run Figma emulator",
-          "compareUrl": null
+          "action": "—",
+          "compareUrl": "figma-diffs/mui-showcase/regions/region-01-compare.png"
         },
         "figmaLive": {
           "stepId": "figmaLive",
           "status": "not_tested",
           "testedAt": null,
-          "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Figma live)",
-          "action": "Blocked — Figma emulator is not_tested (required before Figma live)",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Figma live",
           "compareUrl": null
         },
         "delivery": {
@@ -3213,9 +3242,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
-          "action": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is not_tested (required before Delivery (3-way))",
+          "action": "Blocked — Figma live is not_tested (required before Delivery (3-way))",
           "compareUrl": null
         },
         "logic": {
@@ -3223,9 +3252,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Logic audit)",
-          "action": "Blocked — Figma emulator is not_tested (required before Logic audit)",
+          "blockedBy": "figmaLive",
+          "blockedReason": "Blocked — Figma live is not_tested (required before Logic audit)",
+          "action": "Blocked — Figma live is not_tested (required before Logic audit)",
           "compareUrl": null
         }
       }

@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-tabspanel--settings-active",
     "componentName": "TabsPanel",
-    "extractedAt": "2026-05-25T12:40:03.933Z",
+    "extractedAt": "2026-05-30T02:28:01.531Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-tabspanel--settings-active&viewMode=story",
     "viewport": {
       "x": 0,
@@ -177,7 +177,8 @@
               "tag": "button",
               "role": "tab",
               "dataset": {
-                "pressedManaged": "true"
+                "pressedManaged": "true",
+                "labId": "el-overview"
               }
             },
             "box": {
@@ -243,6 +244,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Arial",
                 "size": 15,
                 "weight": 700,
                 "style": "normal",
@@ -269,7 +271,8 @@
               "tag": "button",
               "role": "tab",
               "dataset": {
-                "pressedManaged": "true"
+                "pressedManaged": "true",
+                "labId": "el-activity"
               }
             },
             "box": {
@@ -335,6 +338,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Arial",
                 "size": 15,
                 "weight": 700,
                 "style": "normal",
@@ -364,7 +368,8 @@
               ],
               "role": "tab",
               "dataset": {
-                "pressedManaged": "true"
+                "pressedManaged": "true",
+                "labId": "el-settings"
               }
             },
             "box": {
@@ -430,6 +435,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Arial",
                 "size": 15,
                 "weight": 700,
                 "style": "normal",
@@ -537,6 +543,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 26,
                 "weight": 700,
                 "style": "normal",
@@ -599,6 +606,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 18,
                 "weight": 400,
                 "style": "normal",

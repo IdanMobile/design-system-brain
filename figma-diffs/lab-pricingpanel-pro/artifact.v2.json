@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-pricingpanel--pro",
     "componentName": "PricingPanel",
-    "extractedAt": "2026-05-25T12:40:00.243Z",
+    "extractedAt": "2026-05-30T03:40:36.492Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-pricingpanel--pro&viewMode=story",
     "viewport": {
       "x": 0,
@@ -180,6 +180,7 @@
           "font": {
             "family": "Inter",
             "stack": "Inter, Arial, sans-serif",
+            "computedStack": "Inter, Arial, sans-serif",
             "size": 14,
             "weight": 700,
             "style": "normal",
@@ -243,6 +244,7 @@
           "font": {
             "family": "Inter",
             "stack": "Inter, Arial, sans-serif",
+            "computedStack": "Inter, Arial, sans-serif",
             "size": 32,
             "weight": 700,
             "style": "normal",
@@ -348,6 +350,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 18,
                 "weight": 500,
                 "style": "normal",
@@ -384,6 +387,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 58,
                 "weight": 800,
                 "style": "normal",
@@ -499,6 +503,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 20,
                 "weight": 400,
                 "style": "normal",
@@ -561,6 +566,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 20,
                 "weight": 400,
                 "style": "normal",
@@ -623,6 +629,7 @@
               "font": {
                 "family": "Inter",
                 "stack": "Inter, Arial, sans-serif",
+                "computedStack": "Inter, Arial, sans-serif",
                 "size": 20,
                 "weight": 400,
                 "style": "normal",
@@ -653,7 +660,8 @@
             "lab-pricing-cta"
           ],
           "dataset": {
-            "pressedManaged": "true"
+            "pressedManaged": "true",
+            "labId": "el-upgrade-now"
           }
         },
         "box": {
@@ -719,6 +727,7 @@
           "font": {
             "family": "Inter",
             "stack": "Inter, Arial, sans-serif",
+            "computedStack": "Arial",
             "size": 20,
             "weight": 700,
             "style": "normal",

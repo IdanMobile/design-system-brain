@@ -1308,7 +1308,7 @@ button.action.recommended-action {
   color: var(--muted);
 }
 
-/* ── Top-level page nav (Tests vs Developer Agent) ── */
+/* ── Top-level page nav (Tests · Agent Console · Developer Agent) ── */
 .top-page-nav {
   display: flex;
   gap: 0;

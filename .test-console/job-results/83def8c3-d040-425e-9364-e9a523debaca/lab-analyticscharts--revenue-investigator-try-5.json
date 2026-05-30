@@ -1,0 +1,16 @@
+{
+  "jobId": "83def8c3-d040-425e-9364-e9a523debaca",
+  "storyId": "lab-analyticscharts--revenue",
+  "phase": "investigator",
+  "attempt": 5,
+  "recordedAt": "2026-05-29T21:34:45.600Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "status": "incomplete",
+  "investigationComplete": false,
+  "gateReason": "investigator_required",
+  "agentExitCode": 0,
+  "usageBlocked": false,
+  "watchdogTripped": false,
+  "watchdogReason": null
+}

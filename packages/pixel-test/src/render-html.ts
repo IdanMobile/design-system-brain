@@ -65,6 +65,14 @@ function isFormControlWithInlineText(layer: UniversalLayer): boolean {
   return Boolean(layer.text && (tag === "button" || tag === "input" || tag === "textarea"));
 }
 
+function radialGradientShapeCss(layer: Extract<FillLayer, { kind: "radial-gradient" }>): string {
+  const { shape, centerX, centerY, sizeX, sizeY } = layer;
+  if (sizeX && sizeY) {
+    return `${shape} ${sizeX} ${sizeY} at ${centerX} ${centerY}`;
+  }
+  return `${shape} at ${centerX} ${centerY}`;
+}
+
 function figmaNativeGradientCss(layer: FillLayer): string | null {
   const native = (
     layer as FillLayer & {
@@ -91,7 +99,7 @@ function figmaNativeGradientCss(layer: FillLayer): string | null {
     return `linear-gradient(${layer.angleDeg}deg, ${stops})`;
   }
   if (layer.kind === "radial-gradient") {
-    return `radial-gradient(${layer.shape} at ${layer.centerX} ${layer.centerY}, ${stops})`;
+    return `radial-gradient(${radialGradientShapeCss(layer)}, ${stops})`;
   }
   if (layer.kind === "conic-gradient") {
     return `conic-gradient(from ${layer.fromDeg}deg at ${layer.centerX} ${layer.centerY}, ${stops})`;
@@ -117,7 +125,7 @@ function fillToCss(layer: FillLayer): string | null {
       .sort((a, b) => a.offset - b.offset)
       .map((s) => `${s.color} ${snap(s.offset * 100)}%`)
       .join(", ");
-    return `radial-gradient(${layer.shape} at ${layer.centerX} ${layer.centerY}, ${stops})`;
+    return `radial-gradient(${radialGradientShapeCss(layer)}, ${stops})`;
   }
   if (layer.kind === "conic-gradient") {
     const stops = layer.stops
@@ -198,13 +206,17 @@ function uniformBorder(
 
 function bordersToCss(
   b: LayerBorders | undefined,
-  opts?: { insetShadow?: boolean; useNativeUniformSolid?: boolean }
+  opts?: { insetShadow?: boolean; useNativeUniformSolid?: boolean; useOutlineBorder?: boolean }
 ): string[] {
   if (!b) return [];
   const uniform = uniformBorder(b);
   if (uniform && uniform.style === "solid" && uniform.width > 0) {
     if (opts?.useNativeUniformSolid) {
       return [`border: ${snap(uniform.width)}px solid ${uniform.color}`];
+    }
+    if (opts?.useOutlineBorder) {
+      const w = snap(uniform.width);
+      return [`outline: ${w}px solid ${uniform.color}`, `outline-offset: -${w}px`];
     }
     if (opts?.insetShadow) {
       return [`box-shadow: inset 0 0 0 ${snap(uniform.width)}px ${uniform.color}`];
@@ -230,6 +242,12 @@ function bordersToCss(
     topW + rightW + bottomW + leftW > 0
   ) {
     const color = sides[0].color;
+    if (opts?.useNativeUniformSolid) {
+      if (topW > 0) return [`border-top: ${snap(topW)}px solid ${color}`];
+      if (rightW > 0) return [`border-right: ${snap(rightW)}px solid ${color}`];
+      if (bottomW > 0) return [`border-bottom: ${snap(bottomW)}px solid ${color}`];
+      if (leftW > 0) return [`border-left: ${snap(leftW)}px solid ${color}`];
+    }
     if (topW > 0) return [`box-shadow: inset 0 ${snap(topW)}px 0 0 ${color}`];
     if (rightW > 0) return [`box-shadow: inset -${snap(rightW)}px 0 0 0 ${color}`];
     if (bottomW > 0) return [`box-shadow: inset 0 -${snap(bottomW)}px 0 0 ${color}`];
@@ -290,6 +308,50 @@ function buildBorderOverlaySvg(
     .map((d) => `<path d="${d}" fill="none" stroke="${color}" stroke-width="${sw}"/>`)
     .join("");
   return `<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;left:0;top:0;width:${width}px;height:${height}px;pointer-events:none;z-index:0" viewBox="0 0 ${width} ${height}">${paths}</svg>`;
+}
+
+function buildUniformRoundedBorderSvg(
+  width: number,
+  height: number,
+  paint: LayerPaint
+): string | null {
+  const b = paint.borders;
+  const uniform = uniformBorder(b);
+  if (!uniform || uniform.style !== "solid" || uniform.width <= 0) return null;
+  const corners = paint.cornerRadii;
+  if (!corners) return null;
+  const sw = snap(uniform.width);
+  const inset = sw / 2;
+  const tl = snap(corners.topLeft.x);
+  const tr = snap(corners.topRight.x);
+  const br = snap(corners.bottomRight.x);
+  const bl = snap(corners.bottomLeft.x);
+  const w = Math.max(0, width - sw);
+  const h = Math.max(0, height - sw);
+  if (tl === tr && tr === br && br === bl) {
+    const r = Math.max(0, tl - inset);
+    return `<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;left:0;top:0;width:${width}px;height:${height}px;pointer-events:none;z-index:1" viewBox="0 0 ${width} ${height}"><rect x="${inset}" y="${inset}" width="${w}" height="${h}" rx="${r}" ry="${r}" fill="none" stroke="${uniform.color}" stroke-width="${sw}"/></svg>`;
+  }
+  const rtl = Math.max(0, Math.min(tl - inset, w / 2, h / 2));
+  const rtr = Math.max(0, Math.min(tr - inset, w / 2, h / 2));
+  const rbr = Math.max(0, Math.min(br - inset, w / 2, h / 2));
+  const rbl = Math.max(0, Math.min(bl - inset, w / 2, h / 2));
+  const x0 = inset;
+  const y0 = inset;
+  const x1 = width - inset;
+  const y1 = height - inset;
+  const d = [
+    `M ${x0 + rtl} ${y0}`,
+    `L ${x1 - rtr} ${y0}`,
+    rtr > 0 ? `A ${rtr} ${rtr} 0 0 1 ${x1} ${y0 + rtr}` : `L ${x1} ${y0}`,
+    `L ${x1} ${y1 - rbr}`,
+    rbr > 0 ? `A ${rbr} ${rbr} 0 0 1 ${x1 - rbr} ${y1}` : `L ${x1} ${y1}`,
+    `L ${x0 + rbl} ${y1}`,
+    rbl > 0 ? `A ${rbl} ${rbl} 0 0 1 ${x0} ${y1 - rbl}` : `L ${x0} ${y1}`,
+    `L ${x0} ${y0 + rtl}`,
+    rtl > 0 ? `A ${rtl} ${rtl} 0 0 1 ${x0 + rtl} ${y0}` : `L ${x0} ${y0}`
+  ].join(" ");
+  return `<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;left:0;top:0;width:${width}px;height:${height}px;pointer-events:none;z-index:1" viewBox="0 0 ${width} ${height}"><path d="${d}" fill="none" stroke="${uniform.color}" stroke-width="${sw}"/></svg>`;
 }
 
 function cornerRadiusToCss(paint: LayerPaint | undefined): string[] {
@@ -486,6 +548,24 @@ function isMuiNotchedFieldset(layer: UniversalLayer): boolean {
   );
 }
 
+function isMuiOutlinedChrome(layer: UniversalLayer): boolean {
+  return (
+    hasLayerClass(layer, "MuiPaper-outlined") || hasLayerClass(layer, "MuiAlert-outlined")
+  );
+}
+
+/** Native border only for Alert — Paper-outlined must keep outline replay (border-box shrinks flex children vs artifact layout). */
+function isMuiAlertOutlinedChrome(layer: UniversalLayer): boolean {
+  return hasLayerClass(layer, "MuiAlert-outlined");
+}
+
+function isMuiOutlinedBorderSvg(layer: UniversalLayer): boolean {
+  // Paper-outlined only: artifact children sit at +1px for the 1px border; native
+  // CSS border shrinks the padding box and regresses layout. SVG stroke matches
+  // Storybook edge AA without shifting CardContent coordinates.
+  return hasLayerClass(layer, "MuiPaper-outlined");
+}
+
 function muiOutlinedLabelForFieldset(_layer: UniversalLayer, ctx: RenderCtx): UniversalLayer | undefined {
   const inputRoot = ctx.parent;
   if (!inputRoot) return undefined;
@@ -670,7 +750,7 @@ function textToHtml(
       (hasLayerClass(layer, "lab-meeting-home-join") ||
         hasLayerClass(layer, "lab-meeting-home-icon-btn") ||
         hasLayerClass(layer, "lab-food-frenzy-checkout") ||
-        (opts?.ancestors ?? []).some((a) => hasLayerClass(a, "lab-food-frenzy-deal-foot")))
+        inFoodFrenzyDealFootTree(parent, opts?.ancestors))
     ) {
       props.push("line-height: normal");
     } else if (isHeading && headingLineHeightUsesNormal(parent, opts?.ancestors)) {
@@ -1268,6 +1348,11 @@ function inFoodFrenzyPromoTextTree(parent, ancestors) {
   return (ancestors ?? []).some((a) => hasLayerClass(a, "lab-food-frenzy-promo-text"));
 }
 
+function inFoodFrenzyDealFootTree(parent, ancestors) {
+  if (parent && hasLayerClass(parent, "lab-food-frenzy-deal-foot")) return true;
+  return (ancestors ?? []).some((a) => hasLayerClass(a, "lab-food-frenzy-deal-foot"));
+}
+
 function inMeetingHomeTree(ancestors) {
   return (ancestors ?? []).some(
     (a) => hasLayerClass(a, "lab-meeting-home") || a.source.dataset?.figmaComponent === "MeetingHomePage"
@@ -1323,41 +1408,59 @@ function tryRenderFoodCategoryButton(layer, ctx) {
     "border: 0",
     "border-radius: 999px",
     "padding: 8px 14px",
+    `font-family: ${textFontCss(layer.text, ctx.ancestors, layer)}`,
     "font-size: 12px",
     "font-weight: 600",
     "line-height: normal",
     active ? "background: #ff6b35; color: #fff" : "background: #fff; color: #1a1a1a",
-    "box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06)"
+    "box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06)",
+    "white-space: nowrap"
   ].join("; ");
   return `<button type="button" class="${cls}" data-name="${name}" style="${merged}">${escapeHtml(layer.text.value)}</button>`;
 }
 
 function tryRenderFoodDealFootStrong(layer, ctx) {
   if (layer.source.tag !== "strong" || !layer.text) return null;
-  if (!(ctx.ancestors ?? []).some((a) => hasLayerClass(a, "lab-food-frenzy-deal-foot"))) return null;
+  if (!inFoodFrenzyDealFootTree(ctx.parent, ctx.ancestors)) return null;
   const style = paintToBaseCss(layer, ctx).join("; ");
   const cls = layerClassNames(layer);
   const name = escapeAttr(layer.name || "strong");
-  const merged = [style, "font-size: 16px", "font-weight: 700", "color: #ff6b35", "line-height: normal"].join("; ");
+  const merged = [
+    style,
+    `font-family: ${textFontCss(layer.text, ctx.ancestors, layer)}`,
+    "font-size: 16px",
+    "font-weight: 700",
+    "color: #ff6b35",
+    "line-height: normal"
+  ].join("; ");
   return `<strong class="${cls}" data-name="${name}" style="${merged}">${escapeHtml(layer.text.value)}</strong>`;
 }
 
 function tryRenderFoodDealFootButton(layer, ctx) {
   if (layer.source.tag !== "button" || !layer.text) return null;
-  if (!(ctx.ancestors ?? []).some((a) => hasLayerClass(a, "lab-food-frenzy-deal-foot"))) return null;
+  if (!inFoodFrenzyDealFootTree(ctx.parent, ctx.ancestors)) return null;
   const style = paintToBaseCss(layer, ctx).join("; ");
   const cls = layerClassNames(layer);
   const name = escapeAttr(layer.name || "button");
   const merged = [
-    style, "border: 0", "background: #1a1a1a", "color: #fff", "font-size: 12px", "font-weight: 700",
-    "line-height: normal", "border-radius: 8px", "padding: 6px 12px"
+    style,
+    "border: 0",
+    "background: #1a1a1a",
+    "color: #fff",
+    `font-family: ${textFontCss(layer.text, ctx.ancestors, layer)}`,
+    "font-size: 12px",
+    "font-weight: 700",
+    "line-height: normal",
+    "border-radius: 8px",
+    "padding: 6px 12px",
+    "white-space: nowrap"
   ].join("; ");
   return `<button type="button" class="${cls}" data-name="${name}" style="${merged}">${escapeHtml(layer.text.value)}</button>`;
 }
 
 function tryRenderFoodDealTagSpan(layer, ctx) {
   if (layer.source.tag !== "span" || !layer.text || !hasLayerClass(layer, "tag")) return null;
-  if (!(ctx.ancestors ?? []).some((a) => hasLayerClass(a, "lab-food-frenzy-deal-body"))) return null;
+  if (!inFoodFrenzyDealBodyTree(ctx.parent, ctx.ancestors)) return null;
   const style = paintToBaseCss(layer, ctx).join("; ");
   const cls = layerClassNames(layer);
   const name = escapeAttr(layer.name || "span");
@@ -1443,8 +1546,15 @@ function tryRenderMeetingCardH3(layer, ctx) {
   const cls = layerClassNames(layer);
   const name = escapeAttr(layer.name || "h3");
   const merged = [
-    style, "margin: 0 0 10px", live ? "font-size: 15px" : "font-size: 14px",
-    "font-weight: 700", "color: #ffffff", "line-height: normal"
+    style,
+    live ? "margin: 0 0 10px" : "margin: 0",
+    `font-family: ${textFontCss(layer.text, ctx.ancestors, layer)}`,
+    "font-size: 15px",
+    "font-weight: 700",
+    "color: #ffffff",
+    earlier
+      ? "line-height: 1.3; min-width: 0; overflow: hidden; white-space: nowrap"
+      : "line-height: normal"
   ].join("; ");
   return `<h3 class="${cls}" data-name="${name}" style="${merged}">${escapeHtml(layer.text.value)}</h3>`;
 }
@@ -1483,7 +1593,11 @@ function usesFlexFlowLayout(layer: UniversalLayer): boolean {
     layer.source.tag === "button" ||
     cl.includes("lab-pricing-list") ||
     cl.includes("trend-grid") ||
-    cl.includes("bar-wrap")
+    cl.includes("bar-wrap") ||
+    cl.includes("lab-meeting-home-earlier-top") ||
+    cl.includes("lab-meeting-home-earlier-bottom") ||
+    cl.includes("lab-meeting-home-section-head") ||
+    cl.includes("lab-meeting-home-live-row")
   );
 }
 
@@ -1709,13 +1823,50 @@ function paintToBaseCss(layer: UniversalLayer, ctx: RenderCtx = {}): string[] {
       muiNotchedFieldset ||
       hasLayerClass(layer, "trend-grid") ||
       (hasLayerClass(layer, "lab-pricing") && !hasLayerClass(layer, "pro"));
+    const muiThinDivider =
+      hasLayerClass(layer, "MuiDivider-root") &&
+      layer.box.height <= 1 &&
+      (() => {
+        const b = paint.borders;
+        if (!b) return false;
+        const active = [b.top, b.right, b.bottom, b.left].filter(
+          (s) => (s?.width ?? 0) > 0 && s?.style === "solid"
+        );
+        return active.length === 1 && active[0]!.width === 1;
+      })();
+    const muiOutlinedBorderSvg = isMuiOutlinedBorderSvg(layer);
+    const useOutlineBorder =
+      hasRadius &&
+      !useNativeBorder &&
+      !muiThinDivider &&
+      !muiOutlinedBorderSvg &&
+      Boolean(uniformBorder(paint.borders));
     const borderCss =
-      !hasGaps && !pricingCssShell
+      !hasGaps && !pricingCssShell && !muiThinDivider && !muiOutlinedBorderSvg
         ? bordersToCss(paint.borders, {
-            insetShadow: hasRadius && !useNativeBorder && !muiNotchedFieldset,
-            useNativeUniformSolid: useNativeBorder
+            insetShadow: hasRadius && !useNativeBorder && !useOutlineBorder,
+            useNativeUniformSolid: useNativeBorder,
+            useOutlineBorder
           })
         : [];
+    if (muiThinDivider) {
+      const b = paint.borders;
+      const side =
+        (b?.bottom?.width ? b.bottom : null) ||
+        (b?.top?.width ? b.top : null) ||
+        (b?.left?.width ? b.left : null) ||
+        (b?.right?.width ? b.right : null);
+      if (side?.width && side.color) {
+        const edge = b?.bottom?.width
+          ? "border-bottom"
+          : b?.top?.width
+            ? "border-top"
+            : b?.left?.width
+              ? "border-left"
+              : "border-right";
+        props.push("border: 0", `${edge}: ${snap(side.width)}px solid ${side.color}`);
+      }
+    }
     if (hasGaps) {
       props.push("border: 0");
       if (layer.source.tag === "fieldset") {
@@ -2760,7 +2911,9 @@ function renderLayer(layer: UniversalLayer, ctx: RenderCtx = {}): string {
   const overlay =
     layer.paint && hasBorderGaps
       ? buildBorderOverlaySvg(layer.box.width, layer.box.height, layer.paint)
-      : null;
+      : isMuiOutlinedBorderSvg(layer)
+        ? buildUniformRoundedBorderSvg(layer.box.width, layer.box.height, layer.paint)
+        : null;
   if (overlay) inner += overlay;
   if (layer.source.tag === "input" && (!layer.children || layer.children.length === 0)) {
     const inputType = layer.source.inputType || "text";
@@ -2772,12 +2925,15 @@ function renderLayer(layer: UniversalLayer, ctx: RenderCtx = {}): string {
       const borderY = (b?.top?.width ?? 0) + (b?.bottom?.width ?? 0);
       const padY = (pad?.top ?? 0) + (pad?.bottom ?? 0);
       const innerH = Math.max(0, layer.box.height - borderY - padY);
+      const searchInput =
+        inFoodFrenzySearchTree(ctx.parent, ctx.ancestors) ||
+        hasLayerClass(layer, "lab-food-frenzy-search");
       const fontCss = [
-        `font-family: ${cssFontFamily(t.font.stack || t.font.family)}`,
+        `font-family: ${textFontCss(t, ctx.ancestors, layer)}`,
         `font-size: ${snap(t.font.size)}px`,
         `font-weight: ${t.font.weight}`,
         `color: ${t.color}`,
-        innerH > 0 ? `line-height: ${snap(innerH)}px` : ""
+        searchInput ? "line-height: normal" : innerH > 0 ? `line-height: ${snap(innerH)}px` : ""
       ]
         .filter(Boolean)
         .join("; ");

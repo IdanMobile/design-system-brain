@@ -1,0 +1,28 @@
+{
+  "jobId": "c8375ced-3e62-4aaf-8e68-1834b784ac66",
+  "storyId": "screen_1",
+  "phase": "fixer",
+  "attempt": 2,
+  "recordedAt": "2026-05-30T04:21:08.384Z",
+  "suiteId": "vsFigmaLive",
+  "mode": "figmaEntry",
+  "status": "failed",
+  "agentExitCode": 1,
+  "filesChanged": [
+    ".test-console/agent-prompts/agent-screen_1_fix-2-1780114859848.prompt.txt",
+    ".test-console/agent-prompts/agent-screen_2_fix-2-1780114859849.prompt.txt",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-agent-screen_1_fix-2-1780114859848.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-agent-screen_2_fix-2-1780114859849.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-plugin_build-1780114866194.json",
+    ".test-console/fleet/agents.json",
+    ".test-console/fleet/events.jsonl",
+    ".test-console/job-results/c8375ced-3e62-4aaf-8e68-1834b784ac66/screen_2-fixer-try-2.json",
+    ".test-console/orchestrator-logs/2026-05-30_01-51-36_c8375ced.log",
+    ".test-console/orchestrator-state.json"
+  ],
+  "workerMode": "narrow_scope",
+  "usageBlocked": false,
+  "watchdogTripped": false,
+  "watchdogReason": null,
+  "editCount": 0
+}

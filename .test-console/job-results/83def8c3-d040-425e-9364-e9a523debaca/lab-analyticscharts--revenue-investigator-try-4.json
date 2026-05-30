@@ -1,0 +1,16 @@
+{
+  "jobId": "83def8c3-d040-425e-9364-e9a523debaca",
+  "storyId": "lab-analyticscharts--revenue",
+  "phase": "investigator",
+  "attempt": 4,
+  "recordedAt": "2026-05-29T21:32:28.168Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "status": "incomplete",
+  "investigationComplete": false,
+  "gateReason": "investigator_required",
+  "agentExitCode": 143,
+  "usageBlocked": false,
+  "watchdogTripped": true,
+  "watchdogReason": "21 big-file reads (≥800 lines each) with 0 edits — redundant context loading."
+}

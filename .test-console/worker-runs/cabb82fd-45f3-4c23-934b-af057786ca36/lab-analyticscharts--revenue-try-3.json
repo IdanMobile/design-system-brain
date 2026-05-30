@@ -1,0 +1,38 @@
+{
+  "storyId": "lab-analyticscharts--revenue",
+  "attempt": 3,
+  "jobId": "cabb82fd-45f3-4c23-934b-af057786ca36",
+  "recordedAt": "2026-05-29T22:36:39.200Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "beforeAttempt": {
+    "status": "warn",
+    "percent": 0.13108326066761272,
+    "maxRegionPercent": 1.1614304812834224,
+    "error": null
+  },
+  "afterTest": {
+    "status": "warn",
+    "percent": 0.13108326066761272,
+    "maxRegionPercent": 1.1614304812834224,
+    "error": null
+  },
+  "agentExitCode": 143,
+  "pluginBuildFailed": true,
+  "filesChanged": [
+    "lab-memory/visual/investigations/active/lab-analyticscharts--revenue.md"
+  ],
+  "evaluation": {
+    "verdict": "STUCK_LOOP",
+    "verdicts": [
+      "STUCK_LOOP"
+    ],
+    "nextWorkerMode": "investigate_first",
+    "interventionLines": [
+      "Supervisor: metrics unchanged across attempts — stop guessing; use investigate-figma-mismatch on compare PNG + artifact before editing.",
+      "Supervisor: agent CLI exited 143 — finish edits and verify plugin build before relying on test results.",
+      "Supervisor: plugin build failed — fix compile errors before renderer tweaks."
+    ],
+    "tierCRequired": false
+  }
+}

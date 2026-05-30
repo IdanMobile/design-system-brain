@@ -1,0 +1,29 @@
+{
+  "jobId": "cabb82fd-45f3-4c23-934b-af057786ca36",
+  "storyId": "lab-productcard--dark",
+  "phase": "fixer",
+  "attempt": 1,
+  "recordedAt": "2026-05-29T22:40:28.893Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "status": "completed",
+  "agentExitCode": 0,
+  "filesChanged": [
+    ".test-console/agent-prompts/agent-lab-productcard--dark_fix-1-1780094203918.prompt.txt",
+    "figma-diffs/by-story/lab-productcard-dark/result.json",
+    "figma-diffs/lab-productcard-dark/artifact.v2.json",
+    "figma-diffs/lab-productcard-dark/rendered.png",
+    "figma-diffs/lab-productcard-dark/storybook.png",
+    "figma-diffs/report.html",
+    "figma-diffs/report.json",
+    "lab-memory/visual/investigations/active/lab-productcard--dark.md",
+    "packages/pixel-test/src/figma-live-test.ts",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "workerMode": "continue",
+  "usageBlocked": false,
+  "watchdogTripped": false,
+  "watchdogReason": null,
+  "editCount": 0
+}

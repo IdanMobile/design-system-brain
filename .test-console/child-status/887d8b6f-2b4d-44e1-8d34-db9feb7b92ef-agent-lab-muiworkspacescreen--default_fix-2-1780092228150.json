@@ -1,0 +1,11 @@
+{
+  "tag": "lab-muiworkspacescreen--default:fix-2",
+  "exitCode": 143,
+  "finishedAt": "2026-05-29T22:08:48.882Z",
+  "editCount": 0,
+  "readCount": 43,
+  "bigReadCount": 2,
+  "watchdogTripped": true,
+  "watchdogReason": "5.0m elapsed, 0 edits (reads=43, big-file reads=2). Investigation paralysis.",
+  "elapsedMs": 300136
+}

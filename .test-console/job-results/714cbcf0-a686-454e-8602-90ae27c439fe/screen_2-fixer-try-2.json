@@ -1,0 +1,27 @@
+{
+  "jobId": "714cbcf0-a686-454e-8602-90ae27c439fe",
+  "storyId": "screen_2",
+  "phase": "fixer",
+  "attempt": 2,
+  "recordedAt": "2026-05-29T21:47:07.552Z",
+  "suiteId": "vsFigmaLive",
+  "mode": "figmaEntry",
+  "status": "failed",
+  "agentExitCode": 143,
+  "filesChanged": [
+    ".test-console/agent-prompts/agent-lab-analyticscharts--revenue_investigate-5-1780090880567.prompt.txt",
+    "lab-memory/visual/investigations/active/lab-analyticscharts--revenue.md",
+    "package.json",
+    "packages/figma-importer-plugin/src/code-v2.ts",
+    "scripts/figma-entry-fix.mjs",
+    "scripts/figma-entry-portfolio-config.mjs",
+    "scripts/figma-screen-reference-align.mjs",
+    "scripts/figma-screen-test.mjs",
+    "scripts/original-parity-test.mjs"
+  ],
+  "workerMode": "continue",
+  "usageBlocked": false,
+  "watchdogTripped": true,
+  "watchdogReason": "8.0m elapsed, 0 edits (reads=56, big-file reads=14). Investigation paralysis.",
+  "editCount": 0
+}

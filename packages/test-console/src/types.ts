@@ -320,3 +320,70 @@ export interface ArchitectureConsoleState {
   runSettings?: RunSettings;
   agentModelOptions?: AgentModelOption[];
 }
+
+export interface FleetTask {
+  jobId?: string;
+  storyId?: string;
+  suiteId?: string;
+  attempt?: number;
+  phase?: string;
+  parallelCount?: number;
+  stories?: string[];
+  steps?: string[];
+}
+
+export interface FleetAgent {
+  id: string;
+  baseAgentId?: string;
+  purpose?: string;
+  capabilities?: string[];
+  status?: string;
+  workerNode?: string;
+  since?: string;
+  currentTask?: FleetTask | null;
+  activeTasks?: FleetTask[];
+  workerCount?: number;
+  cli?: string;
+  model?: string;
+}
+
+export interface FleetEvent {
+  type: string;
+  at?: string;
+  agentId?: string;
+  storyId?: string;
+  suiteId?: string;
+  attempt?: number;
+  phase?: string;
+  status?: string;
+  jobId?: string;
+}
+
+export interface FleetState {
+  generatedAt?: string;
+  orchestratorRunning?: boolean;
+  orchestratorAuto?: boolean;
+  runSettings?: RunSettings;
+  orchestrator?: WorkerSupervisorState | null;
+  supervisor?: {
+    lastHeartbeat?: string;
+    orchestratorPhase?: string | null;
+    orchestratorVerdict?: string | null;
+    orchestratorJobId?: string | null;
+  } | null;
+  agents?: FleetAgent[];
+  recentEvents?: FleetEvent[];
+  stats?: {
+    routes?: number;
+    completes?: number;
+    working?: number;
+    waiting?: number;
+  };
+  runningJobs?: Array<{
+    id: string;
+    label?: string;
+    status?: string;
+    action?: string;
+    story?: string | null;
+  }>;
+}

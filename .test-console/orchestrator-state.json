@@ -1,21 +1,11 @@
 {
-  "updatedAt": "2026-05-27T10:50:54.708Z",
-  "phase": "fix-all",
-  "suiteId": "contractFigma",
-  "suiteLabel": "Contract → Figma",
-  "jobId": "3532a1fe-4f84-47da-956d-6bb6f716d996",
-  "storyId": "screen_2",
-  "storyIndex": 1,
-  "storyTotal": 1,
-  "attempt": 3,
-  "maxAttempts": 5,
-  "verdict": "CANCELLED",
-  "nextWorkerMode": "stopped",
-  "metrics": {
-    "status": "fail",
-    "percent": 5.159510371521414,
-    "maxRegionPercent": 11.2,
-    "error": null
-  },
+  "updatedAt": "2026-05-30T04:21:12.141Z",
+  "phase": "portfolio",
+  "jobId": "c8375ced-3e62-4aaf-8e68-1834b784ac66",
+  "humanAction": "max_rounds_exceeded",
+  "humanTitle": "Safety limit reached",
+  "humanMessage": "Orchestrator hit the max fix-round or agent-call cap for this Launch session. Review logs, adjust limits, or fix remaining items manually.",
+  "exitReason": "HUMAN_ACTION",
+  "verdict": "BLOCKED",
   "finished": true
 }

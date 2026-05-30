@@ -1,0 +1,47 @@
+{
+  "storyId": "screen_2",
+  "schemaVersion": 2,
+  "intent": "Figma screen entry — meeting insights toolbar and summary actions",
+  "status": "proposed",
+  "approvedAt": null,
+  "approvedBy": null,
+  "specVersion": 1,
+  "elements": [
+    {
+      "id": "el-export-btn",
+      "selector": "[data-name=\"Buttons\"]",
+      "displayName": "Export file",
+      "description": "Export file toolbar button",
+      "behaviorPreset": "click",
+      "source": "designer",
+      "status": "proposed"
+    },
+    {
+      "id": "el-resummary-btn",
+      "selector": "[data-name=\"Buttons\"]",
+      "displayName": "Re-summarize",
+      "description": "Re-summarize toolbar button",
+      "behaviorPreset": "click",
+      "source": "designer",
+      "status": "proposed"
+    },
+    {
+      "id": "el-add-segment",
+      "selector": "[data-name=\"Buttons\"]",
+      "displayName": "Add segment",
+      "description": "Add summary segment",
+      "behaviorPreset": "click",
+      "source": "designer",
+      "status": "proposed"
+    },
+    {
+      "id": "el-filter-btn",
+      "selector": "[data-name=\"Buttons\"]",
+      "displayName": "Filter",
+      "description": "Filter controls button",
+      "behaviorPreset": "click",
+      "source": "designer",
+      "status": "proposed"
+    }
+  ]
+}

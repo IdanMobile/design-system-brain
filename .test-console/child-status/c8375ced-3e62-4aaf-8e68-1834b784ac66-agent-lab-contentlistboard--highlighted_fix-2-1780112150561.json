@@ -1,0 +1,11 @@
+{
+  "tag": "lab-contentlistboard--highlighted:fix-2",
+  "exitCode": 143,
+  "finishedAt": "2026-05-30T03:43:51.751Z",
+  "editCount": 0,
+  "readCount": 24,
+  "bigReadCount": 15,
+  "watchdogTripped": true,
+  "watchdogReason": "8.0m elapsed, 0 edits (reads=24, big-file reads=15). Investigation paralysis.",
+  "elapsedMs": 480155
+}

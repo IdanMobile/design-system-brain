@@ -1,0 +1,64 @@
+{
+  "storyId": "lab-muiworkspacescreen--default",
+  "attempt": 1,
+  "jobId": "c8375ced-3e62-4aaf-8e68-1834b784ac66",
+  "recordedAt": "2026-05-30T04:18:26.367Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "beforeAttempt": {
+    "status": "warn",
+    "percent": 0.1786540775710451,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "afterTest": {
+    "status": "warn",
+    "percent": 0.1786540775710451,
+    "maxRegionPercent": null,
+    "error": null
+  },
+  "agentExitCode": 1,
+  "pluginBuildFailed": false,
+  "filesChanged": [
+    ".test-console/agent-prompts/agent-lab-analyticscharts--revenue_fix-1-1780114681182.prompt.txt",
+    ".test-console/agent-prompts/agent-lab-analyticscharts--usage_fix-1-1780114681180.prompt.txt",
+    ".test-console/agent-prompts/agent-lab-contentlistboard--highlighted_fix-1-1780114681189.prompt.txt",
+    ".test-console/agent-prompts/agent-lab-featurecard--default_fix-1-1780114681186.prompt.txt",
+    ".test-console/agent-prompts/agent-lab-muiworkspacescreen--default_fix-1-1780114679600.prompt.txt",
+    ".test-console/agent-prompts/agent-lab-pricingpanel--pro_fix-1-1780114681191.prompt.txt",
+    ".test-console/agent-prompts/agent-lab-pricingpanel--starter_fix-1-1780114681190.prompt.txt",
+    ".test-console/agent-prompts/agent-screen_1_fix-1-1780114679593.prompt.txt",
+    ".test-console/agent-prompts/agent-screen_2_fix-1-1780114679594.prompt.txt",
+    ".test-console/batch-reports/lab-muiworkspacescreen-default-try-1.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-agent-lab-muiworkspacescreen--default_fix-1-1780114679600.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-agent-screen_1_fix-1-1780114679593.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-agent-screen_2_fix-1-1780114679594.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-test_lab-productcard--dark-1780114681193.json",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-test_lab-productcard--default-1780114681191.json",
+    ".test-console/fleet/agents.json",
+    ".test-console/fleet/events.jsonl",
+    ".test-console/orchestrator-logs/2026-05-30_01-51-36_c8375ced.log",
+    ".test-console/orchestrator-state.json",
+    "figma-live-diffs/by-story/lab-productcard-dark/result.json",
+    "figma-live-diffs/by-story/lab-productcard-default/result.json",
+    "figma-live-diffs/lab-productcard-dark/artifact.v2.json",
+    "figma-live-diffs/lab-productcard-default/artifact.v2.json",
+    "figma-live-diffs/report.json",
+    "storybook-parity-diffs/by-story/lab-loadingstates-card-skeleton/vsFigmaLive/result.json",
+    "storybook-parity-diffs/by-story/lab-loadingstates-card-skeleton/vsStorybook/result.json",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "evaluation": {
+    "verdict": "NO_ADAPTER_EDIT",
+    "verdicts": [
+      "NO_ADAPTER_EDIT"
+    ],
+    "nextWorkerMode": "narrow_scope",
+    "interventionLines": [
+      "Supervisor: edits were only vault/rules/prompts — pixel needs packages/pixel-test/src/render-html.ts or extract.ts. Do NOT reorganize lab-memory during fix-all.",
+      "Supervisor: agent CLI exited 1 — finish edits and verify plugin build before relying on test results."
+    ],
+    "tierCRequired": false
+  }
+}

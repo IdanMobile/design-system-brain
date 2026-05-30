@@ -1,0 +1,24 @@
+Run until portfolio green at strict 0.1%. Do not ask me to continue. Only stop for Figma plugin reload/open.
+
+Portfolio orchestrator — golden path ALL (48 stories)
+Sequential steps: pixel → figma emulator → figma live → delivery.
+
+── Automatic workflow (do not skip roles) ──
+1. Read .cursor/skills/project-orchestrator/SKILL.md — pre-flight: confirm phase + infra + verdict.
+2. Read .cursor/skills/roadmap-iteration/SKILL.md — active section: docs/ROADMAP.md (default §1.2 until live strict green).
+3. Lab memory (.cursor/rules/lab-memory.mdc): Read lab-memory/stories/<storyId>.md if it exists (create from lab-memory/templates/story.md if missing).
+4. After investigate, before code edits: append lab-memory/templates/investigation.md to the story note.
+5. Never store secrets in lab-memory/.
+6. Supervisor: .cursor/skills/project-orchestrator/SKILL.md — drive full portfolio to PHASE_COMPLETE.
+7. Worker chain per story/step: .cursor/skills/investigate-figma-mismatch/SKILL.md BEFORE edits → .cursor/skills/figma-renderer-until-pass/SKILL.md implement.
+8. Sequential gates: pixel → figma mock → figma live → delivery (strict 0.1% global + hotspot).
+9. Do NOT stop for approval. Do NOT ask the human to say continue.
+10. Human-only: reload/open Figma plugin after code-v2 rebuild (one line; wait for ready if live fails).
+11. Tier A after each story fix; Tier C (pnpm test:regression) if code-v2.ts, scene-to-html.ts, extract.ts, or contract changed.
+12. Stop only when all portfolio stories pass all steps — verdict PHASE_COMPLETE.
+── End automatic workflow ──
+
+The Terminal harness runs fix→test loops per step. You fix one story at a time when dispatched.
+Read .cursor/agent-context.auto.md at session start.
+
+Read .cursor/skills/project-orchestrator/SKILL.md — you are the supervisor until PHASE_COMPLETE.

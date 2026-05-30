@@ -1,0 +1,21 @@
+{
+  "jobId": "9116c11d-6252-43ba-b85c-935379e9c825",
+  "storyId": "lab-meetinghomepage--default",
+  "phase": "fixer",
+  "attempt": 1,
+  "recordedAt": "2026-05-29T19:30:53.496Z",
+  "suiteId": "pixel",
+  "mode": "pixel",
+  "status": "completed",
+  "agentExitCode": 0,
+  "filesChanged": [
+    ".test-console/agent-prompts/agent-lab-meetinghomepage--default_fix-1-1780082951683.prompt.txt",
+    "lab-memory/visual/investigations/active/lab-meetinghomepage--default.md",
+    "packages/pixel-test/src/render-html.ts"
+  ],
+  "workerMode": "continue",
+  "usageBlocked": false,
+  "watchdogTripped": false,
+  "watchdogReason": null,
+  "editCount": 0
+}

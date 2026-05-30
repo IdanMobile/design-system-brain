@@ -1,0 +1,5 @@
+import{L as c}from"./TabsPanel-Dy-bLXbI.js";import"./Screen2-psROWDZS.js";import"./jsx-runtime-DFAAy_2V.js";import"./index-Bc2G9s8g.js";import"./index-BO6cjGmN.js";const u={title:"Lab/LoadingStates",component:c},e={},r={args:{mode:"list"}};var o,t,s;e.parameters={...e.parameters,docs:{...(o=e.parameters)==null?void 0:o.docs,source:{originalSource:"{}",...(s=(t=e.parameters)==null?void 0:t.docs)==null?void 0:s.source}}};var a,m,n;r.parameters={...r.parameters,docs:{...(a=r.parameters)==null?void 0:a.docs,source:{originalSource:`{
+  args: {
+    mode: "list"
+  }
+}`,...(n=(m=r.parameters)==null?void 0:m.docs)==null?void 0:n.source}}};const g=["CardSkeleton","ListSkeleton"];export{e as CardSkeleton,r as ListSkeleton,g as __namedExportsOrder,u as default};

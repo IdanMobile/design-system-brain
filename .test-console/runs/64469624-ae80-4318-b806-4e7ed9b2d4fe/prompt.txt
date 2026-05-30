@@ -1,0 +1,93 @@
+make fixes after live test
+
+Fix all BATCH — Figma live (13 stories fail/warn)
+
+Harness builds investigation report → ONE agent session fixes ALL stories → re-tests each story.
+
+── Automatic workflow (do not skip roles) ──
+1. Read .cursor/skills/project-orchestrator/SKILL.md — pre-flight: confirm phase + infra + verdict.
+2. Read .cursor/skills/roadmap-iteration/SKILL.md — active section: docs/ROADMAP.md (default §1.2 until live strict green).
+3. Lab memory (.cursor/rules/lab-memory.mdc): Read lab-memory/stories/<storyId>.md if it exists (create from lab-memory/templates/story.md if missing).
+4. After investigate, before code edits: append lab-memory/templates/investigation.md to the story note.
+5. Never store secrets in lab-memory/.
+6. Worker: .cursor/skills/investigate-figma-mismatch/SKILL.md FIRST on ALL listed stories — read batch investigation report + compare PNGs; append lab-memory per story.
+7. Worker: .cursor/skills/figma-renderer-until-pass/SKILL.md — implement **shared fixes for every story in one session** (not one-by-one).
+8. Prefer code-v2.ts / scene-to-html.ts / extract.ts changes that green multiple stories at once.
+9. Do NOT run golden tests yourself — harness re-tests all listed stories after plugin build.
+10. Harness sandbox gate: metrics regress → auto git restore; 2 batch regressions → FIX_ALL_SERIAL=1.
+11. Tier C if shared adapter touched — pnpm test:regression.
+── End automatic workflow ──
+Read .cursor/skills/figma-renderer-until-pass/SKILL.md and .cursor/skills/investigate-figma-mismatch/SKILL.md — investigate BEFORE editing.
+Act immediately — do NOT ask approval to start fixing.
+Live phase only. Fix now; after rebuild, one-line ask to reload plugin + reply ready before re-live.
+
+Stories:
+
+1. mui--showcase (100.00% global, error)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/mui-showcase/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/mui-showcase/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/mui-showcase/figma.png
+
+2. lab-productcard--dark (10.56% global · hotspot 24.92%, fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-dark/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-dark/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-productcard-dark/figma.png
+
+3. lab-button--secondary (3.01% global · hotspot 3.47%, fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-secondary/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-secondary/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-button-secondary/figma.png
+
+4. lab-tabspanel--activity-active (1.80% global · hotspot 3.42%, fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-activity-active/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-activity-active/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-activity-active/figma.png
+
+5. lab-tabspanel--settings-active (1.77% global · hotspot 3.42%, fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-settings-active/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-settings-active/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-tabspanel-settings-active/figma.png
+
+6. lab-pricingpanel--pro (1.35% global · hotspot 3.39%, fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-pricingpanel-pro/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-pricingpanel-pro/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-pricingpanel-pro/figma.png
+
+7. lab-navigationbars--top-navigation (1.14% global · hotspot 3.57%, fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-navigationbars-top-navigation/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-navigationbars-top-navigation/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-navigationbars-top-navigation/figma.png
+
+8. lab-calendarscheduler--compact (1.00% global · hotspot 3.95%, fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-compact/figma.png
+
+9. lab-featurecard--success (0.94% global · hotspot 3.39%, fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-success/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-success/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-success/figma.png
+
+10. lab-calendarscheduler--monthly (0.85% global · hotspot 3.06%, fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-monthly/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-monthly/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-monthly/figma.png
+
+11. lab-calendarscheduler--weekdays-only (0.79% global · hotspot 3.06%, fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-weekdays-only/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-weekdays-only/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-calendarscheduler-weekdays-only/figma.png
+
+12. lab-featurecard--default (0.78% global · hotspot 3.62%, fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-default/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-default/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-featurecard-default/figma.png
+
+13. lab-contentlistboard--highlighted (0.58% global · hotspot 2.67%, fail)
+   Compare: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-contentlistboard-highlighted/regions/region-01-compare.png
+   Storybook: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-contentlistboard-highlighted/storybook.png
+   Figma: /Users/user/Downloads/storybook-to-figma-lab/figma-live-diffs/lab-contentlistboard-highlighted/figma.png
+
+After all fixes: pnpm figma:live-iterate
+
+Fix ALL listed stories in one session (shared root cause). Rebuild plugin if code-v2.ts changed.

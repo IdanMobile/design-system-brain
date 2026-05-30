@@ -1,0 +1,11 @@
+{
+  "tag": "screen_2:fix-2",
+  "exitCode": 143,
+  "finishedAt": "2026-05-29T23:52:08.161Z",
+  "editCount": 0,
+  "readCount": 32,
+  "bigReadCount": 20,
+  "watchdogTripped": true,
+  "watchdogReason": "20 big-file reads (≥800 lines each) with 0 edits — redundant context loading.",
+  "elapsedMs": 119896
+}

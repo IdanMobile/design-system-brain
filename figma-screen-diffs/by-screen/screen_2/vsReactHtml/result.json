@@ -1,0 +1,110 @@
+{
+  "status": "fail",
+  "percent": 5.437625036319909,
+  "maxRegionPercent": 11.971428571428572,
+  "pixelsDiffered": 97876,
+  "pixelsTotal": 1799977,
+  "width": 1921,
+  "height": 937,
+  "storyId": "screen_2",
+  "tolerance": 0.1,
+  "originalPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/screen_2/originalParity/original.png",
+  "targetPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/screen_2/originalParity/reactHtml.png",
+  "diffPng": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/screen_2/originalParity/diff-original-reactHtml.png",
+  "regions": [
+    {
+      "name": "breadcrumbs",
+      "x": 1300,
+      "y": 75,
+      "w": 400,
+      "h": 30,
+      "pct": 3.4583333333333335,
+      "limit": 0.1
+    },
+    {
+      "name": "toolbar-left",
+      "x": 233,
+      "y": 150,
+      "w": 500,
+      "h": 55,
+      "pct": 0.41454545454545455,
+      "limit": 0.1
+    },
+    {
+      "name": "toolbar-sort",
+      "x": 750,
+      "y": 150,
+      "w": 400,
+      "h": 55,
+      "pct": 0,
+      "limit": 0.1
+    },
+    {
+      "name": "filter-button",
+      "x": 1240,
+      "y": 185,
+      "w": 90,
+      "h": 40,
+      "pct": 2.7777777777777777,
+      "limit": 0.1
+    },
+    {
+      "name": "sidebar",
+      "x": 0,
+      "y": 63,
+      "w": 233,
+      "h": 137,
+      "pct": 3.439741862723599,
+      "limit": 0.1
+    },
+    {
+      "name": "gradient-blob",
+      "x": 400,
+      "y": 140,
+      "w": 600,
+      "h": 60,
+      "pct": 0,
+      "limit": 0.1
+    },
+    {
+      "name": "user-header",
+      "x": 20,
+      "y": 8,
+      "w": 200,
+      "h": 50,
+      "tolerancePercent": 0.6,
+      "pct": 9.53,
+      "limit": 0.6
+    },
+    {
+      "name": "pagination-footer",
+      "x": 60,
+      "y": 865,
+      "w": 400,
+      "h": 35,
+      "pct": 11.971428571428572,
+      "limit": 0.1
+    },
+    {
+      "name": "phone-row",
+      "x": 1100,
+      "y": 785,
+      "w": 150,
+      "h": 45,
+      "tolerancePercent": 0.6,
+      "pct": 5.7481481481481485,
+      "limit": 0.6
+    }
+  ],
+  "worstRegion": {
+    "name": "pagination-footer",
+    "pct": 11.971428571428572
+  },
+  "reportHtml": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/screen_2/originalParity/report.html",
+  "contractPath": "/Users/user/Downloads/storybook-to-figma-lab/artifacts/figma-screens/screen_2.contract.json",
+  "manifestPath": "/Users/user/Downloads/storybook-to-figma-lab/artifacts/figma-screens/screen_2.manifest.json",
+  "testReportPath": "/Users/user/Downloads/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_2/vsReactHtml/test-report.json",
+  "screenId": "screen_2",
+  "stepId": "vsReactHtml",
+  "testedAt": "2026-05-29T23:38:35.174Z"
+}

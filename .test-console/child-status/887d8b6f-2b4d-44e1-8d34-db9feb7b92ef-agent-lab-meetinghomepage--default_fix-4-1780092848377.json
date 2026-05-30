@@ -1,0 +1,11 @@
+{
+  "tag": "lab-meetinghomepage--default:fix-4",
+  "exitCode": 143,
+  "finishedAt": "2026-05-29T22:20:09.561Z",
+  "editCount": 0,
+  "readCount": 50,
+  "bigReadCount": 4,
+  "watchdogTripped": true,
+  "watchdogReason": "6.0m elapsed, 0 edits (reads=50, big-file reads=4). Investigate-first budget exceeded — land a targeted edit or write BLOCKED in lab-memory.",
+  "elapsedMs": 360385
+}

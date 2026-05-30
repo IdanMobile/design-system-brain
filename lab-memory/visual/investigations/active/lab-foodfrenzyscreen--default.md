@@ -309,3 +309,173 @@ false — automated test record at 2026-05-25T11:29:47.434Z
 **Fixes (final):** `inFoodFrenzyDealBodyTree` + deal art `line-height: 32px`; `tryRenderFoodCategoryButton`, `tryRenderFoodDealFootStrong`; prior deal art/foot/checkout helpers. **Do not** replay flex shells (`lab-food-frenzy-deal-card`, `deal-art`, `deal-foot`) on absolute layers — see [[visual/patterns/render-html-layer-class-allowlist-regression]].
 
 <!-- vault-fingerprint: pixel|pass|0.049|food-category-deal-body -->
+
+## Investigation — lab-foodfrenzyscreen--default / pixel
+
+**Job ID:** c8375ced-3e62-4aaf-8e68-1834b784ac66  
+**Date:** 2026-05-30T02:12:42.705Z  
+**Source:** fix-all pre-agent (automated)
+**Fix attempt:** 1
+
+
+### Metrics
+
+| Field | Value |
+| --- | --- |
+| Status | warn |
+| Global diff | 0.18% |
+| Worst hotspot | n/a |
+| Fail reason | — |
+
+### Compare regions
+
+| Region | Issue | Path |
+| --- | --- | --- |
+| region-01 | diff region | `pixel-diffs/lab-foodfrenzyscreen-default/regions/regions/region-01-compare.png` |
+| region-02 | diff region | `pixel-diffs/lab-foodfrenzyscreen-default/regions/regions/region-02-compare.png` |
+| region-03 | diff region | `pixel-diffs/lab-foodfrenzyscreen-default/regions/regions/region-03-compare.png` |
+| region-04 | diff region | `pixel-diffs/lab-foodfrenzyscreen-default/regions/regions/region-04-compare.png` |
+
+### Artifacts
+
+- Compare: `pixel-diffs/lab-foodfrenzyscreen-default/regions/region-01-compare.png`
+- Storybook PNG: `pixel-diffs/lab-foodfrenzyscreen-default/storybook.png`
+- Figma PNG: `pixel-diffs/lab-foodfrenzyscreen-default/rendered.png`
+- Artifact JSON: `pixel-diffs/lab-foodfrenzyscreen-default/artifact.v2.json`
+- Scene JSON: `pixel-diffs/lab-foodfrenzyscreen-default/scene.json`
+
+### Root cause
+
+<!-- pending — agent fills after systematic-debugging -->
+
+### Recommended fix area
+
+<!-- pending — see primary fix path for this suite in agent prompt -->
+
+### Cached
+
+false — automated test record at 2026-05-30T02:12:42.705Z
+
+<!-- vault-fingerprint: pixel|warn|0.185|na|1|fix-all pre-agent -->
+
+## Investigation — lab-foodfrenzyscreen--default / pixel
+
+**Job ID:** fix-all-iterate-1  
+**Date:** 2026-05-30
+
+### Root cause
+
+- **Deal-foot `Add +` buttons:** `tryRenderFoodDealFootButton` / `Strong` only checked `ctx.ancestors` for `lab-food-frenzy-deal-foot`; direct children have deal-foot as **parent**, so helpers never matched → `isInlineTextLeaf` fallback with partial border-radius AA drift (region-02/03).
+- **Category chips:** `tryRenderFoodCategoryButton` omitted `font-family`; replay inherited body stack instead of artifact `computedStack` (Arial on `<button>`).
+
+### Recommended fix area
+
+`packages/pixel-test/src/render-html.ts` — `inFoodFrenzyDealFootTree(parent, ancestors)`; wire deal-foot helpers + category chip `textFontCss`.
+
+### Cached
+
+false
+
+<!-- vault-fingerprint: pixel|warn|0.185|deal-foot-parent|fix-all-iterate-1 -->
+
+## Investigation — lab-foodfrenzyscreen--default / pixel
+
+**Job ID:** c8375ced-3e62-4aaf-8e68-1834b784ac66  
+**Date:** 2026-05-30T02:14:23.149Z  
+**Source:** fix-all pre-agent (automated)
+**Fix attempt:** 2
+
+
+### Metrics
+
+| Field | Value |
+| --- | --- |
+| Status | warn |
+| Global diff | 0.18% |
+| Worst hotspot | n/a |
+| Fail reason | — |
+
+### Compare regions
+
+| Region | Issue | Path |
+| --- | --- | --- |
+| region-01 | diff region | `pixel-diffs/lab-foodfrenzyscreen-default/regions/regions/region-01-compare.png` |
+| region-02 | diff region | `pixel-diffs/lab-foodfrenzyscreen-default/regions/regions/region-02-compare.png` |
+| region-03 | diff region | `pixel-diffs/lab-foodfrenzyscreen-default/regions/regions/region-03-compare.png` |
+| region-04 | diff region | `pixel-diffs/lab-foodfrenzyscreen-default/regions/regions/region-04-compare.png` |
+
+### Artifacts
+
+- Compare: `pixel-diffs/lab-foodfrenzyscreen-default/regions/region-01-compare.png`
+- Storybook PNG: `pixel-diffs/lab-foodfrenzyscreen-default/storybook.png`
+- Figma PNG: `pixel-diffs/lab-foodfrenzyscreen-default/rendered.png`
+- Artifact JSON: `pixel-diffs/lab-foodfrenzyscreen-default/artifact.v2.json`
+- Scene JSON: `pixel-diffs/lab-foodfrenzyscreen-default/scene.json`
+
+### Root cause
+
+<!-- pending — agent fills after systematic-debugging -->
+
+### Recommended fix area
+
+<!-- pending — see primary fix path for this suite in agent prompt -->
+
+### Cached
+
+false — automated test record at 2026-05-30T02:14:23.149Z
+
+<!-- vault-fingerprint: pixel|warn|0.185|na|2|fix-all pre-agent -->
+
+## Investigation — 2026-05-30 / pixel (search input + button nowrap)
+
+**Job ID:** fix-all-iterate-2  
+**Date:** 2026-05-30
+
+### Metrics
+
+| Field | Value |
+| --- | --- |
+| Status | **pass** |
+| Global diff | **0.049%** (was warn 0.185%) |
+
+### Root cause
+
+Search input replay used authored `Inter` stack + snapped `line-height` from box height; Storybook ground truth resolves placeholder to `computedStack: Arial` with `line-height: normal`. Category/deal-foot inline buttons lacked `white-space: nowrap` guard.
+
+### Fix
+
+`packages/pixel-test/src/render-html.ts`:
+- Food search inputs: `textFontCss` (computed stack) + `line-height: normal` under `inFoodFrenzySearchTree`.
+- `tryRenderFoodCategoryButton` / `tryRenderFoodDealFootButton`: add `white-space: nowrap`.
+
+**Do not** globally prefer authored Inter over computed Arial in `textFontCss` — regresses this story (~0.29%).
+
+### Cached
+
+false — agent fix at 2026-05-30
+
+<!-- vault-fingerprint: pixel|pass|0.049|search-input-nowrap -->
+
+## Resolved — lab-foodfrenzyscreen--default / pixel
+
+**Date:** 2026-05-30T02:18:03.563Z  
+**Attempt:** 2  
+**Suite:** pixel
+
+Automated harness reports **PASS** for this story/step.
+
+If the fix was a reusable rule, add or update a note under `lab-memory/visual/patterns/`.
+
+<!-- vault-fingerprint: resolved|pixel|2|2026-05-30 -->
+
+## Resolved — lab-foodfrenzyscreen--default / pixel
+
+**Date:** 2026-05-30T02:24:59.432Z  
+**Attempt:** 1  
+**Suite:** pixel
+
+Automated harness reports **PASS** for this story/step.
+
+If the fix was a reusable rule, add or update a note under `lab-memory/visual/patterns/`.
+
+<!-- vault-fingerprint: resolved|pixel|1|2026-05-30 -->

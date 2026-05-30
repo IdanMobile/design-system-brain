@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-contentlistboard--highlighted",
     "componentName": "ContentListBoard",
-    "extractedAt": "2026-05-25T19:28:51.977Z",
+    "extractedAt": "2026-05-30T03:50:59.679Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-contentlistboard--highlighted&viewMode=story",
     "viewport": {
       "x": 0,
@@ -926,7 +926,8 @@
               "kind": "dom",
               "tag": "button",
               "dataset": {
-                "pressedManaged": "true"
+                "pressedManaged": "true",
+                "labId": "el-new-task"
               }
             },
             "box": {
@@ -1184,7 +1185,10 @@
             "source": {
               "kind": "dom",
               "tag": "input",
-              "inputType": "text"
+              "inputType": "text",
+              "dataset": {
+                "labId": "el-input"
+              }
             },
             "box": {
               "x": 0,

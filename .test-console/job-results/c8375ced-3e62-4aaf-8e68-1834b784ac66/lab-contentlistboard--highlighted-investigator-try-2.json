@@ -1,0 +1,16 @@
+{
+  "jobId": "c8375ced-3e62-4aaf-8e68-1834b784ac66",
+  "storyId": "lab-contentlistboard--highlighted",
+  "phase": "investigator",
+  "attempt": 2,
+  "recordedAt": "2026-05-30T03:39:59.455Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "status": "completed",
+  "investigationComplete": true,
+  "gateReason": "investigator_required",
+  "agentExitCode": 0,
+  "usageBlocked": false,
+  "watchdogTripped": false,
+  "watchdogReason": null
+}

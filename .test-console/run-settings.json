@@ -8,5 +8,13 @@
   "agentModel": "composer-2.5-fast",
   "devAgentCli": "cursor",
   "devAgentModel": "composer-2.5-fast",
-  "updatedAt": "2026-05-25T18:55:54.246Z"
+  "scope": "failures_only",
+  "singleStepId": null,
+  "sortBy": "flow_first",
+  "maxFixRoundsPerStep": 10,
+  "maxAutoRetriesWhenStuck": 3,
+  "maxAgentCallsPerLaunch": 100,
+  "launchAutoMode": true,
+  "headlessAgents": true,
+  "updatedAt": "2026-05-30T09:33:59.917Z"
 }

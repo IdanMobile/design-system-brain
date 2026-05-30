@@ -1,0 +1,16 @@
+{
+  "jobId": "8e5f02b3-cd7d-429e-81cb-2cc3be6eb3f1",
+  "storyId": "screen_2",
+  "phase": "investigator",
+  "attempt": 1,
+  "recordedAt": "2026-05-29T21:21:40.138Z",
+  "suiteId": "vsFigmaLive",
+  "mode": "figmaEntry",
+  "status": "incomplete",
+  "investigationComplete": false,
+  "gateReason": "investigator_required",
+  "agentExitCode": 0,
+  "usageBlocked": false,
+  "watchdogTripped": false,
+  "watchdogReason": null
+}

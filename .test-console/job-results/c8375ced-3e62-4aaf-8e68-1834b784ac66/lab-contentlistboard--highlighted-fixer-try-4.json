@@ -1,0 +1,29 @@
+{
+  "jobId": "c8375ced-3e62-4aaf-8e68-1834b784ac66",
+  "storyId": "lab-contentlistboard--highlighted",
+  "phase": "fixer",
+  "attempt": 4,
+  "recordedAt": "2026-05-30T03:54:41.366Z",
+  "suiteId": "figmaLive",
+  "mode": "live",
+  "status": "failed",
+  "agentExitCode": 1,
+  "filesChanged": [
+    ".test-console/agent-prompts/agent-lab-contentlistboard--highlighted_fix-4-1780113275082.prompt.txt",
+    ".test-console/child-status/c8375ced-3e62-4aaf-8e68-1834b784ac66-agent-lab-contentlistboard--highlighted_fix-4-1780113275082.json",
+    ".test-console/fleet/agents.json",
+    ".test-console/fleet/events.jsonl",
+    ".test-console/orchestrator-logs/2026-05-30_01-51-36_c8375ced.log",
+    "pixel-diffs/by-story/lab-pricingpanel-pro/result.json",
+    "pixel-diffs/by-story/lab-pricingpanel-starter/result.json",
+    "pixel-diffs/lab-pricingpanel-starter/artifact.v2.json",
+    "pixel-diffs/report.json",
+    "test-portfolio/portfolio.json",
+    "test-portfolio/report.html"
+  ],
+  "workerMode": "orchestrator_review",
+  "usageBlocked": false,
+  "watchdogTripped": false,
+  "watchdogReason": null,
+  "editCount": 0
+}
