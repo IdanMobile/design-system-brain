@@ -1,16 +1,30 @@
-import Anthropic from '@anthropic-ai/sdk';
+/**
+ * POST /upload-figma-layout  (legacy one-shot endpoint)
+ *
+ * Single Claude call — no render, no pixel diff, no retry loop.
+ * For full iterative generation use POST /forge-component instead.
+ * Kept for back-compat; all helpers now shared via claude-helpers.mjs.
+ */
+
 import { z } from 'zod';
 import { buildSystemPrompt, buildUserPrompt } from '../lib/prompt-builder.mjs';
 import { getLibraryConfig } from '../lib/library-config.mjs';
+import {
+  createAnthropicClient,
+  parseClaudeJson,
+  checkDirectImports,
+  ensureDataFigmaComponent,
+} from '../lib/claude-helpers.mjs';
+
+// ─── Anthropic client (injectable for tests) ─────────────────────────────────
 
 let _client = null;
 export function setAnthropicClient(client) { _client = client; }
-// TODO: Idan I am not sure we need the ANTHROPIC_API_KEY - if it set on your side, then great. if not fix the logic for the brain
 function getClient() {
-  if (_client) return _client;
-  if (!process.env.ANTHROPIC_API_KEY) throw new Error('ANTHROPIC_API_KEY is not set');
-  return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+  return _client ?? createAnthropicClient();
 }
+
+// ─── Request schema ───────────────────────────────────────────────────────────
 
 const StyleManifestSchema = z.object({
   base: z.object({
@@ -54,12 +68,7 @@ const RequestSchema = z.object({
   styleManifest: StyleManifestSchema,
 });
 
-function parseClaudeJson(text) {
-  try { return JSON.parse(text); } catch {}
-  const m = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
-  if (m) { try { return JSON.parse(m[1]); } catch {} }
-  throw new Error('Cannot parse JSON from Claude response. First 300 chars: ' + text.slice(0, 300));
-}
+// ─── Route handler ────────────────────────────────────────────────────────────
 
 export async function uploadFigmaLayoutHandler(req, res) {
   const parsed = RequestSchema.safeParse(req.body);
@@ -112,6 +121,12 @@ export async function uploadFigmaLayoutHandler(req, res) {
     return res.status(500).json({ error: 'Claude response missing componentSource', message: 'Expected { componentSource: string, storiesSource: string|null }' });
   }
 
+  componentSource = ensureDataFigmaComponent(componentSource, componentName);
+  const importViolations = checkDirectImports(componentSource);
+  if (importViolations.length > 0) {
+    console.warn(`[upload-figma-layout] Direct UI lib imports in ${componentName}:`, importViolations);
+  }
+
   const generatedFiles = [
     { path: `src/components/${componentName}/${componentName}.tsx`, content: componentSource },
   ];
@@ -119,5 +134,5 @@ export async function uploadFigmaLayoutHandler(req, res) {
     generatedFiles.push({ path: `src/components/${componentName}/${componentName}.stories.tsx`, content: storiesSource });
   }
 
-  return res.status(200).json({ generatedFiles, packageDependencies });
+  return res.status(200).json({ generatedFiles, packageDependencies, importViolations });
 }

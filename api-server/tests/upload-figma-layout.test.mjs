@@ -52,7 +52,8 @@ test('returns 200 with generatedFiles and packageDependencies', async () => {
   assert.ok(Array.isArray(body.generatedFiles));
   assert.equal(body.generatedFiles[0].path, 'src/components/Button/Button.tsx');
   assert.equal(body.generatedFiles[0].content, MOCK_TSX);
-  assert.ok('@mui/material' in body.packageDependencies);
+  assert.ok(Array.isArray(body.packageDependencies));
+  assert.ok(body.packageDependencies.includes('@mui/material'));
 
   await stop();
 });
