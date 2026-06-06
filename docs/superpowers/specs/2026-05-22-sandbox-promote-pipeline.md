@@ -40,7 +40,8 @@ Serial mode: auto-restore on supervisor `WORSE_METRICS`.
 | Variable | Effect |
 | --- | --- |
 | `FIX_ALL_SERIAL=1` | One story at a time (default when ≤1 story) |
-| `FIX_ALL_SANDBOX=worktree` | Agent edits in isolated worktree |
+| `FIX_ALL_SANDBOX=main` | Disable worktree isolation (git-restore gate on main only) |
+| `FIX_ALL_SANDBOX=worktree` | Explicit worktree (default when unset) |
 
 ## Files
 

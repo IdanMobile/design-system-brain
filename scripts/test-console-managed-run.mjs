@@ -303,6 +303,7 @@ export async function runManagedAgent({
   killFlagPath,
   workspaceRoot,
   investigateFirst = false,
+  investigateOnly = false,
   /** @type {'pixel' | 'emulator' | 'live' | undefined} */ fixMode,
   openTerminal: openTermOverride
 }) {
@@ -324,6 +325,7 @@ export async function runManagedAgent({
   /** Pixel fix-all: shorter budgets — adapter edits must land quickly. */
   const agentEnvParts = [];
   if (investigateFirst) agentEnvParts.push("AGENT_WATCHDOG_INVESTIGATE_MODE=1");
+  if (investigateOnly) agentEnvParts.push("AGENT_WATCHDOG_INVESTIGATE_ONLY=1");
   if (fixMode === "pixel") {
     agentEnvParts.push(
       `AGENT_WATCHDOG_FIRST_EDIT_MS=${investigateFirst ? 6 * 60_000 : 5 * 60_000}`
@@ -401,6 +403,7 @@ export async function runManagedAgent({
           FORCE_COLOR: "0",
           ...(workdir !== ROOT ? { TEST_CONSOLE_CWD: workdir } : {}),
           ...(investigateFirst ? { AGENT_WATCHDOG_INVESTIGATE_MODE: "1" } : {}),
+          ...(investigateOnly ? { AGENT_WATCHDOG_INVESTIGATE_ONLY: "1" } : {}),
           ...(fixMode === "pixel"
             ? {
                 AGENT_WATCHDOG_FIRST_EDIT_MS: String(investigateFirst ? 6 * 60_000 : 5 * 60_000),

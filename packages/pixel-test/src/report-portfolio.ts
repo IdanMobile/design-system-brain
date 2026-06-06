@@ -24,6 +24,7 @@ import {
 } from "../../contract/src/test-portfolio.ts";
 import { isStorybookOnlyStory } from "../../contract/src/stories.ts";
 import { getHarnessConcurrency } from "./concurrency.ts";
+import { syncStorybookSuiteTestReport } from "./test-report-write.ts";
 
 export function safeStorySegment(storyId: string): string {
   return storyId
@@ -56,7 +57,10 @@ export interface StoryResultRecord {
   artifactPath?: string;
   sceneJsonPath?: string;
   diffRegions?: unknown[];
+  /** Structured fixer input — written alongside result.json on failure */
+  testReportPath?: string;
   /** Delivery-only legs */
+  developerPng?: string;
   storybookVsFigma?: { percent?: number; status?: string; diffPng?: string };
   storybookVsDev?: { percent?: number; status?: string; diffPng?: string };
   devVsFigma?: { percent?: number; status?: string; diffPng?: string };
@@ -146,9 +150,17 @@ export async function persistStoryProgress(options: {
   refreshPortfolio?: boolean;
 }): Promise<void> {
   return enqueueSuiteReportWrite(options.outDir, async () => {
+    const testedAt = options.result.testedAt ?? new Date().toISOString();
+    const testReportPath = syncStorybookSuiteTestReport({
+      outDir: options.outDir,
+      repoRoot: options.repoRoot,
+      result: { ...options.result, testedAt },
+    });
+    const { testReportPath: _prev, ...resultBody } = options.result;
     await writePerStoryResult(options.outDir, {
-      ...options.result,
-      testedAt: options.result.testedAt ?? new Date().toISOString()
+      ...resultBody,
+      testedAt,
+      ...(testReportPath ? { testReportPath } : {}),
     });
     const portfolioIds = await loadPortfolioStoryIds(options.repoRoot);
     await writeSuiteReports(

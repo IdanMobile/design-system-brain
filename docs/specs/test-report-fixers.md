@@ -23,5 +23,15 @@ Tests **produce** `test-report.json`; fixers **consume** it in a sandbox.
 ## Files
 
 - `scripts/fixer-routing.mjs` — testId → fixer map
-- `scripts/test-report-build.mjs` — build/write reports
+- `scripts/test-report-build.mjs` — build/write JSON + HTML reports
+- `scripts/figma-screen-test-report.mjs` — figma-screen step sync
 - `packages/contract/src/test-report.ts` — TypeScript types
+
+## Artifacts
+
+| Track | Path |
+| --- | --- |
+| Figma screen | `figma-screen-diffs/by-screen/<screenId>/<stepId>/test-report.{json,html}` |
+| Storybook story | `<suite>/by-story/<slug>/test-report.{json,html}` |
+
+Fixers open **test-report.html** in the test console (report link) or read JSON directly.

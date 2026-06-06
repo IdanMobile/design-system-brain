@@ -30,10 +30,9 @@ import {
   FIGMA_SCREEN_REGIONS,
 } from "./figma-screen-reference-align.mjs";
 import {
-  buildTestReport,
-  exportOriginalTargetRegions,
-  writeTestReportFile,
+  removeTestReportFiles,
 } from "./test-report-build.mjs";
+import { writeFigmaParityStepTestReport } from "./figma-screen-test-report.mjs";
 import {
   discoverFigmaScreens,
   mergeFigmaScreenReport,
@@ -389,43 +388,33 @@ async function testScreen({ manifestPath, pngPath }, tolerance, ws) {
           .filter((r) => r.pct > tolerance)
           .sort((a, b) => b.pct - a.pct)
           .slice(0, 8);
-        const stepDir = join(
-          WORKSPACE,
-          "figma-screen-diffs",
-          "by-screen",
-          safeScreenSegment(name),
-          target.stepId
-        );
-        const regionMismatches =
-          hotRegions.length > 0
-            ? exportOriginalTargetRegions(
-                stepDir,
-                originalBuf,
-                buffers[target.id],
-                cmp.diffPng,
-                hotRegions
-              )
-            : [];
-        const report = buildTestReport({
-          itemId: name,
-          entryPoint: "figma",
-          testId: target.stepId,
+        testReportPath = writeFigmaParityStepTestReport({
+          repoRoot: WORKSPACE,
+          screenId: name,
+          stepId: target.stepId,
           status: cmp.status,
           percent: cmp.percent,
           maxRegionPercent: cmp.worstRegion?.pct ?? null,
           pixelsDiffered: cmp.pixelsDiffered,
           pixelsTotal: cmp.pixelsTotal,
+          originalBuf,
+          targetBuf: buffers[target.id],
+          diffPng: cmp.diffPng,
+          hotRegions,
           images: {
             original: paths.original,
             target: paths[target.id],
             diff: join(itemDir, diffFile),
             reportHtml: join(itemDir, "report.html"),
           },
-          regionMismatches,
-          ctx: { manifestPath, contractPath },
+          manifestPath,
+          contractPath,
           tolerance,
         });
-        testReportPath = writeTestReportFile(stepDir, report);
+      } else {
+        removeTestReportFiles(
+          join(WORKSPACE, "figma-screen-diffs", "by-screen", safeScreenSegment(name), target.stepId)
+        );
       }
 
       writeScreenStepResult(WORKSPACE, name, target.stepId, {

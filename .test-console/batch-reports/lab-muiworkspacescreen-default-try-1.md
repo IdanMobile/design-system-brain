@@ -349,7 +349,7 @@ function clampNodeWidthToParent(
         text.resize(maxW, text.height);
 ```
 
-### `snap` — `packages/pixel-test/src/render-html.ts` (lines 21–61 of 3042)
+### `snap` — `packages/pixel-test/src/render-html.ts` (lines 21–61 of 3221)
 
 ```ts
 

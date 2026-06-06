@@ -347,6 +347,22 @@ export function detectDuplicateAssignments(repoRoot = ROOT) {
 }
 
 /**
+ * Synchronous check: was duplicate work detected in the last supervisor heartbeat?
+ * Reads the flag file written by the daemon — no fleet scan needed.
+ * @param {string} [repoRoot]
+ * @returns {{ detectedAt: string, duplicates: object[] } | null}
+ */
+export function isDuplicateWorkDetected(repoRoot = ROOT) {
+  const path = join(fleetDir(repoRoot), "duplicate-work-detected.json");
+  if (!existsSync(path)) return null;
+  try {
+    return JSON.parse(readFileSync(path, "utf8"));
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Append-only local event bus (cloud Phase 2 will mirror to D1 + WSS).
  * @param {string} [repoRoot]
  * @param {string} type
@@ -460,8 +476,33 @@ export async function runSupervisorDaemon(repoRoot = ROOT, intervalMs = 5000) {
     writeSupervisorHeartbeat(repoRoot);
     const data = loadFleetAgents(repoRoot);
     const duplicates = detectDuplicateAssignments(repoRoot);
-    for (const duplicate of duplicates) {
-      emitFleetEvent(repoRoot, "orchestrator.duplicate_work", duplicate);
+    const duplicateFlagPath = join(fleetDir(repoRoot), "duplicate-work-detected.json");
+    if (duplicates.length > 0) {
+      // Emit event (existing behaviour)
+      for (const duplicate of duplicates) {
+        emitFleetEvent(repoRoot, "orchestrator.duplicate_work", duplicate);
+      }
+      // Write a flag file so orchestrators can check it synchronously
+      writeFileSync(
+        duplicateFlagPath,
+        JSON.stringify({ detectedAt: new Date().toISOString(), duplicates }, null, 2)
+      );
+      // Hard-to-miss stderr warning visible in all terminal tabs
+      process.stderr.write(
+        `[lab-supervisor] ⚠ DUPLICATE WORK DETECTED on ${duplicates.length} story/suite pair(s):\n` +
+          duplicates
+            .map(
+              (d) =>
+                `  ${d.storyId} / ${d.suiteId} — agents: ${d.agentIds.join(", ")} phases: ${d.phases.join(", ")}`
+            )
+            .join("\n") +
+          "\n  (Per-story lock files in .test-console/locks/ should prevent this. Check for stale lock files.)\n"
+      );
+    } else if (existsSync(duplicateFlagPath)) {
+      // Clear flag when no duplicates
+      try {
+        unlinkSync(duplicateFlagPath);
+      } catch { /* ok */ }
     }
     for (const agent of data.agents) {
       if (agent.status === "working") {

@@ -22,6 +22,7 @@ import {
 } from "./test-portfolio-config.mjs";
 import { existsSync, readFileSync } from "node:fs";
 import { join as pathJoin } from "node:path";
+import { testReportViewUrls } from "./test-report-build.mjs";
 
 export { PIXEL_PERFECT_TOLERANCE, ORIGINAL_PARITY_LEG_IDS };
 
@@ -162,7 +163,7 @@ function buildStorybookUnifiedRows(repoRoot, storyIds, storybookOnlyFn) {
         percent: pixelRec?.percent
       }),
       compareUrl: pixelRec?.diffPng ? toRepoPath(repoRoot, pixelRec.diffPng) : null,
-      testReportUrl: pixelRec?.testReportPath ? toRepoPath(repoRoot, pixelRec.testReportPath) : null
+      ...testReportViewUrls(repoRoot, pixelRec?.testReportPath)
     };
 
     for (const legId of UNIFIED_VISUAL_LEG_IDS) {
@@ -177,7 +178,7 @@ function buildStorybookUnifiedRows(repoRoot, storyIds, storybookOnlyFn) {
           blockedReason: null,
           action: parityRec.status === "pass" ? "—" : `Fix ${legId} (see test report)`,
           compareUrl: parityRec.diffPng ? toRepoPath(repoRoot, parityRec.diffPng) : null,
-          testReportUrl: parityRec.testReportPath ? toRepoPath(repoRoot, parityRec.testReportPath) : null
+          ...testReportViewUrls(repoRoot, parityRec.testReportPath)
         };
         continue;
       }
@@ -209,7 +210,7 @@ function buildStorybookUnifiedRows(repoRoot, storyIds, storybookOnlyFn) {
           percent: rec?.percent
         }),
         compareUrl: rec?.diffPng ? toRepoPath(repoRoot, rec.diffPng) : null,
-        testReportUrl: rec?.testReportPath ? toRepoPath(repoRoot, rec.testReportPath) : null
+        ...testReportViewUrls(repoRoot, rec?.testReportPath)
       };
     }
 
@@ -224,7 +225,8 @@ function buildStorybookUnifiedRows(repoRoot, storyIds, storybookOnlyFn) {
       blockedBy: logicGate.blockedBy ?? null,
       blockedReason: logicGate.reason ?? null,
       action: recommendActionForRow("logic", logicStatus, statusByStep, { storybookOnly }),
-      compareUrl: logicRec?.reportHtml ? toRepoPath(repoRoot, logicRec.reportHtml) : null
+      compareUrl: logicRec?.reportHtml ? toRepoPath(repoRoot, logicRec.reportHtml) : null,
+      ...testReportViewUrls(repoRoot, logicRec?.testReportPath)
     };
 
     return {
@@ -250,7 +252,7 @@ function parityCellFromRec(repoRoot, rec) {
     blockedReason: null,
     action: status === "pass" ? "—" : "Fix parity leg (see test report)",
     compareUrl: tested && rec.diffPng ? toRepoPath(repoRoot, rec.diffPng) : null,
-    testReportUrl: rec.testReportPath ? toRepoPath(repoRoot, rec.testReportPath) : null
+    ...testReportViewUrls(repoRoot, rec.testReportPath)
   };
 }
 

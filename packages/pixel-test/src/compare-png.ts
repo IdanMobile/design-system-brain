@@ -8,7 +8,9 @@ import pixelmatch from "pixelmatch";
 import { PNG } from "pngjs";
 import { readFileSync, writeFileSync } from "node:fs";
 
-export type CompareStatus = "pass" | "warn" | "fail";
+import { statusFromPercent, type ToleranceStatus } from "./test-tolerance.ts";
+
+export type CompareStatus = ToleranceStatus;
 
 export interface CompareResult {
   width: number;
@@ -51,8 +53,7 @@ export function comparePngFiles(
   writeFileSync(diffOut, PNG.sync.write(diff));
   const total = width * height;
   const percent = total > 0 ? (pixelsDiffered / total) * 100 : 0;
-  const status: CompareStatus =
-    percent <= tolerance ? "pass" : percent <= tolerance * 4 ? "warn" : "fail";
+  const status: CompareStatus = statusFromPercent(percent, tolerance);
   return {
     width,
     height,

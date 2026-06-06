@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-tabspanel--activity-active",
     "componentName": "TabsPanel",
-    "extractedAt": "2026-05-25T19:29:21.416Z",
+    "extractedAt": "2026-05-30T11:36:40.198Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-tabspanel--activity-active&viewMode=story",
     "viewport": {
       "x": 0,
@@ -177,7 +177,8 @@
               "tag": "button",
               "role": "tab",
               "dataset": {
-                "pressedManaged": "true"
+                "pressedManaged": "true",
+                "labId": "el-overview"
               }
             },
             "box": {
@@ -273,7 +274,8 @@
               ],
               "role": "tab",
               "dataset": {
-                "pressedManaged": "true"
+                "pressedManaged": "true",
+                "labId": "el-activity"
               }
             },
             "box": {
@@ -366,7 +368,8 @@
               "tag": "button",
               "role": "tab",
               "dataset": {
-                "pressedManaged": "true"
+                "pressedManaged": "true",
+                "labId": "el-settings"
               }
             },
             "box": {

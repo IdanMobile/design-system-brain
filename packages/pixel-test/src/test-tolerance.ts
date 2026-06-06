@@ -1,58 +1,27 @@
-/** Default pass threshold: diff % must be ≤ this value (warn = 4×, fail above warn). */
-export const DEFAULT_DIFF_TOLERANCE_PERCENT = 0.1;
+/** Global and per-region pass threshold (% diff). Warn = 4×; fail above warn. */
+export const PIXEL_PERFECT_TOLERANCE = 0.1;
 
-/** Figma emulator/live: worst hotspot must also be ≤ this % for pass. */
-export const DEFAULT_REGION_TOLERANCE_PERCENT = 0.1;
+export type ToleranceStatus = "pass" | "warn" | "fail";
 
-/** Storybook-only fixtures (e.g. legacy skips) — mock HTML + live Figma raster limits. */
-export const STORYBOOK_ONLY_REGION_TOLERANCE_PERCENT = 0.1;
+/** @param tolerance — defaults to PIXEL_PERFECT_TOLERANCE; CLI may override. */
+export function statusFromPercent(
+  percent: number,
+  tolerance: number = PIXEL_PERFECT_TOLERANCE
+): ToleranceStatus {
+  if (percent <= tolerance) return "pass";
+  if (percent <= tolerance * 4) return "warn";
+  return "fail";
+}
 
-/** Large page fixtures (e.g. mui--showcase) — mock emulator allows higher hotspot % (MUI raster/subpixel). */
-export const MOCK_LARGE_FIXTURE_REGION_TOLERANCE_PERCENT = 2.0;
-
-/** Large contract-baked screens — extract→mock round-trip with reference rasters. */
-export const MOCK_LARGE_FIXTURE_GLOBAL_TOLERANCE_PERCENT = 1.0;
-
-/** Live Figma export for large contract-baked screens (reference rasters + Desktop raster AA). */
-export const LIVE_LARGE_FIXTURE_REGION_TOLERANCE_PERCENT = 4.0;
-
-/**
- * Live Figma Desktop raster AA — allow up to 5% per region.
- *
- * Background: pixel + mock tests stay at strict 0.1% because both sides use
- * the same Chromium rasterizer. Live, however, compares Chromium-rendered
- * Storybook PNGs against Figma Desktop's PNG export, which uses Figma's own
- * text/vector rasterizer. Even when both engines render exactly the same
- * font (Inter, identical weight/size/line-height) and the result is visually
- * indistinguishable, glyph anti-aliasing produces a per-region pixel delta
- * on small text-heavy hotspots. This is rendering-engine noise, not a
- * renderer bug — no code-v2.ts edit can close the gap.
- *
- * 5.0 covers the empirical noise floor for compact text-only components
- * (button danger 4.76% region, button large-with-both-icons 4.27% region,
- * tabspanel/featurecard ~3.9%). Bumping above 5% would risk hiding real
- * regressions; below 5% leaves visually-identical buttons stuck as FAIL.
- */
-export const LIVE_RASTER_REGION_TOLERANCE_PERCENT = 1.0;
-
-/**
- * Live global when Figma mock already passes at strict — Chromium vs Figma export raster gap.
- *
- * 4.5 covers the empirical noise floor for tiny text-dominated frames
- * (lab-button--danger ~213×80 at 4.11% global, lab-button--ghost ~3.56%).
- * A single rasterized word's AA delta dominates global % at this scale.
- * Other suites stay at 0.1% strict.
- */
-export const LIVE_RASTER_GLOBAL_TOLERANCE_PERCENT = 1.5;
-
-/** Delivery sb↔dev when sb↔figma already passes — playground font/subpixel vs Storybook. */
-export const DELIVERY_DEV_TOLERANCE_PERCENT = 0.5;
-
-/**
- * Figma manifest round-trip — reference PNG and re-import PNG are both Figma Desktop exports.
- * Strict 0.1% global + per-region gates (see figma-screen-reference-align.mjs).
- */
-export const FIGMA_SCREEN_GLOBAL_TOLERANCE_PERCENT = 0.1;
-
-/** Per-hotspot gate for Figma screen pipeline (breadcrumbs, filter button, toolbar, etc.). */
-export const FIGMA_SCREEN_REGION_TOLERANCE_PERCENT = 0.1;
+/** Global + worst-region gate — both must pass/warn for overall status. */
+export function statusFromGates(
+  globalPercent: number,
+  worstRegionPercent: number,
+  tolerance: number = PIXEL_PERFECT_TOLERANCE
+): ToleranceStatus {
+  const global = statusFromPercent(globalPercent, tolerance);
+  const region = statusFromPercent(worstRegionPercent, tolerance);
+  if (global === "fail" || region === "fail") return "fail";
+  if (global === "warn" || region === "warn") return "warn";
+  return "pass";
+}

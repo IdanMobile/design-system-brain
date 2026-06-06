@@ -33,28 +33,8 @@ import { extractStoryV2 } from "../../extractor-playwright/src/extract.ts";
 import type { UniversalDocumentV2 } from "@lab/contract";
 import { figma, installFigmaMock, type MockFrameNode, type MockNode } from "./figma-mock.ts";
 import { sceneToBodyMarkup } from "./scene-to-html.ts";
-import { DEV_STORIES, QUICK_SMOKE, GOLDEN_SET, isLargeFixtureStory } from "../../contract/src/stories.ts";
-import {
-  DEFAULT_DIFF_TOLERANCE_PERCENT,
-  DEFAULT_REGION_TOLERANCE_PERCENT,
-  MOCK_LARGE_FIXTURE_REGION_TOLERANCE_PERCENT,
-  MOCK_LARGE_FIXTURE_GLOBAL_TOLERANCE_PERCENT,
-  STORYBOOK_ONLY_REGION_TOLERANCE_PERCENT
-} from "./test-tolerance.ts";
-
-function regionToleranceForStory(storyId: string, base: number): number {
-  if (isLargeFixtureStory(storyId)) {
-    return MOCK_LARGE_FIXTURE_REGION_TOLERANCE_PERCENT;
-  }
-  return base;
-}
-
-function globalToleranceForStory(storyId: string, base: number): number {
-  if (isLargeFixtureStory(storyId)) {
-    return MOCK_LARGE_FIXTURE_GLOBAL_TOLERANCE_PERCENT;
-  }
-  return base;
-}
+import { QUICK_SMOKE, GOLDEN_SET } from "../../contract/src/stories.ts";
+import { PIXEL_PERFECT_TOLERANCE, statusFromGates } from "./test-tolerance.ts";
 import {
   writeDiffRegionArtifacts,
   diffRegionsHtml,
@@ -97,9 +77,9 @@ function parseCli(): CliOpts {
   }
   const baseUrl = args.get("url") ?? "http://127.0.0.1:6107";
   const outDir = resolve(process.cwd(), args.get("outDir") ?? "../../figma-diffs");
-  const tolerance = Number(args.get("tolerance") ?? String(DEFAULT_DIFF_TOLERANCE_PERCENT));
+  const tolerance = Number(args.get("tolerance") ?? String(PIXEL_PERFECT_TOLERANCE));
   const regionTolerance = Number(
-    args.get("regionTolerance") ?? String(DEFAULT_REGION_TOLERANCE_PERCENT)
+    args.get("regionTolerance") ?? String(PIXEL_PERFECT_TOLERANCE)
   );
   const strict = flags.has("strict");
   const noGate = flags.has("no-gate") || gateDisabled({});
@@ -443,14 +423,11 @@ async function diffStory(
     }
     const total = width * height;
     const percent = total > 0 ? (pixelsDiffered / total) * 100 : 0;
-    const regionTol = regionToleranceForStory(storyId, opts.regionTolerance);
-    const globalTol = globalToleranceForStory(storyId, opts.tolerance);
-    const globalOk = percent <= globalTol;
-    const regionOk = maxRegionPercent <= regionTol;
-    const globalWarn = percent <= globalTol * 4;
-    const regionWarn = maxRegionPercent <= regionTol * 4;
-    const status: DiffResult["status"] =
-      globalOk && regionOk ? "pass" : globalWarn && regionWarn ? "warn" : "fail";
+    const status: DiffResult["status"] = statusFromGates(
+      percent,
+      maxRegionPercent,
+      opts.tolerance
+    );
     return {
       storyId,
       width,

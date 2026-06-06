@@ -147,5 +147,6 @@ export function gitRestorePaths(repoRoot, paths) {
 
 export function sandboxWorktreeEnabled() {
   const env = process.env.FIX_ALL_SANDBOX;
-  return env === "worktree" || env === "1" || env === "true";
+  if (env === "main" || env === "off" || env === "0" || env === "false") return false;
+  return true;
 }

@@ -19,6 +19,7 @@ import {
   readScreenStepResult,
   safeScreenSegment
 } from "./figma-screen-portfolio.mjs";
+import { syncFigmaScreenStepTestReport } from "./figma-screen-test-report.mjs";
 
 const WORKSPACE = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(import.meta.url);
@@ -210,7 +211,7 @@ async function testScreen({ manifestPath }) {
       `  ${icon} ${status.toUpperCase()} — ${controls.length} controls (${interactive.length} interactive, ${staticShell.length} inert)${spec ? `, spec: ${specElements} elements` : ""}`
     );
 
-    writeScreenStepResult(WORKSPACE, name, "logic", {
+    const logicPayload = {
       status,
       percent: interactive.length,
       controls,
@@ -218,13 +219,32 @@ async function testScreen({ manifestPath }) {
       staticCount: staticShell.length,
       specPath: spec ? logicSpecPath(name) : null,
       specElements,
+      manifestPath,
+    };
+    let testReportPath = null;
+    if (status === "warn") {
+      testReportPath = syncFigmaScreenStepTestReport(WORKSPACE, name, "logic", {
+        ...logicPayload,
+        error: `Logic spec gap — ${interactive.length} interactive controls, spec covers ${specElements}`,
+      });
+    } else {
+      syncFigmaScreenStepTestReport(WORKSPACE, name, "logic", { status: "pass" });
+    }
+    writeScreenStepResult(WORKSPACE, name, "logic", {
+      ...logicPayload,
+      ...(testReportPath ? { testReportPath } : {})
     });
 
     return { name, status, controls: controls.length };
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     console.log(`  ✗ ERROR — ${message}`);
-    writeScreenStepResult(WORKSPACE, name, "logic", { status: "error", error: message });
+    const stepPayload = { status: "error", error: message, manifestPath };
+    const testReportPath = syncFigmaScreenStepTestReport(WORKSPACE, name, "logic", stepPayload);
+    writeScreenStepResult(WORKSPACE, name, "logic", {
+      ...stepPayload,
+      ...(testReportPath ? { testReportPath } : {})
+    });
     return { name, status: "error", error: message };
   }
 }

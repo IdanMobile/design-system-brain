@@ -174,7 +174,15 @@ function AgentCard({ agent }: { agent: FleetAgent }) {
   );
 }
 
-function AgentRail({ agents }: { agents: FleetAgent[] }) {
+function AgentRail({
+  agents,
+  orchestratorRunning,
+  orchestratorPhase
+}: {
+  agents: FleetAgent[];
+  orchestratorRunning?: boolean;
+  orchestratorPhase?: string;
+}) {
   return (
     <aside className="fleet-rail" aria-label="Agent roster">
       <div className="fleet-rail-title">Agents</div>
@@ -186,15 +194,22 @@ function AgentRail({ agents }: { agents: FleetAgent[] }) {
           icon: "AG",
           short: "AGT"
         };
-        const status = displayStatus(agent);
+        const status =
+          agent.id === "orchestrator" && orchestratorRunning
+            ? "working"
+            : displayStatus(agent);
         const workerCount = agent.workerCount ?? (status === "working" ? 1 : 0);
+        const phaseLabel =
+          agent.id === "orchestrator"
+            ? (orchestratorPhase ?? ui.subtitle)
+            : (agent.currentTask?.phase ?? ui.subtitle);
         return (
           <div key={agent.id} className={`fleet-rail-item ${status}`}>
             <span className="fleet-rail-icon">{ui.short}</span>
             <span className="fleet-rail-copy">
               <strong>{ui.title}</strong>
               <span>
-                {workerCount} workers · {agent.currentTask?.phase ?? ui.subtitle}
+                {workerCount} workers · {phaseLabel}
               </span>
             </span>
             <span className="fleet-rail-status" />
@@ -319,7 +334,11 @@ export function FleetConsolePage() {
         </p>
       ) : (
         <>
-          <AgentRail agents={allAgents} />
+          <AgentRail
+            agents={allAgents}
+            orchestratorRunning={orchStatus === "working"}
+            orchestratorPhase={orch?.phase}
+          />
           <main className="fleet-app">
             <header className="fleet-header">
               <div>

@@ -485,6 +485,7 @@ function dismissOrchestratorSupervisor(jobId, { killed = false } = {}) {
 
 /** Mark orchestrator-state finished when terminal process exited but file was left open. */
 function reconcileOrchestratorState() {
+  reconcileStaleJobs();
   const sup = loadOrchestratorState(REPO);
   if (!sup?.jobId || sup.finished) return sup;
 
@@ -496,9 +497,12 @@ function reconcileOrchestratorState() {
   const pid = isFixAll
     ? findFixAllOrchestratorPid(sup.jobId)
     : findPortfolioOrchestratorPid(sup.jobId);
+  if (pid) return sup;
+
   const job = jobs.get(sup.jobId);
-  const jobActive = job && (job.status === "running" || job.finalizing);
-  if (pid || jobActive) return sup;
+  if (job && (job.status === "running" || job.finalizing)) {
+    return sup;
+  }
 
   const next = {
     ...sup,
@@ -532,22 +536,43 @@ function reconcileStaleJobs() {
       continue;
     }
 
-    const orch = job.fixAllOrchestratorPid;
-    if (orch != null && !isProcessAlive(orch)) {
-      const wasPortfolio = job.action === "portfolio-orchestrator";
-      markFixAllEnded(job, {
-        killed: true,
-        note: wasPortfolio
-          ? "[test-console] Portfolio supervisor ended (terminal closed or crashed)\n"
-          : "[test-console] Fix-all process ended (terminal closed or crashed)\n"
-      });
-      dismissOrchestratorSupervisor(job.id, { killed: true });
-      if (wasPortfolio && loadOrchestratorAuto().enabled) {
-        recordAutoEnd(job);
-        // Only schedule re-launch if auto is still enabled after the rapid-crash check.
-        if (loadOrchestratorAuto().enabled) {
-          setTimeout(() => ensureAutoOrchestratorRunning(true), 3000);
+    const wasPortfolio = job.action === "portfolio-orchestrator";
+    const isFixAll = String(job.action ?? "").startsWith("fix-all:");
+    const childAlive = job.child != null && job.child.exitCode === null;
+    const orch =
+      job.fixAllOrchestratorPid ??
+      (isFixAll ? findFixAllOrchestratorPid(job.id) : findPortfolioOrchestratorPid(job.id));
+
+    if (!childAlive) {
+      if (orch != null && !isProcessAlive(orch)) {
+        markFixAllEnded(job, {
+          killed: true,
+          note: wasPortfolio
+            ? "[test-console] Portfolio supervisor ended (terminal closed or crashed)\n"
+            : "[test-console] Fix-all process ended (terminal closed or crashed)\n"
+        });
+        dismissOrchestratorSupervisor(job.id, { killed: true });
+        if (wasPortfolio && loadOrchestratorAuto().enabled) {
+          recordAutoEnd(job);
+          if (loadOrchestratorAuto().enabled) {
+            setTimeout(() => ensureAutoOrchestratorRunning(true), 3000);
+          }
         }
+        continue;
+      }
+
+      // Terminal never opened or never registered a pid — zombie job blocks new Fix clicks.
+      const startedMs = job.startedAt ? Date.parse(job.startedAt) : NaN;
+      const ageMs = Number.isFinite(startedMs) ? Date.now() - startedMs : Infinity;
+      const ZOMBIE_GRACE_MS = 20_000;
+      if (orch == null && ageMs > ZOMBIE_GRACE_MS) {
+        markFixAllEnded(job, {
+          killed: true,
+          note: wasPortfolio
+            ? "[test-console] Portfolio supervisor stale (no terminal process)\n"
+            : "[test-console] Fix-all stale (no terminal process) — click Fix again\n"
+        });
+        dismissOrchestratorSupervisor(job.id, { killed: true });
       }
     }
   }

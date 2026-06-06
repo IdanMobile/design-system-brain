@@ -44,7 +44,7 @@ const { PNG } = _pngjs.PNG ? _pngjs : (_pngjs.default ?? _pngjs);
 const PORT = Number(process.env.FIGMA_LIVE_PORT || 3456);
 const RELAY_URL = `ws://localhost:${PORT}`;
 const TIMEOUT_MS = Number(process.env.FIGMA_LIVE_TIMEOUT_MS || 120_000);
-/** Keep in sync with FIGMA_SCREEN_GLOBAL_TOLERANCE_PERCENT in packages/pixel-test/src/test-tolerance.ts */
+/** Keep in sync with PIXEL_PERFECT_TOLERANCE in packages/pixel-test/src/test-tolerance.ts */
 const DEFAULT_TOLERANCE = 0.1;
 const WORKSPACE = resolve(dirname(new URL(import.meta.url).pathname), "..");
 const SCREENS_DIR = join(WORKSPACE, "artifacts/figma-screens");

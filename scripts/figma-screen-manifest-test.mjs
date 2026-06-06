@@ -17,6 +17,7 @@ import {
   writeScreenStepResult,
   countLayers
 } from "./figma-screen-portfolio.mjs";
+import { syncFigmaScreenStepTestReport } from "./figma-screen-test-report.mjs";
 
 const WORKSPACE = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -75,17 +76,31 @@ async function testManifest(manifestPath) {
       manifestPath,
       viewport: doc.meta.viewport
     });
+    syncFigmaScreenStepTestReport(WORKSPACE, name, "manifestContract", { status: "pass" });
 
     return { name, status: "pass", layerCount, contractPath };
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     console.log(`  ✗ ERROR — ${message}`);
-    writeScreenStepResult(WORKSPACE, name, "manifestContract", {
+    const stepPayload = {
       status: "error",
       percent: 0,
       error: message,
       manifestPath
+    };
+    const testReportPath = syncFigmaScreenStepTestReport(
+      WORKSPACE,
+      name,
+      "manifestContract",
+      stepPayload
+    );
+    writeScreenStepResult(WORKSPACE, name, "manifestContract", {
+      ...stepPayload,
+      ...(testReportPath ? { testReportPath } : {})
     });
+    if (testReportPath) {
+      console.log(`     test-report: ${testReportPath}`);
+    }
     return { name, status: "error", error: message };
   }
 }

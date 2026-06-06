@@ -16,6 +16,7 @@ import {
   canRunFigmaEntryStep,
   recommendFigmaEntryActionForRow
 } from "./figma-entry-portfolio-config.mjs";
+import { testReportViewUrls } from "./test-report-build.mjs";
 
 export const FIGMA_SCREENS_DIR = "artifacts/figma-screens";
 export const FIGMA_SCREEN_DIFFS_DIR = "figma-screen-diffs";
@@ -138,6 +139,11 @@ function countLayers(node) {
   return n;
 }
 
+function attachTestReportUrls(rec) {
+  if (!rec?.testReportPath) return {};
+  return testReportViewUrls(REPO_ROOT, rec.testReportPath);
+}
+
 function buildManifestContractCell(rec, hasManifest) {
   if (!hasManifest) {
     return {
@@ -163,7 +169,8 @@ function buildManifestContractCell(rec, hasManifest) {
     compareUrl:
       status !== "not_tested" && rec?.contractPath
         ? toRepoPath(rec.contractPath)
-        : null
+        : null,
+    ...attachTestReportUrls(rec)
   };
 }
 
@@ -200,7 +207,8 @@ function buildPixelStepCell(stepId, rec, gate, hasReferencePng, screenId, pngPat
       percent: rec?.percent,
       error: rec?.error
     }),
-    compareUrl: tested && rec?.diffPng ? toRepoPath(rec.diffPng) : null
+    compareUrl: tested && rec?.diffPng ? toRepoPath(rec.diffPng) : null,
+    ...attachTestReportUrls(rec)
   };
 }
 

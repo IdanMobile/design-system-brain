@@ -17,6 +17,7 @@ import {
   appendDeveloperActivityLog,
   finishDeveloperActivity
 } from "./developer-activity.mjs";
+import { agentPromptsDir, agentPromptPath } from "./test-console-paths.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -40,7 +41,8 @@ async function main() {
   });
 
   const prompt = buildArchitectAuditPrompt();
-  const promptFile = join(ROOT, ".test-console", "architect-audit.prompt.txt");
+  mkdirSync(agentPromptsDir(ROOT), { recursive: true });
+  const promptFile = agentPromptPath(ROOT, "architect-audit");
   writeFileSync(promptFile, prompt, "utf8");
 
   appendDeveloperActivityLog(ROOT, "[architect] Code architect investigator — read-only audit");

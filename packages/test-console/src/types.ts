@@ -53,6 +53,8 @@ export interface PortfolioCell {
   action: string;
   compareUrl?: string | null;
   testReportUrl?: string | null;
+  /** Raw JSON artifact when HTML viewer exists */
+  testReportJsonUrl?: string | null;
   canRun?: boolean;
   blockedBy?: string | null;
   blockedReason?: string | null;

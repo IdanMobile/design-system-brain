@@ -756,6 +756,7 @@
 }
 
 .fleet-orchestrator-card {
+  position: relative;
   overflow: hidden;
   padding: 22px 24px;
   border-radius: 18px;

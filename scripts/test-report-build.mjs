@@ -2,8 +2,8 @@
  * Build and write TestReport JSON from compare results + region crops.
  */
 
-import { writeFileSync, mkdirSync } from "node:fs";
-import { join, dirname } from "node:path";
+import { writeFileSync, mkdirSync, existsSync, unlinkSync } from "node:fs";
+import { join, dirname, basename } from "node:path";
 import { createRequire } from "node:module";
 import {
   resolveFailedTest,
@@ -213,15 +213,165 @@ export function buildTestReport(opts) {
 }
 
 /**
- * Write test-report.json alongside result.json
+ * @param {string} repoRoot
+ * @param {string | null | undefined} absPath
+ */
+export function toTestReportRepoUrl(repoRoot, absPath) {
+  if (!absPath || typeof absPath !== "string") return null;
+  const norm = absPath.replace(/\\/g, "/");
+  const root = repoRoot.replace(/\\/g, "/");
+  if (norm.startsWith(root)) {
+    return `/repo/${norm.slice(root.length).replace(/^\//, "")}`;
+  }
+  return null;
+}
+
+/** @param {string} jsonPath */
+export function testReportHtmlPath(jsonPath) {
+  if (!jsonPath) return null;
+  return jsonPath.replace(/test-report\.json$/i, "test-report.html");
+}
+
+/**
+ * @param {string} repoRoot
+ * @param {string | null | undefined} testReportJsonPath
+ */
+export function testReportViewUrls(repoRoot, testReportJsonPath) {
+  if (!testReportJsonPath) {
+    return { testReportUrl: null, testReportJsonUrl: null };
+  }
+  const testReportJsonUrl = toTestReportRepoUrl(repoRoot, testReportJsonPath);
+  const htmlAbs = testReportHtmlPath(testReportJsonPath);
+  const testReportHtmlUrl =
+    htmlAbs && existsSync(htmlAbs) ? toTestReportRepoUrl(repoRoot, htmlAbs) : null;
+  return {
+    testReportUrl: testReportHtmlUrl ?? testReportJsonUrl,
+    testReportJsonUrl
+  };
+}
+
+function escHtml(s) {
+  return String(s ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/**
+ * Rich HTML viewer for fixers — written beside test-report.json.
+ * @param {object} report
+ * @param {string} jsonPath
+ * @param {string} [repoRoot]
+ */
+export function writeTestReportHtml(report, jsonPath, repoRoot) {
+  const htmlPath = testReportHtmlPath(jsonPath);
+  if (!htmlPath) return null;
+  const root = repoRoot ?? dirname(dirname(dirname(jsonPath)));
+  const img = (p) => toTestReportRepoUrl(root, p);
+  const ft = report.failedTest ?? {};
+  const g = report.global ?? {};
+  const status = g.status ?? "fail";
+  const statusColor =
+    status === "pass" ? "#4ade80" : status === "warn" ? "#fbbf24" : "#f87171";
+
+  const fullFrames = [
+    ["Reference", report.images?.original],
+    ["Target", report.images?.target],
+    ["Diff", report.images?.diff]
+  ]
+    .filter(([, p]) => p)
+    .map(
+      ([label, p]) =>
+        `<figure><figcaption>${escHtml(label)}</figcaption><a href="${escHtml(img(p))}"><img src="${escHtml(img(p))}" alt="${escHtml(label)}"></a></figure>`
+    )
+    .join("\n");
+
+  const mismatchBlocks = (report.mismatches ?? [])
+    .map((m) => {
+      const cmp = m.images?.compareSideBySide ?? m.images?.diffCrop;
+      const cmpImg = cmp
+        ? `<a href="${escHtml(img(cmp))}"><img class="region" src="${escHtml(img(cmp))}" alt="${escHtml(m.id)}"></a>`
+        : "";
+      return `<section class="mismatch">
+<h3>${escHtml(m.id)} · ${m.wrongPixels ?? 0} wrong px · ${(m.percentInRegion ?? 0).toFixed(3)}% in region</h3>
+<p class="meta">bbox (${m.bbox?.x ?? 0}, ${m.bbox?.y ?? 0}) ${m.bbox?.width ?? 0}×${m.bbox?.height ?? 0} · fixer: <code>${escHtml(m.suspectedFixer ?? ft.primaryFixer)}</code></p>
+${cmpImg}
+<pre class="prompt">${escHtml(m.fixPrompt ?? "")}</pre>
+</section>`;
+    })
+    .join("\n");
+
+  const allowlist = (ft.allowlist ?? []).map((p) => `<li><code>${escHtml(p)}</code></li>`).join("");
+  const forbidden = (ft.forbidden ?? []).map((p) => `<li><code>${escHtml(p)}</code></li>`).join("");
+
+  const html = `<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test report — ${escHtml(report.itemId)} · ${escHtml(ft.testId ?? "")}</title>
+<style>
+:root{color-scheme:dark}
+body{font-family:system-ui,-apple-system,sans-serif;margin:0;padding:24px;background:#0f172a;color:#e2e8f0;line-height:1.45}
+h1{margin:0 0 4px;font-size:1.35rem}
+.sub{color:#94a3b8;margin:0 0 20px;font-size:.95rem}
+.badge{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.85rem;font-weight:600;background:#1e293b;color:${statusColor}}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:16px 0 24px}
+figure{margin:0;background:#1e293b;border-radius:8px;padding:10px}
+figure img{width:100%;height:auto;border-radius:4px;background:#fff;display:block}
+figcaption{font-size:.8rem;color:#94a3b8;margin-bottom:6px}
+.mismatch{background:#1e293b;border-radius:8px;padding:16px;margin:16px 0;border:1px solid #334155}
+.mismatch h3{margin:0 0 8px;font-size:1rem}
+.meta{color:#94a3b8;font-size:.85rem;margin:0 0 10px}
+img.region{max-width:100%;height:auto;border-radius:4px;background:#fff;display:block;margin:8px 0}
+pre.prompt{white-space:pre-wrap;word-break:break-word;background:#0b1220;border:1px solid #334155;border-radius:6px;padding:12px;font-size:.78rem;color:#cbd5e1;margin:0}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:720px){.cols{grid-template-columns:1fr}}
+ul{margin:0;padding-left:1.2rem}
+code{font-size:.85em}
+a{color:#93c5fd}
+</style></head><body>
+<h1>${escHtml(report.itemId)}</h1>
+<p class="sub">EntryPoint: <strong>${escHtml(report.entryPoint)}</strong> · failed test: <strong>${escHtml(ft.label ?? ft.testId)}</strong> · tolerance ≤ ${report.tolerance ?? 0.1}% · tested ${escHtml(report.testedAt ?? "")}</p>
+<p><span class="badge">${escHtml(status.toUpperCase())}</span> global ${(g.percent ?? 0).toFixed(3)}% · ${g.pixelsDiffered ?? "—"} / ${g.pixelsTotal ?? "—"} px · primary fixer <code>${escHtml(ft.primaryFixer)}</code></p>
+<p><code>${escHtml(ft.verifyCommand ?? "")}</code> · regression: ${escHtml(ft.regressionScope ?? "—")}</p>
+<h2>Full compare</h2>
+<div class="grid">${fullFrames || "<p>No full-frame images.</p>"}</div>
+<h2>Mismatches (${(report.mismatches ?? []).length})</h2>
+${mismatchBlocks || "<p>No region crops — inspect full diff above.</p>"}
+<h2>Fixer guardrails</h2>
+<div class="cols">
+<div><h3>Allowlist</h3><ul>${allowlist || "<li>—</li>"}</ul></div>
+<div><h3>Forbidden</h3><ul>${forbidden || "<li>—</li>"}</ul></div>
+</div>
+<p class="sub"><a href="${escHtml(basename(jsonPath))}">test-report.json</a> · schema ${escHtml(report.schemaVersion ?? "1.0")}</p>
+</body></html>`;
+
+  mkdirSync(dirname(htmlPath), { recursive: true });
+  writeFileSync(htmlPath, html);
+  return htmlPath;
+}
+
+/** Remove test-report.json and test-report.html from a step/result directory. */
+export function removeTestReportFiles(resultDir) {
+  for (const name of ["test-report.json", "test-report.html"]) {
+    const p = join(resultDir, name);
+    if (existsSync(p)) unlinkSync(p);
+  }
+}
+
+/**
+ * Write test-report.json (+ HTML viewer) alongside result.json
  * @param {string} resultDir — directory containing result.json
  * @param {object} report
+ * @param {string} [repoRoot]
  */
-export function writeTestReportFile(resultDir, report) {
+export function writeTestReportFile(resultDir, report, repoRoot) {
   mkdirSync(resultDir, { recursive: true });
   const path = join(resultDir, "test-report.json");
   report.testReportPath = path;
   writeFileSync(path, JSON.stringify(report, null, 2));
+  writeTestReportHtml(report, path, repoRoot ?? dirname(dirname(dirname(resultDir))));
   return path;
 }
 

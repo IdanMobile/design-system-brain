@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-30T10:51:53.677Z",
+  "updatedAt": "2026-05-30T11:46:50.918Z",
   "agents": [
     {
       "id": "orchestrator",
@@ -43,12 +43,12 @@
       ],
       "status": "working",
       "workerNode": "local-mac",
-      "since": "2026-05-30T10:51:53.677Z",
+      "since": "2026-05-30T11:46:50.918Z",
       "currentTask": {
-        "jobId": "2d9083d0-52cf-4d30-b79b-aa52b0168d7d",
-        "storyId": "lab-muiworkspacescreen--default",
+        "jobId": "774988f8-1f34-4152-8254-c2c26ca21cd7",
+        "storyId": "lab-neonarcadescreen--default",
         "suiteId": "pixel",
-        "attempt": 2,
+        "attempt": 3,
         "phase": "fixer"
       }
     },
@@ -94,24 +94,18 @@
       ],
       "status": "working",
       "workerNode": "local-mac",
-      "since": "2026-05-30T10:46:43.612Z",
+      "since": "2026-05-30T11:36:36.663Z",
       "currentTask": {
-        "jobId": "2d9083d0-52cf-4d30-b79b-aa52b0168d7d",
+        "jobId": "774988f8-1f34-4152-8254-c2c26ca21cd7",
         "suiteId": "flow-golden",
         "phase": "parallel-golden",
-        "parallelCount": 11,
+        "parallelCount": 5,
         "stories": [
-          "lab-overlaystates--bottom-sheet",
-          "lab-overlaystates--dialog",
-          "lab-overlaystates--drawer",
-          "lab-pricingpanel--pro",
-          "lab-pricingpanel--starter",
-          "lab-productcard--alternate-image",
-          "lab-productcard--compact",
-          "lab-productcard--dark",
-          "lab-productcard--default",
-          "lab-radiogroupfield--default",
-          "lab-radiogroupfield--disabled"
+          "lab-selectfield--closed",
+          "lab-selectfield--expanded",
+          "lab-snackbarstack--dense",
+          "lab-spacemissioncontrol--default",
+          "lab-tabspanel--activity-active"
         ],
         "steps": [
           "structural"

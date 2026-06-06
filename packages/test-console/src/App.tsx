@@ -79,6 +79,23 @@ const UNIFIED_TO_STORYBOOK_FIX: Partial<Record<(typeof UNIFIED_STEP_ORDER)[numbe
   logic: "logic"
 };
 
+/** Map unified portfolio step id → legacy fix-all suite id (pixel, figmaLive, …). */
+function legacyFixSuiteId(unifiedStepId: string): string {
+  return (
+    UNIFIED_TO_STORYBOOK_FIX[unifiedStepId as (typeof UNIFIED_STEP_ORDER)[number]] ??
+    unifiedStepId
+  );
+}
+
+/** True when workerSupervisor.suiteId (legacy) matches a unified portfolio step. */
+function legacyMatchesUnifiedStep(
+  legacySuiteId: string | undefined,
+  unifiedStepId: string
+): boolean {
+  if (!legacySuiteId) return false;
+  return legacyFixSuiteId(unifiedStepId) === legacySuiteId;
+}
+
 const SUITE_RUN_ACTION: Record<string, string> = {
   pixel: "pixel:golden",
   figma: "figma:golden",
@@ -119,6 +136,9 @@ function formatFixApiError(
   err: string,
   _source?: string
 ): string {
+  if (err.includes("Fix all already running")) {
+    return `${action} blocked — a fix loop is already running for this suite. Cancel it from Running jobs, or wait ~20s for stale cleanup, then retry.`;
+  }
   if (err.includes("No failing or warn stories") || err.includes("No report row for")) {
     return `${action} failed — test console server is outdated. Run \`pnpm test:console:restart\`, refresh this page, then retry.`;
   }
@@ -1195,7 +1215,7 @@ export function App() {
     }
     const legacySuite =
       row?.entryPoint === "storybook"
-        ? UNIFIED_TO_STORYBOOK_FIX[fixSuite as (typeof UNIFIED_STEP_ORDER)[number]]
+        ? legacyFixSuiteId(fixSuite)
         : fixSuite === "structural"
           ? "manifestContract"
           : fixSuite;
@@ -1745,13 +1765,15 @@ export function App() {
                     {activePortfolio.rows.map((row) => {
                       const fixSuite = fixSuiteForUnifiedRow(row);
                       const fixSuiteBusy =
-                        fixSuite != null ? suiteFixAllJob(fixSuite) != null : false;
+                        fixSuite != null
+                          ? suiteFixAllJob(legacyFixSuiteId(fixSuite)) != null
+                          : false;
                       const storyFixActive =
                         fixSuite != null &&
-                        (storyFixJob(fixSuite, row.storyId) != null ||
+                        (storyFixJob(legacyFixSuiteId(fixSuite), row.storyId) != null ||
                           (workerSupervisor?.storyId === row.storyId &&
                             !workerSupervisor.finished &&
-                            workerSupervisor.suiteId === fixSuite));
+                            legacyMatchesUnifiedStep(workerSupervisor.suiteId, fixSuite)));
                       const screenRunActive =
                         row.entryPoint === "figma" &&
                         fixSuite != null &&

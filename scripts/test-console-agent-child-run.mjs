@@ -153,6 +153,8 @@ const ENV_INT = (key, fallback) => {
 
 /** Supervisor `investigate_first` — allow diagnosis before first edit (see test-console-managed-run). */
 const INVESTIGATE_FIRST_MODE = process.env.AGENT_WATCHDOG_INVESTIGATE_MODE === "1";
+/** Pure investigator runs write lab-memory, not code — disable the first-edit deadline check. */
+const INVESTIGATE_ONLY_MODE = process.env.AGENT_WATCHDOG_INVESTIGATE_ONLY === "1";
 const DEADLINE_FIRST_EDIT_MS = INVESTIGATE_FIRST_MODE
   ? ENV_INT("AGENT_WATCHDOG_FIRST_EDIT_MS", 14 * 60_000)
   : ENV_INT("AGENT_WATCHDOG_FIRST_EDIT_MS", 8 * 60_000);
@@ -189,7 +191,9 @@ const checkWatchdog = () => {
     tripWatchdog(`total wall clock ${(elapsed / 60_000).toFixed(1)}m exceeded ${(DEADLINE_TOTAL_MS / 60_000).toFixed(0)}m`);
     return;
   }
-  if (editCount === 0 && elapsed > DEADLINE_FIRST_EDIT_MS) {
+  // In investigate-only mode the agent writes to lab-memory (not source files),
+  // so editCount stays 0 by design. Skip the first-edit deadline check entirely.
+  if (!INVESTIGATE_ONLY_MODE && editCount === 0 && elapsed > DEADLINE_FIRST_EDIT_MS) {
     tripWatchdog(
       INVESTIGATE_FIRST_MODE
         ? `${(elapsed / 60_000).toFixed(1)}m elapsed, 0 edits (reads=${readCount}, big-file reads=${bigReadCount}). Investigate-first budget exceeded — land a targeted edit or write BLOCKED in lab-memory.`
@@ -197,7 +201,7 @@ const checkWatchdog = () => {
     );
     return;
   }
-  if (editCount === 0 && bigReadCount >= DEADLINE_MAX_BIG_READS) {
+  if (!INVESTIGATE_ONLY_MODE && editCount === 0 && bigReadCount >= DEADLINE_MAX_BIG_READS) {
     tripWatchdog(
       `${bigReadCount} unique large files read (≥${BIG_READ_LINE_THRESHOLD} lines each) with 0 edits — investigation paralysis.`
     );

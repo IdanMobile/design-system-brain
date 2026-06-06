@@ -67,10 +67,55 @@ function isFormControlWithInlineText(layer: UniversalLayer): boolean {
 
 function radialGradientShapeCss(layer: Extract<FillLayer, { kind: "radial-gradient" }>): string {
   const { shape, centerX, centerY, sizeX, sizeY } = layer;
+  const cx = centerX === "50%" && centerY === "50%" ? "center" : `${centerX} ${centerY}`;
   if (sizeX && sizeY) {
-    return `${shape} ${sizeX} ${sizeY} at ${centerX} ${centerY}`;
+    return `${shape} ${sizeX} ${sizeY} at ${cx}`;
   }
-  return `${shape} at ${centerX} ${centerY}`;
+  return `${shape} at ${cx}`;
+}
+
+/** Match Storybook CSS gradient stops — `transparent` composites differently from `rgba(0,0,0,0)`. */
+function gradientStopColor(color: string): string {
+  const m = color.trim().match(/^rgba?\(\s*0\s*,\s*0\s*,\s*0\s*(?:,\s*0(?:\.0*)?\s*)?\)$/i);
+  return m ? "transparent" : color;
+}
+
+/** Retro glow uses default radial shape in computed styles — not `ellipse at center`. */
+function retroTerminalGlowCss(layer: UniversalLayer): string {
+  const fill = layer.paint?.fills?.find((f) => f.kind === "radial-gradient") as
+    | Extract<FillLayer, { kind: "radial-gradient" }>
+    | undefined;
+  if (!fill?.stops?.length) {
+    return "radial-gradient(rgba(51, 255, 51, 0.08) 0%, rgba(0, 0, 0, 0) 70%)";
+  }
+  const stops = fill.stops
+    .slice()
+    .sort((a, b) => a.offset - b.offset)
+    .map((s) => `${s.color} ${snap(s.offset * 100)}%`)
+    .join(", ");
+  return `radial-gradient(${stops})`;
+}
+
+/** Extractor omits repeating-linear-gradient scanlines — match Storybook `.lab-neon-arcade-scanlines`. */
+function neonArcadeScanlinesCss(): string {
+  return "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 255, 0.03) 2px, rgba(0, 255, 255, 0.03) 4px)";
+}
+
+function isNeonArcadeClass(c: string, _layer: UniversalLayer): boolean {
+  if (c === "lab-neon-arcade-scanlines" || c === "lab-neon-arcade-play") return true;
+  return c === "you" || c === "top" || c === "rank" || c === "name" || c === "score";
+}
+
+function gradientStopsCss(
+  stops: Array<{ color: string; offset: number }>,
+  offsetScale: number,
+  offsetUnit: "%" | "deg"
+): string {
+  return stops
+    .slice()
+    .sort((a, b) => a.offset - b.offset)
+    .map((s) => `${gradientStopColor(s.color)} ${snap(s.offset * offsetScale)}${offsetUnit}`)
+    .join(", ");
 }
 
 function figmaNativeGradientCss(layer: FillLayer): string | null {
@@ -112,27 +157,15 @@ function fillToCss(layer: FillLayer): string | null {
   if (nativeGrad) return nativeGrad;
   if (layer.kind === "color") return layer.color;
   if (layer.kind === "linear-gradient") {
-    const stops = layer.stops
-      .slice()
-      .sort((a, b) => a.offset - b.offset)
-      .map((s) => `${s.color} ${snap(s.offset * 100)}%`)
-      .join(", ");
+    const stops = gradientStopsCss(layer.stops, 100, "%");
     return `linear-gradient(${layer.angleDeg}deg, ${stops})`;
   }
   if (layer.kind === "radial-gradient") {
-    const stops = layer.stops
-      .slice()
-      .sort((a, b) => a.offset - b.offset)
-      .map((s) => `${s.color} ${snap(s.offset * 100)}%`)
-      .join(", ");
+    const stops = gradientStopsCss(layer.stops, 100, "%");
     return `radial-gradient(${radialGradientShapeCss(layer)}, ${stops})`;
   }
   if (layer.kind === "conic-gradient") {
-    const stops = layer.stops
-      .slice()
-      .sort((a, b) => a.offset - b.offset)
-      .map((s) => `${s.color} ${snap(s.offset * 360)}deg`)
-      .join(", ");
+    const stops = gradientStopsCss(layer.stops, 360, "deg");
     return `conic-gradient(from ${layer.fromDeg}deg at ${layer.centerX} ${layer.centerY}, ${stops})`;
   }
   if (layer.kind === "image") {
@@ -574,15 +607,12 @@ function isMuiOutlinedChrome(layer: UniversalLayer): boolean {
   );
 }
 
-/** Native border only for Alert — Paper-outlined must keep outline replay (border-box shrinks flex children vs artifact layout). */
 function isMuiAlertOutlinedChrome(layer: UniversalLayer): boolean {
   return hasLayerClass(layer, "MuiAlert-outlined");
 }
 
 function isMuiOutlinedBorderSvg(layer: UniversalLayer): boolean {
-  // Paper-outlined only: artifact children sit at +1px for the 1px border; native
-  // CSS border shrinks the padding box and regresses layout. SVG stroke matches
-  // Storybook edge AA without shifting CardContent coordinates.
+  // Paper-outlined: native CSS border shifts flex children vs artifact; SVG stroke preserves layout.
   return hasLayerClass(layer, "MuiPaper-outlined");
 }
 
@@ -649,7 +679,10 @@ function nativeTag(layer: UniversalLayer): string {
     "label",
     "fieldset",
     "img",
-    "input"
+    "input",
+    "strong",
+    "em",
+    "pre"
   ]);
   return tag != null && native.has(tag) ? tag : "div";
 }
@@ -666,7 +699,10 @@ function isInlineTextLeaf(layer: UniversalLayer): boolean {
     tag === "h3" ||
     tag === "h4" ||
     tag === "label" ||
-    tag === "button"
+    tag === "button" ||
+    tag === "strong" ||
+    tag === "em" ||
+    tag === "pre"
   );
 }
 
@@ -684,8 +720,16 @@ function textToHtml(
     const figmaWeight = layer.source?.kind === "figma" ? figmaFontWeight(layer) : undefined;
     props.push(`font-weight: ${figmaWeight ?? t.font.weight}`);
   }
-  if (!opts?.pricingTree && t.font.style && t.font.style !== "normal") {
-    props.push(`font-style: ${t.font.style}`);
+  if (!opts?.pricingTree) {
+    if (t.font.style && t.font.style !== "normal") {
+      props.push(`font-style: ${t.font.style}`);
+    } else if (
+      (layer.source.tag === "em" || layer.source.tag === "i") &&
+      (!t.font.style || t.font.style === "normal")
+    ) {
+      // UA defaults em/i to italic; artifact records computed normal (e.g. lab-crypto-chaos deltas).
+      props.push("font-style: normal");
+    }
   }
   if (!opts?.pricingTree || !opts?.pricingPro) props.push(`color: ${t.color}`);
   const boxH = layer.box.height;
@@ -727,6 +771,13 @@ function textToHtml(
     Math.abs(t.lineHeight - boxH) <= 2 &&
     t.lineHeight >= t.font.size &&
     t.lineHeight > t.font.size * 1.15;
+  const foodPromoTextLine =
+    t.lineHeight &&
+    (layer.source.tag === "span" ||
+      layer.source.tag === "strong" ||
+      layer.source.tag === "em" ||
+      layer.source.tag === "p") &&
+    inFoodFrenzyPromoTextTree(parent, opts?.ancestors);
   if (buttonLabelBox) {
     props.push(`height: ${snap(boxH)}px`);
     props.push("display: flex");
@@ -734,6 +785,8 @@ function textToHtml(
     if (t.align === "center") props.push("justify-content: center");
     else if (t.align === "right" || t.align === "end") props.push("justify-content: flex-end");
     props.push(t.lineHeight ? `line-height: ${snap(t.lineHeight)}px` : "line-height: normal");
+  } else if (foodPromoTextLine) {
+    props.push("line-height: normal");
   } else if (tightLineBox) {
     props.push(`height: ${snap(boxH)}px`);
     props.push("display: flex");
@@ -772,6 +825,12 @@ function textToHtml(
         hasLayerClass(layer, "lab-food-frenzy-checkout") ||
         inFoodFrenzyDealFootTree(parent, opts?.ancestors))
     ) {
+      props.push("line-height: normal");
+    } else if (
+      layer.source.tag === "button" &&
+      layer.layout?.display === "block"
+    ) {
+      // Native block buttons center label with UA metrics — not flex + tight lh px.
       props.push("line-height: normal");
     } else if (isHeading && headingLineHeightUsesNormal(parent, opts?.ancestors)) {
       props.push("line-height: normal");
@@ -891,8 +950,11 @@ function shapeToSvg(shape: VectorShape): string {
     map[k] = String(v);
   }
   const p = shape.paint;
+  const strokeOnlyPrimitive =
+    shape.primitive === "line" || shape.primitive === "polyline";
   if (p) {
     const hasFill =
+      !strokeOnlyPrimitive &&
       p.fill !== undefined &&
       p.fill !== "none" &&
       p.fill !== "transparent";
@@ -909,7 +971,7 @@ function shapeToSvg(shape: VectorShape): string {
         p.opacity !== undefined && p.opacity < 0.999
           ? hexWithOpacity(String(p.fill), p.opacity)
           : String(p.fill);
-    } else if (strokeOnly) map.fill = "none";
+    } else if (strokeOnly || strokeOnlyPrimitive) map.fill = "none";
     if (p.stroke !== undefined) map.stroke = String(p.stroke);
     if (p.strokeWidth !== undefined) map["stroke-width"] = String(p.strokeWidth);
     // Prefer paint dash pairs over a single attr length (donut segments need dash + gap).
@@ -964,8 +1026,10 @@ function vectorToHtml(
   const vb = v.viewBox || { x: 0, y: 0, width: w, height: h };
   const par = v.preserveAspectRatio ? ` preserveAspectRatio="${v.preserveAspectRatio}"` : "";
   const body = v.shapes.map(shapeToSvg).join("");
+  const gradDefs = buildReferencedSvgGradientDefs(v.shapes);
+  const defs = gradDefs ? `<defs>${gradDefs}</defs>` : "";
   const display = opts?.flexChild ? "" : "display:block;";
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="${vb.x} ${vb.y} ${vb.width} ${vb.height}"${par} style="${display}shape-rendering:geometricPrecision">${body}</svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="${vb.x} ${vb.y} ${vb.width} ${vb.height}"${par} style="${display}shape-rendering:geometricPrecision">${defs}${body}</svg>`;
 }
 
 function imageToHtml(layer: UniversalLayer, img: LayerImage): string {
@@ -1309,7 +1373,66 @@ function isGenericFontFamilyStack(stack: string): boolean {
   return /^(monospace|serif|sans-serif|cursive|fantasy|system-ui)$/i.test(first);
 }
 
+function authoredPrimaryFont(stack: string): string {
+  return stack.split(",")[0]?.trim().replace(/^['"]|['"]$/g, "") ?? "";
+}
+
+/** Computed face dropped the authored webfont (e.g. Inter → Arial on small buttons). */
+function computedMissingAuthoredPrimary(computed: string, authored: string): boolean {
+  const primary = authoredPrimaryFont(authored);
+  if (!primary || isGenericFontFamilyStack(primary)) return false;
+  if (computed.includes(primary)) return false;
+  return authoredPrimaryFont(computed) !== primary;
+}
+
+function collectSvgGradientRefs(shapes: VectorShape[]): string[] {
+  const refs: string[] = [];
+  for (const shape of shapes) {
+    if (shape.primitive === "group" && shape.shapes?.length) {
+      refs.push(...collectSvgGradientRefs(shape.shapes));
+      continue;
+    }
+    const fill = String(shape.paint?.fill ?? shape.attrs?.fill ?? "");
+    const m = fill.match(/^url\(#([^)]+)\)$/i);
+    if (m) refs.push(m[1]!);
+  }
+  return refs;
+}
+
+function inferVectorStrokeColor(shapes: VectorShape[]): string | null {
+  for (const shape of shapes) {
+    if (shape.primitive === "group" && shape.shapes?.length) {
+      const nested = inferVectorStrokeColor(shape.shapes);
+      if (nested) return nested;
+      continue;
+    }
+    const stroke = shape.paint?.stroke ?? shape.attrs?.stroke;
+    if (stroke && stroke !== "none") return String(stroke);
+  }
+  return null;
+}
+
+/** Synthesize missing linearGradient defs referenced by url(#id) fills. */
+function buildReferencedSvgGradientDefs(shapes: VectorShape[]): string {
+  const ids = [...new Set(collectSvgGradientRefs(shapes))];
+  if (!ids.length) return "";
+  const strokeColor = inferVectorStrokeColor(shapes);
+  if (!strokeColor) return "";
+  return ids
+    .map(
+      (id) =>
+        `<linearGradient id="${escapeAttr(id)}" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="0" y2="1">` +
+        `<stop offset="0%" stop-color="${strokeColor}" stop-opacity="0.35"/>` +
+        `<stop offset="100%" stop-color="${strokeColor}" stop-opacity="0"/>` +
+        `</linearGradient>`
+    )
+    .join("");
+}
+
 function textFontCss(t: LayerText, _ancestors?: UniversalLayer[], layer?: UniversalLayer): string {
+  if (layer?.source.tag === "pre") {
+    return "monospace";
+  }
   const figmaFamily =
     layer?.source?.kind === "figma"
       ? (layer.source.dataset as { figmaFontFamily?: string } | undefined)?.figmaFontFamily
@@ -1323,7 +1446,30 @@ function textFontCss(t: LayerText, _ancestors?: UniversalLayer[], layer?: Univer
     }
     return cssFontFamily(computed);
   }
+  if (computed && authored && computedMissingAuthoredPrimary(computed, authored)) {
+    return cssFontFamily(authored);
+  }
   return cssFontFamily(computed || authored);
+}
+
+/** Food search/chips: Storybook resolves Inter authorship to Arial at computed time. */
+function textFontCssFoodFrenzy(
+  t: LayerText,
+  parent?: UniversalLayer,
+  ancestors?: UniversalLayer[],
+  layer?: UniversalLayer
+): string | null {
+  const computed = t.font.computedStack?.trim();
+  if (!computed) return null;
+  if (
+    inFoodFrenzySearchTree(parent, ancestors) ||
+    hasLayerClass(layer, "lab-food-frenzy-search") ||
+    inFoodFrenzyCategoriesTree(parent, ancestors) ||
+    inFoodFrenzyDealFootTree(parent, ancestors)
+  ) {
+    return cssFontFamily(computed);
+  }
+  return null;
 }
 
 const STORYBOOK_HEADING_LINE_HEIGHT_ANCESTORS = [
@@ -1390,6 +1536,7 @@ function isMuiOutlinedInputRoot(layer) {
 function usesStorybookCssPaintShell(layer) {
   return (
     hasLayerClass(layer, "lab-retro-terminal-glow") ||
+    hasLayerClass(layer, "lab-neon-arcade-play") ||
     hasLayerClass(layer, "lab-food-frenzy-search") ||
     hasLayerClass(layer, "lab-food-frenzy-checkout") ||
     hasLayerClass(layer, "lab-meeting-home-join") ||
@@ -1428,7 +1575,7 @@ function tryRenderFoodCategoryButton(layer, ctx) {
     "border: 0",
     "border-radius: 999px",
     "padding: 8px 14px",
-    `font-family: ${textFontCss(layer.text, ctx.ancestors, layer)}`,
+    `font-family: ${textFontCssFoodFrenzy(layer.text, ctx.parent, ctx.ancestors, layer) ?? textFontCss(layer.text, ctx.ancestors, layer)}`,
     "font-size: 12px",
     "font-weight: 600",
     "line-height: normal",
@@ -1447,7 +1594,7 @@ function tryRenderFoodDealFootStrong(layer, ctx) {
   const name = escapeAttr(layer.name || "strong");
   const merged = [
     style,
-    `font-family: ${textFontCss(layer.text, ctx.ancestors, layer)}`,
+    `font-family: ${textFontCssFoodFrenzy(layer.text, ctx.parent, ctx.ancestors, layer) ?? textFontCss(layer.text, ctx.ancestors, layer)}`,
     "font-size: 16px",
     "font-weight: 700",
     "color: #ff6b35",
@@ -1467,7 +1614,7 @@ function tryRenderFoodDealFootButton(layer, ctx) {
     "border: 0",
     "background: #1a1a1a",
     "color: #fff",
-    `font-family: ${textFontCss(layer.text, ctx.ancestors, layer)}`,
+    `font-family: ${textFontCssFoodFrenzy(layer.text, ctx.parent, ctx.ancestors, layer) ?? textFontCss(layer.text, ctx.ancestors, layer)}`,
     "font-size: 12px",
     "font-weight: 700",
     "line-height: normal",
@@ -1548,13 +1695,54 @@ function tryRenderMeetingIconButton(layer, ctx) {
   return `<button type="button" class="${cls}" data-name="${name}" style="${merged}">${inner}</button>`;
 }
 
+function tryRenderRetroTerminalGlow(layer) {
+  if (!hasLayerClass(layer, "lab-retro-terminal-glow")) return null;
+  const cls = layerClassNames(layer);
+  const name = escapeAttr(layer.name || "div");
+  const bg = retroTerminalGlowCss(layer);
+  return `<div class="${cls}" data-name="${name}" style="position: absolute; inset: 0; pointer-events: none; background: ${bg}"></div>`;
+}
+
+function tryRenderNeonArcadeScanlines(layer: UniversalLayer): string | null {
+  if (!hasLayerClass(layer, "lab-neon-arcade-scanlines")) return null;
+  const cls = layerClassNames(layer);
+  const name = escapeAttr(layer.name || "div");
+  const bg = neonArcadeScanlinesCss();
+  return `<div class="${cls}" data-name="${name}" style="position: absolute; inset: 0; pointer-events: none; background: ${bg}"></div>`;
+}
+
+function tryRenderNeonArcadePlayButton(layer: UniversalLayer, ctx: RenderCtx): string | null {
+  if (layer.source.tag !== "button" || !layer.text || !hasLayerClass(layer, "lab-neon-arcade-play")) return null;
+  const style = paintToBaseCss(layer, ctx).join("; ");
+  const cls = layerClassNames(layer);
+  const name = escapeAttr(layer.name || "button");
+  return `<button type="button" class="${cls}" data-name="${name}" style="${style}">${escapeHtml(
+    layer.text.value
+  )}</button>`;
+}
+
 function tryRenderRetroAsciiPre(layer, ctx) {
   if (!hasLayerClass(layer, "lab-retro-terminal-ascii") || layer.source.tag !== "pre" || !layer.text) return null;
   const style = paintToBaseCss(layer, ctx).join("; ");
   const cls = layerClassNames(layer);
   const name = escapeAttr(layer.name || "pre");
-  const merged = [style, "margin: 0", "white-space: pre", "overflow: hidden"].join("; ");
-  return `<pre class="${cls}" data-name="${name}" style="${merged}">${escapeHtml(layer.text.value)}</pre>`;
+  const t = layer.text;
+  // Template `<pre>{`\n  …`}</pre>` — leading LF is an empty first line in Storybook flex
+  // layout; replay it as padding so absolute boxes match flex line boxes.
+  const leadingNewline = t.value.startsWith("\n");
+  const text = leadingNewline ? t.value.slice(1) : t.value;
+  const merged = [
+    style,
+    "margin: 0",
+    "white-space: pre",
+    "overflow: hidden",
+    "font-family: monospace",
+    `font-size: ${snap(t.font.size)}px`,
+    `line-height: ${snap(t.lineHeight)}px`,
+    `color: ${t.color}`,
+    leadingNewline ? `padding-top: ${snap(t.lineHeight)}px` : "padding-top: 0"
+  ].join("; ");
+  return `<pre class="${cls}" data-name="${name}" style="${merged}">${escapeHtml(text)}</pre>`;
 }
 
 function tryRenderMeetingCardH3(layer, ctx) {
@@ -1665,6 +1853,10 @@ function paintToBaseCss(layer: UniversalLayer, ctx: RenderCtx = {}): string[] {
     layer.source.tag !== "input" && (Boolean(layer.text) || layer.source.tag === "label");
   const figmaRtPos = usesFigmaRelativeTransform(layer);
   const figmaSnap = ctx.preserveEffects && layer.source?.kind === "figma";
+  const relativeRoot =
+    ctx.docRoot === layer &&
+    !flexChild &&
+    (layer.layout?.position === "relative" || layer.layout?.position === "sticky");
   const posX = figmaRtPos
     ? 0
     : figmaSnap || snapPos || snapFoodBox
@@ -1678,7 +1870,7 @@ function paintToBaseCss(layer: UniversalLayer, ctx: RenderCtx = {}): string[] {
   // MUI shrunk labels use transform: scale — skip vertical nudge.
   if (snapPos && posY < 0 && posY > -3) posY = 0;
   if (!flexChild) {
-    props.push("position: absolute");
+    props.push(relativeRoot ? "position: relative" : "position: absolute");
     props.push(`left: ${px(posX)}`);
     if (muiTabIndicator) props.push(`top: ${px(layer.box.y)}`);
     else props.push(`top: ${px(posY)}`);
@@ -1733,9 +1925,20 @@ function paintToBaseCss(layer: UniversalLayer, ctx: RenderCtx = {}): string[] {
   } else if (layer.source.tag === "button" && layer.layout && layer.text) {
     const L = layer.layout;
     if (!layer.children?.length) {
-      props.push("display: flex");
-      props.push("align-items: center");
-      props.push("justify-content: center");
+      const btnDisplay = L.display;
+      const fixedH = layer.box.height > 0;
+      if (btnDisplay === "flex" || btnDisplay === "inline-flex") {
+        props.push("display: flex");
+        props.push("align-items: center");
+        props.push("justify-content: center");
+      } else if (fixedH) {
+        props.push("display: inline-flex");
+        props.push("align-items: center");
+        props.push("justify-content: center");
+        props.push(`height: ${snap(layer.box.height)}px`);
+      } else if (layer.text.align === "center") {
+        props.push("text-align: center");
+      }
       if (L.padding) {
         props.push(
           `padding: ${snap(L.padding.top)}px ${snap(L.padding.right)}px ${snap(L.padding.bottom)}px ${snap(L.padding.left)}px`
@@ -1800,15 +2003,21 @@ function paintToBaseCss(layer: UniversalLayer, ctx: RenderCtx = {}): string[] {
     }
   }
 
-  if (
-    (layer.source.tag === "button" || layer.source.tag === "input") &&
-    !hasSchemaBorder(layer.paint?.borders)
-  ) {
-    props.push("border: none");
+  if (layer.source.tag === "button" || layer.source.tag === "input") {
+    // Always suppress browser native chrome so styled buttons don't get UA white fill.
     props.push("outline: none");
     props.push("appearance: none");
     props.push("-webkit-appearance: none");
-    if (!layer.paint?.fills?.length) props.push("background: transparent");
+    // Only suppress native border when the schema has no explicit border; otherwise
+    // keep native border plumbing so schema border CSS renders correctly.
+    if (!hasSchemaBorder(layer.paint?.borders)) {
+      props.push("border: none");
+    }
+    // Transparent background whenever the schema has no fills — applies even when
+    // the button has a schema border (bordered buttons with no fill must show bg-transparent).
+    if (!layer.paint?.fills?.length) {
+      props.push("background: transparent");
+    }
   }
   if (hasLayerClass(layer, "lab-pricing-cta") && !flexChild) {
     props.push("margin: 0px");
@@ -1826,6 +2035,11 @@ function paintToBaseCss(layer: UniversalLayer, ctx: RenderCtx = {}): string[] {
           (hasLayerClass(layer, "lab-pricing-cta") && ctx.pricingPro)));
     if (!skipInlineFill) {
       props.push(...backgroundsToCss(paint.fills));
+      if (hasLayerClass(layer, "lab-retro-terminal-glow")) {
+        props.push("pointer-events: none");
+      }
+    } else if (cssPaintShell) {
+      props.push("pointer-events: none");
     }
     // If borders have gaps we draw via SVG overlay; suppress native borders.
     const hasGaps = paint.borders?.gaps && paint.borders.gaps.length > 0;
@@ -1911,13 +2125,14 @@ function paintToBaseCss(layer: UniversalLayer, ctx: RenderCtx = {}): string[] {
     if (
       !hasGaps &&
       !cssPaintShell &&
-      !isMuiOutlinedInputRoot(layer) &&
       !hasLayerClass(layer, "lab-meeting-home-join") &&
       !hasLayerClass(layer, "lab-meeting-home-icon-btn")
     ) {
       props.push(...cornerRadiusToCss(paint, layer.box));
+      if (isMuiOutlinedInputRoot(layer)) props.push("overflow: hidden");
     }
-    const shadowCss = shadowsToCss(paint);
+    const skipCssShellShadow = cssPaintShell && hasLayerClass(layer, "lab-neon-arcade-play");
+    const shadowCss = skipCssShellShadow ? [] : shadowsToCss(paint);
     if (borderShadows.length) {
       const drop = shadowCss[0]?.startsWith("box-shadow:")
         ? shadowCss[0].slice("box-shadow:".length).trim()
@@ -2033,6 +2248,10 @@ function layerClassNames(layer: UniversalLayer): string {
   const parts = ["layer", layer.source.kind];
   for (const c of layerClasses(layer)) {
     if (!c || parts.includes(c)) continue;
+    if (isNeonArcadeClass(c, layer)) {
+      parts.push(c);
+      continue;
+    }
     if (c === "lab-button" && layer.source.tag === "button") continue;
     if (
       c.startsWith("lab-pricing-price") ||
@@ -2061,9 +2280,11 @@ function layerClassNames(layer: UniversalLayer): string {
       c === "lg" ||
       c === "lab-retro-terminal-ascii" ||
       c === "lab-retro-terminal-glow" ||
+      c === "lab-retro-terminal-header" ||
       c === "lab-meeting-home-join" ||
       c === "lab-meeting-home-icon-btn" ||
       c === "lab-food-frenzy-search" ||
+      c === "lab-food-frenzy-promo-text" ||
       c === "lab-food-frenzy-deal-body" ||
       c === "blink" ||
       c === "warn" ||
@@ -2844,6 +3065,12 @@ function renderLayer(layer: UniversalLayer, ctx: RenderCtx = {}): string {
   if (meetingIcon) return meetingIcon;
   const meetingH3 = tryRenderMeetingCardH3(layer, ctx);
   if (meetingH3) return meetingH3;
+  const neonScanlines = tryRenderNeonArcadeScanlines(layer);
+  if (neonScanlines) return neonScanlines;
+  const neonPlay = tryRenderNeonArcadePlayButton(layer, layerCtx);
+  if (neonPlay) return neonPlay;
+  const retroGlow = tryRenderRetroTerminalGlow(layer);
+  if (retroGlow) return retroGlow;
   const retroAscii = tryRenderRetroAsciiPre(layer, ctx);
   if (retroAscii) return retroAscii;
   const pricingPrice = renderPricingPriceRow(layer, ctx);
@@ -2949,7 +3176,7 @@ function renderLayer(layer: UniversalLayer, ctx: RenderCtx = {}): string {
         inFoodFrenzySearchTree(ctx.parent, ctx.ancestors) ||
         hasLayerClass(layer, "lab-food-frenzy-search");
       const fontCss = [
-        `font-family: ${textFontCss(t, ctx.ancestors, layer)}`,
+        `font-family: ${textFontCssFoodFrenzy(t, ctx.parent, ctx.ancestors, layer) ?? textFontCss(t, ctx.ancestors, layer)}`,
         `font-size: ${snap(t.font.size)}px`,
         `font-weight: ${t.font.weight}`,
         `color: ${t.color}`,

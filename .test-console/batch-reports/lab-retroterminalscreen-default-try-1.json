@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-30T10:44:13.476Z",
+  "generatedAt": "2026-05-30T11:14:30.366Z",
   "suiteId": "pixel",
   "suiteLabel": "Pixel (schema)",
   "tolerance": 0.1,
@@ -18,7 +18,7 @@
       "index": 1,
       "storyId": "lab-retroterminalscreen--default",
       "status": "fail",
-      "globalPercent": 5.490946652084093,
+      "globalPercent": 2.1630817839348646,
       "maxRegionPercent": null,
       "globalOk": false,
       "regionOk": true,
@@ -99,7 +99,7 @@
     {
       "file": "packages/pixel-test/src/render-html.ts",
       "fileLabel": "render-html.ts (pixel schema replay)",
-      "totalFileLines": 3042,
+      "totalFileLines": 3065,
       "symbol": "snap",
       "startLine": 21,
       "endLine": 61,

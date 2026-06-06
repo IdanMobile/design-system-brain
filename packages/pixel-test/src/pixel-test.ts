@@ -31,8 +31,7 @@ import { extractStoryV2 } from "../../extractor-playwright/src/extract.ts";
 import type { UniversalDocumentV2 } from "@lab/contract";
 import { renderToBodyMarkup } from "./render-html.ts";
 import { QUICK_SMOKE, GOLDEN_SET } from "../../contract/src/stories.ts";
-import { DEFAULT_DIFF_TOLERANCE_PERCENT, MOCK_LARGE_FIXTURE_GLOBAL_TOLERANCE_PERCENT } from "./test-tolerance.ts";
-import { isLargeFixtureStory } from "../../contract/src/stories.ts";
+import { PIXEL_PERFECT_TOLERANCE, statusFromPercent } from "./test-tolerance.ts";
 import {
   writeDiffRegionArtifacts,
   diffRegionsHtml,
@@ -68,7 +67,7 @@ function parseCli(): CliOpts {
   }
   const baseUrl = args.get("url") ?? "http://127.0.0.1:6107";
   const outDir = resolve(process.cwd(), args.get("outDir") ?? "../../pixel-diffs");
-  const tolerance = Number(args.get("tolerance") ?? String(DEFAULT_DIFF_TOLERANCE_PERCENT));
+  const tolerance = Number(args.get("tolerance") ?? String(PIXEL_PERFECT_TOLERANCE));
   let stories: string[] = [];
   const explicit = args.get("stories");
   if (explicit) {
@@ -259,11 +258,7 @@ async function diffStory(
         : [];
     const total = width * height;
     const percent = total > 0 ? (pixelsDiffered / total) * 100 : 0;
-    const storyTolerance = isLargeFixtureStory(storyId)
-      ? MOCK_LARGE_FIXTURE_GLOBAL_TOLERANCE_PERCENT
-      : opts.tolerance;
-    const status: DiffResult["status"] =
-      percent <= storyTolerance ? "pass" : percent <= storyTolerance * 4 ? "warn" : "fail";
+    const status: DiffResult["status"] = statusFromPercent(percent, opts.tolerance);
     return {
       storyId,
       width,

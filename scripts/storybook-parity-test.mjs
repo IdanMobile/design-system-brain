@@ -27,6 +27,7 @@ import {
   buildTestReport,
   exportOriginalTargetRegions,
   writeTestReportFile,
+  removeTestReportFiles,
 } from "./test-report-build.mjs";
 
 const WORKSPACE = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -211,8 +212,8 @@ async function testStory(storyId, tolerance) {
     await writeFile(diffFile, cmp.diffPng);
 
     let testReportPath = null;
+    const stepDir = join(OUT_DIR, "by-story", safeStorySegment(storyId), leg.stepId);
     if (cmp.status !== "pass") {
-      const stepDir = join(OUT_DIR, "by-story", safeStorySegment(storyId), leg.stepId);
       const report = buildTestReport({
         itemId: storyId,
         entryPoint: "storybook",
@@ -231,7 +232,9 @@ async function testStory(storyId, tolerance) {
         ctx: { storyId },
         tolerance,
       });
-      testReportPath = writeTestReportFile(stepDir, report);
+      testReportPath = writeTestReportFile(stepDir, report, WORKSPACE);
+    } else {
+      removeTestReportFiles(stepDir);
     }
 
     writeStepResult(storyId, leg.stepId, {

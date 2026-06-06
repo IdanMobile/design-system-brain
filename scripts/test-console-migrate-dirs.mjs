@@ -12,11 +12,11 @@
  *   fix-all-batch-<uuid>-try-<N>.json           → runs/<uuid>/batch-try-<N>.json
  *   fix-all-batch-<uuid>-try-<N>.md             → runs/<uuid>/batch-try-<N>.md
  *
- * Safe: skips if the destination already exists; never deletes.
+ * Safe: if destination already exists, removes the root duplicate (same content era).
  * Usage: node scripts/test-console-migrate-dirs.mjs [--dry-run]
  */
 
-import { readdirSync, renameSync, mkdirSync, existsSync } from "node:fs";
+import { readdirSync, renameSync, mkdirSync, existsSync, unlinkSync } from "node:fs";
 import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -24,13 +24,18 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const TC   = join(ROOT, ".test-console");
 const dryRun = process.argv.includes("--dry-run");
 
-let moved = 0, skipped = 0, conflicts = 0;
+let moved = 0, skipped = 0, conflicts = 0, purged = 0;
 
 function move(src, dst, label) {
-  if (!existsSync(src)) return;          // already gone
+  if (!existsSync(src)) return;
   if (existsSync(dst)) {
-    console.log(`  skip (exists) ${label}`);
-    conflicts++;
+    if (dryRun) {
+      console.log(`  [dry] purge duplicate ${label}`);
+    } else {
+      unlinkSync(src);
+      console.log(`  purge duplicate ${label}`);
+    }
+    purged++;
     return;
   }
   if (dryRun) {
@@ -151,6 +156,6 @@ for (const name of entries) {
 console.log(
   `\n[migrate] Done.${dryRun ? " (dry run)" : ""}` +
   `\n  Moved:     ${moved}` +
-  `\n  Conflicts: ${conflicts} (destination already existed — left in place)` +
+  `\n  Purged:    ${purged} (root duplicates where destination already existed)` +
   `\n  Unchanged: ${skipped} (state files, dirs, etc.)\n`
 );

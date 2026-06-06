@@ -21,18 +21,8 @@ import pixelmatch from "pixelmatch";
 // @ts-expect-error -- no bundled types
 import { PNG } from "pngjs";
 import { extractStoryV2 } from "../../extractor-playwright/src/extract.ts";
-import { QUICK_SMOKE, GOLDEN_SET, isLargeFixtureStory } from "../../contract/src/stories.ts";
-import { DEV_STORIES } from "../../contract/src/stories.ts";
-import {
-  DEFAULT_DIFF_TOLERANCE_PERCENT,
-  DEFAULT_REGION_TOLERANCE_PERCENT,
-  LIVE_RASTER_GLOBAL_TOLERANCE_PERCENT,
-  LIVE_RASTER_REGION_TOLERANCE_PERCENT,
-  MOCK_LARGE_FIXTURE_REGION_TOLERANCE_PERCENT,
-  MOCK_LARGE_FIXTURE_GLOBAL_TOLERANCE_PERCENT,
-  LIVE_LARGE_FIXTURE_REGION_TOLERANCE_PERCENT,
-  STORYBOOK_ONLY_REGION_TOLERANCE_PERCENT
-} from "./test-tolerance.ts";
+import { QUICK_SMOKE, GOLDEN_SET } from "../../contract/src/stories.ts";
+import { PIXEL_PERFECT_TOLERANCE, statusFromGates } from "./test-tolerance.ts";
 import {
   writeDiffRegionArtifacts,
   type DiffRegionFile,
@@ -70,44 +60,6 @@ const LIVE_STRIP_EFFECTS_CSS = `
   text-shadow: none !important;
 }
 `;
-
-function liveTolerancesForStory(
-  storyId: string,
-  baseTolerance: number,
-  baseRegion: number
-): { tolerance: number; regionTolerance: number } {
-  const entry = DEV_STORIES.find((s) => s.id === storyId);
-  if (isLargeFixtureStory(storyId)) {
-    return {
-      tolerance: MOCK_LARGE_FIXTURE_GLOBAL_TOLERANCE_PERCENT,
-      regionTolerance: LIVE_LARGE_FIXTURE_REGION_TOLERANCE_PERCENT
-    };
-  }
-  if (entry?.storybookOnly) {
-    return {
-      tolerance: STORYBOOK_ONLY_REGION_TOLERANCE_PERCENT,
-      regionTolerance: STORYBOOK_ONLY_REGION_TOLERANCE_PERCENT
-    };
-  }
-  return { tolerance: baseTolerance, regionTolerance: baseRegion };
-}
-
-async function mockPassesStrict(storyId: string): Promise<boolean> {
-  const safe = safeSegment(storyId);
-  const mockResultPath = resolve(
-    process.cwd(),
-    "../../figma-diffs/by-story",
-    safe,
-    "result.json"
-  );
-  try {
-    const raw = await readFile(mockResultPath, "utf8");
-    const r = JSON.parse(raw) as { status?: string; percent?: number };
-    return r.status === "pass" && (r.percent ?? 100) <= DEFAULT_DIFF_TOLERANCE_PERCENT;
-  } catch {
-    return false;
-  }
-}
 
 interface CliOpts {
   baseUrl: string;
@@ -150,9 +102,9 @@ function parseCli(): CliOpts {
   return {
     baseUrl: args.get("url") ?? "http://127.0.0.1:6107",
     outDir: resolve(process.cwd(), args.get("outDir") ?? "../../figma-live-diffs"),
-    tolerance: Number(args.get("tolerance") ?? String(DEFAULT_DIFF_TOLERANCE_PERCENT)),
+    tolerance: Number(args.get("tolerance") ?? String(PIXEL_PERFECT_TOLERANCE)),
     regionTolerance: Number(
-      args.get("regionTolerance") ?? String(DEFAULT_REGION_TOLERANCE_PERCENT)
+      args.get("regionTolerance") ?? String(PIXEL_PERFECT_TOLERANCE)
     ),
     strict: flags.has("strict"),
     noGate: flags.has("no-gate") || gateDisabled({}),
@@ -615,24 +567,15 @@ async function diffStory(
     }
     const total = width * height;
     const percent = total > 0 ? (pixelsDiffered / total) * 100 : 0;
-    const { tolerance: storyTolerance, regionTolerance: storyRegionBase } =
-      liveTolerancesForStory(storyId, opts.tolerance, opts.regionTolerance);
-    const mockStrict = await mockPassesStrict(storyId);
-    const isStorybookOnly = DEV_STORIES.some((s) => s.id === storyId && s.storybookOnly);
-    const globalTolerance =
-      mockStrict && !isStorybookOnly
-        ? Math.max(storyTolerance, LIVE_RASTER_GLOBAL_TOLERANCE_PERCENT)
-        : storyTolerance;
-    const regionTolerance =
-      !isStorybookOnly && percent <= globalTolerance
-        ? Math.max(storyRegionBase, LIVE_RASTER_REGION_TOLERANCE_PERCENT)
-        : storyRegionBase;
+    const globalTolerance = opts.tolerance;
+    const regionTolerance = opts.regionTolerance;
     const globalOk = percent <= globalTolerance;
     const regionOk = maxRegionPercent <= regionTolerance;
-    const globalWarn = percent <= storyTolerance * 4;
-    const regionWarn = maxRegionPercent <= regionTolerance * 4;
-    const status: DiffResult["status"] =
-      globalOk && regionOk ? "pass" : globalWarn && regionWarn ? "warn" : "fail";
+    const status: DiffResult["status"] = statusFromGates(
+      percent,
+      maxRegionPercent,
+      opts.tolerance
+    );
     const failReason = liveFailReason(globalOk, regionOk, status);
     return {
       storyId,
@@ -765,7 +708,7 @@ code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; }
   <thead><tr><th>Story</th><th>Status</th><th>Match</th><th>Artifacts</th><th>Note</th></tr></thead>
   <tbody>${rows}</tbody>
 </table>
-<p style="font-size:12px;color:#6b7280">Default strict base: ${meta.tolerance}% global · ${meta.regionTolerance}% hotspot. Live raster bump (when mock strict): ≤${LIVE_RASTER_GLOBAL_TOLERANCE_PERCENT}% global · ≤${LIVE_RASTER_REGION_TOLERANCE_PERCENT}% hotspot. Export scale: ${LIVE_EXPORT_SCALE}× (FIGMA_LIVE_EXPORT_SCALE).</p>
+<p style="font-size:12px;color:#6b7280">Gate: ≤${meta.tolerance}% global · ≤${meta.regionTolerance}% hotspot (PIXEL_PERFECT_TOLERANCE). Export scale: ${LIVE_EXPORT_SCALE}× (FIGMA_LIVE_EXPORT_SCALE).</p>
 </body></html>`;
 }
 

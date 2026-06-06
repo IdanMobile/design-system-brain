@@ -1,4 +1,16 @@
 .test-console/agent-inbox.json
 .test-console/pending-for-cursor.json
+.test-console/server.pid
+# Ephemeral run data (organized subdirs)
+.test-console/runs/
+.test-console/agent-prompts/
+.test-console/child-status/
+.test-console/worker-runs/
+.test-console/orchestrator-logs/
+.test-console/batch-reports/
+.test-console/job-results/
+# Legacy flat ephemeral files (pre-reorganization; removed by cleanup)
+.test-console/*.prompt.txt
+.test-console/*.kill
 .cursor/agent-context.auto.md
 node_modules

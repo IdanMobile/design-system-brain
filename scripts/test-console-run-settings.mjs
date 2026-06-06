@@ -27,7 +27,8 @@ const SETTINGS_PATH = join(ROOT, ".test-console", "run-settings.json");
  *   maxAutoRetriesWhenStuck: number,
  *   maxAgentCallsPerLaunch: number,
  *   launchAutoMode: boolean,
- *   headlessAgents: boolean
+ *   headlessAgents: boolean,
+ *   skipTierAAfterPass: boolean
  * }} RunSettings */
 
 export const DEFAULT_AGENT_MODEL = "composer-2.5-fast";
@@ -82,7 +83,8 @@ export const DEFAULT_RUN_SETTINGS = {
   maxAutoRetriesWhenStuck: 3,
   maxAgentCallsPerLaunch: 100,
   launchAutoMode: true,
-  headlessAgents: true
+  headlessAgents: true,
+  skipTierAAfterPass: false
 };
 
 export const ACTION_SUITE = {
@@ -193,7 +195,8 @@ export function normalizeRunSettings(raw = {}) {
     headlessAgents:
       raw.headlessAgents !== undefined
         ? Boolean(raw.headlessAgents)
-        : clampWorkers(raw.parallelWorkers ?? DEFAULT_RUN_SETTINGS.parallelWorkers) > 1
+        : clampWorkers(raw.parallelWorkers ?? DEFAULT_RUN_SETTINGS.parallelWorkers) > 1,
+    skipTierAAfterPass: Boolean(raw.skipTierAAfterPass ?? DEFAULT_RUN_SETTINGS.skipTierAAfterPass)
   };
 }
 

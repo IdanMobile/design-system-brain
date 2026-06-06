@@ -29,12 +29,13 @@ import {
   appendDeveloperActivityLog,
   finishDeveloperActivity
 } from "./developer-activity.mjs";
+import { agentPromptsDir, agentPromptPath } from "./test-console-paths.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
 async function runAgentInSandbox(worktreePath, prompt, jobId) {
-  mkdirSync(join(worktreePath, ".test-console"), { recursive: true });
-  const promptFile = join(worktreePath, ".test-console", `${jobId}.implement.prompt.txt`);
+  mkdirSync(agentPromptsDir(worktreePath), { recursive: true });
+  const promptFile = agentPromptPath(worktreePath, `${jobId}.implement`);
   writeFileSync(promptFile, prompt, "utf8");
 
   const settings = loadRunSettings();

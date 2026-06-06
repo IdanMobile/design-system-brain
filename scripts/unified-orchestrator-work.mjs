@@ -293,12 +293,25 @@ export function effectiveFlowBatchLimit(repoRoot, batch) {
   }
   const settings = loadRunSettings();
   const defaultLimit = Math.max(1, settings.parallelWorkers ?? 12);
+  // Honour the same PORTFOLIO_FLOW_FIXER_CONCURRENCY used by the portfolio orchestrator.
+  const flowFixerConcurrency = Math.max(
+    1,
+    Math.min(20, Number(process.env.PORTFOLIO_FLOW_FIXER_CONCURRENCY ?? defaultLimit))
+  );
   const touchesShared = batch.some((w) => suiteUsesSharedImporter(w.stepId));
   if (touchesShared) {
-    return 1;
+    // Shared-importer suites (figma, figmaLive, delivery, etc.) must stay serial
+    // because they all write code-v2.ts. Override with FIXER_SHARED_CONCURRENCY=N to widen.
+    const sharedCap = Number(process.env.FIXER_SHARED_CONCURRENCY ?? 1);
+    return Math.max(1, Number.isFinite(sharedCap) ? sharedCap : 1);
   }
-  return Math.min(defaultLimit, 4);
+  // Non-shared suites (pixel/structural) can parallelize freely.
+  // Respects FIXER_PARALLEL_CAP or falls back to min(flowFixerConcurrency, parallelWorkers, 8).
+  const rawCap = Number(process.env.FIXER_PARALLEL_CAP ?? Math.min(flowFixerConcurrency, defaultLimit, 8));
+  const parallelCap = Number.isFinite(rawCap) && rawCap > 0 ? rawCap : 8;
+  return Math.max(1, parallelCap);
 }
+
 
 /**
  * Drop parked (exhausted) items from a flow batch.

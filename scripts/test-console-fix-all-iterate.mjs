@@ -566,7 +566,9 @@ async function runFixAllBatch(jobId, { killFlagPath, suiteId, storyIds, cfg, app
     `[fix-all] BATCH mode — ${remaining.length} stories · up to ${MAX_BATCH_TRIES} investigate→fix→retest rounds\n` +
       `[fix-all] Investigation report written before each agent session.\n` +
       `[fix-all] Sandbox gate ON — metrics regress → auto git restore.\n` +
-      (useWorktree ? `[fix-all] Sandbox worktree ON (default) — agent edits isolated; set FIX_ALL_SANDBOX=main to disable.\n` : "") +
+      (useWorktree
+        ? `[fix-all] Sandbox worktree ON (default) — agent edits isolated; set FIX_ALL_SANDBOX=main to edit on main.\n`
+        : `[fix-all] Sandbox worktree OFF — agent edits on main with git-restore gate (unset FIX_ALL_SANDBOX or set worktree to re-enable isolation).\n`) +
       `[fix-all] Legacy batch mode — serial is now the default; set FIX_ALL_BATCH=1 to opt back into batch.\n`
   );
 
@@ -1086,6 +1088,29 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
     let storyFilesChanged = [];
     const storyRegistry = loadStoryFamilyRegistry(ROOT);
 
+    // Per-story lock: prevents two concurrent orchestrators from working on the same
+    // story+suite simultaneously (e.g., flow_first with overlapping job dispatches).
+    const locksDir = join(ROOT, ".test-console", "locks");
+    mkdirSync(locksDir, { recursive: true });
+    const storyLockPath = join(
+      locksDir,
+      `${storyId.replace(/[^a-zA-Z0-9._-]+/g, "-")}-${suiteId}.lock`
+    );
+    if (existsSync(storyLockPath)) {
+      let lockedBy = "unknown";
+      try {
+        lockedBy = readFileSync(storyLockPath, "utf8").split("\n")[0]?.trim() ?? "unknown";
+      } catch { /* ok */ }
+      await appendLog(
+        `${prefix} — SKIP: another worker already holds this story+suite lock (job: ${lockedBy})\n`
+      );
+      continue;
+    }
+    try {
+      writeFileSync(storyLockPath, `${jobId}\n${new Date().toISOString()}\n`, "utf8");
+    } catch { /* non-fatal: lock write failure means we proceed without it */ }
+
+
     for (let attempt = 1; attempt <= MAX_TRIES_PER_STORY; attempt++) {
       if (existsSync(killFlagPath)) break;
 
@@ -1099,22 +1124,29 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
       let pluginBuildTail = "";
 
       if (attempt === 1) {
-        const refreshed = await refreshStaleStoryResult({
-          suiteId,
-          storyId,
-          jobStartedAtMs,
-          appendLog,
-          jobId,
-          killFlagPath,
-          prefix
-        });
-        if (refreshed) {
-          const after = readStoryStatus(suiteId, storyId);
-          if (after?.status === "pass") {
-            await appendLog(`${prefix} — refreshed result is PASS; skipping agent\n`);
-            passed = true;
-            break;
+        // Skip stale-result refresh when lab-memory already has a root cause —
+        // the agent knows what to fix; re-testing just burns time.
+        const hasKnownRootCause = isInvestigationComplete(ROOT, storyId, suiteId);
+        if (!hasKnownRootCause) {
+          const refreshed = await refreshStaleStoryResult({
+            suiteId,
+            storyId,
+            jobStartedAtMs,
+            appendLog,
+            jobId,
+            killFlagPath,
+            prefix
+          });
+          if (refreshed) {
+            const after = readStoryStatus(suiteId, storyId);
+            if (after?.status === "pass") {
+              await appendLog(`${prefix} — refreshed result is PASS; skipping agent\n`);
+              passed = true;
+              break;
+            }
           }
+        } else {
+          await appendLog(`${prefix} — lab-memory root cause cached; skipping stale refresh\n`);
         }
       }
 
@@ -1175,10 +1207,22 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
 
       const gitBefore = snapshotWorkspace(activeRoot);
 
-      const gate = investigatorGateAllowsFixer(ROOT, storyId, suiteId);
-      if (!gate.allowed) {
+      // Investigator gate: only block fixer when supervisor explicitly flags STUCK/NO_EDIT
+      // on a retry, or if there is truly no prior run history AND no cached investigation.
+      // Attempt 1 with no history: dispatch fixer directly (it does inline triage as before).
+      // This prevents wasting an entire attempt slot on investigation with no code change.
+      const priorRunsForGate = loadPriorWorkerRuns(ROOT, jobId, storyId);
+      const supervisorWantsInvestigation =
+        workerMode === "investigate_first" ||
+        workerMode === "orchestrator_review";
+      const shouldRunInvestigator =
+        supervisorWantsInvestigation
+          ? !isInvestigationComplete(ROOT, storyId, suiteId)
+          : false;  // fixer does inline triage on attempt 1; investigator only on explicit supervisor request
+
+      if (shouldRunInvestigator) {
         await appendLog(
-          `${prefix} attempt ${attempt} — INVESTIGATOR phase (fixer blocked: ${gate.reason})…\n`
+          `${prefix} attempt ${attempt} — INVESTIGATOR phase (supervisor: ${workerMode})…\n`
         );
         updateAgentStatus(ROOT, "investigator", {
           status: "working",
@@ -1208,6 +1252,7 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
             appendLog,
             killFlagPath,
             investigateFirst: true,
+            investigateOnly: true,
             fixMode: cfg.mode,
             workspaceRoot: activeRoot !== ROOT ? activeRoot : undefined
           })
@@ -1219,7 +1264,7 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
           mode: cfg.mode,
           status: invComplete ? "completed" : "incomplete",
           investigationComplete: invComplete,
-          gateReason: gate.reason,
+          gateReason: workerMode,
           agentExitCode: invAgent.exitCode ?? 1,
           usageBlocked: Boolean(invAgent.usageBlocked),
           watchdogTripped: Boolean(invAgent.watchdogTripped),
@@ -1255,30 +1300,13 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
         }
         if (existsSync(killFlagPath)) break;
 
-        if (!invComplete) {
-          if (attempt >= 2) {
-            await appendLog(
-              `${prefix} — investigator vault still incomplete after attempt ${attempt - 1}; dispatching fixer anyway\n`
-            );
-          } else {
-            await appendLog(
-              `${prefix} — investigator incomplete (root cause still pending); fixer skipped this attempt\n`
-            );
-            lastAttemptOutcome = {
-              attempt,
-              beforeAttempt,
-              afterTest: beforeAttempt,
-              agentExitCode: invAgent.exitCode ?? 0,
-              pluginBuildFailed: false,
-              testTail: "investigator-only (no test)",
-              testExitCode: null
-            };
-            continue;
-          }
-        } else {
-          await appendLog(`${prefix} — investigation complete; dispatching fixer…\n`);
-        }
-      } else if (gate.reason === "cached_investigation") {
+        // Always proceed to fixer after investigator — never skip the fixer on investigator-incomplete
+        await appendLog(
+          invComplete
+            ? `${prefix} — investigation complete; dispatching fixer…\n`
+            : `${prefix} — investigator incomplete (pending); dispatching fixer with available context\n`
+        );
+      } else if (isInvestigationComplete(ROOT, storyId, suiteId)) {
         const hint = loadLabMemoryFixHint(ROOT, storyId, suiteId);
         await appendLog(
           `${prefix} attempt ${attempt} — using cached investigation (${hint?.recommendedFixArea?.split("\n")[0] ?? "lab-memory"})\n`
@@ -1569,15 +1597,25 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
       let regressionOk = true;
 
       if (!existsSync(killFlagPath)) {
-        regressionOk = await runTierA({
-          repoRoot: ROOT,
-          suiteId,
-          storyId,
-          runStep,
-          appendLog
-        });
-        if (!regressionOk) {
-          await appendLog(`${prefix} — step passed but Tier A failed; treat as not done\n`);
+        const settings = loadRunSettings();
+        const skipTierA =
+          settings.skipTierAAfterPass === true ||
+          process.env.FIX_ALL_SKIP_TIER_A === "1";
+        if (skipTierA) {
+          await appendLog(
+            `${prefix} — Tier A skipped (skipTierAAfterPass=true or FIX_ALL_SKIP_TIER_A=1)\n`
+          );
+        } else {
+          regressionOk = await runTierA({
+            repoRoot: ROOT,
+            suiteId,
+            storyId,
+            runStep,
+            appendLog
+          });
+          if (!regressionOk) {
+            await appendLog(`${prefix} — step passed but Tier A failed; treat as not done\n`);
+          }
         }
       }
 
@@ -1649,16 +1687,32 @@ export async function runFixAllIterate(jobId, { killFlagPath, suiteId: suiteOver
       storiesExhausted += 1;
       await appendLog(`${prefix} — gave up after ${MAX_TRIES_PER_STORY} attempts\n`);
     }
+
+    // Release per-story lock so future runs can re-enter this story.
+    try {
+      if (existsSync(storyLockPath)) unlinkSync(storyLockPath);
+    } catch { /* non-fatal */ }
   }
 
+
   if (!existsSync(killFlagPath)) {
-    if (serialStoryIds.length === 1) {
-      await appendLog(`[fix-all] Refreshing report for ${serialStoryIds[0]} only…\n`);
-      await runStoryTestManaged(suiteId, serialStoryIds[0], jobId, appendLog, killFlagPath);
+    // Only re-test stories that are not already passing — avoids redundant golden runs
+    // for stories that passed during their own fix loop.
+    const needsRetest = serialStoryIds.filter(
+      (id) => readStoryStatus(suiteId, id)?.status !== "pass"
+    );
+    if (needsRetest.length === 0) {
+      await appendLog("[fix-all] All stories pass — skipping end-of-run re-test.\n");
+      spawnSync("node", ["scripts/test-portfolio-merge.mjs"], { cwd: ROOT, stdio: "ignore" });
+    } else if (needsRetest.length === 1) {
+      await appendLog(`[fix-all] Refreshing report for ${needsRetest[0]} only…\n`);
+      await runStoryTestManaged(suiteId, needsRetest[0], jobId, appendLog, killFlagPath);
       spawnSync("node", ["scripts/test-portfolio-merge.mjs"], { cwd: ROOT, stdio: "ignore" });
     } else {
-      await appendLog("[fix-all] Refreshing full suite report (child terminal)…\n");
-      await runFullSuiteGolden(suiteId, appendLog, jobId, killFlagPath, { storyIds: serialStoryIds });
+      await appendLog(
+        `[fix-all] Refreshing ${needsRetest.length}/${serialStoryIds.length} still-failing stories (skipping ${serialStoryIds.length - needsRetest.length} already-pass)…\n`
+      );
+      await runFullSuiteGolden(suiteId, appendLog, jobId, killFlagPath, { storyIds: needsRetest });
     }
     spawnSync("node", ["scripts/orchestrator-context.mjs"], {
       cwd: ROOT,

@@ -555,3 +555,74 @@ false — automated test record at 2026-05-30T03:44:20.747Z
 false — automated test record at 2026-05-30T03:48:54.300Z
 
 <!-- vault-fingerprint: pixel|warn|0.179|na|5|fix-all pre-agent -->
+
+## Investigation — lab-muiworkspacescreen--default / pixel
+
+**Date:** 2026-05-30  
+**Source:** cursor agent (fix-all iteration 3)
+
+### Root cause
+
+- `isMuiOutlinedChrome()` was defined but **not** in `useNativeBorder`; `MuiAlert-outlined` used `outline-offset`, `MuiPaper-outlined` used SVG stroke overlay — both differ from Storybook native `border` at 12px radius (~677 px region-01, progress-bar edge in region-02).
+- [[visual/patterns/render-html-layer-class-allowlist-regression]] — not Emotion replay; stack geometry OK.
+
+### Fix applied
+
+- `render-html.ts`: `isMuiOutlinedChrome(layer)` → `useNativeBorder`; `isMuiOutlinedBorderSvg()` returns false (border-box already enforced in `paintToBaseCss`).
+
+### Recommended fix area
+
+- `packages/pixel-test/src/render-html.ts` — `paintToBaseCss` / `useNativeBorder`
+
+<!-- vault-fingerprint: pixel|warn|0.179|na|agent-fix8 -->
+
+## Investigation — lab-muiworkspacescreen--default / pixel
+
+**Date:** 2026-05-30  
+**Source:** cursor agent (fix-all iteration 1/5)
+
+### Root cause
+
+- `isMuiOutlinedChrome()` defined but **not** in `useNativeBorder`; `MuiPaper-outlined` still used `isMuiOutlinedBorderSvg()` (CSS suppressed + SVG stroke); `MuiAlert-outlined` used `outline-offset` — both differ from Storybook `border` at 12px radius (~677 px region-01).
+- [[visual/patterns/render-html-layer-class-allowlist-regression]] — stack geometry OK.
+
+### Fix applied
+
+- `render-html.ts`: `isMuiOutlinedChrome(layer)` → `useNativeBorder`; `isMuiOutlinedBorderSvg()` → `false`.
+
+### Recommended fix area
+
+- `packages/pixel-test/src/render-html.ts` — `paintToBaseCss` / `useNativeBorder`
+
+<!-- vault-fingerprint: pixel|warn|0.179|na|agent-fix9 -->
+
+## Investigation — lab-muiworkspacescreen--default / pixel
+
+**Date:** 2026-05-30  
+**Source:** cursor agent (fix-all iteration 1/5)
+
+### Root cause
+
+- Prior loops targeted `MuiPaper-outlined` / `MuiAlert-outlined` borders; native border on Paper regressed to **2.6%** (layout shift). Real drift was **`MuiOutlinedInput-root`**: corner radii were skipped (`!isMuiOutlinedInputRoot` guard) so search field corners did not clip like Storybook (~677 px region-01).
+
+### Fix applied
+
+- `render-html.ts`: apply `cornerRadiusToCss` on `MuiOutlinedInput-root` + `overflow: hidden` (fieldset border path unchanged).
+
+### Result
+
+- Pixel golden: **PASS 0.100%** (tier A verified).
+
+<!-- vault-fingerprint: pixel|pass|0.100|na|agent-fix10 -->
+
+## Resolved — lab-muiworkspacescreen--default / pixel
+
+**Date:** 2026-05-30T11:36:26.599Z  
+**Attempt:** 1  
+**Suite:** pixel
+
+Automated harness reports **PASS** for this story/step.
+
+If the fix was a reusable rule, add or update a note under `lab-memory/visual/patterns/`.
+
+<!-- vault-fingerprint: resolved|pixel|1|2026-05-30 -->

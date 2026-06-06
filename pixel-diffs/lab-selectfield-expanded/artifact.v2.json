@@ -3,7 +3,7 @@
   "meta": {
     "storyId": "lab-selectfield--expanded",
     "componentName": "SelectField",
-    "extractedAt": "2026-05-25T19:29:18.178Z",
+    "extractedAt": "2026-05-30T11:36:40.214Z",
     "sourceUrl": "http://127.0.0.1:6107/iframe.html?id=lab-selectfield--expanded&viewMode=story",
     "viewport": {
       "x": 0,
@@ -185,7 +185,8 @@
           ],
           "role": "combobox",
           "dataset": {
-            "pressedManaged": "true"
+            "pressedManaged": "true",
+            "labId": "el-spacesuits"
           }
         },
         "box": {
@@ -510,7 +511,10 @@
             "source": {
               "kind": "dom",
               "tag": "p",
-              "role": "option"
+              "role": "option",
+              "dataset": {
+                "labId": "el-spacesuits-2"
+              }
             },
             "box": {
               "x": 1,
@@ -583,7 +587,10 @@
             "source": {
               "kind": "dom",
               "tag": "p",
-              "role": "option"
+              "role": "option",
+              "dataset": {
+                "labId": "el-helmets"
+              }
             },
             "box": {
               "x": 1,
@@ -656,7 +663,10 @@
             "source": {
               "kind": "dom",
               "tag": "p",
-              "role": "option"
+              "role": "option",
+              "dataset": {
+                "labId": "el-gloves"
+              }
             },
             "box": {
               "x": 1,
@@ -729,7 +739,10 @@
             "source": {
               "kind": "dom",
               "tag": "p",
-              "role": "option"
+              "role": "option",
+              "dataset": {
+                "labId": "el-boots"
+              }
             },
             "box": {
               "x": 1,

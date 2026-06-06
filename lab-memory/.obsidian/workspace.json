@@ -178,6 +178,9 @@
   },
   "active": "82b7ff8bd471a604",
   "lastOpenFiles": [
+    "visual/investigations/active/lab-cryptochaosdashboard--default.md",
+    "visual/investigations/active/lab-pricingpanel--starter.md",
+    "visual/investigations/active/lab-analyticscharts--usage.md",
     "stories/lab-retroterminalscreen--default.md",
     "visual/patterns/render-html-layer-class-allowlist-regression.md",
     "visual/patterns/render-html-computed-font-stack.md",
@@ -210,9 +213,6 @@
     "logic/README.md",
     "visual/investigations/archive/mui--showcase.md",
     "visual/investigations/archive/lab-tabspanel--activity-active.md",
-    "visual/investigations/archive/lab-productcard--default.md",
-    "visual/investigations/archive/lab-button--secondary.md",
-    "visual/investigations/active/lab-tabspanel--settings-active.md",
-    "visual/investigations/active/lab-retroterminalscreen--default.md"
+    "visual/investigations/archive/lab-productcard--default.md"
   ]
 }

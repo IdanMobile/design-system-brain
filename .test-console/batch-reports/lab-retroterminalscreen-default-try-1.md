@@ -15,7 +15,7 @@
 ## Stories (read compare + artifact for each before editing)
 
 ### 1. `lab-retroterminalscreen--default` — fail
-- Global diff: **5.49%** (over bar)
+- Global diff: **2.16%** (over bar)
 - Worst hotspot: —
 - Fail reason: `global_over`
 - Compare: /Users/user/Downloads/storybook-to-figma-lab/pixel-diffs/lab-retroterminalscreen-default/regions/region-01-compare.png
@@ -349,7 +349,7 @@ function clampNodeWidthToParent(
         text.resize(maxW, text.height);
 ```
 
-### `snap` — `packages/pixel-test/src/render-html.ts` (lines 21–61 of 3042)
+### `snap` — `packages/pixel-test/src/render-html.ts` (lines 21–61 of 3065)
 
 ```ts
 

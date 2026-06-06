@@ -479,3 +479,88 @@ Automated harness reports **PASS** for this story/step.
 If the fix was a reusable rule, add or update a note under `lab-memory/visual/patterns/`.
 
 <!-- vault-fingerprint: resolved|pixel|1|2026-05-30 -->
+
+## Investigation — lab-foodfrenzyscreen--default / pixel
+
+**Job ID:** 774988f8-1f34-4152-8254-c2c26ca21cd7  
+**Date:** 2026-05-30T11:31:58.922Z  
+**Source:** fix-all pre-agent (automated)
+**Fix attempt:** 1
+
+
+### Metrics
+
+| Field | Value |
+| --- | --- |
+| Status | warn |
+| Global diff | 0.11% |
+| Worst hotspot | n/a |
+| Fail reason | — |
+
+### Compare regions
+
+| Region | Issue | Path |
+| --- | --- | --- |
+| region-01 | diff region | `pixel-diffs/lab-foodfrenzyscreen-default/regions/regions/region-01-compare.png` |
+| region-02 | diff region | `pixel-diffs/lab-foodfrenzyscreen-default/regions/regions/region-02-compare.png` |
+| region-03 | diff region | `pixel-diffs/lab-foodfrenzyscreen-default/regions/regions/region-03-compare.png` |
+| region-04 | diff region | `pixel-diffs/lab-foodfrenzyscreen-default/regions/regions/region-04-compare.png` |
+| region-05 | diff region | `pixel-diffs/lab-foodfrenzyscreen-default/regions/regions/region-05-compare.png` |
+| region-06 | diff region | `pixel-diffs/lab-foodfrenzyscreen-default/regions/regions/region-06-compare.png` |
+
+### Artifacts
+
+- Compare: `pixel-diffs/lab-foodfrenzyscreen-default/regions/region-01-compare.png`
+- Storybook PNG: `pixel-diffs/lab-foodfrenzyscreen-default/storybook.png`
+- Figma PNG: `pixel-diffs/lab-foodfrenzyscreen-default/rendered.png`
+- Artifact JSON: `pixel-diffs/lab-foodfrenzyscreen-default/artifact.v2.json`
+- Scene JSON: `pixel-diffs/lab-foodfrenzyscreen-default/scene.json`
+
+### Root cause
+
+<!-- pending — agent fills after systematic-debugging -->
+
+### Recommended fix area
+
+<!-- pending — see primary fix path for this suite in agent prompt -->
+
+### Cached
+
+false — automated test record at 2026-05-30T11:31:58.922Z
+
+<!-- vault-fingerprint: pixel|warn|0.111|na|1|fix-all pre-agent -->
+
+## Investigation — 2026-05-30 / pixel (promo em tightLineBox + Arial chips)
+
+**Job ID:** fix-all-iterate-1  
+**Date:** 2026-05-30
+
+### Root cause
+
+- Promo `<em>` matched `tightLineBox` (lh=box height) before food promo `line-height: normal`, producing flex-centered 15px line box vs Storybook CSS `line-height: normal`.
+- Search input + category chips used `textFontCss` → authored Inter when `computedStack` is Arial-only.
+
+### Fix
+
+`packages/pixel-test/src/render-html.ts`: `foodPromoTextLine` guard before `tightLineBox`; `textFontCssFoodFrenzy` for search/categories; allowlist `lab-food-frenzy-promo-text`; em/i `font-style: normal` when style omitted.
+
+### Recommended fix area
+
+Harness re-run `pnpm test:pixel:golden -- --story lab-foodfrenzyscreen--default`
+
+### Cached
+
+false
+
+<!-- vault-fingerprint: pixel|warn|0.111|promo-tightline-arial|fix-all-iterate-1 -->
+
+## Verification — 2026-05-30 / pixel PASS
+
+| Field | Value |
+| --- | --- |
+| Status | **pass** |
+| Global diff | **0.062%** |
+
+**Fixes:** `foodPromoTextLine` before `tightLineBox`; `textFontCssFoodFrenzy` (computed Arial) for search/categories/deal-foot; allowlist `lab-food-frenzy-promo-text` only (not `deal-foot` — regresses to 0.745%).
+
+<!-- vault-fingerprint: pixel|pass|0.062|food-promo-dealfoot-font -->

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-30T10:52:36.435Z",
+  "generatedAt": "2026-05-30T11:51:13.011Z",
   "storyCount": 55,
   "steps": [
     {
@@ -99,7 +99,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0.02948562492959893,
-          "testedAt": "2026-05-30T10:46:23.603Z",
+          "testedAt": "2026-05-30T11:27:44.414Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -156,7 +156,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0.025361761303081598,
-          "testedAt": "2026-05-30T10:46:23.603Z",
+          "testedAt": "2026-05-30T11:39:34.264Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -213,7 +213,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0.020232416320435882,
-          "testedAt": "2026-05-30T10:48:49.595Z",
+          "testedAt": "2026-05-30T11:39:34.264Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -270,7 +270,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:22.758Z",
+          "testedAt": "2026-05-30T11:27:44.070Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -327,7 +327,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:23.603Z",
+          "testedAt": "2026-05-30T11:27:43.564Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -384,7 +384,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:23.469Z",
+          "testedAt": "2026-05-30T11:27:44.073Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -441,7 +441,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:23.422Z",
+          "testedAt": "2026-05-30T11:27:44.461Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -498,7 +498,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:23.421Z",
+          "testedAt": "2026-05-30T11:27:44.845Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -555,7 +555,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:23.415Z",
+          "testedAt": "2026-05-30T11:27:45.239Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -612,7 +612,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:22.774Z",
+          "testedAt": "2026-05-30T11:27:45.254Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -669,7 +669,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:32.800Z",
+          "testedAt": "2026-05-30T11:27:56.073Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -726,7 +726,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:32.564Z",
+          "testedAt": "2026-05-30T11:27:55.990Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -783,7 +783,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:32.198Z",
+          "testedAt": "2026-05-30T11:27:55.051Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -840,7 +840,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0.049099836333878884,
-          "testedAt": "2026-05-30T10:46:32.892Z",
+          "testedAt": "2026-05-30T11:27:55.290Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -897,7 +897,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:32.816Z",
+          "testedAt": "2026-05-30T11:27:55.280Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -954,7 +954,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:32.173Z",
+          "testedAt": "2026-05-30T11:27:55.464Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -1011,7 +1011,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:32.590Z",
+          "testedAt": "2026-05-30T11:39:34.265Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -1067,8 +1067,8 @@
         "pixel": {
           "stepId": "pixel",
           "status": "pass",
-          "percent": 0.06987483290800826,
-          "testedAt": "2026-05-30T10:46:33.133Z",
+          "percent": 0.09721715882853323,
+          "testedAt": "2026-05-30T11:31:58.040Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -1125,7 +1125,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:32.924Z",
+          "testedAt": "2026-05-30T11:39:34.265Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -1182,7 +1182,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:33.047Z",
+          "testedAt": "2026-05-30T11:27:55.023Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -1239,7 +1239,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:32.902Z",
+          "testedAt": "2026-05-30T11:27:56.054Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -1296,7 +1296,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:32.590Z",
+          "testedAt": "2026-05-30T11:27:55.951Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -1353,7 +1353,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:41.751Z",
+          "testedAt": "2026-05-30T11:28:08.226Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -1410,7 +1410,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:41.255Z",
+          "testedAt": "2026-05-30T11:28:08.080Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -1466,8 +1466,8 @@
         "pixel": {
           "stepId": "pixel",
           "status": "pass",
-          "percent": 0.04860857941426661,
-          "testedAt": "2026-05-30T10:46:41.837Z",
+          "percent": 0.061975938753189935,
+          "testedAt": "2026-05-30T11:36:31.092Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -1524,7 +1524,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:40.897Z",
+          "testedAt": "2026-05-30T11:39:34.265Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -1581,7 +1581,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:42.029Z",
+          "testedAt": "2026-05-30T11:28:08.195Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -1638,7 +1638,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:42.283Z",
+          "testedAt": "2026-05-30T11:28:08.331Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -1695,7 +1695,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:42.284Z",
+          "testedAt": "2026-05-30T11:28:08.273Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -1752,7 +1752,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0.06501397496658161,
-          "testedAt": "2026-05-30T10:46:42.798Z",
+          "testedAt": "2026-05-30T11:28:08.130Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -1807,23 +1807,23 @@
       "cells": {
         "pixel": {
           "stepId": "pixel",
-          "status": "warn",
-          "percent": 0.1786540775710451,
-          "testedAt": "2026-05-30T10:52:36.287Z",
+          "status": "pass",
+          "percent": 0.09997222993612885,
+          "testedAt": "2026-05-30T11:36:35.491Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
-          "action": "Polish to strict pass (0.18%)",
+          "action": "—",
           "compareUrl": "pixel-diffs/lab-muiworkspacescreen-default/regions/region-01-compare.png"
         },
         "figma": {
           "stepId": "figma",
           "status": "not_tested",
           "testedAt": null,
-          "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is warn (required before Figma emulator)",
-          "action": "Blocked — Pixel (schema) is warn (required before Figma emulator)",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Figma emulator",
           "compareUrl": null
         },
         "figmaLive": {
@@ -1831,9 +1831,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is warn (required before Figma live)",
-          "action": "Blocked — Pixel (schema) is warn (required before Figma live)",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Figma live)",
+          "action": "Blocked — Figma emulator is not_tested (required before Figma live)",
           "compareUrl": null
         },
         "delivery": {
@@ -1841,9 +1841,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is warn (required before Delivery (3-way))",
-          "action": "Blocked — Pixel (schema) is warn (required before Delivery (3-way))",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
+          "action": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
           "compareUrl": null
         },
         "logic": {
@@ -1851,9 +1851,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is warn (required before Logic audit)",
-          "action": "Blocked — Pixel (schema) is warn (required before Logic audit)",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Logic audit)",
+          "action": "Blocked — Figma emulator is not_tested (required before Logic audit)",
           "compareUrl": null
         }
       }
@@ -1866,7 +1866,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:41.990Z",
+          "testedAt": "2026-05-30T11:28:08.195Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -1923,7 +1923,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:41.638Z",
+          "testedAt": "2026-05-30T11:28:08.093Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -1978,23 +1978,23 @@
       "cells": {
         "pixel": {
           "stepId": "pixel",
-          "status": "pass",
-          "percent": 0.08567262121764492,
-          "testedAt": "2026-05-30T10:46:41.908Z",
+          "status": "warn",
+          "percent": 0.2603597034876656,
+          "testedAt": "2026-05-30T11:51:12.756Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
-          "action": "—",
+          "action": "Polish to strict pass (0.26%)",
           "compareUrl": "pixel-diffs/lab-neonarcadescreen-default/regions/region-01-compare.png"
         },
         "figma": {
           "stepId": "figma",
           "status": "not_tested",
           "testedAt": null,
-          "canRun": true,
-          "blockedBy": null,
-          "blockedReason": null,
-          "action": "Run Figma emulator",
+          "canRun": false,
+          "blockedBy": "pixel",
+          "blockedReason": "Blocked — Pixel (schema) is warn (required before Figma emulator)",
+          "action": "Blocked — Pixel (schema) is warn (required before Figma emulator)",
           "compareUrl": null
         },
         "figmaLive": {
@@ -2002,9 +2002,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Figma live)",
-          "action": "Blocked — Figma emulator is not_tested (required before Figma live)",
+          "blockedBy": "pixel",
+          "blockedReason": "Blocked — Pixel (schema) is warn (required before Figma live)",
+          "action": "Blocked — Pixel (schema) is warn (required before Figma live)",
           "compareUrl": null
         },
         "delivery": {
@@ -2012,9 +2012,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
-          "action": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
+          "blockedBy": "pixel",
+          "blockedReason": "Blocked — Pixel (schema) is warn (required before Delivery (3-way))",
+          "action": "Blocked — Pixel (schema) is warn (required before Delivery (3-way))",
           "compareUrl": null
         },
         "logic": {
@@ -2022,9 +2022,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "figma",
-          "blockedReason": "Blocked — Figma emulator is not_tested (required before Logic audit)",
-          "action": "Blocked — Figma emulator is not_tested (required before Logic audit)",
+          "blockedBy": "pixel",
+          "blockedReason": "Blocked — Pixel (schema) is warn (required before Logic audit)",
+          "action": "Blocked — Pixel (schema) is warn (required before Logic audit)",
           "compareUrl": null
         }
       }
@@ -2037,7 +2037,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:56.310Z",
+          "testedAt": "2026-05-30T11:32:06.202Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -2093,8 +2093,8 @@
         "pixel": {
           "stepId": "pixel",
           "status": "pass",
-          "percent": 0.049342105263157895,
-          "testedAt": "2026-05-30T10:46:55.273Z",
+          "percent": 0.06606359649122807,
+          "testedAt": "2026-05-30T11:32:06.687Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -2150,8 +2150,8 @@
         "pixel": {
           "stepId": "pixel",
           "status": "pass",
-          "percent": 0.035361842105263164,
-          "testedAt": "2026-05-30T10:46:55.273Z",
+          "percent": 0.050438596491228074,
+          "testedAt": "2026-05-30T11:32:06.654Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -2208,7 +2208,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:48:49.595Z",
+          "testedAt": "2026-05-30T11:39:34.263Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -2265,7 +2265,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:56.323Z",
+          "testedAt": "2026-05-30T11:39:34.264Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -2322,7 +2322,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:56.416Z",
+          "testedAt": "2026-05-30T11:32:06.226Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -2379,7 +2379,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:56.352Z",
+          "testedAt": "2026-05-30T11:32:06.747Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -2436,7 +2436,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:56.383Z",
+          "testedAt": "2026-05-30T11:39:34.264Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -2493,7 +2493,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:55.190Z",
+          "testedAt": "2026-05-30T11:39:34.264Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -2550,7 +2550,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:55.189Z",
+          "testedAt": "2026-05-30T11:32:06.637Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -2607,7 +2607,7 @@
           "stepId": "pixel",
           "status": "pass",
           "percent": 0,
-          "testedAt": "2026-05-30T10:46:56.334Z",
+          "testedAt": "2026-05-30T11:32:06.469Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
@@ -2662,22 +2662,23 @@
       "cells": {
         "pixel": {
           "stepId": "pixel",
-          "status": "not_tested",
-          "testedAt": null,
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-30T11:32:06.624Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
-          "action": "Run Pixel (schema)",
+          "action": "—",
           "compareUrl": null
         },
         "figma": {
           "stepId": "figma",
           "status": "not_tested",
           "testedAt": null,
-          "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Figma emulator)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Figma emulator)",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Figma emulator",
           "compareUrl": null
         },
         "figmaLive": {
@@ -2685,9 +2686,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Figma live)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Figma live)",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Figma live)",
+          "action": "Blocked — Figma emulator is not_tested (required before Figma live)",
           "compareUrl": null
         },
         "delivery": {
@@ -2695,9 +2696,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Delivery (3-way))",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Delivery (3-way))",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
+          "action": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
           "compareUrl": null
         },
         "logic": {
@@ -2705,9 +2706,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Logic audit)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Logic audit)",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Logic audit)",
+          "action": "Blocked — Figma emulator is not_tested (required before Logic audit)",
           "compareUrl": null
         }
       }
@@ -2718,13 +2719,14 @@
       "cells": {
         "pixel": {
           "stepId": "pixel",
-          "status": "not_tested",
-          "testedAt": null,
+          "status": "fail",
+          "percent": 0.8643213027099284,
+          "testedAt": "2026-05-30T11:36:43.565Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
-          "action": "Run Pixel (schema)",
-          "compareUrl": null
+          "action": "Fix schema / render-html.ts",
+          "compareUrl": "pixel-diffs/lab-retroterminalscreen-default/regions/region-01-compare.png"
         },
         "figma": {
           "stepId": "figma",
@@ -2732,8 +2734,8 @@
           "testedAt": null,
           "canRun": false,
           "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Figma emulator)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Figma emulator)",
+          "blockedReason": "Blocked — Pixel (schema) is fail (required before Figma emulator)",
+          "action": "Blocked — Pixel (schema) is fail (required before Figma emulator)",
           "compareUrl": null
         },
         "figmaLive": {
@@ -2742,8 +2744,8 @@
           "testedAt": null,
           "canRun": false,
           "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Figma live)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Figma live)",
+          "blockedReason": "Blocked — Pixel (schema) is fail (required before Figma live)",
+          "action": "Blocked — Pixel (schema) is fail (required before Figma live)",
           "compareUrl": null
         },
         "delivery": {
@@ -2752,8 +2754,8 @@
           "testedAt": null,
           "canRun": false,
           "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Delivery (3-way))",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Delivery (3-way))",
+          "blockedReason": "Blocked — Pixel (schema) is fail (required before Delivery (3-way))",
+          "action": "Blocked — Pixel (schema) is fail (required before Delivery (3-way))",
           "compareUrl": null
         },
         "logic": {
@@ -2762,8 +2764,8 @@
           "testedAt": null,
           "canRun": false,
           "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Logic audit)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Logic audit)",
+          "blockedReason": "Blocked — Pixel (schema) is fail (required before Logic audit)",
+          "action": "Blocked — Pixel (schema) is fail (required before Logic audit)",
           "compareUrl": null
         }
       }
@@ -2774,22 +2776,23 @@
       "cells": {
         "pixel": {
           "stepId": "pixel",
-          "status": "not_tested",
-          "testedAt": null,
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-30T11:36:42.825Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
-          "action": "Run Pixel (schema)",
+          "action": "—",
           "compareUrl": null
         },
         "figma": {
           "stepId": "figma",
           "status": "not_tested",
           "testedAt": null,
-          "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Figma emulator)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Figma emulator)",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Figma emulator",
           "compareUrl": null
         },
         "figmaLive": {
@@ -2797,9 +2800,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Figma live)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Figma live)",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Figma live)",
+          "action": "Blocked — Figma emulator is not_tested (required before Figma live)",
           "compareUrl": null
         },
         "delivery": {
@@ -2807,9 +2810,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Delivery (3-way))",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Delivery (3-way))",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
+          "action": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
           "compareUrl": null
         },
         "logic": {
@@ -2817,9 +2820,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Logic audit)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Logic audit)",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Logic audit)",
+          "action": "Blocked — Figma emulator is not_tested (required before Logic audit)",
           "compareUrl": null
         }
       }
@@ -2830,22 +2833,23 @@
       "cells": {
         "pixel": {
           "stepId": "pixel",
-          "status": "not_tested",
-          "testedAt": null,
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-30T11:36:42.708Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
-          "action": "Run Pixel (schema)",
+          "action": "—",
           "compareUrl": null
         },
         "figma": {
           "stepId": "figma",
           "status": "not_tested",
           "testedAt": null,
-          "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Figma emulator)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Figma emulator)",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Figma emulator",
           "compareUrl": null
         },
         "figmaLive": {
@@ -2853,9 +2857,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Figma live)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Figma live)",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Figma live)",
+          "action": "Blocked — Figma emulator is not_tested (required before Figma live)",
           "compareUrl": null
         },
         "delivery": {
@@ -2863,9 +2867,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Delivery (3-way))",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Delivery (3-way))",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
+          "action": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
           "compareUrl": null
         },
         "logic": {
@@ -2873,9 +2877,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Logic audit)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Logic audit)",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Logic audit)",
+          "action": "Blocked — Figma emulator is not_tested (required before Logic audit)",
           "compareUrl": null
         }
       }
@@ -2886,22 +2890,23 @@
       "cells": {
         "pixel": {
           "stepId": "pixel",
-          "status": "not_tested",
-          "testedAt": null,
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-30T11:39:34.265Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
-          "action": "Run Pixel (schema)",
+          "action": "—",
           "compareUrl": null
         },
         "figma": {
           "stepId": "figma",
           "status": "not_tested",
           "testedAt": null,
-          "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Figma emulator)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Figma emulator)",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Figma emulator",
           "compareUrl": null
         },
         "figmaLive": {
@@ -2909,9 +2914,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Figma live)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Figma live)",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Figma live)",
+          "action": "Blocked — Figma emulator is not_tested (required before Figma live)",
           "compareUrl": null
         },
         "delivery": {
@@ -2919,9 +2924,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Delivery (3-way))",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Delivery (3-way))",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
+          "action": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
           "compareUrl": null
         },
         "logic": {
@@ -2929,9 +2934,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Logic audit)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Logic audit)",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Logic audit)",
+          "action": "Blocked — Figma emulator is not_tested (required before Logic audit)",
           "compareUrl": null
         }
       }
@@ -2942,22 +2947,23 @@
       "cells": {
         "pixel": {
           "stepId": "pixel",
-          "status": "not_tested",
-          "testedAt": null,
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-30T11:36:42.499Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
-          "action": "Run Pixel (schema)",
+          "action": "—",
           "compareUrl": null
         },
         "figma": {
           "stepId": "figma",
           "status": "not_tested",
           "testedAt": null,
-          "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Figma emulator)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Figma emulator)",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Figma emulator",
           "compareUrl": null
         },
         "figmaLive": {
@@ -2965,9 +2971,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Figma live)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Figma live)",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Figma live)",
+          "action": "Blocked — Figma emulator is not_tested (required before Figma live)",
           "compareUrl": null
         },
         "delivery": {
@@ -2975,9 +2981,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Delivery (3-way))",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Delivery (3-way))",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
+          "action": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
           "compareUrl": null
         },
         "logic": {
@@ -2985,9 +2991,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Logic audit)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Logic audit)",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Logic audit)",
+          "action": "Blocked — Figma emulator is not_tested (required before Logic audit)",
           "compareUrl": null
         }
       }
@@ -2998,22 +3004,23 @@
       "cells": {
         "pixel": {
           "stepId": "pixel",
-          "status": "not_tested",
-          "testedAt": null,
+          "status": "pass",
+          "percent": 0.08172317414023575,
+          "testedAt": "2026-05-30T11:36:42.708Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
-          "action": "Run Pixel (schema)",
-          "compareUrl": null
+          "action": "—",
+          "compareUrl": "pixel-diffs/lab-spacemissioncontrol-default/regions/region-01-compare.png"
         },
         "figma": {
           "stepId": "figma",
           "status": "not_tested",
           "testedAt": null,
-          "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Figma emulator)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Figma emulator)",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Figma emulator",
           "compareUrl": null
         },
         "figmaLive": {
@@ -3021,9 +3028,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Figma live)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Figma live)",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Figma live)",
+          "action": "Blocked — Figma emulator is not_tested (required before Figma live)",
           "compareUrl": null
         },
         "delivery": {
@@ -3031,9 +3038,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Delivery (3-way))",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Delivery (3-way))",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
+          "action": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
           "compareUrl": null
         },
         "logic": {
@@ -3041,9 +3048,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Logic audit)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Logic audit)",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Logic audit)",
+          "action": "Blocked — Figma emulator is not_tested (required before Logic audit)",
           "compareUrl": null
         }
       }
@@ -3054,22 +3061,23 @@
       "cells": {
         "pixel": {
           "stepId": "pixel",
-          "status": "not_tested",
-          "testedAt": null,
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-30T11:36:42.665Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
-          "action": "Run Pixel (schema)",
+          "action": "—",
           "compareUrl": null
         },
         "figma": {
           "stepId": "figma",
           "status": "not_tested",
           "testedAt": null,
-          "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Figma emulator)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Figma emulator)",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Figma emulator",
           "compareUrl": null
         },
         "figmaLive": {
@@ -3077,9 +3085,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Figma live)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Figma live)",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Figma live)",
+          "action": "Blocked — Figma emulator is not_tested (required before Figma live)",
           "compareUrl": null
         },
         "delivery": {
@@ -3087,9 +3095,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Delivery (3-way))",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Delivery (3-way))",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
+          "action": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
           "compareUrl": null
         },
         "logic": {
@@ -3097,9 +3105,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Logic audit)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Logic audit)",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Logic audit)",
+          "action": "Blocked — Figma emulator is not_tested (required before Logic audit)",
           "compareUrl": null
         }
       }
@@ -3110,22 +3118,23 @@
       "cells": {
         "pixel": {
           "stepId": "pixel",
-          "status": "not_tested",
-          "testedAt": null,
+          "status": "pass",
+          "percent": 0,
+          "testedAt": "2026-05-30T11:39:34.264Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
-          "action": "Run Pixel (schema)",
+          "action": "—",
           "compareUrl": null
         },
         "figma": {
           "stepId": "figma",
           "status": "not_tested",
           "testedAt": null,
-          "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Figma emulator)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Figma emulator)",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Run Figma emulator",
           "compareUrl": null
         },
         "figmaLive": {
@@ -3133,9 +3142,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Figma live)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Figma live)",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Figma live)",
+          "action": "Blocked — Figma emulator is not_tested (required before Figma live)",
           "compareUrl": null
         },
         "delivery": {
@@ -3143,9 +3152,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Delivery (3-way))",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Delivery (3-way))",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
+          "action": "Blocked — Figma emulator is not_tested (required before Delivery (3-way))",
           "compareUrl": null
         },
         "logic": {
@@ -3153,9 +3162,9 @@
           "status": "not_tested",
           "testedAt": null,
           "canRun": false,
-          "blockedBy": "pixel",
-          "blockedReason": "Blocked — Pixel (schema) is not_tested (required before Logic audit)",
-          "action": "Blocked — Pixel (schema) is not_tested (required before Logic audit)",
+          "blockedBy": "figma",
+          "blockedReason": "Blocked — Figma emulator is not_tested (required before Logic audit)",
+          "action": "Blocked — Figma emulator is not_tested (required before Logic audit)",
           "compareUrl": null
         }
       }
@@ -3167,8 +3176,8 @@
         "pixel": {
           "stepId": "pixel",
           "status": "pass",
-          "percent": 0.07534930139720558,
-          "testedAt": "2026-05-30T10:48:49.595Z",
+          "percent": 0.062624750499002,
+          "testedAt": "2026-05-30T11:39:34.263Z",
           "canRun": true,
           "blockedBy": null,
           "blockedReason": null,
