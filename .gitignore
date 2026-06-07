@@ -1,6 +1,7 @@
 .test-console/agent-inbox.json
 .test-console/pending-for-cursor.json
 .test-console/server.pid
+.test-console/server.log
 # Ephemeral run data (organized subdirs)
 .test-console/runs/
 .test-console/agent-prompts/
@@ -14,3 +15,5 @@
 .test-console/*.kill
 .cursor/agent-context.auto.md
 node_modules
+.env
+**/.env

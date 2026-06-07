@@ -1,0 +1,6 @@
+# Generated component files are written at runtime by render-harness.mjs.
+# Only the adapters/ seam is hand-maintained and should be tracked.
+*
+!adapters/
+!adapters/**
+!.gitignore

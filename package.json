@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
+    "local:server": "pnpm install && node api-server/server.mjs",
     "install:browsers": "pnpm --filter @lab/extractor-playwright exec playwright install chromium",
     "storybook": "pnpm --filter @lab/storybook-lab storybook",
     "storybook:build": "node scripts/bake-figma-screen-ui.mjs --screen screen_1 --component Screen1 && pnpm --filter @lab/storybook-lab build",
