@@ -18,7 +18,7 @@ try {
     if (eq === -1) continue;
     const key = trimmed.slice(0, eq).trim();
     const val = trimmed.slice(eq + 1).trim().replace(/^["']|["']$/g, '');
-    if (key && !(key in process.env)) process.env[key] = val;
+    if (key) process.env[key] = val;
   }
 } catch { /* no .env file — that's fine */ }
 
@@ -40,6 +40,7 @@ if (process.argv[1] === new URL(import.meta.url).pathname) {
   app.listen(PORT, () => {
     console.log(`Brain API server on http://localhost:${PORT}`);
     console.log(`Model: ${process.env.BRAIN_MODEL ?? 'claude-sonnet-4-6'}`);
+    console.log(`ANTHROPIC_BASE_URL: ${process.env.ANTHROPIC_BASE_URL ?? 'https://api.anthropic.com (default)'}`);
     console.log(`ANTHROPIC_API_KEY: ${process.env.ANTHROPIC_API_KEY ? 'set ✓' : 'NOT SET ✗'}`);
   });
 }

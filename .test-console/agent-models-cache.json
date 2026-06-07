@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-24T20:46:16.526Z",
+  "fetchedAt": "2026-06-07T11:16:40.986Z",
   "options": [
     {
       "id": "composer-2.5-fast",
@@ -10,7 +10,7 @@
     {
       "id": "auto",
       "label": "Auto",
-      "isCurrent": false,
+      "isCurrent": true,
       "isDefault": false
     },
     {
@@ -20,18 +20,6 @@
     {
       "id": "composer-2.5",
       "label": "Composer 2.5",
-      "isCurrent": false,
-      "isDefault": false
-    },
-    {
-      "id": "composer-2-fast",
-      "label": "Composer 2 Fast",
-      "isCurrent": false,
-      "isDefault": false
-    },
-    {
-      "id": "composer-2",
-      "label": "Composer 2",
       "isCurrent": false,
       "isDefault": false
     },
@@ -632,6 +620,126 @@
     {
       "id": "claude-opus-4-7-thinking-xhigh-fast",
       "label": "Opus 4.7 1M Thinking Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-8-high",
+      "label": "Opus 4.8 1M",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-8-xhigh",
+      "label": "Opus 4.8 1M Extra High",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-8-xhigh-fast",
+      "label": "Opus 4.8 1M Extra High Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-8-thinking-xhigh",
+      "label": "Opus 4.8 1M Extra High Thinking",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-8-thinking-xhigh-fast",
+      "label": "Opus 4.8 1M Extra High Thinking Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-8-high-fast",
+      "label": "Opus 4.8 1M Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-8-low",
+      "label": "Opus 4.8 1M Low",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-8-low-fast",
+      "label": "Opus 4.8 1M Low Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-8-thinking-low",
+      "label": "Opus 4.8 1M Low Thinking",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-8-thinking-low-fast",
+      "label": "Opus 4.8 1M Low Thinking Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-8-max",
+      "label": "Opus 4.8 1M Max",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-8-max-fast",
+      "label": "Opus 4.8 1M Max Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-8-thinking-max",
+      "label": "Opus 4.8 1M Max Thinking",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-8-thinking-max-fast",
+      "label": "Opus 4.8 1M Max Thinking Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-8-medium",
+      "label": "Opus 4.8 1M Medium",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-8-medium-fast",
+      "label": "Opus 4.8 1M Medium Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-8-thinking-medium",
+      "label": "Opus 4.8 1M Medium Thinking",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-8-thinking-medium-fast",
+      "label": "Opus 4.8 1M Medium Thinking Fast",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-8-thinking-high",
+      "label": "Opus 4.8 1M Thinking",
+      "isCurrent": false,
+      "isDefault": false
+    },
+    {
+      "id": "claude-opus-4-8-thinking-high-fast",
+      "label": "Opus 4.8 1M Thinking Fast",
       "isCurrent": false,
       "isDefault": false
     },

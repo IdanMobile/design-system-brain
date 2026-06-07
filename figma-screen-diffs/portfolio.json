@@ -1,0 +1,46 @@
+{
+  "generatedAt": "2026-06-06T17:13:30.781Z",
+  "storyCount": 0,
+  "source": "figma",
+  "steps": [
+    {
+      "id": "manifestContract",
+      "label": "Manifest → Contract",
+      "dir": "figma-screen-diffs",
+      "actionId": "figma:screen:manifest"
+    },
+    {
+      "id": "vsFigmaLive",
+      "label": "→ Figma live",
+      "dir": "figma-screen-diffs",
+      "actionId": "figma:screen:parity",
+      "needsRelay": true
+    },
+    {
+      "id": "vsStorybook",
+      "label": "→ Storybook",
+      "dir": "figma-screen-diffs",
+      "actionId": "figma:screen:parity"
+    },
+    {
+      "id": "vsReactHtml",
+      "label": "→ ReactHtml",
+      "dir": "figma-screen-diffs",
+      "actionId": "figma:screen:parity"
+    },
+    {
+      "id": "logic",
+      "label": "Logic audit",
+      "dir": "figma-screen-diffs",
+      "actionId": "figma:screen:logic"
+    }
+  ],
+  "stepIds": [
+    "manifestContract",
+    "vsFigmaLive",
+    "vsStorybook",
+    "vsReactHtml",
+    "logic"
+  ],
+  "screens": []
+}
