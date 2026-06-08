@@ -91,30 +91,39 @@ export const ACTION_META = {
     order: 12.4
   },
   "figma:screen:storybook": {
-    label: "Storybook pixel",
+    label: "Contract → Storybook",
     description: "Contract HTML render vs Guing reference PNG",
-    whenHint: "Step 3 — needs Storybook on :6107",
-    when: "After Contract → Figma pass",
-    output: "figma-screen-diffs/by-screen/*/storybook/",
+    whenHint: "Step → Storybook — needs Storybook on :6107",
+    when: "After Manifest → Contract",
+    output: "figma-screen-diffs/by-screen/*/vsStorybook/",
     phase: "test",
     order: 12.7
   },
   "figma:screen:parity": {
-    label: "Original parity",
+    label: "Original parity (all legs)",
     description:
-      "Original → Figma live · Storybook · ReactHtml — strict PIXEL_PERFECT_TOLERANCE (0.1%)",
-    whenHint: "After Manifest → Contract — three legs vs Guing PNG only",
-    when: "Figma entry visual gate",
-    output: "figma-screen-diffs/*/originalParity/report.html",
+      "Contract-first: Original → Figma live · Storybook HTML · ReactHtml — strict 0.1%",
+    whenHint: "After Manifest → Contract — runs three per-leg scripts",
+    when: "Figma entry — full original parity",
+    output: "figma-screen-diffs/by-screen/*/vsFigmaLive|vsStorybook|vsReactHtml/",
     phase: "test",
     order: 12.5,
     needsRelay: true
+  },
+  "figma:screen:reacthtml": {
+    label: "Contract → ReactHtml",
+    description: "Contract HTML render in playground vs Guing reference PNG",
+    whenHint: "Step → ReactHtml — needs playground on :6108",
+    when: "After Manifest → Contract",
+    output: "figma-screen-diffs/by-screen/*/vsReactHtml/",
+    phase: "test",
+    order: 12.75
   },
   "parity:storybook": {
     label: "Storybook original parity",
     description: "Golden storybook.png → Figma live · Storybook · ReactHtml",
     whenHint: "After pixel golden — storybook entry visual legs",
-    when: "Storybook entry visual gate",
+    when: "Storybook entry — original parity",
     output: "storybook-parity-diffs/by-story/*/",
     phase: "test",
     order: 12.55,
@@ -124,7 +133,7 @@ export const ACTION_META = {
     label: "Original parity (alias)",
     description: "Alias for figma:screen:parity",
     whenHint: "Deprecated — use figma:screen:parity",
-    when: "Figma entry visual gate",
+    when: "Figma entry — original parity",
     output: "figma-screen-diffs/*/originalParity/report.html",
     phase: "test",
     order: 12.8,

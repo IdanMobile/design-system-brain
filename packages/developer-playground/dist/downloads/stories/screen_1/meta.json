@@ -1,0 +1,16 @@
+{
+  "name": "@lab/story-screen_1",
+  "version": "0.1.0",
+  "portfolioStoryId": "screen_1",
+  "deliveryStoryId": "lab-screen1--default",
+  "component": "Screen1",
+  "args": {},
+  "variant": "semantic",
+  "ingress": "figma",
+  "usedComponents": [
+    "Button",
+    "Text"
+  ],
+  "file": "component.tgz",
+  "href": "/downloads/stories/screen_1/component.tgz"
+}

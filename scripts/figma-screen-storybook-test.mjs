@@ -1,12 +1,8 @@
 #!/usr/bin/env node
 /**
- * Figma screen step 3 — Contract → Storybook HTML render (pixel vs Guing reference PNG).
+ * Figma screen — Contract → Storybook HTML render (pixel vs Guing reference PNG).
  *
- * Uses render-html.ts + reference PNG rasters for TEXT/VECTOR leaves (Chromium cannot
- * match Figma text/blur). Residual correction (delta ≥25) fills Figma-native gaps after
- * HTML compositing. Live Figma step validates CSS/effects at strict 0.1%.
- *
- * ⚠ Can report 0% while Storybook↔Figma differs ~3% — run test:figma:screen:four-way.
+ * Renders contract via render-html.ts in a Storybook iframe shell — no story map.
  *
  *   node scripts/figma-screen-storybook-test.mjs
  *   node scripts/figma-screen-storybook-test.mjs --artifact path/to.manifest.json
@@ -17,36 +13,31 @@ import { existsSync } from "node:fs";
 import { resolve, join, basename, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
-import { manifestToContract, referencePngPathFor } from "./figma-manifest-to-contract.mjs";
+import { manifestToContract } from "./figma-manifest-to-contract.mjs";
 import {
-  evaluateRegionGates,
-  FIGMA_SCREEN_REGION_TOLERANCE_PERCENT,
   applyStorybookReferenceRasters,
   applyStorybookSubtreeRasters,
-  compositePickCloserToRef,
-  compositeAtmosphereFromRef,
-  compositeResidualFromRef,
 } from "./figma-screen-reference-align.mjs";
+import { finalizeHtmlParityGate } from "./figma-screen-honest-parity.mjs";
+import { screenshotContractHtml } from "./figma-screen-contract-render.mjs";
 import {
   discoverFigmaScreens,
   mergeFigmaScreenReport,
   writeScreenStepResult,
   readScreenStepResult,
-  safeScreenSegment
+  safeScreenSegment,
 } from "./figma-screen-portfolio.mjs";
+import { writeFigmaParityStepTestReport } from "./figma-screen-test-report.mjs";
+import { PIXEL_PERFECT_TOLERANCE } from "./pixel-perfect-tolerance.mjs";
 
 const WORKSPACE = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(import.meta.url);
 const playwrightPkg = resolve(WORKSPACE, "packages/pixel-test/node_modules/playwright");
 const { chromium } = require(existsSync(playwrightPkg) ? playwrightPkg : "playwright");
-const _pixelmatch = require("pixelmatch");
-const pixelmatch = typeof _pixelmatch === "function" ? _pixelmatch : (_pixelmatch.default ?? _pixelmatch);
-const _pngjs = require("pngjs");
-const { PNG } = _pngjs.PNG ? _pngjs : (_pngjs.default ?? _pngjs);
 
 const DIFFS_DIR = join(WORKSPACE, "figma-screen-diffs");
-const DEFAULT_TOLERANCE = 0.1;
 const STORYBOOK_URL = process.env.STORYBOOK_URL ?? "http://127.0.0.1:6107";
+const STORYBOOK_SHELL = `${STORYBOOK_URL}/iframe.html?id=lab-button--primary&viewMode=story`;
 
 function parseCli() {
   const args = new Map();
@@ -59,22 +50,8 @@ function parseCli() {
   }
   return {
     artifact: args.get("artifact") ?? null,
-    tolerance: Number(args.get("tolerance") ?? DEFAULT_TOLERANCE)
+    tolerance: Number(args.get("tolerance") ?? PIXEL_PERFECT_TOLERANCE),
   };
-}
-
-function matchDimensions(refBuf, rendBuf) {
-  const ref = PNG.sync.read(refBuf);
-  const rend = PNG.sync.read(rendBuf);
-  const w = Math.max(ref.width, rend.width);
-  const h = Math.max(ref.height, rend.height);
-  const crop = (png) => {
-    if (png.width === w && png.height === h) return PNG.sync.write(png);
-    const out = new PNG({ width: w, height: h });
-    PNG.bitblt(png, out, 0, 0, png.width, png.height, 0, 0);
-    return PNG.sync.write(out);
-  };
-  return { ref: crop(ref), rend: crop(rend), w, h };
 }
 
 async function loadContract(manifestPath, referencePngBuffer) {
@@ -87,80 +64,11 @@ async function loadContract(manifestPath, referencePngBuffer) {
   return { doc, contractPath };
 }
 
-function collectFontFamilies(node, out = new Set()) {
-  if (node?.text?.font?.family) out.add(String(node.text.font.family).trim());
-  for (const child of node?.children ?? []) collectFontFamilies(child, out);
-  return out;
-}
-
-function contractUsesRtl(doc) {
-  const walk = (node) => {
-    if (node?.text?.direction === "rtl") return true;
-    if (node?.text?.value && /[\u0590-\u05FF\u0600-\u06FF]/.test(node.text.value)) return true;
-    return (node?.children ?? []).some(walk);
-  };
-  return walk(doc.root);
-}
-
-function googleFontsCssUrl(families) {
-  const params = [...families]
-    .filter((f) => f && !/^(serif|sans-serif|monospace|inherit)$/i.test(f))
-    .map((f) => `family=${encodeURIComponent(f.replace(/\s+/g, " "))}:wght@400;500;600;700`)
-    .join("&");
-  return params ? `https://fonts.googleapis.com/css2?${params}&display=swap` : null;
-}
-
-async function screenshotContractHtml(page, doc, outPath) {
-  const { renderToBodyMarkup } = await import("../packages/pixel-test/src/render-html.ts");
-  const {
-    bodyMarkup: markup,
-    width,
-    height,
-    background = doc.meta?.canvasBackground ?? "#ffffff",
-  } = renderToBodyMarkup(doc);
-  const rtl = contractUsesRtl(doc);
-  const fontsUrl = googleFontsCssUrl(collectFontFamilies(doc.root));
-
-  await page.goto(`${STORYBOOK_URL}/iframe.html?id=lab-button--primary&viewMode=story`, {
-    waitUntil: "networkidle",
-    timeout: 30_000
-  });
-  if (fontsUrl) {
-    await page.addStyleTag({ url: fontsUrl });
-  }
-  await page.addStyleTag({
-    content: `*,*::before,*::after{animation-play-state:paused!important;transition:none!important;caret-color:transparent!important;}.layer.figma{-webkit-font-smoothing:subpixel-antialiased;-moz-osx-font-smoothing:auto;text-rendering:geometricPrecision;font-synthesis:none;}`
-  });
-  await page.evaluate(
-    (payload) => {
-      if (payload.rtl) {
-        document.documentElement.setAttribute("dir", "rtl");
-        document.documentElement.setAttribute("lang", "he");
-      }
-      document.body.innerHTML = payload.markup;
-      document.body.style.margin = "0";
-      document.body.style.padding = "0";
-      document.body.style.background = payload.background;
-      document.documentElement.style.width = `${payload.width}px`;
-      document.documentElement.style.height = `${payload.height}px`;
-      document.body.style.width = `${payload.width}px`;
-      document.body.style.height = `${payload.height}px`;
-      document.body.style.overflow = "hidden";
-    },
-    { markup, width, height, background, rtl }
-  );
-  await page.evaluate(async () => {
-    await document.fonts.ready;
-  });
-  await page.setViewportSize({ width, height });
-  await page.screenshot({ path: outPath, clip: { x: 0, y: 0, width, height } });
-}
-
 async function testScreen({ manifestPath, pngPath }, tolerance) {
   const name = basename(manifestPath)
     .replace(/\.manifest\.json$/, "")
     .replace(/-manifest\.json$/, "");
-  const itemDir = join(DIFFS_DIR, safeScreenSegment(name), "storybook");
+  const itemDir = join(DIFFS_DIR, safeScreenSegment(name), "originalParity");
   await mkdir(itemDir, { recursive: true });
 
   console.log(`\n[storybook] ${name}`);
@@ -169,102 +77,132 @@ async function testScreen({ manifestPath, pngPath }, tolerance) {
   if (manifestStep?.status !== "pass") {
     const msg = "Blocked — run Manifest → Contract first";
     console.log(`  ✗ ${msg}`);
-    writeScreenStepResult(WORKSPACE, name, "storybook", { status: "not_tested", error: msg });
-    return { name, status: "error", error: msg };
-  }
-
-  const figmaStep = readScreenStepResult(WORKSPACE, name, "contractFigma");
-  if (figmaStep?.status !== "pass" && figmaStep?.status !== "warn") {
-    const msg = "Blocked — Contract → Figma must pass first";
-    console.log(`  ✗ ${msg}`);
-    writeScreenStepResult(WORKSPACE, name, "storybook", { status: "not_tested", error: msg });
+    writeScreenStepResult(WORKSPACE, name, "vsStorybook", { status: "not_tested", error: msg });
     return { name, status: "error", error: msg };
   }
 
   if (!existsSync(pngPath)) {
     const msg = "Missing reference PNG";
     console.log(`  ✗ ${msg}`);
-    writeScreenStepResult(WORKSPACE, name, "storybook", { status: "error", error: msg });
+    writeScreenStepResult(WORKSPACE, name, "vsStorybook", { status: "error", error: msg });
     return { name, status: "error", error: msg };
   }
 
   try {
     const refBuf = await readFile(pngPath);
-    const { doc: baseDoc } = await loadContract(manifestPath, refBuf);
+    const { doc: baseDoc, contractPath } = await loadContract(manifestPath, refBuf);
     const doc = structuredClone(baseDoc);
     applyStorybookSubtreeRasters(doc.root, refBuf);
     applyStorybookReferenceRasters(doc.root, refBuf);
     doc.meta = { ...doc.meta, hoistReferenceRasters: true };
     const docNoBlur = structuredClone(doc);
     docNoBlur.meta = { ...docNoBlur.meta, skipFigmaBlurEllipses: true, hoistReferenceRasters: true };
-    const renderedPath = join(itemDir, "rendered.png");
-    const refOut = join(itemDir, "reference.png");
-    const diffPath = join(itemDir, "diff.png");
-    const blurVariantPath = join(itemDir, "rendered-blur.png");
-    const noBlurVariantPath = join(itemDir, "rendered-noblur.png");
+
+    const storybookPath = join(itemDir, "storybook.png");
+    const originalPath = join(itemDir, "original.png");
+    const diffPath = join(itemDir, "diff-original-storybook.png");
+    const blurVariantPath = join(itemDir, "storybook-blur.png");
+    const noBlurVariantPath = join(itemDir, "storybook-noblur.png");
 
     const browser = await chromium.launch();
     const page = await browser.newPage();
     try {
-      await screenshotContractHtml(page, doc, blurVariantPath);
-      await screenshotContractHtml(page, docNoBlur, noBlurVariantPath);
+      await screenshotContractHtml(page, doc, blurVariantPath, { shellUrl: STORYBOOK_SHELL });
+      await screenshotContractHtml(page, docNoBlur, noBlurVariantPath, { shellUrl: STORYBOOK_SHELL });
     } finally {
       await browser.close();
     }
 
-    await writeFile(refOut, refBuf);
-    const { ref, w, h } = matchDimensions(refBuf, await readFile(blurVariantPath));
-    const refPng = PNG.sync.read(ref);
-    const blurPng = PNG.sync.read(await readFile(blurVariantPath));
-    const noBlurPng = PNG.sync.read(await readFile(noBlurVariantPath));
-    const rendPng = compositeResidualFromRef(
-      refPng,
-      compositeAtmosphereFromRef(
-        refPng,
-        compositePickCloserToRef(refPng, noBlurPng, blurPng)
-      )
-    );
-    await writeFile(renderedPath, PNG.sync.write(rendPng));
-    const diffPng = new PNG({ width: w, height: h });
-    const diffPixels = pixelmatch(refPng.data, rendPng.data, diffPng.data, w, h, {
-      threshold: 0.1,
-      includeAA: false,
-      alpha: 0.1
+    const blurBuf = await readFile(blurVariantPath);
+    const noBlurBuf = await readFile(noBlurVariantPath);
+    const gate = await finalizeHtmlParityGate({
+      refBuf,
+      blurBuf,
+      noBlurBuf,
+      itemDir,
+      legPrefix: "storybook",
+      tolerance,
     });
-    await writeFile(diffPath, PNG.sync.write(diffPng));
 
-    const totalPixels = w * h;
-    const diffPct = (diffPixels / totalPixels) * 100;
-    const regionGate = evaluateRegionGates(refPng, rendPng, FIGMA_SCREEN_REGION_TOLERANCE_PERCENT);
-    const globalOk = diffPct <= tolerance;
-    const status = globalOk && regionGate.pass
-      ? "pass"
-      : diffPct <= tolerance * 10 && regionGate.worst.pct <= FIGMA_SCREEN_REGION_TOLERANCE_PERCENT * 10
-        ? "warn"
-        : "fail";
-    const icon = status === "pass" ? "✓" : status === "warn" ? "⚠" : "✗";
-    console.log(`  ${icon} ${status.toUpperCase()} ${diffPct.toFixed(3)}% diff`);
-    if (!regionGate.pass) {
+    const icon = gate.status === "pass" ? "✓" : gate.status === "warn" ? "⚠" : "✗";
+    console.log(`  ${icon} ${gate.status.toUpperCase()} ${gate.diffPct.toFixed(3)}% diff [raw gate]`);
+    if (gate.parityMeta.refWasDownscaled) {
       console.log(
-        `     region fail — worst: ${regionGate.worst.name} ${regionGate.worst.pct.toFixed(3)}%`
+        `     reference downscaled ${gate.parityMeta.referenceScale}× (${gate.parityMeta.sourceReferenceSize} → ${gate.parityMeta.alignedSize})`
       );
     }
+    if (!gate.regionGate.pass) {
+      console.log(`     region fail — worst: ${gate.regionGate.worst.name} ${gate.regionGate.worst.pct.toFixed(3)}%`);
+    }
 
-    writeScreenStepResult(WORKSPACE, name, "storybook", {
-      status,
-      percent: diffPct,
-      referencePng: refOut,
-      renderedPng: renderedPath,
-      diffPng: diffPath,
-      regions: regionGate.regions,
-      worstRegion: regionGate.worst,
+    let testReportPath = null;
+    if (gate.status !== "pass") {
+      try {
+        const hotRegions = (gate.regionGate.regions ?? [])
+          .filter((r) => r.pct > tolerance)
+          .sort((a, b) => b.pct - a.pct)
+          .slice(0, 8);
+        testReportPath = writeFigmaParityStepTestReport({
+          repoRoot: WORKSPACE,
+          screenId: name,
+          stepId: "vsStorybook",
+          status: gate.status,
+          percent: gate.diffPct,
+          maxRegionPercent: gate.regionGate.worst?.pct ?? null,
+          pixelsDiffered: gate.diffPixels,
+          pixelsTotal: gate.totalPixels,
+          originalBuf: refBuf,
+          targetBuf: await readFile(gate.paths.rawPath),
+          diffPng: await readFile(gate.paths.diffPath),
+          hotRegions,
+          images: {
+            original: gate.paths.originalPath,
+            target: gate.paths.rawPath,
+            diff: gate.paths.diffPath,
+          },
+          manifestPath,
+          contractPath,
+          tolerance,
+        });
+      } catch (reportErr) {
+        console.log(
+          `     ⚠ test report skipped — ${reportErr instanceof Error ? reportErr.message : reportErr}`
+        );
+      }
+    }
+
+    writeScreenStepResult(WORKSPACE, name, "vsStorybook", {
+      status: gate.status,
+      percent: gate.diffPct,
+      maxRegionPercent: gate.regionGate.worst?.pct ?? null,
+      pixelsDiffered: gate.diffPixels,
+      pixelsTotal: gate.totalPixels,
+      width: gate.w,
+      height: gate.h,
+      tolerance,
+      gateMode: gate.gateMode,
+      parityMeta: gate.parityMeta,
+      previewLabel: gate.previewLabel,
+      referenceLabel: gate.referenceLabel,
+      originalPng: gate.paths.originalPath,
+      originalFullPng: gate.paths.originalFullPath,
+      targetPng: gate.paths.rawPath,
+      renderedPng: gate.paths.rawPath,
+      compositedPng: gate.paths.compositedPath,
+      diffPng: gate.paths.diffPath,
+      manifestPath,
+      contractPath,
+      regions: gate.regionGate.regions,
+      worstRegion: gate.regionGate.worst,
+      reportHtml: join(itemDir, "report.html"),
+      ...(testReportPath ? { testReportPath } : {}),
     });
 
-    return { name, status, diffPct };
+    return { name, status: gate.status, diffPct: gate.diffPct };
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     console.log(`  ✗ ERROR — ${message}`);
-    writeScreenStepResult(WORKSPACE, name, "storybook", { status: "error", error: message });
+    writeScreenStepResult(WORKSPACE, name, "vsStorybook", { status: "error", error: message });
     return { name, status: "error", error: message };
   }
 }
@@ -277,8 +215,8 @@ async function main() {
           manifestPath: resolve(artifact),
           pngPath: resolve(artifact)
             .replace(/\.manifest\.json$/, ".png")
-            .replace(/-manifest\.json$/, ".png")
-        }
+            .replace(/-manifest\.json$/, ".png"),
+        },
       ]
     : discoverFigmaScreens(WORKSPACE);
 

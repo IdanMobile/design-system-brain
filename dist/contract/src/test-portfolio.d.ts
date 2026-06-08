@@ -10,7 +10,7 @@ export interface TestStepDef {
     dir: string;
     /** Test console action id */
     actionId: string;
-    /** Must not run concurrently with other stories (Figma live relay) */
+    /** @deprecated Figma export is queued on relay; use STORYBOOK_PARALLEL for load caps. */
     serialOnly?: boolean;
 }
 export declare const TEST_STEPS: TestStepDef[];

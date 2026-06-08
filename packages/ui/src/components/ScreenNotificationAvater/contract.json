@@ -1,0 +1,485 @@
+{
+  "schemaVersion": "1.0",
+  "meta": {
+    "componentName": "notification, avater",
+    "extractedAt": "2026-06-07T23:50:35.126Z",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "width": 185,
+      "height": 32
+    },
+    "devicePixelRatio": 1,
+    "preserveEffects": true
+  },
+  "root": {
+    "id": "fig-1",
+    "name": "notification, avater",
+    "source": {
+      "kind": "figma",
+      "id": "I55042:7988;6479:25213",
+      "dataset": {
+        "figmaNodeType": "FRAME"
+      }
+    },
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 185,
+      "height": 32
+    },
+    "paint": {
+      "opacity": 1
+    },
+    "layout": {
+      "display": "flex",
+      "position": "relative",
+      "overflow": {
+        "x": "visible",
+        "y": "visible"
+      },
+      "flex": {
+        "direction": "row",
+        "wrap": "nowrap",
+        "justify": "end",
+        "align": "center",
+        "rowGap": 20,
+        "columnGap": 0
+      },
+      "padding": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      }
+    },
+    "children": [
+      {
+        "id": "fig-2",
+        "name": "Frame 627056",
+        "source": {
+          "kind": "figma",
+          "id": "I55042:7988;6479:25214",
+          "dataset": {
+            "figmaNodeType": "FRAME"
+          }
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 185,
+          "height": 31.76
+        },
+        "paint": {
+          "opacity": 1
+        },
+        "layout": {
+          "display": "flex",
+          "position": "relative",
+          "overflow": {
+            "x": "visible",
+            "y": "visible"
+          },
+          "flex": {
+            "direction": "row",
+            "wrap": "nowrap",
+            "justify": "start",
+            "align": "center",
+            "rowGap": 10,
+            "columnGap": 0
+          },
+          "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          }
+        },
+        "children": [
+          {
+            "id": "fig-3",
+            "name": "Frame 626994",
+            "source": {
+              "kind": "figma",
+              "id": "I55042:7988;6479:25215",
+              "dataset": {
+                "figmaNodeType": "FRAME"
+              }
+            },
+            "box": {
+              "x": 0,
+              "y": 0,
+              "width": 185,
+              "height": 31.76
+            },
+            "paint": {
+              "opacity": 1
+            },
+            "layout": {
+              "display": "flex",
+              "position": "relative",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "flex": {
+                "direction": "row",
+                "wrap": "nowrap",
+                "justify": "start",
+                "align": "center",
+                "rowGap": 10,
+                "columnGap": 0
+              },
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            },
+            "children": [
+              {
+                "id": "fig-4",
+                "name": "Frame 626984",
+                "source": {
+                  "kind": "figma",
+                  "id": "I55042:7988;6479:25216",
+                  "dataset": {
+                    "figmaNodeType": "FRAME"
+                  }
+                },
+                "box": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 144,
+                  "height": 31
+                },
+                "paint": {
+                  "opacity": 1
+                },
+                "layout": {
+                  "display": "flex",
+                  "position": "relative",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "flex": {
+                    "direction": "column",
+                    "wrap": "nowrap",
+                    "justify": "start",
+                    "align": "end",
+                    "rowGap": 0,
+                    "columnGap": 5
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "children": [
+                  {
+                    "id": "fig-5",
+                    "name": "שם משתמש:",
+                    "source": {
+                      "kind": "figma",
+                      "id": "I55042:7988;6479:25217",
+                      "dataset": {
+                        "figmaNodeType": "TEXT",
+                        "figmaFontFamily": "Open Sans",
+                        "figmaFontStyle": "SemiBold"
+                      }
+                    },
+                    "box": {
+                      "x": 74,
+                      "y": 0.38,
+                      "width": 70,
+                      "height": 11
+                    },
+                    "text": {
+                      "value": "שם משתמש:",
+                      "font": {
+                        "family": "Open Sans",
+                        "size": 12,
+                        "weight": 600,
+                        "style": "normal"
+                      },
+                      "color": "#7c88a6",
+                      "align": "right",
+                      "verticalAlign": "top",
+                      "letterSpacing": 0.5,
+                      "lineHeight": 10.8,
+                      "direction": "rtl"
+                    },
+                    "layout": {
+                      "display": "block",
+                      "position": "absolute",
+                      "overflow": {
+                        "x": "visible",
+                        "y": "visible"
+                      }
+                    }
+                  },
+                  {
+                    "id": "fig-6",
+                    "name": "Yaronk@audiocodes.com",
+                    "source": {
+                      "kind": "figma",
+                      "id": "I55042:7988;6479:25218",
+                      "dataset": {
+                        "figmaNodeType": "TEXT",
+                        "figmaFontFamily": "Inter",
+                        "figmaFontStyle": "Regular"
+                      }
+                    },
+                    "box": {
+                      "x": 0,
+                      "y": 16.38,
+                      "width": 144,
+                      "height": 15
+                    },
+                    "text": {
+                      "value": "Yaronk@audiocodes.com",
+                      "font": {
+                        "family": "Inter",
+                        "size": 12,
+                        "weight": 400,
+                        "style": "normal"
+                      },
+                      "color": "#1d1d1d",
+                      "align": "right",
+                      "verticalAlign": "top",
+                      "letterSpacing": 0,
+                      "lineHeight": 15
+                    },
+                    "layout": {
+                      "display": "block",
+                      "position": "absolute",
+                      "overflow": {
+                        "x": "visible",
+                        "y": "visible"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "fig-7",
+                "name": "Badge notification",
+                "source": {
+                  "kind": "figma",
+                  "id": "I55042:7988;6479:25219",
+                  "dataset": {
+                    "figmaNodeType": "FRAME"
+                  }
+                },
+                "box": {
+                  "x": 154,
+                  "y": 0,
+                  "width": 31,
+                  "height": 31.76
+                },
+                "paint": {
+                  "opacity": 1
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "relative",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  }
+                },
+                "children": [
+                  {
+                    "id": "fig-8",
+                    "name": "36px/letter",
+                    "source": {
+                      "kind": "figma",
+                      "id": "I55042:7988;6479:25220",
+                      "dataset": {
+                        "figmaNodeType": "FRAME"
+                      }
+                    },
+                    "box": {
+                      "x": 0,
+                      "y": 1.51,
+                      "width": 30.24,
+                      "height": 30.24
+                    },
+                    "paint": {
+                      "opacity": 1
+                    },
+                    "layout": {
+                      "display": "block",
+                      "position": "relative",
+                      "overflow": {
+                        "x": "visible",
+                        "y": "visible"
+                      }
+                    },
+                    "children": [
+                      {
+                        "id": "fig-9",
+                        "name": "avatar-bg",
+                        "source": {
+                          "kind": "figma",
+                          "id": "I55042:7988;6479:25221",
+                          "dataset": {
+                            "figmaNodeType": "ELLIPSE"
+                          }
+                        },
+                        "box": {
+                          "x": -0.36,
+                          "y": 0,
+                          "width": 30.24,
+                          "height": 30.24
+                        },
+                        "paint": {
+                          "fills": [
+                            {
+                              "kind": "linear-gradient",
+                              "angleDeg": 95.75,
+                              "stops": [
+                                {
+                                  "color": "#3a3e7b",
+                                  "offset": 0
+                                },
+                                {
+                                  "color": "#614ab0",
+                                  "offset": 0.57
+                                },
+                                {
+                                  "color": "#9b5dff",
+                                  "offset": 1
+                                }
+                              ],
+                              "figmaNative": {
+                                "gradientTransform": [
+                                  [
+                                    0.9858490228652954,
+                                    0.00461460230872035,
+                                    0.014150957576930523
+                                  ],
+                                  [
+                                    0.09925198554992676,
+                                    0.08886358886957169,
+                                    0.40074801445007324
+                                  ]
+                                ],
+                                "gradientStops": [
+                                  {
+                                    "position": 0,
+                                    "color": {
+                                      "r": 0.22745098173618317,
+                                      "g": 0.24313725531101227,
+                                      "b": 0.48235294222831726,
+                                      "a": 1
+                                    }
+                                  },
+                                  {
+                                    "position": 0.57,
+                                    "color": {
+                                      "r": 0.3790464401245117,
+                                      "g": 0.2915852665901184,
+                                      "b": 0.6886477470397949,
+                                      "a": 1
+                                    }
+                                  },
+                                  {
+                                    "position": 1,
+                                    "color": {
+                                      "r": 0.6078431606292725,
+                                      "g": 0.364705890417099,
+                                      "b": 1,
+                                      "a": 1
+                                    }
+                                  }
+                                ],
+                                "opacity": 1
+                              }
+                            }
+                          ],
+                          "cornerRadii": {
+                            "topLeft": {
+                              "x": 15.12195110321045,
+                              "y": 15.12195110321045
+                            },
+                            "topRight": {
+                              "x": 15.12195110321045,
+                              "y": 15.12195110321045
+                            },
+                            "bottomRight": {
+                              "x": 15.12195110321045,
+                              "y": 15.12195110321045
+                            },
+                            "bottomLeft": {
+                              "x": 15.12195110321045,
+                              "y": 15.12195110321045
+                            }
+                          },
+                          "opacity": 1
+                        },
+                        "layout": {
+                          "display": "block",
+                          "position": "absolute",
+                          "overflow": {
+                            "x": "visible",
+                            "y": "visible"
+                          }
+                        }
+                      },
+                      {
+                        "id": "fig-10",
+                        "name": "C",
+                        "source": {
+                          "kind": "figma",
+                          "id": "I55042:7988;6479:25222",
+                          "dataset": {
+                            "figmaNodeType": "TEXT",
+                            "figmaFontFamily": "Inter",
+                            "figmaFontStyle": "Semi Bold"
+                          }
+                        },
+                        "box": {
+                          "x": 2.84,
+                          "y": 7.56,
+                          "width": 24.57,
+                          "height": 15.12
+                        },
+                        "text": {
+                          "value": "C",
+                          "font": {
+                            "family": "Inter",
+                            "size": 15.12,
+                            "weight": 600,
+                            "style": "normal"
+                          },
+                          "color": "#ffffff",
+                          "align": "center",
+                          "verticalAlign": "middle",
+                          "letterSpacing": 0,
+                          "lineHeight": 18.9
+                        },
+                        "layout": {
+                          "display": "block",
+                          "position": "absolute",
+                          "overflow": {
+                            "x": "visible",
+                            "y": "visible"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

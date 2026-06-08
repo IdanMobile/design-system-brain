@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test report — screen_1 · vsStorybook</title>
+<style>
+:root{color-scheme:dark}
+body{font-family:system-ui,-apple-system,sans-serif;margin:0;padding:24px;background:#0f172a;color:#e2e8f0;line-height:1.45}
+h1{margin:0 0 4px;font-size:1.35rem}
+.sub{color:#94a3b8;margin:0 0 20px;font-size:.95rem}
+.badge{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.85rem;font-weight:600;background:#1e293b;color:#f87171}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:16px 0 24px}
+figure{margin:0;background:#1e293b;border-radius:8px;padding:10px}
+figure img{width:100%;height:auto;border-radius:4px;background:#fff;display:block}
+figcaption{font-size:.8rem;color:#94a3b8;margin-bottom:6px}
+.mismatch-card{background:#1e293b;border-radius:8px;padding:16px;border:1px solid #334155}
+.test-item{margin:20px 0}
+.test-title{margin:0 0 8px;font-size:1rem;font-weight:600}
+.meta{color:#94a3b8;font-size:.85rem;margin:0 0 10px}
+img.region{max-width:100%;height:auto;border-radius:4px;background:#fff;display:block;margin:8px 0 12px}
+.insights{display:flex;flex-direction:column;gap:12px}
+pre.prompt{white-space:pre-wrap;word-break:break-word;background:#0b1220;border:1px solid #334155;border-radius:6px;padding:12px;font-size:.78rem;color:#cbd5e1;margin:0}
+pre.prompt.investigator{border-color:#475569}
+h2{margin:28px 0 12px;font-size:1.1rem}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:720px){.cols{grid-template-columns:1fr}}
+ul{margin:0;padding-left:1.2rem}
+code{font-size:.85em}
+a{color:#93c5fd}
+</style></head><body>
+<h1>screen_1</h1>
+<p class="sub">EntryPoint: <strong>figma</strong> · failed test: <strong>Original → Storybook</strong> · tolerance ≤ 0.1% · tested 2026-06-08T16:35:43.345Z</p>
+<p><span class="badge">FAIL</span> global 3.116% · 56094 / 1799977 px · primary fixer <code>contract-to-storybook</code></p>
+<p><code>pnpm test:figma:screen:storybook -- --artifact /Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_1.manifest.json</code> · regression: tier-a</p>
+<h2>Full compare</h2>
+<div class="grid"><figure><figcaption>Reference</figcaption><a href="/repo/figma-screen-diffs/screen_1/originalParity/original.png"><img src="/repo/figma-screen-diffs/screen_1/originalParity/original.png" alt="Reference"></a></figure>
+<figure><figcaption>Target</figcaption><a href="/repo/figma-screen-diffs/screen_1/originalParity/storybook-raw.png"><img src="/repo/figma-screen-diffs/screen_1/originalParity/storybook-raw.png" alt="Target"></a></figure>
+<figure><figcaption>Diff</figcaption><a href="/repo/figma-screen-diffs/screen_1/originalParity/diff-original-storybook.png"><img src="/repo/figma-screen-diffs/screen_1/originalParity/diff-original-storybook.png" alt="Diff"></a></figure></div>
+<h2>Mismatches (7)</h2>
+<div class="test-item">
+<h3 class="test-title">region-01 · 1506 wrong px · 10.757% in region</h3>
+<div class="mismatch-card">
+<p class="meta">bbox (60, 865) 400×35 · fixer: <code>contract-to-storybook</code></p>
+<a href="/repo/figma-screen-diffs/by-screen/screen_1/vsStorybook/regions/region-01-compare.png"><img class="region" src="/repo/figma-screen-diffs/by-screen/screen_1/vsStorybook/regions/region-01-compare.png" alt="region-01"></a>
+<div class="insights">
+<pre class="prompt insight">Failed test: vsStorybook (Original → Storybook)
+Primary fixer: contract-to-storybook
+Fixer chain (upstream if contract wrong): manifest-to-contract → contract-to-storybook
+── Ground rules ──
+• Fix the general algorithm — NOT per-item pixel hacks.
+• Screenshots are for investigation only — do NOT change UI/code to match PNGs.
+• Do NOT embed reference PNGs as assets to pass parity.
+── Allowlisted files ──
+• packages/pixel-test/src/render-html.ts
+• packages/storybook-lab/**
+── Forbidden ──
+• packages/figma-importer-plugin/**
+• packages/extractor-playwright/**
+• scripts/bake-figma-screen-ui.mjs
+• packages/ui/src/components/Screen*/**
+• artifacts/**/*.png
+• Embedding Original PNG in @lab/ui to pass test
+── Mismatch region-01 ──
+Region: (60, 865) 400×35px
+Wrong pixels: 1506 (10.757% in region)
+Evidence: Hotspot band: pagination-footer
+Compare crop: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsStorybook/regions/region-01-compare.png
+Verify: pnpm test:figma:screen:storybook -- --artifact /Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_1.manifest.json
+Regression scope: tier-a
+Item: screen_1</pre>
+</div>
+</div>
+</div>
+<div class="test-item">
+<h3 class="test-title">region-02 · 228 wrong px · 6.333% in region</h3>
+<div class="mismatch-card">
+<p class="meta">bbox (1240, 185) 90×40 · fixer: <code>contract-to-storybook</code></p>
+<a href="/repo/figma-screen-diffs/by-screen/screen_1/vsStorybook/regions/region-02-compare.png"><img class="region" src="/repo/figma-screen-diffs/by-screen/screen_1/vsStorybook/regions/region-02-compare.png" alt="region-02"></a>
+<div class="insights">
+<pre class="prompt insight">Failed test: vsStorybook (Original → Storybook)
+Primary fixer: contract-to-storybook
+Fixer chain (upstream if contract wrong): manifest-to-contract → contract-to-storybook
+── Ground rules ──
+• Fix the general algorithm — NOT per-item pixel hacks.
+• Screenshots are for investigation only — do NOT change UI/code to match PNGs.
+• Do NOT embed reference PNGs as assets to pass parity.
+── Allowlisted files ──
+• packages/pixel-test/src/render-html.ts
+• packages/storybook-lab/**
+── Forbidden ──
+• packages/figma-importer-plugin/**
+• packages/extractor-playwright/**
+• scripts/bake-figma-screen-ui.mjs
+• packages/ui/src/components/Screen*/**
+• artifacts/**/*.png
+• Embedding Original PNG in @lab/ui to pass test
+── Mismatch region-02 ──
+Region: (1240, 185) 90×40px
+Wrong pixels: 228 (6.333% in region)
+Evidence: Hotspot band: filter-button
+Compare crop: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsStorybook/regions/region-02-compare.png
+Verify: pnpm test:figma:screen:storybook -- --artifact /Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_1.manifest.json
+Regression scope: tier-a
+Item: screen_1</pre>
+</div>
+</div>
+</div>
+<div class="test-item">
+<h3 class="test-title">region-03 · 183 wrong px · 2.711% in region</h3>
+<div class="mismatch-card">
+<p class="meta">bbox (1100, 785) 150×45 · fixer: <code>contract-to-storybook</code></p>
+<a href="/repo/figma-screen-diffs/by-screen/screen_1/vsStorybook/regions/region-03-compare.png"><img class="region" src="/repo/figma-screen-diffs/by-screen/screen_1/vsStorybook/regions/region-03-compare.png" alt="region-03"></a>
+<div class="insights">
+<pre class="prompt insight">Failed test: vsStorybook (Original → Storybook)
+Primary fixer: contract-to-storybook
+Fixer chain (upstream if contract wrong): manifest-to-contract → contract-to-storybook
+── Ground rules ──
+• Fix the general algorithm — NOT per-item pixel hacks.
+• Screenshots are for investigation only — do NOT change UI/code to match PNGs.
+• Do NOT embed reference PNGs as assets to pass parity.
+── Allowlisted files ──
+• packages/pixel-test/src/render-html.ts
+• packages/storybook-lab/**
+── Forbidden ──
+• packages/figma-importer-plugin/**
+• packages/extractor-playwright/**
+• scripts/bake-figma-screen-ui.mjs
+• packages/ui/src/components/Screen*/**
+• artifacts/**/*.png
+• Embedding Original PNG in @lab/ui to pass test
+── Mismatch region-03 ──
+Region: (1100, 785) 150×45px
+Wrong pixels: 183 (2.711% in region)
+Evidence: Hotspot band: phone-row
+Compare crop: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsStorybook/regions/region-03-compare.png
+Verify: pnpm test:figma:screen:storybook -- --artifact /Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_1.manifest.json
+Regression scope: tier-a
+Item: screen_1</pre>
+</div>
+</div>
+</div>
+<div class="test-item">
+<h3 class="test-title">region-04 · 865 wrong px · 2.710% in region</h3>
+<div class="mismatch-card">
+<p class="meta">bbox (0, 63) 233×137 · fixer: <code>contract-to-storybook</code></p>
+<a href="/repo/figma-screen-diffs/by-screen/screen_1/vsStorybook/regions/region-04-compare.png"><img class="region" src="/repo/figma-screen-diffs/by-screen/screen_1/vsStorybook/regions/region-04-compare.png" alt="region-04"></a>
+<div class="insights">
+<pre class="prompt insight">Failed test: vsStorybook (Original → Storybook)
+Primary fixer: contract-to-storybook
+Fixer chain (upstream if contract wrong): manifest-to-contract → contract-to-storybook
+── Ground rules ──
+• Fix the general algorithm — NOT per-item pixel hacks.
+• Screenshots are for investigation only — do NOT change UI/code to match PNGs.
+• Do NOT embed reference PNGs as assets to pass parity.
+── Allowlisted files ──
+• packages/pixel-test/src/render-html.ts
+• packages/storybook-lab/**
+── Forbidden ──
+• packages/figma-importer-plugin/**
+• packages/extractor-playwright/**
+• scripts/bake-figma-screen-ui.mjs
+• packages/ui/src/components/Screen*/**
+• artifacts/**/*.png
+• Embedding Original PNG in @lab/ui to pass test
+── Mismatch region-04 ──
+Region: (0, 63) 233×137px
+Wrong pixels: 865 (2.710% in region)
+Evidence: Hotspot band: sidebar
+Compare crop: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsStorybook/regions/region-04-compare.png
+Verify: pnpm test:figma:screen:storybook -- --artifact /Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_1.manifest.json
+Regression scope: tier-a
+Item: screen_1</pre>
+</div>
+</div>
+</div>
+<div class="test-item">
+<h3 class="test-title">region-05 · 345 wrong px · 1.568% in region</h3>
+<div class="mismatch-card">
+<p class="meta">bbox (750, 150) 400×55 · fixer: <code>contract-to-storybook</code></p>
+<a href="/repo/figma-screen-diffs/by-screen/screen_1/vsStorybook/regions/region-05-compare.png"><img class="region" src="/repo/figma-screen-diffs/by-screen/screen_1/vsStorybook/regions/region-05-compare.png" alt="region-05"></a>
+<div class="insights">
+<pre class="prompt insight">Failed test: vsStorybook (Original → Storybook)
+Primary fixer: contract-to-storybook
+Fixer chain (upstream if contract wrong): manifest-to-contract → contract-to-storybook
+── Ground rules ──
+• Fix the general algorithm — NOT per-item pixel hacks.
+• Screenshots are for investigation only — do NOT change UI/code to match PNGs.
+• Do NOT embed reference PNGs as assets to pass parity.
+── Allowlisted files ──
+• packages/pixel-test/src/render-html.ts
+• packages/storybook-lab/**
+── Forbidden ──
+• packages/figma-importer-plugin/**
+• packages/extractor-playwright/**
+• scripts/bake-figma-screen-ui.mjs
+• packages/ui/src/components/Screen*/**
+• artifacts/**/*.png
+• Embedding Original PNG in @lab/ui to pass test
+── Mismatch region-05 ──
+Region: (750, 150) 400×55px
+Wrong pixels: 345 (1.568% in region)
+Evidence: Hotspot band: toolbar-sort
+Compare crop: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsStorybook/regions/region-05-compare.png
+Verify: pnpm test:figma:screen:storybook -- --artifact /Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_1.manifest.json
+Regression scope: tier-a
+Item: screen_1</pre>
+</div>
+</div>
+</div>
+<div class="test-item">
+<h3 class="test-title">region-06 · 205 wrong px · 0.745% in region</h3>
+<div class="mismatch-card">
+<p class="meta">bbox (233, 150) 500×55 · fixer: <code>contract-to-storybook</code></p>
+<a href="/repo/figma-screen-diffs/by-screen/screen_1/vsStorybook/regions/region-06-compare.png"><img class="region" src="/repo/figma-screen-diffs/by-screen/screen_1/vsStorybook/regions/region-06-compare.png" alt="region-06"></a>
+<div class="insights">
+<pre class="prompt insight">Failed test: vsStorybook (Original → Storybook)
+Primary fixer: contract-to-storybook
+Fixer chain (upstream if contract wrong): manifest-to-contract → contract-to-storybook
+── Ground rules ──
+• Fix the general algorithm — NOT per-item pixel hacks.
+• Screenshots are for investigation only — do NOT change UI/code to match PNGs.
+• Do NOT embed reference PNGs as assets to pass parity.
+── Allowlisted files ──
+• packages/pixel-test/src/render-html.ts
+• packages/storybook-lab/**
+── Forbidden ──
+• packages/figma-importer-plugin/**
+• packages/extractor-playwright/**
+• scripts/bake-figma-screen-ui.mjs
+• packages/ui/src/components/Screen*/**
+• artifacts/**/*.png
+• Embedding Original PNG in @lab/ui to pass test
+── Mismatch region-06 ──
+Region: (233, 150) 500×55px
+Wrong pixels: 205 (0.745% in region)
+Evidence: Hotspot band: toolbar-left
+Compare crop: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsStorybook/regions/region-06-compare.png
+Verify: pnpm test:figma:screen:storybook -- --artifact /Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_1.manifest.json
+Regression scope: tier-a
+Item: screen_1</pre>
+</div>
+</div>
+</div>
+<div class="test-item">
+<h3 class="test-title">region-07 · 250 wrong px · 0.694% in region</h3>
+<div class="mismatch-card">
+<p class="meta">bbox (400, 140) 600×60 · fixer: <code>contract-to-storybook</code></p>
+<a href="/repo/figma-screen-diffs/by-screen/screen_1/vsStorybook/regions/region-07-compare.png"><img class="region" src="/repo/figma-screen-diffs/by-screen/screen_1/vsStorybook/regions/region-07-compare.png" alt="region-07"></a>
+<div class="insights">
+<pre class="prompt insight">Failed test: vsStorybook (Original → Storybook)
+Primary fixer: contract-to-storybook
+Fixer chain (upstream if contract wrong): manifest-to-contract → contract-to-storybook
+── Ground rules ──
+• Fix the general algorithm — NOT per-item pixel hacks.
+• Screenshots are for investigation only — do NOT change UI/code to match PNGs.
+• Do NOT embed reference PNGs as assets to pass parity.
+── Allowlisted files ──
+• packages/pixel-test/src/render-html.ts
+• packages/storybook-lab/**
+── Forbidden ──
+• packages/figma-importer-plugin/**
+• packages/extractor-playwright/**
+• scripts/bake-figma-screen-ui.mjs
+• packages/ui/src/components/Screen*/**
+• artifacts/**/*.png
+• Embedding Original PNG in @lab/ui to pass test
+── Mismatch region-07 ──
+Region: (400, 140) 600×60px
+Wrong pixels: 250 (0.694% in region)
+Evidence: Hotspot band: gradient-blob
+Compare crop: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsStorybook/regions/region-07-compare.png
+Verify: pnpm test:figma:screen:storybook -- --artifact /Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_1.manifest.json
+Regression scope: tier-a
+Item: screen_1</pre>
+</div>
+</div>
+</div>
+<h2>Investigator</h2>
+<div class="test-item">
+<h3 class="test-title">automatic + agent · fixer reads this before editing</h3>
+<div class="mismatch-card">
+<p class="meta">layer: <code>unknown</code> · kinds OK: <strong>yes</strong> · agent: pending</p>
+<div class="insights"><pre class="prompt insight">── Investigator (automatic + agent — fixer reads this before editing) ──
+
+▸ Automatic (test harness)
+  Root cause layer: unknown
+  Pipeline kinds OK: yes
+  Fix surface: contract-to-storybook
+
+▸ Agent analysis
+  Pending — agent investigator not run yet.
+
+Compare crop: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsStorybook/regions/region-01-compare.png
+Full compare: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_1/originalParity/original.png vs /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_1/originalParity/storybook-raw.png</pre></div>
+</div>
+</div>
+<h2>Fixer guardrails</h2>
+<div class="cols">
+<div><h3>Allowlist</h3><ul><li><code>packages/pixel-test/src/render-html.ts</code></li><li><code>packages/storybook-lab/**</code></li></ul></div>
+<div><h3>Forbidden</h3><ul><li><code>packages/figma-importer-plugin/**</code></li><li><code>packages/extractor-playwright/**</code></li><li><code>scripts/bake-figma-screen-ui.mjs</code></li><li><code>packages/ui/src/components/Screen*/**</code></li><li><code>artifacts/**/*.png</code></li><li><code>Embedding Original PNG in @lab/ui to pass test</code></li></ul></div>
+</div>
+<p class="sub"><a href="test-report.json">test-report.json</a> · schema 1.0</p>
+</body></html>

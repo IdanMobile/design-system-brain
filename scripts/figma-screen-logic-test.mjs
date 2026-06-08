@@ -173,8 +173,12 @@ async function testScreen({ manifestPath }) {
 
   console.log(`\n[logic] ${name}`);
 
-  const storyStep = readScreenStepResult(WORKSPACE, name, "storybook");
-  const figmaStep = readScreenStepResult(WORKSPACE, name, "contractFigma");
+  const storyStep =
+    readScreenStepResult(WORKSPACE, name, "vsStorybook") ??
+    readScreenStepResult(WORKSPACE, name, "storybook");
+  const figmaStep =
+    readScreenStepResult(WORKSPACE, name, "vsFigmaLive") ??
+    readScreenStepResult(WORKSPACE, name, "contractFigma");
   if (figmaStep?.status !== "pass" && figmaStep?.status !== "warn") {
     const msg = "Blocked — Contract → Figma must pass first";
     console.log(`  ✗ ${msg}`);

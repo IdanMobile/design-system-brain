@@ -87,6 +87,18 @@ async function fetchFleet(): Promise<FleetState | null> {
   return res.json();
 }
 
+async function stopAllAgents(): Promise<{
+  ok?: boolean;
+  stoppedJobIds?: string[];
+  error?: string;
+  fleet?: FleetState;
+}> {
+  const res = await fetch("/api/fleet/stop-all", { method: "POST" });
+  const body = await res.json().catch(() => ({}));
+  if (!res.ok) return { ok: false, error: body.error ?? res.statusText };
+  return body;
+}
+
 function formatTime(iso: string) {
   try {
     return new Date(iso).toLocaleTimeString(undefined, {
@@ -198,7 +210,8 @@ function AgentRail({
           agent.id === "orchestrator" && orchestratorRunning
             ? "working"
             : displayStatus(agent);
-        const workerCount = agent.workerCount ?? (status === "working" ? 1 : 0);
+        const workerCount =
+          status === "working" ? (agent.workerCount ?? 1) : 0;
         const phaseLabel =
           agent.id === "orchestrator"
             ? (orchestratorPhase ?? ui.subtitle)
@@ -291,6 +304,8 @@ export function FleetConsolePage() {
   const [fleet, setFleet] = useState<FleetState | null>(null);
   const [loading, setLoading] = useState(true);
   const [lastRefresh, setLastRefresh] = useState<Date | null>(null);
+  const [stopping, setStopping] = useState(false);
+  const [stopMessage, setStopMessage] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
     const data = await fetchFleet();
@@ -298,6 +313,34 @@ export function FleetConsolePage() {
     setLastRefresh(new Date());
     setLoading(false);
   }, []);
+
+  const handleStopAll = useCallback(async () => {
+    const confirmed = window.confirm(
+      "Stop the orchestrator and all running agents?\n\nThis cancels active fix jobs, clears story locks, and turns off AUTO mode."
+    );
+    if (!confirmed) return;
+    setStopping(true);
+    setStopMessage(null);
+    try {
+      const result = await stopAllAgents();
+      if (result.fleet) {
+        setFleet(result.fleet);
+        setLastRefresh(new Date());
+      } else {
+        await refresh();
+      }
+      const count = result.stoppedJobIds?.length ?? 0;
+      setStopMessage(
+        result.ok
+          ? count > 0
+            ? `Stopped ${count} job${count === 1 ? "" : "s"}.`
+            : "All agents idle — nothing was running."
+          : (result.error ?? "Stop failed")
+      );
+    } finally {
+      setStopping(false);
+    }
+  }, [refresh]);
 
   useEffect(() => {
     void refresh();
@@ -311,18 +354,12 @@ export function FleetConsolePage() {
   }, [fleet]);
   const allAgents = fleet?.agents ?? [];
 
-  const orchestratorAgent = fleet?.agents.find((a) => a.id === "orchestrator");
-  const isLive =
-    Boolean(fleet?.orchestratorRunning) ||
-    workers.some((a) => a.status === "working") ||
-    (fleet?.runningJobs?.length ?? 0) > 0;
+  const hasRunningJobs = (fleet?.runningJobs?.length ?? 0) > 0;
+  const isLive = Boolean(fleet?.orchestratorRunning) || hasRunningJobs;
 
   const orch = fleet?.orchestrator;
-  const orchStatus = fleet?.orchestratorRunning
-    ? "working"
-    : orchestratorAgent?.status === "working"
-      ? "working"
-      : "waiting";
+  const orchStatus =
+    fleet?.orchestratorRunning || hasRunningJobs ? "working" : "waiting";
 
   return (
     <div className="fleet-shell">
@@ -354,11 +391,21 @@ export function FleetConsolePage() {
                   <span className="fleet-live-dot" />
                   {isLive ? "Live" : "Idle"}
                 </span>
+                <button
+                  type="button"
+                  className="fleet-stop-btn"
+                  onClick={() => void handleStopAll()}
+                  disabled={stopping}
+                  title="Cancel orchestrator and all agent jobs"
+                >
+                  {stopping ? "Stopping…" : "Stop all"}
+                </button>
                 <button type="button" className="fleet-refresh-btn" onClick={() => void refresh()}>
                   Refresh
                 </button>
               </div>
             </header>
+            {stopMessage ? <p className="fleet-stop-message">{stopMessage}</p> : null}
 
             <RoleSummary agents={workers} />
 

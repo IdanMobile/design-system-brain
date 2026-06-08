@@ -1,0 +1,16 @@
+{
+  "version": "0.1.0",
+  "portfolioStoryId": "lab-button--primary",
+  "deliveryStoryId": "lab-button--primary",
+  "component": "Button",
+  "args": {
+    "variant": "primary",
+    "children": "Primary"
+  },
+  "variant": "semantic",
+  "usedComponents": [
+    "Button"
+  ],
+  "sourceMaxMtime": 1780912034355.819,
+  "packedAt": "2026-06-08T09:47:20.500Z"
+}

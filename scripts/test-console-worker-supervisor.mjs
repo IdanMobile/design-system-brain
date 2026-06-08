@@ -7,7 +7,6 @@ import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { isInvestigationComplete } from "./lab-memory-vault.mjs";
 import { isStepPassing, loadStoryStepCellsFromDisk } from "./step-gate.mjs";
 
 /** @typedef {'investigator' | 'fixer' | 'verify'} JobPhase */
@@ -205,6 +204,7 @@ export function classifyWrongFiles(suiteId, mode, filesChanged) {
  * @param {string[]} input.filesChanged
  * @param {object[]} input.priorRuns
  * @param {string} input.repoRoot
+ * @param {object} [input.structuredDiagnosis]
  * @returns {{
  *   verdict: SupervisorVerdict,
  *   verdicts: SupervisorVerdict[],
@@ -225,7 +225,8 @@ export function evaluateAttempt(input) {
     pluginBuildFailed,
     filesChanged,
     priorRuns,
-    repoRoot
+    repoRoot,
+    structuredDiagnosis
   } = input;
 
   /** @type {SupervisorVerdict[]} */
@@ -285,9 +286,35 @@ export function evaluateAttempt(input) {
 
   if (attempt >= 2 && globalSame && hotspotSame) {
     verdicts.push("STUCK_LOOP");
-    if (nextWorkerMode === "continue") nextWorkerMode = "investigate_first";
+    if (structuredDiagnosis?.rootCauseLayer === "contract-to-figma" && afterTest.percent < 5) {
+      if (nextWorkerMode === "continue") nextWorkerMode = "narrow_scope";
+      const routing = (structuredDiagnosis.editRouting ?? [])
+        .map((r) => `${r.layer}→${r.symbol}`)
+        .join(", ");
+      interventionLines.push(
+        `Supervisor: metrics flat at ${afterTest.percent.toFixed(2)}% — use structuredDiagnosis editRouting${routing ? `: ${routing}` : ""}. Do NOT re-read code-v2.ts in full.`
+      );
+    } else if (afterTest.percent < 3) {
+      if (nextWorkerMode === "continue") nextWorkerMode = "narrow_scope";
+      interventionLines.push(
+        `Supervisor: metrics flat at ${afterTest.percent.toFixed(2)}% — micro-fix only (grep hotspot layer, one pin/fill edit). Skip full investigation.`
+      );
+    } else if (nextWorkerMode === "continue") {
+      nextWorkerMode = "investigate_first";
+      interventionLines.push(
+        "Supervisor: metrics unchanged across attempts — stop guessing; use compare PNG + contract grep before editing."
+      );
+    }
+  }
+
+  if (
+    structuredDiagnosis?.forbidCodeV2UntilPipelineOk &&
+    filesChanged.some((f) => f.includes("code-v2.ts"))
+  ) {
+    if (!verdicts.includes("WRONG_DIRECTION")) verdicts.push("WRONG_DIRECTION");
+    nextWorkerMode = "wrong_step";
     interventionLines.push(
-      "Supervisor: metrics unchanged across attempts — stop guessing; use investigate-figma-mismatch on compare PNG + artifact before editing."
+      `Supervisor: structuredDiagnosis says pipeline blocker — do NOT edit code-v2.ts. Fix surface: ${structuredDiagnosis.mandatoryFixSurface}.`
     );
   }
 
@@ -562,14 +589,8 @@ export function loadStructuredJobResults(repoRoot, jobId, storyId) {
  * @param {{ skipGate?: boolean }} [options]
  * @returns {{ allowed: boolean, reason: string }}
  */
-export function investigatorGateAllowsFixer(repoRoot, storyId, suiteId, options = {}) {
-  if (options.skipGate || process.env.FIX_ALL_SKIP_INVESTIGATOR_GATE === "1") {
-    return { allowed: true, reason: "gate_skipped" };
-  }
-  if (isInvestigationComplete(repoRoot, storyId, suiteId)) {
-    return { allowed: true, reason: "cached_investigation" };
-  }
-  return { allowed: false, reason: "investigator_required" };
+export function investigatorGateAllowsFixer(_repoRoot, _storyId, _suiteId, _options = {}) {
+  return { allowed: true, reason: "investigation_on_test_report" };
 }
 
 export function workerModeInstructions(workerMode) {

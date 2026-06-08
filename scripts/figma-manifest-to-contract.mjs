@@ -24,6 +24,13 @@ function snap(v) {
   return Math.round(v * 100) / 100;
 }
 
+/** Match reference PNG integer canvas when manifest height is sub-pixel (e.g. 31.76 → 32). */
+function snapViewportDim(v) {
+  const rounded = Math.round(v);
+  if (Math.abs(v - rounded) <= 0.5) return rounded;
+  return snap(v);
+}
+
 /** { r, g, b, a } (0-1 floats) → CSS hex string */
 function rawColorToHex({ r, g, b, a = 1 }) {
   const ri = Math.round(r * 255);
@@ -730,8 +737,35 @@ function convertNode(node, parentLayout, allImages) {
   if (isVector) {
     const paths = pickVectorPaths(node);
     if (paths.length === 0) {
-      // guing manifest omits path data — approximate as a filled shape leaf
-      return convertShapeLeaf(node, parentLayout, allImages, false, id, source, rawBox, transform);
+      const w = snap(node.width ?? rawBox.width);
+      const h = snap(node.height ?? rawBox.height);
+      const vpaint = parseVectorPaint(node.fills, node.strokes, node.strokeWeight ?? 0);
+      const shapePaint = nodeOpacity < 1 ? { ...vpaint, opacity: snap(nodeOpacity) } : vpaint;
+      const vector = {
+        viewBox: { x: 0, y: 0, width: w, height: h },
+        shapes: [{
+          primitive: "path",
+          attrs: {
+            d: `M 0 0 L ${w} 0 L ${w} ${h} L 0 ${h} Z`,
+            fillRule: "nonzero",
+          },
+          paint: shapePaint,
+        }],
+        figmaNative: figmaNativeVector(node, []),
+      };
+      const { shadows, filters } = parseEffects(node.effects);
+      const paint = shadows.length || filters.length
+        ? { ...(shadows.length && { shadows }), ...(filters.length && { filters }) }
+        : undefined;
+      const fcp = parentLayout === "flex" ? flexChildProps(node) : {};
+      const layout = layoutFromParent(parentLayout, fcp);
+      return {
+        id, name: node.name, source, box: rawBox,
+        ...(transform && { transform }),
+        ...(paint && { paint }),
+        vector,
+        ...(layout && { layout }),
+      };
     }
     const vpaint = parseVectorPaint(node.fills, node.strokes, node.strokeWeight ?? 0);
     const shapePaint =
@@ -839,6 +873,46 @@ function fillFigmaHeaderShells(layer, chromeColor) {
   }
 }
 
+/** Rebases flex children when frame box.y is sub-pixel (Guing header fig-4 y≈0.38). */
+function postProcessSnapSubpixelFlexFrames(layer) {
+  const y = layer.box?.y ?? 0;
+  if (
+    layer.layout?.display === "flex" &&
+    y > 0.001 &&
+    y < 1 &&
+    layer.children?.length
+  ) {
+    for (const child of layer.children) {
+      child.box = { ...child.box, y: snap(child.box.y + y) };
+    }
+    layer.box = { ...layer.box, y: 0 };
+  }
+  for (const child of layer.children ?? []) {
+    postProcessSnapSubpixelFlexFrames(child);
+  }
+}
+
+/** Flex-column align:end clusters LTR labels to the right — fix LEFT contract align for live import. */
+function postProcessGuingFlexCrossEndLabels(layer) {
+  const flex = layer.layout?.flex;
+  const columnEnd =
+    layer.layout?.display === "flex" &&
+    flex?.direction === "column" &&
+    flex?.align === "end";
+  for (const child of layer.children ?? []) {
+    if (
+      columnEnd &&
+      child.text &&
+      child.text.direction !== "rtl" &&
+      (child.text.align === "left" || child.text.align === "start") &&
+      child.box.width >= layer.box.width - 1
+    ) {
+      child.text.align = "right";
+    }
+    postProcessGuingFlexCrossEndLabels(child);
+  }
+}
+
 /**
  * Accepts:
  *  - guing raw root node (type/id/width/height at top level)
@@ -849,13 +923,15 @@ function normalizeManifest(input) {
     return { root: input.root, meta: input.meta };
   }
 
-  if (input?.type && input.id != null && typeof input.width === "number" && typeof input.height === "number") {
+  if (input?.type && input.id != null) {
+    const width = typeof input.width === "number" ? input.width : 0;
+    const height = typeof input.height === "number" ? input.height : 0;
     return {
-      root: input,
+      root: { ...input, width, height },
       meta: {
         name: input.name ?? "Screen",
-        width: input.width,
-        height: input.height,
+        width,
+        height,
         extractedAt: input.extractedAt ?? new Date().toISOString(),
       },
     };
@@ -874,6 +950,61 @@ export function referencePngPathFor(manifestPath) {
     .replace(/-manifest\.json$/, ".png");
 }
 
+/** @param {object} node @param {Record<string, object>} acc */
+function indexManifestNodesById(node, acc = {}) {
+  if (node?.id != null) acc[String(node.id)] = node;
+  for (const c of node.children ?? []) indexManifestNodesById(c, acc);
+  return acc;
+}
+
+/**
+ * Manifest TEXT/VECTOR/etc. must survive adapter as the same logical kind.
+ * Reference-PNG raster stamping (applyLiveHebrewTextRasters, etc.) must NOT run on live path.
+ *
+ * @param {object} manifestRoot
+ * @param {object} contractRoot
+ * @returns {string[]}
+ */
+export function validateContractNodeKindFidelity(manifestRoot, contractRoot) {
+  const byId = indexManifestNodesById(manifestRoot);
+  /** @type {string[]} */
+  const errors = [];
+
+  function walk(layer) {
+    const figmaId = layer.source?.id;
+    const manifestNode = figmaId ? byId[String(figmaId)] : null;
+    if (manifestNode) {
+      const nodeType = manifestNode.type;
+      const ds = layer.source?.dataset ?? {};
+      if (nodeType === "TEXT") {
+        if (!layer.text) {
+          errors.push(
+            `Manifest TEXT "${manifestNode.name ?? figmaId}" (${figmaId}) lost layer.text in contract`
+          );
+        }
+        if (layer.image?.dataUrl || ds.figmaReferenceRaster) {
+          errors.push(
+            `Manifest TEXT "${manifestNode.name ?? figmaId}" (${figmaId}) was converted to reference raster — forbidden; render as Figma TEXT`
+          );
+        }
+      }
+      if (
+        ["VECTOR", "STAR", "POLYGON", "LINE", "BOOLEAN_OPERATION"].includes(nodeType) &&
+        !layer.vector &&
+        !layer.image?.dataUrl &&
+        ds.figmaReferenceRaster !== "vector"
+      ) {
+        errors.push(
+          `Manifest ${nodeType} "${manifestNode.name ?? figmaId}" (${figmaId}) missing layer.vector in contract`
+        );
+      }
+    }
+    for (const c of layer.children ?? []) walk(c);
+  }
+  walk(contractRoot);
+  return errors;
+}
+
 export function manifestToContract(manifest, options = {}) {
   const { root: rootNode, meta } = normalizeManifest(manifest);
 
@@ -887,16 +1018,33 @@ export function manifestToContract(manifest, options = {}) {
   if (!root) throw new Error("manifestToContract: root node produced no output");
 
   // Root is the viewport — always 0,0
-  root.box = { x: 0, y: 0, width: snap(meta.width), height: snap(meta.height) };
+  root.box = {
+    x: 0,
+    y: 0,
+    width: snapViewportDim(meta.width),
+    height: snapViewportDim(meta.height),
+  };
 
   fillFigmaHeaderShells(root, undefined);
+  postProcessSnapSubpixelFlexFrames(root);
+  postProcessGuingFlexCrossEndLabels(root);
+
+  const kindErrors = validateContractNodeKindFidelity(rootNode, root);
+  if (kindErrors.length) {
+    throw new Error(`manifestToContract kind fidelity failed:\n  · ${kindErrors.join("\n  · ")}`);
+  }
 
   return {
     schemaVersion: "1.0",
     meta: {
       componentName: meta.name,
       extractedAt: meta.extractedAt ?? new Date().toISOString(),
-      viewport: { x: 0, y: 0, width: snap(meta.width), height: snap(meta.height) },
+      viewport: {
+        x: 0,
+        y: 0,
+        width: snapViewportDim(meta.width),
+        height: snapViewportDim(meta.height),
+      },
       devicePixelRatio: 1,
       preserveEffects: true,
     },

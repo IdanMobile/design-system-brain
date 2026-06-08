@@ -2,6 +2,8 @@
  * Test portfolio config (mirrors packages/contract/src/test-portfolio.ts for .mjs consumers).
  */
 
+import { loadExcludedStoryIds } from "./delete-portfolio-row.mjs";
+
 export const TEST_STEP_ORDER = ["pixel", "figma", "figmaLive", "delivery", "logic"];
 
 export function isStepPassing(status) {
@@ -118,11 +120,14 @@ export function isStorybookOnlyStory(storyId) {
 }
 
 export function loadPortfolioStoryIds(repoRoot, readFileSync, existsSync, join) {
+  const excluded = loadExcludedStoryIds(repoRoot);
   const portfolioPath = join(repoRoot, "test-portfolio", "portfolio.json");
   if (existsSync(portfolioPath)) {
     try {
       const raw = JSON.parse(readFileSync(portfolioPath, "utf8"));
-      if (raw.stories?.length) return raw.stories;
+      if (raw.stories?.length) {
+        return raw.stories.filter((id) => !excluded.has(id));
+      }
     } catch {
       /* fall through */
     }
@@ -132,10 +137,12 @@ export function loadPortfolioStoryIds(repoRoot, readFileSync, existsSync, join) 
     try {
       const raw = JSON.parse(readFileSync(indexPath, "utf8"));
       const ids = (raw.stories ?? []).map((s) => s.id).filter(Boolean);
-      if (ids.length) return [...ids].sort();
+      if (ids.length) return [...ids].filter((id) => !excluded.has(id)).sort();
     } catch {
       /* fall through */
     }
   }
   return [];
 }
+
+export { loadExcludedStoryIds };

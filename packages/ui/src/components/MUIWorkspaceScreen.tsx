@@ -145,10 +145,10 @@ export function MUIWorkspaceScreen() {
           <Toolbar sx={{ gap: 1, minHeight: 56 }}>
             <Avatar sx={{ width: 36, height: 36, bgcolor: "primary.main", fontSize: 14 }}>LW</Avatar>
             <Box sx={{ flex: 1 }}>
-              <Typography variant="subtitle2" color="text.secondary" lineHeight={1.2}>
+              <Typography variant="subtitle2" color="text.secondary" sx={{ lineHeight: 1.2 }}>
                 Good morning
               </Typography>
-              <Typography variant="subtitle1" fontWeight={700} lineHeight={1.2}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 700, lineHeight: 1.2 }}>
                 Lab Workspace
               </Typography>
             </Box>
@@ -166,12 +166,14 @@ export function MUIWorkspaceScreen() {
               fullWidth
               size="small"
               placeholder="Search projects, stories..."
-              InputProps={{
-                startAdornment: (
-                  <Box sx={{ display: "flex", pl: 0.5, pr: 1, color: "text.secondary" }}>
-                    <SearchIcon />
-                  </Box>
-                )
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <Box sx={{ display: "flex", pl: 0.5, pr: 1, color: "text.secondary" }}>
+                      <SearchIcon />
+                    </Box>
+                  )
+                }
               }}
               sx={{ bgcolor: "#fff" }}
             />
@@ -187,8 +189,8 @@ export function MUIWorkspaceScreen() {
             </Stack>
 
             <Box>
-              <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
-                <Typography variant="subtitle1" fontWeight={700}>
+              <Stack direction="row" sx={{ mb: 1, justifyContent: "space-between", alignItems: "center" }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
                   Active Projects
                 </Typography>
                 <Button size="small">View all</Button>
@@ -198,13 +200,16 @@ export function MUIWorkspaceScreen() {
                 {projects.map((project) => (
                   <Card key={project.name} variant="outlined" sx={{ bgcolor: "#fff" }}>
                     <CardContent sx={{ pb: 1 }}>
-                      <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ mb: 1 }}>
-                        <Typography variant="subtitle2" fontWeight={700}>
+                      <Stack
+                        direction="row"
+                        sx={{ mb: 1, justifyContent: "space-between", alignItems: "flex-start" }}
+                      >
+                        <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
                           {project.name}
                         </Typography>
                         <Chip label={project.status} color={project.color} size="small" />
                       </Stack>
-                      <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1.5 }}>
+                      <Stack direction="row" spacing={1} sx={{ mb: 1.5, alignItems: "center" }}>
                         <Avatar sx={{ width: 24, height: 24, fontSize: 11 }}>{project.lead[0]}</Avatar>
                         <Typography variant="caption" color="text.secondary">
                           {project.lead} • {project.tasks} tasks open
@@ -228,7 +233,7 @@ export function MUIWorkspaceScreen() {
             </Box>
 
             <Box>
-              <Typography variant="subtitle1" fontWeight={700} sx={{ mb: 1 }}>
+              <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: 700 }}>
                 Recent Activity
               </Typography>
               <Card variant="outlined" sx={{ bgcolor: "#fff" }}>
@@ -244,8 +249,10 @@ export function MUIWorkspaceScreen() {
                         <ListItemText
                           primary={item.title}
                           secondary={item.detail}
-                          primaryTypographyProps={{ variant: "body2", fontWeight: 600 }}
-                          secondaryTypographyProps={{ variant: "caption" }}
+                          slotProps={{
+                            primary: { variant: "body2", sx: { fontWeight: 600 } },
+                            secondary: { variant: "caption" }
+                          }}
                         />
                       </ListItem>
                       {index < activity.length - 1 ? <Divider component="li" /> : null}

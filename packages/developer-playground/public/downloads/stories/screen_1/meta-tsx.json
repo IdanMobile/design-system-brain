@@ -1,0 +1,12 @@
+{
+  "name": "@lab/story-screen_1-tsx",
+  "version": "0.1.0",
+  "portfolioStoryId": "screen_1",
+  "deliveryStoryId": "lab-screen1--default",
+  "component": "Screen1",
+  "args": {},
+  "codegen": true,
+  "variant": "tsx",
+  "file": "component-tsx.tgz",
+  "href": "/downloads/stories/screen_1/component-tsx.tgz"
+}

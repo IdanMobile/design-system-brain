@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>→ Storybook — unified portfolio</title>
+<style>
+:root{color-scheme:dark}
+body{font-family:system-ui,-apple-system,sans-serif;margin:0;padding:24px;background:#0f1419;color:#e8edf4;line-height:1.45}
+h1{margin:0 0 6px;font-size:1.4rem}
+.sub{color:#8b9cb3;margin:0 0 20px;font-size:.9rem}
+.summary{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px}
+.summary div{padding:8px 14px;background:#1a2332;border:1px solid #2d3a4f;border-radius:8px;font-size:.85rem}
+table{border-collapse:collapse;width:100%;font-size:.82rem}
+th,td{border-bottom:1px solid #2d3a4f;padding:8px 10px;vertical-align:top;text-align:left}
+th{background:#1a2332;color:#8b9cb3;font-weight:600}
+.badge{font-weight:600;text-transform:uppercase;font-size:.68rem;padding:2px 8px;border-radius:6px;display:inline-block}
+.pass{color:#22c55e;background:rgba(34,197,94,.18)}
+.warn{color:#f59e0b;background:rgba(245,158,11,.18)}
+.fail,.error{color:#ef4444;background:rgba(239,68,68,.18)}
+.muted{color:#8b9cb3;background:rgba(139,156,179,.15);text-transform:none}
+.pct{color:#8b9cb3;white-space:nowrap}
+.artifacts a{color:#3b82f6;text-decoration:none}
+.artifacts a:hover{text-decoration:underline}
+code{font-size:.78rem}
+.thumb-wrap{margin-top:6px}
+.thumb-label{display:block;font-size:.62rem;text-transform:uppercase;letter-spacing:.04em;color:#8b9cb3;margin-bottom:3px}
+.thumb-original{opacity:.85}
+.thumb{max-width:120px;max-height:72px;border-radius:4px;border:1px solid #2d3a4f;background:#0b1018;display:block}
+.thumb-sm{max-width:88px;max-height:52px}
+</style></head><body>
+<h1>→ Storybook</h1>
+<p class="sub">Unified original-parity · tolerance ≤ 0.1% · 62 items · 2026-06-08T17:44:23.889Z</p>
+<div class="summary">
+  <div>Total: <strong>62</strong></div>
+  <div style="color:#22c55e">Pass: <strong>0</strong></div>
+  <div style="color:#f59e0b">Warn: <strong>0</strong></div>
+  <div style="color:#ef4444">Fail: <strong>2</strong></div>
+  <div style="color:#a855f7">Error: <strong>0</strong></div>
+  <div style="color:#8b9cb3">Not tested: <strong>60</strong></div>
+</div>
+<table>
+<thead><tr><th>EntryPoint</th><th>Item</th><th>Status</th><th>Diff %</th><th>Compare</th></tr></thead>
+<tbody>
+<tr>
+        <td>figma</td>
+        <td><code>screen_1</code><div class="thumb-wrap"><span class="thumb-label">Generated</span><a href="/repo/figma-screen-diffs/screen_1/originalParity/storybook-raw.png"><img class="thumb" src="/repo/figma-screen-diffs/screen_1/originalParity/storybook-raw.png" alt="" loading="lazy"></a></div><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/figma-screen-diffs/screen_1/originalParity/original.png"><img class="thumb thumb-sm" src="/repo/figma-screen-diffs/screen_1/originalParity/original.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge fail">fail</span></td>
+        <td class="pct">3.12% · h 10.79%</td>
+        <td class="artifacts"><a href="/repo/figma-screen-diffs/by-screen/screen_1/vsStorybook/test-report.html">full compare</a> · <a href="/repo/figma-screen-diffs/screen_1/originalParity/diff-original-storybook.png">diff png</a></td>
+      </tr>
+<tr>
+        <td>figma</td>
+        <td><code>screen_2</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/figma-screen-diffs/screen_2/originalParity/original.png"><img class="thumb thumb-sm" src="/repo/figma-screen-diffs/screen_2/originalParity/original.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>figma</td>
+        <td><code>screen_3</code></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>figma</td>
+        <td><code>screen_4</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/artifacts/figma-screens/screen_4.png"><img class="thumb thumb-sm" src="/repo/artifacts/figma-screens/screen_4.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>figma</td>
+        <td><code>screen_5</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/artifacts/figma-screens/screen_5.png"><img class="thumb thumb-sm" src="/repo/artifacts/figma-screens/screen_5.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>figma</td>
+        <td><code>screen_dialog_buttons</code><div class="thumb-wrap"><span class="thumb-label">Generated</span><a href="/repo/figma-screen-diffs/screen_dialog_buttons/originalParity/storybook-raw.png"><img class="thumb" src="/repo/figma-screen-diffs/screen_dialog_buttons/originalParity/storybook-raw.png" alt="" loading="lazy"></a></div><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/figma-screen-diffs/screen_dialog_buttons/originalParity/original.png"><img class="thumb thumb-sm" src="/repo/figma-screen-diffs/screen_dialog_buttons/originalParity/original.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge fail">fail</span></td>
+        <td class="pct">2.69% · h 1.20%</td>
+        <td class="artifacts"><a href="/repo/figma-screen-diffs/by-screen/screen_dialog_buttons/vsStorybook/test-report.html">full compare</a> · <a href="/repo/figma-screen-diffs/screen_dialog_buttons/originalParity/diff-original-storybook.png">diff png</a></td>
+      </tr>
+<tr>
+        <td>figma</td>
+        <td><code>screen_frame_2147225716</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/artifacts/figma-screens/screen_frame_2147225716.png"><img class="thumb thumb-sm" src="/repo/artifacts/figma-screens/screen_frame_2147225716.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-analyticscharts--dense</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-analyticscharts-dense/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-analyticscharts-dense/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-analyticscharts--revenue</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-analyticscharts-revenue/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-analyticscharts-revenue/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-analyticscharts--usage</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-analyticscharts-usage/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-analyticscharts-usage/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-button--compact</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-button-compact/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-button-compact/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-button--danger</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-button-danger/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-button-danger/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-button--ghost</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-button-ghost/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-button-ghost/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-button--large-with-both-icons</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-button-large-with-both-icons/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-button-large-with-both-icons/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-button--primary</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-button-primary/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-button-primary/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-button--primary-with-icon</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-button-primary-with-icon/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-button-primary-with-icon/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-button--secondary</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-button-secondary/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-button-secondary/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-calendarscheduler--compact</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-calendarscheduler-compact/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-calendarscheduler-compact/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-calendarscheduler--monthly</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-calendarscheduler-monthly/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-calendarscheduler-monthly/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-calendarscheduler--weekdays-only</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-calendarscheduler-weekdays-only/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-calendarscheduler-weekdays-only/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-complexdashboardcard--default</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-complexdashboardcard-default/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-complexdashboardcard-default/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-contentlistboard--compact</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-contentlistboard-compact/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-contentlistboard-compact/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-contentlistboard--default</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-contentlistboard-default/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-contentlistboard-default/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-contentlistboard--highlighted</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-contentlistboard-highlighted/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-contentlistboard-highlighted/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-cryptochaosdashboard--default</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-cryptochaosdashboard-default/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-cryptochaosdashboard-default/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-featurecard--default</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-featurecard-default/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-featurecard-default/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-featurecard--success</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-featurecard-success/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-featurecard-success/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-featurecard--warning</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-featurecard-warning/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-featurecard-warning/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-filtersidepanel--collapsed</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-filtersidepanel-collapsed/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-filtersidepanel-collapsed/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-filtersidepanel--left-panel</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-filtersidepanel-left-panel/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-filtersidepanel-left-panel/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-filtersidepanel--right-panel</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-filtersidepanel-right-panel/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-filtersidepanel-right-panel/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-foodfrenzyscreen--default</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-foodfrenzyscreen-default/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-foodfrenzyscreen-default/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-loadingstates--card-skeleton</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-loadingstates-card-skeleton/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-loadingstates-card-skeleton/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-loadingstates--list-skeleton</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-loadingstates-list-skeleton/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-loadingstates-list-skeleton/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-loginpage--default</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-loginpage-default/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-loginpage-default/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-loginpage--filled-credentials</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-loginpage-filled-credentials/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-loginpage-filled-credentials/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-meetinghomepage--default</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-meetinghomepage-default/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-meetinghomepage-default/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-muiworkspacescreen--default</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-muiworkspacescreen-default/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-muiworkspacescreen-default/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-navigationbars--bottom-navigation</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-navigationbars-bottom-navigation/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-navigationbars-bottom-navigation/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-navigationbars--top-navigation</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-navigationbars-top-navigation/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-navigationbars-top-navigation/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-neonarcadescreen--default</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-neonarcadescreen-default/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-neonarcadescreen-default/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-overlaystates--bottom-sheet</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-overlaystates-bottom-sheet/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-overlaystates-bottom-sheet/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-overlaystates--dialog</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-overlaystates-dialog/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-overlaystates-dialog/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-overlaystates--drawer</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-overlaystates-drawer/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-overlaystates-drawer/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-pricingpanel--pro</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-pricingpanel-pro/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-pricingpanel-pro/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-pricingpanel--starter</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-pricingpanel-starter/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-pricingpanel-starter/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-productcard--alternate-image</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-productcard-alternate-image/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-productcard-alternate-image/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-productcard--compact</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-productcard-compact/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-productcard-compact/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-productcard--dark</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-productcard-dark/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-productcard-dark/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-productcard--default</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-productcard-default/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-productcard-default/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-radiogroupfield--default</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-radiogroupfield-default/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-radiogroupfield-default/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-radiogroupfield--disabled</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-radiogroupfield-disabled/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-radiogroupfield-disabled/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-radiogroupfield--pickup-selected</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-radiogroupfield-pickup-selected/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-radiogroupfield-pickup-selected/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-retroterminalscreen--default</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-retroterminalscreen-default/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-retroterminalscreen-default/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-selectfield--closed</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-selectfield-closed/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-selectfield-closed/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-selectfield--expanded</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-selectfield-expanded/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-selectfield-expanded/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-snackbarstack--default</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-snackbarstack-default/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-snackbarstack-default/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-snackbarstack--dense</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-snackbarstack-dense/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-snackbarstack-dense/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-spacemissioncontrol--default</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-spacemissioncontrol-default/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-spacemissioncontrol-default/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-tabspanel--activity-active</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-tabspanel-activity-active/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-tabspanel-activity-active/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>lab-tabspanel--settings-active</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/lab-tabspanel-settings-active/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/lab-tabspanel-settings-active/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+<tr>
+        <td>storybook</td>
+        <td><code>mui--showcase</code><div class="thumb-wrap thumb-original"><span class="thumb-label">Original</span><a href="/repo/pixel-diffs/mui-showcase/storybook.png"><img class="thumb thumb-sm" src="/repo/pixel-diffs/mui-showcase/storybook.png" alt="" loading="lazy"></a></div></td>
+        <td><span class="badge muted">not_tested</span></td>
+        <td class="pct">—</td>
+        <td class="artifacts">—</td>
+      </tr>
+</tbody>
+</table>
+</body></html>

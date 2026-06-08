@@ -1,10 +1,16 @@
 {
-  "updatedAt": "2026-05-30T11:51:13.143Z",
-  "phase": "fix-all",
-  "suiteId": "pixel",
-  "jobId": "7ae67e38-cf41-4657-ba4a-accdf8865a37",
-  "verdict": "EXHAUSTED",
-  "nextWorkerMode": "continue",
+  "updatedAt": "2026-06-08T16:44:34.979Z",
+  "phase": "row-pipeline",
+  "jobId": "eef3f012-fe0a-4089-940a-8257372bcf10",
+  "storyId": "screen_1",
+  "entryPoint": "figma",
+  "suiteId": "vsFigmaLive",
+  "suiteLabel": "→ Figma live",
   "finished": true,
-  "summary": "0/1 pass"
+  "verdict": "FIX_STUCK",
+  "exitReason": "FIX_STUCK",
+  "nextWorkerMode": "stopped",
+  "humanAction": "fix_stuck",
+  "humanMessage": "→ Figma live FIX STUCK — EXHAUSTED:1/1",
+  "humanTitle": "→ Figma live FIX STUCK"
 }

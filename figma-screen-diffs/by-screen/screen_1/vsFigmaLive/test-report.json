@@ -1,0 +1,491 @@
+{
+  "schemaVersion": "1.0",
+  "itemId": "screen_1",
+  "entryPoint": "figma",
+  "failedTest": {
+    "testId": "vsFigmaLive",
+    "label": "Original → Figma live",
+    "compare": {
+      "reference": "original",
+      "target": "figmaLive"
+    },
+    "primaryFixer": "contract-to-figma",
+    "fixerChain": [
+      "manifest-to-contract",
+      "contract-to-figma"
+    ],
+    "allowlist": [
+      "packages/figma-importer-plugin/src/code-v2.ts",
+      "packages/pixel-test/src/scene-to-html.ts"
+    ],
+    "forbidden": [
+      "packages/extractor-playwright/**",
+      "packages/pixel-test/src/render-html.ts",
+      "packages/storybook-lab/**",
+      "packages/ui/**",
+      "artifacts/**/*.png"
+    ],
+    "regressionScope": "tier-c",
+    "verifyCommand": "pnpm test:figma:screen -- --artifact /Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_1.manifest.json"
+  },
+  "tolerance": 0.1,
+  "global": {
+    "percent": 0.10377910384410467,
+    "maxRegionPercent": 3.78,
+    "status": "fail",
+    "pixelsDiffered": 1868,
+    "pixelsTotal": 1799977
+  },
+  "images": {
+    "original": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_1/originalParity/original.png",
+    "target": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_1/originalParity/figmaLive.png",
+    "diff": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_1/originalParity/diff-original-figmaLive.png"
+  },
+  "mismatches": [
+    {
+      "id": "region-01",
+      "bbox": {
+        "x": 20,
+        "y": 8,
+        "width": 200,
+        "height": 50
+      },
+      "wrongPixels": 378,
+      "percentInRegion": 3.7800000000000002,
+      "images": {
+        "originalCrop": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsFigmaLive/regions/region-01-original.png",
+        "targetCrop": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsFigmaLive/regions/region-01-target.png",
+        "diffCrop": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsFigmaLive/regions/region-01-diff.png",
+        "compareSideBySide": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsFigmaLive/regions/region-01-compare.png"
+      },
+      "evidence": {
+        "message": "Hotspot band: user-header"
+      },
+      "suspectedFixer": "contract-to-figma",
+      "fixPrompt": "Failed test: vsFigmaLive (Original → Figma live)\nPrimary fixer: contract-to-figma\nFixer chain (upstream if contract wrong): manifest-to-contract → contract-to-figma\n── Ground rules ──\n• Fix the general algorithm — NOT per-item pixel hacks.\n• Screenshots are for investigation only — do NOT change UI/code to match PNGs.\n• Do NOT embed reference PNGs as assets to pass parity.\n── Allowlisted files ──\n• packages/figma-importer-plugin/src/code-v2.ts\n• packages/pixel-test/src/scene-to-html.ts\n── Forbidden ──\n• packages/extractor-playwright/**\n• packages/pixel-test/src/render-html.ts\n• packages/storybook-lab/**\n• packages/ui/**\n• artifacts/**/*.png\n── Mismatch region-01 ──\nRegion: (20, 8) 200×50px\nWrong pixels: 378 (3.780% in region)\nEvidence: Hotspot band: user-header\nCompare crop: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsFigmaLive/regions/region-01-compare.png\nVerify: pnpm test:figma:screen -- --artifact /Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_1.manifest.json\nRegression scope: tier-c\nItem: screen_1"
+    },
+    {
+      "id": "region-02",
+      "bbox": {
+        "x": 60,
+        "y": 865,
+        "width": 400,
+        "height": 35
+      },
+      "wrongPixels": 176,
+      "percentInRegion": 1.2571428571428571,
+      "images": {
+        "originalCrop": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsFigmaLive/regions/region-02-original.png",
+        "targetCrop": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsFigmaLive/regions/region-02-target.png",
+        "diffCrop": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsFigmaLive/regions/region-02-diff.png",
+        "compareSideBySide": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsFigmaLive/regions/region-02-compare.png"
+      },
+      "evidence": {
+        "message": "Hotspot band: pagination-footer"
+      },
+      "suspectedFixer": "contract-to-figma",
+      "fixPrompt": "Failed test: vsFigmaLive (Original → Figma live)\nPrimary fixer: contract-to-figma\nFixer chain (upstream if contract wrong): manifest-to-contract → contract-to-figma\n── Ground rules ──\n• Fix the general algorithm — NOT per-item pixel hacks.\n• Screenshots are for investigation only — do NOT change UI/code to match PNGs.\n• Do NOT embed reference PNGs as assets to pass parity.\n── Allowlisted files ──\n• packages/figma-importer-plugin/src/code-v2.ts\n• packages/pixel-test/src/scene-to-html.ts\n── Forbidden ──\n• packages/extractor-playwright/**\n• packages/pixel-test/src/render-html.ts\n• packages/storybook-lab/**\n• packages/ui/**\n• artifacts/**/*.png\n── Mismatch region-02 ──\nRegion: (60, 865) 400×35px\nWrong pixels: 176 (1.257% in region)\nEvidence: Hotspot band: pagination-footer\nCompare crop: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsFigmaLive/regions/region-02-compare.png\nVerify: pnpm test:figma:screen -- --artifact /Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_1.manifest.json\nRegression scope: tier-c\nItem: screen_1"
+    },
+    {
+      "id": "region-03",
+      "bbox": {
+        "x": 1100,
+        "y": 785,
+        "width": 150,
+        "height": 45
+      },
+      "wrongPixels": 40,
+      "percentInRegion": 0.5925925925925926,
+      "images": {
+        "originalCrop": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsFigmaLive/regions/region-03-original.png",
+        "targetCrop": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsFigmaLive/regions/region-03-target.png",
+        "diffCrop": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsFigmaLive/regions/region-03-diff.png",
+        "compareSideBySide": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsFigmaLive/regions/region-03-compare.png"
+      },
+      "evidence": {
+        "message": "Hotspot band: phone-row"
+      },
+      "suspectedFixer": "contract-to-figma",
+      "fixPrompt": "Failed test: vsFigmaLive (Original → Figma live)\nPrimary fixer: contract-to-figma\nFixer chain (upstream if contract wrong): manifest-to-contract → contract-to-figma\n── Ground rules ──\n• Fix the general algorithm — NOT per-item pixel hacks.\n• Screenshots are for investigation only — do NOT change UI/code to match PNGs.\n• Do NOT embed reference PNGs as assets to pass parity.\n── Allowlisted files ──\n• packages/figma-importer-plugin/src/code-v2.ts\n• packages/pixel-test/src/scene-to-html.ts\n── Forbidden ──\n• packages/extractor-playwright/**\n• packages/pixel-test/src/render-html.ts\n• packages/storybook-lab/**\n• packages/ui/**\n• artifacts/**/*.png\n── Mismatch region-03 ──\nRegion: (1100, 785) 150×45px\nWrong pixels: 40 (0.593% in region)\nEvidence: Hotspot band: phone-row\nCompare crop: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsFigmaLive/regions/region-03-compare.png\nVerify: pnpm test:figma:screen -- --artifact /Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_1.manifest.json\nRegression scope: tier-c\nItem: screen_1"
+    }
+  ],
+  "testedAt": "2026-06-08T16:44:31.924Z",
+  "ctx": {
+    "manifestPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_1.manifest.json",
+    "contractPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_1.contract.json",
+    "repoRoot": "/Users/user/Documents/GitHub/storybook-to-figma-lab"
+  },
+  "pipelineTrace": {
+    "schemaVersion": "1.0",
+    "pipeline": [
+      {
+        "id": "manifest",
+        "label": "Figma manifest export",
+        "artifact": "artifacts/figma-screens/screen_1.manifest.json",
+        "role": "Ground truth — node.type (TEXT, VECTOR, ELLIPSE, …). Images only via IMAGE fills / imageHash."
+      },
+      {
+        "id": "manifestToContract",
+        "label": "manifestToContract adapter",
+        "script": "scripts/figma-manifest-to-contract.mjs",
+        "role": "Must preserve manifest node kinds — TEXT stays layer.text, no PNG stamping."
+      },
+      {
+        "id": "contractOnDisk",
+        "label": "Contract on disk",
+        "artifact": "artifacts/figma-screens/screen_1.contract.json",
+        "role": "Must match adapter output. If kinds differ from manifest → fix adapter or remove post-adapter mutator."
+      },
+      {
+        "id": "liveTestHarness",
+        "label": "Live test harness",
+        "script": "scripts/figma-screen-test.mjs",
+        "role": "Runs adapter + sends contract to Figma. Must NOT call applyLiveHebrewTextRasters / applyStorybookReferenceRasters on vsFigmaLive."
+      },
+      {
+        "id": "contractToFigma",
+        "label": "Figma live importer",
+        "script": "packages/figma-importer-plugin/src/code-v2.ts",
+        "role": "Renders contract as Figma nodes — only when contract kinds are correct."
+      },
+      {
+        "id": "compare",
+        "label": "Pixel compare",
+        "role": "original PNG vs figmaLive PNG"
+      }
+    ],
+    "audit": {
+      "kindMismatches": [],
+      "manifestVsDisk": [],
+      "adapterVsDisk": []
+    },
+    "hasBlocker": false,
+    "effectiveFixer": null,
+    "traceBackMethod": [
+      "0. TRACE BACK (mandatory when pipelineTrace shows kind mismatch):",
+      "   a. Grep manifest TEXT nodes in hotspot: grep -n '\"type\": \"TEXT\"' <manifest>",
+      "   b. Grep same figma ids in contract: grep -n '<figma-id>' <contract>",
+      "   c. If manifest TEXT but contract has layer.image / figmaReferenceRaster → fix pipeline step (NOT code-v2).",
+      "   d. Re-run manifest test, then live test — only then tune importer."
+    ],
+    "manifestRel": "artifacts/figma-screens/screen_1.manifest.json",
+    "contractRel": "artifacts/figma-screens/screen_1.contract.json"
+  },
+  "pipelineText": "── Pipeline trace (trace back to root — do NOT skip) ──\n\nPipeline steps (vsFigmaLive):\n  · Figma manifest export: Ground truth — node.type (TEXT, VECTOR, ELLIPSE, …). Images only via IMAGE fills / imageHash.\n    artifact: artifacts/figma-screens/screen_1.manifest.json\n  · manifestToContract adapter: Must preserve manifest node kinds — TEXT stays layer.text, no PNG stamping.\n    script: scripts/figma-manifest-to-contract.mjs\n  · Contract on disk: Must match adapter output. If kinds differ from manifest → fix adapter or remove post-adapter mutator.\n    artifact: artifacts/figma-screens/screen_1.contract.json\n  · Live test harness: Runs adapter + sends contract to Figma. Must NOT call applyLiveHebrewTextRasters / applyStorybookReferenceRasters on vsFigmaLive.\n    script: scripts/figma-screen-test.mjs\n  · Figma live importer: Renders contract as Figma nodes — only when contract kinds are correct.\n    script: packages/figma-importer-plugin/src/code-v2.ts\n  · Pixel compare: original PNG vs figmaLive PNG\n\n0. TRACE BACK (mandatory when pipelineTrace shows kind mismatch):\n   a. Grep manifest TEXT nodes in hotspot: grep -n '\"type\": \"TEXT\"' <manifest>\n   b. Grep same figma ids in contract: grep -n '<figma-id>' <contract>\n   c. If manifest TEXT but contract has layer.image / figmaReferenceRaster → fix pipeline step (NOT code-v2).\n   d. Re-run manifest test, then live test — only then tune importer.\n\nGrep manifest vs contract (hotspot layers):\n  grep -n '\"type\": \"TEXT\"' artifacts/figma-screens/screen_1.manifest.json\n  grep -n 'figmaReferenceRaster\\|\"type\": \"TEXT\"' artifacts/figma-screens/screen_1.contract.json",
+  "investigationText": "── Fixer action (ONE edit — start here) ──\n⚠ PREFER AGENT over automatic when they conflict — agent validated compare PNG + greps.\nPrimary edit: code-v2.ts — resolveFont — guard Hebrew Open Sans TEXT from Latin familyCandidates fallthrough; return nearest Open Sans Hebrew style instead\nDo this: Prior hypothesis WRONG: pinFigmaFlexCrossEndBareText textAlignHorizontal patches (5 attempts) did not move metrics — lines 887–908 already set textDirection RTL and textAlignHorizontal RIGHT for rtl/right/end. ONE edit in resolveFont lines 1072–1094: after the hasHebrew && ds.figmaFontFamily === \"Open Sans\" loop (families=[\"Open Sans Hebrew\"], figmaStyleAliases on SemiBold, pickNearestInFamily), add an early return so Hebrew Open Sans never reaches familyCandidates(text.font) at line 1095 — e.g. if hasHebrew && ds.figmaFontFamily === \"Open Sans\", return pickNearestInFamily(\"Open Sans Hebrew\") ?? first available Open Sans Hebrew style, or filter \"Open Sans\" out of candidates when text contains Hebrew. Contract fig-85 \"שם משתמש:\" has direction rtl, align right, figmaFontStyle SemiBold; fig-86 Inter email should re-pin correctly once Hebrew naturalW is fixed. Do NOT edit pinFigmaFlexCrossEndBareText. Leave pagination-footer and phone-row untouched.\nVisual check: region-01 user-header (3.78%): original shows legible Hebrew \"שם משתמש:\" right-pinned above right-aligned email Yaronk@audiocodes.com flush to purple avatar C; figmaLive Hebrew is garbled/overlapping (Latin font on Hebrew glyphs), entire text cluster shifted ~30px left with wide gap before avatar, email appears left-aligned within cluster. Avatar C slightly heavier/darker. Full-frame diff also hotspots pagination-footer and phone-row but secondary.\nSecondary (only if primary test still fails): see ranked hypotheses in investigation brief below.\nDo NOT re-investigate — use pre-extracted snippets below.\nFORBIDDEN: Read code-v2.ts or contract.json in full.\nSTOP after edit — harness rebuilds plugin + re-tests.\n\n── Investigator (automatic + agent — fixer reads this before editing) ──\n\n▸ Fixer action (ONE edit — start here)\n  ⚠ PREFER AGENT over automatic when they conflict.\n  Primary: code-v2.ts — resolveFont — guard Hebrew Open Sans TEXT from Latin familyCandidates fallthrough; return nearest Open Sans Hebrew style instead\n  Do: Prior hypothesis WRONG: pinFigmaFlexCrossEndBareText textAlignHorizontal patches (5 attempts) did not move metrics — lines 887–908 already set textDirection RTL and textAlignHorizontal RIGHT for rtl/right/end. ONE edit in resolveFont lines 1072–1094: after the hasHebrew && ds.figmaFontFamily === \"Open Sans\" loop (families=[\"Open Sans Hebrew\"], figmaStyleAliases on SemiBold, pickNearestInFamily), add an early return so Hebrew Open Sans never reaches familyCandidates(text.font) at line 1095 — e.g. if hasHebrew && ds.figmaFontFamily === \"Open Sans\", return pickNearestInFamily(\"Open Sans Hebrew\") ?? first available Open Sans Hebrew style, or filter \"Open Sans\" out of candidates when text contains Hebrew. Contract fig-85 \"שם משתמש:\" has direction rtl, align right, figmaFontStyle SemiBold; fig-86 Inter email should re-pin correctly once Hebrew naturalW is fixed. Do NOT edit pinFigmaFlexCrossEndBareText. Leave pagination-footer and phone-row untouched.\n\n▸ Automatic (test harness)\n  Root cause layer: contract-to-figma\n  Pipeline kinds OK: yes\n  Fix surface: contract-to-figma\n  · Pipeline kind fidelity OK — manifest TEXT nodes have layer.text in contract (no figmaReferenceRaster).\n  · Remaining pixel diff is importer rendering (RTL TEXT, font load, geometry pin) — edit code-v2.ts symbols in editRouting only.\n  (Edit routing deferred — use agent primary edit above.)\n\n▸ Agent analysis\n  Root cause: resolveFont for fig-85 Hebrew RTL label (Open Sans SemiBold) falls through to Latin Open Sans via familyCandidates at line 1095 when the Open Sans Hebrew branch misses, garbling glyphs and inflating naturalW so pinFigmaFlexCrossEndBareText shifts the user-header text cluster left of the avatar.\n  Visual: region-01 user-header (3.78%): original shows legible Hebrew \"שם משתמש:\" right-pinned above right-aligned email Yaronk@audiocodes.com flush to purple avatar C; figmaLive Hebrew is garbled/overlapping (Latin font on Hebrew glyphs), entire text cluster shifted ~30px left with wide gap before avatar, email appears left-aligned within cluster. Avatar C slightly heavier/darker. Full-frame diff also hotspots pagination-footer and phone-row but secondary.\n  Agent refines automatic — trust agent resolution over harness editRouting.\n\nCompare crop: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsFigmaLive/regions/region-01-compare.png\nFull compare: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_1/originalParity/original.png vs /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_1/originalParity/figmaLive.png\n\n── Pipeline trace (trace back to root — do NOT skip) ──\n\nPipeline steps (vsFigmaLive):\n  · Figma manifest export: Ground truth — node.type (TEXT, VECTOR, ELLIPSE, …). Images only via IMAGE fills / imageHash.\n    artifact: artifacts/figma-screens/screen_1.manifest.json\n  · manifestToContract adapter: Must preserve manifest node kinds — TEXT stays layer.text, no PNG stamping.\n    script: scripts/figma-manifest-to-contract.mjs\n  · Contract on disk: Must match adapter output. If kinds differ from manifest → fix adapter or remove post-adapter mutator.\n    artifact: artifacts/figma-screens/screen_1.contract.json\n  · Live test harness: Runs adapter + sends contract to Figma. Must NOT call applyLiveHebrewTextRasters / applyStorybookReferenceRasters on vsFigmaLive.\n    script: scripts/figma-screen-test.mjs\n  · Figma live importer: Renders contract as Figma nodes — only when contract kinds are correct.\n    script: packages/figma-importer-plugin/src/code-v2.ts\n  · Pixel compare: original PNG vs figmaLive PNG\n\n0. TRACE BACK (mandatory when pipelineTrace shows kind mismatch):\n   a. Grep manifest TEXT nodes in hotspot: grep -n '\"type\": \"TEXT\"' <manifest>\n   b. Grep same figma ids in contract: grep -n '<figma-id>' <contract>\n   c. If manifest TEXT but contract has layer.image / figmaReferenceRaster → fix pipeline step (NOT code-v2).\n   d. Re-run manifest test, then live test — only then tune importer.\n\nGrep manifest vs contract (hotspot layers):\n  grep -n '\"type\": \"TEXT\"' artifacts/figma-screens/screen_1.manifest.json\n  grep -n 'figmaReferenceRaster\\|\"type\": \"TEXT\"' artifacts/figma-screens/screen_1.contract.json\n\n── Investigation brief (AUTHORITATIVE — follow method, skip skills) ──\n\nMethod:\n  0. TRACE BACK: If contract layer has figmaReferenceRaster but manifest says TEXT → stop; fix pipeline first.\n  1. VISUAL (≤1 min): Open compareSideBySide crop ONLY — identify which element differs.\n  2. MANIFEST grep (≤1 min): Confirm node type for hotspot layers — TEXT stays TEXT.\n  3. CODE (≤1 min): Use pre-extracted snippets below — NEVER Read code-v2.ts in full.\n  4. EDIT (≤2 min): ONE change in the named symbol/function.\n  5. STOP: Harness rebuilds plugin + re-tests.\n\nHotspot: user-header\nLook for: Hebrew TEXT (RTL, Open Sans SemiBold) mis-render vs original; email right-cluster in flex-column align:end; avatar initial off-center over ellipse.\nMicro-fix: Global 0.104% — one surgical pin/fill fix; do not refactor.\nPrior progress: Hotspot user-header 3.78% — pinFigmaFlexCrossEndBareText textAlignHorizontal/reorder patches did NOT move metrics (5 attempts). Pivot: resolveFont Open Sans Hebrew SemiBold for RTL header TEXT; skip pin for direction:rtl bare labels.\nCompare crop: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsFigmaLive/regions/region-01-compare.png\n\nContract layers in hotspot (signal layers first):\n  · fig-1 \"Frame 2147225681\" @ (0,0) 1921×937 — FRAME\n  · fig-4 \"logo\" @ (0,0) 233×63 — FRAME\n  · fig-5 \"Frame 2147225586\" @ (26.21,10.99) 180.58×41.03 — FRAME\n  · fig-6 \"Frame 2147225585\" @ (0,0) 42×41.03 — FRAME\n  · fig-7 \"Vector\" @ (0,6.64) 34.39×34.39 — VECTOR\n  · fig-8 \"Vector\" @ (23.92,16.34) 3.15×14.98 — VECTOR\n  · fig-9 \"Vector\" @ (7.32,18.94) 15.42×12.38 — VECTOR\n  · fig-10 \"Vector\" @ (25.95,0) 16.05×16.05 — VECTOR\n\nEdit routing (layer → symbol → check):\n  · user-header band Hebrew label + email cluster: pinFigmaFlexCrossEndBareText / createTextNode — RTL Open Sans SemiBold TEXT: set textDirection before width measure; pin email to box right (align:end flex-column slot).\n\nAnti-patterns (prior attempts regressed — do NOT repeat):\n  · Do NOT stamp Hebrew TEXT as PNG raster — manifest TEXT must stay TEXT in Figma live.\n  · Do NOT force textAlignHorizontal LEFT in pinFigmaFlexCrossEndBareText measure phase for RTL bare text.\n  · Do NOT run pnpm build or verifyCommand — harness rebuilds + re-tests automatically.\n  · Do NOT Read test-report.json or code-v2.ts in full — use investigation brief snippets only.\n\nRanked hypotheses:\n  · Hebrew header is manifest TEXT (not raster): createTextNode + RTL direction + Open Sans Hebrew font family.\n  · Email in flex-column align:end full-width slot: pinFigmaFlexCrossEndBareText — natural width, pin to box right edge.\n  · Avatar letter over ELLIPSE: applyFigmaNativeCenteredGlyphPin — NONE box + CENTER/MIDDLE.\n\nGrep commands (run these — do NOT Read whole files):\n  grep -n 'createTextNode\\|pinFigmaFlexCrossEndBareText\\|applyFigmaNativeCenteredGlyphPin\\|reaffirmTreeBoxPositions' packages/figma-importer-plugin/src/code-v2.ts\n\nPre-extracted code snippets (AUTHORITATIVE — do NOT Read code-v2.ts; edit using line numbers here):\n\n--- createTextNode (45 grep lines) ---\n1704:async function createTextNode(\n1705:  layer: UniversalLayer,\n1706:  parent?: UniversalLayer\n1707:): Promise<TextNode> {\n1708:  const text = layer.text!;\n1709:  const displayValue = textDisplayValue(layer, text.value);\n1710:  const labLabel = isLabButtonLabelSpan(layer, parent);\n1711:  const labBtnLabel =\n1712:    labLabel &&\n1713:    parent?.source?.tag === \"button\" &&\n1714:    (parent.source.classList ?? []).includes(\"lab-button\");\n1715:  const fontName = await resolveFont(text, layer, parent);\n1716:  await figma.loadFontAsync(fontName);\n1717:  const t = figma.createText();\n1718:  t.fontName = fontName;\n1719:  if (text.direction === \"rtl\") {\n1720:    try {\n1721:      (t as TextNode & { textDirection?: \"RTL\" | \"LTR\" }).textDirection = \"RTL\";\n1722:    } catch {\n1723:      /* older Figma builds */\n1724:    }\n1725:  }\n1726:  t.characters = displayValue;\n1727:  t.fontSize = Math.max(1, snap(text.font.size));\n1728:  if (layer.source?.tag === \"input\") {\n1729:    const b = layer.paint?.borders;\n1730:    const pad = layer.layout?.padding;\n1731:    const borderY = (b?.top?.width ?? 0) + (b?.bottom?.width ?? 0);\n1732:    const padY = (pad?.top ?? 0) + (pad?.bottom ?? 0);\n1733:    const innerH = Math.max(0, layer.box.height - borderY - padY);\n1734:    const fs = Math.max(1, snap(text.font.size));\n1735:    if (innerH > 0) {\n1736:      // Live textAlignVertical CENTER needs glyph line-height, not the padded box height.\n1737:      t.lineHeight = {\n1738:        unit: \"PIXELS\",\n1739:        value: !isMockFigmaRuntime() ? fs : snap(innerH)\n1740:      };\n1741:    }\n1742:  } else if (text.letterSpacing !== undefined && text.letterSpacing !== 0) {\n1743:    t.letterSpacing = { unit: \"PIXELS\", value: snap(text.letterSpacing) };\n1744:  }\n1745:  const figmaNativeText = isFigmaNativeTextLayer(layer);\n1746:  if (figmaNativeText) {\n1747:    if (text.lineHeight !== undefined && text.lineHeight > 0) {\n1748:      t.lineHeight = { unit: \"PIXELS\", value: snap(text.lineHeight) };\n\n--- createTextNode (call sites) (8 grep lines) ---\n1702-}\n1703-\n1704:async function createTextNode(\n1705-  layer: UniversalLayer,\n1706-  parent?: UniversalLayer\n1707-): Promise<TextNode> {\n1708-  const text = layer.text!;\n--\n\n--- pinFigmaFlexCrossEndBareText (45 grep lines) ---\n864:function pinFigmaFlexCrossEndBareText(\n865:  text: TextNode,\n866:  layer: UniversalLayer,\n867:  parent: UniversalLayer\n868:): void {\n869:  if (!layer.text) return;\n870:  const align = layer.text.align;\n871:  if (\n872:    align !== \"left\" &&\n873:    align !== \"start\" &&\n874:    align !== \"right\" &&\n875:    align !== \"end\"\n876:  ) {\n877:    return;\n878:  }\n879:  const parentW = parent.box.width;\n880:  const childRight = layer.box.x + layer.box.width;\n881:  const spansParent =\n882:    layer.box.width >= parentW - 1 || childRight + 0.5 >= parentW;\n883:  if (!spansParent) return;\n884:  const boxW = Math.max(1, Math.ceil(snap(layer.box.width)));\n885:  const boxH = Math.max(1, Math.ceil(snap(layer.box.height)));\n886:  text.textAutoResize = \"WIDTH_AND_HEIGHT\";\n887:  if (layer.text.direction === \"rtl\") {\n888:    try {\n889:      (text as TextNode & { textDirection?: \"RTL\" | \"LTR\" }).textDirection = \"RTL\";\n890:    } catch {\n891:      /* older Figma builds */\n892:    }\n893:  }\n894:  text.textAlignHorizontal =\n895:    layer.text.direction === \"rtl\" || align === \"right\" || align === \"end\"\n896:      ? \"RIGHT\"\n897:      : \"LEFT\";\n898:  void text.width;\n899:  const naturalW = Math.max(1, Math.ceil(snap(text.width)));\n900:  const naturalH = Math.max(1, Math.ceil(snap(text.height)));\n901:  const placedW = Math.min(naturalW, boxW);\n902:  text.textAutoResize = \"NONE\";\n903:  text.textAlignHorizontal =\n904:    layer.text.direction === \"rtl\" || align === \"right\" || align === \"end\"\n905:      ? \"RIGHT\"\n906:      : \"LEFT\";\n907:  text.resize(placedW, Math.max(boxH, naturalH));\n908:  text.x = snap(childRight - placedW);\n\n--- pinFigmaFlexCrossEndBareText (call sites) (8 grep lines) ---\n862- * When natural glyph width < contract box, pin by geometry (live Figma ignores RIGHT+NONE).\n863- */\n865-  text: TextNode,\n866-  layer: UniversalLayer,\n867-  parent: UniversalLayer\n868-): void {\n--\n943-  if (!parentUsesFlexCrossEnd(parent) || !parentUsesFlexColumn(parent)) return;\n\n--- applyFigmaNativeCenteredGlyphPin (20 grep lines) ---\n959:function applyFigmaNativeCenteredGlyphPin(\n960:  text: TextNode,\n961:  layer: UniversalLayer,\n962:  parent?: UniversalLayer\n963:): void {\n964:  const boxW = Math.max(1, snap(layer.box.width));\n965:  const boxH = Math.max(1, snap(layer.box.height));\n966:  if (\n967:    layer.text?.lineHeight != null &&\n968:    layer.text.lineHeight > boxH + 0.25\n969:  ) {\n970:    text.lineHeight = { unit: \"PIXELS\", value: Math.max(1, snap(boxH)) };\n971:  }\n972:  text.textAutoResize = \"NONE\";\n973:  text.textAlignHorizontal = \"CENTER\";\n974:  text.textAlignVertical = \"CENTER\";\n975:  text.resize(boxW, boxH);\n976:  text.x = snap(layer.box.x);\n977:  text.y = snap(layer.box.y);\n978:}\n\n--- applyFigmaNativeCenteredGlyphPin (call sites) (8 grep lines) ---\n957-\n958-/** Avatar initial over ELLIPSE — lock contract text box + native center alignment. */\n960-  text: TextNode,\n961-  layer: UniversalLayer,\n962-  parent?: UniversalLayer\n963-): void {\n--\n2712-    reaffirmFigmaFlexCrossEndBareText(node, layer, parent);\n\n--- reaffirmTreeBoxPositions (5 grep lines) ---\n2720:function reaffirmTreeBoxPositions(\n2721:  node: SceneNode,\n2722:  layer: UniversalLayer,\n2723:  parent?: UniversalLayer,\n2724:  docOrigin: { x: number; y: number } = { x: 0, y: 0 }\n\n--- reaffirmTreeBoxPositions (call sites) (8 grep lines) ---\n2718-\n2719-/** Second pass after full tree build — live export can reset coords on deep nodes. */\n2721-  node: SceneNode,\n2722-  layer: UniversalLayer,\n2723-  parent?: UniversalLayer,\n2724-  docOrigin: { x: number; y: number } = { x: 0, y: 0 }\n--\n2757-  const nodes = (node as ChildrenMixin).children;\n\nAllowlisted edit file: packages/figma-importer-plugin/src/code-v2.ts\nCode symbols: createTextNode, pinFigmaFlexCrossEndBareText, applyFigmaNativeCenteredGlyphPin, reaffirmTreeBoxPositions\n\nForbidden reads:\n  · packages/figma-importer-plugin/src/code-v2.ts (full file Read)\n  · artifacts/**/*.contract.json (full file Read)\n  · .agents/skills/**\n  · lab-memory/**\n  · scripts/test-console-*\n  · scripts/figma-screen-test.mjs",
+  "investigationBrief": {
+    "schemaVersion": "1.0",
+    "method": [
+      "0. TRACE BACK: If contract layer has figmaReferenceRaster but manifest says TEXT → stop; fix pipeline first.",
+      "1. VISUAL (≤1 min): Open compareSideBySide crop ONLY — identify which element differs.",
+      "2. MANIFEST grep (≤1 min): Confirm node type for hotspot layers — TEXT stays TEXT.",
+      "3. CODE (≤1 min): Use pre-extracted snippets below — NEVER Read code-v2.ts in full.",
+      "4. EDIT (≤2 min): ONE change in the named symbol/function.",
+      "5. STOP: Harness rebuilds plugin + re-tests."
+    ],
+    "forbiddenReads": [
+      "packages/figma-importer-plugin/src/code-v2.ts (full file Read)",
+      "artifacts/**/*.contract.json (full file Read)",
+      ".agents/skills/**",
+      "lab-memory/**",
+      "scripts/test-console-*",
+      "scripts/figma-screen-test.mjs"
+    ],
+    "hotspot": "user-header",
+    "lookFor": "Hebrew TEXT (RTL, Open Sans SemiBold) mis-render vs original; email right-cluster in flex-column align:end; avatar initial off-center over ellipse.",
+    "contractLayers": [
+      {
+        "id": "fig-1",
+        "name": "Frame 2147225681",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1921,
+          "height": 937
+        },
+        "flags": [
+          "FRAME"
+        ]
+      },
+      {
+        "id": "fig-4",
+        "name": "logo",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 233,
+          "height": 63
+        },
+        "flags": [
+          "FRAME"
+        ]
+      },
+      {
+        "id": "fig-5",
+        "name": "Frame 2147225586",
+        "box": {
+          "x": 26.21,
+          "y": 10.99,
+          "width": 180.58,
+          "height": 41.03
+        },
+        "flags": [
+          "FRAME"
+        ]
+      },
+      {
+        "id": "fig-6",
+        "name": "Frame 2147225585",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 42,
+          "height": 41.03
+        },
+        "flags": [
+          "FRAME"
+        ]
+      },
+      {
+        "id": "fig-7",
+        "name": "Vector",
+        "box": {
+          "x": 0,
+          "y": 6.64,
+          "width": 34.39,
+          "height": 34.39
+        },
+        "flags": [
+          "VECTOR"
+        ]
+      },
+      {
+        "id": "fig-8",
+        "name": "Vector",
+        "box": {
+          "x": 23.92,
+          "y": 16.34,
+          "width": 3.15,
+          "height": 14.98
+        },
+        "flags": [
+          "VECTOR"
+        ]
+      },
+      {
+        "id": "fig-9",
+        "name": "Vector",
+        "box": {
+          "x": 7.32,
+          "y": 18.94,
+          "width": 15.42,
+          "height": 12.38
+        },
+        "flags": [
+          "VECTOR"
+        ]
+      },
+      {
+        "id": "fig-10",
+        "name": "Vector",
+        "box": {
+          "x": 25.95,
+          "y": 0,
+          "width": 16.05,
+          "height": 16.05
+        },
+        "flags": [
+          "VECTOR"
+        ]
+      }
+    ],
+    "rankedHypotheses": [
+      "Hebrew header is manifest TEXT (not raster): createTextNode + RTL direction + Open Sans Hebrew font family.",
+      "Email in flex-column align:end full-width slot: pinFigmaFlexCrossEndBareText — natural width, pin to box right edge.",
+      "Avatar letter over ELLIPSE: applyFigmaNativeCenteredGlyphPin — NONE box + CENTER/MIDDLE."
+    ],
+    "grepCommands": [
+      "grep -n 'createTextNode\\|pinFigmaFlexCrossEndBareText\\|applyFigmaNativeCenteredGlyphPin\\|reaffirmTreeBoxPositions' packages/figma-importer-plugin/src/code-v2.ts"
+    ],
+    "contractGrepOutput": "",
+    "codeSymbols": [
+      "createTextNode",
+      "pinFigmaFlexCrossEndBareText",
+      "applyFigmaNativeCenteredGlyphPin",
+      "reaffirmTreeBoxPositions"
+    ],
+    "codeSnippets": [
+      {
+        "symbol": "createTextNode",
+        "lineCount": 45,
+        "text": "1704:async function createTextNode(\n1705:  layer: UniversalLayer,\n1706:  parent?: UniversalLayer\n1707:): Promise<TextNode> {\n1708:  const text = layer.text!;\n1709:  const displayValue = textDisplayValue(layer, text.value);\n1710:  const labLabel = isLabButtonLabelSpan(layer, parent);\n1711:  const labBtnLabel =\n1712:    labLabel &&\n1713:    parent?.source?.tag === \"button\" &&\n1714:    (parent.source.classList ?? []).includes(\"lab-button\");\n1715:  const fontName = await resolveFont(text, layer, parent);\n1716:  await figma.loadFontAsync(fontName);\n1717:  const t = figma.createText();\n1718:  t.fontName = fontName;\n1719:  if (text.direction === \"rtl\") {\n1720:    try {\n1721:      (t as TextNode & { textDirection?: \"RTL\" | \"LTR\" }).textDirection = \"RTL\";\n1722:    } catch {\n1723:      /* older Figma builds */\n1724:    }\n1725:  }\n1726:  t.characters = displayValue;\n1727:  t.fontSize = Math.max(1, snap(text.font.size));\n1728:  if (layer.source?.tag === \"input\") {\n1729:    const b = layer.paint?.borders;\n1730:    const pad = layer.layout?.padding;\n1731:    const borderY = (b?.top?.width ?? 0) + (b?.bottom?.width ?? 0);\n1732:    const padY = (pad?.top ?? 0) + (pad?.bottom ?? 0);\n1733:    const innerH = Math.max(0, layer.box.height - borderY - padY);\n1734:    const fs = Math.max(1, snap(text.font.size));\n1735:    if (innerH > 0) {\n1736:      // Live textAlignVertical CENTER needs glyph line-height, not the padded box height.\n1737:      t.lineHeight = {\n1738:        unit: \"PIXELS\",\n1739:        value: !isMockFigmaRuntime() ? fs : snap(innerH)\n1740:      };\n1741:    }\n1742:  } else if (text.letterSpacing !== undefined && text.letterSpacing !== 0) {\n1743:    t.letterSpacing = { unit: \"PIXELS\", value: snap(text.letterSpacing) };\n1744:  }\n1745:  const figmaNativeText = isFigmaNativeTextLayer(layer);\n1746:  if (figmaNativeText) {\n1747:    if (text.lineHeight !== undefined && text.lineHeight > 0) {\n1748:      t.lineHeight = { unit: \"PIXELS\", value: snap(text.lineHeight) };"
+      },
+      {
+        "symbol": "createTextNode (call sites)",
+        "lineCount": 8,
+        "text": "1702-}\n1703-\n1704:async function createTextNode(\n1705-  layer: UniversalLayer,\n1706-  parent?: UniversalLayer\n1707-): Promise<TextNode> {\n1708-  const text = layer.text!;\n--"
+      },
+      {
+        "symbol": "pinFigmaFlexCrossEndBareText",
+        "lineCount": 45,
+        "text": "864:function pinFigmaFlexCrossEndBareText(\n865:  text: TextNode,\n866:  layer: UniversalLayer,\n867:  parent: UniversalLayer\n868:): void {\n869:  if (!layer.text) return;\n870:  const align = layer.text.align;\n871:  if (\n872:    align !== \"left\" &&\n873:    align !== \"start\" &&\n874:    align !== \"right\" &&\n875:    align !== \"end\"\n876:  ) {\n877:    return;\n878:  }\n879:  const parentW = parent.box.width;\n880:  const childRight = layer.box.x + layer.box.width;\n881:  const spansParent =\n882:    layer.box.width >= parentW - 1 || childRight + 0.5 >= parentW;\n883:  if (!spansParent) return;\n884:  const boxW = Math.max(1, Math.ceil(snap(layer.box.width)));\n885:  const boxH = Math.max(1, Math.ceil(snap(layer.box.height)));\n886:  text.textAutoResize = \"WIDTH_AND_HEIGHT\";\n887:  if (layer.text.direction === \"rtl\") {\n888:    try {\n889:      (text as TextNode & { textDirection?: \"RTL\" | \"LTR\" }).textDirection = \"RTL\";\n890:    } catch {\n891:      /* older Figma builds */\n892:    }\n893:  }\n894:  text.textAlignHorizontal =\n895:    layer.text.direction === \"rtl\" || align === \"right\" || align === \"end\"\n896:      ? \"RIGHT\"\n897:      : \"LEFT\";\n898:  void text.width;\n899:  const naturalW = Math.max(1, Math.ceil(snap(text.width)));\n900:  const naturalH = Math.max(1, Math.ceil(snap(text.height)));\n901:  const placedW = Math.min(naturalW, boxW);\n902:  text.textAutoResize = \"NONE\";\n903:  text.textAlignHorizontal =\n904:    layer.text.direction === \"rtl\" || align === \"right\" || align === \"end\"\n905:      ? \"RIGHT\"\n906:      : \"LEFT\";\n907:  text.resize(placedW, Math.max(boxH, naturalH));\n908:  text.x = snap(childRight - placedW);"
+      },
+      {
+        "symbol": "pinFigmaFlexCrossEndBareText (call sites)",
+        "lineCount": 8,
+        "text": "862- * When natural glyph width < contract box, pin by geometry (live Figma ignores RIGHT+NONE).\n863- */\n865-  text: TextNode,\n866-  layer: UniversalLayer,\n867-  parent: UniversalLayer\n868-): void {\n--\n943-  if (!parentUsesFlexCrossEnd(parent) || !parentUsesFlexColumn(parent)) return;"
+      },
+      {
+        "symbol": "applyFigmaNativeCenteredGlyphPin",
+        "lineCount": 20,
+        "text": "959:function applyFigmaNativeCenteredGlyphPin(\n960:  text: TextNode,\n961:  layer: UniversalLayer,\n962:  parent?: UniversalLayer\n963:): void {\n964:  const boxW = Math.max(1, snap(layer.box.width));\n965:  const boxH = Math.max(1, snap(layer.box.height));\n966:  if (\n967:    layer.text?.lineHeight != null &&\n968:    layer.text.lineHeight > boxH + 0.25\n969:  ) {\n970:    text.lineHeight = { unit: \"PIXELS\", value: Math.max(1, snap(boxH)) };\n971:  }\n972:  text.textAutoResize = \"NONE\";\n973:  text.textAlignHorizontal = \"CENTER\";\n974:  text.textAlignVertical = \"CENTER\";\n975:  text.resize(boxW, boxH);\n976:  text.x = snap(layer.box.x);\n977:  text.y = snap(layer.box.y);\n978:}"
+      },
+      {
+        "symbol": "applyFigmaNativeCenteredGlyphPin (call sites)",
+        "lineCount": 8,
+        "text": "957-\n958-/** Avatar initial over ELLIPSE — lock contract text box + native center alignment. */\n960-  text: TextNode,\n961-  layer: UniversalLayer,\n962-  parent?: UniversalLayer\n963-): void {\n--\n2712-    reaffirmFigmaFlexCrossEndBareText(node, layer, parent);"
+      },
+      {
+        "symbol": "reaffirmTreeBoxPositions",
+        "lineCount": 5,
+        "text": "2720:function reaffirmTreeBoxPositions(\n2721:  node: SceneNode,\n2722:  layer: UniversalLayer,\n2723:  parent?: UniversalLayer,\n2724:  docOrigin: { x: number; y: number } = { x: 0, y: 0 }"
+      },
+      {
+        "symbol": "reaffirmTreeBoxPositions (call sites)",
+        "lineCount": 8,
+        "text": "2718-\n2719-/** Second pass after full tree build — live export can reset coords on deep nodes. */\n2721-  node: SceneNode,\n2722-  layer: UniversalLayer,\n2723-  parent?: UniversalLayer,\n2724-  docOrigin: { x: number; y: number } = { x: 0, y: 0 }\n--\n2757-  const nodes = (node as ChildrenMixin).children;"
+      }
+    ],
+    "editRouting": [
+      {
+        "layer": "user-header band",
+        "name": "Hebrew label + email cluster",
+        "symbol": "pinFigmaFlexCrossEndBareText / createTextNode",
+        "check": "RTL Open Sans SemiBold TEXT: set textDirection before width measure; pin email to box right (align:end flex-column slot)."
+      }
+    ],
+    "antiPatterns": [
+      "Do NOT stamp Hebrew TEXT as PNG raster — manifest TEXT must stay TEXT in Figma live.",
+      "Do NOT force textAlignHorizontal LEFT in pinFigmaFlexCrossEndBareText measure phase for RTL bare text.",
+      "Do NOT run pnpm build or verifyCommand — harness rebuilds + re-tests automatically.",
+      "Do NOT Read test-report.json or code-v2.ts in full — use investigation brief snippets only."
+    ],
+    "allowFile": "packages/figma-importer-plugin/src/code-v2.ts",
+    "compareCrop": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsFigmaLive/regions/region-01-compare.png",
+    "priorProgress": "Hotspot user-header 3.78% — pinFigmaFlexCrossEndBareText textAlignHorizontal/reorder patches did NOT move metrics (5 attempts). Pivot: resolveFont Open Sans Hebrew SemiBold for RTL header TEXT; skip pin for direction:rtl bare labels.",
+    "microFix": "Global 0.104% — one surgical pin/fill fix; do not refactor."
+  },
+  "structuredDiagnosis": {
+    "schemaVersion": "1.0",
+    "pipelineKindOk": true,
+    "rootCauseLayer": "contract-to-figma",
+    "mandatoryFixSurface": "contract-to-figma",
+    "conclusions": [
+      "Pipeline kind fidelity OK — manifest TEXT nodes have layer.text in contract (no figmaReferenceRaster).",
+      "Remaining pixel diff is importer rendering (RTL TEXT, font load, geometry pin) — edit code-v2.ts symbols in editRouting only."
+    ],
+    "hotspotLayers": [
+      {
+        "layerId": "user-header band",
+        "name": "Hebrew label + email cluster",
+        "manifestType": "TEXT",
+        "contractKind": "layer.text",
+        "recommendedSymbol": "pinFigmaFlexCrossEndBareText / createTextNode",
+        "fixStep": "contractToFigma",
+        "check": "RTL Open Sans SemiBold TEXT: set textDirection before width measure; pin email to box right (align:end flex-column slot)."
+      }
+    ],
+    "editRouting": [
+      {
+        "layer": "user-header band",
+        "name": "Hebrew label + email cluster",
+        "symbol": "pinFigmaFlexCrossEndBareText / createTextNode",
+        "check": "RTL Open Sans SemiBold TEXT: set textDirection before width measure; pin email to box right (align:end flex-column slot)."
+      }
+    ],
+    "investigatorRequired": true,
+    "forbidCodeV2UntilPipelineOk": false,
+    "generatedAt": "2026-06-08T16:44:32.023Z"
+  },
+  "testReportPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsFigmaLive/test-report.json",
+  "investigator": {
+    "schemaVersion": "1.0",
+    "automatic": {
+      "source": "test-harness",
+      "ranAt": "2026-06-08T16:44:31.924Z",
+      "structuredDiagnosis": {
+        "schemaVersion": "1.0",
+        "pipelineKindOk": true,
+        "rootCauseLayer": "contract-to-figma",
+        "mandatoryFixSurface": "contract-to-figma",
+        "conclusions": [
+          "Pipeline kind fidelity OK — manifest TEXT nodes have layer.text in contract (no figmaReferenceRaster).",
+          "Remaining pixel diff is importer rendering (RTL TEXT, font load, geometry pin) — edit code-v2.ts symbols in editRouting only."
+        ],
+        "hotspotLayers": [
+          {
+            "layerId": "user-header band",
+            "name": "Hebrew label + email cluster",
+            "manifestType": "TEXT",
+            "contractKind": "layer.text",
+            "recommendedSymbol": "pinFigmaFlexCrossEndBareText / createTextNode",
+            "fixStep": "contractToFigma",
+            "check": "RTL Open Sans SemiBold TEXT: set textDirection before width measure; pin email to box right (align:end flex-column slot)."
+          }
+        ],
+        "editRouting": [
+          {
+            "layer": "user-header band",
+            "name": "Hebrew label + email cluster",
+            "symbol": "pinFigmaFlexCrossEndBareText / createTextNode",
+            "check": "RTL Open Sans SemiBold TEXT: set textDirection before width measure; pin email to box right (align:end flex-column slot)."
+          }
+        ],
+        "investigatorRequired": true,
+        "forbidCodeV2UntilPipelineOk": false,
+        "generatedAt": "2026-06-08T16:44:32.023Z"
+      },
+      "pipelineTrace": {
+        "hasBlocker": false,
+        "effectiveFixer": null,
+        "kindMismatches": [],
+        "adapterVsDisk": []
+      },
+      "investigationBrief": {
+        "hotspot": "user-header",
+        "lookFor": "Hebrew TEXT (RTL, Open Sans SemiBold) mis-render vs original; email right-cluster in flex-column align:end; avatar initial off-center over ellipse.",
+        "editRouting": [
+          {
+            "layer": "user-header band",
+            "name": "Hebrew label + email cluster",
+            "symbol": "pinFigmaFlexCrossEndBareText / createTextNode",
+            "check": "RTL Open Sans SemiBold TEXT: set textDirection before width measure; pin email to box right (align:end flex-column slot)."
+          }
+        ],
+        "antiPatterns": [
+          "Do NOT stamp Hebrew TEXT as PNG raster — manifest TEXT must stay TEXT in Figma live.",
+          "Do NOT force textAlignHorizontal LEFT in pinFigmaFlexCrossEndBareText measure phase for RTL bare text.",
+          "Do NOT run pnpm build or verifyCommand — harness rebuilds + re-tests automatically.",
+          "Do NOT Read test-report.json or code-v2.ts in full — use investigation brief snippets only."
+        ],
+        "rankedHypotheses": [
+          "Hebrew header is manifest TEXT (not raster): createTextNode + RTL direction + Open Sans Hebrew font family.",
+          "Email in flex-column align:end full-width slot: pinFigmaFlexCrossEndBareText — natural width, pin to box right edge.",
+          "Avatar letter over ELLIPSE: applyFigmaNativeCenteredGlyphPin — NONE box + CENTER/MIDDLE."
+        ]
+      }
+    },
+    "agent": {
+      "status": "complete",
+      "rootCause": "resolveFont for fig-85 Hebrew RTL label (Open Sans SemiBold) falls through to Latin Open Sans via familyCandidates at line 1095 when the Open Sans Hebrew branch misses, garbling glyphs and inflating naturalW so pinFigmaFlexCrossEndBareText shifts the user-header text cluster left of the avatar.",
+      "primaryEdit": "code-v2.ts — resolveFont — guard Hebrew Open Sans TEXT from Latin familyCandidates fallthrough; return nearest Open Sans Hebrew style instead",
+      "recommendedFixArea": "packages/figma-importer-plugin/src/code-v2.ts — resolveFont",
+      "resolution": "Prior hypothesis WRONG: pinFigmaFlexCrossEndBareText textAlignHorizontal patches (5 attempts) did not move metrics — lines 887–908 already set textDirection RTL and textAlignHorizontal RIGHT for rtl/right/end. ONE edit in resolveFont lines 1072–1094: after the hasHebrew && ds.figmaFontFamily === \"Open Sans\" loop (families=[\"Open Sans Hebrew\"], figmaStyleAliases on SemiBold, pickNearestInFamily), add an early return so Hebrew Open Sans never reaches familyCandidates(text.font) at line 1095 — e.g. if hasHebrew && ds.figmaFontFamily === \"Open Sans\", return pickNearestInFamily(\"Open Sans Hebrew\") ?? first available Open Sans Hebrew style, or filter \"Open Sans\" out of candidates when text contains Hebrew. Contract fig-85 \"שם משתמש:\" has direction rtl, align right, figmaFontStyle SemiBold; fig-86 Inter email should re-pin correctly once Hebrew naturalW is fixed. Do NOT edit pinFigmaFlexCrossEndBareText. Leave pagination-footer and phone-row untouched.",
+      "visualNotes": "region-01 user-header (3.78%): original shows legible Hebrew \"שם משתמש:\" right-pinned above right-aligned email Yaronk@audiocodes.com flush to purple avatar C; figmaLive Hebrew is garbled/overlapping (Latin font on Hebrew glyphs), entire text cluster shifted ~30px left with wide gap before avatar, email appears left-aligned within cluster. Avatar C slightly heavier/darker. Full-frame diff also hotspots pagination-footer and phone-row but secondary.",
+      "refinesAutomatic": true,
+      "ranAt": "2026-06-08T16:43:10.030Z"
+    },
+    "sectionText": "── Investigator (automatic + agent — fixer reads this before editing) ──\n\n▸ Fixer action (ONE edit — start here)\n  ⚠ PREFER AGENT over automatic when they conflict.\n  Primary: code-v2.ts — resolveFont — guard Hebrew Open Sans TEXT from Latin familyCandidates fallthrough; return nearest Open Sans Hebrew style instead\n  Do: Prior hypothesis WRONG: pinFigmaFlexCrossEndBareText textAlignHorizontal patches (5 attempts) did not move metrics — lines 887–908 already set textDirection RTL and textAlignHorizontal RIGHT for rtl/right/end. ONE edit in resolveFont lines 1072–1094: after the hasHebrew && ds.figmaFontFamily === \"Open Sans\" loop (families=[\"Open Sans Hebrew\"], figmaStyleAliases on SemiBold, pickNearestInFamily), add an early return so Hebrew Open Sans never reaches familyCandidates(text.font) at line 1095 — e.g. if hasHebrew && ds.figmaFontFamily === \"Open Sans\", return pickNearestInFamily(\"Open Sans Hebrew\") ?? first available Open Sans Hebrew style, or filter \"Open Sans\" out of candidates when text contains Hebrew. Contract fig-85 \"שם משתמש:\" has direction rtl, align right, figmaFontStyle SemiBold; fig-86 Inter email should re-pin correctly once Hebrew naturalW is fixed. Do NOT edit pinFigmaFlexCrossEndBareText. Leave pagination-footer and phone-row untouched.\n\n▸ Automatic (test harness)\n  Root cause layer: contract-to-figma\n  Pipeline kinds OK: yes\n  Fix surface: contract-to-figma\n  · Pipeline kind fidelity OK — manifest TEXT nodes have layer.text in contract (no figmaReferenceRaster).\n  · Remaining pixel diff is importer rendering (RTL TEXT, font load, geometry pin) — edit code-v2.ts symbols in editRouting only.\n  (Edit routing deferred — use agent primary edit above.)\n\n▸ Agent analysis\n  Root cause: resolveFont for fig-85 Hebrew RTL label (Open Sans SemiBold) falls through to Latin Open Sans via familyCandidates at line 1095 when the Open Sans Hebrew branch misses, garbling glyphs and inflating naturalW so pinFigmaFlexCrossEndBareText shifts the user-header text cluster left of the avatar.\n  Visual: region-01 user-header (3.78%): original shows legible Hebrew \"שם משתמש:\" right-pinned above right-aligned email Yaronk@audiocodes.com flush to purple avatar C; figmaLive Hebrew is garbled/overlapping (Latin font on Hebrew glyphs), entire text cluster shifted ~30px left with wide gap before avatar, email appears left-aligned within cluster. Avatar C slightly heavier/darker. Full-frame diff also hotspots pagination-footer and phone-row but secondary.\n  Agent refines automatic — trust agent resolution over harness editRouting.\n\nCompare crop: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsFigmaLive/regions/region-01-compare.png\nFull compare: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_1/originalParity/original.png vs /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_1/originalParity/figmaLive.png",
+    "updatedAt": "2026-06-08T16:44:32.023Z"
+  }
+}

@@ -20,6 +20,10 @@
     "test:logic:audit:record": "node --experimental-strip-types src/logic-audit.ts --all --record",
     "test:specs": "node --experimental-strip-types --test src/spec-store.test.ts"
   },
+  "exports": {
+    "./render-html": "./src/render-html.ts",
+    "./render-tsx": "./src/render-tsx.ts"
+  },
   "dependencies": {
     "@lab/contract": "workspace:*",
     "@lab/extractor-playwright": "workspace:*",

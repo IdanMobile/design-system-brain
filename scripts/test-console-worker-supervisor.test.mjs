@@ -65,10 +65,32 @@ describe("evaluateAttempt", () => {
     repoRoot: null
   };
 
-  it("detects STUCK_LOOP when metrics unchanged", () => {
+  it("detects STUCK_LOOP when metrics unchanged at low percent → narrow_scope micro-fix", () => {
     const r = evaluateAttempt(base);
     assert.ok(r.verdicts.includes("STUCK_LOOP"));
+    assert.equal(r.nextWorkerMode, "narrow_scope");
+  });
+
+  it("detects STUCK_LOOP at higher percent → investigate_first", () => {
+    const r = evaluateAttempt({
+      ...base,
+      beforeAttempt: { status: "fail", percent: 4.5, maxRegionPercent: 5.0 },
+      afterTest: { status: "fail", percent: 4.5, maxRegionPercent: 5.0 },
+    });
+    assert.ok(r.verdicts.includes("STUCK_LOOP"));
     assert.equal(r.nextWorkerMode, "investigate_first");
+  });
+
+  it("STUCK_LOOP with structuredDiagnosis contract-to-figma → narrow_scope + editRouting hint", () => {
+    const r = evaluateAttempt({
+      ...base,
+      structuredDiagnosis: {
+        rootCauseLayer: "contract-to-figma",
+        editRouting: [{ layer: "fig-5", symbol: "createTextNode" }],
+      },
+    });
+    assert.equal(r.nextWorkerMode, "narrow_scope");
+    assert.ok(r.interventionLines.some((l) => l.includes("structuredDiagnosis")));
   });
 
   it("detects WORSE_METRICS", () => {
@@ -136,25 +158,10 @@ describe("evaluateAttempt", () => {
     assert.match(r.interventionLines.join("\n"), /orchestrator review/i);
   });
 
-  it("investigator gate blocks without lab-memory", () => {
-    const gate = investigatorGateAllowsFixer("/tmp/nonexistent-repo", "lab-x--default", "pixel", {
-      skipGate: false
-    });
-    assert.equal(gate.allowed, false);
-    assert.equal(gate.reason, "investigator_required");
-  });
-
-  it("investigator gate skips when env set", () => {
-    const prev = process.env.FIX_ALL_SKIP_INVESTIGATOR_GATE;
-    process.env.FIX_ALL_SKIP_INVESTIGATOR_GATE = "1";
-    try {
-      const gate = investigatorGateAllowsFixer("/tmp", "lab-x--default", "pixel");
-      assert.equal(gate.allowed, true);
-      assert.equal(gate.reason, "gate_skipped");
-    } finally {
-      if (prev === undefined) delete process.env.FIX_ALL_SKIP_INVESTIGATOR_GATE;
-      else process.env.FIX_ALL_SKIP_INVESTIGATOR_GATE = prev;
-    }
+  it("investigator gate always allows — report holds investigation", () => {
+    const gate = investigatorGateAllowsFixer("/tmp/nonexistent-repo", "lab-x--default", "pixel");
+    assert.equal(gate.allowed, true);
+    assert.equal(gate.reason, "investigation_on_test_report");
   });
 });
 

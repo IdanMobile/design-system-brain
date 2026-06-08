@@ -3,7 +3,7 @@
  * Child-terminal Cursor agent: stream-json → parent job logs + local terminal output.
  */
 
-import { spawn } from "node:child_process";
+import { spawn, execSync } from "node:child_process";
 import { readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { resolve, dirname as pathDirname } from "node:path";
@@ -139,10 +139,12 @@ const startedAt = Date.now();
 let editCount = 0;
 let bigReadCount = 0;   // unique large files read (repeated reads don't count)
 let readCount = 0;
+let lastActivity = "starting";
+let lastStreamAt = Date.now();
 let watchdogTripped = false;
 let watchdogReason = "";
 /** Track unique large files seen so repeated reads of the same file don't drain the cap. */
-const bigReadSeen = new Set();
+const bigReadSeen = new Map();
 
 const ENV_INT = (key, fallback) => {
   const raw = process.env[key];
@@ -156,12 +158,33 @@ const INVESTIGATE_FIRST_MODE = process.env.AGENT_WATCHDOG_INVESTIGATE_MODE === "
 /** Pure investigator runs write lab-memory, not code — disable the first-edit deadline check. */
 const INVESTIGATE_ONLY_MODE = process.env.AGENT_WATCHDOG_INVESTIGATE_ONLY === "1";
 const DEADLINE_FIRST_EDIT_MS = INVESTIGATE_FIRST_MODE
-  ? ENV_INT("AGENT_WATCHDOG_FIRST_EDIT_MS", 14 * 60_000)
-  : ENV_INT("AGENT_WATCHDOG_FIRST_EDIT_MS", 8 * 60_000);
-const DEADLINE_MAX_BIG_READS = ENV_INT("AGENT_WATCHDOG_MAX_BIG_READS", 8);
-const DEADLINE_TOTAL_MS = ENV_INT("AGENT_WATCHDOG_TOTAL_MS", 25 * 60_000);
+  ? ENV_INT("AGENT_WATCHDOG_FIRST_EDIT_MS", 6 * 60_000)
+  : ENV_INT("AGENT_WATCHDOG_FIRST_EDIT_MS", 4 * 60_000);
+const DEADLINE_MAX_BIG_READS = ENV_INT("AGENT_WATCHDOG_MAX_BIG_READS", 3);
+const DEADLINE_REPEAT_BIG_READ = ENV_INT("AGENT_WATCHDOG_REPEAT_BIG_READ", 3);
+const DEADLINE_TOTAL_MS = ENV_INT("AGENT_WATCHDOG_TOTAL_MS", 12 * 60_000);
+const STALE_STREAM_MS = ENV_INT("AGENT_WATCHDOG_STALE_STREAM_MS", 3 * 60_000);
 const BIG_READ_LINE_THRESHOLD = 800;
 const WATCHDOG_DISABLED = process.env.AGENT_WATCHDOG_DISABLED === "1";
+const FIXER_UPSTREAM = process.env.AGENT_FIXER_UPSTREAM === "1";
+const EXTRA_ALLOW = (process.env.AGENT_FIXER_ALLOWLIST_EXTRA ?? "")
+  .split("|")
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+/** @param {string} editPath */
+function editPathAllowed(editPath) {
+  if (!editPath) return true;
+  if (EXTRA_ALLOW.some((p) => editPath.includes(p.replace(/\*\*$/, "").replace(/^\//, "")))) {
+    return true;
+  }
+  if (FIXER_UPSTREAM && /code-v2\.ts$/.test(editPath)) return false;
+  if (/scripts\/test-console-|scripts\/fixer-investigation|scripts\/fixer-pipeline/.test(editPath)) {
+    return false;
+  }
+  if (!FIXER_UPSTREAM && /scripts\/figma-screen-test\.mjs$/.test(editPath)) return false;
+  return true;
+}
 
 function tripWatchdog(reason) {
   if (watchdogTripped) return;
@@ -187,8 +210,26 @@ const READ_RE = /^Read .+ \((\d+) lines\)$/;
 const checkWatchdog = () => {
   if (WATCHDOG_DISABLED || watchdogTripped) return;
   const elapsed = Date.now() - startedAt;
+  if (status) {
+    writeStatus(status, {
+      tag,
+      inProgress: true,
+      startedAt: new Date(startedAt).toISOString(),
+      editCount,
+      readCount,
+      bigReadCount,
+      lastActivity,
+      elapsedMs: elapsed
+    });
+  }
   if (elapsed > DEADLINE_TOTAL_MS) {
     tripWatchdog(`total wall clock ${(elapsed / 60_000).toFixed(1)}m exceeded ${(DEADLINE_TOTAL_MS / 60_000).toFixed(0)}m`);
+    return;
+  }
+  if (!watchdogTripped && Date.now() - lastStreamAt > STALE_STREAM_MS) {
+    tripWatchdog(
+      `no stream output for ${(STALE_STREAM_MS / 60_000).toFixed(0)}m — agent hung or CLI stalled`
+    );
     return;
   }
   // In investigate-only mode the agent writes to lab-memory (not source files),
@@ -221,21 +262,95 @@ const flush = async (chunk, isErr) => {
     }
     const parsed = parseStreamJsonAgentLine(trimmed);
     if (parsed.label) {
+      lastStreamAt = Date.now();
       const label = parsed.label;
-      if (label.startsWith("Editing ") || label.startsWith("Wrote ")) editCount += 1;
-      else {
+      lastActivity = label.length > 80 ? `${label.slice(0, 77)}…` : label;
+      if (parsed.isEdit || label.startsWith("Editing ") || label.startsWith("Wrote ")) {
+        const editPath = label.startsWith("Editing ")
+          ? label.slice("Editing ".length).replace(/…$/, "").trim()
+          : label.startsWith("Wrote ")
+            ? label.slice("Wrote ".length).split(" ")[0]
+            : "";
+        if (editPath && !editPathAllowed(editPath)) {
+          tripWatchdog(
+            FIXER_UPSTREAM
+              ? `forbidden edit ${editPath} — upstream pipeline fix only (manifest/figma-screen-test); not code-v2.`
+              : `forbidden edit ${editPath} — screen fixer may only touch allowlisted adapter.`
+          );
+          return;
+        }
+        editCount += 1;
+      } else {
         const readMatch = READ_RE.exec(label);
         if (readMatch) {
           readCount += 1;
-          if (Number(readMatch[1]) >= BIG_READ_LINE_THRESHOLD) {
+          const readPath = label.slice(5, label.lastIndexOf(" ("));
+          if (
+            !INVESTIGATE_ONLY_MODE &&
+            editCount === 0 &&
+            !FIXER_UPSTREAM &&
+            (readPath.includes(".sandboxes/") ||
+              readPath.includes(".restore-backup") ||
+              /scripts\/test-console-/.test(readPath))
+          ) {
+            tripWatchdog(`forbidden read ${readPath} — use investigation brief grep only.`);
+            return;
+          }
+          if (
+            !INVESTIGATE_ONLY_MODE &&
+            editCount === 0 &&
+            !FIXER_UPSTREAM &&
+            /scripts\/figma-screen-test\.mjs$/.test(readPath)
+          ) {
+            tripWatchdog(`forbidden read ${readPath} — use pipeline trace grep in brief.`);
+            return;
+          }
+          if (!INVESTIGATE_ONLY_MODE && editCount === 0 && /\.contract\.json$/.test(readPath)) {
+            const seen = (bigReadSeen.get(readPath) ?? 0) + 1;
+            bigReadSeen.set(readPath, seen);
+            if (seen >= 2) {
+              tripWatchdog(`re-read ${readPath} — use grep from investigation brief, not Read.`);
+              return;
+            }
+          }
+          if (
+            !INVESTIGATE_ONLY_MODE &&
+            editCount === 0 &&
+            /test-report\.json$/.test(readPath)
+          ) {
+            tripWatchdog(`Read ${readPath} — investigation brief is already in your prompt.`);
+            return;
+          }
+            if (Number(readMatch[1]) >= BIG_READ_LINE_THRESHOLD) {
             // Extract the file path from "Read <path> (<n> lines)" — strip the suffix
             const filePart = label.slice(5, label.lastIndexOf(" ("));
-            if (!bigReadSeen.has(filePart)) {
-              bigReadSeen.add(filePart);
-              bigReadCount += 1;
+            if (
+              !INVESTIGATE_ONLY_MODE &&
+              editCount === 0 &&
+              !FIXER_UPSTREAM &&
+              filePart.includes("code-v2.ts")
+            ) {
+              tripWatchdog(
+                `full Read ${filePart} (${readMatch[1]} lines) — use pre-extracted snippets in investigation brief only.`
+              );
+              return;
             }
-            // Repeated reads of the same large file are tracked in readCount but
-            // do not burn the unique-file cap — they still count toward time budget.
+            const seen = (bigReadSeen.get(filePart) ?? 0) + 1;
+            bigReadSeen.set(filePart, seen);
+            if (seen === 1) bigReadCount += 1;
+            const elapsedMs = Date.now() - startedAt;
+            if (
+              !INVESTIGATE_ONLY_MODE &&
+              editCount === 0 &&
+              seen >= DEADLINE_REPEAT_BIG_READ &&
+              filePart.includes("code-v2.ts") &&
+              elapsedMs > 2 * 60_000
+            ) {
+              tripWatchdog(
+                `re-read ${filePart} ${seen}× with 0 edits after ${(elapsedMs / 60_000).toFixed(1)}m — use Grep, not full Read.`
+              );
+              return;
+            }
           }
         }
       }
@@ -253,6 +368,19 @@ child.stderr.on("data", (c) => void flush(String(c), true));
 
 child.on("close", (code) => {
   clearInterval(watchdogInterval);
+  try {
+    const diff = execSync(
+      "git diff --name-only -- packages/ scripts/figma-screen-*.mjs lab-memory/visual/",
+      { cwd: CWD, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }
+    ).trim();
+    const codeFiles = diff.split("\n").filter((f) => f && /\.(ts|tsx|mjs|js|css|md)$/.test(f));
+    if (codeFiles.length && editCount === 0) {
+      editCount = codeFiles.length;
+      lastActivity = `git diff detected ${codeFiles.length} edited file(s)`;
+    }
+  } catch {
+    /* ok */
+  }
   let finalCode = code ?? exitCode ?? 1;
   if (watchdogTripped && finalCode === 0) finalCode = 124;
   const note = watchdogTripped

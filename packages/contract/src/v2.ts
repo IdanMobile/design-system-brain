@@ -371,6 +371,10 @@ export interface UniversalDocumentV2 {
     viewport: LayerRect;
     devicePixelRatio: number;
     canvasBackground?: ColorString;
+    /** Storybook/Figma live parity — keep blur/shadows in mock HTML renderer. */
+    preserveEffects?: boolean;
+    skipFigmaBlurEllipses?: boolean;
+    hoistReferenceRasters?: boolean;
   };
   root: UniversalLayer;
   diagnostics: {

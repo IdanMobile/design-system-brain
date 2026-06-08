@@ -12,6 +12,7 @@ const UNIFIED_STEPS = [
   { id: "vsFigmaLive", label: "→ Figma live" },
   { id: "vsStorybook", label: "→ Storybook" },
   { id: "vsReactHtml", label: "→ ReactHtml" },
+  { id: "vsReactTsx", label: "→ ReactTsx" },
   { id: "logic", label: "Logic audit" }
 ] as const;
 
@@ -116,10 +117,10 @@ export function OrchestratorLaunchDialog({
       >
         <header className="orch-launch-header">
           <div>
-            <h2 id="orch-launch-title">Launch orchestrator</h2>
+            <h2 id="orch-launch-title">Run all</h2>
             <p className="orch-launch-sub">
-              Automated test → fix → rebuild over the unified portfolio until all PASS, a safety
-              limit, or a human action is required.
+              Run the portfolio one row at a time — each row uses the same test → fix loop as Fix
+              story until all rows pass or a human action is required.
             </p>
           </div>
           <button type="button" className="orch-launch-close" onClick={onClose} aria-label="Close">

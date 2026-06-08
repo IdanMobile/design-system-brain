@@ -121,46 +121,6 @@ importers:
         specifier: ^5.6.3
         version: 5.9.3
 
-  packages/render-harness:
-    dependencies:
-      '@emotion/react':
-        specifier: ^11.14.0
-        version: 11.14.0(@types/react@19.2.14)(react@18.3.1)
-      '@emotion/styled':
-        specifier: ^11.14.1
-        version: 11.14.1(@emotion/react@11.14.0(@types/react@19.2.14)(react@18.3.1))(@types/react@19.2.14)(react@18.3.1)
-      '@mui/material':
-        specifier: ^9.0.1
-        version: 9.0.1(@emotion/react@11.14.0(@types/react@19.2.14)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.14)(react@18.3.1))(@types/react@19.2.14)(react@18.3.1))(@types/react@19.2.14)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@storybook/addon-essentials':
-        specifier: ^8.6.18
-        version: 8.6.18(@types/react@19.2.14)(storybook@8.6.18)
-      '@storybook/react':
-        specifier: ^8.6.18
-        version: 8.6.18(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.6.18)(typescript@5.9.3)
-      '@storybook/react-vite':
-        specifier: ^8.6.18
-        version: 8.6.18(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.60.4)(storybook@8.6.18)(typescript@5.9.3)(vite@5.4.21(@types/node@22.19.19))
-      '@vitejs/plugin-react':
-        specifier: ^4.3.4
-        version: 4.7.0(vite@5.4.21(@types/node@22.19.19))
-      react:
-        specifier: ^18.3.1
-        version: 18.3.1
-      react-dom:
-        specifier: ^18.3.1
-        version: 18.3.1(react@18.3.1)
-      storybook:
-        specifier: ^8.6.18
-        version: 8.6.18
-      vite:
-        specifier: ^5.4.11
-        version: 5.4.21(@types/node@22.19.19)
-    devDependencies:
-      typescript:
-        specifier: ^5.6.3
-        version: 5.9.3
-
   packages/storybook-lab:
     dependencies:
       '@emotion/react':
@@ -237,6 +197,12 @@ importers:
       '@emotion/styled':
         specifier: ^11.14.1
         version: 11.14.1(@emotion/react@11.14.0(@types/react@19.2.14)(react@18.3.1))(@types/react@19.2.14)(react@18.3.1)
+      '@lab/contract':
+        specifier: workspace:*
+        version: link:../contract
+      '@lab/pixel-test':
+        specifier: workspace:*
+        version: link:../pixel-test
       '@mui/material':
         specifier: ^9.0.1
         version: 9.0.1(@emotion/react@11.14.0(@types/react@19.2.14)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.14)(react@18.3.1))(@types/react@19.2.14)(react@18.3.1))(@types/react@19.2.14)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -253,25 +219,6 @@ importers:
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
-      typescript:
-        specifier: ^5.6.3
-        version: 5.9.3
-
-  packages/visual-gate:
-    dependencies:
-      pixelmatch:
-        specifier: ^6.0.0
-        version: 6.0.0
-      playwright:
-        specifier: ^1.49.0
-        version: 1.60.0
-      pngjs:
-        specifier: ^7.0.0
-        version: 7.0.0
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.19.19
       typescript:
         specifier: ^5.6.3
         version: 5.9.3

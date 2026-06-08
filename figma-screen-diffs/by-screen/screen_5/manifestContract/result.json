@@ -1,0 +1,17 @@
+{
+  "status": "pass",
+  "percent": 90,
+  "layerCount": 90,
+  "contractPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_5.contract.json",
+  "manifestPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_5.manifest.json",
+  "viewport": {
+    "x": 0,
+    "y": 0,
+    "width": 707,
+    "height": 286
+  },
+  "screenId": "screen_5",
+  "storyId": "screen_5",
+  "stepId": "manifestContract",
+  "testedAt": "2026-06-08T17:22:29.780Z"
+}

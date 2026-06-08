@@ -52,7 +52,7 @@ test("returns heuristic output when LAB_LLM_API_KEY is unset", async () => {
     assert.ok(typeof json.behaviour === "string" && json.behaviour.length > 0);
     assert.ok(Array.isArray(json.devApi));
     assert.ok(json.devApi.find((a) => a.name === "onSignInClicked"));
-    assert.match(json.note ?? "", /not set/i);
+    assert.match(json.note ?? "", /not configured|LLM/i);
   } finally {
     await stop();
   }

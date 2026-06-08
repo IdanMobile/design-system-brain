@@ -4,7 +4,6 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "local:server": "pnpm install && node api-server/server.mjs",
     "install:browsers": "pnpm --filter @lab/extractor-playwright exec playwright install chromium",
     "storybook": "pnpm --filter @lab/storybook-lab storybook",
     "storybook:build": "node scripts/bake-figma-screen-ui.mjs --screen screen_1 --component Screen1 && pnpm --filter @lab/storybook-lab build",
@@ -27,6 +26,9 @@
     "test:figma:screen": "node scripts/figma-screen-test.mjs",
     "test:figma:screen:manifest": "node scripts/figma-screen-manifest-test.mjs",
     "test:figma:screen:storybook": "node scripts/figma-screen-storybook-test.mjs",
+    "test:figma:screen:reacthtml": "node scripts/figma-screen-reacthtml-test.mjs",
+    "test:figma:screen:reacttsx": "node scripts/figma-screen-reacttsx-test.mjs",
+    "test:figma:screen:parity": "node scripts/figma-screen-parity-all.mjs",
     "test:figma:screen:four-way": "node scripts/figma-screen-four-way-test.mjs",
     "test:figma:screen:logic": "node scripts/figma-screen-logic-test.mjs",
     "figma:plugin-reload": "node scripts/figma-plugin-reload.mjs",
@@ -66,7 +68,7 @@
     "lab:supervisor": "node scripts/lab-worker-supervisor.mjs",
     "lab:supervisor:start": "node scripts/lab-worker-supervisor.mjs start",
     "lab:supervisor:status": "node scripts/lab-worker-supervisor.mjs status",
-    "test:supervisor": "node --test scripts/step-gate.test.mjs scripts/test-console-worker-supervisor.test.mjs scripts/lab-worker-supervisor.test.mjs scripts/regression-tiers.test.mjs scripts/iterate-report-exit.test.mjs scripts/sandbox-promote.test.mjs scripts/architecture-console.test.mjs scripts/developer-proposal.test.mjs scripts/developer-activity.test.mjs scripts/lab-memory-vault.test.mjs scripts/test-report-write.test.mjs",
+    "test:supervisor": "node --test scripts/step-gate.test.mjs scripts/test-console-worker-supervisor.test.mjs scripts/lab-worker-supervisor.test.mjs scripts/regression-tiers.test.mjs scripts/iterate-report-exit.test.mjs scripts/sandbox-promote.test.mjs scripts/architecture-console.test.mjs scripts/developer-proposal.test.mjs scripts/developer-activity.test.mjs scripts/lab-memory-vault.test.mjs scripts/test-report-write.test.mjs scripts/lab-llm-settings.test.mjs",
     "test:report-write": "node --test scripts/test-report-write.test.mjs",
     "test:tolerance": "node --test scripts/test-tolerance.test.mjs",
     "test-reports:backfill": "node scripts/backfill-test-reports.mjs",
@@ -81,7 +83,9 @@
     "specs:bootstrap": "node --experimental-strip-types scripts/specs-bootstrap-v2.mjs",
     "test:specs": "pnpm --filter @lab/pixel-test test:specs",
     "lab-memory:report": "node scripts/lab-memory-curation.mjs",
-    "test:specs:server": "node --test scripts/specs-server.test.mjs"
+    "test:specs:server": "node --test scripts/specs-server.test.mjs",
+    "test:quick-component:gate": "node --test scripts/quick-component-gate.test.mjs",
+    "test:quick-component:simulate": "QUICK_COMPONENT_MOCK_ANTHROPIC=1 QUICK_COMPONENT_SKIP_STEPS=vsFigmaLive node scripts/quick-component-generation.mjs --simulate"
   },
   "devDependencies": {
     "pixelmatch": "^6.0.0",

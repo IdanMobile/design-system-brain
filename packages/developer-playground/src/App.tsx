@@ -8,6 +8,10 @@ export function App() {
   if (params.get("view") === "showcase") {
     return <Showcase />;
   }
+  // Empty shell for contract HTML parity tests (vsReactHtml leg).
+  if (params.get("view") === "shell") {
+    return <div id="contract-shell" />;
+  }
 
   const storyId = params.get("story") ?? "lab-featurecard--default";
   const entry = DEV_STORY_BY_ID[storyId];

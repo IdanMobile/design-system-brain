@@ -1,0 +1,20 @@
+{
+  "name": "@lab/story-screen_1",
+  "version": "0.1.0",
+  "description": "Semantic React delivery for screen_1 (@lab/ui components)",
+  "type": "module",
+  "files": [
+    "src",
+    "README.md",
+    "package.json"
+  ],
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles.css": "./src/styles.css"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "@lab/ui": "0.1.0"
+  }
+}

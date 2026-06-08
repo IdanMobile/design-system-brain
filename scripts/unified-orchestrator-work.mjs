@@ -12,6 +12,7 @@ import {
 import { loadPortfolioStoryIds, isStorybookOnlyStory } from "./test-portfolio-config.mjs";
 import { discoverFigmaScreens } from "./figma-screen-portfolio.mjs";
 import { loadRunSettings, harnessEnvForSuite } from "./test-console-run-settings.mjs";
+import { resolveFixSuiteForCell } from "./unified-step-gate.mjs";
 import {
   filterOutParkedStories,
   isStoryParked,
@@ -122,22 +123,8 @@ export function effectiveOrchestratorFilters(settings) {
  * @param {string} entryPoint
  * @param {string} stepId
  */
-export function fixSuiteForCell(entryPoint, stepId) {
-  if (entryPoint === "figma") {
-    if (stepId === "structural") return "manifestContract";
-    if (stepId === "logic") return "logic";
-    if (stepId === "vsFigmaLive" || stepId === "vsStorybook" || stepId === "vsReactHtml") {
-      return stepId;
-    }
-  }
-  const storybookMap = {
-    structural: "pixel",
-    vsFigmaLive: "figmaLive",
-    vsStorybook: "pixel",
-    vsReactHtml: "delivery",
-    logic: "logic"
-  };
-  return storybookMap[stepId] ?? stepId;
+export function fixSuiteForCell(entryPoint, stepId, storyId, repoRoot) {
+  return resolveFixSuiteForCell(entryPoint, stepId, storyId, repoRoot);
 }
 
 /**
@@ -249,6 +236,13 @@ export function findFlowWorkQueue(portfolio, filters, options = {}) {
   const queue = [];
 
   for (const row of portfolio.rows ?? []) {
+    if (filters.rowStoryId && row.storyId !== filters.rowStoryId) continue;
+    if (
+      filters.rowEntryPoint &&
+      (row.entryPoint ?? "storybook") !== filters.rowEntryPoint
+    ) {
+      continue;
+    }
     for (const stepId of stepIds) {
       const cell = row.cells?.[stepId];
       const status = cell?.status ?? "not_tested";
@@ -269,6 +263,64 @@ export function findFlowWorkQueue(portfolio, filters, options = {}) {
   }
 
   return queue;
+}
+
+/**
+ * True when every unified step for the row is pass or skipped.
+ * @param {ReturnType<loadUnifiedPortfolio>} portfolio
+ * @param {string} storyId
+ * @param {string} [entryPoint]
+ */
+export function isRowPipelineComplete(portfolio, storyId, entryPoint = "storybook") {
+  const row = findPortfolioRow(portfolio, storyId, entryPoint);
+  if (!row) return false;
+  for (const stepId of UNIFIED_STEP_ORDER) {
+    const status = row.cells?.[stepId]?.status ?? "not_tested";
+    if (status !== "pass" && status !== "skipped") return false;
+  }
+  return true;
+}
+
+/**
+ * @param {ReturnType<loadUnifiedPortfolio>} portfolio
+ * @param {string} storyId
+ * @param {string} [entryPoint]
+ */
+export function findPortfolioRow(portfolio, storyId, entryPoint = "storybook") {
+  return (
+    (portfolio.rows ?? []).find(
+      (r) => r.storyId === storyId && (r.entryPoint ?? "storybook") === entryPoint
+    ) ?? null
+  );
+}
+
+/**
+ * @param {ReturnType<loadUnifiedPortfolio>} portfolio
+ * @param {string} storyId
+ * @param {string} entryPoint
+ * @param {string} stepId
+ */
+export function readRowCell(portfolio, storyId, entryPoint, stepId) {
+  const row = findPortfolioRow(portfolio, storyId, entryPoint);
+  const cell = row?.cells?.[stepId];
+  return {
+    status: cell?.status ?? "not_tested",
+    percent: cell?.percent ?? 0,
+    canRun: cell?.canRun !== false,
+    error: cell?.error ?? null
+  };
+}
+
+/** Scope orchestrator filters to one portfolio row. */
+export function withRowPipelineFilters(filters, rowPipeline) {
+  if (!rowPipeline?.storyId) return filters;
+  return {
+    ...filters,
+    skipPass: true,
+    onlyNotTested: false,
+    rowStoryId: rowPipeline.storyId,
+    rowEntryPoint: rowPipeline.entryPoint ?? "storybook"
+  };
 }
 
 /**
@@ -328,11 +380,11 @@ export function filterParkedFromFlowBatch(repoRoot, batch) {
  * @param {ReturnType<effectiveOrchestratorFilters>} filters
  * @param {number} flowLimit
  */
-export function selectFlowWorkBatch(_repoRoot, portfolio, filters, flowLimit) {
+export function selectFlowWorkBatch(repoRoot, portfolio, filters, flowLimit) {
   const limit = Math.max(1, flowLimit);
   return findFlowWorkQueue(portfolio, filters, { limit }).map((work) => ({
     ...work,
-    suiteId: fixSuiteForCell(work.entryPoint ?? "storybook", work.stepId)
+    suiteId: fixSuiteForCell(work.entryPoint ?? "storybook", work.stepId, work.storyId, repoRoot)
   }));
 }
 
@@ -519,26 +571,27 @@ export async function runUnifiedGoldenBatch(repoRoot, items, stepId, appendLog) 
         if (!manifest) return;
         await spawnOneAsync(
           "node",
-          ["scripts/original-parity-test.mjs", "--artifact", manifest],
-          `parity figma ${storyId}`
+          ["scripts/figma-screen-test.mjs", "--artifact", manifest],
+          `figma live ${storyId}`
         );
       })
     );
     if (storybookItems.length) {
+      await runStorybookGoldenPool(repoRoot, "figma", storybookItems, spawnOneAsync);
       await runStorybookGoldenPool(repoRoot, "figmaLive", storybookItems, spawnOneAsync);
     }
     return;
   }
 
-  if (stepId === "vsStorybook" || stepId === "vsReactHtml") {
+  if (stepId === "vsStorybook") {
     await Promise.all([
       ...figmaItems.map(async ({ storyId }) => {
         const manifest = manifestByScreen.get(storyId);
         if (!manifest) return;
         await spawnOneAsync(
           "node",
-          ["scripts/original-parity-test.mjs", "--artifact", manifest],
-          `parity figma ${storyId}`
+          ["scripts/figma-screen-storybook-test.mjs", "--artifact", manifest],
+          `storybook contract ${storyId}`
         );
       }),
       ...storybookItems.map(async ({ storyId }) => {
@@ -547,8 +600,46 @@ export async function runUnifiedGoldenBatch(repoRoot, items, stepId, appendLog) 
           ["scripts/storybook-parity-test.mjs", "--story", storyId],
           `parity storybook ${storyId}`
         );
-      })
+      }),
     ]);
+    return;
+  }
+
+  if (stepId === "vsReactHtml") {
+    await Promise.all([
+      ...figmaItems.map(async ({ storyId }) => {
+        const manifest = manifestByScreen.get(storyId);
+        if (!manifest) return;
+        await spawnOneAsync(
+          "node",
+          ["scripts/figma-screen-reacthtml-test.mjs", "--artifact", manifest],
+          `reacthtml contract ${storyId}`
+        );
+      }),
+      ...storybookItems.map(async ({ storyId }) => {
+        await spawnOneAsync(
+          "node",
+          ["scripts/storybook-parity-test.mjs", "--story", storyId],
+          `parity storybook ${storyId}`
+        );
+      }),
+    ]);
+    return;
+  }
+
+  if (stepId === "vsReactTsx") {
+    await Promise.all(
+      figmaItems.map(async ({ storyId }) => {
+        const manifest = manifestByScreen.get(storyId);
+        if (!manifest) return;
+        await spawnOneAsync(
+          "node",
+          ["scripts/figma-screen-reacttsx-test.mjs", "--artifact", manifest],
+          `reacttsx contract ${storyId}`
+        );
+      })
+    );
+    return;
   }
 }
 

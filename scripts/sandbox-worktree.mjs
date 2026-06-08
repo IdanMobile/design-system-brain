@@ -4,7 +4,8 @@
 
 import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, symlinkSync, cpSync } from "node:fs";
-import { join } from "node:path";
+import { join, dirname } from "node:path";
+import { ADAPTER_BACKUP_FILES } from "./sandbox-promote.mjs";
 
 /**
  * @param {string} repoRoot
@@ -42,7 +43,26 @@ export function createSandboxWorktree(repoRoot, jobId) {
     }
   }
 
+  seedSandboxAdapterFromMain(repoRoot, wtPath);
   return { ok: true, path: wtPath, branch, jobId: short };
+}
+
+/**
+ * Copy main working-tree adapter files into sandbox — worktree only has committed HEAD.
+ * @param {string} mainRoot
+ * @param {string} sandboxPath
+ */
+export function seedSandboxAdapterFromMain(mainRoot, sandboxPath) {
+  const seeded = [];
+  for (const rel of ADAPTER_BACKUP_FILES) {
+    const src = join(mainRoot, rel);
+    const dest = join(sandboxPath, rel);
+    if (!existsSync(src)) continue;
+    mkdirSync(dirname(dest), { recursive: true });
+    cpSync(src, dest);
+    seeded.push(rel);
+  }
+  return seeded;
 }
 
 /**
@@ -55,16 +75,87 @@ export function removeSandboxWorktree(repoRoot, wtPath, branch) {
   spawnSync("git", ["branch", "-D", branch], { cwd: repoRoot, encoding: "utf8" });
 }
 
+/** Never promote test noise or sandbox-local paths back to main. */
+const SANDBOX_PROMOTE_DENY_PREFIXES = [
+  ".test-console/",
+  ".sandboxes/",
+  ".restore-backup",
+  "figma-screen-diffs/",
+  "figma-live-diffs/",
+  "artifacts/",
+  "test-portfolio/",
+  "node_modules/",
+];
+
+/** Count as a real fixer edit (adapter / contract pipeline). */
+const SANDBOX_PROMOTE_CODE_PREFIXES = [
+  "packages/figma-importer-plugin/src/",
+  "packages/pixel-test/src/",
+  "packages/contract/",
+  "scripts/figma-manifest-to-contract.mjs",
+  "scripts/extract.ts",
+  "scripts/scene-to-html.ts",
+];
+
+/**
+ * @param {string} rel
+ */
+export function isSandboxPromotableCodeFile(rel) {
+  if (!rel) return false;
+  return SANDBOX_PROMOTE_CODE_PREFIXES.some(
+    (prefix) => rel === prefix || rel.startsWith(prefix)
+  );
+}
+
+/**
+ * @param {string[]} files
+ * @param {{ requireCodeEdit?: boolean, codeFileCount?: number, watchdogTripped?: boolean, agentExitCode?: number, editCount?: number | null }} [opts]
+ */
+export function filterPromotableSandboxFiles(files, opts = {}) {
+  const {
+    requireCodeEdit = true,
+    codeFileCount = 0,
+    watchdogTripped = false,
+    agentExitCode = 0,
+    editCount = null,
+  } = opts;
+
+  // Watchdog kill — never promote (agent did not finish).
+  if (watchdogTripped || agentExitCode === 143) {
+    return [];
+  }
+
+  // No git diff on code files AND agent edit counter zero — nothing to promote.
+  if (typeof editCount === "number" && editCount === 0 && codeFileCount === 0) {
+    return [];
+  }
+
+  const filtered = files.filter((rel) => {
+    if (!rel || rel.startsWith(".git/")) return false;
+    if (SANDBOX_PROMOTE_DENY_PREFIXES.some((p) => rel.startsWith(p))) return false;
+    if (rel.endsWith("/report.html") || rel.endsWith("/report.json")) return false;
+    if (rel.endsWith("/portfolio.json")) return false;
+    if (/\.(png|jpg|webp)$/i.test(rel) && !rel.startsWith("packages/")) return false;
+    return true;
+  });
+
+  if (!requireCodeEdit) return filtered;
+
+  const codeFiles = filtered.filter(isSandboxPromotableCodeFile);
+  return codeFiles.length > 0 ? codeFiles : [];
+}
+
 /**
  * Copy promoted files from sandbox worktree into main repo.
  * @param {string} mainRoot
  * @param {string} sandboxPath
  * @param {string[]} files
+ * @param {{ requireCodeEdit?: boolean, codeFileCount?: number, watchdogTripped?: boolean, agentExitCode?: number }} [opts]
  */
-export function promoteSandboxFiles(mainRoot, sandboxPath, files) {
+export function promoteSandboxFiles(mainRoot, sandboxPath, files, opts = {}) {
+  const allowed = filterPromotableSandboxFiles(files, opts);
   const promoted = [];
-  for (const rel of files) {
-    if (!rel || rel.startsWith(".test-console/")) continue;
+  for (const rel of allowed) {
     const src = join(sandboxPath, rel);
     const dest = join(mainRoot, rel);
     if (!existsSync(src)) continue;

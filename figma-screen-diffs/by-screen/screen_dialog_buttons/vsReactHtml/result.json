@@ -1,0 +1,123 @@
+{
+  "status": "fail",
+  "percent": 2.69207412631249,
+  "maxRegionPercent": 1.197411003236246,
+  "pixelsDiffered": 5497,
+  "pixelsTotal": 204192,
+  "width": 709,
+  "height": 288,
+  "tolerance": 0.1,
+  "gateMode": "raw",
+  "parityMeta": {
+    "gateMode": "raw",
+    "referenceScale": 1,
+    "refWasDownscaled": false,
+    "sourceReferenceSize": "709x288",
+    "alignedSize": "709x288"
+  },
+  "previewLabel": "Raw ReactHtml (gate)",
+  "referenceLabel": "Reference",
+  "originalPng": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_dialog_buttons/originalParity/original.png",
+  "originalFullPng": null,
+  "targetPng": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_dialog_buttons/originalParity/reactHtml-raw.png",
+  "renderedPng": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_dialog_buttons/originalParity/reactHtml-raw.png",
+  "compositedPng": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_dialog_buttons/originalParity/reactHtml-composited.png",
+  "diffPng": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_dialog_buttons/originalParity/diff-original-reactHtml.png",
+  "manifestPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_dialog_buttons.manifest.json",
+  "contractPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_dialog_buttons.contract.json",
+  "regions": [
+    {
+      "name": "breadcrumbs",
+      "x": 1300,
+      "y": 75,
+      "w": 400,
+      "h": 30,
+      "pct": 0,
+      "limit": 0.1
+    },
+    {
+      "name": "toolbar-left",
+      "x": 233,
+      "y": 150,
+      "w": 500,
+      "h": 55,
+      "pct": 1.1000763941940412,
+      "limit": 0.1
+    },
+    {
+      "name": "toolbar-sort",
+      "x": 750,
+      "y": 150,
+      "w": 400,
+      "h": 55,
+      "pct": 0,
+      "limit": 0.1
+    },
+    {
+      "name": "filter-button",
+      "x": 1240,
+      "y": 185,
+      "w": 90,
+      "h": 40,
+      "pct": 0,
+      "limit": 0.1
+    },
+    {
+      "name": "sidebar",
+      "x": 0,
+      "y": 63,
+      "w": 233,
+      "h": 137,
+      "pct": 0.6140158516337207,
+      "limit": 0.1
+    },
+    {
+      "name": "gradient-blob",
+      "x": 400,
+      "y": 140,
+      "w": 600,
+      "h": 60,
+      "pct": 1.197411003236246,
+      "limit": 0.1
+    },
+    {
+      "name": "user-header",
+      "x": 20,
+      "y": 8,
+      "w": 200,
+      "h": 50,
+      "tolerancePercent": 0.6,
+      "pct": 0,
+      "limit": 0.6
+    },
+    {
+      "name": "pagination-footer",
+      "x": 60,
+      "y": 865,
+      "w": 400,
+      "h": 35,
+      "pct": 0,
+      "limit": 0.1
+    },
+    {
+      "name": "phone-row",
+      "x": 1100,
+      "y": 785,
+      "w": 150,
+      "h": 45,
+      "tolerancePercent": 0.6,
+      "pct": 0,
+      "limit": 0.6
+    }
+  ],
+  "worstRegion": {
+    "name": "gradient-blob",
+    "pct": 1.197411003236246
+  },
+  "reportHtml": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_dialog_buttons/originalParity/report.html",
+  "testReportPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_dialog_buttons/vsReactHtml/test-report.json",
+  "screenId": "screen_dialog_buttons",
+  "storyId": "screen_dialog_buttons",
+  "stepId": "vsReactHtml",
+  "testedAt": "2026-06-08T17:35:02.619Z"
+}

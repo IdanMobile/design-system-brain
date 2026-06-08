@@ -4,11 +4,10 @@ Delivery package for the Storybook-to-Figma lab — the same React components us
 
 ## Install from tarball
 
-After downloading from the showcase (or running `pnpm pack:ui` in the monorepo):
+Open a story in the test console inspection drawer and use **Download component** — each story gets its own tarball (that component only, with the story’s default props). Packages rebuild automatically when delivery tests or fixers update the component.
 
 ```bash
-pnpm add ./lab-ui-0.1.0.tgz
-# npm install ./lab-ui-0.1.0.tgz
+pnpm add ./component.tgz
 ```
 
 ## Usage

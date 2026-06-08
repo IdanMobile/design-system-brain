@@ -34,6 +34,119 @@ function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
+const WAIT_HEARTBEAT_MS = 15_000;
+
+/**
+ * Mirror new `[agent:…]` lines from the parent job log into the supervisor terminal.
+ * Agent child processes append to the job API; headless runs do not inherit stdio.
+ * @param {string} parentJobId
+ * @param {{ value: number }} logCursor
+ * @param {(text: string, opts?: { localOnly?: boolean }) => Promise<void>} appendLog
+ */
+async function mirrorNewAgentLogs(parentJobId, logCursor, appendLog) {
+  if (!parentJobId || !appendLog) return;
+  try {
+    const job = await api(`/api/jobs/${parentJobId}`);
+    const logs = typeof job?.logs === "string" ? job.logs : "";
+    if (logs.length <= logCursor.value) return;
+    const newChunk = logs.slice(logCursor.value);
+    logCursor.value = logs.length;
+    for (const line of newChunk.split("\n")) {
+      if (!line.trim() || !line.includes("[agent:")) continue;
+      await appendLog(line.endsWith("\n") ? line : `${line}\n`, { localOnly: true });
+    }
+  } catch {
+    /* ok */
+  }
+}
+
+/**
+ * Poll until child status file appears or deadline; heartbeat + agent log mirroring.
+ * @param {object} opts
+ */
+async function waitForChildStatus({
+  parentJobId,
+  tag,
+  statusFile,
+  appendLog,
+  killFlagPath,
+  deadline,
+  startedAt = Date.now(),
+  logCursor
+}) {
+  let lastHeartbeat = Date.now();
+  while (Date.now() < deadline) {
+    if (killFlagPath && existsSync(killFlagPath)) {
+      return { exitCode: 130, usageBlocked: false };
+    }
+
+    await mirrorNewAgentLogs(parentJobId, logCursor, appendLog);
+
+    if (existsSync(statusFile)) {
+      try {
+        const s = JSON.parse(readFileSync(statusFile, "utf8"));
+        if (s.finishedAt || s.exitCode != null) {
+          const detail =
+            s.watchdogTripped
+              ? ` [watchdog: ${s.watchdogReason ?? "stalled"}]`
+              : typeof s.editCount === "number"
+                ? ` (edits=${s.editCount}, reads=${s.readCount ?? 0})`
+                : "";
+          await log(
+            parentJobId,
+            appendLog,
+            "orchestrator",
+            `${tag} finished exit ${s.exitCode ?? 1}${detail}\n`
+          );
+          return {
+            exitCode: s.exitCode ?? 1,
+            usageBlocked: Boolean(s.usageBlocked),
+            watchdogTripped: Boolean(s.watchdogTripped),
+            watchdogReason: s.watchdogReason ?? null,
+            editCount: s.editCount ?? 0
+          };
+        }
+      } catch {
+        return { exitCode: 1, usageBlocked: false };
+      }
+    }
+
+    const now = Date.now();
+    if (now - lastHeartbeat >= WAIT_HEARTBEAT_MS) {
+      lastHeartbeat = now;
+      const elapsedMin = ((now - startedAt) / 60_000).toFixed(1);
+      let progress = "";
+      if (existsSync(statusFile)) {
+        try {
+          const partial = JSON.parse(readFileSync(statusFile, "utf8"));
+          if (partial.inProgress) {
+            progress = ` · edits=${partial.editCount ?? 0}, reads=${partial.readCount ?? 0}`;
+            if (partial.lastActivity) progress += ` · ${partial.lastActivity}`;
+          }
+        } catch {
+          /* ok */
+        }
+      }
+      await log(
+        parentJobId,
+        appendLog,
+        "orchestrator",
+        `Waiting for ${tag} … ${elapsedMin}m elapsed${progress}\n`
+      );
+    }
+
+    await sleep(400);
+  }
+
+  await log(
+    parentJobId,
+    appendLog,
+    "orchestrator",
+    `${tag} EXCEEDED orchestrator deadline (watchdog did not trip). Returning failure.\n`
+  );
+  return { exitCode: 1, usageBlocked: false, watchdogTripped: false };
+}
+
 function statusPath(parentJobId, runId) {
   return childStatusPath(ROOT, parentJobId, runId);
 }
@@ -201,27 +314,25 @@ export async function runManagedCommand({
     return r.status ?? 1;
   }
 
-  const deadline = Date.now() + 3_600_000;
-  while (Date.now() < deadline) {
-    if (killFlagPath && existsSync(killFlagPath)) return 130;
-    if (existsSync(statusFile)) {
-      try {
-        const s = JSON.parse(readFileSync(statusFile, "utf8"));
-        await log(
-          parentJobId,
-          appendLog,
-          "orchestrator",
-          `${tag} finished exit ${s.exitCode ?? 1}\n`
-        );
-        return s.exitCode ?? 1;
-      } catch {
-        return 1;
-      }
-    }
-    await sleep(400);
+  const logCursor = { value: 0 };
+  try {
+    const job = await api(`/api/jobs/${parentJobId}`);
+    const logs = typeof job?.logs === "string" ? job.logs : "";
+    logCursor.value = logs.length;
+  } catch {
+    /* ok */
   }
-  await log(parentJobId, appendLog, "orchestrator", `${tag} timed out waiting for child\n`);
-  return 1;
+
+  const result = await waitForChildStatus({
+    parentJobId,
+    tag,
+    statusFile,
+    appendLog,
+    killFlagPath,
+    deadline: Date.now() + 3_600_000,
+    logCursor
+  });
+  return result.exitCode ?? 1;
 }
 
 /** Golden suite commands for managed child terminals. */
@@ -248,9 +359,19 @@ export function goldenCommandForSuite(suiteId, options = {}) {
   }
 
   if (isFigmaEntryFixSuite(suiteId)) {
+    const stepArg =
+      suiteId === "manifestContract"
+        ? ":manifest"
+        : suiteId === "vsStorybook"
+          ? ":storybook"
+          : suiteId === "vsReactHtml"
+            ? ":reacthtml"
+            : suiteId === "logic"
+              ? ":logic"
+              : "";
     return {
       bin: "pnpm",
-      args: [`test:figma:screen${suiteId === "manifestContract" ? ":manifest" : suiteId === "storybook" ? ":storybook" : suiteId === "fourWay" ? ":four-way" : suiteId === "logic" ? ":logic" : ""}`],
+      args: [`test:figma:screen${stepArg}`],
       tag: `golden:figmaEntry:${suiteId}`,
       env: { TEST_PARALLEL: "1" }
     };
@@ -305,6 +426,8 @@ export async function runManagedAgent({
   investigateFirst = false,
   investigateOnly = false,
   /** @type {'pixel' | 'emulator' | 'live' | undefined} */ fixMode,
+  fixerUpstream = false,
+  fixerAllowlistExtra = [],
   openTerminal: openTermOverride
 }) {
   const workdir = workspaceRoot ?? ROOT;
@@ -318,6 +441,8 @@ export async function runManagedAgent({
   mkdirSync(agentPromptsDir(workdir), { recursive: true });
   const promptFile = agentPromptPath(workdir, runId);
   writeFileSync(promptFile, prompt, "utf8");
+  const promptLines = prompt.split("\n").length;
+  const promptBytes = Buffer.byteLength(prompt, "utf8");
 
   if (existsSync(statusFile)) unlinkSync(statusFile);
 
@@ -331,6 +456,16 @@ export async function runManagedAgent({
       `AGENT_WATCHDOG_FIRST_EDIT_MS=${investigateFirst ? 6 * 60_000 : 5 * 60_000}`
     );
     agentEnvParts.push(`AGENT_WATCHDOG_TOTAL_MS=${18 * 60_000}`);
+  } else if (fixMode === "live" || fixMode === "emulator" || fixMode === "figmaEntry") {
+    agentEnvParts.push(
+      `AGENT_WATCHDOG_FIRST_EDIT_MS=${investigateFirst ? 5 * 60_000 : 4 * 60_000}`
+    );
+    agentEnvParts.push(`AGENT_WATCHDOG_TOTAL_MS=${12 * 60_000}`);
+    agentEnvParts.push(`AGENT_WATCHDOG_STALE_STREAM_MS=${3 * 60_000}`);
+  }
+  if (fixerUpstream) agentEnvParts.push("AGENT_FIXER_UPSTREAM=1");
+  if (fixerAllowlistExtra?.length) {
+    agentEnvParts.push(`AGENT_FIXER_ALLOWLIST_EXTRA=${fixerAllowlistExtra.join("|")}`);
   }
   const envPrefix = agentEnvParts.join(" ");
   const agentRunnerBody = [
@@ -356,7 +491,7 @@ export async function runManagedAgent({
     parentJobId,
     appendLog,
     "orchestrator",
-    `Opening agent terminal → ${tag} (model: ${agentModel})${workdir !== ROOT ? " [sandbox]" : ""}\n`
+    `Launching fixer agent → ${tag} (model: ${agentModel}, prompt ${promptLines} lines / ${(promptBytes / 1024).toFixed(1)}KB)${workdir !== ROOT ? " [sandbox]" : ""}\n`
   );
   const opened = openTerm
     ? openTerminal(agentRunner, workdir, {
@@ -370,7 +505,7 @@ export async function runManagedAgent({
       parentJobId,
       appendLog,
       "orchestrator",
-      `Terminal.app tab opened — "${tabTitle}" (not the Cursor integrated terminal)\n`
+      `Terminal.app tab opened — "${tabTitle}" (agent output in that tab; this tab waits)\n`
     );
   } else {
     await log(
@@ -378,8 +513,8 @@ export async function runManagedAgent({
       appendLog,
       "orchestrator",
       openTerm
-        ? `Terminal tab unavailable — running agent headless in background (output not streamed; status file written on completion)\n`
-        : `Headless agent — ${tag} (model: ${agentModel})\n`
+        ? `Terminal tab unavailable — running agent headless (progress mirrored below every 15s)\n`
+        : `Headless agent — ${tag} (model: ${agentModel}); progress mirrored below every 15s\n`
     );
     spawn(
       "node",
@@ -409,6 +544,16 @@ export async function runManagedAgent({
                 AGENT_WATCHDOG_FIRST_EDIT_MS: String(investigateFirst ? 6 * 60_000 : 5 * 60_000),
                 AGENT_WATCHDOG_TOTAL_MS: String(18 * 60_000)
               }
+            : fixMode === "live" || fixMode === "emulator" || fixMode === "figmaEntry"
+              ? {
+                  AGENT_WATCHDOG_FIRST_EDIT_MS: String(investigateFirst ? 5 * 60_000 : 4 * 60_000),
+                  AGENT_WATCHDOG_TOTAL_MS: String(12 * 60_000),
+                  AGENT_WATCHDOG_STALE_STREAM_MS: String(3 * 60_000)
+                }
+              : {}),
+          ...(fixerUpstream ? { AGENT_FIXER_UPSTREAM: "1" } : {}),
+          ...(fixerAllowlistExtra?.length
+            ? { AGENT_FIXER_ALLOWLIST_EXTRA: fixerAllowlistExtra.join("|") }
             : {})
         },
         detached: true,
@@ -419,42 +564,87 @@ export async function runManagedAgent({
 
   const totalBudgetMs = Math.max(
     60_000,
-    Number(process.env.AGENT_WATCHDOG_TOTAL_MS ?? 0) || 25 * 60_000
+    Number(process.env.AGENT_WATCHDOG_TOTAL_MS ?? 0) ||
+      (fixMode === "live" || fixMode === "emulator" || fixMode === "figmaEntry" ? 12 * 60_000 : 25 * 60_000)
   );
-  const orchestratorGraceMs = 2 * 60_000;
-  const deadline = Date.now() + totalBudgetMs + orchestratorGraceMs;
+  const orchestratorGraceMs =
+    fixMode === "live" || fixMode === "emulator" || fixMode === "figmaEntry" ? 60_000 : 2 * 60_000;
+  const startedAt = Date.now();
+  const logCursor = { value: 0 };
+  try {
+    const job = await api(`/api/jobs/${parentJobId}`);
+    const logs = typeof job?.logs === "string" ? job.logs : "";
+    logCursor.value = logs.length;
+  } catch {
+    /* ok */
+  }
+
+  const deadline = startedAt + totalBudgetMs + orchestratorGraceMs;
+  const graceAt = deadline - orchestratorGraceMs;
   let warnedOverdue = false;
+  let lastHeartbeat = startedAt;
+
   while (Date.now() < deadline) {
     if (killFlagPath && existsSync(killFlagPath)) {
       return { exitCode: 130, usageBlocked: false };
     }
+
+    await mirrorNewAgentLogs(parentJobId, logCursor, appendLog);
+
     if (existsSync(statusFile)) {
       try {
         const s = JSON.parse(readFileSync(statusFile, "utf8"));
-        const detail =
-          s.watchdogTripped
-            ? ` [watchdog: ${s.watchdogReason ?? "stalled"}]`
-            : typeof s.editCount === "number"
-              ? ` (edits=${s.editCount}, reads=${s.readCount ?? 0})`
-              : "";
-        await log(
-          parentJobId,
-          appendLog,
-          "orchestrator",
-          `Agent ${tag} finished exit ${s.exitCode ?? 1}${detail}\n`
-        );
-        return {
-          exitCode: s.exitCode ?? 1,
-          usageBlocked: Boolean(s.usageBlocked),
-          watchdogTripped: Boolean(s.watchdogTripped),
-          watchdogReason: s.watchdogReason ?? null,
-          editCount: s.editCount ?? 0
-        };
+        if (s.finishedAt || s.exitCode != null) {
+          const detail =
+            s.watchdogTripped
+              ? ` [watchdog: ${s.watchdogReason ?? "stalled"}]`
+              : typeof s.editCount === "number"
+                ? ` (edits=${s.editCount}, reads=${s.readCount ?? 0})`
+                : "";
+          await log(
+            parentJobId,
+            appendLog,
+            "orchestrator",
+            `Agent ${tag} finished exit ${s.exitCode ?? 1}${detail}\n`
+          );
+          return {
+            exitCode: s.exitCode ?? 1,
+            usageBlocked: Boolean(s.usageBlocked),
+            watchdogTripped: Boolean(s.watchdogTripped),
+            watchdogReason: s.watchdogReason ?? null,
+            editCount: s.editCount ?? 0
+          };
+        }
       } catch {
         return { exitCode: 1, usageBlocked: false };
       }
     }
-    if (!warnedOverdue && Date.now() > deadline - orchestratorGraceMs) {
+
+    const now = Date.now();
+    if (now - lastHeartbeat >= WAIT_HEARTBEAT_MS) {
+      lastHeartbeat = now;
+      const elapsedMin = ((now - startedAt) / 60_000).toFixed(1);
+      let progress = "";
+      if (existsSync(statusFile)) {
+        try {
+          const partial = JSON.parse(readFileSync(statusFile, "utf8"));
+          if (partial.inProgress) {
+            progress = ` · edits=${partial.editCount ?? 0}, reads=${partial.readCount ?? 0}`;
+            if (partial.lastActivity) progress += ` · ${partial.lastActivity}`;
+          }
+        } catch {
+          /* ok */
+        }
+      }
+      await log(
+        parentJobId,
+        appendLog,
+        "orchestrator",
+        `Waiting for ${tag} … ${elapsedMin}m elapsed${progress}\n`
+      );
+    }
+
+    if (!warnedOverdue && now > graceAt) {
       warnedOverdue = true;
       await log(
         parentJobId,
@@ -463,8 +653,10 @@ export async function runManagedAgent({
         `Agent ${tag} approaching budget — watchdog should terminate within 2m grace.\n`
       );
     }
+
     await sleep(400);
   }
+
   await log(
     parentJobId,
     appendLog,

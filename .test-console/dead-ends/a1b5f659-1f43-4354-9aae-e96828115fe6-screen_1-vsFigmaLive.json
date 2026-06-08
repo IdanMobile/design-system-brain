@@ -1,0 +1,235 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-06-08T12:34:50.261Z",
+  "verdict": "DEAD_END",
+  "jobId": "a1b5f659-1f43-4354-9aae-e96828115fe6",
+  "storyId": "screen_1",
+  "stepId": "vsFigmaLive",
+  "suiteId": "vsFigmaLive",
+  "suiteLabel": "→ Figma live",
+  "entryPoint": "figma",
+  "reason": "EXHAUSTED_ATTEMPTS",
+  "detail": "Supervisor: metrics flat at 0.10% — use structuredDiagnosis editRouting: user-header band→pinFigmaFlexCrossEndBareText / createTextNode. Do NOT re-read code-v2.ts in full.; Supervisor: ORCHESTRATOR REVIEW required — repeated fixer attempts did not resolve this item. Stop retrying the same prompt; summarize failed hypotheses, compare artifacts, and update the next fixer instruction before another code-edit attempt.; Supervisor: shared adapter file(s) touched — Tier C regression required before marking this story done.",
+  "attemptsUsed": 5,
+  "maxAttempts": 5,
+  "metricsBefore": {
+    "status": "fail",
+    "percent": 0.10377910384410467,
+    "maxRegionPercent": 3.78,
+    "error": null
+  },
+  "metricsAfter": {
+    "status": "fail",
+    "percent": 0.10377910384410467,
+    "maxRegionPercent": 3.78,
+    "error": null
+  },
+  "metricsUnchanged": true,
+  "attemptOutcomes": [
+    {
+      "attempt": 1,
+      "before": {
+        "status": "fail",
+        "percent": 0.10377910384410467,
+        "maxRegionPercent": 3.78,
+        "error": null
+      },
+      "after": {
+        "status": "fail",
+        "percent": 0.10377910384410467,
+        "maxRegionPercent": 3.78,
+        "error": null
+      },
+      "verdict": "SHARED_ADAPTER",
+      "nextWorkerMode": "tier_c_required",
+      "filesChanged": [
+        ".test-console/attempt-backups/a1b5f659-1f43-4354-9aae-e96828115fe6/screen_1-try1/packages__figma-importer-plugin__src__code-v2.ts",
+        ".test-console/attempt-backups/a1b5f659-1f43-4354-9aae-e96828115fe6/screen_1-try1/packages__pixel-test__src__render-html.ts",
+        ".test-console/attempt-backups/a1b5f659-1f43-4354-9aae-e96828115fe6/screen_1-try1/packages__pixel-test__src__scene-to-html.ts",
+        ".test-console/fleet/agents.json",
+        ".test-console/fleet/events.jsonl",
+        "figma-screen-diffs/by-screen/screen_1/vsFigmaLive/investigator-resolution.json",
+        "figma-screen-diffs/by-screen/screen_1/vsFigmaLive/test-report.html",
+        "figma-screen-diffs/by-screen/screen_1/vsFigmaLive/test-report.json",
+        "packages/figma-importer-plugin/dist/code.js",
+        "packages/figma-importer-plugin/src/code-v2.ts",
+        "test-portfolio/manual-preview/manifest.json",
+        "test-portfolio/portfolio.json",
+        "test-portfolio/quick-generation/portfolio.json",
+        "test-portfolio/unified-steps/index.html",
+        "test-portfolio/unified-steps/logic/report.html",
+        "test-portfolio/unified-steps/structural/report.html",
+        "test-portfolio/unified-steps/vsFigmaLive/report.html",
+        "test-portfolio/unified-steps/vsReactHtml/report.html",
+        "test-portfolio/unified-steps/vsReactTsx/report.html",
+        "test-portfolio/unified-steps/vsStorybook/report.html"
+      ],
+      "watchdog": false
+    },
+    {
+      "attempt": 2,
+      "before": {
+        "status": "fail",
+        "percent": 0.10377910384410467,
+        "maxRegionPercent": 3.78,
+        "error": null
+      },
+      "after": {
+        "status": "fail",
+        "percent": 0.10377910384410467,
+        "maxRegionPercent": 3.78,
+        "error": null
+      },
+      "verdict": "STUCK_LOOP",
+      "nextWorkerMode": "narrow_scope",
+      "filesChanged": [
+        ".test-console/attempt-backups/a1b5f659-1f43-4354-9aae-e96828115fe6/screen_1-try2/packages__figma-importer-plugin__src__code-v2.ts",
+        ".test-console/attempt-backups/a1b5f659-1f43-4354-9aae-e96828115fe6/screen_1-try2/packages__pixel-test__src__render-html.ts",
+        ".test-console/attempt-backups/a1b5f659-1f43-4354-9aae-e96828115fe6/screen_1-try2/packages__pixel-test__src__scene-to-html.ts",
+        ".test-console/fleet/agents.json",
+        ".test-console/fleet/events.jsonl",
+        "figma-screen-diffs/by-screen/screen_1/vsFigmaLive/investigator-resolution.json",
+        "figma-screen-diffs/by-screen/screen_1/vsFigmaLive/test-report.html",
+        "figma-screen-diffs/by-screen/screen_1/vsFigmaLive/test-report.json",
+        "packages/figma-importer-plugin/src/code-v2.ts",
+        "test-portfolio/manual-preview/manifest.json",
+        "test-portfolio/portfolio.json",
+        "test-portfolio/quick-generation/portfolio.json",
+        "test-portfolio/unified-steps/index.html",
+        "test-portfolio/unified-steps/logic/report.html",
+        "test-portfolio/unified-steps/structural/report.html",
+        "test-portfolio/unified-steps/vsFigmaLive/report.html",
+        "test-portfolio/unified-steps/vsReactHtml/report.html",
+        "test-portfolio/unified-steps/vsReactTsx/report.html",
+        "test-portfolio/unified-steps/vsStorybook/report.html"
+      ],
+      "watchdog": false
+    },
+    {
+      "attempt": 3,
+      "before": {
+        "status": "fail",
+        "percent": 0.10377910384410467,
+        "maxRegionPercent": 3.78,
+        "error": null
+      },
+      "after": {
+        "status": "fail",
+        "percent": 0.10377910384410467,
+        "maxRegionPercent": 3.78,
+        "error": null
+      },
+      "verdict": "STUCK_LOOP",
+      "nextWorkerMode": "narrow_scope",
+      "filesChanged": [
+        ".test-console/attempt-backups/a1b5f659-1f43-4354-9aae-e96828115fe6/screen_1-try3/packages__figma-importer-plugin__src__code-v2.ts",
+        ".test-console/attempt-backups/a1b5f659-1f43-4354-9aae-e96828115fe6/screen_1-try3/packages__pixel-test__src__render-html.ts",
+        ".test-console/attempt-backups/a1b5f659-1f43-4354-9aae-e96828115fe6/screen_1-try3/packages__pixel-test__src__scene-to-html.ts",
+        ".test-console/fleet/agents.json",
+        ".test-console/fleet/events.jsonl",
+        "figma-screen-diffs/by-screen/screen_1/vsFigmaLive/investigator-resolution.json",
+        "figma-screen-diffs/by-screen/screen_1/vsFigmaLive/test-report.html",
+        "figma-screen-diffs/by-screen/screen_1/vsFigmaLive/test-report.json",
+        "packages/figma-importer-plugin/src/code-v2.ts",
+        "test-portfolio/manual-preview/manifest.json",
+        "test-portfolio/portfolio.json",
+        "test-portfolio/quick-generation/portfolio.json",
+        "test-portfolio/unified-steps/index.html",
+        "test-portfolio/unified-steps/logic/report.html",
+        "test-portfolio/unified-steps/structural/report.html",
+        "test-portfolio/unified-steps/vsFigmaLive/report.html",
+        "test-portfolio/unified-steps/vsReactHtml/report.html",
+        "test-portfolio/unified-steps/vsReactTsx/report.html",
+        "test-portfolio/unified-steps/vsStorybook/report.html"
+      ],
+      "watchdog": false
+    },
+    {
+      "attempt": 4,
+      "before": {
+        "status": "fail",
+        "percent": 0.10377910384410467,
+        "maxRegionPercent": 3.78,
+        "error": null
+      },
+      "after": {
+        "status": "fail",
+        "percent": 0.10377910384410467,
+        "maxRegionPercent": 3.78,
+        "error": null
+      },
+      "verdict": "STUCK_LOOP",
+      "nextWorkerMode": "orchestrator_review",
+      "filesChanged": [
+        ".test-console/attempt-backups/a1b5f659-1f43-4354-9aae-e96828115fe6/screen_1-try4/packages__figma-importer-plugin__src__code-v2.ts",
+        ".test-console/attempt-backups/a1b5f659-1f43-4354-9aae-e96828115fe6/screen_1-try4/packages__pixel-test__src__render-html.ts",
+        ".test-console/attempt-backups/a1b5f659-1f43-4354-9aae-e96828115fe6/screen_1-try4/packages__pixel-test__src__scene-to-html.ts",
+        ".test-console/fleet/agents.json",
+        ".test-console/fleet/events.jsonl",
+        "figma-screen-diffs/by-screen/screen_1/vsFigmaLive/investigator-resolution.json",
+        "figma-screen-diffs/by-screen/screen_1/vsFigmaLive/test-report.html",
+        "figma-screen-diffs/by-screen/screen_1/vsFigmaLive/test-report.json",
+        "test-portfolio/manual-preview/manifest.json",
+        "test-portfolio/portfolio.json",
+        "test-portfolio/quick-generation/portfolio.json",
+        "test-portfolio/unified-steps/index.html",
+        "test-portfolio/unified-steps/logic/report.html",
+        "test-portfolio/unified-steps/structural/report.html",
+        "test-portfolio/unified-steps/vsFigmaLive/report.html",
+        "test-portfolio/unified-steps/vsReactHtml/report.html",
+        "test-portfolio/unified-steps/vsReactTsx/report.html",
+        "test-portfolio/unified-steps/vsStorybook/report.html"
+      ],
+      "watchdog": true
+    },
+    {
+      "attempt": 5,
+      "before": {
+        "status": "fail",
+        "percent": 0.10377910384410467,
+        "maxRegionPercent": 3.78,
+        "error": null
+      },
+      "after": {
+        "status": "fail",
+        "percent": 0.10377910384410467,
+        "maxRegionPercent": 3.78,
+        "error": null
+      },
+      "verdict": "STUCK_LOOP",
+      "nextWorkerMode": "orchestrator_review",
+      "filesChanged": [
+        ".test-console/attempt-backups/a1b5f659-1f43-4354-9aae-e96828115fe6/screen_1-try5/packages__figma-importer-plugin__src__code-v2.ts",
+        ".test-console/attempt-backups/a1b5f659-1f43-4354-9aae-e96828115fe6/screen_1-try5/packages__pixel-test__src__render-html.ts",
+        ".test-console/attempt-backups/a1b5f659-1f43-4354-9aae-e96828115fe6/screen_1-try5/packages__pixel-test__src__scene-to-html.ts",
+        ".test-console/fleet/agents.json",
+        ".test-console/fleet/events.jsonl",
+        "figma-screen-diffs/by-screen/screen_1/vsFigmaLive/investigator-resolution.json",
+        "figma-screen-diffs/by-screen/screen_1/vsFigmaLive/test-report.html",
+        "figma-screen-diffs/by-screen/screen_1/vsFigmaLive/test-report.json",
+        "packages/figma-importer-plugin/src/code-v2.ts",
+        "test-portfolio/manual-preview/manifest.json",
+        "test-portfolio/portfolio.json",
+        "test-portfolio/quick-generation/portfolio.json",
+        "test-portfolio/unified-steps/index.html",
+        "test-portfolio/unified-steps/logic/report.html",
+        "test-portfolio/unified-steps/structural/report.html",
+        "test-portfolio/unified-steps/vsFigmaLive/report.html",
+        "test-portfolio/unified-steps/vsReactHtml/report.html",
+        "test-portfolio/unified-steps/vsReactTsx/report.html",
+        "test-portfolio/unified-steps/vsStorybook/report.html"
+      ],
+      "watchdog": false
+    }
+  ],
+  "testReportPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsFigmaLive/test-report.json",
+  "investigatorResolutionPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsFigmaLive/investigator-resolution.json",
+  "investigatorSummary": "packages/figma-importer-plugin/src/code-v2.ts — resolveFont",
+  "orchestratorLog": "/Users/user/Documents/GitHub/storybook-to-figma-lab/.test-console/orchestrator-logs/2026-06-08_15-19-05_a1b5f659.log",
+  "recommendedNextSteps": [
+    "Compare hotspot: hotspot 3.78% — open region compare PNG in test report.",
+    "Last investigator: packages/figma-importer-plugin/src/code-v2.ts — resolveFont",
+    "Manual: open test-report.json → structuredDiagnosis + investigationBrief; edit allowlisted adapter once, then Tier C if shared files changed."
+  ],
+  "htmlUrl": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsFigmaLive/test-report.html"
+}

@@ -233,8 +233,9 @@ export function allLayersScript(): { layers: LayerProbe[] } {
   const INTERACTIVE =
     'button, input, select, textarea, a[href], [role="button"], [role="link"], [role="menuitem"], [role="tab"], [role="switch"], [contenteditable=""], [contenteditable="true"], [tabindex]:not([tabindex="-1"])';
 
-  const root = document.querySelector("[data-figma-component]");
-  if (!root) return { layers: [] };
+  const componentRoot = document.querySelector("[data-figma-component]");
+  if (!componentRoot) return { layers: [] };
+  const rootEl: Element = componentRoot;
 
   const layers: LayerProbe[] = [];
   function walk(node: Element): void {
@@ -245,7 +246,7 @@ export function allLayersScript(): { layers: LayerProbe[] } {
     const role = elRole(el);
     const labId = el.getAttribute("data-lab-id") ?? "";
     const isInteractive = el.matches(INTERACTIVE);
-    const id = labId || structuralId(tagPath(root, el), text, tag);
+    const id = labId || structuralId(tagPath(rootEl, el), text, tag);
     layers.push({
       id,
       tag,
@@ -257,7 +258,7 @@ export function allLayersScript(): { layers: LayerProbe[] } {
     });
     for (const child of Array.from(el.children)) walk(child);
   }
-  for (const child of Array.from(root.children)) walk(child);
+  for (const child of Array.from(rootEl.children)) walk(child);
   return { layers };
 }
 

@@ -1,18 +1,284 @@
 {
-  "generatedAt": "2026-05-27T10:50:54.391Z",
+  "generatedAt": "2026-06-08T17:34:57.352Z",
   "tolerance": 0.1,
   "suite": "figmaScreen",
   "pipeline": "figmaEntry",
   "results": [
     {
+      "status": "fail",
+      "percent": 0.10377910384410467,
+      "maxRegionPercent": 3.78,
+      "pixelsDiffered": 1868,
+      "pixelsTotal": 1799977,
+      "width": 1921,
+      "height": 937,
+      "tolerance": 0.1,
+      "gateMode": "raw",
+      "parityMeta": {
+        "gateMode": "raw",
+        "referenceScale": 1,
+        "refWasDownscaled": false,
+        "sourceReferenceSize": "1921x937",
+        "alignedSize": "1921x937"
+      },
+      "originalPng": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_1/originalParity/original.png",
+      "originalFullPng": null,
+      "targetPng": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_1/originalParity/figmaLive-raw.png",
+      "renderedPng": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_1/originalParity/figmaLive-raw.png",
+      "figmaPng": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_1/originalParity/figmaLive-raw.png",
+      "compositedPng": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_1/originalParity/figmaLive-composited.png",
+      "previewLabel": "Raw Figma export (gate)",
+      "referenceLabel": "Reference",
+      "diffPng": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_1/originalParity/diff-original-figmaLive.png",
+      "manifestPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_1.manifest.json",
+      "contractPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_1.contract.json",
+      "regions": [
+        {
+          "name": "breadcrumbs",
+          "x": 1300,
+          "y": 75,
+          "w": 400,
+          "h": 30,
+          "pct": 0,
+          "limit": 0.1
+        },
+        {
+          "name": "toolbar-left",
+          "x": 233,
+          "y": 150,
+          "w": 500,
+          "h": 55,
+          "pct": 0,
+          "limit": 0.1
+        },
+        {
+          "name": "toolbar-sort",
+          "x": 750,
+          "y": 150,
+          "w": 400,
+          "h": 55,
+          "pct": 0,
+          "limit": 0.1
+        },
+        {
+          "name": "filter-button",
+          "x": 1240,
+          "y": 185,
+          "w": 90,
+          "h": 40,
+          "pct": 0.05555555555555555,
+          "limit": 0.1
+        },
+        {
+          "name": "sidebar",
+          "x": 0,
+          "y": 63,
+          "w": 233,
+          "h": 137,
+          "pct": 0.006265467873813477,
+          "limit": 0.1
+        },
+        {
+          "name": "gradient-blob",
+          "x": 400,
+          "y": 140,
+          "w": 600,
+          "h": 60,
+          "pct": 0,
+          "limit": 0.1
+        },
+        {
+          "name": "user-header",
+          "x": 20,
+          "y": 8,
+          "w": 200,
+          "h": 50,
+          "tolerancePercent": 0.6,
+          "pct": 3.78,
+          "limit": 0.6
+        },
+        {
+          "name": "pagination-footer",
+          "x": 60,
+          "y": 865,
+          "w": 400,
+          "h": 35,
+          "pct": 1.2785714285714285,
+          "limit": 0.1
+        },
+        {
+          "name": "phone-row",
+          "x": 1100,
+          "y": 785,
+          "w": 150,
+          "h": 45,
+          "tolerancePercent": 0.6,
+          "pct": 0.5925925925925926,
+          "limit": 0.6
+        }
+      ],
+      "worstRegion": {
+        "name": "user-header",
+        "pct": 3.78
+      },
+      "reportHtml": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_1/originalParity/report.html",
+      "testReportPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_1/vsFigmaLive/test-report.json",
       "screenId": "screen_1",
       "storyId": "screen_1",
-      "status": "not_tested",
-      "percent": 0
+      "stepId": "vsFigmaLive",
+      "testedAt": "2026-06-08T16:44:32.025Z"
     },
     {
       "screenId": "screen_2",
       "storyId": "screen_2",
+      "status": "not_tested",
+      "percent": 0
+    },
+    {
+      "screenId": "screen_3",
+      "storyId": "screen_3",
+      "status": "not_tested",
+      "percent": 0
+    },
+    {
+      "screenId": "screen_4",
+      "storyId": "screen_4",
+      "status": "not_tested",
+      "percent": 0
+    },
+    {
+      "screenId": "screen_5",
+      "storyId": "screen_5",
+      "status": "not_tested",
+      "percent": 0
+    },
+    {
+      "status": "fail",
+      "percent": 1.2400094029149036,
+      "maxRegionPercent": 1.5240641711229947,
+      "pixelsDiffered": 2532,
+      "pixelsTotal": 204192,
+      "width": 709,
+      "height": 288,
+      "tolerance": 0.1,
+      "gateMode": "raw",
+      "parityMeta": {
+        "gateMode": "raw",
+        "referenceScale": 1,
+        "refWasDownscaled": false,
+        "sourceReferenceSize": "709x288",
+        "alignedSize": "709x288"
+      },
+      "originalPng": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_dialog_buttons/originalParity/original.png",
+      "originalFullPng": null,
+      "targetPng": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_dialog_buttons/originalParity/figmaLive-raw.png",
+      "renderedPng": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_dialog_buttons/originalParity/figmaLive-raw.png",
+      "figmaPng": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_dialog_buttons/originalParity/figmaLive-raw.png",
+      "compositedPng": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_dialog_buttons/originalParity/figmaLive-composited.png",
+      "previewLabel": "Raw Figma export (gate)",
+      "referenceLabel": "Reference",
+      "diffPng": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_dialog_buttons/originalParity/diff-original-figmaLive.png",
+      "manifestPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_dialog_buttons.manifest.json",
+      "contractPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_dialog_buttons.contract.json",
+      "regions": [
+        {
+          "name": "breadcrumbs",
+          "x": 1300,
+          "y": 75,
+          "w": 400,
+          "h": 30,
+          "pct": 0,
+          "limit": 0.1
+        },
+        {
+          "name": "toolbar-left",
+          "x": 233,
+          "y": 150,
+          "w": 500,
+          "h": 55,
+          "pct": 1.5240641711229947,
+          "limit": 0.1
+        },
+        {
+          "name": "toolbar-sort",
+          "x": 750,
+          "y": 150,
+          "w": 400,
+          "h": 55,
+          "pct": 0,
+          "limit": 0.1
+        },
+        {
+          "name": "filter-button",
+          "x": 1240,
+          "y": 185,
+          "w": 90,
+          "h": 40,
+          "pct": 0,
+          "limit": 0.1
+        },
+        {
+          "name": "sidebar",
+          "x": 0,
+          "y": 63,
+          "w": 233,
+          "h": 137,
+          "pct": 0.4918392280943579,
+          "limit": 0.1
+        },
+        {
+          "name": "gradient-blob",
+          "x": 400,
+          "y": 140,
+          "w": 600,
+          "h": 60,
+          "pct": 0.9546925566343042,
+          "limit": 0.1
+        },
+        {
+          "name": "user-header",
+          "x": 20,
+          "y": 8,
+          "w": 200,
+          "h": 50,
+          "tolerancePercent": 0.6,
+          "pct": 0,
+          "limit": 0.6
+        },
+        {
+          "name": "pagination-footer",
+          "x": 60,
+          "y": 865,
+          "w": 400,
+          "h": 35,
+          "pct": 0,
+          "limit": 0.1
+        },
+        {
+          "name": "phone-row",
+          "x": 1100,
+          "y": 785,
+          "w": 150,
+          "h": 45,
+          "tolerancePercent": 0.6,
+          "pct": 0,
+          "limit": 0.6
+        }
+      ],
+      "worstRegion": {
+        "name": "toolbar-left",
+        "pct": 1.5240641711229947
+      },
+      "reportHtml": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_dialog_buttons/originalParity/report.html",
+      "testReportPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_dialog_buttons/vsFigmaLive/test-report.json",
+      "screenId": "screen_dialog_buttons",
+      "storyId": "screen_dialog_buttons",
+      "stepId": "vsFigmaLive",
+      "testedAt": "2026-06-08T17:34:57.351Z"
+    },
+    {
+      "screenId": "screen_frame_2147225716",
+      "storyId": "screen_frame_2147225716",
       "status": "not_tested",
       "percent": 0
     }

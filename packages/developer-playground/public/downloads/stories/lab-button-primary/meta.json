@@ -1,0 +1,18 @@
+{
+  "name": "@lab/story-lab-button-primary",
+  "version": "0.1.0",
+  "portfolioStoryId": "lab-button--primary",
+  "deliveryStoryId": "lab-button--primary",
+  "component": "Button",
+  "args": {
+    "variant": "primary",
+    "children": "Primary"
+  },
+  "variant": "semantic",
+  "ingress": "storybook",
+  "usedComponents": [
+    "Button"
+  ],
+  "file": "component.tgz",
+  "href": "/downloads/stories/lab-button-primary/component.tgz"
+}

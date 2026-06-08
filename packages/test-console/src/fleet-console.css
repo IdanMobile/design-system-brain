@@ -105,6 +105,37 @@
   border-color: rgba(56, 189, 248, 0.4);
 }
 
+.fleet-stop-btn {
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(248, 113, 113, 0.45);
+  background: rgba(127, 29, 29, 0.35);
+  color: #fecaca;
+  font-size: 0.82rem;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+}
+
+.fleet-stop-btn:hover:not(:disabled) {
+  border-color: rgba(248, 113, 113, 0.75);
+  background: rgba(153, 27, 27, 0.5);
+}
+
+.fleet-stop-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.fleet-stop-message {
+  margin: -8px 0 16px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--fleet-glass-border);
+  background: var(--fleet-glass);
+  font-size: 0.85rem;
+  color: var(--text-muted, #94a3b8);
+}
+
 /* Orchestrator hero card */
 .fleet-orchestrator-wrap {
   position: relative;

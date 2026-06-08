@@ -6,7 +6,7 @@
  * `lab-memory/logic/specs/<storyId>.spec.json`.
  */
 
-import type { BehaviorPresetId } from "./behavior-presets.ts";
+import type { BehaviorPresetId } from "./behavior-presets";
 
 export type SpecStatus = "proposed" | "approved";
 export type ElementSource = "ai" | "designer";

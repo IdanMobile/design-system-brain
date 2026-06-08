@@ -1,0 +1,17 @@
+{
+  "status": "pass",
+  "percent": 90,
+  "layerCount": 90,
+  "contractPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_dialog_buttons.contract.json",
+  "manifestPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_dialog_buttons.manifest.json",
+  "viewport": {
+    "x": 0,
+    "y": 0,
+    "width": 707,
+    "height": 286
+  },
+  "screenId": "screen_dialog_buttons",
+  "storyId": "screen_dialog_buttons",
+  "stepId": "manifestContract",
+  "testedAt": "2026-06-08T17:34:56.218Z"
+}

@@ -1,40 +1,22 @@
 import React from "react";
-import figmaExport from "./figma-export.png";
+import { FigmaContractScreen, type ContractDocument } from "../../contract/FigmaContractScreen";
+import rawContract from "./contract.json";
 import { SCREEN2_META } from "./baked.meta";
 import "./screen2.css";
 
+const contract = rawContract as ContractDocument;
+
 /**
- * Figma-imported workspace screen (screen_2).
- * Visual surface is the original Guing reference PNG (pixel-perfect delivery).
+ * Figma-imported screen (screen_2).
+ * Real DOM from contract JSON (render-html) — not a baked PNG surface.
  * Re-bake via `node scripts/bake-figma-screen-ui.mjs --screen screen_2 --component Screen2`.
  */
 export function Screen2() {
   return (
-    <div
-      className="lab-figma-screen"
-      data-figma-component="Screen2"
-      style={{
-        width: SCREEN2_META.width,
-        height: SCREEN2_META.height,
-        position: "relative",
-        overflow: "hidden",
-        background: SCREEN2_META.background,
-      }}
-    >
-      <img
-        src={figmaExport}
-        width={SCREEN2_META.width}
-        height={SCREEN2_META.height}
-        alt=""
-        draggable={false}
-        decoding="sync"
-        style={{
-          display: "block",
-          width: SCREEN2_META.width,
-          height: SCREEN2_META.height,
-          imageRendering: "crisp-edges",
-        }}
-      />
-    </div>
+    <FigmaContractScreen
+      contract={contract}
+      meta={SCREEN2_META}
+      componentName="Screen2"
+    />
   );
 }

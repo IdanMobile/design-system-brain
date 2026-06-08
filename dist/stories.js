@@ -126,6 +126,7 @@ export const DEV_STORIES = [
     { id: "lab-foodfrenzyscreen--default", component: "FoodFrenzyScreen" },
     { id: "lab-spacemissioncontrol--default", component: "SpaceMissionControl" },
     { id: "lab-retroterminalscreen--default", component: "RetroTerminalScreen" },
+    { id: "lab-screen1--default", component: "Screen1" },
     { id: "lab-muiworkspacescreen--default", component: "MUIWorkspaceScreen" },
     { id: "lab-navigationbars--top-navigation", component: "NavigationBars" },
     { id: "lab-navigationbars--bottom-navigation", component: "NavigationBars", args: { mobile: true } },
@@ -179,7 +180,7 @@ export function isStorybookOnlyStory(storyId) {
 }
 /** Page-scale fixture (e.g. MUI showcase) — relaxed Figma raster tolerance; full delivery. */
 export function isLargeFixtureStory(storyId) {
-    return storyId === "mui--showcase";
+    return storyId === "mui--showcase" || storyId === "lab-screen1--default";
 }
 /** Component name for a story id, if registered in DEV_STORIES. */
 export function componentForStory(storyId) {

@@ -14,7 +14,8 @@ export default defineConfig({
     port: 6110,
     proxy: {
       "/api": API,
-      "/repo": API
+      "/repo": API,
+      "/downloads": API
     }
   },
   build: {

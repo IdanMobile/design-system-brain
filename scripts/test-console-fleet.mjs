@@ -8,7 +8,8 @@ import {
   ensureFleetAgents,
   formatRuntimeMs,
   loadFleetEvents,
-  loadSupervisorState
+  loadSupervisorState,
+  reconcileFleetAgentsIdle
 } from "./lab-worker-supervisor.mjs";
 import { loadOrchestratorState } from "./test-console-worker-supervisor.mjs";
 import { loadOrchestratorAuto } from "./test-console-orchestrator-auto.mjs";
@@ -24,9 +25,10 @@ export function buildFleetState(repoRoot, ctx = {}) {
 
   const runSettings = loadRunSettings();
   const events = loadFleetEvents(repoRoot, 500);
-  const runningJobIds = new Set(
-    jobs.filter((j) => j.status === "running" || j.finalizing).map((j) => j.id)
-  );
+  const runningJobs = jobs.filter((j) => j.status === "running" || j.finalizing);
+  const runningJobIds = new Set(runningJobs.map((j) => j.id));
+  const hasRunningJobs = runningJobIds.size > 0;
+  reconcileFleetAgentsIdle(repoRoot, hasRunningJobs);
   const { agents: rosterAgents } = ensureFleetAgents(repoRoot);
   const { runtimeMs: runtimeMs24h, launchCount: launches24h } = computeAgentActivity24h(events);
   const modelForAgent = (agentId) => {
@@ -80,9 +82,7 @@ export function buildFleetState(repoRoot, ctx = {}) {
       working,
       waiting
     },
-    runningJobs: jobs
-      .filter((j) => j.status === "running" || j.finalizing)
-      .map((j) => ({
+    runningJobs: runningJobs.map((j) => ({
         id: j.id,
         label: j.label,
         status: j.status,

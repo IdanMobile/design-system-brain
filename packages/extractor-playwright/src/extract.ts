@@ -13,6 +13,10 @@ function serializeArgs(args: StoryArgs): string {
 
 const ANIMATION_PAUSE_CSS = `*,*::before,*::after{animation-play-state:paused !important;transition:none !important;caret-color:transparent !important;}`;
 
+function snapCoord(n: number): number {
+  return Math.round(n * 100) / 100;
+}
+
 /**
  * Extract a Storybook story into a self-contained UniversalLayer v1.0 document.
  *
@@ -1473,8 +1477,8 @@ export async function extractStoryV2(
         for (const child of layer.children) {
           child.box = {
             ...child.box,
-            x: snap(child.box.x - ox),
-            y: snap(child.box.y - oy)
+            x: snapCoord(child.box.x - ox),
+            y: snapCoord(child.box.y - oy)
           };
         }
       }

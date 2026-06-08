@@ -2,7 +2,7 @@
  * Cross-suite test portfolio — story list and step definitions for reports / console.
  */
 
-import { DEV_STORIES } from "./stories.ts";
+import { DEV_STORIES } from "./stories";
 
 export type TestStepId = "pixel" | "figma" | "figmaLive" | "delivery" | "logic";
 

@@ -6,6 +6,14 @@ export interface ServiceState {
   uiBuilt: boolean;
 }
 
+export interface ManualPreviewState {
+  generatedAt: string | null;
+  storybookUrl: string;
+  deliveryShowcaseUrl: string;
+  storybookCount: number;
+  deliveryCount: number;
+}
+
 export interface ReportSummary {
   suiteId: string;
   label: string;
@@ -43,6 +51,8 @@ export interface PortfolioStep {
   actionId?: string | null;
   serialOnly?: boolean;
   needsRelay?: boolean;
+  /** Step-level HTML report listing all portfolio items */
+  htmlUrl?: string | null;
 }
 
 export interface PortfolioCell {
@@ -55,6 +65,15 @@ export interface PortfolioCell {
   testReportUrl?: string | null;
   /** Raw JSON artifact when HTML viewer exists */
   testReportJsonUrl?: string | null;
+  /** PNG produced by this step (mock export, live Figma, parity leg, …) */
+  previewUrl?: string | null;
+  previewLabel?: string | null;
+  referenceLabel?: string | null;
+  compositedPreviewUrl?: string | null;
+  originalFullUrl?: string | null;
+  gateMode?: string | null;
+  /** Quick-generation proceed gate (≤5%) — distinct from strict pass */
+  quickProceeded?: boolean;
   canRun?: boolean;
   blockedBy?: string | null;
   blockedReason?: string | null;
@@ -64,7 +83,20 @@ export interface PortfolioRow {
   storyId: string;
   entryPoint?: "figma" | "storybook";
   storybookOnly?: boolean;
+  /** Original reference PNG served via /repo/… for item hover preview */
+  originalUrl?: string | null;
+  originalFullUrl?: string | null;
   cells: Record<string, PortfolioCell>;
+  /** Quick-generation job row fields */
+  jobId?: string;
+  componentName?: string | null;
+  jobStatus?: string;
+  jobSummary?: string | null;
+  anthropicMode?: string | null;
+  startedAt?: string | null;
+  completedAt?: string | null;
+  packageDownloadUrl?: string | null;
+  quickGatePct?: number;
 }
 
 export interface PortfolioState {
@@ -75,10 +107,14 @@ export interface PortfolioState {
   rows: PortfolioRow[];
   htmlUrl?: string;
   /** @deprecated use entryPoint on rows */
-  source?: "storybook" | "figma" | "unified";
+  source?: "storybook" | "figma" | "unified" | "quick-generation";
   entryPointLabel?: string;
   /** First column header — Item id */
   itemLabel?: string;
+  /** Quick generation: proceed gate tolerance (%) */
+  quickGatePct?: number;
+  /** Quick generation: strict report tolerance (%) */
+  reportTolerance?: number;
 }
 
 /** @deprecated same shape as PortfolioState */
@@ -174,11 +210,13 @@ export interface ConsoleState {
   storybook: ServiceState["storybook"];
   playground: ServiceState["playground"];
   relay: ServiceState["relay"];
+  manualPreview?: ManualPreviewState;
   pluginBuilt: boolean;
   orchestratorAuto?: boolean;
   orchestratorRunning?: boolean;
   workerSupervisor?: WorkerSupervisorState | null;
   runSettings?: RunSettings;
+  llmSettings?: LlmSettingsPublic;
   /** Upper bound for parallel workers slider (matches server clamp). */
   maxParallelWorkers?: number;
   agentModelOptions?: AgentModelOption[];
@@ -194,6 +232,18 @@ export interface ConsoleState {
 /** Run-all speed toggles + orchestrator launch options. */
 export type OrchestratorScope = "full" | "failures_only" | "fresh_only" | "single_step";
 export type OrchestratorSort = "step_first" | "worst_first" | "flow_first";
+
+export type LlmProvider = "openai" | "anthropic" | "gemini";
+
+export interface LlmSettingsPublic {
+  provider: LlmProvider;
+  model: string;
+  apiKeySet: boolean;
+  apiKeyPreview?: string;
+  source: "test-console" | "env" | "none";
+  updatedAt?: string | null;
+  playgroundShowcaseUrl?: string;
+}
 
 export interface RunSettings {
   skipPass: boolean;

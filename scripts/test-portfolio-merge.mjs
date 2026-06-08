@@ -5,6 +5,7 @@
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawn } from "node:child_process";
+import { buildManualPreviewManifest } from "./build-manual-preview-manifest.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -14,4 +15,15 @@ const child = spawn(
   { cwd: resolve(ROOT, "packages/pixel-test"), stdio: "inherit", env: process.env }
 );
 
-child.on("close", (code) => process.exit(code ?? 1));
+child.on("close", async (code) => {
+  if (code !== 0) {
+    process.exit(code ?? 1);
+    return;
+  }
+  try {
+    await buildManualPreviewManifest(ROOT);
+  } catch (err) {
+    console.error("[manual-preview] manifest refresh failed:", err?.message ?? err);
+  }
+  process.exit(0);
+});

@@ -1,7 +1,7 @@
 /**
  * Cross-suite test portfolio — story list and step definitions for reports / console.
  */
-import { DEV_STORIES } from "./stories.ts";
+import { DEV_STORIES } from "./stories";
 export const TEST_STEPS = [
     { id: "pixel", label: "Pixel (schema)", dir: "pixel-diffs", actionId: "pixel:golden" },
     { id: "figma", label: "Figma emulator", dir: "figma-diffs", actionId: "figma:golden" },
@@ -9,8 +9,7 @@ export const TEST_STEPS = [
         id: "figmaLive",
         label: "Figma live",
         dir: "figma-live-diffs",
-        actionId: "figma:live:golden",
-        serialOnly: true
+        actionId: "figma:live:golden"
     },
     { id: "delivery", label: "Delivery (3-way)", dir: "delivery-diffs", actionId: "delivery:golden" },
     { id: "logic", label: "Logic audit", dir: "logic-audit-diffs", actionId: "logic:golden" }
@@ -102,7 +101,7 @@ export function recommendAction(stepId, status, detail) {
         if (stepId === "figma")
             return "Fix code-v2.ts — mock golden";
         if (stepId === "pixel")
-            return "Fix schema / scene-to-html";
+            return "Fix schema / render-html.ts";
         if (stepId === "delivery")
             return "Fix SB ↔ dev ↔ Figma pipeline";
         if (stepId === "logic")

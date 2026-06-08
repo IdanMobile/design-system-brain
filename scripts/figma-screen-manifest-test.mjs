@@ -10,7 +10,8 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { resolve, join, basename, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { manifestToContract, referencePngPathFor } from "./figma-manifest-to-contract.mjs";
+import { manifestToContract, referencePngPathFor, validateContractNodeKindFidelity } from "./figma-manifest-to-contract.mjs";
+import { auditManifestContractKinds } from "./fixer-pipeline-trace.mjs";
 import {
   discoverFigmaScreens,
   mergeFigmaScreenReport,
@@ -57,10 +58,36 @@ async function testManifest(manifestPath) {
       throw new Error("Contract missing meta.viewport dimensions");
     }
 
+    const manifestRoot =
+      raw?.schemaVersion === "figma-manifest-1.0" && raw.root
+        ? raw.root
+        : raw?.type && raw.id != null
+          ? raw
+          : null;
+    if (manifestRoot) {
+      const kindErrors = validateContractNodeKindFidelity(manifestRoot, doc.root);
+      if (kindErrors.length) {
+        throw new Error(`Kind fidelity failed:\n  · ${kindErrors.join("\n  · ")}`);
+      }
+    }
+
     const contractPath = manifestPath
       .replace(/\.manifest\.json$/, ".contract.json")
       .replace(/-manifest\.json$/, "-contract.json");
     await writeFile(contractPath, JSON.stringify(doc, null, 2), "utf8");
+
+    if (manifestRoot && existsSync(contractPath)) {
+      const audit = auditManifestContractKinds(manifestPath, contractPath);
+      if (audit.adapterVsDisk.length || audit.kindMismatches.length) {
+        const msgs = [
+          ...audit.kindMismatches.map(
+            (m) => `${m.layerId}: manifest ${m.manifestType} → ${m.contractSignals.join("; ")}`
+          ),
+          ...audit.adapterVsDisk.map((m) => m.message),
+        ];
+        throw new Error(`Contract on disk ≠ clean adapter output:\n  · ${msgs.join("\n  · ")}`);
+      }
+    }
 
     const layerCount = countLayers(doc.root);
     console.log(

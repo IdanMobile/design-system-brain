@@ -1,0 +1,178 @@
+{
+  "generatedAt": "2026-06-08T17:44:23.882Z",
+  "storyCount": 1,
+  "source": "quick-generation",
+  "itemLabel": "Item",
+  "entryPointLabel": "EntryPoint",
+  "steps": [
+    {
+      "id": "structural",
+      "label": "Structural",
+      "dir": "test-portfolio",
+      "actionId": null
+    },
+    {
+      "id": "vsFigmaLive",
+      "label": "→ Figma live",
+      "dir": "figma-screen-diffs",
+      "actionId": "figma:screen:parity",
+      "needsRelay": true
+    },
+    {
+      "id": "vsStorybook",
+      "label": "→ Storybook",
+      "dir": "figma-screen-diffs",
+      "actionId": "figma:screen:parity"
+    },
+    {
+      "id": "vsReactHtml",
+      "label": "→ ReactHtml",
+      "dir": "figma-screen-diffs",
+      "actionId": "figma:screen:parity"
+    },
+    {
+      "id": "vsReactTsx",
+      "label": "→ React delivery",
+      "dir": "figma-screen-diffs",
+      "actionId": "figma:screen:reacttsx"
+    },
+    {
+      "id": "logic",
+      "label": "Logic audit",
+      "dir": "logic-audit-diffs",
+      "actionId": "logic:golden"
+    }
+  ],
+  "stepIds": [
+    "structural",
+    "vsFigmaLive",
+    "vsStorybook",
+    "vsReactHtml",
+    "vsReactTsx",
+    "logic"
+  ],
+  "quickGatePct": 5,
+  "reportTolerance": 0.1,
+  "rows": [
+    {
+      "storyId": "screen_dialog_buttons",
+      "entryPoint": "figma",
+      "originalUrl": "/repo/figma-screen-diffs/screen_dialog_buttons/originalParity/original.png",
+      "cells": {
+        "structural": {
+          "status": "pass",
+          "percent": 90,
+          "testedAt": "2026-06-08T17:34:56.218Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "—",
+          "compareUrl": "/repo/artifacts/figma-screens/screen_dialog_buttons.contract.json",
+          "previewLabel": null,
+          "referenceLabel": null,
+          "gateMode": "quick",
+          "compositedPreviewUrl": null,
+          "originalFullUrl": null
+        },
+        "vsFigmaLive": {
+          "status": "fail",
+          "percent": 1.2400094029149036,
+          "maxRegionPercent": 1.5240641711229947,
+          "testedAt": "2026-06-08T17:34:57.351Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix parity leg (see test report)",
+          "compareUrl": "/repo/figma-screen-diffs/screen_dialog_buttons/originalParity/diff-original-figmaLive.png",
+          "testReportUrl": "/repo/figma-screen-diffs/by-screen/screen_dialog_buttons/vsFigmaLive/test-report.html",
+          "testReportJsonUrl": "/repo/figma-screen-diffs/by-screen/screen_dialog_buttons/vsFigmaLive/test-report.json",
+          "previewUrl": "/repo/figma-screen-diffs/screen_dialog_buttons/originalParity/figmaLive-raw.png",
+          "previewLabel": "Raw Figma export (gate)",
+          "referenceLabel": "Reference",
+          "gateMode": "quick",
+          "compositedPreviewUrl": "/repo/figma-screen-diffs/screen_dialog_buttons/originalParity/figmaLive-composited.png",
+          "originalFullUrl": null
+        },
+        "vsStorybook": {
+          "status": "fail",
+          "percent": 2.69207412631249,
+          "maxRegionPercent": 1.197411003236246,
+          "testedAt": "2026-06-08T17:35:00.288Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix parity leg (see test report)",
+          "compareUrl": "/repo/figma-screen-diffs/screen_dialog_buttons/originalParity/diff-original-storybook.png",
+          "testReportUrl": "/repo/figma-screen-diffs/by-screen/screen_dialog_buttons/vsStorybook/test-report.html",
+          "testReportJsonUrl": "/repo/figma-screen-diffs/by-screen/screen_dialog_buttons/vsStorybook/test-report.json",
+          "previewUrl": "/repo/figma-screen-diffs/screen_dialog_buttons/originalParity/storybook-raw.png",
+          "previewLabel": "Raw HTML render (gate)",
+          "referenceLabel": "Reference",
+          "gateMode": "quick",
+          "compositedPreviewUrl": "/repo/figma-screen-diffs/screen_dialog_buttons/originalParity/storybook-composited.png",
+          "originalFullUrl": null
+        },
+        "vsReactHtml": {
+          "status": "fail",
+          "percent": 2.69207412631249,
+          "maxRegionPercent": 1.197411003236246,
+          "testedAt": "2026-06-08T17:35:02.619Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix parity leg (see test report)",
+          "compareUrl": "/repo/figma-screen-diffs/screen_dialog_buttons/originalParity/diff-original-reactHtml.png",
+          "testReportUrl": "/repo/figma-screen-diffs/by-screen/screen_dialog_buttons/vsReactHtml/test-report.html",
+          "testReportJsonUrl": "/repo/figma-screen-diffs/by-screen/screen_dialog_buttons/vsReactHtml/test-report.json",
+          "previewUrl": "/repo/figma-screen-diffs/screen_dialog_buttons/originalParity/reactHtml-raw.png",
+          "previewLabel": "Raw ReactHtml (gate)",
+          "referenceLabel": "Reference",
+          "gateMode": "quick",
+          "compositedPreviewUrl": "/repo/figma-screen-diffs/screen_dialog_buttons/originalParity/reactHtml-composited.png",
+          "originalFullUrl": null
+        },
+        "vsReactTsx": {
+          "status": "fail",
+          "percent": 7.484622316251372,
+          "maxRegionPercent": 43.1,
+          "testedAt": "2026-06-08T17:35:05.241Z",
+          "canRun": true,
+          "blockedBy": null,
+          "blockedReason": null,
+          "action": "Fix parity leg (see test report)",
+          "compareUrl": "/repo/figma-screen-diffs/screen_dialog_buttons/originalParity/diff-original-reactTsx.png",
+          "testReportUrl": null,
+          "testReportJsonUrl": null,
+          "previewUrl": "/repo/figma-screen-diffs/screen_dialog_buttons/originalParity/reactTsx-raw.png",
+          "previewLabel": "Raw React delivery (gate)",
+          "referenceLabel": "Reference",
+          "gateMode": "quick",
+          "compositedPreviewUrl": "/repo/figma-screen-diffs/screen_dialog_buttons/originalParity/reactTsx-composited.png",
+          "originalFullUrl": null
+        },
+        "logic": {
+          "status": "not_tested",
+          "canRun": false,
+          "blockedBy": "vsFigmaLive",
+          "blockedReason": "Blocked — → Figma live is fail (required before Logic audit)",
+          "action": "Blocked — → Figma live is fail (required before Logic audit)",
+          "previewLabel": null,
+          "referenceLabel": null,
+          "gateMode": "quick",
+          "compositedPreviewUrl": null,
+          "originalFullUrl": null
+        }
+      },
+      "jobId": "7198bf31-41f7-43eb-a961-96e2a29af07e",
+      "componentName": "dialog buttons",
+      "jobStatus": "failed",
+      "jobSummary": "Component source missing after bake: dialog buttons",
+      "anthropicMode": null,
+      "startedAt": "2026-06-08T17:34:55.707Z",
+      "completedAt": "2026-06-08T17:35:06.175Z",
+      "packageDownloadUrl": null,
+      "quickGatePct": 5
+    }
+  ],
+  "htmlUrl": "/repo/test-portfolio/quick-generation/index.html"
+}

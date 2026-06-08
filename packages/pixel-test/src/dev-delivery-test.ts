@@ -10,9 +10,9 @@
  * CLI mirrors figma-test.ts; default outDir is ../../delivery-diffs
  */
 
-import { chromium, type Page } from "playwright";
 import { mkdir, writeFile, readFile } from "node:fs/promises";
-import { resolve } from "node:path";
+import { execSync } from "node:child_process";
+import { chromium, type Page } from "playwright";
 import { extractStoryV2 } from "../../extractor-playwright/src/extract.ts";
 import type { UniversalDocumentV2 } from "@lab/contract";
 import {
@@ -488,6 +488,14 @@ code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; }
       if (!gate.allowed) {
         console.log(`⊘ SKIP (${gate.reason})`);
         return gateSkippedResult(storyId, gate.reason);
+      }
+      try {
+        execSync(`node scripts/story-package.mjs --story=${storyId}`, {
+          cwd: repoRoot,
+          stdio: "pipe"
+        });
+      } catch {
+        /* pack best-effort before delivery compare */
       }
       return diffStory(storyId, opts, browser, renderer);
     },

@@ -3,7 +3,7 @@
  * playground routing, and delivery pixel tests.
  */
 export type StoryArgs = Record<string, string | number | boolean | undefined>;
-export type DevComponentName = "AnalyticsCharts" | "Button" | "CalendarScheduler" | "ComplexDashboardCard" | "ContentListBoard" | "FeatureCard" | "FilterSidePanel" | "LoadingStates" | "LoginPage" | "MeetingHomePage" | "NeonArcadeScreen" | "CryptoChaosDashboard" | "FoodFrenzyScreen" | "SpaceMissionControl" | "RetroTerminalScreen" | "MUIShowcase" | "MUIWorkspaceScreen" | "NavigationBars" | "OverlayStates" | "PricingPanel" | "ProductCard" | "RadioGroupField" | "SelectField" | "SnackbarStack" | "TabsPanel";
+export type DevComponentName = "AnalyticsCharts" | "Button" | "CalendarScheduler" | "ComplexDashboardCard" | "ContentListBoard" | "FeatureCard" | "FilterSidePanel" | "LoadingStates" | "LoginPage" | "MeetingHomePage" | "NeonArcadeScreen" | "CryptoChaosDashboard" | "FoodFrenzyScreen" | "SpaceMissionControl" | "RetroTerminalScreen" | "Screen1" | "MUIShowcase" | "MUIWorkspaceScreen" | "NavigationBars" | "OverlayStates" | "PricingPanel" | "ProductCard" | "RadioGroupField" | "SelectField" | "SnackbarStack" | "TabsPanel";
 export interface DevStoryEntry {
     id: string;
     component: DevComponentName;

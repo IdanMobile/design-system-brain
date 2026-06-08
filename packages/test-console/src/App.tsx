@@ -3,6 +3,11 @@ import { attachJobStream, killJob, type JobProgress } from "./job-stream";
 import { jobRuntimeLabel } from "./format-elapsed";
 import { DeveloperConsolePage } from "./DeveloperConsolePage";
 import { FleetConsolePage } from "./FleetConsolePage";
+import { LlmSettingsCard } from "./LlmSettingsCard";
+import { preloadPreviewImages } from "./preview-image-cache";
+import { resolveRowOriginalUrl } from "./resolve-original-url";
+import { ItemDetailPage } from "./ItemDetailPage";
+import { PortfolioTable } from "./PortfolioTable";
 import { OrchestratorLaunchDialog } from "./OrchestratorLaunchDialog";
 import { SERVICES, type ServiceKey } from "./services";
 import type {
@@ -12,6 +17,7 @@ import type {
   PortfolioRow,
   PortfolioState,
   RunSettings,
+  LlmSettingsPublic,
   WorkerSupervisorState
 } from "./types";
 
@@ -20,17 +26,54 @@ const EXPECTED_SERVER_VERSION: number = __TEST_CONSOLE_SERVER_VERSION__;
 
 type AppPage = "tests" | "developer" | "fleet";
 
-function pageFromHash(): AppPage {
-  const h = window.location.hash;
-  if (h === "#developer") return "developer";
-  if (h === "#fleet" || h === "#agents") return "fleet";
-  return "tests";
+type AppRoute =
+  | { page: AppPage }
+  | { page: "tests"; storyId: string };
+
+const STORY_HASH_PREFIX = "#story/";
+
+const INSPECT_PANEL_WIDTH_KEY = "test-console.inspectPanelWidth";
+const INSPECT_PANEL_WIDTH_DEFAULT = 420;
+const INSPECT_PANEL_WIDTH_MIN = 320;
+const INSPECT_PANEL_WIDTH_MAX_RATIO = 0.92;
+const INSPECT_PANEL_WIDTH_MAX_PX = 1200;
+
+function inspectPanelWidthMax(): number {
+  if (typeof window === "undefined") return INSPECT_PANEL_WIDTH_MAX_PX;
+  return Math.min(window.innerWidth * INSPECT_PANEL_WIDTH_MAX_RATIO, INSPECT_PANEL_WIDTH_MAX_PX);
 }
 
-function syncHash(page: AppPage) {
+function readInspectPanelWidth(): number {
+  if (typeof window === "undefined") return INSPECT_PANEL_WIDTH_DEFAULT;
+  const saved = window.localStorage.getItem(INSPECT_PANEL_WIDTH_KEY);
+  const n = saved ? Number.parseInt(saved, 10) : INSPECT_PANEL_WIDTH_DEFAULT;
+  if (!Number.isFinite(n)) return INSPECT_PANEL_WIDTH_DEFAULT;
+  return Math.min(inspectPanelWidthMax(), Math.max(INSPECT_PANEL_WIDTH_MIN, n));
+}
+
+function routeFromHash(): AppRoute {
+  const h = window.location.hash;
+  if (h === "#developer") return { page: "developer" };
+  if (h === "#fleet" || h === "#agents") return { page: "fleet" };
+  if (h.startsWith(STORY_HASH_PREFIX)) {
+    const storyId = decodeURIComponent(h.slice(STORY_HASH_PREFIX.length));
+    if (storyId) return { page: "tests", storyId };
+  }
+  return { page: "tests" };
+}
+
+function pageFromRoute(route: AppRoute): AppPage {
+  return route.page === "tests" && "storyId" in route ? "tests" : route.page;
+}
+
+function syncHashPage(page: AppPage) {
   const next =
     page === "developer" ? "#developer" : page === "fleet" ? "#fleet" : "#tests";
   if (window.location.hash !== next) window.location.hash = next;
+}
+
+function storyHash(storyId: string): string {
+  return `${STORY_HASH_PREFIX}${encodeURIComponent(storyId)}`;
 }
 
 const UNIFIED_STEP_ORDER = [
@@ -38,16 +81,16 @@ const UNIFIED_STEP_ORDER = [
   "vsFigmaLive",
   "vsStorybook",
   "vsReactHtml",
+  "vsReactTsx",
   "logic"
 ] as const;
-
-const UNIFIED_COMPARE = new Set(["vsFigmaLive", "vsStorybook", "vsReactHtml"]);
 
 const FIGMA_ENTRY_STEP_ORDER = [
   "manifestContract",
   "vsFigmaLive",
   "vsStorybook",
   "vsReactHtml",
+  "vsReactTsx",
   "logic"
 ] as const;
 
@@ -59,6 +102,7 @@ const FIGMA_ENTRY_RUN_ACTION: Record<
   vsFigmaLive: "figma:screen:parity",
   vsStorybook: "figma:screen:parity",
   vsReactHtml: "figma:screen:parity",
+  vsReactTsx: "figma:screen:reacttsx",
   logic: "figma:screen:logic"
 };
 
@@ -76,6 +120,7 @@ const UNIFIED_TO_STORYBOOK_FIX: Partial<Record<(typeof UNIFIED_STEP_ORDER)[numbe
   structural: "pixel",
   vsFigmaLive: "figmaLive",
   vsReactHtml: "delivery",
+  vsReactTsx: "delivery",
   logic: "logic"
 };
 
@@ -172,6 +217,25 @@ function fixSuiteForUnifiedRow(row: PortfolioRow): string | null {
   return null;
 }
 
+function rowPipelineComplete(row: PortfolioRow): boolean {
+  for (const stepId of UNIFIED_STEP_ORDER) {
+    const status = row.cells[stepId]?.status ?? "not_tested";
+    if (status !== "pass" && status !== "skipped") return false;
+  }
+  return true;
+}
+
+function rowNeedsRelay(row: PortfolioRow): boolean {
+  for (const stepId of UNIFIED_STEP_ORDER) {
+    const status = row.cells[stepId]?.status ?? "not_tested";
+    if (status === "pass" || status === "skipped") continue;
+    return stepId === "vsFigmaLive";
+  }
+  return false;
+}
+
+const ROW_FIX_ACTION = "row-pipeline";
+
 function runActionForRow(row: PortfolioRow, suiteId: string): string | null {
   if (row.entryPoint === "figma") {
     if (suiteId === "structural") return "figma:screen:manifest";
@@ -190,6 +254,7 @@ function suiteLabelForFix(suiteId: string): string {
     vsFigmaLive: "→ Figma live",
     vsStorybook: "→ Storybook",
     vsReactHtml: "→ ReactHtml",
+    vsReactTsx: "→ ReactTsx",
     manifestContract: "Manifest → Contract",
     logic: "Logic audit",
     pixel: "Pixel",
@@ -197,66 +262,6 @@ function suiteLabelForFix(suiteId: string): string {
     delivery: "Delivery"
   };
   return labels[suiteId] ?? suiteId;
-}
-
-function stepHasCompare(stepId: string): boolean {
-  return UNIFIED_COMPARE.has(stepId);
-}
-
-function pctColumnLabel(stepId: string, row?: PortfolioRow): string {
-  if (stepId === "structural") {
-    return row?.entryPoint === "figma" ? "Layers" : "Extract";
-  }
-  if (stepId === "logic") return "Gaps";
-  return "Diff %";
-}
-
-type StepSummaryStats = {
-  total: number;
-  counts: {
-    pass: number;
-    warn: number;
-    fail: number;
-    error: number;
-    not_tested: number;
-    skipped: number;
-  };
-  generatedAt?: string | null;
-  htmlUrl?: string | null;
-};
-
-function unifiedStepSummaryStats(
-  portfolio: PortfolioState | null,
-  stepId: string
-): StepSummaryStats | null {
-  if (!portfolio?.rows.length) return null;
-  const counts = { pass: 0, warn: 0, fail: 0, error: 0, not_tested: 0, skipped: 0 };
-  for (const row of portfolio.rows) {
-    const s = row.cells[stepId]?.status ?? "not_tested";
-    if (s === "pass") counts.pass++;
-    else if (s === "warn") counts.warn++;
-    else if (s === "fail") counts.fail++;
-    else if (s === "error") counts.error++;
-    else if (s === "skipped") counts.skipped++;
-    else counts.not_tested++;
-  }
-  const compareUrl =
-    stepId === "vsFigmaLive"
-      ? portfolio.rows.find((r) => r.cells.vsFigmaLive?.compareUrl)?.cells.vsFigmaLive?.compareUrl ??
-        null
-      : null;
-  return {
-    total: portfolio.rows.length,
-    counts,
-    generatedAt: portfolio.generatedAt,
-    htmlUrl: compareUrl ?? portfolio.htmlUrl
-  };
-}
-
-function stepColSpan(stepId: string): number {
-  if (stepId === "structural" || stepId === "logic") return 2;
-  if (UNIFIED_COMPARE.has(stepId)) return 3;
-  return 2;
 }
 
 async function fetchState(): Promise<ConsoleState> {
@@ -280,6 +285,12 @@ async function fetchActions(): Promise<ActionDef[]> {
   return res.json();
 }
 
+async function fetchQuickGenerationPortfolio(): Promise<PortfolioState | null> {
+  const res = await fetch("/api/quick-generation-portfolio");
+  if (!res.ok) return null;
+  return res.json();
+}
+
 async function fetchPortfolio(): Promise<PortfolioState | null> {
   const res = await fetch("/api/portfolio");
   if (!res.ok) return null;
@@ -290,13 +301,6 @@ async function fetchFigmaScreens(): Promise<PortfolioState | null> {
   const res = await fetch("/api/figma-screens");
   if (!res.ok) return null;
   return res.json();
-}
-
-function statusClass(s: string): string {
-  if (s === "pass") return "pass";
-  if (s === "warn") return "warn";
-  if (s === "not_tested") return "not_tested";
-  return "fail";
 }
 
 type RunningJobEntry = {
@@ -582,6 +586,8 @@ export function App() {
   const [state, setState] = useState<ConsoleState | null>(null);
   const [actions, setActions] = useState<ActionDef[]>([]);
   const [portfolio, setPortfolio] = useState<PortfolioState | null>(null);
+  const [quickPortfolio, setQuickPortfolio] = useState<PortfolioState | null>(null);
+  const [portfolioViewTab, setPortfolioViewTab] = useState<"test" | "quick">("test");
   const [runningJobs, setRunningJobs] = useState<Record<string, RunningJobEntry>>({});
   const [runningSuiteActions, setRunningSuiteActions] = useState<ReadonlySet<string>>(
     () => new Set()
@@ -595,9 +601,15 @@ export function App() {
   );
   const [portfolioOrchestratorFinished, setPortfolioOrchestratorFinished] = useState(false);
   const [invalidatingPortfolio, setInvalidatingPortfolio] = useState(false);
+  const [deletingRowKey, setDeletingRowKey] = useState<string | null>(null);
   const [launchDialogOpen, setLaunchDialogOpen] = useState(false);
   const [orchestratorLaunching, setOrchestratorLaunching] = useState(false);
-  const [activePage, setActivePage] = useState<AppPage>(() => pageFromHash());
+  const [route, setRoute] = useState<AppRoute>(() => routeFromHash());
+  const activePage = pageFromRoute(route);
+  const inspectStoryId = route.page === "tests" && "storyId" in route ? route.storyId : null;
+  const [inspectPanelWidth, setInspectPanelWidth] = useState(readInspectPanelWidth);
+  const [inspectPanelResizing, setInspectPanelResizing] = useState(false);
+  const inspectPanelResizeRef = useRef({ startX: 0, startWidth: INSPECT_PANEL_WIDTH_DEFAULT });
   const [runClock, setRunClock] = useState(() => Date.now());
   const orchestratorAuto = state?.orchestratorAuto ?? false;
   const orchestratorRunning = state?.orchestratorRunning ?? false;
@@ -644,10 +656,13 @@ export function App() {
       setApiError(null);
       const p = await fetchPortfolio();
       setPortfolio(p);
+      const qp = await fetchQuickGenerationPortfolio();
+      setQuickPortfolio(qp);
     } catch {
       setApiError("Cannot reach test console API. Start: pnpm test:console");
       setState(null);
       setPortfolio(null);
+      setQuickPortfolio(null);
     }
   }, [actions]);
 
@@ -680,14 +695,95 @@ export function App() {
   }, [refresh]);
 
   useEffect(() => {
-    const onHash = () => setActivePage(pageFromHash());
+    const onHash = () => setRoute(routeFromHash());
     window.addEventListener("hashchange", onHash);
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
 
   const goToPage = (page: AppPage) => {
-    setActivePage(page);
-    syncHash(page);
+    setRoute({ page });
+    syncHashPage(page);
+  };
+
+  const closeInspectPanel = () => {
+    setRoute({ page: "tests" });
+    if (window.location.hash.startsWith(STORY_HASH_PREFIX)) {
+      window.location.hash = "#tests";
+    }
+  };
+
+  const toggleInspectStory = (storyId: string) => {
+    if (inspectStoryId === storyId) {
+      closeInspectPanel();
+      return;
+    }
+    const next = storyHash(storyId);
+    if (window.location.hash !== next) window.location.hash = next;
+    setRoute({ page: "tests", storyId });
+  };
+
+  useEffect(() => {
+    if (!inspectStoryId) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [inspectStoryId]);
+
+  useEffect(() => {
+    window.localStorage.setItem(INSPECT_PANEL_WIDTH_KEY, String(inspectPanelWidth));
+  }, [inspectPanelWidth]);
+
+  useEffect(() => {
+    if (!inspectStoryId) return;
+    const clamp = () => {
+      setInspectPanelWidth((w) =>
+        Math.min(inspectPanelWidthMax(), Math.max(INSPECT_PANEL_WIDTH_MIN, w))
+      );
+    };
+    window.addEventListener("resize", clamp);
+    return () => window.removeEventListener("resize", clamp);
+  }, [inspectStoryId]);
+
+  useEffect(() => {
+    if (!inspectPanelResizing) return;
+    const onMove = (e: PointerEvent) => {
+      const { startX, startWidth } = inspectPanelResizeRef.current;
+      const next = startWidth + (startX - e.clientX);
+      setInspectPanelWidth(
+        Math.min(inspectPanelWidthMax(), Math.max(INSPECT_PANEL_WIDTH_MIN, next))
+      );
+    };
+    const onUp = () => setInspectPanelResizing(false);
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onUp);
+    document.body.style.cursor = "col-resize";
+    document.body.style.userSelect = "none";
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
+      document.body.style.cursor = "";
+      document.body.style.userSelect = "";
+    };
+  }, [inspectPanelResizing]);
+
+  const beginInspectPanelResize = (e: React.PointerEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    inspectPanelResizeRef.current = { startX: e.clientX, startWidth: inspectPanelWidth };
+    setInspectPanelResizing(true);
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const toggleInspectPanelWidth = () => {
+    const max = inspectPanelWidthMax();
+    const expanded = Math.min(max, Math.max(640, Math.round(max * 0.65)));
+    setInspectPanelWidth((w) =>
+      w >= expanded - 24 ? INSPECT_PANEL_WIDTH_DEFAULT : expanded
+    );
   };
 
   useEffect(() => {
@@ -825,75 +921,17 @@ export function App() {
     };
   }, []);
 
-  const queueFixAllForCursor = async (suiteId: string) => {
+  const queueFixStoryForCursor = async (storyId: string, entryPoint?: string) => {
     setApiError(null);
-    setFixAllFinishedSuites((prev) => {
-      if (!prev.has(suiteId)) return prev;
-      const next = new Set(prev);
-      next.delete(suiteId);
-      return next;
-    });
-    const actionId = fixAllActionId(suiteId);
     try {
       const res = await fetch("/api/agent/request-fix", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ suiteId, fixAll: true })
-      });
-      const text = await res.text();
-      let data: {
-        error?: string;
-        terminalDispatched?: boolean;
-        jobId?: string;
-        message?: { storyCount?: number };
-        label?: string;
-      } = {};
-      try {
-        data = JSON.parse(text) as typeof data;
-      } catch {
-        if (!res.ok) {
-          setApiError(`Fix all failed: ${text || res.statusText}`);
-          return;
-        }
-      }
-      if (!res.ok) {
-        const err = data.error ?? text ?? res.statusText;
-        setApiError(formatFixApiError("Fix all", err));
-        return;
-      }
-      if (!data.jobId) {
-        setApiError("Fix all did not return a job id");
-        return;
-      }
-      const jobLabel =
-        data.label ??
-        (data.message?.storyCount != null
-          ? `Fix all · ${suiteId} (${data.message.storyCount} stories)`
-          : `Fix all · ${suiteId}`);
-      const entry: RunningJobEntry = {
-        jobId: data.jobId,
-        actionId,
-        label: jobLabel,
-        startedAt: new Date().toISOString(),
-        status: "running"
-      };
-      setRunningJobs((prev) => ({ ...prev, [data.jobId!]: entry }));
-      if (!data.terminalDispatched) {
-        setApiError("Terminal did not open — watch job in dashboard or run: pnpm test:console:cursor pending");
-      }
-    } catch (e) {
-      setApiError(e instanceof Error ? e.message : String(e));
-    }
-  };
-
-  const queueFixOneForCursor = async (suiteId: string, storyId: string) => {
-    setApiError(null);
-    const actionId = fixAllActionId(suiteId);
-    try {
-      const res = await fetch("/api/agent/request-fix", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ suiteId, storyId })
+        body: JSON.stringify({
+          rowPipeline: true,
+          storyId,
+          entryPoint: entryPoint ?? "storybook"
+        })
       });
       const text = await res.text();
       let data: {
@@ -911,7 +949,7 @@ export function App() {
         }
       }
       if (!res.ok) {
-        setApiError(formatFixApiError("Fix story", data.error ?? text ?? res.statusText));
+        setApiError(data.error ?? text ?? "Fix story failed");
         return;
       }
       if (!data.jobId) {
@@ -920,15 +958,15 @@ export function App() {
       }
       const entry: RunningJobEntry = {
         jobId: data.jobId,
-        actionId,
+        actionId: ROW_FIX_ACTION,
         storyId,
-        label: data.label ?? `Fix · ${suiteLabelForFix(suiteId)} · ${storyId}`,
+        label: data.label ?? `Fix story · ${storyId}`,
         startedAt: new Date().toISOString(),
         status: "running"
       };
       setRunningJobs((prev) => ({ ...prev, [data.jobId!]: entry }));
       if (!data.terminalDispatched) {
-        setApiError("Terminal did not open — watch job in dashboard or run: pnpm test:console:cursor pending");
+        setApiError("Terminal did not open — watch job in dashboard");
       }
     } catch (e) {
       setApiError(e instanceof Error ? e.message : String(e));
@@ -957,6 +995,85 @@ export function App() {
       setApiError(e instanceof Error ? e.message : String(e));
     } finally {
       setInvalidatingPortfolio(false);
+    }
+  };
+
+  const deletePortfolioRow = async (row: PortfolioRow) => {
+    const entryPoint = row.entryPoint ?? "storybook";
+    const detail =
+      entryPoint === "figma"
+        ? "Deletes the Guing manifest/PNG, all figma-screen-diffs artifacts, delivery package, lab-memory notes, and locks for this screen."
+        : "Removes this story from the portfolio (excluded from Storybook index), deletes all suite diff artifacts, delivery package, lab-memory notes, and locks. Storybook source code is not touched.";
+    if (
+      !window.confirm(
+        `Delete "${row.storyId}" (${entryPoint}) from tests?\n\n${detail}\n\nThis cannot be undone.`
+      )
+    ) {
+      return;
+    }
+    const rowKey = `${entryPoint}:${row.storyId}`;
+    setDeletingRowKey(rowKey);
+    setApiError(null);
+    try {
+      const res = await fetch("/api/portfolio/rows/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ storyId: row.storyId, entryPoint })
+      });
+      const data = (await res.json()) as {
+        ok?: boolean;
+        error?: string;
+        removedCount?: number;
+      };
+      if (!res.ok || !data.ok) {
+        setApiError(data.error ?? "Failed to delete row");
+        return;
+      }
+      if (inspectStoryId === row.storyId) {
+        closeInspectPanel();
+      }
+      await refresh();
+    } catch (e) {
+      setApiError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setDeletingRowKey(null);
+    }
+  };
+
+  const deleteQuickGenerationRow = async (row: PortfolioRow) => {
+    if (!row.jobId) {
+      setApiError("Quick generation row is missing job id");
+      return;
+    }
+    if (
+      !window.confirm(
+        `Delete quick run "${row.jobId}" (${row.storyId})?\n\nRemoves only this Quick generation record. The Test portfolio row for ${row.storyId} and its artifacts are unchanged.`
+      )
+    ) {
+      return;
+    }
+    setDeletingRowKey(`quick:${row.jobId}`);
+    setApiError(null);
+    try {
+      const res = await fetch("/api/quick-generation-portfolio/runs/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ jobId: row.jobId })
+      });
+      const data = (await res.json()) as {
+        ok?: boolean;
+        error?: string;
+        removedCount?: number;
+      };
+      if (!res.ok || !data.ok) {
+        setApiError(data.error ?? "Failed to delete quick generation run");
+        return;
+      }
+      await refresh();
+    } catch (e) {
+      setApiError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setDeletingRowKey(null);
     }
   };
 
@@ -1126,6 +1243,14 @@ export function App() {
   const portfolioOrchestratorJob = () =>
     Object.values(runningJobs).find((j) => j.actionId === PORTFOLIO_ORCHESTRATOR_ACTION);
 
+  const rowFixJob = (storyId: string) =>
+    Object.values(runningJobs).find(
+      (j) => j.actionId === ROW_FIX_ACTION && j.storyId === storyId
+    );
+
+  const anyRowFixJob = () =>
+    Object.values(runningJobs).find((j) => j.actionId === ROW_FIX_ACTION);
+
   const isPortfolioOrchestratorRunning = portfolioOrchestratorJob() != null;
 
   const isSuiteRunning = (actionId: string) =>
@@ -1203,24 +1328,19 @@ export function App() {
   };
 
   const activePortfolio = portfolio;
+
+  const inspectRow = useMemo(() => {
+    if (!inspectStoryId || !activePortfolio) return null;
+    return activePortfolio.rows.find((r) => r.storyId === inspectStoryId) ?? null;
+  }, [inspectStoryId, activePortfolio]);
+
+  useEffect(() => {
+    if (!activePortfolio?.rows.length) return;
+    preloadPreviewImages(activePortfolio.rows.map((row) => resolveRowOriginalUrl(row)));
+  }, [activePortfolio]);
+
   const serverVersionMismatch =
     state?.serverVersion != null && state.serverVersion !== EXPECTED_SERVER_VERSION;
-
-  const handleRowFix = (fixSuite: string, storyId: string, entryPoint?: string) => {
-    const row = activePortfolio?.rows.find((r) => r.storyId === storyId);
-    if (row?.entryPoint === "figma" && row.cells[fixSuite]?.status === "not_tested") {
-      const action = runActionForRow(row, fixSuite);
-      if (action) void run(action, storyId, false);
-      return;
-    }
-    const legacySuite =
-      row?.entryPoint === "storybook"
-        ? legacyFixSuiteId(fixSuite)
-        : fixSuite === "structural"
-          ? "manifestContract"
-          : fixSuite;
-    if (legacySuite) void queueFixOneForCursor(legacySuite, storyId);
-  };
 
   return (
     <div className="app">
@@ -1262,9 +1382,8 @@ export function App() {
           <div>
             <h1>Tests Console</h1>
             <p>
-              Full story portfolio with per-step status. Per-story results live under{" "}
-              <code>*/by-story/&lt;story&gt;/result.json</code>. After a test finishes, a terminal
-              opens and dispatches the {runSettings.agentCli === "gemini" ? "Gemini" : "Cursor"} CLI agent automatically.
+              Per-row <strong>Fix story</strong> runs the full pipeline for one item (test → fix until
+              green). <strong>Run all</strong> does the same, one row after another.
             </p>
           </div>
           <div className="header-orchestrator">
@@ -1275,7 +1394,7 @@ export function App() {
               title={
                 isPortfolioOrchestratorRunning
                   ? portfolioOrchestratorJob()?.progress?.logTail ?? "Orchestrator running in Terminal"
-                  : "Open orchestrator — configure scope, agent, and launch"
+                  : "Open Run all — one row at a time until portfolio green"
               }
               onClick={() => void queuePortfolioOrchestrator()}
             >
@@ -1293,7 +1412,7 @@ export function App() {
                     })()
                   : portfolioOrchestratorFinished
                     ? "PHASE_COMPLETE"
-                    : "Orchestrator"}
+                    : "Run all"}
             </button>
             {isPortfolioOrchestratorRunning && portfolioOrchestratorJob() ? (
               <button
@@ -1407,7 +1526,7 @@ export function App() {
         onLaunch={launchOrchestrator}
       />
 
-      <div className="grid">
+      <div className="tests-workspace">
         <div className="col-main">
           <section className="card">
             <h2>Services</h2>
@@ -1433,26 +1552,34 @@ export function App() {
             <div className="manual-preview-links">
               <span className="manual-preview-label">Manual preview</span>
               <a
-                href={state?.storybook.url ?? "http://127.0.0.1:6107"}
+                href={
+                  state?.manualPreview?.storybookUrl ??
+                  state?.storybook.url ??
+                  "http://127.0.0.1:6107"
+                }
                 target="_blank"
                 rel="noreferrer"
                 className={state?.storybook.ok ? undefined : "manual-preview-muted"}
                 title={
                   state?.storybook.ok
-                    ? "Open Storybook in a new tab"
+                    ? `Storybook — ${state?.manualPreview?.storybookCount ?? 0} passed Storybook ${(state?.manualPreview?.storybookCount ?? 0) === 1 ? "story" : "stories"}`
                     : "Storybook not running — start the service first"
                 }
               >
                 Storybook ↗
               </a>
               <a
-                href={state?.playground.showcaseUrl ?? "http://127.0.0.1:6108/?view=showcase"}
+                href={
+                  state?.manualPreview?.deliveryShowcaseUrl ??
+                  state?.playground.showcaseUrl ??
+                  "http://127.0.0.1:6108/?view=showcase"
+                }
                 target="_blank"
                 rel="noreferrer"
                 className={state?.playground.ok ? undefined : "manual-preview-muted"}
                 title={
                   state?.playground.ok
-                    ? "Open Delivery showcase (all delivery-passed stories)"
+                    ? `Delivery showcase — JSX packages from logic audit (${state?.manualPreview?.deliveryCount ?? 0} stories)`
                     : "Playground not running — start the service first"
                 }
               >
@@ -1461,23 +1588,65 @@ export function App() {
             </div>
           </section>
 
+          <LlmSettingsCard
+            settings={state?.llmSettings ?? null}
+            onSaved={(next: LlmSettingsPublic) =>
+              setState((s) => (s ? { ...s, llmSettings: next } : s))
+            }
+          />
+
           <section className="card" style={{ marginTop: 16 }}>
             <div className="portfolio-card-header">
-              <h2>Test portfolio</h2>
-              <button
-                type="button"
-                className="portfolio-invalidate-btn"
-                disabled={
-                  invalidatingPortfolio ||
-                  isPortfolioOrchestratorRunning ||
-                  Object.keys(runningJobs).length > 0
-                }
-                title="Remove all result.json files — every item returns to not tested"
-                onClick={() => void invalidateAllTests()}
-              >
-                {invalidatingPortfolio ? "Invalidating…" : "Invalidate all tests"}
-              </button>
+              <div>
+                <h2>Portfolio</h2>
+                <div className="console-tabs portfolio-list-tabs">
+                  <button
+                    type="button"
+                    className={
+                      portfolioViewTab === "test"
+                        ? "console-tab console-tab-active"
+                        : "console-tab"
+                    }
+                    onClick={() => setPortfolioViewTab("test")}
+                  >
+                    Test portfolio
+                  </button>
+                  <button
+                    type="button"
+                    className={
+                      portfolioViewTab === "quick"
+                        ? "console-tab console-tab-active"
+                        : "console-tab"
+                    }
+                    onClick={() => setPortfolioViewTab("quick")}
+                  >
+                    Quick generation
+                    {quickPortfolio?.storyCount ? (
+                      <span style={{ marginLeft: 6, opacity: 0.75 }}>
+                        ({quickPortfolio.storyCount})
+                      </span>
+                    ) : null}
+                  </button>
+                </div>
+              </div>
+              {portfolioViewTab === "test" ? (
+                <button
+                  type="button"
+                  className="portfolio-invalidate-btn"
+                  disabled={
+                    invalidatingPortfolio ||
+                    isPortfolioOrchestratorRunning ||
+                    Object.keys(runningJobs).length > 0
+                  }
+                  title="Remove all result.json files — every item returns to not tested"
+                  onClick={() => void invalidateAllTests()}
+                >
+                  {invalidatingPortfolio ? "Invalidating…" : "Invalidate all tests"}
+                </button>
+              ) : null}
             </div>
+            {portfolioViewTab === "test" ? (
+              <>
             <p style={{ marginTop: 0, color: "var(--muted)" }}>
               Unified original-parity gates — every visual step compares against{" "}
               <strong>Original</strong> only (≤ 0.1% <code>PIXEL_PERFECT_TOLERANCE</code>):{" "}
@@ -1487,7 +1656,13 @@ export function App() {
             </p>
             {activePortfolio?.htmlUrl && (
               <p style={{ marginTop: 0 }}>
-                <a href={activePortfolio.htmlUrl} target="_blank" rel="noreferrer">
+                <a
+                  href={activePortfolio.htmlUrl.includes("unified-steps")
+                    ? activePortfolio.htmlUrl
+                    : "/repo/test-portfolio/unified-steps/index.html"}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   Open portfolio HTML ↗
                 </a>
                 {activePortfolio.generatedAt && (
@@ -1498,412 +1673,163 @@ export function App() {
                 )}
               </p>
             )}
-            {activePortfolio && activePortfolio.rows.length > 0 && (
-              <div className="suite-summary-col">
-                {(activePortfolio.stepIds ?? UNIFIED_STEP_ORDER).map((suiteId) => {
-                  const stepDef = activePortfolio?.steps.find((s) => s.id === suiteId);
-                  const stepLabel = stepDef?.label ?? suiteId;
-                  const stepStats = unifiedStepSummaryStats(activePortfolio, suiteId);
-                  const actionId =
-                    stepDef?.actionId ??
-                    (suiteId === "structural"
-                      ? null
-                      : suiteId.startsWith("vs")
-                        ? "figma:screen:parity"
-                        : "logic:golden");
-                  if (!actionId) {
-                    return (
-                      <div key={suiteId} className="suite-summary suite-summary-na">
-                        <strong className="suite-summary-label">{stepLabel}</strong>
-                        <span className="suite-summary-empty">Per entry point</span>
-                      </div>
-                    );
-                  }
-                  const failed =
-                    (stepStats?.counts.fail ?? 0) + (stepStats?.counts.error ?? 0);
-                  const fixAllCount =
-                    suiteId === "logic" ? failed : failed + (stepStats?.counts.warn ?? 0);
-                  const orchestratorRunningSuite =
-                    isPortfolioOrchestratorRunning &&
-                    workerSupervisor &&
-                    !workerSupervisor.finished &&
-                    workerSupervisor.suiteId === suiteId;
-                  const activeJob =
-                    suiteRunJob(actionId) ??
-                    (orchestratorRunningSuite && workerSupervisor.phase === "portfolio"
-                      ? portfolioOrchestratorJob()
-                      : undefined);
-                  const suiteFinalizing = Boolean(
-                    state?.jobs?.find(
-                      (j) => j.action === actionId && j.allStories && !j.story && j.finalizing
-                    )
-                  );
-                  const suiteRunning =
-                    isSuiteRunning(actionId) ||
-                    suiteFinalizing ||
-                    (orchestratorRunningSuite && workerSupervisor.phase === "portfolio");
-                  const fixAllJob =
-                    suiteFixAllJob(suiteId) ??
-                    (orchestratorRunningSuite &&
-                    (workerSupervisor?.phase === "fix-all" ||
-                      workerSupervisor?.phase === "fix-all-batch")
-                      ? portfolioOrchestratorJob()
-                      : undefined);
-                  const fixAllRunning = fixAllJob != null;
-                  const fixAllFinished = fixAllFinishedSuites.has(suiteId);
-                  const needsRelay =
-                    actionId === "figma:live:golden" ||
-                    actionId === "figma:screen:parity" ||
-                    actionId === "figma:screen:golden";
-                  const fixAllNeedsRelay = suiteId.startsWith("vs");
-                  const runDisabled =
-                    suiteRunning ||
-                    fixAllRunning ||
-                    ((needsRelay || fixAllNeedsRelay) && !state?.relay.pluginConnected);
-                  const fixAllDisabled =
-                    fixAllCount === 0 ||
-                    fixAllRunning ||
-                    suiteRunning ||
-                    isPortfolioOrchestratorRunning ||
-                    (fixAllNeedsRelay && !state?.relay.pluginConnected);
-                  const suiteBusy = suiteRunning || fixAllRunning || isPortfolioOrchestratorRunning;
-                  const runDisabledWithOrchestrator =
-                    runDisabled || isPortfolioOrchestratorRunning;
-                  const runtime = resolveSuiteRuntime(
-                    fixAllJob,
-                    activeJob,
-                    fixAllRunning,
-                    suiteRunning,
-                    state?.jobs,
-                    actionId,
-                    fixAllActionId(suiteId),
-                    runClock,
-                    fixAllFinished || suiteFinalizing
-                  );
-                  const itemCount = activePortfolio?.storyCount ?? "items";
-                  return (
-                    <div
-                      key={`unified-${suiteId}`}
-                      className={`suite-summary${suiteBusy ? " suite-summary-busy" : ""}${fixAllRunning ? " suite-summary-fixing" : ""}`}
-                    >
-                      <strong className="suite-summary-label">{stepLabel}</strong>
-                      {stepStats?.generatedAt && (
-                        <span
-                          className="suite-summary-stale"
-                          title={`Last updated ${new Date(stepStats.generatedAt).toLocaleString()}`}
-                        >
-                          {new Date(stepStats.generatedAt).toLocaleString()}
-                        </span>
-                      )}
-                      {runtime ? (
-                        <span
-                          className={`suite-summary-runtime${runtime.live ? " suite-summary-runtime-live" : ""}`}
-                          title={runtime.title}
-                        >
-                          {runtime.label}
-                        </span>
-                      ) : null}
-                      {stepStats && stepStats.total > 0 ? (
-                        <div className="suite-summary-badges">
-                          {stepStats.counts.pass > 0 && (
-                            <span className="badge pass">{stepStats.counts.pass} pass</span>
-                          )}
-                          {stepStats.counts.warn > 0 && (
-                            <span className="badge warn">{stepStats.counts.warn} warn</span>
-                          )}
-                          {failed > 0 && (
-                            <span className="badge fail">{failed} failed</span>
-                          )}
-                          {stepStats.counts.skipped > 0 && (
-                            <span className="badge not_tested">
-                              {stepStats.counts.skipped} skipped
-                            </span>
-                          )}
-                          {stepStats.counts.not_tested > 0 && (
-                            <span className="badge not_tested">
-                              {stepStats.counts.not_tested} not tested
-                            </span>
-                          )}
-                        </div>
-                      ) : (
-                        <span className="suite-summary-empty">— no report</span>
-                      )}
-                      {suiteRunning && activeJob?.progress?.logTail ? (
-                        <span className="suite-summary-progress" title={activeJob.progress.logTail}>
-                          {activeJob.progress.currentStory
-                            ? shortStoryId(activeJob.progress.currentStory)
-                            : activeJob.progress.logTail.split("\n").pop()}
-                        </span>
-                      ) : null}
-                      {fixAllRunning ? (
-                        <span
-                          className="suite-summary-progress suite-summary-progress-fix"
-                          title={
-                            fixAllJob?.progress?.logTail ??
-                            formatOrchestratorActivityLabel(fixAllJob?.progress, workerSupervisor)
-                          }
-                        >
-                          {formatOrchestratorActivityLabel(fixAllJob?.progress, workerSupervisor) ??
-                            fixAllJob?.progress?.logTail?.split("\n").pop() ??
-                            "Fixing…"}
-                        </span>
-                      ) : null}
-                      <div className="suite-summary-actions">
-                        <button
-                          type="button"
-                          className={`suite-summary-run${suiteRunning ? " suite-summary-run-active" : ""}`}
-                          disabled={runDisabledWithOrchestrator}
-                          title={
-                            needsRelay && !state?.relay.pluginConnected
-                              ? "Start Figma relay and connect the plugin first"
-                              : suiteRunning && activeJob?.progress?.logTail
-                                ? activeJob.progress.logTail
-                                : `Run ${stepLabel} for all ${itemCount} items`
-                          }
-                          onClick={() => void run(actionId, undefined, true)}
-                        >
-                          {suiteRunning
-                            ? formatSuiteRunLabel(activeJob, suiteFinalizing)
-                            : "Test all"}
-                        </button>
-                        {suiteRunning && activeJob ? (
-                          <button
-                            type="button"
-                            className="suite-summary-cancel"
-                            title="Stop this run"
-                            onClick={() => void cancelSuiteRun(actionId)}
-                          >
-                            Cancel
-                          </button>
-                        ) : null}
-                        {activePortfolio ? (
-                          <>
-                            <button
-                              type="button"
-                              className={`suite-summary-fix${fixAllRunning ? " suite-summary-fix-active" : ""}${fixAllFinished ? " suite-summary-fix-done" : ""}`}
-                              disabled={fixAllDisabled && !fixAllFinished}
-                              title={
-                                fixAllCount === 0
-                                  ? "No fail or warn items in this step"
-                                  : fixAllRunning && fixAllJob?.progress?.logTail
-                                    ? fixAllJob.progress.logTail
-                                    : `Fix all ${fixAllCount} fail/warn item${fixAllCount === 1 ? "" : "s"} — up to 5 fix→test tries each (Terminal)`
-                              }
-                              onClick={() => void queueFixAllForCursor(suiteId)}
-                            >
-                              {formatFixAllLabel(fixAllJob, fixAllFinished, workerSupervisor)}
-                            </button>
-                            {fixAllRunning && fixAllJob ? (
-                              <button
-                                type="button"
-                                className="suite-summary-cancel"
-                                title={`Stop ${runSettings.agentCli === "gemini" ? "Gemini" : "Cursor"} agent`}
-                                onClick={() => void cancelFixAll(suiteId)}
-                              >
-                                Cancel
-                              </button>
-                            ) : null}
-                          </>
-                        ) : null}
-                        {stepStats?.htmlUrl && (
-                          <a href={stepStats.htmlUrl} target="_blank" rel="noreferrer">
-                            report ↗
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
             {activePortfolio && activePortfolio.rows.length > 0 ? (
-              <div className="portfolio-scroll">
-                <table className="portfolio-table">
-                  <thead>
-                    <tr>
-                      <th rowSpan={2} className="story-col">
-                        {activePortfolio.entryPointLabel ?? "EntryPoint"}
-                      </th>
-                      <th rowSpan={2} className="story-col">
-                        {activePortfolio.itemLabel ?? "Item"}
-                      </th>
-                      {activePortfolio.steps.map((s, stepIndex) => (
-                        <th
-                          key={s.id}
-                          colSpan={stepColSpan(s.id)}
-                          className={stepIndex > 0 ? "step-group-start" : undefined}
-                        >
-                          {s.label}
-                        </th>
-                      ))}
-                    </tr>
-                    <tr>
-                      {activePortfolio.steps.flatMap((s, stepIndex) => {
-                        const cols = [
-                          <th
-                            key={`${s.id}-st`}
-                            className={`subhead ${stepIndex > 0 ? "step-group-start" : ""}`}
-                          >
-                            Status
-                          </th>,
-                          <th key={`${s.id}-pct`} className="subhead">
-                            {pctColumnLabel(s.id)}
-                          </th>
-                        ];
-                        if (stepHasCompare(s.id)) {
-                          cols.push(
-                            <th key={`${s.id}-cmp`} className="subhead">
-                              Compare
-                            </th>
-                          );
-                        }
-                        return cols;
-                      })}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {activePortfolio.rows.map((row) => {
-                      const fixSuite = fixSuiteForUnifiedRow(row);
-                      const fixSuiteBusy =
-                        fixSuite != null
-                          ? suiteFixAllJob(legacyFixSuiteId(fixSuite)) != null
-                          : false;
-                      const storyFixActive =
-                        fixSuite != null &&
-                        (storyFixJob(legacyFixSuiteId(fixSuite), row.storyId) != null ||
-                          (workerSupervisor?.storyId === row.storyId &&
-                            !workerSupervisor.finished &&
-                            legacyMatchesUnifiedStep(workerSupervisor.suiteId, fixSuite)));
-                      const screenRunActive =
-                        row.entryPoint === "figma" &&
-                        fixSuite != null &&
-                        Object.values(runningJobs).some(
-                          (j) =>
-                            j.actionId === runActionForRow(row, fixSuite) &&
-                            j.storyId === row.storyId
-                        );
-                      const fixOneDisabled =
-                        fixSuite == null ||
-                        fixSuiteBusy ||
-                        isPortfolioOrchestratorRunning ||
-                        ((fixSuite === "vsFigmaLive" || fixSuite === "figmaLive") &&
-                          !state?.relay.pluginConnected);
-                      const fixOneTitle =
-                        fixSuite == null
-                          ? "All pipeline steps pass or not yet tested"
-                          : fixSuiteBusy && !storyFixActive
-                            ? `${suiteLabelForFix(fixSuite)} fix already running — wait or cancel`
-                            : (fixSuite === "vsFigmaLive" || fixSuite === "figmaLive") &&
-                                !state?.relay.pluginConnected
-                              ? "Connect Figma relay and plugin first"
-                              : row.entryPoint === "figma" &&
-                                  row.cells[fixSuite]?.status === "not_tested"
-                                ? `Run ${activePortfolio?.steps.find((s) => s.id === fixSuite)?.label ?? fixSuite}`
-                                : `Fix until PASS · ${suiteLabelForFix(fixSuite)} · up to 5 tries`;
-                      const rowActionActive = storyFixActive || screenRunActive;
-                      return (
-                        <tr key={`${row.entryPoint}-${row.storyId}`} className="portfolio-row">
-                          <td className="story-col">
-                            <span className="badge muted">{row.entryPoint ?? "storybook"}</span>
-                          </td>
-                          <td className="story-col">
-                            <div className="story-col-inner">
-                              {fixSuite ? (
-                                <button
-                                  type="button"
-                                  className={`story-fix-btn${rowActionActive ? " story-fix-btn-active" : ""}`}
-                                  disabled={fixOneDisabled && !rowActionActive}
-                                  title={fixOneTitle}
-                                  onClick={() =>
-                                    void handleRowFix(fixSuite, row.storyId, row.entryPoint)
-                                  }
-                                >
-                                  {rowActionActive
-                                    ? "Running…"
-                                    : row.entryPoint === "figma" &&
-                                        row.cells[fixSuite]?.status === "not_tested"
-                                      ? "Run"
-                                      : "Fix"}
-                                </button>
-                              ) : null}
-                              <code title={row.storyId}>{row.storyId}</code>
-                            </div>
-                          </td>
-                          {activePortfolio.steps.flatMap((step, stepIndex) => {
-                            const c = row.cells[step.id];
-                            const divider = stepIndex > 0 ? "step-group-start" : "";
-                            const cols = [
-                              <td key={`${row.storyId}-${step.id}-s`} className={divider}>
-                                <span
-                                  className={`badge ${statusClass(c?.status ?? "not_tested")}`}
-                                  title={
-                                    c?.blockedReason ??
-                                    (c?.maxRegionPercent != null && c.status !== "pass"
-                                      ? `Global ${c.percent?.toFixed(2) ?? "?"}% · worst hotspot ${c.maxRegionPercent.toFixed(2)}%`
-                                      : c?.testedAt
-                                        ? `Last run: ${new Date(c.testedAt).toLocaleString()}`
-                                        : c?.action ?? undefined)
-                                  }
-                                >
-                                  {c?.status ?? "not tested"}
-                                </span>
-                              </td>,
-                              <td key={`${row.storyId}-${step.id}-pct`} className="pct-cell">
-                                {c?.status === "not_tested" ||
-                                c?.status === "skipped" ||
-                                c?.percent == null
-                                  ? "—"
-                                  : step.id === "logic" ||
-                                      (step.id === "structural" &&
-                                        row.entryPoint === "figma")
-                                    ? String(Math.round(c.percent))
-                                    : c.maxRegionPercent != null &&
-                                        c.maxRegionPercent > 0.1 &&
-                                        c.status !== "pass"
-                                      ? `${c.percent.toFixed(2)}% · h ${c.maxRegionPercent.toFixed(2)}%`
-                                      : `${c.percent.toFixed(2)}%`}
-                              </td>
-                            ];
-                            if (stepHasCompare(step.id)) {
-                              cols.push(
-                                <td key={`${row.storyId}-${step.id}-cmp`}>
-                                  <div className="artifacts-cell">
-                                    {c?.compareUrl && c.status !== "not_tested" ? (
-                                      <a href={c.compareUrl} target="_blank" rel="noreferrer">
-                                        compare
-                                      </a>
-                                    ) : (
-                                      <span className="muted-artifacts">—</span>
-                                    )}
-                                    {c?.testReportUrl && c.status !== "pass" && c.status !== "not_tested" ? (
-                                      <>
-                                        {" · "}
-                                        <a href={c.testReportUrl} target="_blank" rel="noreferrer">
-                                          report
-                                        </a>
-                                      </>
-                                    ) : null}
-                                  </div>
-                                </td>
-                              );
-                            }
-                            return cols;
-                          })}
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
+              <PortfolioTable
+                portfolio={activePortfolio}
+                mode="test"
+                actions={{
+                  inspectStoryId,
+                  onInspectStory: toggleInspectStory,
+                  onFixStory: (storyId, entryPoint) =>
+                    void queueFixStoryForCursor(storyId, entryPoint),
+                  onDeleteRow: (row) => void deletePortfolioRow(row),
+                  rowFixJob,
+                  rowPipelineComplete,
+                  isPortfolioOrchestratorRunning,
+                  anyRowFixJob,
+                  rowNeedsRelay,
+                  pluginConnected: state?.relay.pluginConnected,
+                  deletingRowKey
+                }}
+              />
             ) : (
               <p style={{ color: "var(--muted)" }}>
                 No portfolio yet. Run{" "}
                 <code>pnpm test:portfolio:refresh</code> or a parity test suite.
               </p>
             )}
+              </>
+            ) : (
+              <>
+                <p style={{ marginTop: 0, color: "var(--muted)" }}>
+                  Guing publish → <strong>quick-component-generation</strong> only. Proceed gate ≤{" "}
+                  <strong>{quickPortfolio?.quickGatePct ?? 5}%</strong> (no fixers); reports still
+                  show strict <strong>{quickPortfolio?.reportTolerance ?? 0.1}%</strong> diff truth.
+                </p>
+                {quickPortfolio?.htmlUrl && (
+                  <p style={{ marginTop: 0 }}>
+                    <a href={quickPortfolio.htmlUrl} target="_blank" rel="noreferrer">
+                      Open quick portfolio HTML ↗
+                    </a>
+                    {quickPortfolio.generatedAt && (
+                      <span style={{ color: "var(--muted)", marginLeft: 12 }}>
+                        {new Date(quickPortfolio.generatedAt).toLocaleString()} ·{" "}
+                        {quickPortfolio.storyCount} runs
+                      </span>
+                    )}
+                  </p>
+                )}
+                {quickPortfolio && quickPortfolio.rows.length > 0 ? (
+                  <PortfolioTable
+                    portfolio={quickPortfolio}
+                    mode="quick"
+                    totalCaption="Runs"
+                    actions={{
+                      onDeleteRow: (row) => void deleteQuickGenerationRow(row),
+                      deletingRowKey
+                    }}
+                  />
+                ) : (
+                  <p style={{ color: "var(--muted)" }}>
+                    No quick generation runs yet. Publish from Guing — each job appears here as its
+                    own row.
+                  </p>
+                )}
+              </>
+            )}
           </section>
         </div>
       </div>
+
+      {inspectStoryId ? (
+        <>
+          <button
+            type="button"
+            className="inspect-panel-backdrop"
+            aria-label="Close inspection panel"
+            onClick={closeInspectPanel}
+          />
+          <aside
+            className={`inspect-panel-overlay${inspectPanelResizing ? " is-resizing" : ""}`}
+            aria-label="Story inspection"
+            style={{ width: inspectPanelWidth }}
+          >
+            <div
+              className="inspect-panel-resize-handle"
+              role="separator"
+              aria-orientation="vertical"
+              aria-label="Drag to resize inspection panel"
+              aria-valuemin={INSPECT_PANEL_WIDTH_MIN}
+              aria-valuemax={inspectPanelWidthMax()}
+              aria-valuenow={inspectPanelWidth}
+              onPointerDown={beginInspectPanelResize}
+              onDoubleClick={toggleInspectPanelWidth}
+              title="Drag to resize · double-click to expand/collapse"
+            />
+            {inspectRow && activePortfolio ? (
+              <ItemDetailPage
+                row={inspectRow}
+                steps={activePortfolio.steps}
+                onClose={closeInspectPanel}
+                layout="panel"
+                showFixStory={!rowPipelineComplete(inspectRow)}
+                fixStoryActive={rowFixJob(inspectRow.storyId) != null}
+                fixStoryDisabled={
+                  rowPipelineComplete(inspectRow) ||
+                  isPortfolioOrchestratorRunning ||
+                  (anyRowFixJob() != null && rowFixJob(inspectRow.storyId) == null)
+                }
+                fixStoryTitle={
+                  rowPipelineComplete(inspectRow)
+                    ? "All steps pass"
+                    : isPortfolioOrchestratorRunning
+                      ? "Run all is in progress"
+                      : anyRowFixJob() && rowFixJob(inspectRow.storyId) == null
+                        ? "Another Fix story is running"
+                        : rowNeedsRelay(inspectRow) && !state?.relay.pluginConnected
+                          ? "Test → fix loop — waits for Figma relay at live step"
+                          : "Run full row: test → fix until green, then stop"
+                }
+                onFixStory={() =>
+                  void queueFixStoryForCursor(inspectRow.storyId, inspectRow.entryPoint)
+                }
+                onDeleteRow={() => void deletePortfolioRow(inspectRow)}
+                deleteRowDisabled={
+                  deletingRowKey === `${inspectRow.entryPoint ?? "storybook"}:${inspectRow.storyId}` ||
+                  isPortfolioOrchestratorRunning ||
+                  rowFixJob(inspectRow.storyId) != null
+                }
+                deleteRowActive={
+                  deletingRowKey === `${inspectRow.entryPoint ?? "storybook"}:${inspectRow.storyId}`
+                }
+              />
+            ) : (
+              <div className="inspect-panel-inner inspect-panel-inner-missing">
+                <header className="item-detail-header inspect-panel-header">
+                  <button
+                    type="button"
+                    className="item-detail-close"
+                    onClick={closeInspectPanel}
+                    aria-label="Close inspection panel"
+                  >
+                    ×
+                  </button>
+                  <div className="item-detail-title-block">
+                    <h1>Story not found</h1>
+                  </div>
+                </header>
+                <div className="inspect-panel-body">
+                  <section className="card item-detail-missing">
+                    <p>
+                      Story <code>{inspectStoryId}</code> not found in portfolio.
+                    </p>
+                  </section>
+                </div>
+              </div>
+            )}
+          </aside>
+        </>
+      ) : null}
         </>
       )}
     </div>

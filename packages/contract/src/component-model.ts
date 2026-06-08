@@ -3,8 +3,8 @@
  * Curated from `@lab/ui` component source — update when props change.
  */
 
-import type { DevComponentName } from "./stories.ts";
-import { DEV_STORY_BY_ID } from "./stories.ts";
+import type { DevComponentName } from "./stories";
+import { DEV_STORY_BY_ID } from "./stories";
 
 export interface ComponentPropDef {
   name: string;

@@ -1,0 +1,14 @@
+{
+  "portfolioStoryId": "lab-button--primary",
+  "deliveryStoryId": "lab-button--primary",
+  "component": "Button",
+  "args": {
+    "variant": "primary",
+    "children": "Primary"
+  },
+  "variant": "semantic",
+  "ingress": "storybook",
+  "usedComponents": [
+    "Button"
+  ]
+}

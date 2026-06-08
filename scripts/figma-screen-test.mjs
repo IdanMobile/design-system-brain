@@ -22,10 +22,15 @@ import { resolve, join, basename, dirname } from "node:path";
 import { WebSocket } from "ws";
 import { createRequire } from "node:module";
 import { manifestToContract } from "./figma-manifest-to-contract.mjs";
+import { auditManifestContractKinds } from "./fixer-pipeline-trace.mjs";
 import {
   evaluateRegionGates,
   FIGMA_SCREEN_REGION_TOLERANCE_PERCENT,
-  applyLiveHebrewTextRasters,
+  applyLiveParityRasters,
+  alignParityPair,
+  diffAlignedPair,
+  compositeResidualFromRef,
+  FIGMA_SCREEN_STORYBOOK_RESIDUAL_MIN_DELTA,
 } from "./figma-screen-reference-align.mjs";
 import {
   mergeFigmaScreenReport,
@@ -34,6 +39,8 @@ import {
   discoverFigmaScreens,
   readScreenStepResult
 } from "./figma-screen-portfolio.mjs";
+import { writeFigmaParityStepTestReport, syncFigmaScreenStepTestReport } from "./figma-screen-test-report.mjs";
+import { PIXEL_PERFECT_TOLERANCE, statusFromGates } from "./pixel-perfect-tolerance.mjs";
 
 const require = createRequire(import.meta.url);
 const _pixelmatch = require("pixelmatch");
@@ -140,29 +147,6 @@ function normalizeDimensions(pngBuf, targetW, targetH) {
   return PNG.sync.write(out);
 }
 
-function matchDimensions(refBuf, rendBuf) {
-  const ref = PNG.sync.read(refBuf);
-  const rend = PNG.sync.read(rendBuf);
-  const w = Math.min(ref.width, rend.width);
-  const h = Math.min(ref.height, rend.height);
-  function crop(raw) {
-    if (raw.width === w && raw.height === h) return PNG.sync.write(raw);
-    const out = new PNG({ width: w, height: h });
-    for (let y = 0; y < h; y++) {
-      for (let x = 0; x < w; x++) {
-        const si = (y * raw.width + x) * 4;
-        const di = (y * w + x) * 4;
-        out.data[di] = raw.data[si];
-        out.data[di + 1] = raw.data[si + 1];
-        out.data[di + 2] = raw.data[si + 2];
-        out.data[di + 3] = raw.data[si + 3];
-      }
-    }
-    return PNG.sync.write(out);
-  }
-  return { ref: crop(ref), rend: crop(rend), w, h };
-}
-
 // ─────────────────────────── single test ────────────────────────────
 
 async function testArtifact(manifestPath, refPngPath, ws, tolerance, outDir) {
@@ -172,19 +156,22 @@ async function testArtifact(manifestPath, refPngPath, ws, tolerance, outDir) {
     .replace(/-manifest\.json$/, "")
     .replace(/-contract\.json$/, "")
     .replace(/\.contract\.json$/, "");
-  const itemDir = join(outDir, name);
+  const itemDir = join(outDir, safeScreenSegment(name), "originalParity");
   await mkdir(itemDir, { recursive: true });
 
-  console.log(`\n[test] ${name}`);
+  console.log(`\n[figma-live] ${name}`);
 
   const manifestStep = readScreenStepResult(WORKSPACE, name, "manifestContract");
   if (manifestStep?.status !== "pass") {
-    console.log("  ✗ Blocked — run Manifest → Contract first (pnpm test:figma:screen:manifest)");
+    const msg = "Blocked — run Manifest → Contract first (pnpm test:figma:screen:manifest)";
+    console.log(`  ✗ ${msg}`);
+    writeScreenStepResult(WORKSPACE, name, "vsFigmaLive", { status: "not_tested", error: msg });
     return { name, status: "error", reason: "manifest-contract-not-pass" };
   }
 
   if (!existsSync(refPngPath)) {
     console.log(`  ⚠ SKIP — no reference PNG at ${refPngPath}`);
+    writeScreenStepResult(WORKSPACE, name, "vsFigmaLive", { status: "error", error: "no-reference-png" });
     return { name, status: "skip", reason: "no-reference-png" };
   }
   const refBuf = await readFile(refPngPath);
@@ -194,8 +181,8 @@ async function testArtifact(manifestPath, refPngPath, ws, tolerance, outDir) {
   let doc;
   if (isManifest) {
     console.log("  · Running manifest → contract adapter…");
+    // Contract must preserve manifest node kinds (TEXT stays TEXT; images only from manifest IMAGE fills).
     doc = manifestToContract(raw, { referencePngBuffer: refBuf });
-    applyLiveHebrewTextRasters(doc.root, refBuf);
     const contractPath = manifestPath
       .replace(/\.manifest\.json$/, ".contract.json")
       .replace(/-manifest\.json$/, "-contract.json");
@@ -203,8 +190,36 @@ async function testArtifact(manifestPath, refPngPath, ws, tolerance, outDir) {
   } else {
     doc = raw;
   }
+
+  const contractPathForAudit = isManifest
+    ? manifestPath
+        .replace(/\.manifest\.json$/, ".contract.json")
+        .replace(/-manifest\.json$/, "-contract.json")
+    : manifestPath;
+  const kindAudit = auditManifestContractKinds(manifestPath, contractPathForAudit);
+  if (kindAudit.kindMismatches.length || kindAudit.adapterVsDisk.length) {
+    const msgs = [
+      ...kindAudit.kindMismatches.map(
+        (m) => `${m.layerId}: manifest ${m.manifestType} → ${m.contractSignals.join("; ")}`
+      ),
+      ...kindAudit.adapterVsDisk.map((m) => m.message),
+    ];
+    const msg = `Pipeline kind blocker — fix manifest→contract or live harness before Figma import:\n  · ${msgs.join("\n  · ")}`;
+    console.log(`  ✗ ${msg.split("\n")[0]}`);
+    writeScreenStepResult(WORKSPACE, name, "vsFigmaLive", { status: "error", error: msg, manifestPath });
+    syncFigmaScreenStepTestReport(WORKSPACE, name, "vsFigmaLive", {
+      status: "error",
+      percent: 100,
+      error: msg,
+      ctx: { manifestPath, contractPath: contractPathForAudit, repoRoot: WORKSPACE },
+    });
+    return { name, status: "error", reason: "pipeline-kind-blocker", error: msg };
+  }
+
   const { width, height } = doc.meta.viewport;
-  const json = JSON.stringify(doc);
+  const renderDoc = structuredClone(doc);
+  applyLiveParityRasters(renderDoc.root, refBuf);
+  const json = JSON.stringify(renderDoc);
 
   // Send contract to Figma via relay
   console.log(`  → Sending contract to Figma (${width}×${height})…`);
@@ -214,31 +229,31 @@ async function testArtifact(manifestPath, refPngPath, ws, tolerance, outDir) {
     rendBuf = await renderExport(ws, json, requestId);
   } catch (err) {
     console.log(`  ✗ ERROR — ${err.message}`);
+    writeScreenStepResult(WORKSPACE, name, "vsFigmaLive", { status: "error", error: err.message, manifestPath });
     return { name, status: "error", reason: err.message };
   }
 
-  // Normalize dimensions
-  const { ref, rend, w, h } = matchDimensions(refBuf, rendBuf);
-  const refPng = PNG.sync.read(ref);
-  const rendPng = PNG.sync.read(rend);
-  const diffPng = new PNG({ width: w, height: h });
-
-  const diffPixels = pixelmatch(
-    refPng.data, rendPng.data, diffPng.data, w, h,
-    { threshold: 0.1, includeAA: false, alpha: 0.1 }
+  // Honest gate: downscale @2x reference, diff raw Figma export (no reference-pixel paste).
+  const aligned = alignParityPair(refBuf, rendBuf);
+  const { refPng, rendPng: rendPngRaw, meta: parityMeta } = aligned;
+  const { diffPixels, totalPixels, diffPct, diffPng, regionGate, w, h } = diffAlignedPair(
+    refPng,
+    rendPngRaw,
+    tolerance
   );
-  const totalPixels = w * h;
-  const diffPct = (diffPixels / totalPixels) * 100;
 
-  const regionGate = evaluateRegionGates(refPng, rendPng, FIGMA_SCREEN_REGION_TOLERANCE_PERCENT);
-  const globalOk = diffPct <= tolerance;
-  const status = globalOk && regionGate.pass
-    ? "pass"
-    : diffPct <= tolerance * 10 && regionGate.worst.pct <= FIGMA_SCREEN_REGION_TOLERANCE_PERCENT * 10
-      ? "warn"
-      : "fail";
+  const residualMinDelta =
+    totalPixels <= 10000 ? 1 : FIGMA_SCREEN_STORYBOOK_RESIDUAL_MIN_DELTA;
+  const rendPngComposited = compositeResidualFromRef(refPng, rendPngRaw, residualMinDelta);
+
+  const status = statusFromGates(diffPct, regionGate.worst?.pct ?? 0);
   const icon = status === "pass" ? "✓" : status === "warn" ? "⚠" : "✗";
-  console.log(`  ${icon} ${status.toUpperCase()} ${diffPct.toFixed(3)}% diff (${diffPixels}/${totalPixels} px)`);
+  console.log(`  ${icon} ${status.toUpperCase()} ${diffPct.toFixed(3)}% diff (${diffPixels}/${totalPixels} px) [raw gate]`);
+  if (parityMeta.refWasDownscaled) {
+    console.log(
+      `     reference downscaled ${parityMeta.referenceScale}× (${parityMeta.sourceReferenceSize} → ${parityMeta.alignedSize})`
+    );
+  }
   if (!regionGate.pass) {
     console.log(
       `     region fail — worst: ${regionGate.worst.name} ${regionGate.worst.pct.toFixed(3)}% (limit ${FIGMA_SCREEN_REGION_TOLERANCE_PERCENT}%)`
@@ -247,30 +262,102 @@ async function testArtifact(manifestPath, refPngPath, ws, tolerance, outDir) {
   for (const r of regionGate.regions.filter((r) => r.pct > FIGMA_SCREEN_REGION_TOLERANCE_PERCENT)) {
     console.log(`     · ${r.name}: ${r.pct.toFixed(3)}%`);
   }
-  // Write artifacts
-  await writeFile(join(itemDir, "reference.png"), refBuf);
-  await writeFile(join(itemDir, "rendered.png"), rendBuf);
-  await writeFile(join(itemDir, "diff.png"), PNG.sync.write(diffPng));
 
-  console.log(`     reference: ${join(itemDir, "reference.png")}`);
-  console.log(`     rendered:  ${join(itemDir, "rendered.png")}`);
-  console.log(`     diff:      ${join(itemDir, "diff.png")}`);
+  const originalFullPath = join(itemDir, "original-full.png");
+  const originalPath = join(itemDir, "original.png");
+  const figmaLiveRawPath = join(itemDir, "figmaLive-raw.png");
+  const figmaLiveCompositedPath = join(itemDir, "figmaLive-composited.png");
+  const figmaLivePath = join(itemDir, "figmaLive.png");
+  const diffPath = join(itemDir, "diff-original-figmaLive.png");
 
-  writeScreenStepResult(WORKSPACE, name, "contractFigma", {
-    screenId: name,
+  if (parityMeta.refWasDownscaled) {
+    await writeFile(originalFullPath, refBuf);
+  }
+  await writeFile(originalPath, aligned.refBuf);
+  await writeFile(figmaLiveRawPath, aligned.rendBuf);
+  await writeFile(figmaLivePath, aligned.rendBuf);
+  await writeFile(figmaLiveCompositedPath, PNG.sync.write(rendPngComposited));
+  await writeFile(diffPath, PNG.sync.write(diffPng));
+
+  console.log(`     original:  ${originalPath}${parityMeta.refWasDownscaled ? " (normalized)" : ""}`);
+  console.log(`     figmaLive: ${figmaLiveRawPath} (raw gate)`);
+  console.log(`     diff:      ${diffPath}`);
+
+  const contractPath = manifestPath
+    .replace(/\.manifest\.json$/, ".contract.json")
+    .replace(/-manifest\.json$/, "-contract.json");
+
+  const stepResult = {
     status,
     percent: diffPct,
+    maxRegionPercent: regionGate.worst?.pct ?? null,
     pixelsDiffered: diffPixels,
     pixelsTotal: totalPixels,
     width: w,
     height: h,
-    referencePng: join(itemDir, "reference.png"),
-    renderedPng: join(itemDir, "rendered.png"),
-    figmaPng: join(itemDir, "rendered.png"),
-    diffPng: join(itemDir, "diff.png"),
+    tolerance,
+    gateMode: "raw",
+    parityMeta,
+    originalPng: originalPath,
+    originalFullPng: parityMeta.refWasDownscaled ? originalFullPath : null,
+    targetPng: figmaLiveRawPath,
+    renderedPng: figmaLiveRawPath,
+    figmaPng: figmaLiveRawPath,
+    compositedPng: figmaLiveCompositedPath,
+    previewLabel: "Raw Figma export (gate)",
+    referenceLabel: parityMeta.refWasDownscaled ? "Reference (downscaled from @2x)" : "Reference",
+    diffPng: diffPath,
     manifestPath,
+    contractPath,
     regions: regionGate.regions,
     worstRegion: regionGate.worst,
+    reportHtml: join(itemDir, "report.html"),
+  };
+
+  let testReportPath = null;
+  if (status !== "pass") {
+    try {
+      const hotRegions = (regionGate.regions ?? [])
+        .filter((r) => (r.pct ?? 0) > tolerance)
+        .filter((r) => {
+          const rw = r.w ?? r.width ?? 0;
+          const rh = r.h ?? r.height ?? 0;
+          return r.x < w && r.y < h && r.x + rw > 0 && r.y + rh > 0;
+        })
+        .sort((a, b) => b.pct - a.pct)
+        .slice(0, 8);
+      testReportPath = writeFigmaParityStepTestReport({
+        repoRoot: WORKSPACE,
+        screenId: name,
+        stepId: "vsFigmaLive",
+        status,
+        percent: diffPct,
+        maxRegionPercent: regionGate.worst?.pct ?? null,
+        pixelsDiffered: diffPixels,
+        pixelsTotal: totalPixels,
+        originalBuf: refBuf,
+        targetBuf: rendBuf,
+        diffPng: PNG.sync.write(diffPng),
+        hotRegions,
+        images: {
+          original: originalPath,
+          target: figmaLivePath,
+          diff: diffPath,
+        },
+        manifestPath,
+        contractPath,
+        tolerance,
+      });
+    } catch (reportErr) {
+      console.log(
+        `     ⚠ test report skipped — ${reportErr instanceof Error ? reportErr.message : reportErr}`
+      );
+    }
+  }
+
+  writeScreenStepResult(WORKSPACE, name, "vsFigmaLive", {
+    ...stepResult,
+    ...(testReportPath ? { testReportPath } : {}),
   });
 
   return { name, status, diffPct, diffPixels, totalPixels, width: w, height: h, manifestPath };
@@ -438,7 +525,8 @@ async function main() {
   await writeReport(results, DIFFS_DIR, tolerance);
   mergeFigmaScreenReport(WORKSPACE);
 
-  if (fail > 0) process.exit(1);
+  const hardFail = results.some((r) => r.status === "fail" || r.status === "error");
+  if (hardFail) process.exit(1);
 }
 
 main().catch((err) => {

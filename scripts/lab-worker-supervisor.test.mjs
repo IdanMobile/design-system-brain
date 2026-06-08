@@ -20,48 +20,16 @@ import {
   buildFleetAgentView,
   computeAgentActivity24h,
   computeAgentRuntimeMs24h,
-  formatRuntimeMs
+  formatRuntimeMs,
+  reconcileFleetAgentsIdle
 } from "./lab-worker-supervisor.mjs";
 import { appendTestInvestigation } from "./lab-memory-vault.mjs";
 
 describe("investigatorGateAllowsFixer", () => {
-  let repo;
-
-  beforeEach(() => {
-    repo = mkdtempSync(join(tmpdir(), "gate-"));
-  });
-  afterEach(() => {
-    rmSync(repo, { recursive: true, force: true });
-  });
-
-  it("blocks fixer when no investigation", () => {
-    const gate = investigatorGateAllowsFixer(repo, "lab-button--primary", "pixel");
-    assert.equal(gate.allowed, false);
-    assert.equal(gate.reason, "investigator_required");
-  });
-
-  it("allows fixer when root cause filled", () => {
-    appendTestInvestigation({
-      repoRoot: repo,
-      storyId: "lab-button--primary",
-      suiteId: "pixel",
-      story: { storyId: "lab-button--primary", status: "fail", percent: 1.2 },
-      resultRow: { status: "fail", percent: 1.2, failReason: "diff" }
-    });
-    const path = join(
-      repo,
-      "lab-memory/visual/investigations/active/lab-button--primary.md"
-    );
-    let body = readFileSync(path, "utf8");
-    body = body.replace(
-      /### Root cause\s*\n\n[\s\S]*?(?=\n### )/,
-      "### Root cause\n\nButton border radius mismatch in schema replay.\n\n"
-    );
-    writeFileSync(path, body, "utf8");
-
-    const gate = investigatorGateAllowsFixer(repo, "lab-button--primary", "pixel");
+  it("always allows fixer — investigation lives on test-report", () => {
+    const gate = investigatorGateAllowsFixer("/tmp", "lab-button--primary", "pixel");
     assert.equal(gate.allowed, true);
-    assert.equal(gate.reason, "cached_investigation");
+    assert.equal(gate.reason, "investigation_on_test_report");
   });
 });
 
@@ -268,5 +236,44 @@ describe("lab-worker-supervisor fleet", () => {
       investigator.activeTasks.map((task) => `${task.storyId}:${task.attempt}`).sort(),
       ["screen_1:2", "screen_2:1"]
     );
+  });
+
+  it("shows idle agents when no jobs are running even if agents.json says working", () => {
+    initFleetAgents(repo);
+    updateAgentStatus(repo, "pixel-fixer", {
+      status: "working",
+      currentTask: { storyId: "screen_1", suiteId: "pixel", phase: "fixer" }
+    });
+    const { agents } = loadFleetAgents(repo);
+    const events = [
+      {
+        type: "orchestrator.assign",
+        at: "2026-05-30T12:00:00.000Z",
+        agentId: "pixel-fixer",
+        jobId: "old-job",
+        storyId: "screen_1",
+        suiteId: "pixel",
+        attempt: 1,
+        phase: "fixer"
+      }
+    ];
+    const view = buildFleetAgentView(agents, events, new Set());
+    const pixel = view.find((a) => a.id === "pixel-fixer");
+    assert.equal(pixel.status, "idle");
+    assert.equal(pixel.workerCount, 0);
+    assert.equal(pixel.currentTask, null);
+    assert.deepEqual(pixel.activeTasks, []);
+  });
+
+  it("reconcileFleetAgentsIdle clears persisted working state", () => {
+    initFleetAgents(repo);
+    updateAgentStatus(repo, "investigator", {
+      status: "working",
+      currentTask: { storyId: "s1" }
+    });
+    assert.equal(reconcileFleetAgentsIdle(repo, false), true);
+    const inv = loadFleetAgents(repo).agents.find((a) => a.id === "investigator");
+    assert.equal(inv.status, "idle");
+    assert.equal(inv.currentTask, null);
   });
 });

@@ -4,7 +4,7 @@
  *   Manifest → Contract → Original parity (3 legs vs Guing PNG) → Logic
  *
  * Original parity compares ONLY against the reference PNG:
- *   Original → Figma live · Original → Storybook · Original → ReactHtml
+ *   Original → Figma live · Original → Storybook · Original → ReactHtml · Original → ReactTsx
  */
 
 export const FIGMA_ENTRY_STEP_ORDER = [
@@ -12,6 +12,7 @@ export const FIGMA_ENTRY_STEP_ORDER = [
   "vsFigmaLive",
   "vsStorybook",
   "vsReactHtml",
+  "vsReactTsx",
   "logic"
 ];
 
@@ -26,20 +27,26 @@ export const FIGMA_ENTRY_STEPS = [
     id: "vsFigmaLive",
     label: "→ Figma live",
     dir: "figma-screen-diffs",
-    actionId: "figma:screen:parity",
+    actionId: "figma:screen:golden",
     needsRelay: true
   },
   {
     id: "vsStorybook",
     label: "→ Storybook",
     dir: "figma-screen-diffs",
-    actionId: "figma:screen:parity"
+    actionId: "figma:screen:storybook"
   },
   {
     id: "vsReactHtml",
     label: "→ ReactHtml",
     dir: "figma-screen-diffs",
-    actionId: "figma:screen:parity"
+    actionId: "figma:screen:reacthtml"
+  },
+  {
+    id: "vsReactTsx",
+    label: "→ React delivery",
+    dir: "figma-screen-diffs",
+    actionId: "figma:screen:reacttsx"
   },
   {
     id: "logic",
@@ -49,8 +56,13 @@ export const FIGMA_ENTRY_STEPS = [
   }
 ];
 
-/** All three visual legs run in one parity harness invocation. */
-export const ORIGINAL_PARITY_LEG_IDS = ["vsFigmaLive", "vsStorybook", "vsReactHtml"];
+/** Visual parity legs — each has its own contract-first test script. */
+export const ORIGINAL_PARITY_LEG_IDS = [
+  "vsFigmaLive",
+  "vsStorybook",
+  "vsReactHtml",
+  "vsReactTsx"
+];
 
 export function isFigmaEntryStepPassing(status) {
   return status === "pass" || status === "skipped";
@@ -120,8 +132,9 @@ export function recommendFigmaEntryAction(stepId, status, detail = {}) {
   if (status === "fail") {
     if (stepId === "manifestContract") return "Fix adapter — manifestToContract";
     if (stepId === "vsFigmaLive") return "Fix importer — contract → Figma live (code-v2.ts)";
-    if (stepId === "vsStorybook") return "Fix Storybook bake / @lab/ui Screen fixture";
-    if (stepId === "vsReactHtml") return "Fix @lab/ui playground delivery component";
+    if (stepId === "vsStorybook") return "Fix render-html.ts / contract HTML renderer (Storybook leg)";
+    if (stepId === "vsReactHtml") return "Fix render-html.ts / contract HTML renderer (ReactHtml leg)";
+    if (stepId === "vsReactTsx") return "Fix contract-to-tsx codegen / render-tsx.ts (ReactTsx leg)";
     if (stepId === "logic") return "Fix logic audit harness";
     return "Fix pipeline";
   }

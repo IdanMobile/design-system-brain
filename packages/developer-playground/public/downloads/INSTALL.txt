@@ -1,9 +1,9 @@
 @lab/ui v0.1.0
 
-1. Download lab-ui.tgz (or the versioned tarball).
+1. Download lab-ui.tgz from the test console (Delivery package card).
 2. In your React app:
-   pnpm add ./lab-ui-0.1.0.tgz
-# or: npm install ./lab-ui-0.1.0.tgz
+   pnpm add ./lab-ui.tgz
+# or: npm install ./lab-ui.tgz
 3. Import styles once (e.g. in main.tsx):
    import "@lab/ui/styles.css";
 4. Use components:

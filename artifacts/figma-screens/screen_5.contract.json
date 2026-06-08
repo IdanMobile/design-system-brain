@@ -1,0 +1,4573 @@
+{
+  "schemaVersion": "1.0",
+  "meta": {
+    "componentName": "הוספת משימה חדשה - מקוון",
+    "extractedAt": "2026-06-08T17:22:29.733Z",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "width": 707,
+      "height": 286
+    },
+    "devicePixelRatio": 1,
+    "preserveEffects": true
+  },
+  "root": {
+    "id": "fig-1",
+    "name": "הוספת משימה חדשה - מקוון",
+    "source": {
+      "kind": "figma",
+      "id": "55042:10428",
+      "dataset": {
+        "figmaNodeType": "FRAME"
+      }
+    },
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 707,
+      "height": 286
+    },
+    "paint": {
+      "fills": [
+        {
+          "kind": "color",
+          "color": "#ffffff"
+        }
+      ],
+      "borders": {
+        "top": {
+          "width": 1,
+          "color": "#0000001f",
+          "style": "solid"
+        },
+        "right": {
+          "width": 1,
+          "color": "#0000001f",
+          "style": "solid"
+        },
+        "bottom": {
+          "width": 1,
+          "color": "#0000001f",
+          "style": "solid"
+        },
+        "left": {
+          "width": 1,
+          "color": "#0000001f",
+          "style": "solid"
+        }
+      },
+      "cornerRadii": {
+        "topLeft": {
+          "x": 12,
+          "y": 12
+        },
+        "topRight": {
+          "x": 12,
+          "y": 12
+        },
+        "bottomRight": {
+          "x": 12,
+          "y": 12
+        },
+        "bottomLeft": {
+          "x": 12,
+          "y": 12
+        }
+      },
+      "shadows": [
+        {
+          "offsetX": 0,
+          "offsetY": 1,
+          "blur": 1,
+          "spread": 0,
+          "color": "#00000038",
+          "inset": false
+        }
+      ],
+      "opacity": 1
+    },
+    "layout": {
+      "display": "flex",
+      "position": "relative",
+      "overflow": {
+        "x": "hidden",
+        "y": "hidden"
+      },
+      "flex": {
+        "direction": "column",
+        "wrap": "nowrap",
+        "justify": "center",
+        "align": "end",
+        "rowGap": 0,
+        "columnGap": 20
+      },
+      "padding": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      }
+    },
+    "children": [
+      {
+        "id": "fig-2",
+        "name": "mat-card__title",
+        "source": {
+          "kind": "figma",
+          "id": "55042:10429",
+          "dataset": {
+            "figmaNodeType": "FRAME"
+          }
+        },
+        "box": {
+          "x": 525,
+          "y": 0,
+          "width": 182,
+          "height": 46
+        },
+        "paint": {
+          "fills": [
+            {
+              "kind": "color",
+              "color": "#ffffff"
+            }
+          ],
+          "opacity": 1
+        },
+        "layout": {
+          "display": "flex",
+          "position": "relative",
+          "overflow": {
+            "x": "hidden",
+            "y": "hidden"
+          },
+          "flex": {
+            "direction": "row",
+            "wrap": "nowrap",
+            "justify": "start",
+            "align": "center",
+            "rowGap": 5,
+            "columnGap": 0
+          },
+          "padding": {
+            "top": 16,
+            "right": 20,
+            "bottom": 16,
+            "left": 16
+          }
+        },
+        "children": [
+          {
+            "id": "fig-3",
+            "name": "Frame 2147225786",
+            "source": {
+              "kind": "figma",
+              "id": "55042:10430",
+              "dataset": {
+                "figmaNodeType": "FRAME"
+              }
+            },
+            "box": {
+              "x": 16,
+              "y": 8,
+              "width": 146,
+              "height": 30
+            },
+            "paint": {
+              "opacity": 1
+            },
+            "layout": {
+              "display": "flex",
+              "position": "relative",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "flex": {
+                "direction": "row",
+                "wrap": "nowrap",
+                "justify": "end",
+                "align": "center",
+                "rowGap": 5,
+                "columnGap": 0
+              },
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            },
+            "children": [
+              {
+                "id": "fig-4",
+                "name": "Frame 627725",
+                "source": {
+                  "kind": "figma",
+                  "id": "55042:10431",
+                  "dataset": {
+                    "figmaNodeType": "FRAME"
+                  }
+                },
+                "box": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 146,
+                  "height": 30
+                },
+                "paint": {
+                  "opacity": 1
+                },
+                "layout": {
+                  "display": "flex",
+                  "position": "relative",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "flex": {
+                    "direction": "row",
+                    "wrap": "nowrap",
+                    "justify": "end",
+                    "align": "center",
+                    "rowGap": 5,
+                    "columnGap": 0
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "children": [
+                  {
+                    "id": "fig-5",
+                    "name": "שינוי סטטוס קובץ",
+                    "source": {
+                      "kind": "figma",
+                      "id": "55042:10432",
+                      "dataset": {
+                        "figmaNodeType": "TEXT",
+                        "figmaTextCase": "SMALL_CAPS_FORCED",
+                        "figmaFontFamily": "Open Sans",
+                        "figmaFontStyle": "SemiBold"
+                      }
+                    },
+                    "box": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 146,
+                      "height": 30
+                    },
+                    "text": {
+                      "value": "שינוי סטטוס קובץ",
+                      "font": {
+                        "family": "Open Sans",
+                        "size": 20,
+                        "weight": 600,
+                        "style": "normal"
+                      },
+                      "color": "#1d1d1d",
+                      "align": "center",
+                      "verticalAlign": "top",
+                      "letterSpacing": 0,
+                      "lineHeight": 30,
+                      "direction": "rtl"
+                    },
+                    "layout": {
+                      "display": "block",
+                      "position": "absolute",
+                      "overflow": {
+                        "x": "visible",
+                        "y": "visible"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "fig-6",
+        "name": "Frame 2018776165",
+        "source": {
+          "kind": "figma",
+          "id": "55042:10435",
+          "dataset": {
+            "figmaNodeType": "FRAME"
+          }
+        },
+        "box": {
+          "x": 0,
+          "y": 66,
+          "width": 707,
+          "height": 139
+        },
+        "paint": {
+          "opacity": 1
+        },
+        "layout": {
+          "display": "flex",
+          "position": "relative",
+          "overflow": {
+            "x": "hidden",
+            "y": "hidden"
+          },
+          "flex": {
+            "direction": "column",
+            "wrap": "nowrap",
+            "justify": "start",
+            "align": "end",
+            "rowGap": 0,
+            "columnGap": 20
+          },
+          "padding": {
+            "top": 0,
+            "right": 0,
+            "bottom": 0,
+            "left": 0
+          }
+        },
+        "children": [
+          {
+            "id": "fig-7",
+            "name": "Frame 2018776171",
+            "source": {
+              "kind": "figma",
+              "id": "55042:10436",
+              "dataset": {
+                "figmaNodeType": "FRAME"
+              }
+            },
+            "box": {
+              "x": 480,
+              "y": 0,
+              "width": 227,
+              "height": 21
+            },
+            "paint": {
+              "opacity": 1
+            },
+            "layout": {
+              "display": "flex",
+              "position": "relative",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "flex": {
+                "direction": "column",
+                "wrap": "nowrap",
+                "justify": "center",
+                "align": "end",
+                "rowGap": 0,
+                "columnGap": 20
+              },
+              "padding": {
+                "top": 0,
+                "right": 20,
+                "bottom": 0,
+                "left": 20
+              }
+            },
+            "children": [
+              {
+                "id": "fig-8",
+                "name": "בחירת סטטוס (ניתן לבחור כמה):",
+                "source": {
+                  "kind": "figma",
+                  "id": "55042:10437",
+                  "dataset": {
+                    "figmaNodeType": "TEXT",
+                    "figmaTextCase": "SMALL_CAPS_FORCED",
+                    "figmaFontFamily": "Open Sans",
+                    "figmaFontStyle": "SemiBold"
+                  }
+                },
+                "box": {
+                  "x": 20,
+                  "y": 0,
+                  "width": 187,
+                  "height": 21
+                },
+                "text": {
+                  "value": "בחירת סטטוס (ניתן לבחור כמה):",
+                  "font": {
+                    "family": "Open Sans",
+                    "size": 14,
+                    "weight": 600,
+                    "style": "normal"
+                  },
+                  "color": "#1d1d1d",
+                  "align": "center",
+                  "verticalAlign": "top",
+                  "letterSpacing": 0,
+                  "lineHeight": 21,
+                  "direction": "rtl"
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "absolute",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "fig-9",
+            "name": "Frame 2147225865",
+            "source": {
+              "kind": "figma",
+              "id": "55042:10438",
+              "dataset": {
+                "figmaNodeType": "FRAME"
+              }
+            },
+            "box": {
+              "x": 0,
+              "y": 41,
+              "width": 707,
+              "height": 74
+            },
+            "paint": {
+              "opacity": 1
+            },
+            "layout": {
+              "display": "flex",
+              "position": "relative",
+              "overflow": {
+                "x": "visible",
+                "y": "visible"
+              },
+              "flex": {
+                "direction": "row",
+                "wrap": "nowrap",
+                "justify": "end",
+                "align": "center",
+                "rowGap": 16,
+                "columnGap": 0
+              },
+              "padding": {
+                "top": 0,
+                "right": 20,
+                "bottom": 0,
+                "left": 20
+              }
+            },
+            "children": [
+              {
+                "id": "fig-10",
+                "name": "Frame 2147225892",
+                "source": {
+                  "kind": "figma",
+                  "id": "55042:10439",
+                  "dataset": {
+                    "figmaNodeType": "FRAME"
+                  }
+                },
+                "box": {
+                  "x": 20,
+                  "y": 0,
+                  "width": 667,
+                  "height": 74
+                },
+                "paint": {
+                  "opacity": 1
+                },
+                "layout": {
+                  "display": "flex",
+                  "position": "relative",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "flex": {
+                    "direction": "column",
+                    "wrap": "nowrap",
+                    "justify": "start",
+                    "align": "end",
+                    "rowGap": 0,
+                    "columnGap": 20
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "children": [
+                  {
+                    "id": "fig-11",
+                    "name": "Frame 2147225890",
+                    "source": {
+                      "kind": "figma",
+                      "id": "55042:10440",
+                      "dataset": {
+                        "figmaNodeType": "FRAME"
+                      }
+                    },
+                    "box": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 667,
+                      "height": 27
+                    },
+                    "paint": {
+                      "opacity": 1
+                    },
+                    "layout": {
+                      "display": "flex",
+                      "position": "relative",
+                      "overflow": {
+                        "x": "visible",
+                        "y": "visible"
+                      },
+                      "flex": {
+                        "direction": "row",
+                        "wrap": "nowrap",
+                        "justify": "end",
+                        "align": "center",
+                        "rowGap": 20,
+                        "columnGap": 0
+                      },
+                      "padding": {
+                        "top": 0,
+                        "right": 0,
+                        "bottom": 0,
+                        "left": 0
+                      },
+                      "alignSelf": "stretch",
+                      "flexBasis": "100%"
+                    },
+                    "children": [
+                      {
+                        "id": "fig-12",
+                        "name": "Frame 2147225862",
+                        "source": {
+                          "kind": "figma",
+                          "id": "55042:10441",
+                          "dataset": {
+                            "figmaNodeType": "FRAME"
+                          }
+                        },
+                        "box": {
+                          "x": 27,
+                          "y": 0,
+                          "width": 145,
+                          "height": 27
+                        },
+                        "paint": {
+                          "opacity": 1
+                        },
+                        "layout": {
+                          "display": "flex",
+                          "position": "relative",
+                          "overflow": {
+                            "x": "visible",
+                            "y": "visible"
+                          },
+                          "flex": {
+                            "direction": "row",
+                            "wrap": "nowrap",
+                            "justify": "start",
+                            "align": "center",
+                            "rowGap": 10,
+                            "columnGap": 0
+                          },
+                          "padding": {
+                            "top": 0,
+                            "right": 0,
+                            "bottom": 0,
+                            "left": 0
+                          }
+                        },
+                        "children": [
+                          {
+                            "id": "fig-13",
+                            "name": "Frame 627152",
+                            "source": {
+                              "kind": "figma",
+                              "id": "55042:10442",
+                              "dataset": {
+                                "figmaNodeType": "FRAME"
+                              }
+                            },
+                            "box": {
+                              "x": 0,
+                              "y": 0,
+                              "width": 117,
+                              "height": 27
+                            },
+                            "paint": {
+                              "fills": [
+                                {
+                                  "kind": "color",
+                                  "color": "#005eca"
+                                }
+                              ],
+                              "cornerRadii": {
+                                "topLeft": {
+                                  "x": 12,
+                                  "y": 12
+                                },
+                                "topRight": {
+                                  "x": 12,
+                                  "y": 12
+                                },
+                                "bottomRight": {
+                                  "x": 12,
+                                  "y": 12
+                                },
+                                "bottomLeft": {
+                                  "x": 12,
+                                  "y": 12
+                                }
+                              },
+                              "opacity": 1
+                            },
+                            "layout": {
+                              "display": "flex",
+                              "position": "relative",
+                              "overflow": {
+                                "x": "hidden",
+                                "y": "hidden"
+                              },
+                              "flex": {
+                                "direction": "row",
+                                "wrap": "nowrap",
+                                "justify": "center",
+                                "align": "center",
+                                "rowGap": 5,
+                                "columnGap": 0
+                              },
+                              "padding": {
+                                "top": 3,
+                                "right": 15,
+                                "bottom": 3,
+                                "left": 15
+                              }
+                            },
+                            "children": [
+                              {
+                                "id": "fig-14",
+                                "name": "Frame 2",
+                                "source": {
+                                  "kind": "figma",
+                                  "id": "55042:10443",
+                                  "dataset": {
+                                    "figmaNodeType": "INSTANCE"
+                                  }
+                                },
+                                "box": {
+                                  "x": 28,
+                                  "y": 7,
+                                  "width": 13,
+                                  "height": 13
+                                },
+                                "paint": {
+                                  "opacity": 1
+                                },
+                                "layout": {
+                                  "display": "block",
+                                  "position": "relative",
+                                  "overflow": {
+                                    "x": "visible",
+                                    "y": "visible"
+                                  }
+                                },
+                                "children": [
+                                  {
+                                    "id": "fig-15",
+                                    "name": "Vector",
+                                    "source": {
+                                      "kind": "figma",
+                                      "id": "I55042:10443;192:4859",
+                                      "dataset": {
+                                        "figmaNodeType": "VECTOR"
+                                      }
+                                    },
+                                    "box": {
+                                      "x": 0,
+                                      "y": 0,
+                                      "width": 13,
+                                      "height": 13
+                                    },
+                                    "vector": {
+                                      "viewBox": {
+                                        "x": 0,
+                                        "y": 0,
+                                        "width": 13,
+                                        "height": 13
+                                      },
+                                      "shapes": [
+                                        {
+                                          "primitive": "path",
+                                          "attrs": {
+                                            "d": "M 0 0 L 13 0 L 13 13 L 0 13 Z",
+                                            "fillRule": "nonzero"
+                                          },
+                                          "paint": {
+                                            "fill": "#1d1d1d",
+                                            "stroke": "none",
+                                            "strokeWidth": 0.02
+                                          }
+                                        }
+                                      ],
+                                      "figmaNative": {
+                                        "vectorPaths": [],
+                                        "fill": "#1d1d1d",
+                                        "strokeWeight": 0.02,
+                                        "strokeAlign": "INSIDE"
+                                      }
+                                    },
+                                    "layout": {
+                                      "display": "block",
+                                      "position": "absolute",
+                                      "overflow": {
+                                        "x": "visible",
+                                        "y": "visible"
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                "id": "fig-16",
+                                "name": "בתמלול",
+                                "source": {
+                                  "kind": "figma",
+                                  "id": "55042:10444",
+                                  "dataset": {
+                                    "figmaNodeType": "TEXT",
+                                    "figmaTextCase": "SMALL_CAPS_FORCED",
+                                    "figmaFontFamily": "Open Sans",
+                                    "figmaFontStyle": "Regular"
+                                  }
+                                },
+                                "box": {
+                                  "x": 46,
+                                  "y": 3,
+                                  "width": 43,
+                                  "height": 21
+                                },
+                                "text": {
+                                  "value": "בתמלול",
+                                  "font": {
+                                    "family": "Open Sans",
+                                    "size": 14,
+                                    "weight": 400,
+                                    "style": "normal"
+                                  },
+                                  "color": "#1d1d1d",
+                                  "align": "center",
+                                  "verticalAlign": "top",
+                                  "letterSpacing": 0,
+                                  "lineHeight": 21,
+                                  "direction": "rtl"
+                                },
+                                "layout": {
+                                  "display": "block",
+                                  "position": "absolute",
+                                  "overflow": {
+                                    "x": "visible",
+                                    "y": "visible"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "id": "fig-17",
+                            "name": "mat-input--selection-controls",
+                            "source": {
+                              "kind": "figma",
+                              "id": "55042:10445",
+                              "dataset": {
+                                "figmaNodeType": "INSTANCE"
+                              }
+                            },
+                            "box": {
+                              "x": 127,
+                              "y": 4.5,
+                              "width": 18,
+                              "height": 18
+                            },
+                            "paint": {
+                              "opacity": 1
+                            },
+                            "layout": {
+                              "display": "flex",
+                              "position": "relative",
+                              "overflow": {
+                                "x": "visible",
+                                "y": "visible"
+                              },
+                              "flex": {
+                                "direction": "row",
+                                "wrap": "nowrap",
+                                "justify": "start",
+                                "align": "start",
+                                "rowGap": 0,
+                                "columnGap": 0
+                              },
+                              "padding": {
+                                "top": 0,
+                                "right": 0,
+                                "bottom": 0,
+                                "left": 0
+                              }
+                            },
+                            "children": [
+                              {
+                                "id": "fig-18",
+                                "name": "mat-input--selection-controls",
+                                "source": {
+                                  "kind": "figma",
+                                  "id": "I55042:10445;3691:2971",
+                                  "dataset": {
+                                    "figmaNodeType": "INSTANCE"
+                                  }
+                                },
+                                "box": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 18,
+                                  "height": 18
+                                },
+                                "paint": {
+                                  "cornerRadii": {
+                                    "topLeft": {
+                                      "x": 32,
+                                      "y": 32
+                                    },
+                                    "topRight": {
+                                      "x": 32,
+                                      "y": 32
+                                    },
+                                    "bottomRight": {
+                                      "x": 32,
+                                      "y": 32
+                                    },
+                                    "bottomLeft": {
+                                      "x": 32,
+                                      "y": 32
+                                    }
+                                  },
+                                  "opacity": 1
+                                },
+                                "layout": {
+                                  "display": "flex",
+                                  "position": "relative",
+                                  "overflow": {
+                                    "x": "visible",
+                                    "y": "visible"
+                                  },
+                                  "flex": {
+                                    "direction": "row",
+                                    "wrap": "nowrap",
+                                    "justify": "center",
+                                    "align": "center",
+                                    "rowGap": 0,
+                                    "columnGap": 0
+                                  },
+                                  "padding": {
+                                    "top": 0,
+                                    "right": 16,
+                                    "bottom": 0,
+                                    "left": 16
+                                  }
+                                },
+                                "children": [
+                                  {
+                                    "id": "fig-19",
+                                    "name": "Checkbox",
+                                    "source": {
+                                      "kind": "figma",
+                                      "id": "I55042:10445;3691:2971;81:60483",
+                                      "dataset": {
+                                        "figmaNodeType": "INSTANCE"
+                                      }
+                                    },
+                                    "box": {
+                                      "x": 0,
+                                      "y": 0,
+                                      "width": 18,
+                                      "height": 18
+                                    },
+                                    "paint": {
+                                      "opacity": 1
+                                    },
+                                    "layout": {
+                                      "display": "block",
+                                      "position": "relative",
+                                      "overflow": {
+                                        "x": "visible",
+                                        "y": "visible"
+                                      }
+                                    },
+                                    "children": [
+                                      {
+                                        "id": "fig-20",
+                                        "name": "Rectangle 9",
+                                        "source": {
+                                          "kind": "figma",
+                                          "id": "I55042:10445;3691:2971;81:60483;81:60472",
+                                          "dataset": {
+                                            "figmaNodeType": "RECTANGLE"
+                                          }
+                                        },
+                                        "box": {
+                                          "x": 0,
+                                          "y": 0,
+                                          "width": 18,
+                                          "height": 18
+                                        },
+                                        "paint": {
+                                          "fills": [
+                                            {
+                                              "kind": "color",
+                                              "color": "#f4f4f4"
+                                            }
+                                          ],
+                                          "borders": {
+                                            "top": {
+                                              "width": 1,
+                                              "color": "#0000001f",
+                                              "style": "solid"
+                                            },
+                                            "right": {
+                                              "width": 1,
+                                              "color": "#0000001f",
+                                              "style": "solid"
+                                            },
+                                            "bottom": {
+                                              "width": 1,
+                                              "color": "#0000001f",
+                                              "style": "solid"
+                                            },
+                                            "left": {
+                                              "width": 1,
+                                              "color": "#0000001f",
+                                              "style": "solid"
+                                            }
+                                          },
+                                          "cornerRadii": {
+                                            "topLeft": {
+                                              "x": 4,
+                                              "y": 4
+                                            },
+                                            "topRight": {
+                                              "x": 4,
+                                              "y": 4
+                                            },
+                                            "bottomRight": {
+                                              "x": 4,
+                                              "y": 4
+                                            },
+                                            "bottomLeft": {
+                                              "x": 4,
+                                              "y": 4
+                                            }
+                                          },
+                                          "opacity": 1
+                                        },
+                                        "layout": {
+                                          "display": "block",
+                                          "position": "absolute",
+                                          "overflow": {
+                                            "x": "visible",
+                                            "y": "visible"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "id": "fig-21",
+                                        "name": "fa-solid:check",
+                                        "source": {
+                                          "kind": "figma",
+                                          "id": "I55042:10445;3691:2971;81:60483;81:60473",
+                                          "dataset": {
+                                            "figmaNodeType": "FRAME"
+                                          }
+                                        },
+                                        "box": {
+                                          "x": 4,
+                                          "y": 4,
+                                          "width": 10,
+                                          "height": 10
+                                        },
+                                        "paint": {
+                                          "opacity": 1
+                                        },
+                                        "layout": {
+                                          "display": "block",
+                                          "position": "relative",
+                                          "overflow": {
+                                            "x": "hidden",
+                                            "y": "hidden"
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "fig-22",
+                        "name": "Frame 2147225861",
+                        "source": {
+                          "kind": "figma",
+                          "id": "55042:10446",
+                          "dataset": {
+                            "figmaNodeType": "FRAME"
+                          }
+                        },
+                        "box": {
+                          "x": 192,
+                          "y": 0,
+                          "width": 145,
+                          "height": 27
+                        },
+                        "paint": {
+                          "opacity": 1
+                        },
+                        "layout": {
+                          "display": "flex",
+                          "position": "relative",
+                          "overflow": {
+                            "x": "visible",
+                            "y": "visible"
+                          },
+                          "flex": {
+                            "direction": "row",
+                            "wrap": "nowrap",
+                            "justify": "start",
+                            "align": "center",
+                            "rowGap": 10,
+                            "columnGap": 0
+                          },
+                          "padding": {
+                            "top": 0,
+                            "right": 0,
+                            "bottom": 0,
+                            "left": 0
+                          }
+                        },
+                        "children": [
+                          {
+                            "id": "fig-23",
+                            "name": "Frame 2147225820",
+                            "source": {
+                              "kind": "figma",
+                              "id": "55042:10447",
+                              "dataset": {
+                                "figmaNodeType": "FRAME"
+                              }
+                            },
+                            "box": {
+                              "x": 0,
+                              "y": 0,
+                              "width": 117,
+                              "height": 27
+                            },
+                            "paint": {
+                              "fills": [
+                                {
+                                  "kind": "color",
+                                  "color": "#34b3e7"
+                                }
+                              ],
+                              "cornerRadii": {
+                                "topLeft": {
+                                  "x": 12,
+                                  "y": 12
+                                },
+                                "topRight": {
+                                  "x": 12,
+                                  "y": 12
+                                },
+                                "bottomRight": {
+                                  "x": 12,
+                                  "y": 12
+                                },
+                                "bottomLeft": {
+                                  "x": 12,
+                                  "y": 12
+                                }
+                              },
+                              "opacity": 1
+                            },
+                            "layout": {
+                              "display": "flex",
+                              "position": "relative",
+                              "overflow": {
+                                "x": "hidden",
+                                "y": "hidden"
+                              },
+                              "flex": {
+                                "direction": "row",
+                                "wrap": "nowrap",
+                                "justify": "center",
+                                "align": "center",
+                                "rowGap": 10,
+                                "columnGap": 0
+                              },
+                              "padding": {
+                                "top": 3,
+                                "right": 15,
+                                "bottom": 3,
+                                "left": 15
+                              }
+                            },
+                            "children": [
+                              {
+                                "id": "fig-24",
+                                "name": "תמלול מוכן",
+                                "source": {
+                                  "kind": "figma",
+                                  "id": "55042:10448",
+                                  "dataset": {
+                                    "figmaNodeType": "TEXT",
+                                    "figmaTextCase": "SMALL_CAPS_FORCED",
+                                    "figmaFontFamily": "Open Sans",
+                                    "figmaFontStyle": "Regular"
+                                  }
+                                },
+                                "box": {
+                                  "x": 28,
+                                  "y": 3,
+                                  "width": 61,
+                                  "height": 21
+                                },
+                                "text": {
+                                  "value": "תמלול מוכן",
+                                  "font": {
+                                    "family": "Open Sans",
+                                    "size": 14,
+                                    "weight": 400,
+                                    "style": "normal"
+                                  },
+                                  "color": "#1d1d1d",
+                                  "align": "center",
+                                  "verticalAlign": "top",
+                                  "letterSpacing": 0,
+                                  "lineHeight": 21,
+                                  "direction": "rtl"
+                                },
+                                "layout": {
+                                  "display": "block",
+                                  "position": "absolute",
+                                  "overflow": {
+                                    "x": "visible",
+                                    "y": "visible"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "id": "fig-25",
+                            "name": "mat-input--selection-controls",
+                            "source": {
+                              "kind": "figma",
+                              "id": "55042:10449",
+                              "dataset": {
+                                "figmaNodeType": "INSTANCE"
+                              }
+                            },
+                            "box": {
+                              "x": 127,
+                              "y": 4.5,
+                              "width": 18,
+                              "height": 18
+                            },
+                            "paint": {
+                              "opacity": 1
+                            },
+                            "layout": {
+                              "display": "flex",
+                              "position": "relative",
+                              "overflow": {
+                                "x": "visible",
+                                "y": "visible"
+                              },
+                              "flex": {
+                                "direction": "row",
+                                "wrap": "nowrap",
+                                "justify": "start",
+                                "align": "start",
+                                "rowGap": 0,
+                                "columnGap": 0
+                              },
+                              "padding": {
+                                "top": 0,
+                                "right": 0,
+                                "bottom": 0,
+                                "left": 0
+                              }
+                            },
+                            "children": [
+                              {
+                                "id": "fig-26",
+                                "name": "mat-input--selection-controls",
+                                "source": {
+                                  "kind": "figma",
+                                  "id": "I55042:10449;3691:2971",
+                                  "dataset": {
+                                    "figmaNodeType": "INSTANCE"
+                                  }
+                                },
+                                "box": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 18,
+                                  "height": 18
+                                },
+                                "paint": {
+                                  "cornerRadii": {
+                                    "topLeft": {
+                                      "x": 32,
+                                      "y": 32
+                                    },
+                                    "topRight": {
+                                      "x": 32,
+                                      "y": 32
+                                    },
+                                    "bottomRight": {
+                                      "x": 32,
+                                      "y": 32
+                                    },
+                                    "bottomLeft": {
+                                      "x": 32,
+                                      "y": 32
+                                    }
+                                  },
+                                  "opacity": 1
+                                },
+                                "layout": {
+                                  "display": "flex",
+                                  "position": "relative",
+                                  "overflow": {
+                                    "x": "visible",
+                                    "y": "visible"
+                                  },
+                                  "flex": {
+                                    "direction": "row",
+                                    "wrap": "nowrap",
+                                    "justify": "center",
+                                    "align": "center",
+                                    "rowGap": 0,
+                                    "columnGap": 0
+                                  },
+                                  "padding": {
+                                    "top": 0,
+                                    "right": 16,
+                                    "bottom": 0,
+                                    "left": 16
+                                  }
+                                },
+                                "children": [
+                                  {
+                                    "id": "fig-27",
+                                    "name": "Checkbox",
+                                    "source": {
+                                      "kind": "figma",
+                                      "id": "I55042:10449;3691:2971;81:60483",
+                                      "dataset": {
+                                        "figmaNodeType": "INSTANCE"
+                                      }
+                                    },
+                                    "box": {
+                                      "x": 0,
+                                      "y": 0,
+                                      "width": 18,
+                                      "height": 18
+                                    },
+                                    "paint": {
+                                      "opacity": 1
+                                    },
+                                    "layout": {
+                                      "display": "block",
+                                      "position": "relative",
+                                      "overflow": {
+                                        "x": "visible",
+                                        "y": "visible"
+                                      }
+                                    },
+                                    "children": [
+                                      {
+                                        "id": "fig-28",
+                                        "name": "Rectangle 9",
+                                        "source": {
+                                          "kind": "figma",
+                                          "id": "I55042:10449;3691:2971;81:60483;81:60472",
+                                          "dataset": {
+                                            "figmaNodeType": "RECTANGLE"
+                                          }
+                                        },
+                                        "box": {
+                                          "x": 0,
+                                          "y": 0,
+                                          "width": 18,
+                                          "height": 18
+                                        },
+                                        "paint": {
+                                          "fills": [
+                                            {
+                                              "kind": "color",
+                                              "color": "#f4f4f4"
+                                            }
+                                          ],
+                                          "borders": {
+                                            "top": {
+                                              "width": 1,
+                                              "color": "#0000001f",
+                                              "style": "solid"
+                                            },
+                                            "right": {
+                                              "width": 1,
+                                              "color": "#0000001f",
+                                              "style": "solid"
+                                            },
+                                            "bottom": {
+                                              "width": 1,
+                                              "color": "#0000001f",
+                                              "style": "solid"
+                                            },
+                                            "left": {
+                                              "width": 1,
+                                              "color": "#0000001f",
+                                              "style": "solid"
+                                            }
+                                          },
+                                          "cornerRadii": {
+                                            "topLeft": {
+                                              "x": 4,
+                                              "y": 4
+                                            },
+                                            "topRight": {
+                                              "x": 4,
+                                              "y": 4
+                                            },
+                                            "bottomRight": {
+                                              "x": 4,
+                                              "y": 4
+                                            },
+                                            "bottomLeft": {
+                                              "x": 4,
+                                              "y": 4
+                                            }
+                                          },
+                                          "opacity": 1
+                                        },
+                                        "layout": {
+                                          "display": "block",
+                                          "position": "absolute",
+                                          "overflow": {
+                                            "x": "visible",
+                                            "y": "visible"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "id": "fig-29",
+                                        "name": "fa-solid:check",
+                                        "source": {
+                                          "kind": "figma",
+                                          "id": "I55042:10449;3691:2971;81:60483;81:60473",
+                                          "dataset": {
+                                            "figmaNodeType": "FRAME"
+                                          }
+                                        },
+                                        "box": {
+                                          "x": 4,
+                                          "y": 4,
+                                          "width": 10,
+                                          "height": 10
+                                        },
+                                        "paint": {
+                                          "opacity": 1
+                                        },
+                                        "layout": {
+                                          "display": "block",
+                                          "position": "relative",
+                                          "overflow": {
+                                            "x": "hidden",
+                                            "y": "hidden"
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "fig-30",
+                        "name": "Frame 2147225860",
+                        "source": {
+                          "kind": "figma",
+                          "id": "55042:10450",
+                          "dataset": {
+                            "figmaNodeType": "FRAME"
+                          }
+                        },
+                        "box": {
+                          "x": 357,
+                          "y": 0,
+                          "width": 145,
+                          "height": 27
+                        },
+                        "paint": {
+                          "opacity": 1
+                        },
+                        "layout": {
+                          "display": "flex",
+                          "position": "relative",
+                          "overflow": {
+                            "x": "visible",
+                            "y": "visible"
+                          },
+                          "flex": {
+                            "direction": "row",
+                            "wrap": "nowrap",
+                            "justify": "start",
+                            "align": "center",
+                            "rowGap": 10,
+                            "columnGap": 0
+                          },
+                          "padding": {
+                            "top": 0,
+                            "right": 0,
+                            "bottom": 0,
+                            "left": 0
+                          }
+                        },
+                        "children": [
+                          {
+                            "id": "fig-31",
+                            "name": "Frame 2147225821",
+                            "source": {
+                              "kind": "figma",
+                              "id": "55042:10451",
+                              "dataset": {
+                                "figmaNodeType": "FRAME"
+                              }
+                            },
+                            "box": {
+                              "x": 0,
+                              "y": 0,
+                              "width": 117,
+                              "height": 27
+                            },
+                            "paint": {
+                              "fills": [
+                                {
+                                  "kind": "color",
+                                  "color": "#ba7714"
+                                }
+                              ],
+                              "cornerRadii": {
+                                "topLeft": {
+                                  "x": 12,
+                                  "y": 12
+                                },
+                                "topRight": {
+                                  "x": 12,
+                                  "y": 12
+                                },
+                                "bottomRight": {
+                                  "x": 12,
+                                  "y": 12
+                                },
+                                "bottomLeft": {
+                                  "x": 12,
+                                  "y": 12
+                                }
+                              },
+                              "opacity": 1
+                            },
+                            "layout": {
+                              "display": "flex",
+                              "position": "relative",
+                              "overflow": {
+                                "x": "hidden",
+                                "y": "hidden"
+                              },
+                              "flex": {
+                                "direction": "row",
+                                "wrap": "nowrap",
+                                "justify": "center",
+                                "align": "center",
+                                "rowGap": 10,
+                                "columnGap": 0
+                              },
+                              "padding": {
+                                "top": 3,
+                                "right": 15,
+                                "bottom": 3,
+                                "left": 15
+                              }
+                            },
+                            "children": [
+                              {
+                                "id": "fig-32",
+                                "name": "טיוב התמלול",
+                                "source": {
+                                  "kind": "figma",
+                                  "id": "55042:10452",
+                                  "dataset": {
+                                    "figmaNodeType": "TEXT",
+                                    "figmaTextCase": "SMALL_CAPS_FORCED",
+                                    "figmaFontFamily": "Open Sans",
+                                    "figmaFontStyle": "Regular"
+                                  }
+                                },
+                                "box": {
+                                  "x": 23,
+                                  "y": 3,
+                                  "width": 71,
+                                  "height": 21
+                                },
+                                "text": {
+                                  "value": "טיוב התמלול",
+                                  "font": {
+                                    "family": "Open Sans",
+                                    "size": 14,
+                                    "weight": 400,
+                                    "style": "normal"
+                                  },
+                                  "color": "#1d1d1d",
+                                  "align": "center",
+                                  "verticalAlign": "top",
+                                  "letterSpacing": 0,
+                                  "lineHeight": 21,
+                                  "direction": "rtl"
+                                },
+                                "layout": {
+                                  "display": "block",
+                                  "position": "absolute",
+                                  "overflow": {
+                                    "x": "visible",
+                                    "y": "visible"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "id": "fig-33",
+                            "name": "mat-input--selection-controls",
+                            "source": {
+                              "kind": "figma",
+                              "id": "55042:10453",
+                              "dataset": {
+                                "figmaNodeType": "INSTANCE"
+                              }
+                            },
+                            "box": {
+                              "x": 127,
+                              "y": 4.5,
+                              "width": 18,
+                              "height": 18
+                            },
+                            "paint": {
+                              "opacity": 1
+                            },
+                            "layout": {
+                              "display": "flex",
+                              "position": "relative",
+                              "overflow": {
+                                "x": "visible",
+                                "y": "visible"
+                              },
+                              "flex": {
+                                "direction": "row",
+                                "wrap": "nowrap",
+                                "justify": "start",
+                                "align": "start",
+                                "rowGap": 0,
+                                "columnGap": 0
+                              },
+                              "padding": {
+                                "top": 0,
+                                "right": 0,
+                                "bottom": 0,
+                                "left": 0
+                              }
+                            },
+                            "children": [
+                              {
+                                "id": "fig-34",
+                                "name": "mat-input--selection-controls",
+                                "source": {
+                                  "kind": "figma",
+                                  "id": "I55042:10453;3691:2961",
+                                  "dataset": {
+                                    "figmaNodeType": "FRAME"
+                                  }
+                                },
+                                "box": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 18,
+                                  "height": 18
+                                },
+                                "paint": {
+                                  "cornerRadii": {
+                                    "topLeft": {
+                                      "x": 32,
+                                      "y": 32
+                                    },
+                                    "topRight": {
+                                      "x": 32,
+                                      "y": 32
+                                    },
+                                    "bottomRight": {
+                                      "x": 32,
+                                      "y": 32
+                                    },
+                                    "bottomLeft": {
+                                      "x": 32,
+                                      "y": 32
+                                    }
+                                  },
+                                  "opacity": 1
+                                },
+                                "layout": {
+                                  "display": "flex",
+                                  "position": "relative",
+                                  "overflow": {
+                                    "x": "visible",
+                                    "y": "visible"
+                                  },
+                                  "flex": {
+                                    "direction": "row",
+                                    "wrap": "nowrap",
+                                    "justify": "center",
+                                    "align": "center",
+                                    "rowGap": 0,
+                                    "columnGap": 0
+                                  },
+                                  "padding": {
+                                    "top": 0,
+                                    "right": 16,
+                                    "bottom": 0,
+                                    "left": 16
+                                  }
+                                },
+                                "children": [
+                                  {
+                                    "id": "fig-35",
+                                    "name": "Checkbox",
+                                    "source": {
+                                      "kind": "figma",
+                                      "id": "I55042:10453;3691:2962",
+                                      "dataset": {
+                                        "figmaNodeType": "FRAME"
+                                      }
+                                    },
+                                    "box": {
+                                      "x": 0,
+                                      "y": 0,
+                                      "width": 18,
+                                      "height": 18
+                                    },
+                                    "paint": {
+                                      "opacity": 1
+                                    },
+                                    "layout": {
+                                      "display": "block",
+                                      "position": "relative",
+                                      "overflow": {
+                                        "x": "visible",
+                                        "y": "visible"
+                                      }
+                                    },
+                                    "children": [
+                                      {
+                                        "id": "fig-36",
+                                        "name": "Rectangle 9",
+                                        "source": {
+                                          "kind": "figma",
+                                          "id": "I55042:10453;3691:2963",
+                                          "dataset": {
+                                            "figmaNodeType": "RECTANGLE"
+                                          }
+                                        },
+                                        "box": {
+                                          "x": 0,
+                                          "y": 0,
+                                          "width": 18,
+                                          "height": 18
+                                        },
+                                        "paint": {
+                                          "fills": [
+                                            {
+                                              "kind": "color",
+                                              "color": "#ececef"
+                                            }
+                                          ],
+                                          "borders": {
+                                            "top": {
+                                              "width": 1,
+                                              "color": "#8a5adb",
+                                              "style": "solid"
+                                            },
+                                            "right": {
+                                              "width": 1,
+                                              "color": "#8a5adb",
+                                              "style": "solid"
+                                            },
+                                            "bottom": {
+                                              "width": 1,
+                                              "color": "#8a5adb",
+                                              "style": "solid"
+                                            },
+                                            "left": {
+                                              "width": 1,
+                                              "color": "#8a5adb",
+                                              "style": "solid"
+                                            }
+                                          },
+                                          "cornerRadii": {
+                                            "topLeft": {
+                                              "x": 4,
+                                              "y": 4
+                                            },
+                                            "topRight": {
+                                              "x": 4,
+                                              "y": 4
+                                            },
+                                            "bottomRight": {
+                                              "x": 4,
+                                              "y": 4
+                                            },
+                                            "bottomLeft": {
+                                              "x": 4,
+                                              "y": 4
+                                            }
+                                          },
+                                          "opacity": 1
+                                        },
+                                        "layout": {
+                                          "display": "block",
+                                          "position": "absolute",
+                                          "overflow": {
+                                            "x": "visible",
+                                            "y": "visible"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "id": "fig-37",
+                                        "name": "fa-solid:check",
+                                        "source": {
+                                          "kind": "figma",
+                                          "id": "I55042:10453;3691:2964",
+                                          "dataset": {
+                                            "figmaNodeType": "FRAME"
+                                          }
+                                        },
+                                        "box": {
+                                          "x": 4,
+                                          "y": 4,
+                                          "width": 10,
+                                          "height": 10
+                                        },
+                                        "paint": {
+                                          "opacity": 1
+                                        },
+                                        "layout": {
+                                          "display": "block",
+                                          "position": "relative",
+                                          "overflow": {
+                                            "x": "hidden",
+                                            "y": "hidden"
+                                          }
+                                        },
+                                        "children": [
+                                          {
+                                            "id": "fig-38",
+                                            "name": "Vector",
+                                            "source": {
+                                              "kind": "figma",
+                                              "id": "I55042:10453;3691:2965",
+                                              "dataset": {
+                                                "figmaNodeType": "VECTOR"
+                                              }
+                                            },
+                                            "box": {
+                                              "x": 0,
+                                              "y": 1.27,
+                                              "width": 10,
+                                              "height": 7.46
+                                            },
+                                            "vector": {
+                                              "viewBox": {
+                                                "x": 0,
+                                                "y": 0,
+                                                "width": 10,
+                                                "height": 7.46
+                                              },
+                                              "shapes": [
+                                                {
+                                                  "primitive": "path",
+                                                  "attrs": {
+                                                    "d": "M 0 0 L 10 0 L 10 7.46 L 0 7.46 Z",
+                                                    "fillRule": "nonzero"
+                                                  },
+                                                  "paint": {
+                                                    "fill": "#8a5adb",
+                                                    "stroke": "none",
+                                                    "strokeWidth": 1
+                                                  }
+                                                }
+                                              ],
+                                              "figmaNative": {
+                                                "vectorPaths": [],
+                                                "fill": "#8a5adb",
+                                                "strokeWeight": 1,
+                                                "strokeAlign": "INSIDE"
+                                              }
+                                            },
+                                            "layout": {
+                                              "display": "block",
+                                              "position": "absolute",
+                                              "overflow": {
+                                                "x": "visible",
+                                                "y": "visible"
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "fig-39",
+                        "name": "Frame 2147225859",
+                        "source": {
+                          "kind": "figma",
+                          "id": "55042:10454",
+                          "dataset": {
+                            "figmaNodeType": "FRAME"
+                          }
+                        },
+                        "box": {
+                          "x": 522,
+                          "y": 0,
+                          "width": 145,
+                          "height": 27
+                        },
+                        "paint": {
+                          "opacity": 1
+                        },
+                        "layout": {
+                          "display": "flex",
+                          "position": "relative",
+                          "overflow": {
+                            "x": "visible",
+                            "y": "visible"
+                          },
+                          "flex": {
+                            "direction": "row",
+                            "wrap": "nowrap",
+                            "justify": "start",
+                            "align": "center",
+                            "rowGap": 10,
+                            "columnGap": 0
+                          },
+                          "padding": {
+                            "top": 0,
+                            "right": 0,
+                            "bottom": 0,
+                            "left": 0
+                          }
+                        },
+                        "children": [
+                          {
+                            "id": "fig-40",
+                            "name": "Frame 627154",
+                            "source": {
+                              "kind": "figma",
+                              "id": "55042:10455",
+                              "dataset": {
+                                "figmaNodeType": "FRAME"
+                              }
+                            },
+                            "box": {
+                              "x": 0,
+                              "y": 0,
+                              "width": 117,
+                              "height": 27
+                            },
+                            "paint": {
+                              "fills": [
+                                {
+                                  "kind": "color",
+                                  "color": "#0dc79b"
+                                }
+                              ],
+                              "cornerRadii": {
+                                "topLeft": {
+                                  "x": 12,
+                                  "y": 12
+                                },
+                                "topRight": {
+                                  "x": 12,
+                                  "y": 12
+                                },
+                                "bottomRight": {
+                                  "x": 12,
+                                  "y": 12
+                                },
+                                "bottomLeft": {
+                                  "x": 12,
+                                  "y": 12
+                                }
+                              },
+                              "opacity": 1
+                            },
+                            "layout": {
+                              "display": "flex",
+                              "position": "relative",
+                              "overflow": {
+                                "x": "hidden",
+                                "y": "hidden"
+                              },
+                              "flex": {
+                                "direction": "row",
+                                "wrap": "nowrap",
+                                "justify": "center",
+                                "align": "center",
+                                "rowGap": 10,
+                                "columnGap": 0
+                              },
+                              "padding": {
+                                "top": 3,
+                                "right": 15,
+                                "bottom": 3,
+                                "left": 15
+                              }
+                            },
+                            "children": [
+                              {
+                                "id": "fig-41",
+                                "name": "מוכן",
+                                "source": {
+                                  "kind": "figma",
+                                  "id": "55042:10456",
+                                  "dataset": {
+                                    "figmaNodeType": "TEXT",
+                                    "figmaTextCase": "SMALL_CAPS_FORCED",
+                                    "figmaFontFamily": "Open Sans",
+                                    "figmaFontStyle": "Regular"
+                                  }
+                                },
+                                "box": {
+                                  "x": 46,
+                                  "y": 3,
+                                  "width": 25,
+                                  "height": 21
+                                },
+                                "text": {
+                                  "value": "מוכן",
+                                  "font": {
+                                    "family": "Open Sans",
+                                    "size": 14,
+                                    "weight": 400,
+                                    "style": "normal"
+                                  },
+                                  "color": "#1d1d1d",
+                                  "align": "center",
+                                  "verticalAlign": "top",
+                                  "letterSpacing": 0.5,
+                                  "lineHeight": 21,
+                                  "direction": "rtl"
+                                },
+                                "layout": {
+                                  "display": "block",
+                                  "position": "absolute",
+                                  "overflow": {
+                                    "x": "visible",
+                                    "y": "visible"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "id": "fig-42",
+                            "name": "mat-input--selection-controls",
+                            "source": {
+                              "kind": "figma",
+                              "id": "55042:10457",
+                              "dataset": {
+                                "figmaNodeType": "INSTANCE"
+                              }
+                            },
+                            "box": {
+                              "x": 127,
+                              "y": 4.5,
+                              "width": 18,
+                              "height": 18
+                            },
+                            "paint": {
+                              "opacity": 1
+                            },
+                            "layout": {
+                              "display": "flex",
+                              "position": "relative",
+                              "overflow": {
+                                "x": "visible",
+                                "y": "visible"
+                              },
+                              "flex": {
+                                "direction": "row",
+                                "wrap": "nowrap",
+                                "justify": "start",
+                                "align": "start",
+                                "rowGap": 0,
+                                "columnGap": 0
+                              },
+                              "padding": {
+                                "top": 0,
+                                "right": 0,
+                                "bottom": 0,
+                                "left": 0
+                              }
+                            },
+                            "children": [
+                              {
+                                "id": "fig-43",
+                                "name": "mat-input--selection-controls",
+                                "source": {
+                                  "kind": "figma",
+                                  "id": "I55042:10457;3691:2971",
+                                  "dataset": {
+                                    "figmaNodeType": "INSTANCE"
+                                  }
+                                },
+                                "box": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 18,
+                                  "height": 18
+                                },
+                                "paint": {
+                                  "cornerRadii": {
+                                    "topLeft": {
+                                      "x": 32,
+                                      "y": 32
+                                    },
+                                    "topRight": {
+                                      "x": 32,
+                                      "y": 32
+                                    },
+                                    "bottomRight": {
+                                      "x": 32,
+                                      "y": 32
+                                    },
+                                    "bottomLeft": {
+                                      "x": 32,
+                                      "y": 32
+                                    }
+                                  },
+                                  "opacity": 1
+                                },
+                                "layout": {
+                                  "display": "flex",
+                                  "position": "relative",
+                                  "overflow": {
+                                    "x": "visible",
+                                    "y": "visible"
+                                  },
+                                  "flex": {
+                                    "direction": "row",
+                                    "wrap": "nowrap",
+                                    "justify": "center",
+                                    "align": "center",
+                                    "rowGap": 0,
+                                    "columnGap": 0
+                                  },
+                                  "padding": {
+                                    "top": 0,
+                                    "right": 16,
+                                    "bottom": 0,
+                                    "left": 16
+                                  }
+                                },
+                                "children": [
+                                  {
+                                    "id": "fig-44",
+                                    "name": "Checkbox",
+                                    "source": {
+                                      "kind": "figma",
+                                      "id": "I55042:10457;3691:2971;81:60483",
+                                      "dataset": {
+                                        "figmaNodeType": "INSTANCE"
+                                      }
+                                    },
+                                    "box": {
+                                      "x": 0,
+                                      "y": 0,
+                                      "width": 18,
+                                      "height": 18
+                                    },
+                                    "paint": {
+                                      "opacity": 1
+                                    },
+                                    "layout": {
+                                      "display": "block",
+                                      "position": "relative",
+                                      "overflow": {
+                                        "x": "visible",
+                                        "y": "visible"
+                                      }
+                                    },
+                                    "children": [
+                                      {
+                                        "id": "fig-45",
+                                        "name": "Rectangle 9",
+                                        "source": {
+                                          "kind": "figma",
+                                          "id": "I55042:10457;3691:2971;81:60483;81:60472",
+                                          "dataset": {
+                                            "figmaNodeType": "RECTANGLE"
+                                          }
+                                        },
+                                        "box": {
+                                          "x": 0,
+                                          "y": 0,
+                                          "width": 18,
+                                          "height": 18
+                                        },
+                                        "paint": {
+                                          "fills": [
+                                            {
+                                              "kind": "color",
+                                              "color": "#f4f4f4"
+                                            }
+                                          ],
+                                          "borders": {
+                                            "top": {
+                                              "width": 1,
+                                              "color": "#0000001f",
+                                              "style": "solid"
+                                            },
+                                            "right": {
+                                              "width": 1,
+                                              "color": "#0000001f",
+                                              "style": "solid"
+                                            },
+                                            "bottom": {
+                                              "width": 1,
+                                              "color": "#0000001f",
+                                              "style": "solid"
+                                            },
+                                            "left": {
+                                              "width": 1,
+                                              "color": "#0000001f",
+                                              "style": "solid"
+                                            }
+                                          },
+                                          "cornerRadii": {
+                                            "topLeft": {
+                                              "x": 4,
+                                              "y": 4
+                                            },
+                                            "topRight": {
+                                              "x": 4,
+                                              "y": 4
+                                            },
+                                            "bottomRight": {
+                                              "x": 4,
+                                              "y": 4
+                                            },
+                                            "bottomLeft": {
+                                              "x": 4,
+                                              "y": 4
+                                            }
+                                          },
+                                          "opacity": 1
+                                        },
+                                        "layout": {
+                                          "display": "block",
+                                          "position": "absolute",
+                                          "overflow": {
+                                            "x": "visible",
+                                            "y": "visible"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "id": "fig-46",
+                                        "name": "fa-solid:check",
+                                        "source": {
+                                          "kind": "figma",
+                                          "id": "I55042:10457;3691:2971;81:60483;81:60473",
+                                          "dataset": {
+                                            "figmaNodeType": "FRAME"
+                                          }
+                                        },
+                                        "box": {
+                                          "x": 4,
+                                          "y": 4,
+                                          "width": 10,
+                                          "height": 10
+                                        },
+                                        "paint": {
+                                          "opacity": 1
+                                        },
+                                        "layout": {
+                                          "display": "block",
+                                          "position": "relative",
+                                          "overflow": {
+                                            "x": "hidden",
+                                            "y": "hidden"
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "fig-47",
+                    "name": "Frame 2147225891",
+                    "source": {
+                      "kind": "figma",
+                      "id": "55042:10458",
+                      "dataset": {
+                        "figmaNodeType": "FRAME"
+                      }
+                    },
+                    "box": {
+                      "x": 192,
+                      "y": 47,
+                      "width": 475,
+                      "height": 27
+                    },
+                    "paint": {
+                      "opacity": 1
+                    },
+                    "layout": {
+                      "display": "flex",
+                      "position": "relative",
+                      "overflow": {
+                        "x": "visible",
+                        "y": "visible"
+                      },
+                      "flex": {
+                        "direction": "row",
+                        "wrap": "nowrap",
+                        "justify": "end",
+                        "align": "center",
+                        "rowGap": 20,
+                        "columnGap": 0
+                      },
+                      "padding": {
+                        "top": 0,
+                        "right": 0,
+                        "bottom": 0,
+                        "left": 0
+                      }
+                    },
+                    "children": [
+                      {
+                        "id": "fig-48",
+                        "name": "Frame 2147225865",
+                        "source": {
+                          "kind": "figma",
+                          "id": "55042:10459",
+                          "dataset": {
+                            "figmaNodeType": "FRAME"
+                          }
+                        },
+                        "box": {
+                          "x": 0,
+                          "y": 0,
+                          "width": 145,
+                          "height": 27
+                        },
+                        "paint": {
+                          "opacity": 1
+                        },
+                        "layout": {
+                          "display": "flex",
+                          "position": "relative",
+                          "overflow": {
+                            "x": "visible",
+                            "y": "visible"
+                          },
+                          "flex": {
+                            "direction": "row",
+                            "wrap": "nowrap",
+                            "justify": "start",
+                            "align": "center",
+                            "rowGap": 10,
+                            "columnGap": 0
+                          },
+                          "padding": {
+                            "top": 0,
+                            "right": 0,
+                            "bottom": 0,
+                            "left": 0
+                          }
+                        },
+                        "children": [
+                          {
+                            "id": "fig-49",
+                            "name": "status",
+                            "source": {
+                              "kind": "figma",
+                              "id": "55042:10460",
+                              "dataset": {
+                                "figmaNodeType": "FRAME"
+                              }
+                            },
+                            "box": {
+                              "x": 0,
+                              "y": 0,
+                              "width": 117,
+                              "height": 27
+                            },
+                            "paint": {
+                              "fills": [
+                                {
+                                  "kind": "color",
+                                  "color": "#697592"
+                                }
+                              ],
+                              "cornerRadii": {
+                                "topLeft": {
+                                  "x": 12,
+                                  "y": 12
+                                },
+                                "topRight": {
+                                  "x": 12,
+                                  "y": 12
+                                },
+                                "bottomRight": {
+                                  "x": 12,
+                                  "y": 12
+                                },
+                                "bottomLeft": {
+                                  "x": 12,
+                                  "y": 12
+                                }
+                              },
+                              "opacity": 1
+                            },
+                            "layout": {
+                              "display": "flex",
+                              "position": "relative",
+                              "overflow": {
+                                "x": "hidden",
+                                "y": "hidden"
+                              },
+                              "flex": {
+                                "direction": "row",
+                                "wrap": "nowrap",
+                                "justify": "center",
+                                "align": "center",
+                                "rowGap": 0,
+                                "columnGap": 0
+                              },
+                              "padding": {
+                                "top": 4,
+                                "right": 4,
+                                "bottom": 4,
+                                "left": 4
+                              }
+                            },
+                            "children": [
+                              {
+                                "id": "fig-50",
+                                "name": "Typography",
+                                "source": {
+                                  "kind": "figma",
+                                  "id": "55042:10462",
+                                  "dataset": {
+                                    "figmaNodeType": "FRAME"
+                                  }
+                                },
+                                "box": {
+                                  "x": 17,
+                                  "y": 0,
+                                  "width": 83,
+                                  "height": 27
+                                },
+                                "paint": {
+                                  "opacity": 1
+                                },
+                                "layout": {
+                                  "display": "flex",
+                                  "position": "relative",
+                                  "overflow": {
+                                    "x": "visible",
+                                    "y": "visible"
+                                  },
+                                  "flex": {
+                                    "direction": "row",
+                                    "wrap": "nowrap",
+                                    "justify": "start",
+                                    "align": "center",
+                                    "rowGap": 5,
+                                    "columnGap": 0
+                                  },
+                                  "padding": {
+                                    "top": 3,
+                                    "right": 6,
+                                    "bottom": 3,
+                                    "left": 6
+                                  }
+                                },
+                                "children": [
+                                  {
+                                    "id": "fig-51",
+                                    "name": "יצירת תובנות",
+                                    "source": {
+                                      "kind": "figma",
+                                      "id": "55042:10463",
+                                      "dataset": {
+                                        "figmaNodeType": "TEXT",
+                                        "figmaTextCase": "SMALL_CAPS_FORCED",
+                                        "figmaFontFamily": "Open Sans Hebrew",
+                                        "figmaFontStyle": "Regular"
+                                      }
+                                    },
+                                    "box": {
+                                      "x": 6,
+                                      "y": 3,
+                                      "width": 71,
+                                      "height": 21
+                                    },
+                                    "text": {
+                                      "value": "יצירת תובנות",
+                                      "font": {
+                                        "family": "Open Sans Hebrew",
+                                        "size": 14,
+                                        "weight": 400,
+                                        "style": "normal"
+                                      },
+                                      "color": "#ffffff",
+                                      "align": "center",
+                                      "verticalAlign": "top",
+                                      "letterSpacing": 0,
+                                      "lineHeight": 21,
+                                      "direction": "rtl"
+                                    },
+                                    "layout": {
+                                      "display": "block",
+                                      "position": "absolute",
+                                      "overflow": {
+                                        "x": "visible",
+                                        "y": "visible"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "fig-52",
+                            "name": "mat-input--selection-controls",
+                            "source": {
+                              "kind": "figma",
+                              "id": "55042:10465",
+                              "dataset": {
+                                "figmaNodeType": "INSTANCE"
+                              }
+                            },
+                            "box": {
+                              "x": 127,
+                              "y": 4.5,
+                              "width": 18,
+                              "height": 18
+                            },
+                            "paint": {
+                              "opacity": 1
+                            },
+                            "layout": {
+                              "display": "flex",
+                              "position": "relative",
+                              "overflow": {
+                                "x": "visible",
+                                "y": "visible"
+                              },
+                              "flex": {
+                                "direction": "row",
+                                "wrap": "nowrap",
+                                "justify": "start",
+                                "align": "start",
+                                "rowGap": 0,
+                                "columnGap": 0
+                              },
+                              "padding": {
+                                "top": 0,
+                                "right": 0,
+                                "bottom": 0,
+                                "left": 0
+                              }
+                            },
+                            "children": [
+                              {
+                                "id": "fig-53",
+                                "name": "mat-input--selection-controls",
+                                "source": {
+                                  "kind": "figma",
+                                  "id": "I55042:10465;3691:2961",
+                                  "dataset": {
+                                    "figmaNodeType": "FRAME"
+                                  }
+                                },
+                                "box": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 18,
+                                  "height": 18
+                                },
+                                "paint": {
+                                  "cornerRadii": {
+                                    "topLeft": {
+                                      "x": 32,
+                                      "y": 32
+                                    },
+                                    "topRight": {
+                                      "x": 32,
+                                      "y": 32
+                                    },
+                                    "bottomRight": {
+                                      "x": 32,
+                                      "y": 32
+                                    },
+                                    "bottomLeft": {
+                                      "x": 32,
+                                      "y": 32
+                                    }
+                                  },
+                                  "opacity": 1
+                                },
+                                "layout": {
+                                  "display": "flex",
+                                  "position": "relative",
+                                  "overflow": {
+                                    "x": "visible",
+                                    "y": "visible"
+                                  },
+                                  "flex": {
+                                    "direction": "row",
+                                    "wrap": "nowrap",
+                                    "justify": "center",
+                                    "align": "center",
+                                    "rowGap": 0,
+                                    "columnGap": 0
+                                  },
+                                  "padding": {
+                                    "top": 0,
+                                    "right": 16,
+                                    "bottom": 0,
+                                    "left": 16
+                                  }
+                                },
+                                "children": [
+                                  {
+                                    "id": "fig-54",
+                                    "name": "Checkbox",
+                                    "source": {
+                                      "kind": "figma",
+                                      "id": "I55042:10465;3691:2962",
+                                      "dataset": {
+                                        "figmaNodeType": "FRAME"
+                                      }
+                                    },
+                                    "box": {
+                                      "x": 0,
+                                      "y": 0,
+                                      "width": 18,
+                                      "height": 18
+                                    },
+                                    "paint": {
+                                      "opacity": 1
+                                    },
+                                    "layout": {
+                                      "display": "block",
+                                      "position": "relative",
+                                      "overflow": {
+                                        "x": "visible",
+                                        "y": "visible"
+                                      }
+                                    },
+                                    "children": [
+                                      {
+                                        "id": "fig-55",
+                                        "name": "Rectangle 9",
+                                        "source": {
+                                          "kind": "figma",
+                                          "id": "I55042:10465;3691:2963",
+                                          "dataset": {
+                                            "figmaNodeType": "RECTANGLE"
+                                          }
+                                        },
+                                        "box": {
+                                          "x": 0,
+                                          "y": 0,
+                                          "width": 18,
+                                          "height": 18
+                                        },
+                                        "paint": {
+                                          "fills": [
+                                            {
+                                              "kind": "color",
+                                              "color": "#ececef"
+                                            }
+                                          ],
+                                          "borders": {
+                                            "top": {
+                                              "width": 1,
+                                              "color": "#8a5adb",
+                                              "style": "solid"
+                                            },
+                                            "right": {
+                                              "width": 1,
+                                              "color": "#8a5adb",
+                                              "style": "solid"
+                                            },
+                                            "bottom": {
+                                              "width": 1,
+                                              "color": "#8a5adb",
+                                              "style": "solid"
+                                            },
+                                            "left": {
+                                              "width": 1,
+                                              "color": "#8a5adb",
+                                              "style": "solid"
+                                            }
+                                          },
+                                          "cornerRadii": {
+                                            "topLeft": {
+                                              "x": 4,
+                                              "y": 4
+                                            },
+                                            "topRight": {
+                                              "x": 4,
+                                              "y": 4
+                                            },
+                                            "bottomRight": {
+                                              "x": 4,
+                                              "y": 4
+                                            },
+                                            "bottomLeft": {
+                                              "x": 4,
+                                              "y": 4
+                                            }
+                                          },
+                                          "opacity": 1
+                                        },
+                                        "layout": {
+                                          "display": "block",
+                                          "position": "absolute",
+                                          "overflow": {
+                                            "x": "visible",
+                                            "y": "visible"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "id": "fig-56",
+                                        "name": "fa-solid:check",
+                                        "source": {
+                                          "kind": "figma",
+                                          "id": "I55042:10465;3691:2964",
+                                          "dataset": {
+                                            "figmaNodeType": "FRAME"
+                                          }
+                                        },
+                                        "box": {
+                                          "x": 4,
+                                          "y": 4,
+                                          "width": 10,
+                                          "height": 10
+                                        },
+                                        "paint": {
+                                          "opacity": 1
+                                        },
+                                        "layout": {
+                                          "display": "block",
+                                          "position": "relative",
+                                          "overflow": {
+                                            "x": "hidden",
+                                            "y": "hidden"
+                                          }
+                                        },
+                                        "children": [
+                                          {
+                                            "id": "fig-57",
+                                            "name": "Vector",
+                                            "source": {
+                                              "kind": "figma",
+                                              "id": "I55042:10465;3691:2965",
+                                              "dataset": {
+                                                "figmaNodeType": "VECTOR"
+                                              }
+                                            },
+                                            "box": {
+                                              "x": 0,
+                                              "y": 1.27,
+                                              "width": 10,
+                                              "height": 7.46
+                                            },
+                                            "vector": {
+                                              "viewBox": {
+                                                "x": 0,
+                                                "y": 0,
+                                                "width": 10,
+                                                "height": 7.46
+                                              },
+                                              "shapes": [
+                                                {
+                                                  "primitive": "path",
+                                                  "attrs": {
+                                                    "d": "M 0 0 L 10 0 L 10 7.46 L 0 7.46 Z",
+                                                    "fillRule": "nonzero"
+                                                  },
+                                                  "paint": {
+                                                    "fill": "#8a5adb",
+                                                    "stroke": "none",
+                                                    "strokeWidth": 1
+                                                  }
+                                                }
+                                              ],
+                                              "figmaNative": {
+                                                "vectorPaths": [],
+                                                "fill": "#8a5adb",
+                                                "strokeWeight": 1,
+                                                "strokeAlign": "INSIDE"
+                                              }
+                                            },
+                                            "layout": {
+                                              "display": "block",
+                                              "position": "absolute",
+                                              "overflow": {
+                                                "x": "visible",
+                                                "y": "visible"
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "fig-58",
+                        "name": "Frame 2147225864",
+                        "source": {
+                          "kind": "figma",
+                          "id": "55042:10466",
+                          "dataset": {
+                            "figmaNodeType": "FRAME"
+                          }
+                        },
+                        "box": {
+                          "x": 165,
+                          "y": 0,
+                          "width": 145,
+                          "height": 27
+                        },
+                        "paint": {
+                          "opacity": 1
+                        },
+                        "layout": {
+                          "display": "flex",
+                          "position": "relative",
+                          "overflow": {
+                            "x": "visible",
+                            "y": "visible"
+                          },
+                          "flex": {
+                            "direction": "row",
+                            "wrap": "nowrap",
+                            "justify": "start",
+                            "align": "center",
+                            "rowGap": 10,
+                            "columnGap": 0
+                          },
+                          "padding": {
+                            "top": 0,
+                            "right": 0,
+                            "bottom": 0,
+                            "left": 0
+                          }
+                        },
+                        "children": [
+                          {
+                            "id": "fig-59",
+                            "name": "Frame 627159",
+                            "source": {
+                              "kind": "figma",
+                              "id": "55042:10467",
+                              "dataset": {
+                                "figmaNodeType": "FRAME"
+                              }
+                            },
+                            "box": {
+                              "x": 0,
+                              "y": 0,
+                              "width": 117,
+                              "height": 27
+                            },
+                            "paint": {
+                              "fills": [
+                                {
+                                  "kind": "color",
+                                  "color": "#d038d8"
+                                }
+                              ],
+                              "cornerRadii": {
+                                "topLeft": {
+                                  "x": 12,
+                                  "y": 12
+                                },
+                                "topRight": {
+                                  "x": 12,
+                                  "y": 12
+                                },
+                                "bottomRight": {
+                                  "x": 12,
+                                  "y": 12
+                                },
+                                "bottomLeft": {
+                                  "x": 12,
+                                  "y": 12
+                                }
+                              },
+                              "opacity": 1
+                            },
+                            "layout": {
+                              "display": "flex",
+                              "position": "relative",
+                              "overflow": {
+                                "x": "hidden",
+                                "y": "hidden"
+                              },
+                              "flex": {
+                                "direction": "row",
+                                "wrap": "nowrap",
+                                "justify": "center",
+                                "align": "center",
+                                "rowGap": 5,
+                                "columnGap": 0
+                              },
+                              "padding": {
+                                "top": 3,
+                                "right": 10,
+                                "bottom": 3,
+                                "left": 10
+                              }
+                            },
+                            "children": [
+                              {
+                                "id": "fig-60",
+                                "name": "Frame 2",
+                                "source": {
+                                  "kind": "figma",
+                                  "id": "55042:10468",
+                                  "dataset": {
+                                    "figmaNodeType": "INSTANCE"
+                                  }
+                                },
+                                "box": {
+                                  "x": 10,
+                                  "y": 7,
+                                  "width": 13,
+                                  "height": 13
+                                },
+                                "paint": {
+                                  "opacity": 1
+                                },
+                                "layout": {
+                                  "display": "block",
+                                  "position": "relative",
+                                  "overflow": {
+                                    "x": "visible",
+                                    "y": "visible"
+                                  }
+                                },
+                                "children": [
+                                  {
+                                    "id": "fig-61",
+                                    "name": "Vector",
+                                    "source": {
+                                      "kind": "figma",
+                                      "id": "I55042:10468;192:4859",
+                                      "dataset": {
+                                        "figmaNodeType": "VECTOR"
+                                      }
+                                    },
+                                    "box": {
+                                      "x": 0,
+                                      "y": 0,
+                                      "width": 13,
+                                      "height": 13
+                                    },
+                                    "vector": {
+                                      "viewBox": {
+                                        "x": 0,
+                                        "y": 0,
+                                        "width": 13,
+                                        "height": 13
+                                      },
+                                      "shapes": [
+                                        {
+                                          "primitive": "path",
+                                          "attrs": {
+                                            "d": "M 0 0 L 13 0 L 13 13 L 0 13 Z",
+                                            "fillRule": "nonzero"
+                                          },
+                                          "paint": {
+                                            "fill": "#1d1d1d",
+                                            "stroke": "none",
+                                            "strokeWidth": 0.02
+                                          }
+                                        }
+                                      ],
+                                      "figmaNative": {
+                                        "vectorPaths": [],
+                                        "fill": "#1d1d1d",
+                                        "strokeWeight": 0.02,
+                                        "strokeAlign": "INSIDE"
+                                      }
+                                    },
+                                    "layout": {
+                                      "display": "block",
+                                      "position": "absolute",
+                                      "overflow": {
+                                        "x": "visible",
+                                        "y": "visible"
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                "id": "fig-62",
+                                "name": "ממתין לתמלול",
+                                "source": {
+                                  "kind": "figma",
+                                  "id": "55042:10469",
+                                  "dataset": {
+                                    "figmaNodeType": "TEXT",
+                                    "figmaTextCase": "SMALL_CAPS_FORCED",
+                                    "figmaFontFamily": "Open Sans",
+                                    "figmaFontStyle": "Regular"
+                                  }
+                                },
+                                "box": {
+                                  "x": 28,
+                                  "y": 3,
+                                  "width": 79,
+                                  "height": 21
+                                },
+                                "text": {
+                                  "value": "ממתין לתמלול",
+                                  "font": {
+                                    "family": "Open Sans",
+                                    "size": 14,
+                                    "weight": 400,
+                                    "style": "normal"
+                                  },
+                                  "color": "#1d1d1d",
+                                  "align": "center",
+                                  "verticalAlign": "top",
+                                  "letterSpacing": 0,
+                                  "lineHeight": 21,
+                                  "direction": "rtl"
+                                },
+                                "layout": {
+                                  "display": "block",
+                                  "position": "absolute",
+                                  "overflow": {
+                                    "x": "visible",
+                                    "y": "visible"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "id": "fig-63",
+                            "name": "mat-input--selection-controls",
+                            "source": {
+                              "kind": "figma",
+                              "id": "55042:10470",
+                              "dataset": {
+                                "figmaNodeType": "INSTANCE"
+                              }
+                            },
+                            "box": {
+                              "x": 127,
+                              "y": 4.5,
+                              "width": 18,
+                              "height": 18
+                            },
+                            "paint": {
+                              "opacity": 1
+                            },
+                            "layout": {
+                              "display": "flex",
+                              "position": "relative",
+                              "overflow": {
+                                "x": "visible",
+                                "y": "visible"
+                              },
+                              "flex": {
+                                "direction": "row",
+                                "wrap": "nowrap",
+                                "justify": "start",
+                                "align": "start",
+                                "rowGap": 0,
+                                "columnGap": 0
+                              },
+                              "padding": {
+                                "top": 0,
+                                "right": 0,
+                                "bottom": 0,
+                                "left": 0
+                              }
+                            },
+                            "children": [
+                              {
+                                "id": "fig-64",
+                                "name": "mat-input--selection-controls",
+                                "source": {
+                                  "kind": "figma",
+                                  "id": "I55042:10470;3691:2971",
+                                  "dataset": {
+                                    "figmaNodeType": "INSTANCE"
+                                  }
+                                },
+                                "box": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 18,
+                                  "height": 18
+                                },
+                                "paint": {
+                                  "cornerRadii": {
+                                    "topLeft": {
+                                      "x": 32,
+                                      "y": 32
+                                    },
+                                    "topRight": {
+                                      "x": 32,
+                                      "y": 32
+                                    },
+                                    "bottomRight": {
+                                      "x": 32,
+                                      "y": 32
+                                    },
+                                    "bottomLeft": {
+                                      "x": 32,
+                                      "y": 32
+                                    }
+                                  },
+                                  "opacity": 1
+                                },
+                                "layout": {
+                                  "display": "flex",
+                                  "position": "relative",
+                                  "overflow": {
+                                    "x": "visible",
+                                    "y": "visible"
+                                  },
+                                  "flex": {
+                                    "direction": "row",
+                                    "wrap": "nowrap",
+                                    "justify": "center",
+                                    "align": "center",
+                                    "rowGap": 0,
+                                    "columnGap": 0
+                                  },
+                                  "padding": {
+                                    "top": 0,
+                                    "right": 16,
+                                    "bottom": 0,
+                                    "left": 16
+                                  }
+                                },
+                                "children": [
+                                  {
+                                    "id": "fig-65",
+                                    "name": "Checkbox",
+                                    "source": {
+                                      "kind": "figma",
+                                      "id": "I55042:10470;3691:2971;81:60483",
+                                      "dataset": {
+                                        "figmaNodeType": "INSTANCE"
+                                      }
+                                    },
+                                    "box": {
+                                      "x": 0,
+                                      "y": 0,
+                                      "width": 18,
+                                      "height": 18
+                                    },
+                                    "paint": {
+                                      "opacity": 1
+                                    },
+                                    "layout": {
+                                      "display": "block",
+                                      "position": "relative",
+                                      "overflow": {
+                                        "x": "visible",
+                                        "y": "visible"
+                                      }
+                                    },
+                                    "children": [
+                                      {
+                                        "id": "fig-66",
+                                        "name": "Rectangle 9",
+                                        "source": {
+                                          "kind": "figma",
+                                          "id": "I55042:10470;3691:2971;81:60483;81:60472",
+                                          "dataset": {
+                                            "figmaNodeType": "RECTANGLE"
+                                          }
+                                        },
+                                        "box": {
+                                          "x": 0,
+                                          "y": 0,
+                                          "width": 18,
+                                          "height": 18
+                                        },
+                                        "paint": {
+                                          "fills": [
+                                            {
+                                              "kind": "color",
+                                              "color": "#f4f4f4"
+                                            }
+                                          ],
+                                          "borders": {
+                                            "top": {
+                                              "width": 1,
+                                              "color": "#0000001f",
+                                              "style": "solid"
+                                            },
+                                            "right": {
+                                              "width": 1,
+                                              "color": "#0000001f",
+                                              "style": "solid"
+                                            },
+                                            "bottom": {
+                                              "width": 1,
+                                              "color": "#0000001f",
+                                              "style": "solid"
+                                            },
+                                            "left": {
+                                              "width": 1,
+                                              "color": "#0000001f",
+                                              "style": "solid"
+                                            }
+                                          },
+                                          "cornerRadii": {
+                                            "topLeft": {
+                                              "x": 4,
+                                              "y": 4
+                                            },
+                                            "topRight": {
+                                              "x": 4,
+                                              "y": 4
+                                            },
+                                            "bottomRight": {
+                                              "x": 4,
+                                              "y": 4
+                                            },
+                                            "bottomLeft": {
+                                              "x": 4,
+                                              "y": 4
+                                            }
+                                          },
+                                          "opacity": 1
+                                        },
+                                        "layout": {
+                                          "display": "block",
+                                          "position": "absolute",
+                                          "overflow": {
+                                            "x": "visible",
+                                            "y": "visible"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "id": "fig-67",
+                                        "name": "fa-solid:check",
+                                        "source": {
+                                          "kind": "figma",
+                                          "id": "I55042:10470;3691:2971;81:60483;81:60473",
+                                          "dataset": {
+                                            "figmaNodeType": "FRAME"
+                                          }
+                                        },
+                                        "box": {
+                                          "x": 4,
+                                          "y": 4,
+                                          "width": 10,
+                                          "height": 10
+                                        },
+                                        "paint": {
+                                          "opacity": 1
+                                        },
+                                        "layout": {
+                                          "display": "block",
+                                          "position": "relative",
+                                          "overflow": {
+                                            "x": "hidden",
+                                            "y": "hidden"
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "fig-68",
+                        "name": "Frame 2147225863",
+                        "source": {
+                          "kind": "figma",
+                          "id": "55042:10471",
+                          "dataset": {
+                            "figmaNodeType": "FRAME"
+                          }
+                        },
+                        "box": {
+                          "x": 330,
+                          "y": 0,
+                          "width": 145,
+                          "height": 27
+                        },
+                        "paint": {
+                          "opacity": 1
+                        },
+                        "layout": {
+                          "display": "flex",
+                          "position": "relative",
+                          "overflow": {
+                            "x": "visible",
+                            "y": "visible"
+                          },
+                          "flex": {
+                            "direction": "row",
+                            "wrap": "nowrap",
+                            "justify": "start",
+                            "align": "center",
+                            "rowGap": 10,
+                            "columnGap": 0
+                          },
+                          "padding": {
+                            "top": 0,
+                            "right": 0,
+                            "bottom": 0,
+                            "left": 0
+                          }
+                        },
+                        "children": [
+                          {
+                            "id": "fig-69",
+                            "name": "Frame 2147225819",
+                            "source": {
+                              "kind": "figma",
+                              "id": "55042:10472",
+                              "dataset": {
+                                "figmaNodeType": "FRAME"
+                              }
+                            },
+                            "box": {
+                              "x": 0,
+                              "y": 0,
+                              "width": 117,
+                              "height": 27
+                            },
+                            "paint": {
+                              "fills": [
+                                {
+                                  "kind": "color",
+                                  "color": "#ef355d"
+                                }
+                              ],
+                              "cornerRadii": {
+                                "topLeft": {
+                                  "x": 12,
+                                  "y": 12
+                                },
+                                "topRight": {
+                                  "x": 12,
+                                  "y": 12
+                                },
+                                "bottomRight": {
+                                  "x": 12,
+                                  "y": 12
+                                },
+                                "bottomLeft": {
+                                  "x": 12,
+                                  "y": 12
+                                }
+                              },
+                              "opacity": 1
+                            },
+                            "layout": {
+                              "display": "flex",
+                              "position": "relative",
+                              "overflow": {
+                                "x": "hidden",
+                                "y": "hidden"
+                              },
+                              "flex": {
+                                "direction": "row",
+                                "wrap": "nowrap",
+                                "justify": "center",
+                                "align": "center",
+                                "rowGap": 10,
+                                "columnGap": 0
+                              },
+                              "padding": {
+                                "top": 3,
+                                "right": 15,
+                                "bottom": 3,
+                                "left": 15
+                              }
+                            },
+                            "children": [
+                              {
+                                "id": "fig-70",
+                                "name": "שגיאה",
+                                "source": {
+                                  "kind": "figma",
+                                  "id": "55042:10473",
+                                  "dataset": {
+                                    "figmaNodeType": "TEXT",
+                                    "figmaTextCase": "SMALL_CAPS_FORCED",
+                                    "figmaFontFamily": "Open Sans",
+                                    "figmaFontStyle": "Regular"
+                                  }
+                                },
+                                "box": {
+                                  "x": 40.5,
+                                  "y": 3,
+                                  "width": 36,
+                                  "height": 21
+                                },
+                                "text": {
+                                  "value": "שגיאה",
+                                  "font": {
+                                    "family": "Open Sans",
+                                    "size": 14,
+                                    "weight": 400,
+                                    "style": "normal"
+                                  },
+                                  "color": "#1d1d1d",
+                                  "align": "center",
+                                  "verticalAlign": "top",
+                                  "letterSpacing": 0,
+                                  "lineHeight": 21,
+                                  "direction": "rtl"
+                                },
+                                "layout": {
+                                  "display": "block",
+                                  "position": "absolute",
+                                  "overflow": {
+                                    "x": "visible",
+                                    "y": "visible"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "id": "fig-71",
+                            "name": "mat-input--selection-controls",
+                            "source": {
+                              "kind": "figma",
+                              "id": "55042:10474",
+                              "dataset": {
+                                "figmaNodeType": "INSTANCE"
+                              }
+                            },
+                            "box": {
+                              "x": 127,
+                              "y": 4.5,
+                              "width": 18,
+                              "height": 18
+                            },
+                            "paint": {
+                              "opacity": 1
+                            },
+                            "layout": {
+                              "display": "flex",
+                              "position": "relative",
+                              "overflow": {
+                                "x": "visible",
+                                "y": "visible"
+                              },
+                              "flex": {
+                                "direction": "row",
+                                "wrap": "nowrap",
+                                "justify": "start",
+                                "align": "start",
+                                "rowGap": 0,
+                                "columnGap": 0
+                              },
+                              "padding": {
+                                "top": 0,
+                                "right": 0,
+                                "bottom": 0,
+                                "left": 0
+                              }
+                            },
+                            "children": [
+                              {
+                                "id": "fig-72",
+                                "name": "mat-input--selection-controls",
+                                "source": {
+                                  "kind": "figma",
+                                  "id": "I55042:10474;3691:2971",
+                                  "dataset": {
+                                    "figmaNodeType": "INSTANCE"
+                                  }
+                                },
+                                "box": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 18,
+                                  "height": 18
+                                },
+                                "paint": {
+                                  "cornerRadii": {
+                                    "topLeft": {
+                                      "x": 32,
+                                      "y": 32
+                                    },
+                                    "topRight": {
+                                      "x": 32,
+                                      "y": 32
+                                    },
+                                    "bottomRight": {
+                                      "x": 32,
+                                      "y": 32
+                                    },
+                                    "bottomLeft": {
+                                      "x": 32,
+                                      "y": 32
+                                    }
+                                  },
+                                  "opacity": 1
+                                },
+                                "layout": {
+                                  "display": "flex",
+                                  "position": "relative",
+                                  "overflow": {
+                                    "x": "visible",
+                                    "y": "visible"
+                                  },
+                                  "flex": {
+                                    "direction": "row",
+                                    "wrap": "nowrap",
+                                    "justify": "center",
+                                    "align": "center",
+                                    "rowGap": 0,
+                                    "columnGap": 0
+                                  },
+                                  "padding": {
+                                    "top": 0,
+                                    "right": 16,
+                                    "bottom": 0,
+                                    "left": 16
+                                  }
+                                },
+                                "children": [
+                                  {
+                                    "id": "fig-73",
+                                    "name": "Checkbox",
+                                    "source": {
+                                      "kind": "figma",
+                                      "id": "I55042:10474;3691:2971;81:60483",
+                                      "dataset": {
+                                        "figmaNodeType": "INSTANCE"
+                                      }
+                                    },
+                                    "box": {
+                                      "x": 0,
+                                      "y": 0,
+                                      "width": 18,
+                                      "height": 18
+                                    },
+                                    "paint": {
+                                      "opacity": 1
+                                    },
+                                    "layout": {
+                                      "display": "block",
+                                      "position": "relative",
+                                      "overflow": {
+                                        "x": "visible",
+                                        "y": "visible"
+                                      }
+                                    },
+                                    "children": [
+                                      {
+                                        "id": "fig-74",
+                                        "name": "Rectangle 9",
+                                        "source": {
+                                          "kind": "figma",
+                                          "id": "I55042:10474;3691:2971;81:60483;81:60472",
+                                          "dataset": {
+                                            "figmaNodeType": "RECTANGLE"
+                                          }
+                                        },
+                                        "box": {
+                                          "x": 0,
+                                          "y": 0,
+                                          "width": 18,
+                                          "height": 18
+                                        },
+                                        "paint": {
+                                          "fills": [
+                                            {
+                                              "kind": "color",
+                                              "color": "#f4f4f4"
+                                            }
+                                          ],
+                                          "borders": {
+                                            "top": {
+                                              "width": 1,
+                                              "color": "#0000001f",
+                                              "style": "solid"
+                                            },
+                                            "right": {
+                                              "width": 1,
+                                              "color": "#0000001f",
+                                              "style": "solid"
+                                            },
+                                            "bottom": {
+                                              "width": 1,
+                                              "color": "#0000001f",
+                                              "style": "solid"
+                                            },
+                                            "left": {
+                                              "width": 1,
+                                              "color": "#0000001f",
+                                              "style": "solid"
+                                            }
+                                          },
+                                          "cornerRadii": {
+                                            "topLeft": {
+                                              "x": 4,
+                                              "y": 4
+                                            },
+                                            "topRight": {
+                                              "x": 4,
+                                              "y": 4
+                                            },
+                                            "bottomRight": {
+                                              "x": 4,
+                                              "y": 4
+                                            },
+                                            "bottomLeft": {
+                                              "x": 4,
+                                              "y": 4
+                                            }
+                                          },
+                                          "opacity": 1
+                                        },
+                                        "layout": {
+                                          "display": "block",
+                                          "position": "absolute",
+                                          "overflow": {
+                                            "x": "visible",
+                                            "y": "visible"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "id": "fig-75",
+                                        "name": "fa-solid:check",
+                                        "source": {
+                                          "kind": "figma",
+                                          "id": "I55042:10474;3691:2971;81:60483;81:60473",
+                                          "dataset": {
+                                            "figmaNodeType": "FRAME"
+                                          }
+                                        },
+                                        "box": {
+                                          "x": 4,
+                                          "y": 4,
+                                          "width": 10,
+                                          "height": 10
+                                        },
+                                        "paint": {
+                                          "opacity": 1
+                                        },
+                                        "layout": {
+                                          "display": "block",
+                                          "position": "relative",
+                                          "overflow": {
+                                            "x": "hidden",
+                                            "y": "hidden"
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "fig-76",
+        "name": "mat-card-actions",
+        "source": {
+          "kind": "figma",
+          "id": "55042:10475",
+          "dataset": {
+            "figmaNodeType": "FRAME"
+          }
+        },
+        "box": {
+          "x": 0,
+          "y": 225,
+          "width": 707,
+          "height": 61
+        },
+        "paint": {
+          "opacity": 1
+        },
+        "layout": {
+          "display": "flex",
+          "position": "relative",
+          "overflow": {
+            "x": "hidden",
+            "y": "hidden"
+          },
+          "flex": {
+            "direction": "row",
+            "wrap": "nowrap",
+            "justify": "start",
+            "align": "center",
+            "rowGap": 8,
+            "columnGap": 0
+          },
+          "padding": {
+            "top": 8,
+            "right": 0,
+            "bottom": 8,
+            "left": 20
+          },
+          "alignSelf": "stretch",
+          "flexBasis": "100%"
+        },
+        "children": [
+          {
+            "id": "fig-77",
+            "name": "Primary button",
+            "source": {
+              "kind": "figma",
+              "id": "55042:10476",
+              "dataset": {
+                "figmaNodeType": "FRAME"
+              }
+            },
+            "box": {
+              "x": 20,
+              "y": 11.5,
+              "width": 86,
+              "height": 38
+            },
+            "paint": {
+              "fills": [
+                {
+                  "kind": "linear-gradient",
+                  "angleDeg": 92.97,
+                  "stops": [
+                    {
+                      "color": "#3a3e7b",
+                      "offset": 0
+                    },
+                    {
+                      "color": "#614ab0",
+                      "offset": 0.57
+                    },
+                    {
+                      "color": "#9b5dff",
+                      "offset": 1
+                    }
+                  ],
+                  "figmaNative": {
+                    "gradientTransform": [
+                      [
+                        0.9083214998245239,
+                        -0.0094503378495574,
+                        0.09167848527431488
+                      ],
+                      [
+                        0.10673321783542633,
+                        0.08042429387569427,
+                        0.39326679706573486
+                      ]
+                    ],
+                    "gradientStops": [
+                      {
+                        "position": 0,
+                        "color": {
+                          "r": 0.22745098173618317,
+                          "g": 0.24313725531101227,
+                          "b": 0.48235294222831726,
+                          "a": 1
+                        }
+                      },
+                      {
+                        "position": 0.57,
+                        "color": {
+                          "r": 0.3790464401245117,
+                          "g": 0.2915852665901184,
+                          "b": 0.6886477470397949,
+                          "a": 1
+                        }
+                      },
+                      {
+                        "position": 1,
+                        "color": {
+                          "r": 0.6078431606292725,
+                          "g": 0.364705890417099,
+                          "b": 1,
+                          "a": 1
+                        }
+                      }
+                    ],
+                    "opacity": 1
+                  }
+                }
+              ],
+              "cornerRadii": {
+                "topLeft": {
+                  "x": 12,
+                  "y": 12
+                },
+                "topRight": {
+                  "x": 12,
+                  "y": 12
+                },
+                "bottomRight": {
+                  "x": 12,
+                  "y": 12
+                },
+                "bottomLeft": {
+                  "x": 12,
+                  "y": 12
+                }
+              },
+              "shadows": [
+                {
+                  "offsetX": 0,
+                  "offsetY": 1.5,
+                  "blur": 3,
+                  "spread": 0,
+                  "color": "#16053233",
+                  "inset": false
+                }
+              ],
+              "opacity": 1
+            },
+            "layout": {
+              "display": "flex",
+              "position": "relative",
+              "overflow": {
+                "x": "hidden",
+                "y": "hidden"
+              },
+              "flex": {
+                "direction": "row",
+                "wrap": "nowrap",
+                "justify": "center",
+                "align": "center",
+                "rowGap": 10,
+                "columnGap": 0
+              },
+              "padding": {
+                "top": 9,
+                "right": 24,
+                "bottom": 9,
+                "left": 24
+              }
+            },
+            "children": [
+              {
+                "id": "fig-78",
+                "name": "Frame 2147225570",
+                "source": {
+                  "kind": "figma",
+                  "id": "55042:10477",
+                  "dataset": {
+                    "figmaNodeType": "FRAME"
+                  }
+                },
+                "box": {
+                  "x": -40,
+                  "y": -8,
+                  "width": 108,
+                  "height": 109.8
+                },
+                "paint": {
+                  "opacity": 1
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "absolute",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  }
+                },
+                "children": [
+                  {
+                    "id": "fig-79",
+                    "name": "Rectangle 10",
+                    "source": {
+                      "kind": "figma",
+                      "id": "55042:10478",
+                      "dataset": {
+                        "figmaNodeType": "VECTOR",
+                        "figmaRelativeTransform": [
+                          [
+                            0.3678729236125946,
+                            0.9298760890960693,
+                            -18.720794677734375
+                          ],
+                          [
+                            -0.9298760890960693,
+                            0.367872953414917,
+                            83.5340347290039
+                          ]
+                        ]
+                      }
+                    },
+                    "box": {
+                      "x": -18.72,
+                      "y": 83.53,
+                      "width": 97.74,
+                      "height": 94.08
+                    },
+                    "vector": {
+                      "viewBox": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 97.74,
+                        "height": 94.08
+                      },
+                      "shapes": [
+                        {
+                          "primitive": "path",
+                          "attrs": {
+                            "d": "M 0 0 L 97.74 0 L 97.74 94.08 L 0 94.08 Z",
+                            "fillRule": "nonzero"
+                          },
+                          "paint": {
+                            "fill": "none",
+                            "stroke": "none",
+                            "strokeWidth": 0.68,
+                            "opacity": 0.25
+                          }
+                        }
+                      ],
+                      "figmaNative": {
+                        "vectorPaths": [],
+                        "strokeWeight": 0.68,
+                        "strokeAlign": "INSIDE"
+                      }
+                    },
+                    "layout": {
+                      "display": "block",
+                      "position": "absolute",
+                      "overflow": {
+                        "x": "visible",
+                        "y": "visible"
+                      }
+                    }
+                  },
+                  {
+                    "id": "fig-80",
+                    "name": "Rectangle 9",
+                    "source": {
+                      "kind": "figma",
+                      "id": "55042:10479",
+                      "dataset": {
+                        "figmaNodeType": "VECTOR",
+                        "figmaRelativeTransform": [
+                          [
+                            0.3678729236125946,
+                            0.9298760890960693,
+                            -41
+                          ],
+                          [
+                            -0.9298760890960693,
+                            0.367872953414917,
+                            93.6932144165039
+                          ]
+                        ]
+                      }
+                    },
+                    "box": {
+                      "x": -41,
+                      "y": 93.69,
+                      "width": 133.02,
+                      "height": 128.04
+                    },
+                    "vector": {
+                      "viewBox": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 133.02,
+                        "height": 128.04
+                      },
+                      "shapes": [
+                        {
+                          "primitive": "path",
+                          "attrs": {
+                            "d": "M 0 0 L 133.02 0 L 133.02 128.04 L 0 128.04 Z",
+                            "fillRule": "nonzero"
+                          },
+                          "paint": {
+                            "fill": "none",
+                            "stroke": "none",
+                            "strokeWidth": 0.68,
+                            "opacity": 0.2
+                          }
+                        }
+                      ],
+                      "figmaNative": {
+                        "vectorPaths": [],
+                        "strokeWeight": 0.68,
+                        "strokeAlign": "INSIDE"
+                      }
+                    },
+                    "layout": {
+                      "display": "block",
+                      "position": "absolute",
+                      "overflow": {
+                        "x": "visible",
+                        "y": "visible"
+                      }
+                    }
+                  },
+                  {
+                    "id": "fig-81",
+                    "name": "Rectangle 11",
+                    "source": {
+                      "kind": "figma",
+                      "id": "55042:10480",
+                      "dataset": {
+                        "figmaNodeType": "VECTOR",
+                        "figmaRelativeTransform": [
+                          [
+                            0.9693325757980347,
+                            0.24575284123420715,
+                            1.7647705078125
+                          ],
+                          [
+                            -0.24575281143188477,
+                            0.9693325757980347,
+                            31.896339416503906
+                          ]
+                        ]
+                      }
+                    },
+                    "box": {
+                      "x": 1.76,
+                      "y": 31.9,
+                      "width": 68.39,
+                      "height": 65.83
+                    },
+                    "vector": {
+                      "viewBox": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 68.39,
+                        "height": 65.83
+                      },
+                      "shapes": [
+                        {
+                          "primitive": "path",
+                          "attrs": {
+                            "d": "M 0 0 L 68.39 0 L 68.39 65.83 L 0 65.83 Z",
+                            "fillRule": "nonzero"
+                          },
+                          "paint": {
+                            "fill": "none",
+                            "stroke": "none",
+                            "strokeWidth": 0.68,
+                            "opacity": 0.4
+                          }
+                        }
+                      ],
+                      "figmaNative": {
+                        "vectorPaths": [],
+                        "strokeWeight": 0.68,
+                        "strokeAlign": "INSIDE"
+                      }
+                    },
+                    "layout": {
+                      "display": "block",
+                      "position": "absolute",
+                      "overflow": {
+                        "x": "visible",
+                        "y": "visible"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "fig-82",
+                "name": "Frame 2147225599",
+                "source": {
+                  "kind": "figma",
+                  "id": "55042:10481",
+                  "dataset": {
+                    "figmaNodeType": "FRAME"
+                  }
+                },
+                "box": {
+                  "x": 24,
+                  "y": 10,
+                  "width": 38,
+                  "height": 18
+                },
+                "paint": {
+                  "opacity": 1
+                },
+                "layout": {
+                  "display": "flex",
+                  "position": "relative",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "flex": {
+                    "direction": "row",
+                    "wrap": "nowrap",
+                    "justify": "start",
+                    "align": "center",
+                    "rowGap": 10,
+                    "columnGap": 0
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "children": [
+                  {
+                    "id": "fig-83",
+                    "name": "text",
+                    "source": {
+                      "kind": "figma",
+                      "id": "55042:10482",
+                      "dataset": {
+                        "figmaNodeType": "TEXT",
+                        "figmaFontFamily": "Open Sans",
+                        "figmaFontStyle": "SemiBold"
+                      }
+                    },
+                    "box": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 38,
+                      "height": 18
+                    },
+                    "text": {
+                      "value": "אישור",
+                      "font": {
+                        "family": "Open Sans",
+                        "size": 14,
+                        "weight": 600,
+                        "style": "normal"
+                      },
+                      "color": "#ffffff",
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "letterSpacing": 1,
+                      "lineHeight": 17.5,
+                      "direction": "rtl"
+                    },
+                    "layout": {
+                      "display": "block",
+                      "position": "absolute",
+                      "overflow": {
+                        "x": "visible",
+                        "y": "visible"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "fig-84",
+            "name": "Buttons",
+            "source": {
+              "kind": "figma",
+              "id": "55042:10483",
+              "dataset": {
+                "figmaNodeType": "FRAME"
+              }
+            },
+            "box": {
+              "x": 114,
+              "y": 11.5,
+              "width": 86,
+              "height": 38
+            },
+            "paint": {
+              "fills": [
+                {
+                  "kind": "color",
+                  "color": "#f4f4f4"
+                }
+              ],
+              "borders": {
+                "top": {
+                  "width": 1,
+                  "color": "#8a5adb",
+                  "style": "solid"
+                },
+                "right": {
+                  "width": 1,
+                  "color": "#8a5adb",
+                  "style": "solid"
+                },
+                "bottom": {
+                  "width": 1,
+                  "color": "#8a5adb",
+                  "style": "solid"
+                },
+                "left": {
+                  "width": 1,
+                  "color": "#8a5adb",
+                  "style": "solid"
+                }
+              },
+              "cornerRadii": {
+                "topLeft": {
+                  "x": 12,
+                  "y": 12
+                },
+                "topRight": {
+                  "x": 12,
+                  "y": 12
+                },
+                "bottomRight": {
+                  "x": 12,
+                  "y": 12
+                },
+                "bottomLeft": {
+                  "x": 12,
+                  "y": 12
+                }
+              },
+              "opacity": 1
+            },
+            "layout": {
+              "display": "flex",
+              "position": "relative",
+              "overflow": {
+                "x": "hidden",
+                "y": "hidden"
+              },
+              "flex": {
+                "direction": "row",
+                "wrap": "nowrap",
+                "justify": "center",
+                "align": "center",
+                "rowGap": 0,
+                "columnGap": 0
+              },
+              "padding": {
+                "top": 9,
+                "right": 26,
+                "bottom": 9,
+                "left": 26
+              }
+            },
+            "children": [
+              {
+                "id": "fig-85",
+                "name": "Frame 2147225404",
+                "source": {
+                  "kind": "figma",
+                  "id": "55042:10484",
+                  "dataset": {
+                    "figmaNodeType": "FRAME"
+                  }
+                },
+                "box": {
+                  "x": 26,
+                  "y": 12.5,
+                  "width": 34,
+                  "height": 13
+                },
+                "paint": {
+                  "opacity": 1
+                },
+                "layout": {
+                  "display": "flex",
+                  "position": "relative",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  },
+                  "flex": {
+                    "direction": "row",
+                    "wrap": "nowrap",
+                    "justify": "center",
+                    "align": "center",
+                    "rowGap": 6,
+                    "columnGap": 0
+                  },
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                },
+                "children": [
+                  {
+                    "id": "fig-86",
+                    "name": "text",
+                    "source": {
+                      "kind": "figma",
+                      "id": "55042:10485",
+                      "dataset": {
+                        "figmaNodeType": "TEXT",
+                        "figmaFontFamily": "Open Sans",
+                        "figmaFontStyle": "SemiBold"
+                      }
+                    },
+                    "box": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 34,
+                      "height": 13
+                    },
+                    "text": {
+                      "value": "ביטול",
+                      "font": {
+                        "family": "Open Sans",
+                        "size": 14,
+                        "weight": 600,
+                        "style": "normal"
+                      },
+                      "color": "#1d1d1d",
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "letterSpacing": 0.5,
+                      "lineHeight": 12.6,
+                      "direction": "rtl"
+                    },
+                    "layout": {
+                      "display": "block",
+                      "position": "absolute",
+                      "overflow": {
+                        "x": "visible",
+                        "y": "visible"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "fig-87",
+                "name": "Frame 2147225570",
+                "source": {
+                  "kind": "figma",
+                  "id": "55042:10486",
+                  "dataset": {
+                    "figmaNodeType": "FRAME"
+                  }
+                },
+                "box": {
+                  "x": -39,
+                  "y": -2,
+                  "width": 108,
+                  "height": 109.8
+                },
+                "paint": {
+                  "opacity": 1
+                },
+                "layout": {
+                  "display": "block",
+                  "position": "absolute",
+                  "overflow": {
+                    "x": "visible",
+                    "y": "visible"
+                  }
+                },
+                "children": [
+                  {
+                    "id": "fig-88",
+                    "name": "Rectangle 10",
+                    "source": {
+                      "kind": "figma",
+                      "id": "55042:10487",
+                      "dataset": {
+                        "figmaNodeType": "VECTOR",
+                        "figmaRelativeTransform": [
+                          [
+                            0.3678729236125946,
+                            0.9298760890960693,
+                            -18.720794677734375
+                          ],
+                          [
+                            -0.9298760890960693,
+                            0.367872953414917,
+                            83.5340347290039
+                          ]
+                        ]
+                      }
+                    },
+                    "box": {
+                      "x": -18.72,
+                      "y": 83.53,
+                      "width": 97.74,
+                      "height": 94.08
+                    },
+                    "vector": {
+                      "viewBox": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 97.74,
+                        "height": 94.08
+                      },
+                      "shapes": [
+                        {
+                          "primitive": "path",
+                          "attrs": {
+                            "d": "M 0 0 L 97.74 0 L 97.74 94.08 L 0 94.08 Z",
+                            "fillRule": "nonzero"
+                          },
+                          "paint": {
+                            "fill": "#8a5adb",
+                            "stroke": "none",
+                            "strokeWidth": 0.68,
+                            "opacity": 0.06
+                          }
+                        }
+                      ],
+                      "figmaNative": {
+                        "vectorPaths": [],
+                        "fill": "#8a5adb",
+                        "strokeWeight": 0.68,
+                        "strokeAlign": "INSIDE"
+                      }
+                    },
+                    "layout": {
+                      "display": "block",
+                      "position": "absolute",
+                      "overflow": {
+                        "x": "visible",
+                        "y": "visible"
+                      }
+                    }
+                  },
+                  {
+                    "id": "fig-89",
+                    "name": "Rectangle 9",
+                    "source": {
+                      "kind": "figma",
+                      "id": "55042:10488",
+                      "dataset": {
+                        "figmaNodeType": "VECTOR",
+                        "figmaRelativeTransform": [
+                          [
+                            0.3678729236125946,
+                            0.9298760890960693,
+                            -41
+                          ],
+                          [
+                            -0.9298760890960693,
+                            0.367872953414917,
+                            93.6932144165039
+                          ]
+                        ]
+                      }
+                    },
+                    "box": {
+                      "x": -41,
+                      "y": 93.69,
+                      "width": 133.02,
+                      "height": 128.04
+                    },
+                    "vector": {
+                      "viewBox": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 133.02,
+                        "height": 128.04
+                      },
+                      "shapes": [
+                        {
+                          "primitive": "path",
+                          "attrs": {
+                            "d": "M 0 0 L 133.02 0 L 133.02 128.04 L 0 128.04 Z",
+                            "fillRule": "nonzero"
+                          },
+                          "paint": {
+                            "fill": "#8a5adb",
+                            "stroke": "none",
+                            "strokeWidth": 0.68,
+                            "opacity": 0.06
+                          }
+                        }
+                      ],
+                      "figmaNative": {
+                        "vectorPaths": [],
+                        "fill": "#8a5adb",
+                        "strokeWeight": 0.68,
+                        "strokeAlign": "INSIDE"
+                      }
+                    },
+                    "layout": {
+                      "display": "block",
+                      "position": "absolute",
+                      "overflow": {
+                        "x": "visible",
+                        "y": "visible"
+                      }
+                    }
+                  },
+                  {
+                    "id": "fig-90",
+                    "name": "Rectangle 11",
+                    "source": {
+                      "kind": "figma",
+                      "id": "55042:10489",
+                      "dataset": {
+                        "figmaNodeType": "VECTOR",
+                        "figmaRelativeTransform": [
+                          [
+                            0.9693325757980347,
+                            0.24575284123420715,
+                            1.7647705078125
+                          ],
+                          [
+                            -0.24575281143188477,
+                            0.9693325757980347,
+                            31.896339416503906
+                          ]
+                        ]
+                      }
+                    },
+                    "box": {
+                      "x": 1.76,
+                      "y": 31.9,
+                      "width": 68.39,
+                      "height": 65.83
+                    },
+                    "vector": {
+                      "viewBox": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 68.39,
+                        "height": 65.83
+                      },
+                      "shapes": [
+                        {
+                          "primitive": "path",
+                          "attrs": {
+                            "d": "M 0 0 L 68.39 0 L 68.39 65.83 L 0 65.83 Z",
+                            "fillRule": "nonzero"
+                          },
+                          "paint": {
+                            "fill": "#8a5adb",
+                            "stroke": "none",
+                            "strokeWidth": 0.68,
+                            "opacity": 0.06
+                          }
+                        }
+                      ],
+                      "figmaNative": {
+                        "vectorPaths": [],
+                        "fill": "#8a5adb",
+                        "strokeWeight": 0.68,
+                        "strokeAlign": "INSIDE"
+                      }
+                    },
+                    "layout": {
+                      "display": "block",
+                      "position": "absolute",
+                      "overflow": {
+                        "x": "visible",
+                        "y": "visible"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

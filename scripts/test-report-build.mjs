@@ -10,6 +10,9 @@ import {
   buildMismatchFixPrompt,
   defaultTolerance
 } from "./fixer-routing.mjs";
+import { enrichReportWithInvestigationBrief } from "./fixer-investigation-brief.mjs";
+import { enrichReportWithPipelineTrace } from "./fixer-pipeline-trace.mjs";
+import { enrichReportWithInvestigatorSection, mergeAgentResolutionFromDisk } from "./test-report-investigator.mjs";
 
 const require = createRequire(import.meta.url);
 const _pngjs = require("pngjs");
@@ -25,12 +28,20 @@ function blit(dest, src, dx, dy) {
 }
 
 function cropPng(src, rect) {
-  const out = new PNG({ width: rect.width, height: rect.height });
-  for (let y = 0; y < rect.height; y += 1) {
-    const sy = rect.y + y;
-    const sStart = (sy * src.width + rect.x) * 4;
-    const dStart = y * rect.width * 4;
-    src.data.copy(out.data, dStart, sStart, sStart + rect.width * 4);
+  const x = Math.max(0, Math.min(rect.x, src.width - 1));
+  const y = Math.max(0, Math.min(rect.y, src.height - 1));
+  const width = Math.max(0, Math.min(rect.width, src.width - x));
+  const height = Math.max(0, Math.min(rect.height, src.height - y));
+  if (width <= 0 || height <= 0) {
+    return new PNG({ width: 1, height: 1 });
+  }
+  const clamped = { x, y, width, height };
+  const out = new PNG({ width: clamped.width, height: clamped.height });
+  for (let row = 0; row < clamped.height; row += 1) {
+    const sy = clamped.y + row;
+    const sStart = (sy * src.width + clamped.x) * 4;
+    const dStart = row * clamped.width * 4;
+    src.data.copy(out.data, dStart, sStart, sStart + clamped.width * 4);
   }
   return out;
 }
@@ -193,7 +204,7 @@ export function buildTestReport(opts) {
     });
   }
 
-  return {
+  const base = {
     schemaVersion: "1.0",
     itemId,
     entryPoint,
@@ -210,6 +221,13 @@ export function buildTestReport(opts) {
     mismatches,
     testedAt: new Date().toISOString()
   };
+
+  const withPipeline = enrichReportWithPipelineTrace(
+    { ...base, ctx },
+    ctx,
+    ctx.repoRoot
+  );
+  return enrichReportWithInvestigationBrief(withPipeline, ctx, ctx.repoRoot);
 }
 
 /**
@@ -259,6 +277,64 @@ function escHtml(s) {
 }
 
 /**
+ * Investigator insight — monospace block inside its own card.
+ * @param {object | null | undefined} inv
+ */
+function buildInvestigatorInsightHtml(inv) {
+  if (!inv?.sectionText) {
+    return `<pre class="prompt insight">Investigator pending — automatic investigation runs when test report is written.</pre>`;
+  }
+  return `<pre class="prompt insight">${escHtml(inv.sectionText)}</pre>`;
+}
+
+/**
+ * One mismatch row: title → card → failed-test insight.
+ * @param {object} m
+ * @param {object} ft
+ * @param {(p: string) => string} img
+ */
+function buildMismatchItemHtml(m, ft, img) {
+  const cmp = m.images?.compareSideBySide ?? m.images?.diffCrop;
+  const cmpImg = cmp
+    ? `<a href="${escHtml(img(cmp))}"><img class="region" src="${escHtml(img(cmp))}" alt="${escHtml(m.id)}"></a>`
+    : "";
+  return `<div class="test-item">
+<h3 class="test-title">${escHtml(m.id)} · ${m.wrongPixels ?? 0} wrong px · ${(m.percentInRegion ?? 0).toFixed(3)}% in region</h3>
+<div class="mismatch-card">
+<p class="meta">bbox (${m.bbox?.x ?? 0}, ${m.bbox?.y ?? 0}) ${m.bbox?.width ?? 0}×${m.bbox?.height ?? 0} · fixer: <code>${escHtml(m.suspectedFixer ?? ft.primaryFixer)}</code></p>
+${cmpImg}
+<div class="insights">
+<pre class="prompt insight">${escHtml(m.fixPrompt ?? "")}</pre>
+</div>
+</div>
+</div>`;
+}
+
+/**
+ * Investigator section body — own card under h2 Investigator (mirrors mismatch layout).
+ * @param {object | null | undefined} inv
+ */
+function buildInvestigatorItemHtml(inv) {
+  const sd = inv?.automatic?.structuredDiagnosis;
+  const agentStatus = inv?.agent?.status;
+  const metaParts = [];
+  if (sd?.rootCauseLayer) metaParts.push(`layer: <code>${escHtml(sd.rootCauseLayer)}</code>`);
+  if (sd) metaParts.push(`kinds OK: <strong>${sd.pipelineKindOk ? "yes" : "NO"}</strong>`);
+  if (agentStatus === "complete") metaParts.push("agent: complete");
+  else if (agentStatus === "skipped") metaParts.push(`agent: skipped (${escHtml(inv.agent?.reason ?? "—")})`);
+  else if (inv?.agent?.reason) metaParts.push(`agent: ${escHtml(inv.agent.reason)}`);
+  else if (inv) metaParts.push("agent: pending");
+  const meta = metaParts.length ? `<p class="meta">${metaParts.join(" · ")}</p>` : "";
+  return `<div class="test-item">
+<h3 class="test-title">automatic + agent · fixer reads this before editing</h3>
+<div class="mismatch-card">
+${meta}
+<div class="insights">${buildInvestigatorInsightHtml(inv)}</div>
+</div>
+</div>`;
+}
+
+/**
  * Rich HTML viewer for fixers — written beside test-report.json.
  * @param {object} report
  * @param {string} jsonPath
@@ -287,20 +363,9 @@ export function writeTestReportHtml(report, jsonPath, repoRoot) {
     )
     .join("\n");
 
-  const mismatchBlocks = (report.mismatches ?? [])
-    .map((m) => {
-      const cmp = m.images?.compareSideBySide ?? m.images?.diffCrop;
-      const cmpImg = cmp
-        ? `<a href="${escHtml(img(cmp))}"><img class="region" src="${escHtml(img(cmp))}" alt="${escHtml(m.id)}"></a>`
-        : "";
-      return `<section class="mismatch">
-<h3>${escHtml(m.id)} · ${m.wrongPixels ?? 0} wrong px · ${(m.percentInRegion ?? 0).toFixed(3)}% in region</h3>
-<p class="meta">bbox (${m.bbox?.x ?? 0}, ${m.bbox?.y ?? 0}) ${m.bbox?.width ?? 0}×${m.bbox?.height ?? 0} · fixer: <code>${escHtml(m.suspectedFixer ?? ft.primaryFixer)}</code></p>
-${cmpImg}
-<pre class="prompt">${escHtml(m.fixPrompt ?? "")}</pre>
-</section>`;
-    })
-    .join("\n");
+  const mismatches = report.mismatches ?? [];
+  const mismatchBlocks = mismatches.map((m) => buildMismatchItemHtml(m, ft, img)).join("\n");
+  const investigatorBlock = buildInvestigatorItemHtml(report.investigator);
 
   const allowlist = (ft.allowlist ?? []).map((p) => `<li><code>${escHtml(p)}</code></li>`).join("");
   const forbidden = (ft.forbidden ?? []).map((p) => `<li><code>${escHtml(p)}</code></li>`).join("");
@@ -320,11 +385,15 @@ h1{margin:0 0 4px;font-size:1.35rem}
 figure{margin:0;background:#1e293b;border-radius:8px;padding:10px}
 figure img{width:100%;height:auto;border-radius:4px;background:#fff;display:block}
 figcaption{font-size:.8rem;color:#94a3b8;margin-bottom:6px}
-.mismatch{background:#1e293b;border-radius:8px;padding:16px;margin:16px 0;border:1px solid #334155}
-.mismatch h3{margin:0 0 8px;font-size:1rem}
+.mismatch-card{background:#1e293b;border-radius:8px;padding:16px;border:1px solid #334155}
+.test-item{margin:20px 0}
+.test-title{margin:0 0 8px;font-size:1rem;font-weight:600}
 .meta{color:#94a3b8;font-size:.85rem;margin:0 0 10px}
-img.region{max-width:100%;height:auto;border-radius:4px;background:#fff;display:block;margin:8px 0}
+img.region{max-width:100%;height:auto;border-radius:4px;background:#fff;display:block;margin:8px 0 12px}
+.insights{display:flex;flex-direction:column;gap:12px}
 pre.prompt{white-space:pre-wrap;word-break:break-word;background:#0b1220;border:1px solid #334155;border-radius:6px;padding:12px;font-size:.78rem;color:#cbd5e1;margin:0}
+pre.prompt.investigator{border-color:#475569}
+h2{margin:28px 0 12px;font-size:1.1rem}
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media(max-width:720px){.cols{grid-template-columns:1fr}}
 ul{margin:0;padding-left:1.2rem}
@@ -337,8 +406,10 @@ a{color:#93c5fd}
 <p><code>${escHtml(ft.verifyCommand ?? "")}</code> · regression: ${escHtml(ft.regressionScope ?? "—")}</p>
 <h2>Full compare</h2>
 <div class="grid">${fullFrames || "<p>No full-frame images.</p>"}</div>
-<h2>Mismatches (${(report.mismatches ?? []).length})</h2>
+<h2>Mismatches (${mismatches.length})</h2>
 ${mismatchBlocks || "<p>No region crops — inspect full diff above.</p>"}
+<h2>Investigator</h2>
+${investigatorBlock}
 <h2>Fixer guardrails</h2>
 <div class="cols">
 <div><h3>Allowlist</h3><ul>${allowlist || "<li>—</li>"}</ul></div>
@@ -369,9 +440,17 @@ export function removeTestReportFiles(resultDir) {
 export function writeTestReportFile(resultDir, report, repoRoot) {
   mkdirSync(resultDir, { recursive: true });
   const path = join(resultDir, "test-report.json");
-  report.testReportPath = path;
-  writeFileSync(path, JSON.stringify(report, null, 2));
-  writeTestReportHtml(report, path, repoRoot ?? dirname(dirname(dirname(resultDir))));
+  const enriched =
+    report.investigationBrief != null
+      ? report
+      : enrichReportWithInvestigationBrief(report, report.ctx ?? {}, repoRoot);
+  let payload = { ...enriched, testReportPath: path };
+  if (payload.global?.status !== "pass") {
+    payload = mergeAgentResolutionFromDisk(payload, path);
+    payload = enrichReportWithInvestigatorSection(payload);
+  }
+  writeFileSync(path, JSON.stringify(payload, null, 2));
+  writeTestReportHtml(payload, path, repoRoot);
   return path;
 }
 
@@ -391,7 +470,12 @@ export function figmaScreenTestReportPath(repoRoot, screenId, stepId) {
  * Resolve test-report path for storybook suite
  */
 export function storybookTestReportPath(repoRoot, suiteDir, storyId) {
-  return join(repoRoot, suiteDir, storyId, "test-report.json");
+  const seg = String(storyId)
+    .trim()
+    .replace(/[<>:"/\\|?*\u0000-\u001F]/g, "-")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+  return join(repoRoot, suiteDir, "by-story", seg, "test-report.json");
 }
 
 /**
@@ -424,6 +508,13 @@ export function fixPromptFromTestReport(report, extra = "") {
       .join("\n");
   }
   const primary = report.mismatches[0];
+  const fixerPayload =
+    report.investigationText?.includes("Fixer action") ||
+    report.investigationText?.includes("Investigation brief")
+      ? [report.investigationText, ""]
+      : report.investigator?.sectionText
+        ? [report.investigator.sectionText, ""]
+        : [];
   const lines = [
     report.failedTest?.testId === "vsFigmaLive" || report.failedTest?.testId === "figmaLive"
       ? "make fixes after live test"
@@ -431,23 +522,43 @@ export function fixPromptFromTestReport(report, extra = "") {
     "",
     `Item: ${report.itemId} · entry: ${report.entryPoint}`,
     `Failed test: ${report.failedTest.label} (${report.failedTest.testId})`,
-    `Primary fixer: ${report.failedTest.primaryFixer}`,
+    report.failedTest.defaultPrimaryFixer
+      ? `Effective fixer: ${report.failedTest.primaryFixer} (was ${report.failedTest.defaultPrimaryFixer} — trace back upstream)`
+      : `Primary fixer: ${report.failedTest.primaryFixer}`,
+    ...(report.pipelineTrace?.hasBlocker
+      ? ["Pipeline: kind mismatch detected — fix pipeline before code-v2 (see pipeline trace below)."]
+      : []),
     `Global: ${report.global.percent.toFixed(3)}% · status ${report.global.status}` +
       (report.global.maxRegionPercent != null
         ? ` · worst region ${report.global.maxRegionPercent.toFixed(3)}%`
         : ""),
     "",
-    "── Test report (authoritative) ──",
-    `Report: ${report.testReportPath ?? "(see test-report.json)"}`,
-    ...(report.images.original ? [`Original: ${report.images.original}`] : []),
-    ...(report.images.target ? [`Target: ${report.images.target}`] : []),
-    ...(report.images.diff ? [`Diff: ${report.images.diff}`] : []),
-    "",
-    `Mismatches: ${report.mismatches.length} (fix worst first)`,
-    "",
-    primary.fixPrompt,
-    "",
-    `Verify: ${report.failedTest.verifyCommand}`,
+    ...fixerPayload,
+    ...(fixerPayload.length
+      ? [
+          "── Mismatch summary ──",
+          `Region: (${primary.bbox.x}, ${primary.bbox.y}) ${primary.bbox.width}×${primary.bbox.height}px`,
+          `Wrong pixels: ${primary.wrongPixels} (${primary.percentInRegion?.toFixed?.(3) ?? primary.percentInRegion}% in region)`,
+          ...(primary.evidence?.message ? [`Evidence: ${primary.evidence.message}`] : []),
+          ...(primary.images?.compareSideBySide
+            ? [`Compare crop: ${primary.images.compareSideBySide}`]
+            : []),
+          "",
+          `Verify (harness runs — do NOT): ${report.failedTest.verifyCommand}`,
+        ]
+      : [
+          "── Test report (authoritative) ──",
+          `Report: ${report.testReportPath ?? "(see test-report.json)"}`,
+          ...(report.images.original ? [`Original: ${report.images.original}`] : []),
+          ...(report.images.target ? [`Target: ${report.images.target}`] : []),
+          ...(report.images.diff ? [`Diff: ${report.images.diff}`] : []),
+          "",
+          `Mismatches: ${report.mismatches.length} (fix worst first)`,
+          "",
+          primary.fixPrompt,
+          "",
+          `Verify: ${report.failedTest.verifyCommand}`,
+        ]),
     "Sandbox: edits in worktree only; regression → auto discard.",
     extra
   ];

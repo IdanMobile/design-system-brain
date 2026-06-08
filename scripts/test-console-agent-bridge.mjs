@@ -28,11 +28,13 @@ import {
   findFigmaEntryFailingScreens,
   isFigmaEntryFixSuite
 } from "./figma-entry-fix.mjs";
+import { buildFigmaScreenFixBrief } from "./figma-screen-fix-brief.mjs";
 import {
   fixPromptFromTestReport,
   loadTestReport,
   figmaScreenTestReportPath
 } from "./test-report-build.mjs";
+import { buildAgentInvestigatorPrompt } from "./test-report-investigator.mjs";
 
 /** @type {Array<{ resolve: (msg: object) => void, timer: ReturnType<typeof setTimeout> }>} */
 const waiters = [];
@@ -444,34 +446,58 @@ export function initAgentBridge(repoRoot) {
     return null;
   }
 
+  function buildMinimalFixerPromptFromReport(report, extra = "") {
+    const micro =
+      report.global?.percent != null && report.global.percent < 2
+        ? ["Micro-fix: global <2% — one surgical edit only."]
+        : [];
+    const head = [
+      "── Fix rules ──",
+      "• ONE surgical edit in allowlisted file(s) — investigator already ran.",
+      "• Use pre-extracted snippets in this prompt — NEVER Read code-v2.ts in full.",
+      "• FORBIDDEN: .agents/skills/**, lab-memory/**, scripts/test-console-*.",
+      "• STOP after edit — harness rebuilds plugin + re-tests.",
+      "",
+    ];
+    return [
+      ...head,
+      fixPromptFromTestReport(report, ""),
+      ...micro,
+      extra,
+    ]
+      .filter(Boolean)
+      .join("\n");
+  }
+
   function buildCursorPrompt(worst, mode, extra = "") {
     const report = resolveStoryTestReport(worst, worst.suiteId ?? worst.stepId);
     if (report) {
-      const entryMode =
-        report.failedTest?.testId === "vsFigmaLive" || report.failedTest?.testId === "figmaLive"
-          ? "live"
-          : mode;
-      return [
-        fixPromptFromTestReport(report, extra),
-        "",
-        ...skillFollowLines(entryMode === "live" ? "live" : mode === "pixel" ? "pixel" : "emulator", {
-          suiteId: worst.suiteId ?? worst.stepId,
-          storyId: worst.storyId
-        }),
-        ...labMemoryHintLines(repoRoot, worst.storyId, mode, worst.suiteId)
-      ].join("\n");
+      return buildMinimalFixerPromptFromReport(report, extra);
     }
     if (isFigmaEntryFixSuite(worst.suiteId ?? worst.stepId)) {
       const stepId = worst.stepId ?? worst.suiteId;
       const lines = buildFigmaEntryFixPromptLines(worst, stepId, extra);
       const entryMode = figmaEntryFixMode(stepId);
+      const brief = buildFigmaScreenFixBrief(repoRoot, worst.storyId, stepId);
+      const vaultSuite = vaultSuiteIdForMode(entryMode === "live" ? "live" : "emulator", stepId);
+      const hasCachedInvestigation = loadLabMemoryFixHint(repoRoot, worst.storyId, vaultSuite);
+      const skillLines = hasCachedInvestigation
+        ? [
+            "── Fast fix path (cached root cause — skip full skill re-read) ──",
+            `1. Open compare PNG: ${worst.paths?.comparePng ?? worst.paths?.diffPng ?? "see brief"}`,
+            `2. Grep + edit allowlisted files only — ${entryMode === "live" ? "packages/figma-importer-plugin/src/code-v2.ts" : "packages/pixel-test/src/render-html.ts"}`,
+            "3. Do NOT read .restore-backup/, story-map, or @lab/ui. Harness re-tests automatically."
+          ]
+        : skillFollowLines(entryMode === "live" ? "live" : "emulator", {
+            suiteId: stepId,
+            storyId: worst.storyId
+          });
       return [
         ...lines.slice(0, 1),
         "",
-        ...skillFollowLines(entryMode === "live" ? "live" : "emulator", {
-          suiteId: stepId,
-          storyId: worst.storyId
-        }),
+        ...brief,
+        "",
+        ...skillLines,
         ...lines.slice(1)
       ].join("\n");
     }
@@ -664,9 +690,9 @@ export function initAgentBridge(repoRoot) {
         ? [
             "",
             "── Supervisor mode: INVESTIGATE FIRST ──",
-            "Read compare PNG + artifact JSON (≤3 region PNGs). Write diagnosis in lab-memory, then implement.",
-            "You have ~14 minutes before the harness watchdog stops a no-edit session — do not read code-v2.ts in full.",
-            "Land at least ONE targeted edit (extract.ts / render-html.ts for pixel) within 10 minutes."
+            "Read compare PNG + contract JSON (≤3 region PNGs). Write ONE paragraph root cause, then implement.",
+            "You have ~8 minutes before watchdog kill — Grep code-v2.ts, never Read it in full.",
+            "Land at least ONE allowlisted code edit within 5 minutes. Lab-memory-only edits do NOT count."
           ]
         : workerMode === "narrow_scope"
           ? [
@@ -752,23 +778,32 @@ export function initAgentBridge(repoRoot) {
   }
 
   function buildInvestigatorOnlyPrompt(story, mode, suiteId, attempt, maxTries) {
-    const vaultSuite = vaultSuiteIdForMode(mode, suiteId);
-    const extra = [
-      `Investigation-only — ${story.storyId} (attempt ${attempt}/${maxTries}).`,
-      "",
-      "## HARD GATE: fixer blocked until this pass completes",
-      "Do NOT edit adapter code (render-html.ts, extract.ts, code-v2.ts, @lab/ui) in this session.",
-      "Read compare PNG, artifact JSON, and linked lab-memory patterns.",
-      "Append to lab-memory with ### Root cause and ### Recommended fix area filled (remove <!-- pending).",
-      "The harness dispatches a separate fixer agent only after investigation is complete.",
-      ...sourceVsRendererTriageLines(mode, story),
-      ...labMemoryHintLines(repoRoot, story.storyId, mode, suiteId),
-      "",
-      `Read ${SKILL_INVESTIGATE} — diagnose ONLY (systematic-debugging before any edit).`,
-      `Read ${SKILLS.labMemoryRule}`,
-      "After diagnosis: append lab-memory/templates/investigation.md sections to the story note."
-    ].join("\n");
-    return buildCursorPrompt(story, mode, extra);
+    const report = resolveStoryTestReport(story, suiteId);
+    if (!report || report.global?.status === "pass") {
+      return buildCursorPrompt(story, mode, "Investigator — test already passed.");
+    }
+    if (report.testReportPath) {
+      return buildAgentInvestigatorPrompt(report, repoRoot, story);
+    }
+    return buildAgentInvestigatorPrompt(
+      { ...report, testReportPath: resolveStoryTestReportPathFromBridge(story, suiteId) },
+      repoRoot,
+      story
+    );
+  }
+
+  function resolveStoryTestReportPathFromBridge(story, suiteId) {
+    const explicit = story.paths?.testReportPath ?? story.testReportPath;
+    if (explicit) return explicit;
+    if (isFigmaEntryFixSuite(suiteId)) {
+      return figmaScreenTestReportPath(repoRoot, story.storyId, suiteId);
+    }
+    const cfg = { pixel: "pixel-diffs", figma: "figma-diffs", figmaLive: "figma-live-diffs", delivery: "delivery-diffs" }[
+      suiteId
+    ];
+    if (!cfg) return null;
+    const seg = story.storyId.replace(/[<>:"/\\|?*]/g, "-");
+    return join(repoRoot, cfg, "by-story", seg, "test-report.json");
   }
 
   function enqueueSuiteFailure(suiteId, suites, summarizeReport, safeSegment, meta = {}) {
@@ -945,6 +980,8 @@ export function initAgentBridge(repoRoot) {
         "figma:screen:parity": "vsFigmaLive",
         "figma:screen:golden": "vsFigmaLive",
         "figma:screen:manifest": "manifestContract",
+        "figma:screen:storybook": "vsStorybook",
+        "figma:screen:reacthtml": "vsReactHtml",
         "figma:screen:four-way": "vsFigmaLive",
         "figma:screen:logic": "logic"
       };

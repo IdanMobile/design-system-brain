@@ -21,8 +21,9 @@ import { resolve, join, basename, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import {
-  evaluateRegionGates,
   FIGMA_SCREEN_REGION_TOLERANCE_PERCENT,
+  alignParityPair,
+  diffAlignedPair,
 } from "./figma-screen-reference-align.mjs";
 import {
   discoverFigmaScreens,
@@ -37,8 +38,6 @@ const WORKSPACE = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(import.meta.url);
 const playwrightPkg = resolve(WORKSPACE, "packages/pixel-test/node_modules/playwright");
 const { chromium } = require(existsSync(playwrightPkg) ? playwrightPkg : "playwright");
-const _pixelmatch = require("pixelmatch");
-const pixelmatch = typeof _pixelmatch === "function" ? _pixelmatch : (_pixelmatch.default ?? _pixelmatch);
 const _pngjs = require("pngjs");
 const { PNG } = _pngjs.PNG ? _pngjs : (_pngjs.default ?? _pngjs);
 
@@ -78,18 +77,24 @@ function parseCli() {
   };
 }
 
-function matchDimensions(refBuf, rendBuf) {
-  const ref = PNG.sync.read(refBuf);
-  const rend = PNG.sync.read(rendBuf);
-  const w = Math.max(ref.width, rend.width);
-  const h = Math.max(ref.height, rend.height);
-  const crop = (png) => {
-    if (png.width === w && png.height === h) return PNG.sync.write(png);
-    const out = new PNG({ width: w, height: h });
-    PNG.bitblt(png, out, 0, 0, png.width, png.height, 0, 0);
-    return PNG.sync.write(out);
+function comparePngBuffers(aBuf, bBuf, tolerance) {
+  const aligned = alignParityPair(aBuf, bBuf);
+  const diff = diffAlignedPair(aligned.refPng, aligned.rendPng, FIGMA_SCREEN_REGION_TOLERANCE_PERCENT);
+  const globalOk = diff.diffPct <= tolerance;
+  const status =
+    globalOk && diff.regionGate.pass ? "pass" : diff.diffPct <= tolerance * 4 ? "warn" : "fail";
+  return {
+    width: diff.w,
+    height: diff.h,
+    pixelsDiffered: diff.diffPixels,
+    pixelsTotal: diff.totalPixels,
+    percent: diff.diffPct,
+    status,
+    diffPng: PNG.sync.write(diff.diffPng),
+    regions: diff.regionGate.regions,
+    worstRegion: diff.regionGate.worst,
+    parityMeta: aligned.meta,
   };
-  return { ref: crop(ref), rend: crop(rend), w, h };
 }
 
 async function screenshotStorybookStory(page, storyId, outPath) {
@@ -128,35 +133,6 @@ async function screenshotPlaygroundStory(page, storyId, outPath) {
   const el = await page.$("[data-figma-component]");
   if (!el) throw new Error(`Playground ${storyId}: [data-figma-component] not found`);
   await el.screenshot({ path: outPath, omitBackground: false });
-}
-
-function comparePngBuffers(aBuf, bBuf, tolerance) {
-  const { ref, rend, w, h } = matchDimensions(aBuf, bBuf);
-  const a = PNG.sync.read(ref);
-  const b = PNG.sync.read(rend);
-  const diff = new PNG({ width: w, height: h });
-  const pixelsDiffered = pixelmatch(a.data, b.data, diff.data, w, h, {
-    threshold: 0.1,
-    includeAA: false,
-    alpha: 0.1,
-  });
-  const total = w * h;
-  const percent = total > 0 ? (pixelsDiffered / total) * 100 : 0;
-  const regionGate = evaluateRegionGates(a, b, FIGMA_SCREEN_REGION_TOLERANCE_PERCENT);
-  const globalOk = percent <= tolerance;
-  const status =
-    globalOk && regionGate.pass ? "pass" : percent <= tolerance * 4 ? "warn" : "fail";
-  return {
-    width: w,
-    height: h,
-    pixelsDiffered,
-    pixelsTotal: total,
-    percent,
-    status,
-    diffPng: PNG.sync.write(diff),
-    regions: regionGate.regions,
-    worstRegion: regionGate.worst,
-  };
 }
 
 function writeHtmlReport(outDir, screenId, storyId, legs, pairs, tolerance) {

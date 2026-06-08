@@ -306,3 +306,318 @@ false — automated test record at 2026-05-30T02:31:42.974Z
 false — attempt 4 triage 2026-05-30
 
 <!-- vault-fingerprint: vsFigmaLive|fail|0.310|12.333|5|fix-all pre-agent -->
+
+## Investigation — screen_1 / vsFigmaLive
+
+**Job ID:** 62bdc5e2-5622-44cb-9026-dee24424cf2f  
+**Date:** 2026-06-08T11:32:48.897Z  
+**Source:** fix-all pre-agent (automated)
+**Fix attempt:** 1
+
+
+### Metrics
+
+| Field | Value |
+| --- | --- |
+| Status | fail |
+| Global diff | 0.09% |
+| Worst hotspot | 3.78% |
+| Fail reason | — |
+
+### Compare regions
+
+| Region | Issue | Path |
+| --- | --- | --- |
+| region-01 | compare | `figma-screen-diffs/screen_1/originalParity/diff-original-figmaLive.png` |
+
+### Artifacts
+
+- Compare: `figma-screen-diffs/screen_1/originalParity/diff-original-figmaLive.png`
+- Storybook PNG: `figma-screen-diffs/screen_1/originalParity/storybook.png`
+- Figma PNG: `figma-screen-diffs/screen_1/originalParity/figmaLive.png`
+- Artifact JSON: `artifacts/figma-screens/screen_1.contract.json`
+- Scene JSON: ``
+
+### Root cause
+
+<!-- pending — agent fills after systematic-debugging -->
+
+### Recommended fix area
+
+<!-- pending — see primary fix path for this suite in agent prompt -->
+
+### Cached
+
+false — automated test record at 2026-06-08T11:32:48.897Z
+
+<!-- vault-fingerprint: vsFigmaLive|fail|0.094|3.780|1|fix-all pre-agent -->
+
+## Investigation — screen_1 / vsFigmaLive
+
+**Job ID:** 62bdc5e2-5622-44cb-9026-dee24424cf2f  
+**Date:** 2026-06-08T11:35:47.489Z  
+**Source:** fix-all pre-agent (automated)
+**Fix attempt:** 2
+
+
+### Metrics
+
+| Field | Value |
+| --- | --- |
+| Status | fail |
+| Global diff | 0.10% |
+| Worst hotspot | 3.78% |
+| Fail reason | — |
+
+### Compare regions
+
+| Region | Issue | Path |
+| --- | --- | --- |
+| region-01 | compare | `figma-screen-diffs/screen_1/originalParity/diff-original-figmaLive.png` |
+
+### Artifacts
+
+- Compare: `figma-screen-diffs/screen_1/originalParity/diff-original-figmaLive.png`
+- Storybook PNG: `figma-screen-diffs/screen_1/originalParity/storybook.png`
+- Figma PNG: `figma-screen-diffs/screen_1/originalParity/figmaLive.png`
+- Artifact JSON: `artifacts/figma-screens/screen_1.contract.json`
+- Scene JSON: ``
+
+### Root cause
+
+<!-- pending — agent fills after systematic-debugging -->
+
+### Recommended fix area
+
+<!-- pending — see primary fix path for this suite in agent prompt -->
+
+### Cached
+
+false — automated test record at 2026-06-08T11:35:47.489Z
+
+<!-- vault-fingerprint: vsFigmaLive|fail|0.104|3.780|2|fix-all pre-agent -->
+
+## Investigation — screen_1 / vsFigmaLive
+
+**Job ID:** 070a9937-63a8-4324-98ec-5b4288f8b85a  
+**Date:** 2026-06-08T11:44:48.053Z  
+**Source:** fix-all pre-agent (automated)
+**Fix attempt:** 1
+
+
+### Metrics
+
+| Field | Value |
+| --- | --- |
+| Status | fail |
+| Global diff | 0.10% |
+| Worst hotspot | 3.78% |
+| Fail reason | — |
+
+### Compare regions
+
+| Region | Issue | Path |
+| --- | --- | --- |
+| region-01 | compare | `figma-screen-diffs/screen_1/originalParity/diff-original-figmaLive.png` |
+
+### Artifacts
+
+- Compare: `figma-screen-diffs/screen_1/originalParity/diff-original-figmaLive.png`
+- Storybook PNG: `figma-screen-diffs/screen_1/originalParity/storybook.png`
+- Figma PNG: `figma-screen-diffs/screen_1/originalParity/figmaLive.png`
+- Artifact JSON: `artifacts/figma-screens/screen_1.contract.json`
+- Scene JSON: ``
+
+### Root cause
+
+<!-- pending — agent fills after systematic-debugging -->
+
+### Recommended fix area
+
+<!-- pending — see primary fix path for this suite in agent prompt -->
+
+### Cached
+
+false — automated test record at 2026-06-08T11:44:48.053Z
+
+<!-- vault-fingerprint: vsFigmaLive|fail|0.104|3.780|1|fix-all pre-agent -->
+
+## Investigation — screen_1 / vsFigmaLive
+
+**Job ID:** 070a9937-63a8-4324-98ec-5b4288f8b85a  
+**Date:** 2026-06-08T11:48:48.980Z  
+**Source:** fix-all pre-agent (automated)
+**Fix attempt:** 2
+
+
+### Metrics
+
+| Field | Value |
+| --- | --- |
+| Status | error |
+| Global diff | 0.00% |
+| Worst hotspot | n/a |
+| Fail reason | render-export timed out after 120000ms |
+
+### Compare regions
+
+| Region | Issue | Path |
+| --- | --- | --- |
+| region-01 | compare | `figma-screen-diffs/screen_1/originalParity/diff-original-figmaLive.png` |
+
+### Artifacts
+
+- Compare: `figma-screen-diffs/screen_1/originalParity/diff-original-figmaLive.png`
+- Storybook PNG: `figma-screen-diffs/screen_1/originalParity/storybook.png`
+- Figma PNG: `figma-screen-diffs/screen_1/originalParity/figmaLive.png`
+- Artifact JSON: `artifacts/figma-screens/screen_1.contract.json`
+- Scene JSON: ``
+
+### Root cause
+
+<!-- pending — agent fills after systematic-debugging -->
+
+### Recommended fix area
+
+<!-- pending — see primary fix path for this suite in agent prompt -->
+
+### Cached
+
+false — automated test record at 2026-06-08T11:48:48.980Z
+
+<!-- vault-fingerprint: vsFigmaLive|error|0.000|na|2|fix-all pre-agent -->
+
+## Investigation — screen_1 / vsFigmaLive
+
+**Job ID:** 070a9937-63a8-4324-98ec-5b4288f8b85a  
+**Date:** 2026-06-08T11:51:22.996Z  
+**Source:** fix-all pre-agent (automated)
+**Fix attempt:** 3
+
+
+### Metrics
+
+| Field | Value |
+| --- | --- |
+| Status | fail |
+| Global diff | 0.10% |
+| Worst hotspot | 3.78% |
+| Fail reason | — |
+
+### Compare regions
+
+| Region | Issue | Path |
+| --- | --- | --- |
+| region-01 | compare | `figma-screen-diffs/screen_1/originalParity/diff-original-figmaLive.png` |
+
+### Artifacts
+
+- Compare: `figma-screen-diffs/screen_1/originalParity/diff-original-figmaLive.png`
+- Storybook PNG: `figma-screen-diffs/screen_1/originalParity/storybook.png`
+- Figma PNG: `figma-screen-diffs/screen_1/originalParity/figmaLive.png`
+- Artifact JSON: `artifacts/figma-screens/screen_1.contract.json`
+- Scene JSON: ``
+
+### Root cause
+
+<!-- pending — agent fills after systematic-debugging -->
+
+### Recommended fix area
+
+<!-- pending — see primary fix path for this suite in agent prompt -->
+
+### Cached
+
+false — automated test record at 2026-06-08T11:51:22.996Z
+
+<!-- vault-fingerprint: vsFigmaLive|fail|0.104|3.780|3|fix-all pre-agent -->
+
+## Investigation — screen_1 / vsFigmaLive
+
+**Job ID:** a1b5f659-1f43-4354-9aae-e96828115fe6  
+**Date:** 2026-06-08T12:27:37.399Z  
+**Source:** fix-all pre-agent (automated)
+**Fix attempt:** 4
+
+
+### Metrics
+
+| Field | Value |
+| --- | --- |
+| Status | fail |
+| Global diff | 0.10% |
+| Worst hotspot | 3.78% |
+| Fail reason | — |
+
+### Compare regions
+
+| Region | Issue | Path |
+| --- | --- | --- |
+| region-01 | compare | `figma-screen-diffs/screen_1/originalParity/diff-original-figmaLive.png` |
+
+### Artifacts
+
+- Compare: `figma-screen-diffs/screen_1/originalParity/diff-original-figmaLive.png`
+- Storybook PNG: `figma-screen-diffs/screen_1/originalParity/storybook.png`
+- Figma PNG: `figma-screen-diffs/screen_1/originalParity/figmaLive.png`
+- Artifact JSON: `artifacts/figma-screens/screen_1.contract.json`
+- Scene JSON: ``
+
+### Root cause
+
+<!-- pending — agent fills after systematic-debugging -->
+
+### Recommended fix area
+
+<!-- pending — see primary fix path for this suite in agent prompt -->
+
+### Cached
+
+false — automated test record at 2026-06-08T12:27:37.399Z
+
+<!-- vault-fingerprint: vsFigmaLive|fail|0.104|3.780|4|fix-all pre-agent -->
+
+## Investigation — screen_1 / vsFigmaLive
+
+**Job ID:** a1b5f659-1f43-4354-9aae-e96828115fe6  
+**Date:** 2026-06-08T12:32:05.922Z  
+**Source:** fix-all pre-agent (automated)
+**Fix attempt:** 5
+
+
+### Metrics
+
+| Field | Value |
+| --- | --- |
+| Status | fail |
+| Global diff | 0.10% |
+| Worst hotspot | 3.78% |
+| Fail reason | — |
+
+### Compare regions
+
+| Region | Issue | Path |
+| --- | --- | --- |
+| region-01 | compare | `figma-screen-diffs/screen_1/originalParity/diff-original-figmaLive.png` |
+
+### Artifacts
+
+- Compare: `figma-screen-diffs/screen_1/originalParity/diff-original-figmaLive.png`
+- Storybook PNG: `figma-screen-diffs/screen_1/originalParity/storybook.png`
+- Figma PNG: `figma-screen-diffs/screen_1/originalParity/figmaLive.png`
+- Artifact JSON: `artifacts/figma-screens/screen_1.contract.json`
+- Scene JSON: ``
+
+### Root cause
+
+<!-- pending — agent fills after systematic-debugging -->
+
+### Recommended fix area
+
+<!-- pending — see primary fix path for this suite in agent prompt -->
+
+### Cached
+
+false — automated test record at 2026-06-08T12:32:05.922Z
+
+<!-- vault-fingerprint: vsFigmaLive|fail|0.104|3.780|5|fix-all pre-agent -->

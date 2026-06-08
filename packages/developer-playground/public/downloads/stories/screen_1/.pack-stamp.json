@@ -1,0 +1,14 @@
+{
+  "version": "0.1.0",
+  "portfolioStoryId": "screen_1",
+  "deliveryStoryId": "lab-screen1--default",
+  "component": "Screen1",
+  "args": {},
+  "variant": "semantic",
+  "usedComponents": [
+    "Button",
+    "Text"
+  ],
+  "sourceMaxMtime": 1780912019336.3718,
+  "packedAt": "2026-06-08T09:47:00.070Z"
+}

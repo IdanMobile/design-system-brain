@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "meta": {
     "componentName": "Frame 2147225681",
-    "extractedAt": "2026-05-30T11:27:35.159Z",
+    "extractedAt": "2026-06-08T16:44:26.173Z",
     "viewport": {
       "x": 0,
       "y": 0,
@@ -4325,7 +4325,7 @@
                             },
                             "box": {
                               "x": 0,
-                              "y": 0.38,
+                              "y": 0,
                               "width": 144,
                               "height": 31
                             },
@@ -4376,7 +4376,7 @@
                                 },
                                 "box": {
                                   "x": 74,
-                                  "y": 0,
+                                  "y": 0.38,
                                   "width": 70,
                                   "height": 11
                                 },
@@ -4419,7 +4419,7 @@
                                 },
                                 "box": {
                                   "x": 0,
-                                  "y": 16,
+                                  "y": 16.38,
                                   "width": 144,
                                   "height": 15
                                 },
@@ -4432,7 +4432,7 @@
                                     "style": "normal"
                                   },
                                   "color": "#1d1d1d",
-                                  "align": "left",
+                                  "align": "right",
                                   "verticalAlign": "top",
                                   "letterSpacing": 0,
                                   "lineHeight": 15

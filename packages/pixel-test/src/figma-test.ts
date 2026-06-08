@@ -344,6 +344,7 @@ async function diffStory(
         document.body.style.height = payload.height + "px";
         document.body.innerHTML = `<div id="__figma_test_root" style="position:relative;width:${payload.width}px;height:${payload.height}px;background:${payload.background};">${payload.markup}</div>`;
         document.querySelectorAll('#__figma_test_root input[data-name="input"]').forEach((inp) => {
+          if (!(inp instanceof HTMLInputElement)) return;
           const v = inp.getAttribute("value");
           if (v != null) inp.value = v;
         });

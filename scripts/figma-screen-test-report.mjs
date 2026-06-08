@@ -120,6 +120,7 @@ export function syncFigmaScreenStepTestReport(repoRoot, screenId, stepId, result
       manifestPath: result.manifestPath,
       contractPath: result.contractPath,
       error: result.error,
+      repoRoot,
     },
     tolerance,
   });
@@ -173,7 +174,7 @@ export function writeFigmaParityStepTestReport(opts) {
     pixelsTotal,
     images,
     regionMismatches,
-    ctx: { manifestPath, contractPath },
+    ctx: { manifestPath, contractPath, repoRoot },
     tolerance,
   });
 

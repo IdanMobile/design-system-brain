@@ -18,6 +18,19 @@ export const FIXER_ALLOWLIST = {
       "artifacts/**/*.png"
     ]
   },
+  "pipeline-enrichment": {
+    allow: [
+      "scripts/figma-screen-test.mjs",
+      "scripts/figma-screen-reference-align.mjs",
+      "scripts/figma-manifest-to-contract.mjs",
+      "packages/contract/**"
+    ],
+    forbidden: [
+      "packages/figma-importer-plugin/src/code-v2.ts",
+      "packages/ui/**",
+      "artifacts/**/*.png"
+    ]
+  },
   "manifest-to-contract": {
     allow: [
       "scripts/figma-manifest-to-contract.mjs",
@@ -138,7 +151,7 @@ export const TEST_ROUTING = {
     forbidden: FIXER_ALLOWLIST["contract-to-figma"].forbidden,
     regressionScope: "tier-c",
     verifyTemplate: (ctx) =>
-      `pnpm test:figma:screen:parity -- --artifact ${ctx.manifestPath ?? "artifacts/figma-screens/<screen>.manifest.json"}`
+      `pnpm test:figma:screen -- --artifact ${ctx.manifestPath ?? "artifacts/figma-screens/<screen>.manifest.json"}`
   },
   figmaMock: {
     testId: "figmaMock",
@@ -177,19 +190,19 @@ export const TEST_ROUTING = {
     ],
     regressionScope: "tier-a",
     verifyTemplate: (ctx) =>
-      `pnpm test:figma:screen:parity -- --artifact ${ctx.manifestPath ?? "artifacts/figma-screens/<screen>.manifest.json"}`
+      `pnpm test:figma:screen:storybook -- --artifact ${ctx.manifestPath ?? "artifacts/figma-screens/<screen>.manifest.json"}`
   },
   vsReactHtml: {
     testId: "vsReactHtml",
     label: "Original → ReactHtml",
     compare: { reference: "original", target: "reactHtml" },
-    primaryFixer: "code-creator",
-    fixerChain: ["manifest-to-contract", "code-creator"],
-    allowlist: FIXER_ALLOWLIST["code-creator"].allow,
-    forbidden: FIXER_ALLOWLIST["code-creator"].forbidden,
+    primaryFixer: "contract-to-storybook",
+    fixerChain: ["manifest-to-contract", "contract-to-storybook"],
+    allowlist: FIXER_ALLOWLIST["contract-to-storybook"].allow,
+    forbidden: FIXER_ALLOWLIST["contract-to-storybook"].forbidden,
     regressionScope: "tier-a",
     verifyTemplate: (ctx) =>
-      `pnpm test:figma:screen:parity -- --artifact ${ctx.manifestPath ?? "artifacts/figma-screens/<screen>.manifest.json"}`
+      `pnpm test:figma:screen:reacthtml -- --artifact ${ctx.manifestPath ?? "artifacts/figma-screens/<screen>.manifest.json"}`
   },
   delivery: {
     testId: "delivery",

@@ -6,6 +6,7 @@ import { resolve } from "node:path";
 import {
   canRunStep,
   TEST_STEPS,
+  type StepStatus,
   type TestStepId
 } from "../../contract/src/test-portfolio.ts";
 import { DEV_STORIES } from "../../contract/src/stories.ts";

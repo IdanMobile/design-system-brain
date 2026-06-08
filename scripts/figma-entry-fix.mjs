@@ -146,12 +146,22 @@ export function figmaEntryGoldenSpawn(stepId, screenId, repoRoot) {
         tag: `figmaEntry:${stepId}:${screenId}`
       };
     case "vsFigmaLive":
+      return {
+        bin: "node",
+        args: ["scripts/figma-screen-test.mjs", ...artifactArg],
+        tag: `figmaEntry:vsFigmaLive:${screenId}`
+      };
     case "vsStorybook":
+      return {
+        bin: "node",
+        args: ["scripts/figma-screen-storybook-test.mjs", ...artifactArg],
+        tag: `figmaEntry:vsStorybook:${screenId}`
+      };
     case "vsReactHtml":
       return {
         bin: "node",
-        args: ["scripts/original-parity-test.mjs", ...artifactArg],
-        tag: `figmaEntry:parity:${screenId}`
+        args: ["scripts/figma-screen-reacthtml-test.mjs", ...artifactArg],
+        tag: `figmaEntry:vsReactHtml:${screenId}`
       };
     case "logic":
       return {
@@ -177,11 +187,11 @@ export function figmaEntryFixMode(stepId) {
 }
 
 export function figmaEntryNeedsPluginBuild(stepId) {
-  return stepId === "vsFigmaLive" || ORIGINAL_PARITY_LEG_IDS.includes(stepId);
+  return stepId === "vsFigmaLive";
 }
 
 export function figmaEntryNeedsRelay(stepId) {
-  return stepId === "vsFigmaLive" || ORIGINAL_PARITY_LEG_IDS.includes(stepId);
+  return stepId === "vsFigmaLive";
 }
 
 export function figmaEntryRerunCommand(stepId, screenId) {
@@ -190,9 +200,11 @@ export function figmaEntryRerunCommand(stepId, screenId) {
     case "manifestContract":
       return `pnpm test:figma:screen:manifest -- --artifact ${manifest}`;
     case "vsFigmaLive":
+      return `pnpm test:figma:screen -- --artifact ${manifest}`;
     case "vsStorybook":
+      return `pnpm test:figma:screen:storybook -- --artifact ${manifest}`;
     case "vsReactHtml":
-      return `pnpm test:figma:screen:parity -- --artifact ${manifest}`;
+      return `pnpm test:figma:screen:reacthtml -- --artifact ${manifest}`;
     case "logic":
       return `pnpm test:figma:screen:logic -- --artifact ${manifest}`;
     default:
@@ -239,12 +251,19 @@ export function buildFigmaEntryFixPromptLines(story, stepId, extra = "") {
       : stepId === "vsFigmaLive"
         ? "Fix packages/figma-importer-plugin/src/code-v2.ts + adapter. Original → Figma live leg only."
         : stepId === "vsStorybook"
-          ? "Fix scripts/bake-figma-screen-ui.mjs / packages/ui Screen component. Original → Storybook leg."
+          ? "Fix packages/pixel-test/src/render-html.ts — contract → HTML (Storybook leg). Original → Storybook only."
           : stepId === "vsReactHtml"
-            ? "Fix @lab/ui playground delivery component. Original → ReactHtml leg."
+            ? "Fix packages/pixel-test/src/render-html.ts — contract → HTML (ReactHtml leg). Original → ReactHtml only."
             : stepId === "logic"
               ? "Write lab-memory/logic/specs/<screenId>.spec.json from logic audit gaps."
               : "Fix figma entry pipeline.",
+    "",
+    "── Fixer mandate (code edits required) ──",
+    "You are a CODE fixer — not an investigator. The harness kills sessions with 0 code edits after 8 minutes.",
+    "Use Grep on allowlisted files only. First edit within 5 minutes. Max 3 PNG reads before editing.",
+    stepId === "vsFigmaLive"
+      ? "Plugin bundles src/code.ts → imports code-v2.ts. Edit code-v2.ts only; harness runs plugin:build."
+      : "Edit render-html.ts or figma-manifest-to-contract.mjs only for this step.",
     "",
     "Read lab-memory/visual/patterns/figma-guing-screen-roundtrip.md and .cursor/skills/figma-screen-until-pass/SKILL.md.",
     "",

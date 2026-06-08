@@ -346,6 +346,14 @@ export function openTerminalRunPortfolioOrchestrator(jobId) {
   });
 }
 
+/** Single-row full pipeline — flow-first until row is green. */
+export function openTerminalRunRowPipeline(jobId) {
+  return openTerminal(`node scripts/test-console-cursor.mjs run-row-pipeline ${jobId}`, ROOT, {
+    keepOpen: false,
+    tabTitle: `Fix story · ${jobId.slice(0, 8)}`
+  });
+}
+
 function fixAllKillFlagPath(jobId) {
   return runKillPath(ROOT, jobId);
 }
@@ -512,6 +520,78 @@ export async function runPortfolioOrchestratorJob(jobId) {
   process.exit(killed ? 130 : exitCode);
 }
 
+/**
+ * Run one portfolio row through all steps until green (flow-first).
+ * @param {string} jobId
+ */
+export async function runRowPipelineJob(jobId) {
+  const killFlag = portfolioKillFlagPath(jobId);
+  if (existsSync(killFlag)) unlinkSync(killFlag);
+
+  try {
+    await api(`/api/jobs/${jobId}/register-child`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pid: process.pid, role: "orchestrator" })
+    });
+  } catch {
+    /* ok */
+  }
+
+  if (!hasCursorAgent()) {
+    console.error("Cursor CLI not found. Install: https://cursor.com/docs/cli/installation");
+    process.exit(1);
+  }
+
+  let job;
+  try {
+    job = await api(`/api/jobs/${jobId}`);
+  } catch (e) {
+    console.error(`[cursor] Job ${jobId} not found:`, e);
+    process.exit(1);
+  }
+
+  const rowPipeline =
+    job.rowPipeline ??
+    (job.story ? { storyId: job.story, entryPoint: job.entryPoint ?? "storybook" } : null);
+  if (!rowPipeline?.storyId) {
+    console.error("[cursor] Row pipeline job missing rowPipeline.storyId");
+    process.exit(1);
+  }
+
+  console.log(
+    `[orchestrator] ═══ Fix story supervisor (THIS tab) ═══\n` +
+      `[orchestrator] Story: ${rowPipeline.entryPoint ?? "storybook"}/${rowPipeline.storyId}\n` +
+      `[orchestrator] Job:   ${jobId}\n` +
+      `  Pipeline: structural → Figma live → Storybook → ReactHtml → logic\n` +
+      `  This tab is the Project Orchestrator — it runs tests and launches fixer agents.\n` +
+      `  Do not close this tab until the row is green or you click Stop all.\n\n`
+  );
+
+  const { exitCode, passed, summary } = await runPortfolioGolden(jobId, {
+    killFlagPath: killFlag,
+    autoMode: false,
+    rowPipeline
+  });
+
+  const killed = existsSync(killFlag);
+  if (killed) unlinkSync(killFlag);
+
+  const status = killed ? "killed" : passed ? "passed" : "failed";
+  try {
+    await api(`/api/jobs/${jobId}/finish`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status, exitCode: killed ? 130 : exitCode })
+    });
+  } catch {
+    /* ok */
+  }
+
+  console.log(`\n[cursor] Fix story ${status} — ${summary} (exit ${exitCode})`);
+  process.exit(killed ? 130 : exitCode);
+}
+
 /** Open terminal and dispatch immediately (legacy — prefer server-spawned fix-all job). */
 export function openTerminalForAgent() {
   openTerminal("pnpm test:console:cursor agent", ROOT);
@@ -600,6 +680,12 @@ async function main() {
       process.exit(1);
     }
     await runPortfolioOrchestratorJob(arg1);
+  } else if (cmd === "run-row-pipeline") {
+    if (!arg1) {
+      console.error("Usage: test-console-cursor.mjs run-row-pipeline <jobId>");
+      process.exit(1);
+    }
+    await runRowPipelineJob(arg1);
   } else if (cmd === "dispatch-terminal") {
     if (arg1) {
       openTerminalForJob(arg1, arg2 || undefined);
@@ -631,6 +717,7 @@ async function main() {
   test-console-cursor.mjs watch-job <jobId>
   test-console-cursor.mjs run-fix-all <jobId>
   test-console-cursor.mjs run-portfolio-orchestrator <jobId>
+  test-console-cursor.mjs run-row-pipeline <jobId>
   test-console-cursor.mjs dispatch-terminal [jobId] [pendingBeforeId]`);
     process.exit(1);
   }

@@ -1,0 +1,9 @@
+{
+  "rootCause": "Legend percentage TEXT nodes in flex-column align:end rows are geometry-pinned via pinFigmaFlexCrossEndBareText with textAlignHorizontal LEFT in the non-RTL branch, so right/end-aligned glyphs render flush-left inside full-width boxes instead of flush-right.",
+  "primaryEdit": "code-v2.ts — pinFigmaFlexCrossEndBareText — set textAlignHorizontal to RIGHT when align is right/end in non-RTL pin branch (L909)",
+  "recommendedFixArea": "packages/figma-importer-plugin/src/code-v2.ts — pinFigmaFlexCrossEndBareText",
+  "resolution": "Pipeline kinds OK (contract-to-figma only). Region-01 bbox (268,268 88×136) is the donut legend stack 43%/27%/19%/11%; reaffirmChildBoxPositions → reaffirmFigmaFlexCrossEndBareText → pinFigmaFlexCrossEndBareText (L864–914). In the non-RTL branch after text.textAutoResize = \"NONE\" (L908), L909 must be: text.textAlignHorizontal = align === \"right\" || align === \"end\" ? \"RIGHT\" : \"LEFT\" (not hardcoded \"LEFT\"). Grep shows L909–910 may already have this conditional in the current workspace — if so, skip edit; otherwise apply the exact StrReplace from test-report investigationText. Do not change reaffirmChildBoxPositions or reaffirmFigmaFlexCrossEndBareText. After confirming/applied: pnpm figma:plugin:build-reload, reload plugin in Figma Desktop, verify pnpm figma:live-iterate --story lab-analyticscharts--dense.",
+  "visualNotes": "Region-01 side-by-side: four bold legend percentages (43%, 27%, 19%, 11%) right-aligned in Storybook; Figma glyphs shifted ~1–2px left with wider right gutter. Full-frame diff shows faint horizontal ghosting on title suffix, bar columns, and W1–W4 labels; region-01 legend stack is worst hotspot (1.16% in region, global 0.152%). Colors and font weight match; mismatch is horizontal text pin/alignment only.",
+  "refinesAutomatic": true,
+  "ranAt": "2026-06-08T00:32:37.647Z"
+}

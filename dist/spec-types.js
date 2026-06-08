@@ -3,6 +3,6 @@
  *
  * See `docs/superpowers/specs/2026-05-25-element-approval-redesign-design.md`
  * for the full model. One JSON file per story at
- * `lab-memory/specs/<storyId>.spec.json`.
+ * `lab-memory/logic/specs/<storyId>.spec.json`.
  */
 export const SPEC_SCHEMA_VERSION = 2;

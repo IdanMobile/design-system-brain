@@ -79,6 +79,9 @@ export type FillLayer = {
 } | {
     kind: "radial-gradient";
     shape: "ellipse" | "circle";
+    /** e.g. `120%` — omitted when browser strips ellipse size from computed style */
+    sizeX?: string;
+    sizeY?: string;
     centerX: string;
     centerY: string;
     stops: GradientStop[];
@@ -139,6 +142,8 @@ export interface FontSpec {
     family: string;
     /** Full CSS `font-family` value (multi-family stack, including fallbacks). */
     stack?: string;
+    /** Browser-computed `font-family` on the measured text node (pixel replay). */
+    computedStack?: string;
     size: CSSNumber;
     weight: number;
     style: "normal" | "italic" | "oblique";
@@ -282,7 +287,7 @@ export interface LayerPaint {
     };
     visibility?: "visible" | "hidden" | "collapse";
 }
-export type LayerSourceKind = "dom" | "svg" | "pseudo" | "canvas" | "video" | "synthetic";
+export type LayerSourceKind = "dom" | "svg" | "pseudo" | "canvas" | "video" | "synthetic" | "figma";
 export interface LayerSource {
     kind: LayerSourceKind;
     tag?: string;
@@ -323,6 +328,10 @@ export interface UniversalDocumentV2 {
         viewport: LayerRect;
         devicePixelRatio: number;
         canvasBackground?: ColorString;
+        /** Storybook/Figma live parity — keep blur/shadows in mock HTML renderer. */
+        preserveEffects?: boolean;
+        skipFigmaBlurEllipses?: boolean;
+        hoistReferenceRasters?: boolean;
     };
     root: UniversalLayer;
     diagnostics: {

@@ -354,8 +354,8 @@ export function loadLabMemoryFixHint(repoRoot, storyId, suiteId = "pixel") {
   const body = readFileSync(path, "utf8");
   const sections = body.split(/^## Investigation — /m).slice(1);
 
-  /** @type {{ rootCause: string, recommendedFixArea?: string } | null} */
-  let latest = null;
+  /** @type {Array<{ rootCause: string, recommendedFixArea?: string, score: number }>} */
+  const candidates = [];
 
   for (const section of sections) {
     const header = section.split("\n")[0] ?? "";
@@ -370,13 +370,34 @@ export function loadLabMemoryFixHint(repoRoot, storyId, suiteId = "pixel") {
       /### Recommended fix area\s*\n\n([\s\S]*?)(?=\n### |\n<!-- vault-fingerprint)/
     );
     const fixArea = fixMatch?.[1]?.trim() ?? "";
-    latest = {
+    if (fixArea.includes("<!-- pending")) continue;
+
+    let score = 0;
+    if (fixArea && !/figma-screen-story-map|bake-figma-screen-ui|@lab\/ui.*Screen/i.test(fixArea)) {
+      score += 2;
+    }
+    if (/code-v2|render-html|manifest-to-contract/i.test(fixArea)) score += 2;
+    if (/storybook story mapped/i.test(root)) score -= 5;
+    if (
+      /Infrastructure — Storybook|infra — no adapter|ERR_CONNECTION_REFUSED/i.test(
+        root + fixArea
+      )
+    ) {
+      score -= 10;
+    }
+
+    candidates.push({
       rootCause: root,
-      recommendedFixArea: fixArea && !fixArea.includes("<!-- pending") ? fixArea : undefined
-    };
+      recommendedFixArea: fixArea || undefined,
+      score,
+    });
   }
 
-  return latest;
+  if (!candidates.length) return null;
+  candidates.sort((a, b) => b.score - a.score);
+  const best = candidates.find((c) => c.score > -5) ?? candidates[0];
+  if (best.score < -5) return null;
+  return { rootCause: best.rootCause, recommendedFixArea: best.recommendedFixArea };
 }
 
 /**

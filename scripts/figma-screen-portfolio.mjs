@@ -102,6 +102,16 @@ export function readScreenStepResult(repoRoot, screenId, stepId) {
       }
     }
   }
+  /** Legacy step dir names before unified parity leg ids. */
+  const legacyAliases = {
+    vsFigmaLive: "contractFigma",
+    vsStorybook: "storybook",
+    vsReactHtml: "fourWay"
+  };
+  const alias = legacyAliases[stepId];
+  if (alias) {
+    return readScreenStepResult(repoRoot, screenId, alias);
+  }
   return null;
 }
 
@@ -247,7 +257,9 @@ function buildStubCell(stepId, gate, message) {
 export function mergeFigmaScreenReport(repoRoot) {
   const screens = discoverFigmaScreens(repoRoot);
   const results = screens.map(({ screenId }) => {
-    const rec = readScreenStepResult(repoRoot, screenId, "contractFigma");
+    const rec =
+      readScreenStepResult(repoRoot, screenId, "vsFigmaLive") ??
+      readScreenStepResult(repoRoot, screenId, "contractFigma");
     if (rec) return rec;
     return {
       screenId,
@@ -319,9 +331,16 @@ export function buildFigmaScreenPortfolioState(repoRoot) {
     const hasReferencePng = existsSync(pngPath);
 
     const manifestRec = readScreenStepResult(repoRoot, screenId, "manifestContract");
-    const figmaRec = readScreenStepResult(repoRoot, screenId, "contractFigma");
-    const storybookRec = readScreenStepResult(repoRoot, screenId, "storybook");
-    const fourWayRec = readScreenStepResult(repoRoot, screenId, "fourWay");
+    const figmaRec =
+      readScreenStepResult(repoRoot, screenId, "vsFigmaLive") ??
+      readScreenStepResult(repoRoot, screenId, "contractFigma");
+    const storybookRec =
+      readScreenStepResult(repoRoot, screenId, "vsStorybook") ??
+      readScreenStepResult(repoRoot, screenId, "storybook");
+    const fourWayRec =
+      readScreenStepResult(repoRoot, screenId, "vsReactHtml") ??
+      readScreenStepResult(repoRoot, screenId, "fourWay");
+    const reactTsxRec = readScreenStepResult(repoRoot, screenId, "vsReactTsx");
     const logicRec = readScreenStepResult(repoRoot, screenId, "logic");
 
     const cellsRaw = {
@@ -334,31 +353,31 @@ export function buildFigmaScreenPortfolioState(repoRoot) {
 
     const cellsForGate = { manifestContract: { status: cellsRaw.manifestContract.status } };
 
-    const gateFigma = canRunFigmaEntryStep("contractFigma", cellsForGate);
+    const gateFigma = canRunFigmaEntryStep("vsFigmaLive", cellsForGate);
     cellsRaw.contractFigma = buildPixelStepCell(
-      "contractFigma",
+      "vsFigmaLive",
       figmaRec,
       gateFigma,
       hasReferencePng,
       screenId,
       pngPath
     );
-    cellsForGate.contractFigma = { status: cellsRaw.contractFigma.status };
+    cellsForGate.vsFigmaLive = { status: cellsRaw.contractFigma.status };
 
-    const gateStorybook = canRunFigmaEntryStep("storybook", cellsForGate);
+    const gateStorybook = canRunFigmaEntryStep("vsStorybook", cellsForGate);
     cellsRaw.storybook = buildPixelStepCell(
-      "storybook",
+      "vsStorybook",
       storybookRec,
       gateStorybook,
       hasReferencePng,
       screenId,
       pngPath
     );
-    cellsForGate.storybook = { status: cellsRaw.storybook.status };
+    cellsForGate.vsStorybook = { status: cellsRaw.storybook.status };
 
-    const gateFourWay = canRunFigmaEntryStep("fourWay", cellsForGate);
+    const gateFourWay = canRunFigmaEntryStep("vsReactHtml", cellsForGate);
     cellsRaw.fourWay = buildPixelStepCell(
-      "fourWay",
+      "vsReactHtml",
       fourWayRec,
       gateFourWay,
       hasReferencePng,
@@ -368,7 +387,18 @@ export function buildFigmaScreenPortfolioState(repoRoot) {
     if (fourWayRec?.reportHtml) {
       cellsRaw.fourWay.compareUrl = toRepoPath(fourWayRec.reportHtml);
     }
-    cellsForGate.fourWay = { status: cellsRaw.fourWay.status };
+    cellsForGate.vsReactHtml = { status: cellsRaw.fourWay.status };
+
+    const gateReactTsx = canRunFigmaEntryStep("vsReactTsx", cellsForGate);
+    cellsRaw.reactTsx = buildPixelStepCell(
+      "vsReactTsx",
+      reactTsxRec,
+      gateReactTsx,
+      hasReferencePng,
+      screenId,
+      pngPath
+    );
+    cellsForGate.vsReactTsx = { status: cellsRaw.reactTsx.status };
 
     const gateLogic = canRunFigmaEntryStep("logic", cellsForGate);
     cellsRaw.logic = logicRec
@@ -376,7 +406,7 @@ export function buildFigmaScreenPortfolioState(repoRoot) {
       : buildStubCell(
           "logic",
           gateLogic,
-          "Coming soon — logic audit after 4-way pass"
+          gateLogic.ok ? "Run Logic audit" : "Blocked — complete original parity legs first"
         );
 
     if (cellsRaw.manifestContract.status === "not_tested" && hasManifest && manifestRec?.layerCount != null) {

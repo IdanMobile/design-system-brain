@@ -43,9 +43,11 @@ function processCommandLine(pid) {
  */
 export function collectSafeOrchestratorJobPids(job) {
   const jobId = job.id;
-  const isPortfolio = job.action === "portfolio-orchestrator";
+  const isPortfolio = job.action === "portfolio-orchestrator" || job.action === "row-pipeline";
   const markers = isPortfolio
-    ? [`run-portfolio-orchestrator ${jobId}`, `portfolio-orchestrator-${jobId}`]
+    ? job.action === "row-pipeline"
+      ? [`run-row-pipeline ${jobId}`, `row-pipeline-${jobId}`]
+      : [`run-portfolio-orchestrator ${jobId}`, `portfolio-orchestrator-${jobId}`]
     : [
         `run-fix-all ${jobId}`,
         `fix-all-${jobId}`,
@@ -63,7 +65,9 @@ export function collectSafeOrchestratorJobPids(job) {
   const discovered = [];
   if (jobId) {
     const pattern = isPortfolio
-      ? `run-portfolio-orchestrator ${jobId}`
+      ? job.action === "row-pipeline"
+        ? `run-row-pipeline ${jobId}`
+        : `run-portfolio-orchestrator ${jobId}`
       : `run-fix-all ${jobId}`;
     try {
       const r = spawnSync("pgrep", ["-f", pattern], { encoding: "utf8" });

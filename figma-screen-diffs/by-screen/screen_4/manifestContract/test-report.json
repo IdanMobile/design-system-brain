@@ -1,0 +1,188 @@
+{
+  "schemaVersion": "1.0",
+  "itemId": "screen_4",
+  "entryPoint": "figma",
+  "failedTest": {
+    "testId": "manifestContract",
+    "label": "Manifest → Contract",
+    "compare": {
+      "reference": "manifest",
+      "target": "contract"
+    },
+    "primaryFixer": "manifest-to-contract",
+    "fixerChain": [
+      "figma-manifest-export",
+      "manifest-to-contract"
+    ],
+    "allowlist": [
+      "scripts/figma-manifest-to-contract.mjs",
+      "scripts/figma-screen-reference-align.mjs",
+      "packages/contract/**"
+    ],
+    "forbidden": [
+      "packages/figma-importer-plugin/**",
+      "packages/extractor-playwright/**",
+      "packages/pixel-test/src/render-html.ts",
+      "packages/ui/**",
+      "artifacts/**/*.png"
+    ],
+    "regressionScope": "all-screens-manifest",
+    "verifyCommand": "pnpm test:figma:screen:manifest -- --artifact /Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_4.manifest.json"
+  },
+  "tolerance": 0.1,
+  "global": {
+    "percent": 0,
+    "maxRegionPercent": null,
+    "status": "error"
+  },
+  "images": {
+    "original": null,
+    "target": null,
+    "diff": null,
+    "reportHtml": null
+  },
+  "mismatches": [
+    {
+      "id": "global",
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "wrongPixels": 0,
+      "percentInRegion": 0,
+      "images": {
+        "compareSideBySide": null,
+        "originalCrop": null,
+        "targetCrop": null
+      },
+      "evidence": {
+        "message": "manifestToContract kind fidelity failed:\n  · Manifest VECTOR \"Vector\" (I55042:10443;192:4859) missing layer.vector in contract\n  · Manifest VECTOR \"Vector\" (I55042:10453;3691:2965) missing layer.vector in contract\n  · Manifest VECTOR \"Vector\" (I55042:10465;3691:2965) missing layer.vector in contract\n  · Manifest VECTOR \"Vector\" (I55042:10468;192:4859) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 10\" (55042:10478) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 9\" (55042:10479) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 11\" (55042:10480) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 10\" (55042:10487) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 9\" (55042:10488) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 11\" (55042:10489) missing layer.vector in contract"
+      },
+      "suspectedFixer": "manifest-to-contract",
+      "fixPrompt": "Failed test: manifestContract (Manifest → Contract)\nPrimary fixer: manifest-to-contract\nFixer chain (upstream if contract wrong): figma-manifest-export → manifest-to-contract\n── Ground rules ──\n• Fix the general algorithm — NOT per-item pixel hacks.\n• Screenshots are for investigation only — do NOT change UI/code to match PNGs.\n• Do NOT embed reference PNGs as assets to pass parity.\n── Allowlisted files ──\n• scripts/figma-manifest-to-contract.mjs\n• scripts/figma-screen-reference-align.mjs\n• packages/contract/**\n── Forbidden ──\n• packages/figma-importer-plugin/**\n• packages/extractor-playwright/**\n• packages/pixel-test/src/render-html.ts\n• packages/ui/**\n• artifacts/**/*.png\n── Mismatch global ──\nRegion: (0, 0) 0×0px\nWrong pixels: 0 (0.000% in region)\nEvidence: manifestToContract kind fidelity failed:\n  · Manifest VECTOR \"Vector\" (I55042:10443;192:4859) missing layer.vector in contract\n  · Manifest VECTOR \"Vector\" (I55042:10453;3691:2965) missing layer.vector in contract\n  · Manifest VECTOR \"Vector\" (I55042:10465;3691:2965) missing layer.vector in contract\n  · Manifest VECTOR \"Vector\" (I55042:10468;192:4859) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 10\" (55042:10478) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 9\" (55042:10479) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 11\" (55042:10480) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 10\" (55042:10487) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 9\" (55042:10488) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 11\" (55042:10489) missing layer.vector in contract\nVerify: pnpm test:figma:screen:manifest -- --artifact /Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_4.manifest.json\nRegression scope: all-screens-manifest\nItem: screen_4"
+    }
+  ],
+  "testedAt": "2026-06-08T17:18:04.380Z",
+  "ctx": {
+    "manifestPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_4.manifest.json",
+    "error": "manifestToContract kind fidelity failed:\n  · Manifest VECTOR \"Vector\" (I55042:10443;192:4859) missing layer.vector in contract\n  · Manifest VECTOR \"Vector\" (I55042:10453;3691:2965) missing layer.vector in contract\n  · Manifest VECTOR \"Vector\" (I55042:10465;3691:2965) missing layer.vector in contract\n  · Manifest VECTOR \"Vector\" (I55042:10468;192:4859) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 10\" (55042:10478) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 9\" (55042:10479) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 11\" (55042:10480) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 10\" (55042:10487) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 9\" (55042:10488) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 11\" (55042:10489) missing layer.vector in contract",
+    "repoRoot": "/Users/user/Documents/GitHub/storybook-to-figma-lab"
+  },
+  "pipelineTrace": {
+    "schemaVersion": "1.0",
+    "pipeline": [],
+    "audit": {
+      "kindMismatches": [],
+      "manifestVsDisk": [],
+      "adapterVsDisk": []
+    },
+    "hasBlocker": false,
+    "effectiveFixer": null,
+    "traceBackMethod": [
+      "0. TRACE BACK (mandatory when pipelineTrace shows kind mismatch):",
+      "   a. Grep manifest TEXT nodes in hotspot: grep -n '\"type\": \"TEXT\"' <manifest>",
+      "   b. Grep same figma ids in contract: grep -n '<figma-id>' <contract>",
+      "   c. If manifest TEXT but contract has layer.image / figmaReferenceRaster → fix pipeline step (NOT code-v2).",
+      "   d. Re-run manifest test, then live test — only then tune importer."
+    ],
+    "manifestRel": "artifacts/figma-screens/screen_4.manifest.json"
+  },
+  "pipelineText": "── Pipeline trace (trace back to root — do NOT skip) ──\n\nPipeline steps (vsFigmaLive):\n\n0. TRACE BACK (mandatory when pipelineTrace shows kind mismatch):\n   a. Grep manifest TEXT nodes in hotspot: grep -n '\"type\": \"TEXT\"' <manifest>\n   b. Grep same figma ids in contract: grep -n '<figma-id>' <contract>\n   c. If manifest TEXT but contract has layer.image / figmaReferenceRaster → fix pipeline step (NOT code-v2).\n   d. Re-run manifest test, then live test — only then tune importer.",
+  "investigationText": "── Fixer action (ONE edit — start here) ──\nFollow investigation brief below — one symbol edit only.\nDo NOT re-investigate — use pre-extracted snippets below.\nFORBIDDEN: Read code-v2.ts or contract.json in full.\nSTOP after edit — harness rebuilds plugin + re-tests.\n\n── Investigator (automatic + agent — fixer reads this before editing) ──\n\n▸ Automatic (test harness)\n  Root cause layer: manifest-to-contract\n  Pipeline kinds OK: yes\n  Fix surface: manifest-to-contract\n  · Manifest → contract adapter failed kind fidelity or schema validation.\n\n▸ Agent analysis\n  Pending — agent investigator not run yet.\n\n── Pipeline trace (trace back to root — do NOT skip) ──\n\nPipeline steps (vsFigmaLive):\n\n0. TRACE BACK (mandatory when pipelineTrace shows kind mismatch):\n   a. Grep manifest TEXT nodes in hotspot: grep -n '\"type\": \"TEXT\"' <manifest>\n   b. Grep same figma ids in contract: grep -n '<figma-id>' <contract>\n   c. If manifest TEXT but contract has layer.image / figmaReferenceRaster → fix pipeline step (NOT code-v2).\n   d. Re-run manifest test, then live test — only then tune importer.\n\n── Investigation brief (AUTHORITATIVE — follow method, skip skills) ──\n\nMethod:\n  0. TRACE BACK: Read pipelineTrace in prompt — manifest TEXT must match contract layer.text (no PNG raster).\n  1. VISUAL (≤1 min): Compare crop — note which element differs.\n  2. MANIFEST vs CONTRACT (≤2 min): Run grep lines below on manifest + contract — find kind mismatch.\n  3. EDIT (≤2 min): ONE change in allowlisted pipeline script — NOT code-v2 until kinds match.\n  4. STOP: Harness re-tests manifest + live — do NOT run verifyCommand yourself.\n\nHotspot: manifestToContract kind fidelity failed:\n  · Manifest VECTOR \"Vector\" (I55042:10443;192:4859) missing layer.vector in contract\n  · Manifest VECTOR \"Vector\" (I55042:10453;3691:2965) missing layer.vector in contract\n  · Manifest VECTOR \"Vector\" (I55042:10465;3691:2965) missing layer.vector in contract\n  · Manifest VECTOR \"Vector\" (I55042:10468;192:4859) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 10\" (55042:10478) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 9\" (55042:10479) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 11\" (55042:10480) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 10\" (55042:10487) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 9\" (55042:10488) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 11\" (55042:10489) missing layer.vector in contract\nLook for: Compare crop vs original — note geometry vs color vs missing pixels.\nMicro-fix: Global 0.000% — one surgical pin/fill fix; do not refactor.\n\nRanked hypotheses:\n  · Layout pin/position in allowlisted adapter for nodes in hotspot bbox.\n  · Text auto-resize / alignment mismatch vs contract box.\n\nGrep commands (run these — do NOT Read whole files):\n  grep -n 'pinFigma\\|figmaReference' scripts/figma-manifest-to-contract.mjs\n\nAllowlisted edit file: scripts/figma-manifest-to-contract.mjs\nCode symbols: reaffirmChildBoxPositions\n\nForbidden reads:\n  · packages/figma-importer-plugin/src/code-v2.ts (full file Read)\n  · artifacts/**/*.contract.json (full file Read)\n  · .agents/skills/**\n  · lab-memory/**\n  · scripts/test-console-*\n  · scripts/figma-screen-test.mjs",
+  "investigationBrief": {
+    "schemaVersion": "1.0",
+    "method": [
+      "0. TRACE BACK: Read pipelineTrace in prompt — manifest TEXT must match contract layer.text (no PNG raster).",
+      "1. VISUAL (≤1 min): Compare crop — note which element differs.",
+      "2. MANIFEST vs CONTRACT (≤2 min): Run grep lines below on manifest + contract — find kind mismatch.",
+      "3. EDIT (≤2 min): ONE change in allowlisted pipeline script — NOT code-v2 until kinds match.",
+      "4. STOP: Harness re-tests manifest + live — do NOT run verifyCommand yourself."
+    ],
+    "forbiddenReads": [
+      "packages/figma-importer-plugin/src/code-v2.ts (full file Read)",
+      "artifacts/**/*.contract.json (full file Read)",
+      ".agents/skills/**",
+      "lab-memory/**",
+      "scripts/test-console-*",
+      "scripts/figma-screen-test.mjs"
+    ],
+    "hotspot": "manifestToContract kind fidelity failed:\n  · Manifest VECTOR \"Vector\" (I55042:10443;192:4859) missing layer.vector in contract\n  · Manifest VECTOR \"Vector\" (I55042:10453;3691:2965) missing layer.vector in contract\n  · Manifest VECTOR \"Vector\" (I55042:10465;3691:2965) missing layer.vector in contract\n  · Manifest VECTOR \"Vector\" (I55042:10468;192:4859) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 10\" (55042:10478) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 9\" (55042:10479) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 11\" (55042:10480) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 10\" (55042:10487) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 9\" (55042:10488) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 11\" (55042:10489) missing layer.vector in contract",
+    "lookFor": "Compare crop vs original — note geometry vs color vs missing pixels.",
+    "contractLayers": [],
+    "rankedHypotheses": [
+      "Layout pin/position in allowlisted adapter for nodes in hotspot bbox.",
+      "Text auto-resize / alignment mismatch vs contract box."
+    ],
+    "grepCommands": [
+      "grep -n 'pinFigma\\|figmaReference' scripts/figma-manifest-to-contract.mjs"
+    ],
+    "contractGrepOutput": "",
+    "codeSymbols": [
+      "reaffirmChildBoxPositions"
+    ],
+    "codeSnippets": [],
+    "editRouting": [],
+    "antiPatterns": [],
+    "allowFile": "scripts/figma-manifest-to-contract.mjs",
+    "compareCrop": null,
+    "priorProgress": null,
+    "microFix": "Global 0.000% — one surgical pin/fill fix; do not refactor."
+  },
+  "structuredDiagnosis": {
+    "schemaVersion": "1.0",
+    "pipelineKindOk": true,
+    "rootCauseLayer": "manifest-to-contract",
+    "mandatoryFixSurface": "manifest-to-contract",
+    "conclusions": [
+      "Manifest → contract adapter failed kind fidelity or schema validation."
+    ],
+    "hotspotLayers": [],
+    "editRouting": [],
+    "investigatorRequired": true,
+    "forbidCodeV2UntilPipelineOk": false,
+    "generatedAt": "2026-06-08T17:18:04.390Z"
+  },
+  "testReportPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_4/manifestContract/test-report.json",
+  "investigator": {
+    "schemaVersion": "1.0",
+    "automatic": {
+      "source": "test-harness",
+      "ranAt": "2026-06-08T17:18:04.380Z",
+      "structuredDiagnosis": {
+        "schemaVersion": "1.0",
+        "pipelineKindOk": true,
+        "rootCauseLayer": "manifest-to-contract",
+        "mandatoryFixSurface": "manifest-to-contract",
+        "conclusions": [
+          "Manifest → contract adapter failed kind fidelity or schema validation."
+        ],
+        "hotspotLayers": [],
+        "editRouting": [],
+        "investigatorRequired": true,
+        "forbidCodeV2UntilPipelineOk": false,
+        "generatedAt": "2026-06-08T17:18:04.390Z"
+      },
+      "pipelineTrace": {
+        "hasBlocker": false,
+        "effectiveFixer": null,
+        "kindMismatches": [],
+        "adapterVsDisk": []
+      },
+      "investigationBrief": {
+        "hotspot": "manifestToContract kind fidelity failed:\n  · Manifest VECTOR \"Vector\" (I55042:10443;192:4859) missing layer.vector in contract\n  · Manifest VECTOR \"Vector\" (I55042:10453;3691:2965) missing layer.vector in contract\n  · Manifest VECTOR \"Vector\" (I55042:10465;3691:2965) missing layer.vector in contract\n  · Manifest VECTOR \"Vector\" (I55042:10468;192:4859) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 10\" (55042:10478) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 9\" (55042:10479) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 11\" (55042:10480) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 10\" (55042:10487) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 9\" (55042:10488) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 11\" (55042:10489) missing layer.vector in contract",
+        "lookFor": "Compare crop vs original — note geometry vs color vs missing pixels.",
+        "editRouting": [],
+        "antiPatterns": [],
+        "rankedHypotheses": [
+          "Layout pin/position in allowlisted adapter for nodes in hotspot bbox.",
+          "Text auto-resize / alignment mismatch vs contract box."
+        ]
+      }
+    },
+    "agent": null,
+    "sectionText": "── Investigator (automatic + agent — fixer reads this before editing) ──\n\n▸ Automatic (test harness)\n  Root cause layer: manifest-to-contract\n  Pipeline kinds OK: yes\n  Fix surface: manifest-to-contract\n  · Manifest → contract adapter failed kind fidelity or schema validation.\n\n▸ Agent analysis\n  Pending — agent investigator not run yet.",
+    "updatedAt": "2026-06-08T17:18:04.391Z"
+  }
+}

@@ -4,11 +4,15 @@ import {
   type DevStoryEntry
 } from "../../contract/src/index.ts";
 import { renderDevStory } from "./registry";
-import { PackageDownload } from "./PackageDownload";
 import { HoverOutline } from "./HoverOutline";
 import { LayerPanel } from "./LayerPanel";
 import { buildLayerTree, flatten, type LayerNode } from "./layer-tree";
 import "./showcase.css";
+
+interface ManualPreviewManifest {
+  generatedAt?: string;
+  delivery?: Array<{ storyId: string }>;
+}
 
 function groupByComponent(stories: DevStoryEntry[]): [string, DevStoryEntry[]][] {
   const map = new Map<string, DevStoryEntry[]>();
@@ -77,8 +81,68 @@ function StoryCard({ entry }: StoryCardProps) {
 }
 
 export function Showcase() {
-  const packageStories = useMemo(() => DEV_STORIES, []);
+  const [manifest, setManifest] = useState<ManualPreviewManifest | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/manual-preview.json", { cache: "no-store" })
+      .then((res) => (res.ok ? res.json() : Promise.reject(new Error(`${res.status}`))))
+      .then((data: ManualPreviewManifest) => {
+        if (!cancelled) {
+          setManifest(data);
+          setLoadError(null);
+        }
+      })
+      .catch((err: unknown) => {
+        if (!cancelled) {
+          setManifest({ delivery: [] });
+          setLoadError(err instanceof Error ? err.message : String(err));
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const packageStories = useMemo(() => {
+    const ids = new Set((manifest?.delivery ?? []).map((d) => d.storyId));
+    if (ids.size === 0) return [];
+    return DEV_STORIES.filter((entry) => ids.has(entry.id));
+  }, [manifest]);
+
   const grouped = useMemo(() => groupByComponent(packageStories), [packageStories]);
+
+  if (manifest === null) {
+    return (
+      <div className="showcase-page">
+        <p className="showcase-meta">Loading delivery showcase…</p>
+      </div>
+    );
+  }
+
+  if (packageStories.length === 0) {
+    return (
+      <div className="showcase-page">
+        <header className="showcase-header">
+          <div>
+            <h1>Delivery showcase</h1>
+            <p>
+              No JSX delivery packages in the current Test portfolio yet. Run Logic
+              audit (or pack a story) and refresh the portfolio.
+            </p>
+          </div>
+          {loadError ? (
+            <p className="showcase-meta">Manifest unavailable ({loadError}) — showing empty list.</p>
+          ) : (
+            <p className="showcase-meta">
+              Updated {manifest.generatedAt ? new Date(manifest.generatedAt).toLocaleString() : "—"}
+            </p>
+          )}
+        </header>
+      </div>
+    );
+  }
 
   return (
     <div className="showcase-page">
@@ -92,12 +156,14 @@ export function Showcase() {
           </p>
         </div>
         <p className="showcase-meta">
-          {packageStories.length} stories · isolated view:{" "}
-          <code>?story=&lt;story-id&gt;</code>
+          {packageStories.length} stor{packageStories.length === 1 ? "y" : "ies"} from
+          the current Test portfolio
+          {manifest.generatedAt
+            ? ` · updated ${new Date(manifest.generatedAt).toLocaleString()}`
+            : ""}{" "}
+          · isolated view: <code>?story=&lt;story-id&gt;</code>
         </p>
       </header>
-
-      <PackageDownload />
 
       {grouped.map(([component, stories]) => (
         <section key={component} className="showcase-section">

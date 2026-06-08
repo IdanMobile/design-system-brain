@@ -1,0 +1,11 @@
+{
+  "status": "error",
+  "percent": 0,
+  "error": "manifestToContract kind fidelity failed:\n  · Manifest VECTOR \"Vector\" (I55042:10443;192:4859) missing layer.vector in contract\n  · Manifest VECTOR \"Vector\" (I55042:10453;3691:2965) missing layer.vector in contract\n  · Manifest VECTOR \"Vector\" (I55042:10465;3691:2965) missing layer.vector in contract\n  · Manifest VECTOR \"Vector\" (I55042:10468;192:4859) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 10\" (55042:10478) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 9\" (55042:10479) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 11\" (55042:10480) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 10\" (55042:10487) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 9\" (55042:10488) missing layer.vector in contract\n  · Manifest VECTOR \"Rectangle 11\" (55042:10489) missing layer.vector in contract",
+  "manifestPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_4.manifest.json",
+  "testReportPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_4/manifestContract/test-report.json",
+  "screenId": "screen_4",
+  "storyId": "screen_4",
+  "stepId": "manifestContract",
+  "testedAt": "2026-06-08T17:18:04.392Z"
+}

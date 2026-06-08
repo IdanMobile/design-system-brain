@@ -11,7 +11,9 @@ import { fileURLToPath } from "node:url";
 import { initAgentBridge } from "./test-console-agent-bridge.mjs";
 import { api } from "./test-console-api.mjs";
 import { hasCursorAgent } from "./test-console-cursor-cli.mjs";
-import { runFixAllIterate, SUITES } from "./test-console-fix-all-iterate.mjs";
+import { runFixAllIterate, MAX_TRIES_PER_STORY, SUITES } from "./test-console-fix-all-iterate.mjs";
+import { writeFixerDeadEndReport, formatDeadEndLogBlock } from "./fixer-dead-end-report.mjs";
+import { resolveStoryTestReportPath } from "./test-report-investigator.mjs";
 import { loadRunSettings } from "./test-console-run-settings.mjs";
 import {
   AUTO_RETRY_MS,
@@ -34,7 +36,10 @@ import {
   stepNeedsRelay,
   stepNeedsPlayground,
   humanActionPayload,
-  effectiveOrchestratorFilters
+  effectiveOrchestratorFilters,
+  isRowPipelineComplete,
+  withRowPipelineFilters,
+  readRowCell
 } from "./unified-orchestrator-work.mjs";
 import { UNIFIED_STEPS } from "./build-unified-portfolio.mjs";
 import { emitFleetEvent, updateAgentStatus } from "./lab-worker-supervisor.mjs";
@@ -225,7 +230,7 @@ function groupFixTargets(stepStatus) {
   /** @type {Map<string, string[]>} */
   const groups = new Map();
   for (const item of stepStatus.failing) {
-    const suite = fixSuiteForCell(item.entryPoint ?? "storybook", stepStatus.stepId);
+    const suite = fixSuiteForCell(item.entryPoint ?? "storybook", stepStatus.stepId, item.storyId, ROOT);
     if (!groups.has(suite)) groups.set(suite, []);
     groups.get(suite).push(item.storyId);
   }
@@ -233,7 +238,7 @@ function groupFixTargets(stepStatus) {
 }
 
 function flowWorkWithSuite(work) {
-  const suiteId = fixSuiteForCell(work.entryPoint ?? "storybook", work.stepId);
+  const suiteId = fixSuiteForCell(work.entryPoint ?? "storybook", work.stepId, work.storyId, ROOT);
   return {
     ...work,
     suiteId,
@@ -247,11 +252,251 @@ function pauseWithHuman(jobId, code, appendLog) {
   return appendLog(`[portfolio] HUMAN ACTION — ${payload.humanTitle}: ${payload.humanMessage}\n`);
 }
 
+function stepIsGreen(status) {
+  return status === "pass" || status === "skipped";
+}
+
+/**
+ * Stop orchestrator when fixer cannot green a step (no infinite retry loop).
+ * @param {string} jobId
+ * @param {(text: string, opts?: { localOnly?: boolean }) => Promise<void>} appendLog
+ * @param {string} stepLabel
+ * @param {string} [detail]
+ * @param {{ storyId?: string, entryPoint?: string, stepId?: string }} [ctx]
+ */
+async function stopOrchestratorStuck(jobId, appendLog, stepLabel, detail, ctx = {}) {
+  const title = `${stepLabel} FIX STUCK`;
+  const message = detail ? `${title} — ${detail}` : title;
+
+  const suiteId = ctx.stepId ?? null;
+  const storyId = ctx.storyId ?? null;
+  if (storyId && suiteId && !ctx.deadEndPath) {
+    const testReportPath = resolveStoryTestReportPath(ROOT, storyId, suiteId);
+    const deadEnd = writeFixerDeadEndReport(ROOT, {
+      jobId,
+      storyId,
+      stepId: suiteId,
+      suiteId,
+      suiteLabel: stepLabel,
+      entryPoint: ctx.entryPoint ?? "storybook",
+      reason: "FIX_STUCK",
+      detail: message,
+      attemptsUsed: ctx.attemptsUsed ?? 0,
+      maxAttempts: MAX_TRIES_PER_STORY,
+      testReportPath,
+      logFile: ctx.logFile ?? null
+    });
+    await appendLog(formatDeadEndLogBlock({ ...deadEnd.payload, path: deadEnd.path }));
+  } else if (ctx.deadEndPath) {
+    await appendLog(
+      `\n[orchestrator] Dead-end report: ${ctx.deadEndPath}\n`
+    );
+  }
+
+  writeOrchestratorState(ROOT, {
+    phase: ctx.stepId ? "row-pipeline" : "portfolio",
+    jobId,
+    storyId: ctx.storyId ?? null,
+    entryPoint: ctx.entryPoint ?? null,
+    suiteId: ctx.stepId ?? null,
+    suiteLabel: stepLabel,
+    finished: true,
+    verdict: "FIX_STUCK",
+    exitReason: "FIX_STUCK",
+    nextWorkerMode: "stopped",
+    humanAction: "fix_stuck",
+    humanMessage: message,
+    humanTitle: title
+  });
+  await appendLog(`\n[orchestrator] ⛔ ${message}\n`);
+  await appendLog("[orchestrator] Stopping — fixer exhausted or step blocked. Resolve and re-run Fix story.\n");
+  return {
+    exitCode: 1,
+    passed: false,
+    summary: "FIX_STUCK",
+    stuckStep: stepLabel,
+    stuckDetail: detail ?? null
+  };
+}
+
+/**
+ * Fix story / row pipeline: test → (pass → next) | (fail → fixer → re-test → pass → next) | stuck → stop.
+ */
+async function runRowPipelineSteps(
+  jobId,
+  rowPipeline,
+  { appendLog, killFlagPath, filters, sessionAgentCallsRef, maxAgentCalls }
+) {
+  const storyId = rowPipeline.storyId;
+  const entryPoint = rowPipeline.entryPoint ?? "storybook";
+  const rowLabel = `${entryPoint}/${storyId}`;
+
+  for (const stepId of UNIFIED_STEP_ORDER) {
+    if (existsSync(killFlagPath)) {
+      writeOrchestratorState(ROOT, {
+        phase: "row-pipeline",
+        jobId,
+        storyId,
+        entryPoint,
+        finished: true,
+        verdict: "CANCELLED",
+        nextWorkerMode: "stopped"
+      });
+      return { exitCode: 130, passed: false, summary: "cancelled" };
+    }
+
+    refreshPortfolio();
+    let portfolio = loadUnifiedPortfolio(ROOT);
+    const cell = readRowCell(portfolio, storyId, entryPoint, stepId);
+    const label = stepLabel(stepId);
+
+    if (stepIsGreen(cell.status)) {
+      await appendLog(`[orchestrator] ${label} — PASS (skip to next step)\n`);
+      continue;
+    }
+
+    if (!cell.canRun) {
+      return stopOrchestratorStuck(
+        jobId,
+        appendLog,
+        label,
+        "Prerequisite step not green — cannot run this test yet",
+        { storyId, entryPoint, stepId }
+      );
+    }
+
+    await appendLog(`\n[orchestrator] ══ ${rowLabel} · ${label} ══\n`);
+
+    writeOrchestratorState(ROOT, {
+      phase: "row-pipeline",
+      suiteId: stepId,
+      suiteLabel: label,
+      jobId,
+      storyId,
+      entryPoint,
+      verdict: "ON_TRACK",
+      nextWorkerMode: "continue",
+      finished: false,
+      humanAction: null,
+      humanMessage: null
+    });
+
+    const infraOk = await ensureStepInfra(stepId, appendLog, killFlagPath, jobId);
+    if (!infraOk) {
+      return { exitCode: 2, passed: false, summary: "human:infra" };
+    }
+
+    await appendLog(`[orchestrator] TEST · ${label}\n`);
+    await runUnifiedGoldenBatch(
+      ROOT,
+      [{ storyId, entryPoint }],
+      stepId,
+      (t) => appendLog(t)
+    );
+    refreshPortfolio();
+    portfolio = loadUnifiedPortfolio(ROOT);
+    let afterTest = readRowCell(portfolio, storyId, entryPoint, stepId);
+
+    if (stepIsGreen(afterTest.status)) {
+      await appendLog(`[orchestrator] ${label} — PASS → next step\n`);
+      continue;
+    }
+
+    if (afterTest.status === "error") {
+      return stopOrchestratorStuck(
+        jobId,
+        appendLog,
+        label,
+        afterTest.error ??
+          "Test errored (config/infra) — not fixable by the code fixer; fix setup then re-run",
+        { storyId, entryPoint, stepId }
+      );
+    }
+
+    if (sessionAgentCallsRef.value >= maxAgentCalls) {
+      await pauseWithHuman(jobId, "max_rounds_exceeded", appendLog);
+      return { exitCode: 2, passed: false, summary: "max_agent_calls" };
+    }
+
+    await appendLog(
+      `[orchestrator] FAIL · ${label} (${afterTest.status}${afterTest.percent ? ` ${afterTest.percent.toFixed(2)}%` : ""}) — running fixer (≤${MAX_TRIES_PER_STORY} attempts)\n`
+    );
+    sessionAgentCallsRef.value += 1;
+
+    const suiteId = fixSuiteForCell(entryPoint, stepId, storyId, ROOT);
+    const fixResult = await runFixAllIterate(jobId, {
+      killFlagPath,
+      suiteId,
+      storyIds: [storyId],
+      skipEndRetest: true,
+      failFastOnLock: true
+    });
+
+    if (fixResult.blocked) {
+      await pauseWithHuman(jobId, "cursor_usage_blocked", appendLog);
+      return { exitCode: 2, passed: false, summary: "blocked:cursor_usage" };
+    }
+
+    if (fixResult.stuck || !fixResult.passed) {
+      return stopOrchestratorStuck(
+        jobId,
+        appendLog,
+        label,
+        fixResult.stuckReason ?? fixResult.summary ?? "Fixer did not green this step",
+        {
+          storyId,
+          entryPoint,
+          stepId,
+          attemptsUsed: fixResult.attemptsUsed,
+          deadEndPath: fixResult.deadEndPath
+        }
+      );
+    }
+
+    await appendLog(`[orchestrator] RE-TEST · ${label}\n`);
+    await runUnifiedGoldenBatch(
+      ROOT,
+      [{ storyId, entryPoint }],
+      stepId,
+      (t) => appendLog(t)
+    );
+    refreshPortfolio();
+    portfolio = loadUnifiedPortfolio(ROOT);
+    afterTest = readRowCell(portfolio, storyId, entryPoint, stepId);
+
+    if (!stepIsGreen(afterTest.status)) {
+      return stopOrchestratorStuck(
+        jobId,
+        appendLog,
+        label,
+        `Still ${afterTest.status} after fixer — ${fixResult.summary ?? "not green"}`,
+        { storyId, entryPoint, stepId }
+      );
+    }
+
+    await appendLog(`[orchestrator] ${label} — PASS after fix → next step\n`);
+  }
+
+  await appendLog(`\n[fix-story] ROW_COMPLETE — ${rowLabel} strict green.\n`);
+  spawnSync("node", ["scripts/test-portfolio-merge.mjs"], { cwd: ROOT, stdio: "inherit" });
+  writeOrchestratorState(ROOT, {
+    phase: "row-pipeline",
+    jobId,
+    storyId,
+    entryPoint,
+    finished: true,
+    verdict: "PHASE_COMPLETE",
+    exitReason: "ROW_COMPLETE",
+    humanMessage: null
+  });
+  return { exitCode: 0, passed: true, summary: "ROW_COMPLETE" };
+}
+
 /**
  * @param {string} jobId
  * @param {{ killFlagPath: string, autoMode?: boolean }} options
  */
-export async function runPortfolioGolden(jobId, { killFlagPath, autoMode = false }) {
+export async function runPortfolioGolden(jobId, { killFlagPath, autoMode = false, rowPipeline = null }) {
   if (!hasCursorAgent()) {
     throw new Error("Agent CLI not found");
   }
@@ -266,8 +511,9 @@ export async function runPortfolioGolden(jobId, { killFlagPath, autoMode = false
     /* ok */
   }
 
-  const appendLog = async (text) => {
+  const appendLog = async (text, opts = {}) => {
     process.stdout.write(text);
+    if (opts.localOnly) return;
     try {
       await api(`/api/jobs/${jobId}/append-log`, {
         method: "POST",
@@ -280,222 +526,136 @@ export async function runPortfolioGolden(jobId, { killFlagPath, autoMode = false
   };
 
   let settings = loadRunSettings();
-  const filters = effectiveOrchestratorFilters(settings);
+  const filters = withRowPipelineFilters(
+    effectiveOrchestratorFilters(settings),
+    rowPipeline
+  );
   const maxFixRounds = settings.maxFixRoundsPerStep ?? 10;
   const maxAutoRetries = settings.maxAutoRetriesWhenStuck ?? 3;
   const maxAgentCalls = settings.maxAgentCallsPerLaunch ?? 100;
   let sessionAgentCalls = 0;
   let stepAutoRetries = 0;
+  const rowLabel = rowPipeline
+    ? `${rowPipeline.entryPoint ?? "storybook"}/${rowPipeline.storyId}`
+    : null;
 
   await appendLog(
-    `[portfolio] Unified supervisor — strict 0.1% · ${UNIFIED_STEP_ORDER.join(" → ")}\n` +
-      `[portfolio] Scope: ${settings.scope ?? "failures_only"} · sort: ${settings.sortBy ?? "step_first"}\n` +
-      `[portfolio] Safety — fix rounds/step ≤${maxFixRounds}, auto-retries ≤${maxAutoRetries}, agent calls ≤${maxAgentCalls}\n` +
-      (autoMode
-        ? `[portfolio] Launch mode — runs until complete, stuck, or human action; rescans when green.\n\n`
-        : `[portfolio] One-shot — stops at PHASE_COMPLETE, safety cap, or human action.\n\n`)
+    rowPipeline
+      ? `[orchestrator] ═══ Fix story supervisor (this tab) ═══\n` +
+          `[orchestrator] Row: ${rowLabel}\n` +
+          `[orchestrator] Job: ${jobId}\n` +
+          `[orchestrator] Pipeline: ${UNIFIED_STEP_ORDER.join(" → ")}\n` +
+          `[orchestrator] Role: test each step → launch fixer agents → re-test until row green\n` +
+          (settings.headlessAgents
+            ? `[orchestrator] Agents run headless — lines tagged [agent:…] appear below as they work\n\n`
+            : `[orchestrator] Fixer agents open in separate Terminal.app tabs\n\n`) +
+          `[orchestrator] ${rowLabel} — strict 0.1% · test → fix loop per step until pass.\n\n`
+      : `[run-all] Portfolio supervisor — strict 0.1% · one row at a time\n` +
+          `[run-all] Each row: structural → Figma live → Storybook → ReactHtml → logic (test → fix until pass).\n` +
+          `[run-all] Safety — fix rounds/step ≤${maxFixRounds}, auto-retries ≤${maxAutoRetries}, agent calls ≤${maxAgentCalls}\n\n`
   );
 
   refreshPortfolio();
   let portfolio = loadUnifiedPortfolio(ROOT);
   await appendLog(`[portfolio] Current state (${portfolio.storyCount ?? 0} items):\n${formatPortfolioOverview(portfolio, filters)}\n\n`);
 
+  if (rowPipeline) {
+    const sessionAgentCallsRef = { value: sessionAgentCalls };
+    return runRowPipelineSteps(jobId, rowPipeline, {
+      appendLog,
+      killFlagPath,
+      filters,
+      sessionAgentCallsRef,
+      maxAgentCalls
+    });
+  }
+
+  /** Run-all mode: current row cursor (fix-story uses fixed rowPipeline instead). */
+  let runAllRowCursor = null;
+
   while (!existsSync(killFlagPath)) {
-    const auto = autoMode || (await fetchOrchestratorAuto(api));
     settings = loadRunSettings();
-    const loopFilters = effectiveOrchestratorFilters(settings);
     refreshPortfolio();
     portfolio = loadUnifiedPortfolio(ROOT);
 
-    const useFlowFirst = settings.sortBy === "flow_first";
-    const next = useFlowFirst
-      ? findNextFlowWork(portfolio, loopFilters)
-      : findNextUnifiedWork(portfolio, loopFilters, settings.sortBy ?? "step_first");
-    if (!next) {
-      const blockedOrPending = useFlowFirst
-        ? findNextUnifiedWork(portfolio, loopFilters, "step_first")
-        : null;
-      if (blockedOrPending) {
-        await pauseWithHuman(jobId, "step_not_green", appendLog);
-        return { exitCode: 1, passed: false, summary: "no runnable flow work" };
-      }
-      await appendLog("\n[portfolio] All steps PASS — refreshing portfolio + context…\n");
-      spawnSync("node", ["scripts/test-portfolio-merge.mjs"], { cwd: ROOT, stdio: "inherit" });
-      spawnSync("node", ["scripts/orchestrator-context.mjs"], { cwd: ROOT, stdio: "ignore" });
-      writeOrchestratorState(ROOT, {
-        phase: "portfolio",
-        jobId,
-        finished: true,
-        verdict: "PHASE_COMPLETE",
-        exitReason: "COMPLETE",
-        humanMessage: null
-      });
-      await appendLog("\n[portfolio] PHASE_COMPLETE — unified portfolio strict green.\n");
-      if (!auto) {
-        return { exitCode: 0, passed: true, summary: "PHASE_COMPLETE" };
-      }
-      await appendLog(
-        `[portfolio] Watching for new work (rescan in ${Math.round(AUTO_WATCH_MS / 1000)}s)…\n`
-      );
-      const cont = await sleepWithKillCheck(AUTO_WATCH_MS, killFlagPath, existsSync);
-      if (!cont) break;
-      if (!(await fetchOrchestratorAuto(api))) {
-        return { exitCode: 0, passed: true, summary: "auto_off" };
-      }
-      stepAutoRetries = 0;
-      continue;
-    }
-
-    if (useFlowFirst) {
-      const flowLimit = Math.min(
-        Math.max(FLOW_FIXER_CONCURRENCY, settings.parallelWorkers ?? FLOW_FIXER_CONCURRENCY),
-        Math.max(1, maxAgentCalls - sessionAgentCalls)
-      );
-      let flowQueue = selectFlowWorkBatch(ROOT, portfolio, loopFilters, flowLimit).map(flowWorkWithSuite);
-      if (!flowQueue.length) {
-        const nextMapped = flowWorkWithSuite(next);
-        flowQueue = [nextMapped];
-      }
-
-      const parallelNote =
-        flowQueue.length > 1
-          ? ` (${flowQueue.length} parallel safe work items)`
-          : "";
-      await appendLog(
-        `\n[portfolio] ══ Flow batch${parallelNote}: ${flowQueue.map((w) => `${w.storyId} · ${stepLabel(w.stepId)}`).join(", ")} ══\n`
-      );
-
-      const first = flowQueue[0];
-      const stepId = first.stepId;
-      const label = stepLabel(stepId);
-      const suiteId = first.suiteId;
-
-      writeOrchestratorState(ROOT, {
-        phase: "portfolio",
-        suiteId: stepId,
-        suiteLabel: label,
-        jobId,
-        storyId: first.storyId,
-        entryPoint: first.entryPoint,
-        verdict: "ON_TRACK",
-        nextWorkerMode: "continue",
-        failingCount: flowQueue.filter((w) => w.kind === "fix").length,
-        notTestedCount: flowQueue.filter((w) => w.kind === "golden").length,
-        parallelCount: flowQueue.length,
-        finished: false,
-        humanAction: null,
-        humanMessage: null
-      });
-
-      for (const work of flowQueue) {
-        const infraOk = await ensureStepInfra(work.stepId, appendLog, killFlagPath, jobId);
-        if (!infraOk) {
-          return { exitCode: 2, passed: false, summary: "human:infra" };
+    if (!rowPipeline) {
+      if (
+        !runAllRowCursor ||
+        isRowPipelineComplete(portfolio, runAllRowCursor.storyId, runAllRowCursor.entryPoint)
+      ) {
+        if (runAllRowCursor) {
+          await appendLog(
+            `\n[run-all] Row complete — ${runAllRowCursor.entryPoint}/${runAllRowCursor.storyId}\n`
+          );
+          spawnSync("node", ["scripts/test-portfolio-merge.mjs"], { cwd: ROOT, stdio: "inherit" });
         }
-      }
-
-      if (sessionAgentCalls + flowQueue.filter((w) => w.kind === "fix").length > maxAgentCalls) {
-        await pauseWithHuman(jobId, "max_rounds_exceeded", appendLog);
-        return { exitCode: 2, passed: false, summary: "max_agent_calls" };
-      }
-
-      const goldenWorks = flowQueue.filter((w) => w.kind === "golden");
-      const fixWorks = flowQueue.filter((w) => w.kind === "fix");
-      if (goldenWorks.length) {
-        const verifierTask = {
-          jobId,
-          suiteId: "flow-golden",
-          phase: "parallel-golden",
-          parallelCount: goldenWorks.length,
-          stories: goldenWorks.map((w) => w.storyId),
-          steps: [...new Set(goldenWorks.map((w) => w.stepId))]
+        const nextRow = (portfolio.rows ?? []).find(
+          (r) => !isRowPipelineComplete(portfolio, r.storyId, r.entryPoint ?? "storybook")
+        );
+        if (!nextRow) {
+          await appendLog("\n[run-all] All rows PASS — refreshing portfolio + context…\n");
+          spawnSync("node", ["scripts/test-portfolio-merge.mjs"], { cwd: ROOT, stdio: "inherit" });
+          spawnSync("node", ["scripts/orchestrator-context.mjs"], { cwd: ROOT, stdio: "ignore" });
+          writeOrchestratorState(ROOT, {
+            phase: "portfolio",
+            jobId,
+            finished: true,
+            verdict: "PHASE_COMPLETE",
+            exitReason: "COMPLETE",
+            humanMessage: null
+          });
+          await appendLog("\n[run-all] PHASE_COMPLETE — unified portfolio strict green.\n");
+          return { exitCode: 0, passed: true, summary: "PHASE_COMPLETE" };
+        }
+        runAllRowCursor = {
+          storyId: nextRow.storyId,
+          entryPoint: nextRow.entryPoint ?? "storybook"
         };
-        updateAgentStatus(ROOT, "verifier", {
-          status: "working",
-          currentTask: verifierTask
-        });
-        emitFleetEvent(ROOT, "orchestrator.assign", {
-          agentId: "verifier",
-          ...verifierTask
-        });
-      }
-
-      /** @type {Map<string, Array<{ storyId: string, entryPoint: string }>>} */
-      const goldenByStep = new Map();
-      for (const work of goldenWorks) {
-        if (!goldenByStep.has(work.stepId)) goldenByStep.set(work.stepId, []);
-        goldenByStep.get(work.stepId).push({
-          storyId: work.storyId,
-          entryPoint: work.entryPoint ?? "storybook"
-        });
-      }
-
-      for (const work of goldenWorks) {
         await appendLog(
-          `[portfolio] Golden · ${work.storyId} · ${work.suiteLabel} · status ${work.status}\n`
+          `\n[run-all] Starting row ${runAllRowCursor.entryPoint}/${runAllRowCursor.storyId}\n`
         );
       }
-
-      const goldenTasks = [...goldenByStep.entries()].map(([stepId, items]) =>
-        runUnifiedGoldenBatch(ROOT, items, stepId, (t) => appendLog(t))
-      );
-      const fixTasks = fixWorks.map(async (work) => {
-        await appendLog(
-          `[portfolio] Fix · ${work.storyId} · ${work.suiteLabel} · status ${work.status}` +
-            (work.percent ? ` (${work.percent.toFixed(2)}%)` : "") +
-            "\n"
-        );
-        sessionAgentCalls += 1;
-        return runFixAllIterate(jobId, {
-          killFlagPath,
-          suiteId: work.suiteId,
-          storyIds: [work.storyId]
-        });
-      });
-
-      const results = await Promise.all([...goldenTasks, ...fixTasks]);
-      const fixResults = results.slice(goldenTasks.length);
-
-      if (goldenWorks.length) {
-        updateAgentStatus(ROOT, "verifier", {
-          status: "idle",
-          currentTask: null
-        });
-        emitFleetEvent(ROOT, "agent.complete", {
-          agentId: "verifier",
-          jobId,
-          suiteId: "flow-golden",
-          phase: "parallel-golden",
-          parallelCount: goldenWorks.length,
-          stories: goldenWorks.map((w) => w.storyId)
-        });
-      }
-
-      if (fixResults.some((result) => result?.blocked)) {
-        await pauseWithHuman(jobId, "cursor_usage_blocked", appendLog);
-        return { exitCode: 2, passed: false, summary: "blocked:cursor_usage" };
-      }
-
-      refreshPortfolio();
-      stepAutoRetries = 0;
-      continue;
     }
 
-    const stepId = next.stepId;
+    const activeRow = runAllRowCursor;
+    const loopFilters = withRowPipelineFilters(
+      effectiveOrchestratorFilters(settings),
+      activeRow
+    );
+
+    const next = findNextFlowWork(portfolio, loopFilters);
+    if (!next) {
+      const blockedLabel = activeRow
+        ? `${activeRow.entryPoint}/${activeRow.storyId}`
+        : "portfolio";
+      await pauseWithHuman(jobId, "step_not_green", appendLog);
+      return {
+        exitCode: 1,
+        passed: false,
+        summary: `row_blocked:${blockedLabel}`
+      };
+    }
+
+    const work = flowWorkWithSuite(next);
+    const stepId = work.stepId;
     const label = stepLabel(stepId);
 
-    await appendLog(`\n[portfolio] ══ Next: ${label} ══\n`);
-    await appendLog(`[portfolio] ${formatUnifiedStepStatus(next, label)}\n`);
+    await appendLog(
+      `\n[portfolio] ══ ${activeRow ? `${activeRow.entryPoint}/${activeRow.storyId}` : "row"} · ${label} ══\n`
+    );
 
     writeOrchestratorState(ROOT, {
       phase: "portfolio",
       suiteId: stepId,
       suiteLabel: label,
       jobId,
+      storyId: work.storyId,
+      entryPoint: work.entryPoint,
       verdict: "ON_TRACK",
       nextWorkerMode: "continue",
-      failingCount: next.failing.length,
-      notTestedCount: next.notTested.length,
+      failingCount: work.kind === "fix" ? 1 : 0,
+      notTestedCount: work.kind === "golden" ? 1 : 0,
+      parallelCount: 1,
       finished: false,
       humanAction: null,
       humanMessage: null
@@ -506,125 +666,51 @@ export async function runPortfolioGolden(jobId, { killFlagPath, autoMode = false
       return { exitCode: 2, passed: false, summary: "human:infra" };
     }
 
-      let status = summarizeUnifiedStep(loadUnifiedPortfolio(ROOT), stepId, loopFilters);
-    if (status.complete) continue;
+    if (sessionAgentCalls >= maxAgentCalls) {
+      await pauseWithHuman(jobId, "max_rounds_exceeded", appendLog);
+      return { exitCode: 2, passed: false, summary: "max_agent_calls" };
+    }
 
-    if (status.notTested.length > 0) {
+    if (work.kind === "golden") {
       await appendLog(
-        `[portfolio] Golden — ${status.notTested.length} item${status.notTested.length === 1 ? "" : "s"} not tested\n`
+        `[portfolio] Golden · ${work.storyId} · ${work.suiteLabel} · status ${work.status}\n`
       );
       await runUnifiedGoldenBatch(
         ROOT,
-        status.notTested,
+        [{ storyId: work.storyId, entryPoint: work.entryPoint ?? "storybook" }],
         stepId,
         (t) => appendLog(t)
       );
-      refreshPortfolio();
-      status = summarizeUnifiedStep(loadUnifiedPortfolio(ROOT), stepId, filters);
-      if (status.complete) {
-        await appendLog(`[portfolio] ${label} — all PASS after golden\n`);
-        stepAutoRetries = 0;
-        continue;
-      }
-    }
-
-    let fixRound = 0;
-    let lastFailingKey = "";
-    let staleFixRounds = 0;
-
-    while (!summarizeUnifiedStep(loadUnifiedPortfolio(ROOT), stepId, loopFilters).complete) {
-      if (existsSync(killFlagPath)) break;
-
-      status = summarizeUnifiedStep(loadUnifiedPortfolio(ROOT), stepId, loopFilters);
-      if (status.complete) break;
-
-      if (sessionAgentCalls >= maxAgentCalls) {
-        await pauseWithHuman(jobId, "max_rounds_exceeded", appendLog);
-        return { exitCode: 2, passed: false, summary: "max_agent_calls" };
-      }
-
-      if (!status.failing.length) {
-        if (status.notTested.length > 0) {
-          await runUnifiedGoldenBatch(ROOT, status.notTested, stepId, (t) => appendLog(t));
-          refreshPortfolio();
-        }
-        break;
-      }
-
-      fixRound += 1;
-      if (fixRound > maxFixRounds) {
-        await pauseWithHuman(jobId, "max_rounds_exceeded", appendLog);
-        return { exitCode: 2, passed: false, summary: "max_fix_rounds" };
-      }
-
-      const fixGroups = groupFixTargets({ ...status, stepId });
-      const failingKey = [...fixGroups.entries()]
-        .map(([s, ids]) => `${s}:${ids.sort().join(",")}`)
-        .join("|");
-      const sameFailures = failingKey === lastFailingKey && fixRound >= 1;
-      lastFailingKey = failingKey;
-
-      for (const [fixSuiteId, storyIds] of fixGroups) {
-        const suiteLabel = SUITES[fixSuiteId]?.label ?? fixSuiteId;
-        await appendLog(
-          `[portfolio] Fix round ${fixRound} · ${suiteLabel} · ${storyIds.length} item${storyIds.length === 1 ? "" : "s"}\n`
-        );
-        sessionAgentCalls += storyIds.length;
-        const fixResult = await runFixAllIterate(jobId, {
-          killFlagPath,
-          suiteId: fixSuiteId,
-          storyIds
-        });
-
-        if (fixResult.blocked) {
-          await pauseWithHuman(jobId, "cursor_usage_blocked", appendLog);
-          return { exitCode: 2, passed: false, summary: "blocked:cursor_usage" };
-        }
-      }
-
-      refreshPortfolio();
-
-      if (sameFailures) {
-        staleFixRounds += 1;
-        if (staleFixRounds >= 2) {
-          await pauseWithHuman(jobId, "stuck_no_progress", appendLog);
-          return { exitCode: 2, passed: false, summary: "stuck_no_progress" };
-        }
-      } else {
-        staleFixRounds = 0;
-      }
-
-      status = summarizeUnifiedStep(loadUnifiedPortfolio(ROOT), stepId, loopFilters);
-      if (status.notTested.length > 0) {
-        await runUnifiedGoldenBatch(ROOT, status.notTested, stepId, (t) => appendLog(t));
-        refreshPortfolio();
-      }
-    }
-
-    status = summarizeUnifiedStep(loadUnifiedPortfolio(ROOT), stepId, loopFilters);
-    if (!status.complete) {
-      const usageFlag = join(ROOT, ".test-console", "cursor-usage-blocked.flag");
-      if (existsSync(usageFlag)) {
+    } else {
+      await appendLog(
+        `[portfolio] Fix · ${work.storyId} · ${work.suiteLabel} · status ${work.status}` +
+          (work.percent ? ` (${work.percent.toFixed(2)}%)` : "") +
+          "\n"
+      );
+      sessionAgentCalls += 1;
+      const fixResult = await runFixAllIterate(jobId, {
+        killFlagPath,
+        suiteId: work.suiteId,
+        storyIds: [work.storyId],
+        failFastOnLock: true
+      });
+      if (fixResult.blocked) {
         await pauseWithHuman(jobId, "cursor_usage_blocked", appendLog);
         return { exitCode: 2, passed: false, summary: "blocked:cursor_usage" };
       }
-
-      if (auto && stepAutoRetries < maxAutoRetries) {
-        stepAutoRetries += 1;
-        await appendLog(
-          `[portfolio] ${label} not green — auto retry ${stepAutoRetries}/${maxAutoRetries} in ${Math.round(AUTO_RETRY_MS / 1000)}s\n`
+      if (fixResult.stuck || !fixResult.passed) {
+        return stopOrchestratorStuck(
+          jobId,
+          appendLog,
+          label,
+          fixResult.stuckReason ?? fixResult.summary ?? "Fixer did not green this step",
+          { storyId: work.storyId, entryPoint: work.entryPoint, stepId }
         );
-        const cont = await sleepWithKillCheck(AUTO_RETRY_MS, killFlagPath, existsSync);
-        if (!cont) break;
-        continue;
       }
-
-      await pauseWithHuman(jobId, "step_not_green", appendLog);
-      return { exitCode: 1, passed: false, summary: `${stepId} not green` };
     }
 
+    refreshPortfolio();
     stepAutoRetries = 0;
-    await appendLog(`[portfolio] ${label} done — next step…\n`);
   }
 
   if (existsSync(killFlagPath)) {

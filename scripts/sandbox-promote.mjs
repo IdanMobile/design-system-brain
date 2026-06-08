@@ -4,8 +4,15 @@
  */
 
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { isSandboxPromotableCodeFile } from "./sandbox-worktree.mjs";
+
+export const ADAPTER_BACKUP_FILES = [
+  "packages/figma-importer-plugin/src/code-v2.ts",
+  "packages/pixel-test/src/scene-to-html.ts",
+  "packages/pixel-test/src/render-html.ts"
+];
 
 /** @typedef {{ status: string, percent: number, maxRegionPercent?: number | null }} StoryMetrics */
 
@@ -132,7 +139,16 @@ export function readBaselineSnapshot(repoRoot, jobId) {
  * @param {string[]} paths
  */
 export function gitRestorePaths(repoRoot, paths) {
-  const tracked = paths.filter((p) => p && !p.startsWith(".test-console/"));
+  const tracked = paths.filter((p) => {
+    if (!p || p.startsWith(".test-console/")) return false;
+    if (isSandboxPromotableCodeFile(p)) return false;
+    const r = spawnSync("git", ["ls-files", "--error-unmatch", "--", p], {
+      cwd: repoRoot,
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"]
+    });
+    return r.status === 0;
+  });
   if (!tracked.length) return { ok: true, restored: [] };
   const r = spawnSync("git", ["restore", "--source=HEAD", "--", ...tracked], {
     cwd: repoRoot,
@@ -143,6 +159,90 @@ export function gitRestorePaths(repoRoot, paths) {
     restored: tracked,
     stderr: r.stderr?.trim() ?? ""
   };
+}
+
+/**
+ * Snapshot allowlisted adapter files before a fix attempt (pre-attempt baseline).
+ * @param {string} repoRoot
+ * @param {string} jobId
+ * @param {string} storyId
+ * @param {number} attempt
+ */
+export function backupAdapterForAttempt(repoRoot, jobId, storyId, attempt) {
+  const dir = join(repoRoot, ".test-console/attempt-backups", jobId, `${storyId}-try${attempt}`);
+  mkdirSync(dir, { recursive: true });
+  for (const rel of ADAPTER_BACKUP_FILES) {
+    const src = join(repoRoot, rel);
+    if (!existsSync(src)) continue;
+    const safe = rel.replace(/\//g, "__");
+    copyFileSync(src, join(dir, safe));
+  }
+  return dir;
+}
+
+/**
+ * Restore tracked adapter files to git HEAD (fallback when attempt backup missing).
+ * @param {string} repoRoot
+ * @param {string[]} [pathsFilter]
+ */
+export function gitRestoreAdapterFromHead(repoRoot, pathsFilter) {
+  const files = (
+    pathsFilter?.length ? pathsFilter.filter(isSandboxPromotableCodeFile) : ADAPTER_BACKUP_FILES
+  ).filter((rel) => {
+    const r = spawnSync("git", ["ls-files", "--error-unmatch", "--", rel], {
+      cwd: repoRoot,
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    });
+    return r.status === 0;
+  });
+  if (!files.length) return { ok: true, restored: [] };
+  const r = spawnSync("git", ["restore", "--source=HEAD", "--", ...files], {
+    cwd: repoRoot,
+    encoding: "utf8",
+  });
+  return { ok: r.status === 0, restored: files, stderr: r.stderr?.trim() ?? "" };
+}
+
+/**
+ * Restore adapter files from pre-attempt backup (WORSE_METRICS — not git HEAD).
+ * Falls back to git HEAD when backup dir was lost (e.g. sandbox worktree teardown).
+ * @param {string} repoRoot
+ * @param {string} backupDir
+ * @param {string[]} [pathsFilter]
+ */
+export function restoreAdapterFromAttemptBackup(repoRoot, backupDir, pathsFilter) {
+  const want = pathsFilter?.length
+    ? new Set(pathsFilter.filter(isSandboxPromotableCodeFile))
+    : null;
+  const restored = [];
+  for (const rel of ADAPTER_BACKUP_FILES) {
+    if (want && !want.has(rel)) continue;
+    const bak = join(backupDir, rel.replace(/\//g, "__"));
+    const dest = join(repoRoot, rel);
+    if (!existsSync(bak)) continue;
+    copyFileSync(bak, dest);
+    restored.push(rel);
+  }
+  return restored;
+}
+
+/**
+ * Restore adapter code after a regressed attempt — backup first, then git HEAD.
+ * @param {string} repoRoot
+ * @param {string} backupDir
+ * @param {string[]} [pathsFilter]
+ */
+export function restoreAdapterAfterRegression(repoRoot, backupDir, pathsFilter) {
+  let restored = restoreAdapterFromAttemptBackup(repoRoot, backupDir, pathsFilter);
+  if (!restored.length) {
+    restored = restoreAdapterFromAttemptBackup(repoRoot, backupDir);
+  }
+  if (!restored.length) {
+    const head = gitRestoreAdapterFromHead(repoRoot, pathsFilter);
+    restored = head.restored;
+  }
+  return restored;
 }
 
 export function sandboxWorktreeEnabled() {

@@ -178,6 +178,7 @@
   },
   "active": "82b7ff8bd471a604",
   "lastOpenFiles": [
+    "visual/investigations/active/screen_notification_avater.md",
     "visual/investigations/active/lab-cryptochaosdashboard--default.md",
     "visual/investigations/active/lab-pricingpanel--starter.md",
     "visual/investigations/active/lab-analyticscharts--usage.md",
@@ -212,7 +213,6 @@
     "logic/specs/lab-spacemissioncontrol--default.spec.json",
     "logic/README.md",
     "visual/investigations/archive/mui--showcase.md",
-    "visual/investigations/archive/lab-tabspanel--activity-active.md",
-    "visual/investigations/archive/lab-productcard--default.md"
+    "visual/investigations/archive/lab-tabspanel--activity-active.md"
   ]
 }

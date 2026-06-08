@@ -36,7 +36,10 @@ export function hasCursorAgent() {
 export function buildAgentPrompt(prompt) {
   return [
     `Project root: ${ROOT}`,
-    "Work only in this workspace. Renderer: packages/figma-importer-plugin/src/code-v2.ts",
+    "Work only in this workspace.",
+    "If the prompt includes an investigation brief with pre-extracted code snippets:",
+    "  · Edit ONLY using those line numbers — do NOT Read code-v2.ts or contract.json.",
+    "  · Open compareSideBySide PNG first, then ONE surgical StrReplace in the named symbol.",
     "",
     prompt
   ].join("\n");
@@ -92,12 +95,21 @@ export function formatStreamJsonEvent(raw) {
     return `Using model ${ev.model ?? "unknown"}`;
   }
   if (type === "tool_call" && subtype === "started") {
-    const w = ev.tool_call?.writeToolCall?.args?.path;
-    const r = ev.tool_call?.readToolCall?.args?.path;
-    const s = ev.tool_call?.shellToolCall?.args?.command;
+    const tc = ev.tool_call ?? {};
+    const w =
+      tc.writeToolCall?.args?.path ??
+      tc.searchReplaceToolCall?.args?.path ??
+      tc.applyPatchToolCall?.args?.path;
+    const r = tc.readToolCall?.args?.path;
+    const s = tc.shellToolCall?.args?.command;
     if (w) return `Editing ${w}`;
     if (r) return `Reading ${r}`;
     if (s) return `Shell: ${String(s).slice(0, 72)}${String(s).length > 72 ? "…" : ""}`;
+    // StrReplace / ApplyPatch / other write tools often omit path in stream-json — still an edit.
+    const toolName = Object.keys(tc)[0] ?? "";
+    if (toolName && !/read|shell|grep|glob|list|search(?!Replace)/i.test(toolName)) {
+      return `Editing (${toolName})…`;
+    }
     return "Running tool…";
   }
   if (type === "tool_call" && subtype === "completed") {
@@ -129,12 +141,34 @@ export function formatStreamJsonEvent(raw) {
   return null;
 }
 
+function streamEventIsEdit(ev) {
+  if (ev.type !== "tool_call") return false;
+  const tc = ev.tool_call ?? {};
+  if (tc.readToolCall) return false;
+  if (tc.shellToolCall) return false;
+  if (
+    tc.writeToolCall ||
+    tc.searchReplaceToolCall ||
+    tc.applyPatchToolCall ||
+    tc.editToolCall
+  ) {
+    return true;
+  }
+  if (ev.subtype === "started") {
+    const name = Object.keys(tc)[0] ?? "";
+    if (!name) return false;
+    return !/read|shell|grep|glob|list|fetch|web|mcp/i.test(name);
+  }
+  if (ev.subtype === "completed" && tc.writeToolCall?.result?.success) return true;
+  return false;
+}
+
 export function parseStreamJsonAgentLine(raw) {
   let ev;
   try {
     ev = JSON.parse(raw);
   } catch {
-    return { label: null, terminal: false };
+    return { label: null, terminal: false, isEdit: false };
   }
   if (ev.type === "result") {
     const sec = ((ev.duration_ms ?? 0) / 1000).toFixed(1);
@@ -142,10 +176,16 @@ export function parseStreamJsonAgentLine(raw) {
     return {
       label: `Agent turn complete (${sec}s)`,
       terminal: true,
-      exitCode: code
+      exitCode: code,
+      isEdit: false
     };
   }
-  return { label: formatStreamJsonEvent(raw), terminal: false };
+  const label = formatStreamJsonEvent(raw);
+  const isEdit =
+    streamEventIsEdit(ev) ||
+    (typeof label === "string" &&
+      (label.startsWith("Editing ") || label.startsWith("Wrote ")));
+  return { label, terminal: false, isEdit };
 }
 
 export function spawnCursorAgent(prompt, spawnOptions = {}) {

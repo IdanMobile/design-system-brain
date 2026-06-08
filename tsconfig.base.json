@@ -2,8 +2,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@lab/contract": ["packages/contract/src/index.ts"],
-      "@lab/ui": ["packages/ui/src/index.ts"]
+    "@lab/contract": ["packages/contract/src/index.ts"],
+    "@lab/pixel-test/render-html": ["packages/pixel-test/src/render-html.ts"],
+    "@lab/ui": ["packages/ui/src/index.ts"]
     },
     "target": "ES2022",
     "module": "ESNext",

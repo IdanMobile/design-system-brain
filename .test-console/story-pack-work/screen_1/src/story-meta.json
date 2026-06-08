@@ -1,0 +1,12 @@
+{
+  "portfolioStoryId": "screen_1",
+  "deliveryStoryId": "lab-screen1--default",
+  "component": "Screen1",
+  "args": {},
+  "variant": "semantic",
+  "ingress": "figma",
+  "usedComponents": [
+    "Button",
+    "Text"
+  ]
+}

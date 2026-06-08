@@ -64,6 +64,11 @@ export function runKillPath(repoRoot, jobId) {
   return join(runDir(repoRoot, jobId), "kill");
 }
 
+/** Quick-component-generation payload for child runner (manifest + png). */
+export function runQuickComponentPayloadPath(repoRoot, jobId) {
+  return join(runDir(repoRoot, jobId), "quick-component-payload.json");
+}
+
 /** fix-all-batch report base path (append .json or .md). */
 export function runBatchBasePath(repoRoot, jobId, batchAttempt) {
   return join(runDir(repoRoot, jobId), `batch-try-${batchAttempt}`);

@@ -6,11 +6,12 @@
  */
 
 import { createServer } from "node:http";
-import { createReadStream, existsSync, statSync } from "node:fs";
+import { createReadStream, existsSync, readFileSync, statSync } from "node:fs";
 import { extname, join, resolve, sep } from "node:path";
 import { createSpecRoutes } from "./specs-server.mjs";
 import { createLlmExtractRoute } from "./specs-llm.mjs";
 import { logicSpecsDir } from "./lab-memory-paths.mjs";
+import { MANUAL_PREVIEW_DIR } from "./build-manual-preview-manifest.mjs";
 
 const PORT = Number(process.env.PLAYGROUND_PORT ?? 6108);
 const ROOT = resolve(process.cwd(), "packages/developer-playground/dist");
@@ -64,8 +65,27 @@ server.on("request", async (req, res) => {
     await specRoutes.handle(req, res);
     return;
   }
+  const url = new URL(req.url ?? "/", "http://x");
+  if (url.pathname === "/api/manual-preview.json" && req.method === "GET") {
+    const manifestPath = join(REPO_ROOT, MANUAL_PREVIEW_DIR, "manifest.json");
+    if (!existsSync(manifestPath)) {
+      res.writeHead(200, {
+        "Content-Type": "application/json; charset=utf-8",
+        "Access-Control-Allow-Origin": "*",
+        "Cache-Control": "no-store"
+      });
+      res.end(JSON.stringify({ generatedAt: null, storybook: [], delivery: [] }));
+      return;
+    }
+    res.writeHead(200, {
+      "Content-Type": "application/json; charset=utf-8",
+      "Access-Control-Allow-Origin": "*",
+      "Cache-Control": "no-store"
+    });
+    res.end(readFileSync(manifestPath, "utf8"));
+    return;
+  }
   try {
-    const url = new URL(req.url ?? "/", "http://x");
     let pathname = decodeURIComponent(url.pathname);
     if (pathname.endsWith("/")) pathname += "index.html";
     const resolved = resolve(ROOT, "." + pathname);

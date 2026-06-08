@@ -9,7 +9,15 @@
  *   pnpm lab:supervisor init     # register roster without daemon
  */
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync, appendFileSync, unlinkSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  writeFileSync,
+  appendFileSync,
+  unlinkSync
+} from "node:fs";
 import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadOrchestratorState } from "./test-console-worker-supervisor.mjs";
@@ -142,6 +150,52 @@ export function updateAgentStatus(repoRoot, agentId, patch) {
     since: new Date().toISOString()
   };
   return writeFleetAgents(repoRoot, data.agents).agents[idx];
+}
+
+/** Clear working state on every roster agent (e.g. after stop-all). */
+export function resetFleetAgentsIdle(repoRoot = ROOT) {
+  ensureFleetAgents(repoRoot);
+  const { agents } = loadFleetAgents(repoRoot);
+  const now = new Date().toISOString();
+  const next = agents.map((agent) => ({
+    ...agent,
+    status: "idle",
+    currentTask: null,
+    since: now
+  }));
+  return writeFleetAgents(repoRoot, next);
+}
+
+/**
+ * Persist idle state when no jobs are running but agents.json still says working.
+ * @param {string} [repoRoot]
+ * @param {boolean} hasRunningJobs
+ * @returns {boolean} true when agents.json was rewritten
+ */
+export function reconcileFleetAgentsIdle(repoRoot = ROOT, hasRunningJobs = false) {
+  if (hasRunningJobs) return false;
+  const { agents } = loadFleetAgents(repoRoot);
+  const needsReset = agents.some((a) => a.status === "working" || a.currentTask);
+  if (!needsReset) return false;
+  resetFleetAgentsIdle(repoRoot);
+  return true;
+}
+
+/** Remove per-story lock files (stale locks block fix loops). */
+export function clearStoryLocks(repoRoot = ROOT) {
+  const dir = join(repoRoot, ".test-console", "locks");
+  if (!existsSync(dir)) return 0;
+  let removed = 0;
+  for (const name of readdirSync(dir)) {
+    if (!name.endsWith(".lock")) continue;
+    try {
+      unlinkSync(join(dir, name));
+      removed += 1;
+    } catch {
+      /* ok */
+    }
+  }
+  return removed;
 }
 
 /** @param {object} e */
@@ -289,11 +343,14 @@ export function buildFleetAgentView(rosterAgents, events = [], runningJobIds = n
       .sort((left, right) => String(left.at ?? "").localeCompare(String(right.at ?? "")))
       .map(eventToTask);
     if (!activeTasks.length) {
+      const idle = !hasRunningJobs;
       return {
         ...agent,
         baseAgentId: agent.id,
-        workerCount: agent.status === "working" ? 1 : 0,
-        activeTasks: agent.currentTask ? [agent.currentTask] : []
+        status: idle ? "idle" : agent.status,
+        workerCount: idle ? 0 : agent.status === "working" ? 1 : 0,
+        currentTask: idle ? null : agent.currentTask,
+        activeTasks: idle ? [] : agent.currentTask ? [agent.currentTask] : []
       };
     }
     return {

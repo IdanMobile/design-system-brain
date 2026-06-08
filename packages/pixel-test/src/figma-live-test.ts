@@ -489,9 +489,9 @@ async function diffStory(
     // when domcontentloaded fires; extractor uses networkidle so its dataUrl is
     // always captured — this aligns the screenshot with the extractor's state).
     await sbPage.evaluate(() => {
-      const imgs = [
-        ...document.querySelectorAll<HTMLImageElement>("[data-figma-component] img")
-      ];
+      const imgs = Array.from(
+        document.querySelectorAll<HTMLImageElement>("[data-figma-component] img")
+      );
       return Promise.all(
         imgs.map((img) =>
           img.complete

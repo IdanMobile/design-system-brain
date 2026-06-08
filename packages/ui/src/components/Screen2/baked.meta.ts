@@ -4,5 +4,5 @@ export const SCREEN2_META = {
   "height": 1874,
   "background": "#ffffff",
   "screenId": "screen_2",
-  "figmaRenderedAt": "2026-05-29T10:41:29.440Z"
+  "figmaRenderedAt": "2026-06-08T07:56:30.313Z"
 } as const;

@@ -1,0 +1,5 @@
+/* @lab/story semantic delivery — import @lab/ui/styles.css in your app */
+.lab-semantic-screen,
+.lab-semantic-screen * {
+  box-sizing: border-box;
+}

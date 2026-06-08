@@ -1,5 +1,6 @@
 /* Contract-rendered Figma screen layers (matches pixel-test render-html harness). */
-.lab-figma-screen .layer.figma {
+.lab-figma-screen .layer.figma,
+.lab-figma-contract-screen .layer.figma {
   -webkit-font-smoothing: subpixel-antialiased;
   -moz-osx-font-smoothing: auto;
   text-rendering: geometricPrecision;
@@ -7,7 +8,9 @@
 }
 
 .lab-figma-screen,
-.lab-figma-screen * {
+.lab-figma-screen *,
+.lab-figma-contract-screen,
+.lab-figma-contract-screen * {
   animation-play-state: paused !important;
   transition: none !important;
 }

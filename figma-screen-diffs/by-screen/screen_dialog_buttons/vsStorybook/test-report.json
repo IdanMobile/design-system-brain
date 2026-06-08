@@ -1,0 +1,259 @@
+{
+  "schemaVersion": "1.0",
+  "itemId": "screen_dialog_buttons",
+  "entryPoint": "figma",
+  "failedTest": {
+    "testId": "vsStorybook",
+    "label": "Original → Storybook",
+    "compare": {
+      "reference": "original",
+      "target": "storybook"
+    },
+    "primaryFixer": "contract-to-storybook",
+    "fixerChain": [
+      "manifest-to-contract",
+      "contract-to-storybook"
+    ],
+    "allowlist": [
+      "packages/pixel-test/src/render-html.ts",
+      "packages/storybook-lab/**"
+    ],
+    "forbidden": [
+      "packages/figma-importer-plugin/**",
+      "packages/extractor-playwright/**",
+      "scripts/bake-figma-screen-ui.mjs",
+      "packages/ui/src/components/Screen*/**",
+      "artifacts/**/*.png",
+      "Embedding Original PNG in @lab/ui to pass test"
+    ],
+    "regressionScope": "tier-a",
+    "verifyCommand": "pnpm test:figma:screen:storybook -- --artifact /Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_dialog_buttons.manifest.json"
+  },
+  "tolerance": 0.1,
+  "global": {
+    "percent": 2.69207412631249,
+    "maxRegionPercent": 1.197411003236246,
+    "status": "fail",
+    "pixelsDiffered": 5497,
+    "pixelsTotal": 204192
+  },
+  "images": {
+    "original": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_dialog_buttons/originalParity/original.png",
+    "target": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_dialog_buttons/originalParity/storybook-raw.png",
+    "diff": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_dialog_buttons/originalParity/diff-original-storybook.png"
+  },
+  "mismatches": [
+    {
+      "id": "region-01",
+      "bbox": {
+        "x": 400,
+        "y": 140,
+        "width": 600,
+        "height": 60
+      },
+      "wrongPixels": 222,
+      "percentInRegion": 1.197411003236246,
+      "images": {
+        "originalCrop": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_dialog_buttons/vsStorybook/regions/region-01-original.png",
+        "targetCrop": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_dialog_buttons/vsStorybook/regions/region-01-target.png",
+        "diffCrop": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_dialog_buttons/vsStorybook/regions/region-01-diff.png",
+        "compareSideBySide": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_dialog_buttons/vsStorybook/regions/region-01-compare.png"
+      },
+      "evidence": {
+        "message": "Hotspot band: gradient-blob"
+      },
+      "suspectedFixer": "contract-to-storybook",
+      "fixPrompt": "Failed test: vsStorybook (Original → Storybook)\nPrimary fixer: contract-to-storybook\nFixer chain (upstream if contract wrong): manifest-to-contract → contract-to-storybook\n── Ground rules ──\n• Fix the general algorithm — NOT per-item pixel hacks.\n• Screenshots are for investigation only — do NOT change UI/code to match PNGs.\n• Do NOT embed reference PNGs as assets to pass parity.\n── Allowlisted files ──\n• packages/pixel-test/src/render-html.ts\n• packages/storybook-lab/**\n── Forbidden ──\n• packages/figma-importer-plugin/**\n• packages/extractor-playwright/**\n• scripts/bake-figma-screen-ui.mjs\n• packages/ui/src/components/Screen*/**\n• artifacts/**/*.png\n• Embedding Original PNG in @lab/ui to pass test\n── Mismatch region-01 ──\nRegion: (400, 140) 600×60px\nWrong pixels: 222 (1.197% in region)\nEvidence: Hotspot band: gradient-blob\nCompare crop: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_dialog_buttons/vsStorybook/regions/region-01-compare.png\nVerify: pnpm test:figma:screen:storybook -- --artifact /Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_dialog_buttons.manifest.json\nRegression scope: tier-a\nItem: screen_dialog_buttons"
+    },
+    {
+      "id": "region-02",
+      "bbox": {
+        "x": 233,
+        "y": 150,
+        "width": 500,
+        "height": 55
+      },
+      "wrongPixels": 288,
+      "percentInRegion": 1.1000763941940412,
+      "images": {
+        "originalCrop": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_dialog_buttons/vsStorybook/regions/region-02-original.png",
+        "targetCrop": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_dialog_buttons/vsStorybook/regions/region-02-target.png",
+        "diffCrop": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_dialog_buttons/vsStorybook/regions/region-02-diff.png",
+        "compareSideBySide": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_dialog_buttons/vsStorybook/regions/region-02-compare.png"
+      },
+      "evidence": {
+        "message": "Hotspot band: toolbar-left"
+      },
+      "suspectedFixer": "contract-to-storybook",
+      "fixPrompt": "Failed test: vsStorybook (Original → Storybook)\nPrimary fixer: contract-to-storybook\nFixer chain (upstream if contract wrong): manifest-to-contract → contract-to-storybook\n── Ground rules ──\n• Fix the general algorithm — NOT per-item pixel hacks.\n• Screenshots are for investigation only — do NOT change UI/code to match PNGs.\n• Do NOT embed reference PNGs as assets to pass parity.\n── Allowlisted files ──\n• packages/pixel-test/src/render-html.ts\n• packages/storybook-lab/**\n── Forbidden ──\n• packages/figma-importer-plugin/**\n• packages/extractor-playwright/**\n• scripts/bake-figma-screen-ui.mjs\n• packages/ui/src/components/Screen*/**\n• artifacts/**/*.png\n• Embedding Original PNG in @lab/ui to pass test\n── Mismatch region-02 ──\nRegion: (233, 150) 500×55px\nWrong pixels: 288 (1.100% in region)\nEvidence: Hotspot band: toolbar-left\nCompare crop: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_dialog_buttons/vsStorybook/regions/region-02-compare.png\nVerify: pnpm test:figma:screen:storybook -- --artifact /Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_dialog_buttons.manifest.json\nRegression scope: tier-a\nItem: screen_dialog_buttons"
+    },
+    {
+      "id": "region-03",
+      "bbox": {
+        "x": 0,
+        "y": 63,
+        "width": 233,
+        "height": 137
+      },
+      "wrongPixels": 196,
+      "percentInRegion": 0.6140158516337207,
+      "images": {
+        "originalCrop": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_dialog_buttons/vsStorybook/regions/region-03-original.png",
+        "targetCrop": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_dialog_buttons/vsStorybook/regions/region-03-target.png",
+        "diffCrop": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_dialog_buttons/vsStorybook/regions/region-03-diff.png",
+        "compareSideBySide": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_dialog_buttons/vsStorybook/regions/region-03-compare.png"
+      },
+      "evidence": {
+        "message": "Hotspot band: sidebar"
+      },
+      "suspectedFixer": "contract-to-storybook",
+      "fixPrompt": "Failed test: vsStorybook (Original → Storybook)\nPrimary fixer: contract-to-storybook\nFixer chain (upstream if contract wrong): manifest-to-contract → contract-to-storybook\n── Ground rules ──\n• Fix the general algorithm — NOT per-item pixel hacks.\n• Screenshots are for investigation only — do NOT change UI/code to match PNGs.\n• Do NOT embed reference PNGs as assets to pass parity.\n── Allowlisted files ──\n• packages/pixel-test/src/render-html.ts\n• packages/storybook-lab/**\n── Forbidden ──\n• packages/figma-importer-plugin/**\n• packages/extractor-playwright/**\n• scripts/bake-figma-screen-ui.mjs\n• packages/ui/src/components/Screen*/**\n• artifacts/**/*.png\n• Embedding Original PNG in @lab/ui to pass test\n── Mismatch region-03 ──\nRegion: (0, 63) 233×137px\nWrong pixels: 196 (0.614% in region)\nEvidence: Hotspot band: sidebar\nCompare crop: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_dialog_buttons/vsStorybook/regions/region-03-compare.png\nVerify: pnpm test:figma:screen:storybook -- --artifact /Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_dialog_buttons.manifest.json\nRegression scope: tier-a\nItem: screen_dialog_buttons"
+    }
+  ],
+  "testedAt": "2026-06-08T17:35:00.271Z",
+  "ctx": {
+    "manifestPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_dialog_buttons.manifest.json",
+    "contractPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/artifacts/figma-screens/screen_dialog_buttons.contract.json",
+    "repoRoot": "/Users/user/Documents/GitHub/storybook-to-figma-lab"
+  },
+  "pipelineTrace": {
+    "schemaVersion": "1.0",
+    "pipeline": [],
+    "audit": {
+      "kindMismatches": [],
+      "manifestVsDisk": [],
+      "adapterVsDisk": []
+    },
+    "hasBlocker": false,
+    "effectiveFixer": null,
+    "traceBackMethod": [
+      "0. TRACE BACK (mandatory when pipelineTrace shows kind mismatch):",
+      "   a. Grep manifest TEXT nodes in hotspot: grep -n '\"type\": \"TEXT\"' <manifest>",
+      "   b. Grep same figma ids in contract: grep -n '<figma-id>' <contract>",
+      "   c. If manifest TEXT but contract has layer.image / figmaReferenceRaster → fix pipeline step (NOT code-v2).",
+      "   d. Re-run manifest test, then live test — only then tune importer."
+    ],
+    "manifestRel": "artifacts/figma-screens/screen_dialog_buttons.manifest.json",
+    "contractRel": "artifacts/figma-screens/screen_dialog_buttons.contract.json"
+  },
+  "pipelineText": "── Pipeline trace (trace back to root — do NOT skip) ──\n\nPipeline steps (vsFigmaLive):\n\n0. TRACE BACK (mandatory when pipelineTrace shows kind mismatch):\n   a. Grep manifest TEXT nodes in hotspot: grep -n '\"type\": \"TEXT\"' <manifest>\n   b. Grep same figma ids in contract: grep -n '<figma-id>' <contract>\n   c. If manifest TEXT but contract has layer.image / figmaReferenceRaster → fix pipeline step (NOT code-v2).\n   d. Re-run manifest test, then live test — only then tune importer.\n\nGrep manifest vs contract (hotspot layers):\n  grep -n '\"type\": \"TEXT\"' artifacts/figma-screens/screen_dialog_buttons.manifest.json\n  grep -n 'figmaReferenceRaster\\|\"type\": \"TEXT\"' artifacts/figma-screens/screen_dialog_buttons.contract.json",
+  "investigationText": "── Fixer action (ONE edit — start here) ──\nFollow investigation brief below — one symbol edit only.\nDo NOT re-investigate — use pre-extracted snippets below.\nFORBIDDEN: Read code-v2.ts or contract.json in full.\nSTOP after edit — harness rebuilds plugin + re-tests.\n\n── Investigator (automatic + agent — fixer reads this before editing) ──\n\n▸ Automatic (test harness)\n  Root cause layer: unknown\n  Pipeline kinds OK: yes\n  Fix surface: contract-to-storybook\n\n▸ Agent analysis\n  Pending — agent investigator not run yet.\n\nCompare crop: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_dialog_buttons/vsStorybook/regions/region-01-compare.png\nFull compare: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_dialog_buttons/originalParity/original.png vs /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_dialog_buttons/originalParity/storybook-raw.png\n\n── Pipeline trace (trace back to root — do NOT skip) ──\n\nPipeline steps (vsFigmaLive):\n\n0. TRACE BACK (mandatory when pipelineTrace shows kind mismatch):\n   a. Grep manifest TEXT nodes in hotspot: grep -n '\"type\": \"TEXT\"' <manifest>\n   b. Grep same figma ids in contract: grep -n '<figma-id>' <contract>\n   c. If manifest TEXT but contract has layer.image / figmaReferenceRaster → fix pipeline step (NOT code-v2).\n   d. Re-run manifest test, then live test — only then tune importer.\n\nGrep manifest vs contract (hotspot layers):\n  grep -n '\"type\": \"TEXT\"' artifacts/figma-screens/screen_dialog_buttons.manifest.json\n  grep -n 'figmaReferenceRaster\\|\"type\": \"TEXT\"' artifacts/figma-screens/screen_dialog_buttons.contract.json\n\n── Investigation brief (AUTHORITATIVE — follow method, skip skills) ──\n\nMethod:\n  0. TRACE BACK: If contract layer has figmaReferenceRaster but manifest says TEXT → stop; fix pipeline first.\n  1. VISUAL (≤1 min): Open compareSideBySide crop ONLY — identify which element differs.\n  2. MANIFEST grep (≤1 min): Confirm node type for hotspot layers — TEXT stays TEXT.\n  3. CODE (≤1 min): Use pre-extracted snippets below — NEVER Read code-v2.ts in full.\n  4. EDIT (≤2 min): ONE change in the named symbol/function.\n  5. STOP: Harness rebuilds plugin + re-tests.\n\nHotspot: gradient-blob\nLook for: Compare crop vs original — note geometry vs color vs missing pixels.\nCompare crop: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_dialog_buttons/vsStorybook/regions/region-01-compare.png\n\nContract layers in hotspot (signal layers first):\n  · fig-1 \"הוספת משימה חדשה - מקוון\" @ (0,0) 707×286 — FRAME\n  · fig-6 \"Frame 2018776165\" @ (0,66) 707×139 — FRAME\n\nRanked hypotheses:\n  · Layout pin/position in allowlisted adapter for nodes in hotspot bbox.\n  · Text auto-resize / alignment mismatch vs contract box.\n\nGrep commands (run these — do NOT Read whole files):\n  grep -n 'pinFigma\\|figmaReference' packages/pixel-test/src/render-html.ts\n\nAllowlisted edit file: packages/pixel-test/src/render-html.ts\nCode symbols: reaffirmChildBoxPositions\n\nForbidden reads:\n  · packages/figma-importer-plugin/src/code-v2.ts (full file Read)\n  · artifacts/**/*.contract.json (full file Read)\n  · .agents/skills/**\n  · lab-memory/**\n  · scripts/test-console-*\n  · scripts/figma-screen-test.mjs",
+  "investigationBrief": {
+    "schemaVersion": "1.0",
+    "method": [
+      "0. TRACE BACK: If contract layer has figmaReferenceRaster but manifest says TEXT → stop; fix pipeline first.",
+      "1. VISUAL (≤1 min): Open compareSideBySide crop ONLY — identify which element differs.",
+      "2. MANIFEST grep (≤1 min): Confirm node type for hotspot layers — TEXT stays TEXT.",
+      "3. CODE (≤1 min): Use pre-extracted snippets below — NEVER Read code-v2.ts in full.",
+      "4. EDIT (≤2 min): ONE change in the named symbol/function.",
+      "5. STOP: Harness rebuilds plugin + re-tests."
+    ],
+    "forbiddenReads": [
+      "packages/figma-importer-plugin/src/code-v2.ts (full file Read)",
+      "artifacts/**/*.contract.json (full file Read)",
+      ".agents/skills/**",
+      "lab-memory/**",
+      "scripts/test-console-*",
+      "scripts/figma-screen-test.mjs"
+    ],
+    "hotspot": "gradient-blob",
+    "lookFor": "Compare crop vs original — note geometry vs color vs missing pixels.",
+    "contractLayers": [
+      {
+        "id": "fig-1",
+        "name": "הוספת משימה חדשה - מקוון",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 707,
+          "height": 286
+        },
+        "flags": [
+          "FRAME"
+        ]
+      },
+      {
+        "id": "fig-6",
+        "name": "Frame 2018776165",
+        "box": {
+          "x": 0,
+          "y": 66,
+          "width": 707,
+          "height": 139
+        },
+        "flags": [
+          "FRAME"
+        ]
+      }
+    ],
+    "rankedHypotheses": [
+      "Layout pin/position in allowlisted adapter for nodes in hotspot bbox.",
+      "Text auto-resize / alignment mismatch vs contract box."
+    ],
+    "grepCommands": [
+      "grep -n 'pinFigma\\|figmaReference' packages/pixel-test/src/render-html.ts"
+    ],
+    "contractGrepOutput": "",
+    "codeSymbols": [
+      "reaffirmChildBoxPositions"
+    ],
+    "codeSnippets": [],
+    "editRouting": [],
+    "antiPatterns": [],
+    "allowFile": "packages/pixel-test/src/render-html.ts",
+    "compareCrop": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_dialog_buttons/vsStorybook/regions/region-01-compare.png",
+    "priorProgress": null,
+    "microFix": null
+  },
+  "structuredDiagnosis": {
+    "schemaVersion": "1.0",
+    "pipelineKindOk": true,
+    "rootCauseLayer": "unknown",
+    "mandatoryFixSurface": "contract-to-storybook",
+    "conclusions": [],
+    "hotspotLayers": [],
+    "editRouting": [],
+    "investigatorRequired": false,
+    "forbidCodeV2UntilPipelineOk": false,
+    "generatedAt": "2026-06-08T17:35:00.287Z"
+  },
+  "testReportPath": "/Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_dialog_buttons/vsStorybook/test-report.json",
+  "investigator": {
+    "schemaVersion": "1.0",
+    "automatic": {
+      "source": "test-harness",
+      "ranAt": "2026-06-08T17:35:00.271Z",
+      "structuredDiagnosis": {
+        "schemaVersion": "1.0",
+        "pipelineKindOk": true,
+        "rootCauseLayer": "unknown",
+        "mandatoryFixSurface": "contract-to-storybook",
+        "conclusions": [],
+        "hotspotLayers": [],
+        "editRouting": [],
+        "investigatorRequired": false,
+        "forbidCodeV2UntilPipelineOk": false,
+        "generatedAt": "2026-06-08T17:35:00.287Z"
+      },
+      "pipelineTrace": {
+        "hasBlocker": false,
+        "effectiveFixer": null,
+        "kindMismatches": [],
+        "adapterVsDisk": []
+      },
+      "investigationBrief": {
+        "hotspot": "gradient-blob",
+        "lookFor": "Compare crop vs original — note geometry vs color vs missing pixels.",
+        "editRouting": [],
+        "antiPatterns": [],
+        "rankedHypotheses": [
+          "Layout pin/position in allowlisted adapter for nodes in hotspot bbox.",
+          "Text auto-resize / alignment mismatch vs contract box."
+        ]
+      }
+    },
+    "agent": null,
+    "sectionText": "── Investigator (automatic + agent — fixer reads this before editing) ──\n\n▸ Automatic (test harness)\n  Root cause layer: unknown\n  Pipeline kinds OK: yes\n  Fix surface: contract-to-storybook\n\n▸ Agent analysis\n  Pending — agent investigator not run yet.\n\nCompare crop: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/by-screen/screen_dialog_buttons/vsStorybook/regions/region-01-compare.png\nFull compare: /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_dialog_buttons/originalParity/original.png vs /Users/user/Documents/GitHub/storybook-to-figma-lab/figma-screen-diffs/screen_dialog_buttons/originalParity/storybook-raw.png",
+    "updatedAt": "2026-06-08T17:35:00.287Z"
+  }
+}

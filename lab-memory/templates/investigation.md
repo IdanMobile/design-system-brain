@@ -13,6 +13,14 @@
 
 <!-- systematic-debugging output -->
 
+**Structured fields (required — copy from test-report structuredDiagnosis when present):**
+
+- **rootCauseLayer:** <!-- pipeline-enrichment | manifest-to-contract | contract-to-figma -->
+- **pipelineKindOk:** <!-- true | false -->
+- **mandatoryFixSurface:** <!-- e.g. contract-to-figma, pipeline-enrichment -->
+- **conclusions:**
+  - <!-- bullet from test structuredDiagnosis -->
+
 ## Recommended fix area
 
 <!-- e.g. code-v2.ts border radius handling -->

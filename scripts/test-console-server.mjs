@@ -17,7 +17,7 @@ import {
   statSync,
   writeFileSync
 } from "node:fs";
-import { extname, join, resolve, sep } from "node:path";
+import { extname, join, resolve, sep, basename } from "node:path";
 import { randomUUID } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { initAgentBridge } from "./test-console-agent-bridge.mjs";
@@ -30,6 +30,7 @@ import {
   openTerminalForJob,
   openTerminalRunFixAll,
   openTerminalRunPortfolioOrchestrator,
+  openTerminalRunRowPipeline,
   openTerminalWatchJob
 } from "./test-console-cursor.mjs";
 import { MAX_TRIES_PER_STORY } from "./test-console-fix-all-iterate.mjs";
@@ -41,12 +42,19 @@ import {
 import { loadOrchestratorState, writeOrchestratorState } from "./test-console-worker-supervisor.mjs";
 import { buildFleetState } from "./test-console-fleet.mjs";
 import {
+  clearStoryLocks,
+  emitFleetEvent,
+  requestSupervisorStop,
+  resetFleetAgentsIdle
+} from "./lab-worker-supervisor.mjs";
+import {
   loadRunSettings,
   setRunSettings,
   resolveGoldenRunAll,
   MAX_PARALLEL_WORKERS
 } from "./test-console-run-settings.mjs";
 import { loadAgentModelOptions } from "./test-console-agent-models.mjs";
+import { loadLlmSettingsPublic, setLlmSettings } from "./lab-llm-settings.mjs";
 import { SERVICE_TERMINAL } from "./test-console-services.mjs";
 import {
   ACTION_META,
@@ -79,7 +87,23 @@ import { buildFigmaScreenPortfolioState,
   readScreenResult
 } from "./figma-screen-portfolio.mjs";
 import { invalidateAllTests } from "./invalidate-all-tests.mjs";
+import { deletePortfolioRow } from "./delete-portfolio-row.mjs";
 import { buildUnifiedPortfolioState } from "./build-unified-portfolio.mjs";
+import { readManualPreviewManifest } from "./build-manual-preview-manifest.mjs";
+import {
+  buildQuickGenerationPortfolio,
+  persistQuickRunFromResult,
+  recordQuickGenerationJobStarted,
+  recordQuickGenerationJobFinished,
+  deleteQuickGenerationRun,
+  QUICK_RUNS_DIR
+} from "./quick-generation-portfolio.mjs";
+import {
+  ensureStoryPacks,
+  readStoryPackageDownloadState,
+  safeStoryDownloadFile
+} from "./story-package.mjs";
+import { ingestFigmaScreen, resolveScreenId } from "./figma-screen-ingest.mjs";
 import {
   FIGMA_ENTRY_STEP_ORDER,
   figmaEntryGoldenActionId,
@@ -91,12 +115,14 @@ import {
   runDir,
   runPromptPath,
   runKillPath,
+  runQuickComponentPayloadPath,
   orchestratorLogsDir
 } from "./test-console-paths.mjs";
 
 const __dirname = resolve(fileURLToPath(import.meta.url), "..");
 const REPO = resolve(__dirname, "..");
 const UI_ROOT = resolve(REPO, "packages/test-console/dist");
+const DOWNLOADS_ROOT = resolve(REPO, "packages/developer-playground/public/downloads");
 const PORT = Number(process.env.TEST_CONSOLE_PORT ?? (process.argv.includes("--api-only") ? 6111 : 6110));
 const API_ONLY = process.argv.includes("--api-only");
 
@@ -146,7 +172,9 @@ const MIME = {
   ".json": "application/json; charset=utf-8",
   ".png": "image/png",
   ".svg": "image/svg+xml",
-  ".webp": "image/webp"
+  ".webp": "image/webp",
+  ".txt": "text/plain; charset=utf-8",
+  ".tgz": "application/gzip"
 };
 
 const agent = initAgentBridge(REPO);
@@ -199,7 +227,8 @@ const SERIAL_ACTIONS = new Set([
   "figma:screen:golden",
   "figma:run-until-pass",
   "tests:parallel",
-  "portfolio-orchestrator"
+  "portfolio-orchestrator",
+  "row-pipeline"
 ]);
 
 function portfolioStoryIds() {
@@ -315,6 +344,38 @@ function serializeJob(j, { includeLogs = false } = {}) {
   };
   if (j.storyIds?.length) {
     base.storyIds = j.storyIds;
+  }
+  if (j.entryPoint) {
+    base.entryPoint = j.entryPoint;
+  }
+  if (j.rowPipeline?.storyId) {
+    base.rowPipeline = {
+      storyId: j.rowPipeline.storyId,
+      entryPoint: j.rowPipeline.entryPoint ?? j.entryPoint ?? "storybook"
+    };
+  }
+  if (j.action === "quick-component-generation") {
+    base.quickComponent = {
+      screenId: j.quickComponentPayload?.screenId ?? j.storyId ?? null,
+      componentName: j.quickComponentPayload?.componentName ?? null,
+      resultReady: Boolean(j.quickComponentResult?.generatedPackage)
+    };
+    if (j.quickComponentResult && j.status !== "running") {
+      base.quickComponentResult = {
+        ok: j.quickComponentResult.ok,
+        summary: j.quickComponentResult.summary,
+        screenId: j.quickComponentResult.screenId,
+        componentName: j.quickComponentResult.componentName,
+        mode: j.quickComponentResult.mode,
+        generatedPackage: j.quickComponentResult.generatedPackage
+          ? {
+              tarballName: j.quickComponentResult.generatedPackage.tarballName,
+              tarballBase64: j.quickComponentResult.generatedPackage.tarballBase64,
+              files: j.quickComponentResult.generatedPackage.files
+            }
+          : null
+      };
+    }
   }
   if (includeLogs) {
     const text = j.logs.join("");
@@ -463,6 +524,17 @@ function findPortfolioOrchestratorPid(jobId) {
   }
 }
 
+function findRowPipelineOrchestratorPid(jobId) {
+  try {
+    const r = spawnSync("pgrep", ["-f", `run-row-pipeline ${jobId}`], { encoding: "utf8" });
+    if (r.status !== 0 || !r.stdout?.trim()) return null;
+    const pid = Number(String(r.stdout).trim().split("\n")[0]);
+    return pid > 0 && isProcessAlive(pid) ? pid : null;
+  } catch {
+    return null;
+  }
+}
+
 /** Clear supervisor file + kill flag when fix-all/orchestrator process is gone (UI stuck on "Fixing…"). */
 function dismissOrchestratorSupervisor(jobId, { killed = false } = {}) {
   const sup = loadOrchestratorState(REPO);
@@ -532,16 +604,21 @@ function reconcileStaleJobs() {
       continue;
     }
 
-    if (!String(job.action ?? "").startsWith("fix-all:") && job.action !== "portfolio-orchestrator") {
+    if (!String(job.action ?? "").startsWith("fix-all:") && job.action !== "portfolio-orchestrator" && job.action !== "row-pipeline") {
       continue;
     }
 
     const wasPortfolio = job.action === "portfolio-orchestrator";
+    const wasRowPipeline = job.action === "row-pipeline";
     const isFixAll = String(job.action ?? "").startsWith("fix-all:");
     const childAlive = job.child != null && job.child.exitCode === null;
     const orch =
       job.fixAllOrchestratorPid ??
-      (isFixAll ? findFixAllOrchestratorPid(job.id) : findPortfolioOrchestratorPid(job.id));
+      (isFixAll
+        ? findFixAllOrchestratorPid(job.id)
+        : wasRowPipeline
+          ? findRowPipelineOrchestratorPid(job.id)
+          : findPortfolioOrchestratorPid(job.id));
 
     if (!childAlive) {
       if (orch != null && !isProcessAlive(orch)) {
@@ -549,7 +626,9 @@ function reconcileStaleJobs() {
           killed: true,
           note: wasPortfolio
             ? "[test-console] Portfolio supervisor ended (terminal closed or crashed)\n"
-            : "[test-console] Fix-all process ended (terminal closed or crashed)\n"
+            : wasRowPipeline
+              ? "[test-console] Full-flow supervisor ended (terminal closed or crashed)\n"
+              : "[test-console] Fix-all process ended (terminal closed or crashed)\n"
         });
         dismissOrchestratorSupervisor(job.id, { killed: true });
         if (wasPortfolio && loadOrchestratorAuto().enabled) {
@@ -570,7 +649,9 @@ function reconcileStaleJobs() {
           killed: true,
           note: wasPortfolio
             ? "[test-console] Portfolio supervisor stale (no terminal process)\n"
-            : "[test-console] Fix-all stale (no terminal process) — click Fix again\n"
+            : wasRowPipeline
+              ? "[test-console] Full-flow stale (no terminal process) — click Full flow again\n"
+              : "[test-console] Fix-all stale (no terminal process) — click Fix again\n"
         });
         dismissOrchestratorSupervisor(job.id, { killed: true });
       }
@@ -720,6 +801,12 @@ const ACTIONS = Object.fromEntries(
     "figma:screen:storybook": {
       command: ["pnpm", "test:figma:screen:storybook"]
     },
+    "figma:screen:reacthtml": {
+      command: ["pnpm", "test:figma:screen:reacthtml"]
+    },
+    "figma:screen:reacttsx": {
+      command: ["pnpm", "test:figma:screen:reacttsx"]
+    },
     "figma:screen:four-way": {
       command: ["pnpm", "test:figma:screen:parity"]
     },
@@ -826,6 +913,24 @@ function resolveSpawn(actionId, story, allStories = false) {
       args: ["scripts/figma-screen-storybook-test.mjs", "--artifact", hit.manifestPath]
     };
   }
+  if (actionId === "figma:screen:reacthtml" && story) {
+    const screens = discoverFigmaScreens(REPO);
+    const hit = screens.find((s) => s.screenId === story);
+    if (!hit) throw new Error(`Unknown figma screen: ${story}`);
+    return {
+      bin: "node",
+      args: ["scripts/figma-screen-reacthtml-test.mjs", "--artifact", hit.manifestPath]
+    };
+  }
+  if (actionId === "figma:screen:reacttsx" && story) {
+    const screens = discoverFigmaScreens(REPO);
+    const hit = screens.find((s) => s.screenId === story);
+    if (!hit) throw new Error(`Unknown figma screen: ${story}`);
+    return {
+      bin: "node",
+      args: ["scripts/figma-screen-reacttsx-test.mjs", "--artifact", hit.manifestPath]
+    };
+  }
   if (actionId === "figma:screen:four-way" && story) {
     const screens = discoverFigmaScreens(REPO);
     const hit = screens.find((s) => s.screenId === story);
@@ -926,6 +1031,7 @@ function runAction(actionId, story, allStories = false) {
             );
           }
         }
+        scheduleEnsureStoryPackAfterJob(REPO, job);
         job.cursorQueued =
           agent.enqueueJobFinished(actionId, job, SUITES, summarizeReport, safeSegment) ?? null;
         const suiteDirByAction = {
@@ -1215,6 +1321,199 @@ function runPortfolioOrchestratorAction({ autoMode = false } = {}) {
   return { jobId: id, entry };
 }
 
+function getRunningRowPipelineJob() {
+  return (
+    [...jobs.values()].find(
+      (j) => (j.status === "running" || j.finalizing) && j.action === "row-pipeline"
+    ) ?? null
+  );
+}
+
+function runRowPipelineAction(storyId, entryPoint = "storybook") {
+  reconcileStaleJobs();
+  agent.clearPending();
+
+  const existingPortfolio = getRunningPortfolioOrchestratorJob();
+  if (existingPortfolio) {
+    throw new Error("Portfolio orchestrator is already running — wait or cancel it first");
+  }
+
+  const existingRow = getRunningRowPipelineJob();
+  if (existingRow) {
+    throw new Error(
+      `Row pipeline already running for ${existingRow.story ?? existingRow.storyId ?? "another row"}`
+    );
+  }
+
+  const alreadyFixAll = [...jobs.values()].some(
+    (j) => (j.status === "running" || j.finalizing) && String(j.action ?? "").startsWith("fix-all:")
+  );
+  if (alreadyFixAll) {
+    throw new Error("Fix all is already running — wait or cancel it first");
+  }
+
+  if (!hasCursorAgent()) {
+    throw new Error(
+      "Agent CLI not found. Please install the selected CLI (Cursor CLI or Gemini CLI)."
+    );
+  }
+
+  const ep = entryPoint === "figma" ? "figma" : "storybook";
+  const id = randomUUID();
+  const job = {
+    id,
+    action: "row-pipeline",
+    story: storyId,
+    storyId,
+    entryPoint: ep,
+    rowPipeline: { storyId, entryPoint: ep },
+    label: `Fix story · ${storyId}`,
+    status: "running",
+    logs: [
+      `[orchestrator] Fix story · ${ep}/${storyId}\n`,
+      `[orchestrator] Launching supervisor in Terminal (≤${MAX_TRIES_PER_STORY} fix→test tries per step)…\n`
+    ],
+    exitCode: null,
+    startedAt: new Date().toISOString(),
+    logFile: null
+  };
+
+  try {
+    mkdirSync(ORCH_LOGS_DIR, { recursive: true });
+    const logFile = orchestratorLogPath(id);
+    job.logFile = logFile;
+    writeFileSync(
+      logFile,
+      [
+        "# Row pipeline session log",
+        `# Job:     ${id}`,
+        `# Row:     ${ep}/${storyId}`,
+        `# Started: ${job.startedAt}`,
+        ""
+      ].join("\n"),
+      "utf8"
+    );
+    for (const line of job.logs) appendToJobLogFile(job, line);
+  } catch {
+    /* non-fatal */
+  }
+
+  jobs.set(id, job);
+  mkdirSync(runDir(REPO, id), { recursive: true });
+  const terminalDispatched = openTerminalRunRowPipeline(id);
+  return { jobId: id, terminalDispatched };
+}
+
+function persistQuickGenerationJob(job) {
+  if (job.action !== "quick-component-generation") return;
+  try {
+    recordQuickGenerationJobFinished(REPO, job);
+  } catch (e) {
+    console.warn("[quick-portfolio] persist failed:", e instanceof Error ? e.message : e);
+  }
+}
+
+function getRunningQuickComponentJob() {
+  return (
+    [...jobs.values()].find(
+      (j) => (j.status === "running" || j.finalizing) && j.action === "quick-component-generation"
+    ) ?? null
+  );
+}
+
+function startQuickComponentGeneration(payload) {
+  reconcileStaleJobs();
+  if (!payload?.manifest || typeof payload.manifest !== "object") {
+    throw new Error("manifest object is required");
+  }
+
+  const existing = getRunningQuickComponentJob();
+  if (existing) {
+    throw new Error(`Quick component generation already running (job ${existing.id})`);
+  }
+  if (anyOrchestratorJobRunning()) {
+    throw new Error("Another orchestrator job is running — wait or cancel it first");
+  }
+
+  const screenId = resolveScreenId(payload.screenId ?? payload.componentName, REPO);
+  const componentName = payload.componentName ?? null;
+  const id = randomUUID();
+  const job = {
+    id,
+    action: "quick-component-generation",
+    story: screenId,
+    storyId: screenId,
+    entryPoint: "figma",
+    label: `Quick component · ${screenId ?? componentName ?? "new screen"}`,
+    status: "running",
+    logs: ["[quick] Starting quick-component-generation pipeline…\n"],
+    exitCode: null,
+    startedAt: new Date().toISOString(),
+    quickComponentPayload: {
+      screenId,
+      componentName,
+      library: payload.library ?? "mui",
+      manifest: payload.manifest,
+      pngBase64: payload.pngBase64 ?? null
+    },
+    quickComponentResult: null
+  };
+
+  jobs.set(id, job);
+  mkdirSync(runDir(REPO, id), { recursive: true });
+  writeFileSync(
+    runQuickComponentPayloadPath(REPO, id),
+    JSON.stringify(job.quickComponentPayload, null, 2) + "\n",
+    "utf8"
+  );
+  try {
+    recordQuickGenerationJobStarted(REPO, job);
+  } catch (e) {
+    console.warn("[quick-portfolio] start record failed:", e instanceof Error ? e.message : e);
+  }
+
+  const child = spawn("node", ["scripts/run-quick-component-generation.mjs", id], {
+    cwd: REPO,
+    env: { ...process.env, FORCE_COLOR: "0" },
+    stdio: ["ignore", "pipe", "pipe"],
+    detached: false
+  });
+  job.child = child;
+
+  const append = (chunk) => {
+    const text = String(chunk);
+    job.logs.push(text);
+    if (job.logs.length > 500) job.logs = job.logs.slice(-500);
+    appendToJobLogFile(job, text);
+  };
+  child.stdout.on("data", append);
+  child.stderr.on("data", append);
+
+  child.on("close", (code) => {
+    if (job.quickComponentResult) {
+      job.status = job.killed ? "killed" : code === 0 ? "passed" : "failed";
+      job.exitCode = job.killed ? 130 : code ?? 1;
+      job.endedAt = job.endedAt ?? new Date().toISOString();
+      return;
+    }
+    job.exitCode = code ?? 1;
+    job.status = job.killed ? "killed" : code === 0 ? "passed" : "failed";
+    job.endedAt = new Date().toISOString();
+    try {
+      const resultPath = join(runDir(REPO, id), "quick-component-result.json");
+      if (existsSync(resultPath)) {
+        job.quickComponentResult = JSON.parse(readFileSync(resultPath, "utf8"));
+      }
+    } catch {
+      /* ok */
+    }
+    persistQuickGenerationJob(job);
+    void refreshPortfolioAsync().catch(() => {});
+  });
+
+  return { jobId: id, status: "running" };
+}
+
 function getRunningPortfolioOrchestratorJob() {
   return (
     [...jobs.values()].find(
@@ -1230,6 +1529,131 @@ function getRunningPortfolioOrchestratorJobId() {
 function portfolioOrchestratorRunning() {
   reconcileStaleJobs();
   return getRunningPortfolioOrchestratorJobId() != null;
+}
+
+function anyOrchestratorJobRunning() {
+  reconcileStaleJobs();
+  return [...jobs.values()].some(
+    (j) =>
+      (j.status === "running" || j.finalizing) &&
+      (j.action === "portfolio-orchestrator" ||
+        j.action === "row-pipeline" ||
+        j.action === "quick-component-generation" ||
+        String(j.action ?? "").startsWith("fix-all:"))
+  );
+}
+
+function isOrchestratorLikeJob(job) {
+  return (
+    String(job.action ?? "").startsWith("fix-all:") ||
+    job.action === "portfolio-orchestrator" ||
+    job.action === "row-pipeline"
+  );
+}
+
+/** Shared kill path for /api/jobs/:id/kill and stop-all. */
+function killRunningJob(job, { note = "[test-console] Cancelled by user\n" } = {}) {
+  if (job.status !== "running" && !job.finalizing) {
+    return { ok: false, error: `Job is not running (${job.status})` };
+  }
+  job.killed = true;
+  job.finalizing = false;
+  if (job.child && job.child.exitCode === null) {
+    job.child.kill("SIGTERM");
+    job.logs.push(note);
+  } else if (isOrchestratorLikeJob(job)) {
+    const killFlag = runKillPath(REPO, job.id);
+    try {
+      mkdirSync(runDir(REPO, job.id), { recursive: true });
+      writeFileSync(killFlag, "");
+    } catch {
+      /* ok */
+    }
+    const killedPids = killOrchestratorJobProcesses(job, { signal: "SIGTERM" });
+    if (killedPids.length) {
+      job.logs.push(`[test-console] Stopping ${killedPids.length} process(es)…\n`);
+    }
+    setTimeout(() => {
+      killOrchestratorJobProcesses(job, { signal: "SIGKILL" });
+    }, 1200);
+    markFixAllEnded(job, { killed: true, note });
+    dismissOrchestratorSupervisor(job.id, { killed: true });
+  } else {
+    job.status = "killed";
+    job.exitCode = 130;
+    job.endedAt = job.endedAt ?? new Date().toISOString();
+    if (note) job.logs.push(note);
+  }
+  return { ok: true, job };
+}
+
+function killOrphanOrchestratorProcesses() {
+  const patterns = [
+    "run-portfolio-orchestrator",
+    "run-row-pipeline",
+    "test-console-fix-all-iterate"
+  ];
+  /** @type {number[]} */
+  const killed = [];
+  for (const pattern of patterns) {
+    try {
+      const r = spawnSync("pgrep", ["-f", pattern], { encoding: "utf8" });
+      if (r.status !== 0 || !r.stdout?.trim()) continue;
+      for (const pidStr of r.stdout.trim().split("\n")) {
+        const pid = Number(pidStr);
+        if (pid <= 0 || pid === process.pid) continue;
+        try {
+          process.kill(pid, "SIGTERM");
+          killed.push(pid);
+        } catch {
+          /* ok */
+        }
+      }
+    } catch {
+      /* ok */
+    }
+  }
+  return killed;
+}
+
+function stopAllAgentsAndOrchestrator() {
+  reconcileStaleJobs();
+  setOrchestratorAuto(false);
+  agent.clearPending();
+
+  /** @type {string[]} */
+  const stoppedJobIds = [];
+  for (const job of [...jobs.values()]) {
+    if (job.status !== "running" && !job.finalizing) continue;
+    const result = killRunningJob(job, { note: "[test-console] Stop all — cancelled\n" });
+    if (result.ok) stoppedJobIds.push(job.id);
+  }
+
+  const sup = loadOrchestratorState(REPO);
+  if (sup?.jobId && !sup.finished && !stoppedJobIds.includes(sup.jobId)) {
+    dismissOrchestratorSupervisor(sup.jobId, { killed: true });
+    stoppedJobIds.push(sup.jobId);
+  }
+
+  const orphanPids = killOrphanOrchestratorProcesses();
+  const locksCleared = clearStoryLocks(REPO);
+  resetFleetAgentsIdle(REPO);
+  requestSupervisorStop(REPO);
+  reconcileOrchestratorState();
+
+  emitFleetEvent(REPO, "orchestrator.stop_all", {
+    stoppedJobIds,
+    orphanPids,
+    locksCleared
+  });
+
+  return {
+    ok: true,
+    stoppedJobIds,
+    orphanPids,
+    locksCleared,
+    orchestratorAuto: false
+  };
 }
 
 let lastAutoEnsureAt = 0;
@@ -1329,6 +1753,7 @@ async function handleApi(req, res, url) {
       checkPlayground(),
       checkRelay()
     ]);
+    const manualPreview = readManualPreviewManifest(REPO);
     const inbox = agent.loadInbox().filter((m) => !m.read);
     const reports = Object.keys(SUITES).map(summarizeReport);
     const recommendation = computeRecommendation({
@@ -1343,6 +1768,22 @@ async function handleApi(req, res, url) {
       storybook,
       playground,
       relay,
+      manualPreview: manualPreview
+        ? {
+            generatedAt: manualPreview.generatedAt ?? null,
+            storybookUrl: manualPreview.storybookUrl ?? storybook.url,
+            deliveryShowcaseUrl:
+              manualPreview.deliveryShowcaseUrl ?? "http://127.0.0.1:6108/?view=showcase",
+            storybookCount: manualPreview.storybook?.length ?? 0,
+            deliveryCount: manualPreview.delivery?.length ?? 0
+          }
+        : {
+            generatedAt: null,
+            storybookUrl: storybook.url,
+            deliveryShowcaseUrl: "http://127.0.0.1:6108/?view=showcase",
+            storybookCount: 0,
+            deliveryCount: 0
+          },
       pluginBuilt: existsSync(join(REPO, "packages/figma-importer-plugin/dist/code.js")),
       uiBuilt: existsSync(join(UI_ROOT, "index.html")),
       agentUnread: inbox.length,
@@ -1356,9 +1797,20 @@ async function handleApi(req, res, url) {
       orchestratorRunning: portfolioOrchestratorRunning(),
       workerSupervisor: reconcileOrchestratorState(),
       runSettings: loadRunSettings(),
+      llmSettings: {
+        ...loadLlmSettingsPublic(REPO),
+        playgroundShowcaseUrl: "http://127.0.0.1:6108/?view=showcase"
+      },
       maxParallelWorkers: MAX_PARALLEL_WORKERS,
       agentModelOptions: loadAgentModelOptions()
     });
+    return true;
+  }
+
+  const storyPackageMatch = url.pathname.match(/^\/api\/stories\/([^/]+)\/package-download$/);
+  if (storyPackageMatch && req.method === "GET") {
+    const storyId = decodeURIComponent(storyPackageMatch[1]);
+    json(res, 200, await readStoryPackageDownloadState(REPO, storyId));
     return true;
   }
 
@@ -1368,9 +1820,21 @@ async function handleApi(req, res, url) {
       200,
       buildFleetState(REPO, {
         jobs: jobsForState(),
-        orchestratorRunning: portfolioOrchestratorRunning()
+        orchestratorRunning: anyOrchestratorJobRunning()
       })
     );
+    return true;
+  }
+
+  if (url.pathname === "/api/fleet/stop-all" && req.method === "POST") {
+    const result = stopAllAgentsAndOrchestrator();
+    json(res, 200, {
+      ...result,
+      fleet: buildFleetState(REPO, {
+        jobs: jobsForState(),
+        orchestratorRunning: anyOrchestratorJobRunning()
+      })
+    });
     return true;
   }
 
@@ -1403,20 +1867,164 @@ async function handleApi(req, res, url) {
     return true;
   }
 
-  if (url.pathname === "/api/portfolio" && req.method === "GET") {
-    const portfolioPath = join(REPO, "test-portfolio", "portfolio.json");
-    let payload;
-    if (existsSync(portfolioPath)) {
-      try {
-        payload = JSON.parse(readFileSync(portfolioPath, "utf8"));
-      } catch {
-        payload = null;
-      }
+  if (url.pathname === "/api/figma-screens/ingest" && req.method === "POST") {
+    let body = "";
+    for await (const chunk of req) body += chunk;
+    let parsed;
+    try {
+      parsed = JSON.parse(body || "{}");
+    } catch {
+      json(res, 400, { ok: false, error: "Invalid JSON" });
+      return true;
     }
-    if (!payload?.rows?.length || payload.source !== "unified") {
-      payload = buildUnifiedPortfolioState(REPO, portfolioStoryIds(), isStorybookOnlyStory);
+    try {
+      const result = ingestFigmaScreen(REPO, {
+        screenId: parsed.screenId,
+        manifest: parsed.manifest,
+        pngBase64: parsed.pngBase64
+      });
+      json(res, 200, result);
+    } catch (e) {
+      json(res, 400, {
+        ok: false,
+        error: e instanceof Error ? e.message : String(e)
+      });
+    }
+    return true;
+  }
+
+  if (url.pathname === "/api/quick-component-generation" && req.method === "POST") {
+    let body = "";
+    for await (const chunk of req) body += chunk;
+    let parsed;
+    try {
+      parsed = JSON.parse(body || "{}");
+    } catch {
+      json(res, 400, { ok: false, error: "Invalid JSON" });
+      return true;
+    }
+    try {
+      const { jobId, status } = startQuickComponentGeneration(parsed);
+      json(res, 202, { ok: true, jobId, status, pollUrl: `/api/quick-component-generation/${jobId}` });
+    } catch (e) {
+      json(res, 500, { ok: false, error: e instanceof Error ? e.message : String(e) });
+    }
+    return true;
+  }
+
+  const quickJobMatch = url.pathname.match(/^\/api\/quick-component-generation\/([^/]+)$/);
+  if (quickJobMatch && req.method === "GET") {
+    const job = jobs.get(quickJobMatch[1]);
+    if (!job || job.action !== "quick-component-generation") {
+      json(res, 404, { ok: false, error: "Quick component job not found" });
+      return true;
+    }
+    json(res, 200, {
+      ok: true,
+      job: serializeJob(job, { includeLogs: job.status === "running" }),
+      quickComponentResult: job.quickComponentResult ?? null
+    });
+    return true;
+  }
+
+  if (url.pathname === "/api/portfolio" && req.method === "GET") {
+    const payload = buildUnifiedPortfolioState(REPO, portfolioStoryIds(), isStorybookOnlyStory);
+    try {
+      writeFileSync(
+        join(REPO, "test-portfolio", "portfolio.json"),
+        JSON.stringify(payload, null, 2),
+        "utf8"
+      );
+    } catch {
+      /* non-fatal — console still gets fresh payload */
     }
     json(res, 200, payload);
+    return true;
+  }
+
+  if (url.pathname === "/api/quick-generation-portfolio" && req.method === "GET") {
+    const activeJobs = [...jobs.values()].filter(
+      (j) => j.action === "quick-component-generation" && (j.status === "running" || j.finalizing)
+    );
+    const payload = buildQuickGenerationPortfolio(REPO, { activeJobs });
+    try {
+      writeFileSync(
+        join(REPO, "test-portfolio", "quick-generation", "portfolio.json"),
+        JSON.stringify(payload, null, 2),
+        "utf8"
+      );
+    } catch {
+      /* non-fatal */
+    }
+    json(res, 200, payload);
+    return true;
+  }
+
+  if (url.pathname === "/api/quick-generation-portfolio/runs/delete" && req.method === "POST") {
+    let body = "";
+    for await (const chunk of req) body += chunk;
+    let parsed;
+    try {
+      parsed = JSON.parse(body || "{}");
+    } catch {
+      json(res, 400, { ok: false, error: "Invalid JSON" });
+      return true;
+    }
+    const jobId = parsed.jobId;
+    if (!jobId || typeof jobId !== "string") {
+      json(res, 400, { ok: false, error: "jobId is required" });
+      return true;
+    }
+    const jobBusy = [...jobs.values()].some(
+      (j) =>
+        j.id === jobId &&
+        j.action === "quick-component-generation" &&
+        (j.status === "running" || j.finalizing)
+    );
+    if (jobBusy) {
+      json(res, 409, { ok: false, error: `Quick generation job ${jobId} is still running.` });
+      return true;
+    }
+    try {
+      const result = deleteQuickGenerationRun(REPO, jobId);
+      json(res, 200, result);
+    } catch (e) {
+      json(res, 400, {
+        ok: false,
+        error: e instanceof Error ? e.message : String(e)
+      });
+    }
+    return true;
+  }
+
+  const quickGenDownloadMatch = url.pathname.match(
+    /^\/api\/quick-generation-portfolio\/([^/]+)\/download$/
+  );
+  if (quickGenDownloadMatch && req.method === "GET") {
+    const jobId = quickGenDownloadMatch[1];
+    const runPath = join(REPO, QUICK_RUNS_DIR, `${jobId}.json`);
+    let tarballPath = null;
+    if (existsSync(runPath)) {
+      try {
+        const run = JSON.parse(readFileSync(runPath, "utf8"));
+        tarballPath = run.packageTarballPath ?? null;
+      } catch {
+        /* ok */
+      }
+    }
+    if (!tarballPath) {
+      const job = jobs.get(jobId);
+      tarballPath = job?.quickComponentResult?.generatedPackage?.tarballPath ?? null;
+    }
+    if (!tarballPath || !existsSync(tarballPath)) {
+      json(res, 404, { error: "Package not found for this job" });
+      return true;
+    }
+    res.writeHead(200, {
+      "Content-Type": "application/gzip",
+      "Content-Disposition": `attachment; filename="component-${jobId.slice(0, 8)}.tgz"`
+    });
+    createReadStream(tarballPath).pipe(res);
     return true;
   }
 
@@ -1433,6 +2041,48 @@ async function handleApi(req, res, url) {
       json(res, 200, { ok: true, ...result });
     } catch (e) {
       json(res, 500, {
+        ok: false,
+        error: e instanceof Error ? e.message : String(e)
+      });
+    }
+    return true;
+  }
+
+  if (url.pathname === "/api/portfolio/rows/delete" && req.method === "POST") {
+    let body = "";
+    for await (const chunk of req) body += chunk;
+    let parsed;
+    try {
+      parsed = JSON.parse(body || "{}");
+    } catch {
+      json(res, 400, { ok: false, error: "Invalid JSON" });
+      return true;
+    }
+    const storyId = parsed.storyId;
+    const entryPoint = parsed.entryPoint === "figma" ? "figma" : "storybook";
+    if (!storyId || typeof storyId !== "string") {
+      json(res, 400, { ok: false, error: "storyId is required" });
+      return true;
+    }
+    const rowBusy = [...jobs.values()].some(
+      (j) =>
+        (j.status === "running" || j.finalizing) &&
+        (j.story === storyId ||
+          j.rowPipeline?.storyId === storyId ||
+          (Array.isArray(j.storyIds) && j.storyIds.includes(storyId)))
+    );
+    if (rowBusy) {
+      json(res, 409, {
+        ok: false,
+        error: `Stop running jobs for ${storyId} before deleting.`
+      });
+      return true;
+    }
+    try {
+      const result = deletePortfolioRow(REPO, { storyId, entryPoint });
+      json(res, 200, result);
+    } catch (e) {
+      json(res, 400, {
         ok: false,
         error: e instanceof Error ? e.message : String(e)
       });
@@ -1804,6 +2454,38 @@ async function handleApi(req, res, url) {
     return true;
   }
 
+  if (url.pathname === "/api/llm-settings" && req.method === "GET") {
+    json(res, 200, {
+      ...loadLlmSettingsPublic(REPO),
+      playgroundShowcaseUrl: "http://127.0.0.1:6108/?view=showcase"
+    });
+    return true;
+  }
+
+  if (url.pathname === "/api/llm-settings" && req.method === "POST") {
+    let body = "";
+    for await (const chunk of req) body += chunk;
+    let parsed;
+    try {
+      parsed = JSON.parse(body || "{}");
+    } catch {
+      json(res, 400, { error: "Invalid JSON" });
+      return true;
+    }
+    try {
+      const saved = setLlmSettings(parsed, REPO);
+      json(res, 200, {
+        ...saved,
+        playgroundShowcaseUrl: "http://127.0.0.1:6108/?view=showcase"
+      });
+    } catch (e) {
+      json(res, 400, {
+        error: e instanceof Error ? e.message : String(e)
+      });
+    }
+    return true;
+  }
+
   if (url.pathname === "/api/orchestrator/launch" && req.method === "POST") {
     let body = "";
     for await (const chunk of req) body += chunk;
@@ -1931,8 +2613,19 @@ async function handleApi(req, res, url) {
       return true;
     }
     try {
-      if (parsed.fixAll) {
-        const { jobId, entry } = runFixAllAction(parsed.suiteId);
+      if (parsed.rowPipeline && parsed.storyId) {
+        const { jobId, terminalDispatched } = runRowPipelineAction(
+          parsed.storyId,
+          parsed.entryPoint ?? "storybook"
+        );
+        json(res, 200, {
+          jobId,
+          terminalDispatched: Boolean(terminalDispatched),
+          label: jobs.get(jobId)?.label,
+          rowPipeline: true
+        });
+      } else if (parsed.fixAll) {
+        const { jobId, entry } = runFixAllAction(parsed.suiteId ?? "figmaLive");
         json(res, 200, {
           jobId,
           message: entry,
@@ -1958,7 +2651,7 @@ async function handleApi(req, res, url) {
           throw new Error("Portfolio orchestrator is running — wait or cancel it first");
         }
         const deferTerminal = Boolean(parsed.deferTerminal);
-        const { jobId, entry } = runFixOneAction(parsed.suiteId ?? "figma", parsed.storyId, {
+        const { jobId, entry } = runFixOneAction(parsed.suiteId ?? "figmaLive", parsed.storyId, {
           openTerminal: !deferTerminal
         });
         json(res, 200, {
@@ -1969,25 +2662,9 @@ async function handleApi(req, res, url) {
           fixOneLoop: true
         });
       } else {
-        const portfolioRunning = [...jobs.values()].some(
-          (j) => (j.status === "running" || j.finalizing) && j.action === "portfolio-orchestrator"
-        );
-        if (portfolioRunning) {
-          throw new Error("Portfolio orchestrator is running — wait or cancel it first");
-        }
-        const entry = agent.requestFix(
-          parsed.suiteId,
-          parsed.storyId,
-          SUITES,
-          summarizeReport,
-          safeSegment
-        );
-        if (entry?.cursorPrompt) {
-          openTerminalForAgent();
-        }
-        json(res, 200, {
-          message: entry,
-          terminalDispatched: Boolean(entry?.cursorPrompt)
+        json(res, 400, {
+          error:
+            "Send { storyId, suiteId } for single-story fix, { fixAll, suiteId }, { rowPipeline, storyId }, or { portfolioOrchestrator }."
         });
       }
     } catch (e) {
@@ -2090,6 +2767,12 @@ async function handleApi(req, res, url) {
     job.status = parsed.status ?? (parsed.exitCode === 0 ? "passed" : "failed");
     job.exitCode = parsed.exitCode ?? 1;
     job.endedAt = new Date().toISOString();
+    if (parsed.quickComponentResult) {
+      job.quickComponentResult = parsed.quickComponentResult;
+    }
+    if (job.action === "quick-component-generation") {
+      persistQuickGenerationJob(job);
+    }
     const finishNote =
       job.action === "portfolio-orchestrator"
         ? `[portfolio] Supervisor exited (${job.status}, exit ${job.exitCode})\n`
@@ -2148,7 +2831,7 @@ async function handleApi(req, res, url) {
       return true;
     }
     const pid = parsed.pid ?? null;
-    if (String(job.action ?? "").startsWith("fix-all:") || job.action === "portfolio-orchestrator") {
+    if (String(job.action ?? "").startsWith("fix-all:") || job.action === "portfolio-orchestrator" || job.action === "row-pipeline") {
       if (parsed.role === "orchestrator") {
         job.fixAllOrchestratorPid = pid;
       } else {
@@ -2181,40 +2864,12 @@ async function handleApi(req, res, url) {
       });
       return true;
     }
-    if (job.status !== "running" && !job.finalizing) {
-      json(res, 409, { error: `Job is not running (${job.status})` });
+    const result = killRunningJob(job);
+    if (!result.ok) {
+      json(res, 409, { error: result.error });
       return true;
     }
-    job.killed = true;
-    job.finalizing = false;
-    if (job.child && job.child.exitCode === null) {
-      job.child.kill("SIGTERM");
-      job.logs.push("[test-console] Cancelled by user\n");
-    } else if (String(job.action).startsWith("fix-all:") || job.action === "portfolio-orchestrator") {
-      const killFlag = runKillPath(REPO, job.id);
-      try {
-        mkdirSync(runDir(REPO, job.id), { recursive: true });
-        writeFileSync(killFlag, "");
-      } catch {
-        /* ok */
-      }
-      const killedPids = killOrchestratorJobProcesses(job, { signal: "SIGTERM" });
-      if (killedPids.length) {
-        job.logs.push(
-          `[test-console] Stopping ${killedPids.length} process(es)…\n`
-        );
-      }
-      setTimeout(() => {
-        killOrchestratorJobProcesses(job, { signal: "SIGKILL" });
-      }, 1200);
-      markFixAllEnded(job, { killed: true, note: "[test-console] Cancelled by user\n" });
-      dismissOrchestratorSupervisor(job.id, { killed: true });
-    } else {
-      job.status = "killed";
-      job.exitCode = 130;
-      job.endedAt = job.endedAt ?? new Date().toISOString();
-    }
-    json(res, 200, serializeJob(job));
+    json(res, 200, serializeJob(result.job));
     return true;
   }
 
@@ -2274,7 +2929,22 @@ async function handleApi(req, res, url) {
   return false;
 }
 
-function serveStatic(root, pathname, res) {
+/** @param {string} repo @param {{ story?: string | null, action?: string }} job */
+function scheduleEnsureStoryPackAfterJob(repo, job) {
+  const storyId = job?.story;
+  if (!storyId || typeof storyId !== "string") return;
+  void ensureStoryPacks(repo, storyId, { quiet: true, reason: `job:${job.action ?? "test"}` });
+}
+
+function safeDownloadsPath(pathname) {
+  const rel = decodeURIComponent(pathname.replace(/^\/downloads\/?/, "") || "");
+  if (!rel || rel.includes("..")) return null;
+  const file = resolve(DOWNLOADS_ROOT, rel);
+  if (!file.startsWith(DOWNLOADS_ROOT + sep) && file !== DOWNLOADS_ROOT) return null;
+  return file;
+}
+
+function serveStatic(root, pathname, res, { attachment = false } = {}) {
   let path = pathname;
   if (path.endsWith("/")) path += "index.html";
   const resolved = resolve(root, "." + path);
@@ -2287,7 +2957,11 @@ function serveStatic(root, pathname, res) {
     return;
   }
   const mime = MIME[extname(resolved).toLowerCase()] ?? "application/octet-stream";
-  res.writeHead(200, { "Content-Type": mime, "Access-Control-Allow-Origin": "*" });
+  const headers = { "Content-Type": mime, "Access-Control-Allow-Origin": "*" };
+  if (attachment || extname(resolved).toLowerCase() === ".tgz") {
+    headers["Content-Disposition"] = `attachment; filename="${basename(resolved)}"`;
+  }
+  res.writeHead(200, headers);
   createReadStream(resolved).pipe(res);
 }
 
@@ -2309,6 +2983,58 @@ const server = createServer(async (req, res) => {
       const mime = MIME[extname(file).toLowerCase()] ?? "application/octet-stream";
       res.writeHead(200, { "Content-Type": mime, "Access-Control-Allow-Origin": "*" });
       createReadStream(file).pipe(res);
+      return;
+    }
+    if (url.pathname.startsWith("/downloads/stories/")) {
+      const file = safeStoryDownloadFile(REPO, url.pathname);
+      if (!file) {
+        res.writeHead(404).end("Not found");
+        return;
+      }
+      const segMatch = url.pathname.match(/^\/downloads\/stories\/([^/]+)\//);
+      if (segMatch) {
+        const seg = decodeURIComponent(segMatch[1]);
+        const storyDir = join(DOWNLOADS_ROOT, "stories", seg);
+        let portfolioStoryId = seg;
+        const metaPath = join(storyDir, "meta.json");
+        if (existsSync(metaPath)) {
+          try {
+            portfolioStoryId =
+              JSON.parse(readFileSync(metaPath, "utf8")).portfolioStoryId ?? seg;
+          } catch {
+            portfolioStoryId = seg;
+          }
+        }
+        try {
+          await ensureStoryPacks(REPO, portfolioStoryId, { quiet: true, reason: "download" });
+        } catch (err) {
+          res.writeHead(503, { "Content-Type": "text/plain; charset=utf-8" });
+          res.end(err instanceof Error ? err.message : "Package build failed");
+          return;
+        }
+      }
+      if (!existsSync(file) || !statSync(file).isFile()) {
+        res.writeHead(404).end("Not found");
+        return;
+      }
+      const mime = MIME[extname(file).toLowerCase()] ?? "application/octet-stream";
+      const headers = {
+        "Content-Type": mime,
+        "Access-Control-Allow-Origin": "*",
+        "Content-Disposition": `attachment; filename="${basename(file)}"`
+      };
+      res.writeHead(200, headers);
+      createReadStream(file).pipe(res);
+      return;
+    }
+    if (url.pathname.startsWith("/downloads/") || url.pathname === "/downloads") {
+      const file = safeDownloadsPath(url.pathname);
+      if (!file || !existsSync(file) || !statSync(file).isFile()) {
+        res.writeHead(404).end("Not found");
+        return;
+      }
+      const rel = url.pathname.replace(/^\/downloads\/?/, "") || "index.html";
+      serveStatic(DOWNLOADS_ROOT, `/${rel}`, res);
       return;
     }
     if (!API_ONLY) {

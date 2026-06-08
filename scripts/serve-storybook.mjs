@@ -4,20 +4,24 @@
  * over HTTP on port 6107. This is the URL the extractor and pixel-test
  * harness expect by default.
  *
- * If the build doesn't exist yet, this prints a clear hint and exits.
+ * Sidebar is filtered to stories that passed Storybook parity in the current
+ * Test portfolio (see test-portfolio/manual-preview/manifest.json).
  */
 
 import { createServer } from "node:http";
-import { createReadStream, existsSync, statSync } from "node:fs";
+import { createReadStream, existsSync, readFileSync, statSync } from "node:fs";
 import { extname, join, resolve, sep } from "node:path";
+import {
+  filterStorybookIndex,
+  readManualPreviewManifest
+} from "./build-manual-preview-manifest.mjs";
 
 const PORT = Number(process.env.SB_PORT ?? 6107);
-const ROOT = resolve(
-  process.cwd(),
-  "packages/storybook-lab/storybook-static"
-);
+const REPO_ROOT = resolve(process.cwd());
+const ROOT = resolve(REPO_ROOT, "packages/storybook-lab/storybook-static");
+const INDEX_PATH = join(ROOT, "index.json");
 
-if (!existsSync(join(ROOT, "index.json"))) {
+if (!existsSync(INDEX_PATH)) {
   console.error(
     `\n✗ No Storybook build found at ${ROOT}\n` +
       `  Build it first:\n` +
@@ -45,6 +49,29 @@ const MIME = {
   ".map": "application/json"
 };
 
+let cachedIndexFilter = { mtimeMs: 0, manifestAt: null, body: null };
+
+function filteredIndexBody() {
+  const indexStat = statSync(INDEX_PATH);
+  const manifest = readManualPreviewManifest(REPO_ROOT);
+  const manifestAt = manifest?.generatedAt ?? null;
+  const allowedIds = (manifest?.storybook ?? []).map((s) => s.storyId);
+
+  if (
+    cachedIndexFilter.body &&
+    cachedIndexFilter.mtimeMs === indexStat.mtimeMs &&
+    cachedIndexFilter.manifestAt === manifestAt
+  ) {
+    return cachedIndexFilter.body;
+  }
+
+  const raw = JSON.parse(readFileSync(INDEX_PATH, "utf8"));
+  const filtered = filterStorybookIndex(raw, allowedIds);
+  const body = JSON.stringify(filtered);
+  cachedIndexFilter = { mtimeMs: indexStat.mtimeMs, manifestAt, body };
+  return body;
+}
+
 const server = createServer();
 
 server.on("error", (err) => {
@@ -69,6 +96,18 @@ server.on("request", (req, res) => {
   try {
     const url = new URL(req.url ?? "/", "http://x");
     let pathname = decodeURIComponent(url.pathname);
+
+    if (pathname === "/index.json" || pathname.endsWith("/index.json")) {
+      const body = filteredIndexBody();
+      res.writeHead(200, {
+        "Content-Type": "application/json; charset=utf-8",
+        "Access-Control-Allow-Origin": "*",
+        "Cache-Control": "no-store"
+      });
+      res.end(body);
+      return;
+    }
+
     if (pathname.endsWith("/")) pathname += "index.html";
     const resolved = resolve(ROOT, "." + pathname);
     if (!resolved.startsWith(ROOT + sep) && resolved !== ROOT) {
@@ -88,6 +127,8 @@ server.on("request", (req, res) => {
 });
 
 server.listen(PORT, "127.0.0.1", () => {
+  const manifest = readManualPreviewManifest(REPO_ROOT);
+  const count = manifest?.storybook?.length ?? 0;
   console.log(`✓ Storybook served from ${ROOT}`);
-  console.log(`  → http://127.0.0.1:${PORT}/`);
+  console.log(`  → http://127.0.0.1:${PORT}/  (${count} passed Storybook ${count === 1 ? "story" : "stories"} in sidebar)`);
 });

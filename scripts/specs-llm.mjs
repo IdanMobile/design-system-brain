@@ -9,13 +9,14 @@
  *
  * When `LAB_LLM_API_KEY` is unset, the endpoint still works but returns the
  * local heuristic output (so the UI never has to special-case "no key").
- * When set, calls OpenAI's chat completions (or any LLM provider you've wired
- * via LAB_LLM_PROVIDER=anthropic).
+ * Config: Tests Console → LLM (showcase) writes `.test-console/llm-settings.json`,
+ * or env vars `LAB_LLM_PROVIDER` / `LAB_LLM_API_KEY` / `LAB_LLM_MODEL`.
  *
  * Vanilla Node, no deps.
  */
 
 import { resolve } from "node:path";
+import { resolveLabLlmConfig, DEFAULT_LLM_MODELS } from "./lab-llm-settings.mjs";
 
 const API_PATH = "/api/specs/extract";
 
@@ -121,6 +122,42 @@ export function createLlmExtractRoute({ repoRoot }) {
     return { parsed, raw: text };
   }
 
+  async function callGemini(prompt, apiKey, model) {
+    const modelId = model || DEFAULT_LLM_MODELS.gemini;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelId)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+    const body = {
+      generationConfig: {
+        temperature: 0.1,
+        responseMimeType: "application/json"
+      },
+      contents: [
+        {
+          role: "user",
+          parts: [
+            {
+              text:
+                "Translate this designer description of an interactive UI element into JSON of the shape `{\"behaviour\": string, \"devApi\": [{\"name\": string, \"signature\": string}]}`. Return ONLY the JSON, no commentary.\n\n" +
+                prompt
+            }
+          ]
+        }
+      ]
+    };
+    const resp = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    });
+    if (!resp.ok) {
+      const detail = await resp.text();
+      throw new Error(`gemini ${resp.status}: ${detail.slice(0, 200)}`);
+    }
+    const json = await resp.json();
+    const text = json.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+    const parsed = JSON.parse(text);
+    return { parsed, raw: text };
+  }
+
   function buildPrompt(input) {
     return [
       `Element layer: ${input.displayName || "(unnamed)"}`,
@@ -149,16 +186,14 @@ export function createLlmExtractRoute({ repoRoot }) {
   async function handle(req, res) {
     try {
       const body = await readJsonBody(req);
-      const apiKey = process.env.LAB_LLM_API_KEY;
-      const provider = (process.env.LAB_LLM_PROVIDER ?? "openai").toLowerCase();
-      const model = process.env.LAB_LLM_MODEL;
+      const { apiKey, provider, model } = resolveLabLlmConfig(repoRoot);
 
       if (!apiKey) {
         const out = await heuristicFallback(body);
         sendJson(res, 200, {
           ...out,
           extractedBy: "heuristic",
-          note: "LAB_LLM_API_KEY not set — returned heuristic output"
+          note: "LLM not configured — set provider + API key in Tests Console → LLM (showcase)"
         });
         return;
       }
@@ -169,6 +204,8 @@ export function createLlmExtractRoute({ repoRoot }) {
       try {
         if (provider === "anthropic") {
           ({ parsed, raw } = await callAnthropic(prompt, apiKey, model));
+        } else if (provider === "gemini") {
+          ({ parsed, raw } = await callGemini(prompt, apiKey, model));
         } else {
           ({ parsed, raw } = await callOpenAI(prompt, apiKey, model));
         }
@@ -194,7 +231,7 @@ export function createLlmExtractRoute({ repoRoot }) {
         devApi,
         extractedBy: "llm",
         extractedAt: new Date().toISOString(),
-        model: model ?? (provider === "anthropic" ? "claude-3-5-haiku-latest" : "gpt-4o-mini"),
+        model: model ?? DEFAULT_LLM_MODELS[provider] ?? DEFAULT_LLM_MODELS.openai,
         provider,
         raw
       });

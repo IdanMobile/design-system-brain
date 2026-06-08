@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-27T10:50:54.391Z",
-  "storyCount": 2,
+  "generatedAt": "2026-06-08T17:34:57.352Z",
+  "storyCount": 7,
   "source": "figma",
   "steps": [
     {
@@ -13,20 +13,26 @@
       "id": "vsFigmaLive",
       "label": "→ Figma live",
       "dir": "figma-screen-diffs",
-      "actionId": "figma:screen:parity",
+      "actionId": "figma:screen:golden",
       "needsRelay": true
     },
     {
       "id": "vsStorybook",
       "label": "→ Storybook",
       "dir": "figma-screen-diffs",
-      "actionId": "figma:screen:parity"
+      "actionId": "figma:screen:storybook"
     },
     {
       "id": "vsReactHtml",
       "label": "→ ReactHtml",
       "dir": "figma-screen-diffs",
-      "actionId": "figma:screen:parity"
+      "actionId": "figma:screen:reacthtml"
+    },
+    {
+      "id": "vsReactTsx",
+      "label": "→ React delivery",
+      "dir": "figma-screen-diffs",
+      "actionId": "figma:screen:reacttsx"
     },
     {
       "id": "logic",
@@ -40,10 +46,16 @@
     "vsFigmaLive",
     "vsStorybook",
     "vsReactHtml",
+    "vsReactTsx",
     "logic"
   ],
   "screens": [
     "screen_1",
-    "screen_2"
+    "screen_2",
+    "screen_3",
+    "screen_4",
+    "screen_5",
+    "screen_dialog_buttons",
+    "screen_frame_2147225716"
   ]
 }
