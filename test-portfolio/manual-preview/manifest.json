@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-08T17:44:28.164Z",
+  "generatedAt": "2026-06-08T17:44:33.280Z",
   "storybookBase": "http://127.0.0.1:6107",
   "playgroundBase": "http://127.0.0.1:6108",
   "storybookUrl": "http://127.0.0.1:6107",
@@ -14,15 +14,6 @@
       "logicStatus": "not_tested",
       "packageSegment": "screen_1",
       "showcaseUrl": "http://127.0.0.1:6108/?story=lab-screen1--default"
-    },
-    {
-      "portfolioId": "lab-button--primary",
-      "storyId": "lab-button--primary",
-      "entryPoint": "storybook",
-      "component": "Button",
-      "logicStatus": "not_tested",
-      "packageSegment": "lab-button-primary",
-      "showcaseUrl": "http://127.0.0.1:6108/?story=lab-button--primary"
     }
   ]
 }
